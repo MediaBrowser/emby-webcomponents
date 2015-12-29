@@ -3,7 +3,7 @@
     function getVideoQualityOptions(maxStreamingBitrate, videoWidth) {
 
         var maxAllowedWidth = videoWidth || 4096;
-        var maxAllowedHeight = videoHeight || 2304;
+        //var maxAllowedHeight = videoHeight || 2304;
 
         var options = [];
 
