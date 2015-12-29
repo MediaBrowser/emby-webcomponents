@@ -53,23 +53,24 @@
         options.push({ name: '240p', maxHeight: 240, bitrate: 320000 });
         options.push({ name: '144p', maxHeight: 144, bitrate: 192000 });
 
-        var i, length, option;
-        var selectedIndex = -1;
-        for (i = 0, length = options.length; i < length; i++) {
+        if (maxStreamingBitrate) {
+            var selectedIndex = -1;
+            for (var i = 0, length = options.length; i < length; i++) {
 
-            option = options[i];
+                var option = options[i];
 
-            if (selectedIndex == -1 && option.bitrate <= maxStreamingBitrate) {
-                selectedIndex = i;
+                if (selectedIndex == -1 && option.bitrate <= maxStreamingBitrate) {
+                    selectedIndex = i;
+                }
             }
+
+            if (selectedIndex == -1) {
+
+                selectedIndex = options.length - 1;
+            }
+
+            options[selectedIndex].selected = true;
         }
-
-        if (selectedIndex == -1) {
-
-            selectedIndex = options.length - 1;
-        }
-
-        options[selectedIndex].selected = true;
 
         return options;
     };
