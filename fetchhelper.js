@@ -82,7 +82,39 @@
         return values.join('&');
     }
 
+    function ajax(request) {
+
+        if (!request) {
+            throw new Error("Request cannot be null");
+        }
+
+        request.headers = request.headers || {};
+
+        console.log('requesting url: ' + request.url);
+
+        return getFetchPromise(request).then(function (response) {
+
+            console.log('response status: ' + response.status + ', url: ' + request.url);
+
+            if (response.status < 400) {
+
+                if (request.dataType == 'json' || request.headers.accept == 'application/json') {
+                    return response.json();
+                } else {
+                    return response;
+                }
+            } else {
+                return Promise.reject(response);
+            }
+
+        }, function (err) {
+
+            console.log('request failed to url: ' + request.url);
+            throw err;
+        });
+    }
     return {
-        getFetchPromise: getFetchPromise
+        getFetchPromise: getFetchPromise,
+        ajax: ajax
     };
 });
