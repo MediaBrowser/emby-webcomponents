@@ -32,11 +32,20 @@
             headers['Content-Type'] = contentType;
         }
 
-        if (!request.timeout) {
-            return fetch(request.url, fetchRequest);
+        var url = request.url;
+
+        if (request.query) {
+            var paramString = paramsToString(request.query);
+            if (paramString) {
+                url += '?' + paramString;
+            }
         }
 
-        return fetchWithTimeout(request.url, fetchRequest, request.timeout);
+        if (!request.timeout) {
+            return fetch(url, fetchRequest);
+        }
+
+        return fetchWithTimeout(url, fetchRequest, request.timeout);
     }
 
     function fetchWithTimeout(url, options, timeoutMs) {
