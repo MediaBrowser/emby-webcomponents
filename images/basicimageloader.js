@@ -15,7 +15,7 @@ define([], function () {
             elem.setAttribute("src", url);
         }
 
-        //fadeIn(elem, 1);
+        return Promise.resolve(elem);
     }
 
     return {

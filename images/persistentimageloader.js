@@ -149,12 +149,14 @@ define(['cryptojs-md5'], function () {
     return {
         loadImage: function (elem, url) {
 
-            getImageUrl(url).then(function (localUrl) {
+            return getImageUrl(url).then(function (localUrl) {
 
                 setImageIntoElement(elem, localUrl);
+                return elem;
 
             }, function () {
                 setImageIntoElement(elem, url);
+                return elem;
             });
         }
     };
