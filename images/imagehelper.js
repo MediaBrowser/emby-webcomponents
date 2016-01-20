@@ -1,4 +1,4 @@
-define(['visibleinviewport', 'imageloader'], function (visibleinviewport, imageLoader) {
+define(['visibleinviewport', 'imageFetcher'], function (visibleinviewport, imageFetcher) {
 
     var thresholdX = screen.availWidth;
     var thresholdY = screen.availHeight;
@@ -12,7 +12,7 @@ define(['visibleinviewport', 'imageloader'], function (visibleinviewport, imageL
     function fillImage(elem) {
         var source = elem.getAttribute('data-src');
         if (source) {
-            imageLoader.loadImage(elem, source);
+            imageFetcher.loadImage(elem, source);
             elem.setAttribute("data-src", '');
         }
     }
