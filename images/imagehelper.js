@@ -9,12 +9,31 @@ define(['visibleinviewport', 'imageFetcher'], function (visibleinviewport, image
         return visibleinviewport(elem, true, thresholdX, thresholdY);
     }
 
+    var self = {};
+
     function fillImage(elem) {
         var source = elem.getAttribute('data-src');
         if (source) {
-            imageFetcher.loadImage(elem, source);
+            if (self.enableFade) {
+                imageFetcher.loadImage(elem, source).then(fadeIn);
+            } else {
+                imageFetcher.loadImage(elem, source);
+            }
             elem.setAttribute("data-src", '');
         }
+    }
+
+    function fadeIn(elem) {
+
+        if (elem.classList.contains('noFade')) {
+            return;
+        }
+
+        var keyframes = [
+          { opacity: '0', offset: 0 },
+          { opacity: '1', offset: 1 }];
+        var timing = { duration: 300, iterations: 1 };
+        elem.animate(keyframes, timing);
     }
 
     function cancelAll(tokens) {
@@ -167,9 +186,24 @@ define(['visibleinviewport', 'imageFetcher'], function (visibleinviewport, image
         return result;
     }
 
-    return {
-        lazyChildren: lazyChildren,
-        getPrimaryImageAspectRatio: getPrimaryImageAspectRatio
-    };
+    function fillImages(elems) {
 
+        for (var i = 0, length = elems.length; i < length; i++) {
+            var elem = elems[0];
+            fillImage(elem);
+        }
+    }
+
+    function lazyImage(elem, url) {
+
+        elem.setAttribute('data-src', url);
+        fillImage(elem);
+    }
+
+    self.fillImages = fillImages;
+    self.lazyImage = lazyImage;
+    self.lazyChildren = lazyChildren;
+    self.getPrimaryImageAspectRatio = getPrimaryImageAspectRatio;
+
+    return self;
 });
