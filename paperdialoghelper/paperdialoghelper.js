@@ -1,4 +1,4 @@
-﻿define(['paper-dialog', 'scale-up-animation', 'fade-out-animation', 'fade-in-animation', 'css!./paperdialoghelper.css'], function () {
+﻿define(['historyManager', 'focusManager', 'performanceManager', 'browser', 'paper-dialog', 'scale-up-animation', 'fade-out-animation', 'fade-in-animation', 'css!./paperdialoghelper.css'], function (historyManager, focusManager, performanceManager, browser) {
 
     function paperDialogHashHandler(dlg, hash, resolve, lockDocumentScroll) {
 
@@ -23,6 +23,7 @@
         function onDialogClosed() {
 
             if (lockDocumentScroll !== false) {
+                // TODO
                 //Dashboard.onPopupClose();
             }
 
@@ -55,10 +56,12 @@
         dlg.open();
 
         if (lockDocumentScroll !== false) {
+            // TODO
             //Dashboard.onPopupOpen();
         }
 
-        Emby.Page.pushState({ dialogId: hash }, "Dialog", hash);
+        historyManager.pushState({ dialogId: hash }, "Dialog", hash);
+
         window.addEventListener('popstate', onHashChange);
     }
 
@@ -79,7 +82,7 @@
 
     function onDialogOpened(e) {
 
-        Emby.FocusManager.autoFocus(e.target, true);
+        focusManager.autoFocus(e.target, true);
     }
 
     function createDialog(options) {
@@ -94,14 +97,16 @@
         // without this safari will scroll the background instead of the dialog contents
         // but not needed here since this is already on top of an existing dialog
         // but skip it in IE because it's causing the entire browser to hang
-        //if (!$.browser.msie) {
-        dlg.setAttribute('modal', 'modal');
-        //}
+        // Also have to disable for firefox because it's causing select elements to not be clickable
+        if (!browser.msie && !browser.firefox && options.modal !== false) {
+            dlg.setAttribute('modal', 'modal');
+        }
 
-        //// seeing max call stack size exceeded in the debugger with this
+        // seeing max call stack size exceeded in the debugger with this
         dlg.setAttribute('noAutoFocus', 'noAutoFocus');
 
-        dlg.entryAnimation = options.entryAnimation || 'scale-up-animation';
+        var defaultEntryAnimation = performanceManager.getAnimationPerformance() <= 1 ? 'fade-in-animation' : 'scale-up-animation';
+        dlg.entryAnimation = options.entryAnimation || defaultEntryAnimation;
         dlg.exitAnimation = 'fade-out-animation';
 
         dlg.animationConfig = {
@@ -119,14 +124,10 @@
             }
         };
 
-        dlg.classList.add('popupEditor');
+        dlg.classList.add('scrollY');
 
-        if (options.size == 'small') {
-            dlg.classList.add(options.size + '-paper-dialog');
-        }
-
-        dlg.classList.add('dialog');
-        dlg.classList.add('smoothScrollY');
+        // TODO: Don't hide for mouse?
+        dlg.classList.add('hiddenScroll');
 
         if (options.removeOnClose) {
             dlg.setAttribute('data-removeonclose', 'true');
