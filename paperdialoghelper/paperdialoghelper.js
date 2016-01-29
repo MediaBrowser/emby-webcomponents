@@ -124,6 +124,8 @@
             }
         };
 
+        dlg.classList.add('paperDialog');
+
         dlg.classList.add('scrollY');
 
         // TODO: Don't hide for mouse?
