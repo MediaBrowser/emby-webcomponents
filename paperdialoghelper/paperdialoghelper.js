@@ -82,7 +82,7 @@
 
     function onDialogOpened(e) {
 
-        focusManager.autoFocus(e.target, true);
+        focusManager.autoFocus(e.target);
     }
 
     function createDialog(options) {
