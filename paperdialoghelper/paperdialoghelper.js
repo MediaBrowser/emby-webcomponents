@@ -109,12 +109,15 @@
         dlg.entryAnimation = options.entryAnimation || defaultEntryAnimation;
         dlg.exitAnimation = 'fade-out-animation';
 
+        // If it's not fullscreen then lower the default animation speed to make it open really fast
+        var entryAnimationDurationoptions = entryAnimationDuration || (options.size ? 160 : 300);
+
         dlg.animationConfig = {
             // scale up
             'entry': {
                 name: options.entryAnimation || 'scale-up-animation',
                 node: dlg,
-                timing: { duration: options.entryAnimationDuration || 300, easing: 'ease-out' }
+                timing: { duration: entryAnimationDuration, easing: 'ease-out' }
             },
             // fade out
             'exit': {
@@ -140,9 +143,7 @@
             dlg.classList.add(options.size);
         }
 
-        if (options.autoFocus !== false) {
-            dlg.addEventListener('iron-overlay-opened', onDialogOpened);
-        }
+        dlg.addEventListener('iron-overlay-opened', onDialogOpened);
 
         return dlg;
     }
