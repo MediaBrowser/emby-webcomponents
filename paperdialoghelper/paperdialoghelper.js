@@ -140,7 +140,9 @@
             dlg.classList.add(options.size);
         }
 
-        dlg.addEventListener('iron-overlay-opened', onDialogOpened);
+        if (options.autoFocus !== false) {
+            dlg.addEventListener('iron-overlay-opened', onDialogOpened);
+        }
 
         return dlg;
     }
