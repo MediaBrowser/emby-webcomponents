@@ -110,7 +110,7 @@
         dlg.exitAnimation = 'fade-out-animation';
 
         // If it's not fullscreen then lower the default animation speed to make it open really fast
-        var entryAnimationDurationoptions = entryAnimationDuration || (options.size ? 160 : 300);
+        var entryAnimationDurationoptions = options.entryAnimationDuration || (options.size ? 160 : 300);
 
         dlg.animationConfig = {
             // scale up
