@@ -135,6 +135,11 @@
             dlg.setAttribute('data-removeonclose', 'true');
         }
 
+        if (options.size) {
+            dlg.classList.add('fixedSize');
+            dlg.classList.add(options.size);
+        }
+
         dlg.addEventListener('iron-overlay-opened', onDialogOpened);
 
         return dlg;
