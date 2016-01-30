@@ -5,6 +5,7 @@
         var self = this;
         self.originalUrl = window.location.href;
         var activeElement = document.activeElement;
+        var removeScrollLockOnClose = false;
 
         function onHashChange(e) {
 
@@ -22,9 +23,8 @@
 
         function onDialogClosed() {
 
-            if (lockDocumentScroll !== false) {
-                // TODO
-                //Dashboard.onPopupClose();
+            if (removeScrollLockOnClose) {
+                document.body.classList.remove('noScroll');
             }
 
             window.removeEventListener('popstate', onHashChange);
@@ -55,9 +55,9 @@
         dlg.addEventListener('iron-overlay-closed', onDialogClosed);
         dlg.open();
 
-        if (lockDocumentScroll !== false) {
-            // TODO
-            //Dashboard.onPopupOpen();
+        if (lockDocumentScroll !== false && !document.body.classList.contains('noScroll')) {
+            document.body.classList.add('noScroll');
+            removeScrollLockOnClose = true;
         }
 
         historyManager.pushState({ dialogId: hash }, "Dialog", hash);

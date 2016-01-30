@@ -55,3 +55,8 @@
         right: 5% !important;
     }
 }
+
+.noScroll {
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+}
