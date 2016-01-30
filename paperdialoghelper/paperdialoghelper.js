@@ -110,7 +110,7 @@
         dlg.exitAnimation = 'fade-out-animation';
 
         // If it's not fullscreen then lower the default animation speed to make it open really fast
-        var entryAnimationDuration = options.entryAnimationDuration || (options.size ? 160 : 300);
+        var entryAnimationDuration = options.entryAnimationDuration || (options.size ? 240 : 300);
 
         dlg.animationConfig = {
             // scale up
@@ -143,7 +143,9 @@
             dlg.classList.add(options.size);
         }
 
-        dlg.addEventListener('iron-overlay-opened', onDialogOpened);
+        if (options.autoFocus !== false) {
+            dlg.addEventListener('iron-overlay-opened', onDialogOpened);
+        }
 
         return dlg;
     }
