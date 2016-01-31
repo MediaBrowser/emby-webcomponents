@@ -19,7 +19,7 @@ define(['paperdialoghelper', 'inputmanager', 'css!./style', 'html!./icons', 'iro
 
             if (options.interactive) {
 
-                html += '<div>';c
+                html += '<div>';
                 html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
                 html += '<paper-icon-button icon="slideshow:arrow-back" class="btnSlideshowExit" tabindex="-1"></paper-icon-button>';
