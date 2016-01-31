@@ -91,7 +91,11 @@
             return options.lockScroll;
         }
 
-        return true;
+        if (options.size == 'fullscreen') {
+            return true;
+        }
+
+        return browser.mobile;
     }
 
     function createDialog(options) {
