@@ -1,4 +1,4 @@
-define(['paperdialoghelper', 'inputManager', 'css!./style', 'html!./icons', 'iron-icon-set'], function (paperdialoghelper, inputmanager) {
+define(['paperdialoghelper', 'inputManager', 'connectionManager', 'css!./style', 'html!./icons', 'iron-icon-set'], function (paperdialoghelper, inputmanager, connectionManager) {
 
     return function (options) {
 
@@ -197,16 +197,79 @@ define(['paperdialoghelper', 'inputManager', 'css!./style', 'html!./icons', 'iro
 
         function getImgUrl(item) {
 
+            var apiClient = connectionManager.getApiClient(item.ServerId);
             if (item.BackdropImageTags && item.BackdropImageTags.length) {
-                return Emby.Models.backdropImageUrl(item, {
+                return getBackdropImageUrl(item, {
                     maxWidth: screen.availWidth
-                });
+                }, apiClient);
             } else {
-                return Emby.Models.imageUrl(item, {
+                return getImageUrl(item, {
                     type: "Primary",
                     maxWidth: screen.availWidth
-                });
+                }, apiClient);
             }
+        }
+
+        function getBackdropImageUrl(item, options, apiClient) {
+
+            options = options || {};
+            options.type = options.type || "Backdrop";
+
+            options.width = null;
+            delete options.width;
+            options.maxWidth = null;
+            delete options.maxWidth;
+            options.maxHeight = null;
+            delete options.maxHeight;
+            options.height = null;
+            delete options.height;
+
+            // If not resizing, get the original image
+            if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
+                options.quality = 100;
+                options.format = 'jpg';
+            }
+
+            if (item.BackdropImageTags && item.BackdropImageTags.length) {
+
+                options.tag = item.BackdropImageTags[0];
+                return apiClient.getScaledImageUrl(item.Id, options);
+            }
+
+            return null;
+        }
+
+        function getImageUrl(item, options, apiClient) {
+
+            options = options || {};
+
+            if (item.AlbumId && item.AlbumPrimaryImageTag) {
+
+                options.tag = item.AlbumPrimaryImageTag;
+                return apiClient.getScaledImageUrl(item.AlbumId, options);
+            }
+
+            //else if (item.AlbumId && item.SeriesPrimaryImageTag) {
+
+            //    imgUrl = ApiClient.getScaledImageUrl(item.SeriesId, {
+            //        type: "Primary",
+            //        width: downloadWidth,
+            //        tag: item.SeriesPrimaryImageTag,
+            //        minScale: minScale
+            //    });
+
+            //}
+            //else if (item.ParentPrimaryImageTag) {
+
+            //    imgUrl = ApiClient.getImageUrl(item.ParentPrimaryImageItemId, {
+            //        type: "Primary",
+            //        width: downloadWidth,
+            //        tag: item.ParentPrimaryImageTag,
+            //        minScale: minScale
+            //    });
+            //}
+
+            return null;
         }
 
         function showNextImage(index, skipPreload) {

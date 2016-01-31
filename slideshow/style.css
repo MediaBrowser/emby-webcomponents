@@ -9,6 +9,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     margin: 0 !important;
+    color: #fff;
 }
 
     .slideshowImage.cover {
@@ -59,6 +60,7 @@
     z-index: 1002;
     background: rgba(0,0,0,.5);
     text-align: center;
+    color: #eee;
 }
 
 .mouseIdle .btnSlideshowExit {
@@ -81,7 +83,6 @@
     right: 0;
     bottom: 10vh;
     text-align: center;
-    color: #fff;
 }
 
 .slideTextInner {
