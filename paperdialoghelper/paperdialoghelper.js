@@ -91,7 +91,7 @@
             return options.lockScroll;
         }
 
-        return browser.mobile;
+        return true;
     }
 
     function createDialog(options) {
