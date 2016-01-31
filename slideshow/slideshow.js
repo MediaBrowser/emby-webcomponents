@@ -1,4 +1,4 @@
-define(['paperdialoghelper', 'inputManager', 'connectionManager', 'css!./style', 'html!./icons', 'iron-icon-set'], function (paperdialoghelper, inputmanager, connectionManager) {
+define(['paperdialoghelper', 'inputManager', 'connectionManager', 'browser', 'css!./style', 'html!./icons', 'iron-icon-set'], function (paperdialoghelper, inputmanager, connectionManager, browser) {
 
     return function (options) {
 
@@ -86,7 +86,12 @@ define(['paperdialoghelper', 'inputManager', 'connectionManager', 'css!./style',
                     autoplayDisableOnInteraction: false,
                     initialSlide: options.startIndex || 0
                 });
-                swiperInstance.startAutoplay();
+
+                if (browser.mobile) {
+                    pause();
+                } else {
+                    play();
+                }
             });
         }
 
