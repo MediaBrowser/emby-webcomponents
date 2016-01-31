@@ -1,4 +1,4 @@
-define(['paperdialoghelper', 'inputmanager', 'css!./style', 'html!./icons', 'iron-icon-set'], function (paperdialoghelper, inputmanager) {
+define(['paperdialoghelper', 'inputManager', 'css!./style', 'html!./icons', 'iron-icon-set'], function (paperdialoghelper, inputmanager) {
 
     return function (options) {
 
