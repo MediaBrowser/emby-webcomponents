@@ -242,32 +242,45 @@ define(['paperdialoghelper', 'inputManager', 'connectionManager', 'css!./style',
         function getImageUrl(item, options, apiClient) {
 
             options = options || {};
+            options.type = options.type || "Primary";
 
-            if (item.AlbumId && item.AlbumPrimaryImageTag) {
-
-                options.tag = item.AlbumPrimaryImageTag;
-                return apiClient.getScaledImageUrl(item.AlbumId, options);
+            if (typeof (item) === 'string') {
+                return apiClient.getScaledImageUrl(item, options);
             }
 
-            //else if (item.AlbumId && item.SeriesPrimaryImageTag) {
+            if (item.ImageTags && item.ImageTags[options.type]) {
 
-            //    imgUrl = ApiClient.getScaledImageUrl(item.SeriesId, {
-            //        type: "Primary",
-            //        width: downloadWidth,
-            //        tag: item.SeriesPrimaryImageTag,
-            //        minScale: minScale
-            //    });
+                options.tag = item.ImageTags[options.type];
+                return apiClient.getScaledImageUrl(item.Id, options);
+            }
 
-            //}
-            //else if (item.ParentPrimaryImageTag) {
+            if (options.type == 'Primary') {
+                if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
-            //    imgUrl = ApiClient.getImageUrl(item.ParentPrimaryImageItemId, {
-            //        type: "Primary",
-            //        width: downloadWidth,
-            //        tag: item.ParentPrimaryImageTag,
-            //        minScale: minScale
-            //    });
-            //}
+                    options.tag = item.AlbumPrimaryImageTag;
+                    return apiClient.getScaledImageUrl(item.AlbumId, options);
+                }
+
+                //else if (item.AlbumId && item.SeriesPrimaryImageTag) {
+
+                //    imgUrl = ApiClient.getScaledImageUrl(item.SeriesId, {
+                //        type: "Primary",
+                //        width: downloadWidth,
+                //        tag: item.SeriesPrimaryImageTag,
+                //        minScale: minScale
+                //    });
+
+                //}
+                //else if (item.ParentPrimaryImageTag) {
+
+                //    imgUrl = ApiClient.getImageUrl(item.ParentPrimaryImageItemId, {
+                //        type: "Primary",
+                //        width: downloadWidth,
+                //        tag: item.ParentPrimaryImageTag,
+                //        minScale: minScale
+                //    });
+                //}
+            }
 
             return null;
         }
