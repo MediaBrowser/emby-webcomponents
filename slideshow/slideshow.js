@@ -9,7 +9,7 @@ define(['paperdialoghelper', 'inputManager', 'connectionManager', 'browser', 'cs
         function createElements(options) {
 
             dlg = paperdialoghelper.createDialog({
-                exitAnimationDuration: 800,
+                exitAnimationDuration: options.interactive ? 400 : 800,
                 size: 'fullscreen'
             });
 
