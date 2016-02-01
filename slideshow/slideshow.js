@@ -22,7 +22,7 @@ define(['paperdialoghelper', 'inputManager', 'connectionManager', 'browser', 'cs
                 html += '<div>';
                 html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
-                html += '<paper-fab icon="slideshow:arrow-back" class="btnSlideshowExit" tabindex="-1"></paper-fab>';
+                html += '<paper-fab mini icon="slideshow:arrow-back" class="btnSlideshowExit" tabindex="-1"></paper-fab>';
 
                 html += '<div class="slideshowControlBar">';
                 html += '<paper-icon-button icon="slideshow:skip-previous" class="btnSlideshowPrevious slideshowButton"></paper-icon-button>';
