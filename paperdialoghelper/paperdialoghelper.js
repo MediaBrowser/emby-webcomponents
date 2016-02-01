@@ -121,7 +121,7 @@
             dlg.setAttribute('data-lockscroll', 'true');
         }
 
-        if (options.history !== false) {
+        if (options.enableHistory !== false) {
             dlg.setAttribute('data-history', 'true');
         }
 
