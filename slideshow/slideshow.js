@@ -1,4 +1,4 @@
-define(['paperdialoghelper', 'inputManager', 'connectionManager', 'browser', 'css!./style', 'html!./icons', 'iron-icon-set', 'paper-fab', 'paper-icon-button'], function (paperdialoghelper, inputmanager, connectionManager, browser) {
+define(['paperdialoghelper', 'inputManager', 'connectionManager', 'browser', 'css!./style', 'html!./icons', 'iron-icon-set', 'paper-fab', 'paper-icon-button', 'paper-spinner'], function (paperdialoghelper, inputmanager, connectionManager, browser) {
 
     return function (options) {
 
