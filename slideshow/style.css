@@ -54,6 +54,10 @@
     color: #eee;
 }
 
+paper-fab.btnSlideshowExit {
+    background-color: #444;
+}
+
 .slideshowControlBar {
     position: fixed;
     left: 0;
