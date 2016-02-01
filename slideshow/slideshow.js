@@ -77,7 +77,7 @@ define(['paperdialoghelper', 'inputManager', 'connectionManager', 'browser', 'cs
                 swiperInstance = new Swiper(dlg.querySelector('.slideshowSwiperContainer'), {
                     // Optional parameters
                     direction: 'horizontal',
-                    loop: true,
+                    loop: options.loop !== false,
                     autoplay: options.interval || 8000,
                     // Disable preloading of all images
                     preloadImages: false,
@@ -142,6 +142,15 @@ define(['paperdialoghelper', 'inputManager', 'connectionManager', 'browser', 'cs
 
         function nextImage() {
             if (swiperInstance) {
+
+                if (options.loop === false) {
+
+                    if (swiperInstance.activeIndex >= swiperInstance.slides.length - 1) {
+                        paperdialoghelper.close(dlg);
+                        return;
+                    }
+                }
+
                 swiperInstance.slideNext();
             } else {
                 stopInterval();
