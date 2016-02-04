@@ -169,7 +169,7 @@
 
         dlg.classList.add('scrollY');
 
-        if (!layoutManager.tv && !layoutManager.mobile) {
+        if (layoutManager.tv || layoutManager.mobile) {
             // Need scrollbars for mouse use
             dlg.classList.add('hiddenScroll');
         }
