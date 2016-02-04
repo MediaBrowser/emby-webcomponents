@@ -2,15 +2,15 @@ define(['paperdialoghelper', 'layoutManager', 'coreIcons', 'css!./style.css'], f
 
     function show(options, resolve, reject) {
 
-        var options = {
+        var dialogOptions = {
             removeOnClose: true
         };
 
         if (layoutManager.tv) {
-            options.size = 'fullscreen';
+            dialogOptions.size = 'fullscreen';
         }
 
-        var dlg = paperdialoghelper.createDialog(options);
+        var dlg = paperdialoghelper.createDialog(dialogOptions);
 
         dlg.classList.add('promptDialog');
 
