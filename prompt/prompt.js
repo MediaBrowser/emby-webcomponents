@@ -1,4 +1,4 @@
-define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.css'], function (paperdialoghelper, layoutManager) {
+define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.css', 'paper-button', 'paper-input'], function (paperdialoghelper, layoutManager) {
 
     function show(options, resolve, reject) {
 
