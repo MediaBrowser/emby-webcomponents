@@ -55,6 +55,13 @@
         dlg.addEventListener('iron-overlay-closed', onDialogClosed);
         dlg.open();
 
+        // It's not being positioned properly in firefox
+        if (!dlg.classList.contains('fixedSize')) {
+            setTimeout(function () {
+                dlg.refit();
+            }, 100);
+        }
+
         if (dlg.getAttribute('data-lockscroll') == 'true' && !document.body.classList.contains('noScroll')) {
             document.body.classList.add('noScroll');
             removeScrollLockOnClose = true;
