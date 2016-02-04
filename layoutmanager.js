@@ -1,6 +1,6 @@
 define(['browser'], function (browser) {
 
-    return function () {
+    function layoutManager() {
 
         var self = this;
 
@@ -19,4 +19,6 @@ define(['browser'], function (browser) {
             self.setFormFactor('desktop');
         }
     };
+
+    return new layoutManager();
 });
