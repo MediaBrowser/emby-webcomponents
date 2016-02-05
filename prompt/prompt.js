@@ -45,7 +45,7 @@ define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.
 
         document.body.appendChild(dlg);
 
-        dlg.querySelector('.paperSubmit').addEventListener('click', function (e) {
+        dlg.querySelector('.btnSubmit').addEventListener('click', function (e) {
 
             submitValue = dlg.querySelector('.txtPromptValue').value;
             paperdialoghelper.close(dlg);
