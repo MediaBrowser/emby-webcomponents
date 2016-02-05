@@ -34,8 +34,8 @@ define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.
         if (raisedButtons) {
             html += '<paper-button raised class="btnSubmit"><iron-icon icon="dialog:check"></iron-icon><span>' + Globalize.translate('core#ButtonOk') + '</span></paper-button>';
         } else {
-            html += '<paper-button raised class="btnSubmit">' + Globalize.translate('core#ButtonOk') + '</paper-button>';
-            html += '<paper-button raised class="btnPromptExit">' + Globalize.translate('core#ButtonCancel') + '</paper-button>';
+            html += '<paper-button class="btnSubmit">' + Globalize.translate('core#ButtonOk') + '</paper-button>';
+            html += '<paper-button class="btnPromptExit">' + Globalize.translate('core#ButtonCancel') + '</paper-button>';
         }
 
         html += '</div>';
