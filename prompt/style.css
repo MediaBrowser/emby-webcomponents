@@ -18,3 +18,18 @@
 .txtPromptValue label {
     font-size: 200%;
 }
+
+.promptDialogContent {
+    text-align: left;
+    padding: 2em;
+}
+
+.promptDialog.fullscreen .promptDialogContent {
+    margin: 0;
+    padding: 0;
+    width: 50%;
+}
+
+.promptDialog .btnSubmit {
+    display: block;
+}

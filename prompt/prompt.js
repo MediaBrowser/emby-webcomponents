@@ -6,8 +6,11 @@ define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.
             removeOnClose: true
         };
 
+        var backButton = false;
+
         if (layoutManager.tv) {
             dialogOptions.size = 'fullscreen';
+            backButton = true;
         }
 
         var dlg = paperdialoghelper.createDialog(dialogOptions);
@@ -17,20 +20,16 @@ define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.
         var html = '';
         var submitValue = '';
 
-        html += '<div style="margin:0;padding:0;width:50%;text-align:left;">';
-        html += '<paper-icon-button tabindex="-1" icon="dialog:arrow-back" class="btnPromptExit"></paper-icon-button>';
-
-        if (options.title) {
-            html += '<h1 style="margin-bottom:0;">';
-            html += options.title;
-            html += '</h1>';
+        html += '<div class="promptDialogContent">';
+        if (backButton) {
+            html += '<paper-icon-button tabindex="-1" icon="dialog:arrow-back" class="btnPromptExit"></paper-icon-button>';
         }
 
         html += '<paper-input autoFocus class="txtPromptValue"></paper-input>';
 
         // TODO: An actual form element should probably be added
         html += '<br/>';
-        html += '<paper-button raised class="block paperSubmit"><iron-icon icon="dialog:check"></iron-icon><span>' + Globalize.translate('core#ButtonOk') + '</span></paper-button>';
+        html += '<paper-button raised class="btnSubmit"><iron-icon icon="dialog:check"></iron-icon><span>' + Globalize.translate('core#ButtonOk') + '</span></paper-button>';
 
         html += '</div>';
 
@@ -38,6 +37,10 @@ define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.
 
         if (options.text) {
             dlg.querySelector('.txtPromptValue').value = options.text;
+        }
+
+        if (options.title) {
+            dlg.querySelector('.txtPromptValue').label = options.title;
         }
 
         document.body.appendChild(dlg);
