@@ -51,10 +51,12 @@ define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.
             paperdialoghelper.close(dlg);
         });
 
-        dlg.querySelector('.btnPromptExit').addEventListener('click', function (e) {
+        if (backButton) {
+            dlg.querySelector('.btnPromptExit').addEventListener('click', function (e) {
 
-            paperdialoghelper.close(dlg);
-        });
+                paperdialoghelper.close(dlg);
+            });
+        }
 
         dlg.addEventListener('iron-overlay-closed', function () {
 
