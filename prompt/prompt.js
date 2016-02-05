@@ -7,10 +7,12 @@ define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.
         };
 
         var backButton = false;
+        var raisedButtons = false;
 
         if (layoutManager.tv) {
             dialogOptions.size = 'fullscreen';
             backButton = true;
+            raisedButtons = true;
         }
 
         var dlg = paperdialoghelper.createDialog(dialogOptions);
@@ -29,7 +31,12 @@ define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.
 
         // TODO: An actual form element should probably be added
         html += '<br/>';
-        html += '<paper-button raised class="btnSubmit"><iron-icon icon="dialog:check"></iron-icon><span>' + Globalize.translate('core#ButtonOk') + '</span></paper-button>';
+        if (raisedButtons) {
+            html += '<paper-button raised class="btnSubmit"><iron-icon icon="dialog:check"></iron-icon><span>' + Globalize.translate('core#ButtonOk') + '</span></paper-button>';
+        } else {
+            html += '<paper-button raised class="btnSubmit">' + Globalize.translate('core#ButtonOk') + '</paper-button>';
+            html += '<paper-button raised class="btnPromptExit">' + Globalize.translate('core#ButtonCancel') + '</paper-button>';
+        }
 
         html += '</div>';
 
@@ -51,12 +58,10 @@ define(['paperdialoghelper', 'layoutManager', 'html!./icons.html', 'css!./style.
             paperdialoghelper.close(dlg);
         });
 
-        if (backButton) {
-            dlg.querySelector('.btnPromptExit').addEventListener('click', function (e) {
+        dlg.querySelector('.btnPromptExit').addEventListener('click', function (e) {
 
-                paperdialoghelper.close(dlg);
-            });
-        }
+            paperdialoghelper.close(dlg);
+        });
 
         dlg.addEventListener('iron-overlay-closed', function () {
 
