@@ -20,7 +20,9 @@
 
         var browser = match[1] || "";
 
-        if (browser != "edge") {
+        if (browser == "edge") {
+            platform_match = [""];
+        } else {
             if (ua.indexOf("windows phone") != -1 || ua.indexOf("iemobile") != -1) {
 
                 // http://www.neowin.net/news/ie11-fakes-user-agent-to-fool-gmail-in-windows-phone-81-gdr1-update
