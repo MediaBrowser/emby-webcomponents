@@ -40,6 +40,12 @@ define(['paperdialoghelper', 'layoutManager', 'globalize', 'dialogText', 'html!.
 
         html += '<paper-input autoFocus class="txtPromptValue"></paper-input>';
 
+        if (options.description) {
+            html += '<div class="fieldDescription">';
+            html += options.description;
+            html += '</div>';
+        }
+
         // TODO: An actual form element should probably be added
         html += '<br/>';
         if (raisedButtons) {
