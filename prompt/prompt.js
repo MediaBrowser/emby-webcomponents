@@ -34,6 +34,12 @@ define(['paperdialoghelper', 'layoutManager', 'globalize', 'dialogText', 'html!.
 
         html += '<paper-input autoFocus class="txtPromptValue"></paper-input>';
 
+        if (options.title) {
+            html += '<h2>';
+            html += options.title;
+            html += '</h2>';
+        }
+
         // TODO: An actual form element should probably be added
         html += '<br/>';
         if (raisedButtons) {
@@ -53,8 +59,8 @@ define(['paperdialoghelper', 'layoutManager', 'globalize', 'dialogText', 'html!.
             dlg.querySelector('.txtPromptValue').value = options.text;
         }
 
-        if (options.title) {
-            dlg.querySelector('.txtPromptValue').label = options.title;
+        if (options.label) {
+            dlg.querySelector('.txtPromptValue').label = options.label;
         }
 
         document.body.appendChild(dlg);
