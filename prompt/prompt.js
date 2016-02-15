@@ -32,13 +32,13 @@ define(['paperdialoghelper', 'layoutManager', 'globalize', 'dialogText', 'html!.
             html += '<paper-icon-button tabindex="-1" icon="dialog:arrow-back" class="btnPromptExit"></paper-icon-button>';
         }
 
-        html += '<paper-input autoFocus class="txtPromptValue"></paper-input>';
-
         if (options.title) {
             html += '<h2>';
             html += options.title;
             html += '</h2>';
         }
+
+        html += '<paper-input autoFocus class="txtPromptValue"></paper-input>';
 
         // TODO: An actual form element should probably be added
         html += '<br/>';
