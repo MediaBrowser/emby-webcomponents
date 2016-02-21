@@ -83,9 +83,16 @@
         html += '<div class="actionSheetContent">';
 
         if (options.title) {
-            html += '<h2 class="actionSheetTitle">';
-            html += options.title;
-            html += '</h2>';
+
+            if (layoutManager.tv) {
+                html += '<h1 class="actionSheetTitle">';
+                html += options.title;
+                html += '</h1>';
+            } else {
+                html += '<h2 class="actionSheetTitle">';
+                html += options.title;
+                html += '</h2>';
+            }
         }
 
         html += '<div class="actionSheetScroller">';
