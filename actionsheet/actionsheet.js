@@ -1,4 +1,53 @@
-﻿define(['paperdialoghelper', 'paper-button', 'css!./actionsheet'], function (paperdialoghelper) {
+﻿define(['paperdialoghelper', 'layoutManager', 'paper-button', 'css!./actionsheet'], function (paperdialoghelper, layoutManager) {
+
+    function parentWithClass(elem, className) {
+
+        while (!elem.classList || !elem.classList.contains(className)) {
+            elem = elem.parentNode;
+
+            if (!elem) {
+                return null;
+            }
+        }
+
+        return elem;
+    }
+
+    function getPosition(options) {
+
+        var windowHeight = $(window).height();
+
+        if (windowHeight < 540) {
+            return null;
+        }
+
+        var pos = $(options.positionTo).offset();
+
+        pos.top += $(options.positionTo).innerHeight() / 2;
+        pos.left += $(options.positionTo).innerWidth() / 2;
+
+        // Account for margins
+        pos.top -= 24;
+        pos.left -= 24;
+
+        // Account for popup size - we can't predict this yet so just estimate
+        pos.top -= (55 * options.items.length) / 2;
+        pos.left -= 80;
+
+        // Account for scroll position
+        pos.top -= $(window).scrollTop();
+        pos.left -= $(window).scrollLeft();
+
+        // Avoid showing too close to the bottom
+        pos.top = Math.min(pos.top, windowHeight - 300);
+        pos.left = Math.min(pos.left, $(window).width() - 300);
+
+        // Do some boundary checking
+        pos.top = Math.max(pos.top, 0);
+        pos.left = Math.max(pos.left, 0);
+
+        return pos;
+    }
 
     function show(options) {
 
@@ -6,91 +55,131 @@
         // positionTo
         // showCancel
         // title
-        var dlg = paperdialoghelper.createDialog({
+        var dialogOptions = {
             removeOnClose: true,
-            size: 'fullscreen'
-        });
+            enableHistory: options.enableHistory
+        };
+
+        var backButton = false;
+
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+            backButton = true;
+            dialogOptions.autoFocus = true;
+        } else {
+
+            dialogOptions.modal = false;
+            dialogOptions.entryAnimationDuration = 160;
+            dialogOptions.exitAnimationDuration = 200;
+            dialogOptions.autoFocus = false;
+        }
+
+        var dlg = paperdialoghelper.createDialog(dialogOptions);
+        var pos = options.positionTo ? getPosition(options) : null;
 
         dlg.classList.add('actionSheet');
 
         var html = '';
+        html += '<div class="actionSheetContent">';
 
         if (options.title) {
-            html += '<h1>';
+            html += '<h2 class="actionSheetTitle">';
             html += options.title;
-            html += '</h1>';
+            html += '</h2>';
         }
 
-        // There seems to be a bug with this in safari causing it to immediately roll up to 0 height
-        // Set to false for now because it's handled upstream by paperdialoghelper
         html += '<div class="actionSheetScroller">';
 
-        // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
-        var renderIcon = options.items.filter(function (o) {
+        var itemsWithIcons = options.items.filter(function (o) {
             return o.ironIcon;
-        }).length;
+        });
 
-        //html += '<div>';
+        // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
+        var renderIcon = itemsWithIcons.length;
+        var center = options.title && (!itemsWithIcons.length || itemsWithIcons.length != options.items.length);
+
+        if (center) {
+            dlg.classList.add('centered');
+        }
+
+        var enablePaperMenu = !layoutManager.tv;
+        enablePaperMenu = false;
+        var itemTagName = 'paper-button';
+
+        if (enablePaperMenu) {
+            html += '<paper-menu>';
+            itemTagName = 'paper-menu-item';
+        }
+
         for (var i = 0, length = options.items.length; i < length; i++) {
 
             var option = options.items[i];
 
             var autoFocus = option.selected ? ' autoFocus' : '';
-            html += '<paper-button' + autoFocus + ' class="actionSheetMenuItem" data-id="' + option.id + '" style="display:block;">';
+            html += '<' + itemTagName + autoFocus + ' noink class="actionSheetMenuItem" data-id="' + option.id + '" style="display:block;">';
 
             if (option.ironIcon) {
-                html += '<iron-icon icon="' + option.ironIcon + '"></iron-icon>';
+                html += '<iron-icon class="actionSheetItemIcon" icon="' + option.ironIcon + '"></iron-icon>';
             }
-            else if (renderIcon) {
-                // Need this when left-justified but not when centered
-                //html += '<iron-icon></iron-icon>';
+            else if (renderIcon && !center) {
+                html += '<iron-icon></iron-icon>';
             }
             html += '<span>' + option.name + '</span>';
-            html += '</paper-button>';
+            html += '</' + itemTagName + '>';
         }
-        //html += '</div>';
 
-        html += '</div>';
+        if (enablePaperMenu) {
+            html += '</paper-menu>';
+        }
 
         if (options.showCancel) {
             html += '<div class="buttons">';
             html += '<paper-button dialog-dismiss>' + Globalize.translate('core#ButtonCancel') + '</paper-button>';
             html += '</div>';
         }
+        html += '</div>';
 
         dlg.innerHTML = html;
+
+        if (pos) {
+            dlg.style.position = 'fixed';
+            dlg.style.left = pos.left + 'px';
+            dlg.style.top = pos.top + 'px';
+        }
+
         document.body.appendChild(dlg);
 
         // Seeing an issue in some non-chrome browsers where this is requiring a double click
-        var eventName = 'click';//$.browser.chrome ? 'click' : 'mousedown';
-        var selectedId;
-        var submitted = false;
+        //var eventName = browser.firefox ? 'mousedown' : 'click';
+        var eventName = 'click';
 
-        dlg.addEventListener(eventName, function (e) {
+        return new Promise(function (resolve, reject) {
 
-            var actionSheetMenuItem = Emby.Dom.parentWithClass(e.target, 'actionSheetMenuItem');
+            dlg.addEventListener(eventName, function (e) {
 
-            if (actionSheetMenuItem) {
+                var actionSheetMenuItem = parentWithClass(e.target, 'actionSheetMenuItem');
 
-                submitted = true;
-                selectedId = actionSheetMenuItem.getAttribute('data-id');
+                if (actionSheetMenuItem) {
 
-                paperdialoghelper.close(dlg);
-            }
+                    var selectedId = actionSheetMenuItem.getAttribute('data-id');
 
-        });
+                    paperdialoghelper.close(dlg);
 
-        return paperdialoghelper.open(dlg).then(function () {
+                    // Add a delay here to allow the click animation to finish, for nice effect
+                    setTimeout(function () {
 
-            if (submitted) {
+                        if (options.callback) {
+                            options.callback(selectedId);
+                        }
 
-                if (options.callback) {
-                    options.callback(selectedId);
+                        resolve(selectedId);
+
+                    }, 100);
                 }
-                return selectedId;
-            } else {
-                return Promise.reject();
-            }
+
+            });
+
+            paperdialoghelper.open(dlg);
         });
     }
 

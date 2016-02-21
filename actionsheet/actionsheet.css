@@ -1,14 +1,34 @@
-paper-dialog.actionSheet {
-    flex-direction: column;
+.actionSheet {
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
+    .actionSheet.centered .actionSheetContent {
+        text-align: center;
+        align-items: center;
+    }
+
+.actionSheetContent {
+    margin: 0 !important;
+    padding: 1em 1em !important;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
 .actionSheetMenuItem {
-    padding: .5em 1.2em;
+    padding: .4em .5em;
     margin: 0;
     text-transform: none;
+    text-align: inherit;
+    display: flex;
+    justify-content: center;
+    font-weight: inherit;
+}
+
+.actionSheetItemIcon {
+    margin-right: 1.5em !important;
 }
 
 .actionSheetScroller {
@@ -16,7 +36,7 @@ paper-dialog.actionSheet {
     overflow-x: hidden;
     overflow-y: auto;
     /* Override default style being applied by polymer */
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
     scroll-behavior: smooth;
 }
 
@@ -24,3 +44,11 @@ paper-dialog.actionSheet {
         width: 0 !important;
         display: none;
     }
+
+h1.actionSheetTitle {
+    margin: .5em 0 .7em !important;
+}
+
+h2.actionSheetTitle {
+    margin: .25em 0 .55em !important;
+}
