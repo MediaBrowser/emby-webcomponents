@@ -40,7 +40,7 @@ define(['paperdialoghelper', 'layoutManager', 'globalize', 'dialogText', 'html!.
 
         html += '<form>';
 
-        html += '<paper-input autoFocus class="txtPromptValue"></paper-input>';
+        html += '<paper-input autoFocus class="txtPromptValue" value="' + (options.value || '') + '" label="' + (options.label || '') + '"></paper-input>';
 
         if (options.description) {
             html += '<div class="fieldDescription">';
@@ -62,14 +62,6 @@ define(['paperdialoghelper', 'layoutManager', 'globalize', 'dialogText', 'html!.
         html += '</div>';
 
         dlg.innerHTML = html;
-
-        if (options.text) {
-            dlg.querySelector('.txtPromptValue').value = options.text;
-        }
-
-        if (options.label) {
-            dlg.querySelector('.txtPromptValue').label = options.label;
-        }
 
         document.body.appendChild(dlg);
 
