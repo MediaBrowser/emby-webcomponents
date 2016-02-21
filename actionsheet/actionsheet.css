@@ -1,0 +1,26 @@
+paper-dialog.actionSheet {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.actionSheetMenuItem {
+    padding: .5em 1.2em;
+    margin: 0;
+    text-transform: none;
+}
+
+.actionSheetScroller {
+    max-height: 60%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Override default style being applied by polymer */
+    margin-bottom: 0!important;
+    scroll-behavior: smooth;
+}
+
+    .actionSheetScroller::-webkit-scrollbar, .actionSheetScroller::-webkit-scrollbar {
+        width: 0 !important;
+        display: none;
+    }
