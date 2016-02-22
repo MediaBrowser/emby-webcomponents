@@ -17,15 +17,15 @@ define(['layoutManager', 'dialogText'], function (layoutManager, dialogText) {
                     id: 'cancel'
                 });
 
-                actionsheet.show({
+                actionSheet.show({
 
-                    title: options.title,
+                    title: options.text,
                     items: items
 
                 }).then(function (id) {
 
                     switch (id) {
-                    
+
                         case 'ok':
                             resolve();
                             break;
@@ -43,19 +43,22 @@ define(['layoutManager', 'dialogText'], function (layoutManager, dialogText) {
 
     }
 
-    return function (options) {
+    return function (text, title) {
 
-        if (typeof options === 'string') {
+        var options;
+        if (typeof text === 'string') {
             options = {
-                title: '',
-                text: options
+                title: title,
+                text: text
             };
+        } else {
+            options = text;
         }
 
         if (layoutManager.tv) {
             return showTvConfirm(options);
         }
 
-        return showConfirm(options);
+        return showTvConfirm(options);
     };
 });
