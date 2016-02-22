@@ -1,4 +1,4 @@
-﻿define(['paperdialoghelper', 'layoutManager', 'paper-button', 'css!./actionsheet'], function (paperdialoghelper, layoutManager) {
+﻿define(['paperdialoghelper', 'layoutManager', 'dialogText', 'paper-button', 'css!./actionsheet'], function (paperdialoghelper, layoutManager, dialogText) {
 
     function parentWithClass(elem, className) {
 
@@ -141,7 +141,7 @@
 
         if (options.showCancel) {
             html += '<div class="buttons">';
-            html += '<paper-button dialog-dismiss>' + Globalize.translate('core#ButtonCancel') + '</paper-button>';
+            html += '<paper-button dialog-dismiss>' + dialogText.get('buttonCancel') + '</paper-button>';
             html += '</div>';
         }
         html += '</div>';
