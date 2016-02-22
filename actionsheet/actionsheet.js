@@ -141,7 +141,7 @@
 
         if (options.showCancel) {
             html += '<div class="buttons">';
-            html += '<paper-button dialog-dismiss>' + dialogText.get('buttonCancel') + '</paper-button>';
+            html += '<paper-button dialog-dismiss>' + dialogText.get('Cancel') + '</paper-button>';
             html += '</div>';
         }
         html += '</div>';

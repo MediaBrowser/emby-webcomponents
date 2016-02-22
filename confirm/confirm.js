@@ -8,12 +8,12 @@ define(['layoutManager', 'dialogText'], function (layoutManager, dialogText) {
                 var items = [];
 
                 items.push({
-                    name: dialogText.get('buttonOk'),
+                    name: dialogText.get('Ok'),
                     id: 'ok'
                 });
 
                 items.push({
-                    name: dialogText.get('buttonCancel'),
+                    name: dialogText.get('Cancel'),
                     id: 'cancel'
                 });
 
