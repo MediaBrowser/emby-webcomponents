@@ -45,12 +45,16 @@ define(['paperdialoghelper', 'layoutManager', 'dialogText', 'html!./../prompt/ic
         }
 
         if (options.text) {
-            html += '<p>';
+
+            if (options.title) {
+                html += '<p style="margin-top:2em;">';
+            } else {
+                html += '<p>';
+            }
+
             html += options.text;
             html += '</p>';
         }
-
-        html += '<br/>';
 
         var buttonText = options.type == 'error' ? 'Ok' : 'GotIt';
         if (raisedButtons) {
