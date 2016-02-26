@@ -72,11 +72,6 @@ define(['paperdialoghelper', 'layoutManager', 'dialogText', 'html!./../prompt/ic
             paperdialoghelper.close(dlg);
         });
 
-        dlg.querySelector('.btnPromptExit').addEventListener('click', function (e) {
-
-            paperdialoghelper.close(dlg);
-        });
-
         return paperdialoghelper.open(dlg);
     };
 });
