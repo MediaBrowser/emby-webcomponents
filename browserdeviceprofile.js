@@ -37,7 +37,7 @@ define(['browser'], function (browser) {
     }
 
     function canPlayHlsWithMSE() {
-        if (window.MediaSource != null) {
+        if (window.MediaSource != null && !browser.firefox) {
             // text tracks don’t work with this in firefox
             return true;
         }
