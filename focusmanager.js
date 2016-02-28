@@ -336,28 +336,34 @@ define([], function () {
 
             var distX;
             var distY;
+            var distX2;
+            var distY2;
 
             switch (direction) {
 
                 case 0:
                     // left
-                    distX = Math.abs(point1x - Math.min(point1x, x2));
+                    distX = distX2 = Math.abs(point1x - Math.min(point1x, x2));
                     distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
+                    distY2 = Math.abs(sourceMidY - midY);
                     break;
                 case 1:
                     // right
-                    distX = Math.abs(point2x - Math.max(point2x, x));
+                    distX = distX2 = Math.abs(point2x - Math.max(point2x, x));
                     distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
+                    distY2 = Math.abs(sourceMidY - midY);
                     break;
                 case 2:
                     // up
-                    distY = Math.abs(point1y - Math.min(point1y, y2));
+                    distY = distY2 = Math.abs(point1y - Math.min(point1y, y2));
                     distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
+                    distX2 = Math.abs(sourceMidX - midX);
                     break;
                 case 3:
                     // down
-                    distY = Math.abs(point2y - Math.max(point2y, y));
+                    distY = distY2 = Math.abs(point2y - Math.max(point2y, y));
                     distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
+                    distX2 = Math.abs(sourceMidX - midX);
                     break;
                 default:
                     break;
@@ -368,12 +374,14 @@ define([], function () {
             }
 
             var distT = Math.sqrt(distX * distX + distY * distY);
+            var distT2 = Math.sqrt(distX2 * distX2 + distY2 * distY2);
 
             cache.push({
                 node: elem,
                 distX: distX,
                 distY: distY,
-                distT: distT
+                distT: distT,
+                distT2: distT2
             });
         }
 
@@ -428,7 +436,13 @@ define([], function () {
     }
 
     function sortNodesT(a, b) {
-        return a.distT - b.distT;
+        var result = a.distT - b.distT;
+
+        if (result == 0) {
+            return a.distT2 - b.distT2;
+        }
+
+        return result;
     }
 
     function sortNodesY(a, b) {
