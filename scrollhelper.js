@@ -46,17 +46,21 @@ define(['focusManager'], function (focusManager) {
         };
     }
 
+    function toCenter(container, elem, horizontal) {
+        var pos = getPosition(container, elem, horizontal);
+
+        if (horizontal) {
+            container.scrollTo(pos.center, 0);
+        } else {
+            container.scrollTo(0, pos.center);
+        }
+    }
+
     function centerOnFocus(e, scrollSlider, horizontal) {
         var focused = focusManager.focusableParent(e.target);
 
         if (focused) {
-            var pos = getPosition(scrollSlider, focused, horizontal);
-
-            if (horizontal) {
-                scrollSlider.scrollTo(pos.center, 0);
-            } else {
-                scrollSlider.scrollTo(0, pos.center);
-            }
+            toCenter(scrollSlider, focused, horizontal);
         }
     }
 
@@ -70,7 +74,7 @@ define(['focusManager'], function (focusManager) {
     return {
         getPosition: getPosition,
         centerFocus: {
-            on: function(element, horizontal) {
+            on: function (element, horizontal) {
                 if (horizontal) {
                     element.addEventListener('focus', centerOnFocusHorizontal, true);
                 } else {
@@ -84,6 +88,7 @@ define(['focusManager'], function (focusManager) {
                     element.removeEventListener('focus', centerOnFocusVertical, true);
                 }
             }
-        }
+        },
+        toCenter: toCenter
     };
 });
