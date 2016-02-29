@@ -49,10 +49,18 @@ define(['focusManager'], function (focusManager) {
     function toCenter(container, elem, horizontal) {
         var pos = getPosition(container, elem, horizontal);
 
-        if (horizontal) {
-            container.scrollTo(pos.center, 0);
+        if (container.scrollTo) {
+            if (horizontal) {
+                container.scrollTo(pos.center, 0);
+            } else {
+                container.scrollTo(0, pos.center);
+            }
         } else {
-            container.scrollTo(0, pos.center);
+            if (horizontal) {
+                container.scrollTop = pos.center;
+            } else {
+                container.scrollLeft = pos.center;
+            }
         }
     }
 
