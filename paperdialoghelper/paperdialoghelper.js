@@ -1,4 +1,4 @@
-﻿define(['historyManager', 'focusManager', 'browser', 'layoutManager', 'paper-dialog', 'scale-up-animation', 'fade-out-animation', 'fade-in-animation', 'css!./paperdialoghelper.css'], function (historyManager, focusManager, browser, layoutManager) {
+﻿define(['historyManager', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'paper-dialog', 'scale-up-animation', 'fade-out-animation', 'fade-in-animation', 'css!./paperdialoghelper.css'], function (historyManager, focusManager, browser, layoutManager, inputManager) {
 
     function paperDialogHashHandler(dlg, hash, resolve) {
 
@@ -21,6 +21,15 @@
             }
         }
 
+        function onBackCommand(e) {
+
+            inputManager.off(dlg, onBackCommand);
+
+            self.closedByBack = true;
+            dlg.close();
+            e.preventDefault();
+        }
+
         function onDialogClosed() {
 
             if (removeScrollLockOnClose) {
@@ -28,6 +37,7 @@
             }
 
             window.removeEventListener('popstate', onHashChange);
+            inputManager.off(dlg, onBackCommand);
 
             if (!self.closedByBack && isHistoryEnabled(dlg)) {
                 var state = history.state || {};
@@ -71,6 +81,8 @@
             historyManager.pushState({ dialogId: hash }, "Dialog", hash);
 
             window.addEventListener('popstate', onHashChange);
+        } else {
+            inputManager.on(dlg, onBackCommand);
         }
     }
 
