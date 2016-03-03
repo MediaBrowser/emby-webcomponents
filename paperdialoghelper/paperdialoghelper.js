@@ -155,7 +155,7 @@
         // seeing max call stack size exceeded in the debugger with this
         dlg.setAttribute('noAutoFocus', 'noAutoFocus');
 
-        var defaultEntryAnimation = browser.animate ? 'scale-up-animation' : 'fade-in-animation';
+        var defaultEntryAnimation = browser.animate && !browser.mobile ? 'scale-up-animation' : 'fade-in-animation';
         dlg.entryAnimation = options.entryAnimation || defaultEntryAnimation;
         dlg.exitAnimation = 'fade-out-animation';
 
