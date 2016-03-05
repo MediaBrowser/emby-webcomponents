@@ -188,6 +188,10 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     function translateHtml(html, module) {
 
         if (!module) {
+            module = defaultModule();
+        }
+
+        if (!module) {
             throw new Error('module cannot be null or empty');
         }
 
