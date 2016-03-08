@@ -20,6 +20,7 @@ define(['layoutManager', 'material-design-lite', 'css!./loading'], function (lay
             }
 
             elem.classList.add('is-active');
+            elem.classList.remove('loadingHide');
         },
         hide: function () {
             var elem = document.querySelector('.docspinner');
@@ -27,6 +28,7 @@ define(['layoutManager', 'material-design-lite', 'css!./loading'], function (lay
             if (elem) {
 
                 elem.classList.remove('is-active');
+                elem.classList.add('loadingHide');
             }
         }
     };
