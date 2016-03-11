@@ -104,6 +104,11 @@ define(['browser'], function (browser) {
         return false;
     }
 
+    function testCanPlayTs() {
+
+        return browser.tizen || browser.web0s;
+    }
+
     function getDirectPlayProfileForVideoContainer(container) {
 
         var supported = false;
@@ -125,6 +130,15 @@ define(['browser'], function (browser) {
             case 'm2ts':
             case 'wmv':
                 supported = browser.tizen || browser.web0s;
+                break;
+            case 'ts':
+                supported = browser.tizen || browser.web0s;
+                if (supported) {
+                    return {
+                        Container: 'ts,mpegts',
+                        Type: 'Video'
+                    };
+                }
                 break;
             default:
                 break;
@@ -167,6 +181,7 @@ define(['browser'], function (browser) {
         var canPlayWebm = videoTestElement.canPlayType('video/webm').replace(/no/, '');
 
         var canPlayMkv = testCanPlayMkv();
+        var canPlayTs = testCanPlayTs();
 
         var profile = {};
 
@@ -197,7 +212,7 @@ define(['browser'], function (browser) {
         }
 
         var mp3Added = false;
-        if (canPlayMkv) {
+        if (canPlayMkv || canPlayTs) {
             if (supportsMp3VideoAudio) {
                 mp3Added = true;
                 videoAudioCodecs.push('mp3');
@@ -288,6 +303,17 @@ define(['browser'], function (browser) {
         if (canPlayMkv && !browser.mobile) {
             profile.TranscodingProfiles.push({
                 Container: 'mkv',
+                Type: 'Video',
+                AudioCodec: videoAudioCodecs.join(','),
+                VideoCodec: 'h264',
+                Context: 'Streaming',
+                CopyTimestamps: true
+            });
+        }
+
+        if (canPlayTs) {
+            profile.TranscodingProfiles.push({
+                Container: 'ts',
                 Type: 'Video',
                 AudioCodec: videoAudioCodecs.join(','),
                 VideoCodec: 'h264',
