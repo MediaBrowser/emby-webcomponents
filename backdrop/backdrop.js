@@ -6,7 +6,7 @@
             return false;
         }
 
-        return browser.animate || browser.firefox;
+        return true;
     }
 
     function backdrop() {
