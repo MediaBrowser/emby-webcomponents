@@ -1,4 +1,13 @@
-﻿define(['css!./style'], function () {
+﻿define(['browser', 'css!./style'], function (browser) {
+
+    function enableAnimation() {
+
+        if (browser.mobile) {
+            return false;
+        }
+
+        return browser.animate || browser.firefox;
+    }
 
     function backdrop() {
 
@@ -21,6 +30,14 @@
                 backdropImage.setAttribute('data-url', url);
 
                 parent.appendChild(backdropImage);
+
+                if (!enableAnimation()) {
+                    if (existingBackdropImage && existingBackdropImage.parentNode) {
+                        existingBackdropImage.parentNode.removeChild(existingBackdropImage);
+                    }
+                    internalBackdrop(true);
+                    return;
+                }
 
                 var animation = fadeIn(backdropImage, 1);
                 currentAnimation = animation;
