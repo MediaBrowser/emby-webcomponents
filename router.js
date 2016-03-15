@@ -136,7 +136,7 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
             options: {
                 supportsThemeMedia: route.supportsThemeMedia || false
             },
-            autoFocus: options.autoFocus
+            autoFocus: route.autoFocus
         };
         currentViewLoadRequest = currentRequest;
 
