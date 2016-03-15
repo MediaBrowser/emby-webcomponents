@@ -495,7 +495,18 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
         page.pushState(state, title, url);
     }
 
-    page.base(baseRoute);
+    function setBaseRoute() {
+        var baseRoute = window.location.pathname.replace('/index.html', '');
+        if (baseRoute.lastIndexOf('/') == baseRoute.length - 1) {
+            baseRoute = baseRoute.substring(0, baseRoute.length - 1);
+        }
+
+        console.log('Setting page base to ' + baseRoute);
+
+        page.base(baseRoute);
+    }
+
+    setBaseRoute();
 
     return {
         addRoute: addRoute,
