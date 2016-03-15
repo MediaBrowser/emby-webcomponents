@@ -20,7 +20,7 @@ define(['viewcontainer', 'focusManager', 'queryString', 'connectionManager', 'ev
                 // Use controller method
                 var controller = new options.controllerFactory(newView, eventDetail.detail.params);
             } else if (dispatchPageEvents) {
-                dispatchViewEvent(newView, 'pageinit');
+                dispatchViewEvent(newView, 'viewinit');
             }
         }
 
