@@ -259,12 +259,12 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
             }
         }
 
-        var server = connectionManager.currentLoggedInServer();
+        var apiClient = connectionManager.currentApiClient();
         var pathname = ctx.pathname.toLowerCase();
 
         console.log('Emby.Page - processing path request ' + pathname);
 
-        if (server) {
+        if (apiClient && apiClient.isLoggedIn()) {
 
             console.log('Emby.Page - user is authenticated');
 
