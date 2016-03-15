@@ -495,6 +495,8 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
         page.pushState(state, title, url);
     }
 
+    page.base(baseRoute);
+
     return {
         addRoute: addRoute,
         param: param,
