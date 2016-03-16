@@ -71,6 +71,7 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
         if (url.toLowerCase().indexOf('http') != 0 && url.indexOf('file:') != 0) {
 
+            // Put a slash at the beginning but make sure to avoid a double slash
             if (url.indexOf('/') != 0) {
 
                 url = '/' + url;
