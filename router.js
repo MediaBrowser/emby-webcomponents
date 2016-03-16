@@ -1,5 +1,20 @@
 define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs'], function (loading, viewManager, skinManager, pluginManager, backdrop, browser, page) {
 
+    var embyRouter = {
+        showLocalLogin: function (apiClient, serverId, manualLogin) {
+            show('/startup/manuallogin.html?serverid=' + serverId);
+        },
+        showSelectServer: function () {
+            show('/startup/selectserver.html');
+        },
+        showWelcome: function () {
+            show('/startup/welcome.html');
+        },
+        showSettings: function () {
+            show('/settings/settings.html');
+        }
+    };
+
     var connectionManager;
 
     function redirectToLogin() {
@@ -28,28 +43,28 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
                     result.ApiClient.getPublicUsers().then(function (users) {
 
                         if (users.length) {
-                            show('/startup/login.html?serverid=' + result.Servers[0].Id);
+                            embyRouter.showLocalLogin(result.ApiClient, result.Servers[0].Id);
                         } else {
-                            goToLocalLogin(result.ApiClient, result.Servers[0].Id);
+                            embyRouter.showLocalLogin(result.ApiClient, result.Servers[0].Id, true);
                         }
                     });
                 }
                 break;
             case MediaBrowser.ConnectionState.ServerSelection:
                 {
-                    show('/startup/selectserver.html');
+                    embyRouter.showSelectServer();
                 }
                 break;
             case MediaBrowser.ConnectionState.ConnectSignIn:
                 {
-                    show('/startup/welcome.html');
+                    embyRouter.showWelcome();
                 }
                 break;
             case MediaBrowser.ConnectionState.ServerUpdateNeeded:
                 {
                     require(['alert'], function (alert) {
                         alert(Globalize.translate('core#ServerUpdateNeeded', '<a href="https://emby.media">https://emby.media</a>')).then(function () {
-                            show('/startup/selectserver.html');
+                            embyRouter.showSelectServer();
                         });
                     });
                 }
@@ -57,11 +72,6 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
             default:
                 break;
         }
-    }
-
-    function goToLocalLogin(apiClient, serverId) {
-
-        show('/startup/manuallogin.html?serverid=' + serverId);
     }
 
     var cacheParam = new Date().getTime();
@@ -414,14 +424,6 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
         skinManager.getCurrentSkin().setTitle(title);
     }
 
-    function gotoSettings() {
-        show('/settings/settings.html');
-    }
-
-    function selectServer() {
-        show('/startup/selectserver.html');
-    }
-
     function showVideoOsd() {
         var skin = skinManager.getCurrentSkin();
 
@@ -479,33 +481,27 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
     setBaseRoute();
 
-    return {
-        addRoute: addRoute,
-        param: param,
-        back: back,
-        show: show,
-        start: start,
-        baseUrl: baseUrl,
-        canGoBack: canGoBack,
-        current: current,
-        redirectToLogin: redirectToLogin,
-        goHome: goHome,
-        gotoSettings: gotoSettings,
-        showItem: showItem,
-        setTitle: setTitle,
-        selectServer: selectServer,
-        showVideoOsd: showVideoOsd,
-        setTransparency: setTransparency,
-        getRoutes: getRoutes,
-
-        pushState: pushState,
-
-        TransparencyLevel: {
-            None: 0,
-            Backdrop: 1,
-            Full: 2
-        },
-        enableNativeHistory: enableNativeHistory
+    embyRouter.addRoute = addRoute;
+    embyRouter.param = param;
+    embyRouter.back = back;
+    embyRouter.show = show;
+    embyRouter.start = start;
+    embyRouter.baseUrl = baseUrl;
+    embyRouter.canGoBack = canGoBack;
+    embyRouter.current = current;
+    embyRouter.redirectToLogin = redirectToLogin;
+    embyRouter.goHome = goHome;
+    embyRouter.showItem = showItem;
+    embyRouter.setTitle = setTitle;
+    embyRouter.setTransparency = setTransparency;
+    embyRouter.getRoutes = getRoutes;
+    embyRouter.pushState = pushState;
+    embyRouter.enableNativeHistory = enableNativeHistory;
+    embyRouter.TransparencyLevel = {
+        None: 0,
+        Backdrop: 1,
+        Full: 2
     };
 
+    return embyRouter;
 });
