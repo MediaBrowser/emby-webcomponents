@@ -336,6 +336,10 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
     function getRequestFile() {
         var path = window.location.pathname;
+        
+        if (path == '/') {
+            path = '/index.html';
+        }
 
         var index = path.lastIndexOf('/');
         if (index != -1) {
