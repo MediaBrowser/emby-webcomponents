@@ -2,7 +2,10 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
     var embyRouter = {
         showLocalLogin: function (apiClient, serverId, manualLogin) {
-            show('/startup/manuallogin.html?serverid=' + serverId);
+
+            var pageName = manualLogin ? 'manuallogin' : 'login';
+
+            show('/startup/' + pageName + '.html?serverid=' + serverId);
         },
         showSelectServer: function () {
             show('/startup/selectserver.html');
