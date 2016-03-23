@@ -5,7 +5,6 @@
     position: fixed;
     margin: 24px 40px;
     -webkit-overflow-scrolling: touch;
-    background: #ffffff;
     -webkit-font-smoothing: antialiased;
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
     height: auto;
