@@ -275,7 +275,8 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
             console.log('Emby.Page - user is authenticated');
 
-            if (ctx.isBack && (route.isDefaultRoute /*|| isStartup(ctx)*/)) {
+            var isCurrentRouteStartup = currentRouteInfo ? currentRouteInfo.route.startup : true;
+            if (ctx.isBack && (route.isDefaultRoute || route.startup) && !isCurrentRouteStartup) {
                 handleBackToDefault();
                 return;
             }
