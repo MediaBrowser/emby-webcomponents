@@ -71,6 +71,10 @@ define(['cryptojs-md5'], function () {
         var dirReader = imageCacheDirectoryEntry.createReader();
         var entries = [];
 
+        var onReadFail = function () {
+            console.log('dirReader.readEntries failed');
+        };
+
         // Keep calling readEntries() until no more results are returned.
         var readEntries = function () {
             dirReader.readEntries(function (results) {
@@ -80,7 +84,7 @@ define(['cryptojs-md5'], function () {
                     entries = entries.concat(toArray(results));
                     readEntries();
                 }
-            });
+            }, onReadFail);
         };
 
         // Start reading the directory.
