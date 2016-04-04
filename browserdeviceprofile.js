@@ -318,7 +318,7 @@ define(['browser'], function (browser) {
                 VideoCodec: 'h264',
                 Context: 'Streaming',
                 Protocol: 'hls',
-                ForceLiveStream: true
+                ForceLiveStream: browser.mobile ? false : true
             });
         }
 
