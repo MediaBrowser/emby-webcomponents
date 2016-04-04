@@ -98,8 +98,8 @@ define(['cryptojs-md5'], function () {
 
         fileEntry.file(function (file) {
             var elapsed = new Date().getTime() - file.lastModifiedDate.getTime();
-            // 60 days
-            var maxElapsed = 5184000000;
+            // 45 days
+            var maxElapsed = 3888000000;
             if (elapsed >= maxElapsed) {
 
                 var fullPath = fileEntry.fullPath;
