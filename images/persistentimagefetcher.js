@@ -98,26 +98,48 @@ define(['cryptojs-md5'], function () {
 
         fileEntry.file(function (file) {
 
-            var lastModifiedDate = file.lastModified || file.lastModifiedDate;
-            if (!lastModifiedDate) {
-                var metadata = fileEntry.getMetadata();
-                lastModifiedDate = metadata.lastModified || metadata.lastModifiedDate;
+            getLastModified(file, fileEntry).then(function (lastModifiedDate) {
+
+                var elapsed = new Date().getTime() - lastModifiedDate;
+                // 40 days
+                var maxElapsed = 3456000000;
+                if (elapsed >= maxElapsed) {
+
+                    var fullPath = fileEntry.fullPath;
+                    console.log('deleting file: ' + fullPath);
+
+                    fileEntry.remove(function () {
+                        console.log('File deleted: ' + fullPath);
+                    }, function () {
+                        console.log('Failed to delete file: ' + fullPath);
+                    });
+                }
+            });
+
+        });
+    }
+
+    function getLastModified(file, fileEntry) {
+
+        var lastModifiedDate = file.lastModified || file.lastModifiedDate || file.modificationTime;
+        if (lastModifiedDate) {
+            if (lastModifiedDate.getTime) {
+                lastModifiedDate = lastModifiedDate.getTime();
             }
+            return Promise.resolve(lastModifiedDate);
+        }
 
-            var elapsed = new Date().getTime() - lastModifiedDate.getTime();
-            // 45 days
-            var maxElapsed = 3888000000;
-            if (elapsed >= maxElapsed) {
+        return new Promise(function (resolve, reject) {
 
-                var fullPath = fileEntry.fullPath;
-                console.log('deleting file: ' + fullPath);
-
-                fileEntry.remove(function () {
-                    console.log('File deleted: ' + fullPath);
-                }, function () {
-                    console.log('Failed to delete file: ' + fullPath);
-                });
-            }
+            fileEntry.getMetadata(function (metadata) {
+                var lastModifiedDate = metadata.lastModified || metadata.lastModifiedDate || metadata.modificationTime;
+                if (lastModifiedDate) {
+                    if (lastModifiedDate.getTime) {
+                        lastModifiedDate = lastModifiedDate.getTime();
+                    }
+                }
+                resolve(lastModifiedDate);
+            });
         });
     }
 
