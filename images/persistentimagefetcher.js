@@ -98,9 +98,10 @@ define(['cryptojs-md5'], function () {
 
         fileEntry.file(function (file) {
 
-            var lastModifiedDate = file.lastModifiedDate;
+            var lastModifiedDate = file.lastModified || file.lastModifiedDate;
             if (!lastModifiedDate) {
-                lastModifiedDate = fileEntry.getMetadata().lastModifiedDate;
+                var metadata = fileEntry.getMetadata();
+                lastModifiedDate = metadata.lastModified || metadata.lastModifiedDate;
             }
 
             var elapsed = new Date().getTime() - lastModifiedDate.getTime();
