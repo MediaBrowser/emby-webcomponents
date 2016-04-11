@@ -17,7 +17,7 @@ define(['browser', 'appSettings'], function (browser, appSettings) {
 
         self.setLayout = function (layout, save) {
 
-            if (layout == 'auto') {
+            if (!layout || layout == 'auto') {
                 self.autoLayout();
 
                 if (save !== false) {
