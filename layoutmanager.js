@@ -1,4 +1,4 @@
-define(['browser'], function (browser) {
+define(['browser', 'appSettings'], function (browser, appSettings) {
 
     function setLayout(self, layout, selectedLayout) {
 
@@ -15,22 +15,39 @@ define(['browser'], function (browser) {
 
         var self = this;
 
-        self.layout = function (layout) {
+        self.setLayout = function (layout, save) {
 
-            setLayout(self, 'mobile', layout);
-            setLayout(self, 'tv', layout);
-            setLayout(self, 'desktop', layout);
+            if (layout == 'auto') {
+                self.autoLayout();
+
+                if (save !== false) {
+                    appSettings.set('layout', '');
+                }
+            } else {
+                setLayout(self, 'mobile', layout);
+                setLayout(self, 'tv', layout);
+                setLayout(self, 'desktop', layout);
+
+                if (save !== false) {
+                    appSettings.set('layout', layout);
+                }
+            }
         };
 
-        self.autoLayout = function () {
+        self.getSavedLayout = function (layout) {
+
+            return appSettings.get('layout');
+        };
+
+        self.autoLayout = function (undetectedLayout) {
 
             // Take a guess at initial layout. The consuming app can override
             if (browser.mobile) {
-                self.layout('mobile');
+                self.setLayout('mobile', false);
             } else if (browser.tv) {
-                self.layout('tv');
+                self.setLayout('tv', false);
             } else {
-                self.layout('desktop');
+                self.setLayout(undetectedLayout || 'desktop', false);
             }
         };
 
