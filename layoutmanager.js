@@ -39,7 +39,7 @@ define(['browser', 'appSettings'], function (browser, appSettings) {
             return appSettings.get('layout');
         };
 
-        self.autoLayout = function (undetectedLayout) {
+        self.autoLayout = function () {
 
             // Take a guess at initial layout. The consuming app can override
             if (browser.mobile) {
@@ -47,11 +47,18 @@ define(['browser', 'appSettings'], function (browser, appSettings) {
             } else if (browser.tv) {
                 self.setLayout('tv', false);
             } else {
-                self.setLayout(undetectedLayout || 'desktop', false);
+                self.setLayout(self.undetectedAutoLayout || 'desktop', false);
             }
         };
 
-        self.autoLayout();
+        self.init = function () {
+            var saved = self.getSavedLayout();
+            if (saved) {
+                self.setLayout(saved, false);
+            } else {
+                self.autoLayout();
+            }
+        };
     };
 
     return new layoutManager();
