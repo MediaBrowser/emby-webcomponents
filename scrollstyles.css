@@ -3,6 +3,7 @@
     -webkit-overflow-scrolling: touch;
     overflow-y: hidden;
     scroll-behavior: smooth;
+    white-space: nowrap;
 }
 
 .hiddenScrollX {
