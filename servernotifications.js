@@ -22,11 +22,7 @@ define(['connectionManager', 'events'], function (connectionManager, events) {
             if (msg.Data.UserId == apiClient.getCurrentUserId()) {
 
                 for (var i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
-                    events.trigger(serverNotifications, 'UserDataChanged', [
-                    {
-                        apiClient: apiClient,
-                        userData: msg.Data.UserDataList[i]
-                    }]);
+                    events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
                 }
             }
         }
