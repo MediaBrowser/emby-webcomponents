@@ -19,7 +19,7 @@
     overflow: -moz-scrollbars-none;
 }
 
-    .hiddenScrollX ::-webkit-scrollbar, .layout-tv .smoothScrollX ::-webkit-scrollbar, .layout-mobile .smoothScrollX ::-webkit-scrollbar {
+    .hiddenScrollX::-webkit-scrollbar, .layout-tv .smoothScrollX::-webkit-scrollbar, .layout-mobile .smoothScrollX::-webkit-scrollbar {
         height: 0 !important;
         display: none;
     }
@@ -44,7 +44,7 @@
     overflow: -moz-scrollbars-none;
 }
 
-    .hiddenScrollY ::-webkit-scrollbar, .layout-tv .smoothScrollY ::-webkit-scrollbar, .layout-mobile .smoothScrollY ::-webkit-scrollbar {
+    .hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar, .layout-mobile .smoothScrollY::-webkit-scrollbar {
         width: 0 !important;
         display: none;
     }
