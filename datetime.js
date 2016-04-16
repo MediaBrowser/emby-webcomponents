@@ -94,27 +94,28 @@
         return parts.join(':');
     }
 
-    function toLocaleTimeStringSupportsLocales() {
+    var toLocaleTimeStringSupportsLocales = function toLocaleTimeStringSupportsLocales() {
         try {
             new Date().toLocaleTimeString('i');
         } catch (e) {
             return e.name === 'RangeError';
         }
         return false;
-    }
+    }();
 
     function getDisplayTime(date) {
 
         var currentLocale = globalize.getCurrentLocale();
 
-        var time = currentLocale && toLocaleTimeStringSupportsLocales() ?
+        var time = currentLocale && toLocaleTimeStringSupportsLocales ?
             date.toLocaleTimeString(currentLocale) :
             date.toLocaleTimeString();
 
-        time = time.toLowerCase();
+        var timeLower = time.toLowerCase();
 
-        if (time.indexOf('am') != -1 || time.indexOf('pm') != -1) {
+        if (timeLower.indexOf('am') != -1 || timeLower.indexOf('pm') != -1) {
 
+            time = timeLower;
             var hour = date.getHours() % 12;
             var suffix = date.getHours() > 11 ? 'pm' : 'am';
             if (!hour) {
