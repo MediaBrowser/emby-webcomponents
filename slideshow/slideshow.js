@@ -22,15 +22,15 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
                 html += '<div>';
                 html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
-                html += '<paper-icon-button icon="slideshow:arrow-back" class="btnSlideshowPrevious slideshowButton" tabindex="-1"></paper-icon-button>';
-                html += '<paper-icon-button icon="slideshow:arrow-forward" class="btnSlideshowNext slideshowButton" tabindex="-1"></paper-icon-button>';
+                html += '<paper-icon-button icon="slideshow:keyboard-arrow-left" class="btnSlideshowPrevious slideshowButton" tabindex="-1"></paper-icon-button>';
+                html += '<paper-icon-button icon="slideshow:keyboard-arrow-right" class="btnSlideshowNext slideshowButton" tabindex="-1"></paper-icon-button>';
 
                 html += '<div class="slideshowControlBar">';
                 html += '<paper-icon-button icon="slideshow:pause" class="btnSlideshowPause slideshowButton" autoFocus></paper-icon-button>';
+                html += '<paper-icon-button icon="slideshow:file-download" class="btnDownload slideshowButton"></paper-icon-button>';
                 html += '</div>';
 
                 html += '<div class="slideshowExtraButtons">';
-                //html += '<paper-icon-button icon="slideshow:file-download" class="btnDownload slideshowButton"></paper-icon-button>';
                 //html += '<paper-icon-button icon="slideshow:share" class="btnShare slideshowButton"></paper-icon-button>';
                 html += '<paper-icon-button icon="slideshow:close" class="btnSlideshowExit" tabindex="-1"></paper-icon-button>';
                 html += '</div>';

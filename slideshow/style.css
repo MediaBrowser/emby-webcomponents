@@ -55,6 +55,11 @@
     min-height: 40px;
 }
 
+.layout-tv .slideshowDialog paper-icon-button {
+    width: 7vh;
+    height: 7vh;
+}
+
 @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min-device-pixel-ratio: 1.3), only screen and (min-resolution: 120dpi) {
     .slideshowDialog paper-icon-button {
         width: 11vmin;
@@ -64,14 +69,14 @@
 
 .btnSlideshowPrevious {
     left: .5vh;
-    top: 44vh;
+    top: 45vh;
     z-index: 1002;
     position: absolute;
 }
 
 .btnSlideshowNext {
     right: .5vh;
-    top: 44vh;
+    top: 45vh;
     z-index: 1002;
     position: absolute;
 }
@@ -88,7 +93,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 600ms ease-out;
+    transition: transform 300ms ease-out;
     transform: translateY(0);
 }
 
