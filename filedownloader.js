@@ -1,7 +1,9 @@
 ﻿define([], function () {
 
     return {
-        isEnabled: true,
+        isEnabled: function () {
+            return true;
+        },
 
         download: function (items) {
 
