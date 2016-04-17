@@ -1,10 +1,14 @@
-define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'css!./style', 'html!./icons', 'iron-icon-set', 'paper-icon-button', 'paper-spinner'], function (dialogHelper, inputmanager, connectionManager, layoutManager) {
+define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'fileDownloader', 'css!./style', 'html!./icons', 'iron-icon-set', 'paper-icon-button', 'paper-spinner'], function (dialogHelper, inputmanager, connectionManager, layoutManager, fileDownloader) {
 
     return function (options) {
 
         var self = this;
         var swiperInstance;
         var dlg;
+        var currentTimeout;
+        var currentIntervalMs;
+        var currentOptions;
+        var currentIndex;
 
         function createElements(options) {
 
@@ -27,7 +31,11 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
 
                 html += '<div class="slideshowControlBar">';
                 html += '<paper-icon-button icon="slideshow:pause" class="btnSlideshowPause slideshowButton" autoFocus></paper-icon-button>';
-                html += '<paper-icon-button icon="slideshow:file-download" class="btnDownload slideshowButton"></paper-icon-button>';
+
+                if (fileDownloader.isEnabled()) {
+                    html += '<paper-icon-button icon="slideshow:file-download" class="btnDownload slideshowButton"></paper-icon-button>';
+                }
+
                 html += '</div>';
 
                 html += '<div class="slideshowExtraButtons">';
@@ -121,7 +129,8 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
         function getSwiperSlideHtmlFromItem(item) {
 
             return getSwiperSlideHtmlFromSlide({
-                imageUrl: getImgUrl(item)
+                imageUrl: getImgUrl(item),
+                originalImage: getImgUrl(item, true)
                 //title: item.Name,
                 //description: item.Overview
             });
@@ -148,7 +157,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
         function getSwiperSlideHtmlFromSlide(item) {
 
             var html = '';
-            html += '<div class="swiper-slide">';
+            html += '<div class="swiper-slide" data-original="' + item.originalImage + '">';
             html += '<img data-src="' + item.imageUrl + '" class="swiper-lazy">';
             html += '<paper-spinner></paper-spinner>';
             if (item.title || item.subtitle) {
@@ -199,12 +208,30 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
             }
         }
 
+        function getCurrentImageUrl() {
+
+
+            if (swiperInstance) {
+                return document.querySelector('.swiper-slide-active').getAttribute('data-original');
+            } else {
+                return null;
+            }
+        }
+
         function download() {
-            
+
+            var url = getCurrentImageUrl();
+
+            require(['fileDownloader'], function (fileDownloader) {
+                fileDownloader.download([
+                {
+                    url: url
+                }]);
+            });
         }
 
         function share() {
-            
+
         }
 
         function play() {
@@ -242,11 +269,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
             inputmanager.off(window, onInputCommand);
         }
 
-        var currentTimeout;
-        var currentIntervalMs;
-        var currentOptions;
-        var currentIndex;
-
         function startInterval(options) {
 
             currentOptions = options;
@@ -271,6 +293,12 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
             if (item.BackdropImageTags && item.BackdropImageTags.length) {
                 return getBackdropImageUrl(item, imageOptions, apiClient);
             } else {
+
+                if (item.MediaType == 'Photo' && original) {
+                    return apiClient.getUrl("Items/" + item.Id + "/Download", {
+                        api_key: apiClient.accessToken()
+                    });
+                }
                 imageOptions.type = "Primary";
                 return getImageUrl(item, imageOptions, apiClient);
             }
