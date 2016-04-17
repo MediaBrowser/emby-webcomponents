@@ -1,4 +1,4 @@
-define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'css!./style', 'html!./icons', 'iron-icon-set', 'paper-fab', 'paper-icon-button', 'paper-spinner'], function (dialogHelper, inputmanager, connectionManager, layoutManager) {
+define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'css!./style', 'html!./icons', 'iron-icon-set', 'paper-icon-button', 'paper-spinner'], function (dialogHelper, inputmanager, connectionManager, layoutManager) {
 
     return function (options) {
 
@@ -22,13 +22,19 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
                 html += '<div>';
                 html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
-                html += '<paper-fab mini icon="slideshow:arrow-back" class="btnSlideshowExit" tabindex="-1"></paper-fab>';
+                html += '<paper-icon-button icon="slideshow:arrow-back" class="btnSlideshowPrevious slideshowButton" tabindex="-1"></paper-icon-button>';
+                html += '<paper-icon-button icon="slideshow:arrow-forward" class="btnSlideshowNext slideshowButton" tabindex="-1"></paper-icon-button>';
 
                 html += '<div class="slideshowControlBar">';
-                html += '<paper-icon-button icon="slideshow:skip-previous" class="btnSlideshowPrevious slideshowButton"></paper-icon-button>';
                 html += '<paper-icon-button icon="slideshow:pause" class="btnSlideshowPause slideshowButton" autoFocus></paper-icon-button>';
-                html += '<paper-icon-button icon="slideshow:skip-next" class="btnSlideshowNext slideshowButton"></paper-icon-button>';
                 html += '</div>';
+
+                html += '<div class="slideshowExtraButtons">';
+                //html += '<paper-icon-button icon="slideshow:file-download" class="btnDownload slideshowButton"></paper-icon-button>';
+                //html += '<paper-icon-button icon="slideshow:share" class="btnShare slideshowButton"></paper-icon-button>';
+                html += '<paper-icon-button icon="slideshow:close" class="btnSlideshowExit" tabindex="-1"></paper-icon-button>';
+                html += '</div>';
+
                 html += '</div>';
 
             } else {
@@ -44,7 +50,21 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
                 });
                 dlg.querySelector('.btnSlideshowNext').addEventListener('click', nextImage);
                 dlg.querySelector('.btnSlideshowPrevious').addEventListener('click', previousImage);
-                dlg.querySelector('.btnSlideshowPause').addEventListener('click', playPause);
+
+                var btnPause = dlg.querySelector('.btnSlideshowPause');
+                if (btnPause) {
+                    btnPause.addEventListener('click', playPause);
+                }
+
+                var btnDownload = dlg.querySelector('.btnDownload');
+                if (btnDownload) {
+                    btnDownload.addEventListener('click', download);
+                }
+
+                var btnShare = dlg.querySelector('.btnShare');
+                if (btnShare) {
+                    btnShare.addEventListener('click', share);
+                }
             }
 
             document.body.appendChild(dlg);
@@ -179,6 +199,14 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
             }
         }
 
+        function download() {
+            
+        }
+
+        function share() {
+            
+        }
+
         function play() {
 
             dlg.querySelector('.btnSlideshowPause').icon = "slideshow:pause";
@@ -232,18 +260,19 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'c
             }
         }
 
-        function getImgUrl(item) {
+        function getImgUrl(item, original) {
 
             var apiClient = connectionManager.getApiClient(item.ServerId);
+            var imageOptions = {};
+
+            if (!original) {
+                imageOptions.maxWidth = screen.availWidth;
+            }
             if (item.BackdropImageTags && item.BackdropImageTags.length) {
-                return getBackdropImageUrl(item, {
-                    maxWidth: screen.availWidth
-                }, apiClient);
+                return getBackdropImageUrl(item, imageOptions, apiClient);
             } else {
-                return getImageUrl(item, {
-                    type: "Primary",
-                    maxWidth: screen.availWidth
-                }, apiClient);
+                imageOptions.type = "Primary";
+                return getImageUrl(item, imageOptions, apiClient);
             }
         }
 
