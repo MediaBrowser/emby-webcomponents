@@ -1,4 +1,4 @@
-define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'fileDownloader', 'css!./style', 'html!./icons', 'iron-icon-set', 'paper-icon-button', 'paper-spinner'], function (dialogHelper, inputmanager, connectionManager, layoutManager, focusManager, fileDownloader) {
+define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'appHost', 'css!./style', 'html!./icons', 'iron-icon-set', 'paper-icon-button', 'paper-spinner'], function (dialogHelper, inputmanager, connectionManager, layoutManager, focusManager, appHost) {
 
     function getImageUrl(item, options, apiClient) {
 
@@ -132,7 +132,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
                 //html += '<paper-icon-button icon="slideshow:share" class="btnShare slideshowButton"></paper-icon-button>';
                 html += '<paper-icon-button icon="slideshow:pause" class="btnSlideshowPause slideshowButton" autoFocus></paper-icon-button>';
-                if (fileDownloader.isEnabled()) {
+                if (appHost.supports('filedownload')) {
                     html += '<paper-icon-button icon="slideshow:file-download" class="btnDownload slideshowButton"></paper-icon-button>';
                 }
 
