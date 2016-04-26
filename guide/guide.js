@@ -586,7 +586,7 @@
             }
         }
 
-        fetch(Emby.Page.baseUrl() + '/components/tvguide/tvguide.template.html', { mode: 'no-cors' }).then(function (response) {
+        fetch(options.baseUrl + '/tvguide.template.html', { mode: 'no-cors' }).then(function (response) {
             return response.text();
         }).then(function (template) {
 
