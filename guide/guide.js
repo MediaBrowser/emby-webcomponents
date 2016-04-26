@@ -1,6 +1,8 @@
 ﻿define(['globalize', 'connectionManager', 'loading', 'scrollHelper', 'datetime', 'focusManager', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationservices', 'clearButtonStyle', 'css!./guide.css', 'scrollStyles'], function (globalize, connectionManager, loading, scrollHelper, datetime, focusManager, imageLoader, events, layoutManager, itemShortcuts, registrationServices) {
 
-    return function (options) {
+    var baseUrl;
+
+    function Guide(options) {
 
         var self = this;
         var items = {};
@@ -586,7 +588,7 @@
             }
         }
 
-        fetch(options.baseUrl + '/tvguide.template.html', { mode: 'no-cors' }).then(function (response) {
+        fetch(baseUrl + '/tvguide.template.html', { mode: 'no-cors' }).then(function (response) {
             return response.text();
         }).then(function (template) {
 
@@ -622,4 +624,10 @@
             self.refresh();
         });
     };
+
+    Guide.setBaseUrl = function (url) {
+        baseUrl = url;
+    };
+
+    return Guide;
 });
