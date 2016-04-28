@@ -246,7 +246,8 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 originalImage: getImgUrl(item, true),
                 //title: item.Name,
                 //description: item.Overview
-                Id: item.Id
+                Id: item.Id,
+                ServerId: item.ServerId
             });
         }
 
