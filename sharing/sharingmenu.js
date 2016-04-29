@@ -16,9 +16,7 @@
         html += '<div class="ssk-group ssk-round ssk-lg">';
 
         // We can only do facebook if we can guarantee that the current page is available over the internet, since FB will try to probe it.
-        if (Dashboard.isConnectMode()) {
-            html += '<a href="" class="ssk ssk-facebook"></a>';
-        }
+        html += '<a href="" class="ssk ssk-facebook"></a>';
 
         html += '<a href="" class="ssk ssk-twitter"></a><a href="" class="ssk ssk-google-plus"></a><a href="" class="ssk ssk-pinterest"></a><a href="" class="ssk ssk-tumblr"></a></div>';
         html += '</div>';
