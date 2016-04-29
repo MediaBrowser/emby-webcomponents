@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', './social-share-kit-1.0.4/dist/js/social-share-kit.min', 'css!./social-share-kit-1.0.4/dist/css/social-share-kit.css'], function (dialogHelper) {
+﻿define(['dialogHelper', 'dialogText', './social-share-kit-1.0.4/dist/js/social-share-kit.min', 'css!./social-share-kit-1.0.4/dist/css/social-share-kit.css'], function (dialogHelper, dialogText) {
 
     function showMenu(options) {
 
@@ -10,7 +10,7 @@
         dlg.id = 'dlg' + new Date().getTime();
         var html = '';
 
-        html += '<h2>' + Globalize.translate('HeaderShare') + '</h2>';
+        html += '<h2>' + Globalize.translate('Share') + '</h2>';
 
         html += '<div>';
         html += '<div class="ssk-group ssk-round ssk-lg">';
@@ -21,12 +21,8 @@
         html += '<a href="" class="ssk ssk-twitter"></a><a href="" class="ssk ssk-google-plus"></a><a href="" class="ssk ssk-pinterest"></a><a href="" class="ssk ssk-tumblr"></a></div>';
         html += '</div>';
 
-        html += '<div style="max-width:240px;">';
-        html += Globalize.translate('ButtonShareHelp');
-        html += '</div>';
-
         html += '<div class="buttons">';
-        html += '<paper-button class="btnCancel" dialog-dismiss>' + Globalize.translate('ButtonCancel') + '</paper-button>';
+        html += '<paper-button class="btnCancel">' + dialogText.get('Cancel') + '</paper-button>';
         html += '</div>';
 
         dlg.innerHTML = html;
