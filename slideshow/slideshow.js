@@ -367,7 +367,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         function play() {
 
-            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause');
+            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause iron-icon');
             if (btnSlideshowPause) {
                 btnSlideshowPause.icon = "slideshow:pause";
             }
@@ -377,7 +377,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         function pause() {
 
-            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause');
+            var btnSlideshowPause = dlg.querySelector('.btnSlideshowPause iron-icon');
             if (btnSlideshowPause) {
                 btnSlideshowPause.icon = "slideshow:play-arrow";
             }
@@ -387,7 +387,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         function playPause() {
 
-            var paused = dlg.querySelector('.btnSlideshowPause').icon != "slideshow:pause";
+            var paused = dlg.querySelector('.btnSlideshowPause iron-icon').icon != "slideshow:pause";
             if (paused) {
                 play();
             } else {
