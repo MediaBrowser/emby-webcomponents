@@ -105,6 +105,8 @@
 
     function toLocaleDateString(date) {
         
+        var currentLocale = globalize.getCurrentLocale();
+
         return currentLocale && toLocaleTimeStringSupportsLocales ?
             date.toLocaleDateString(currentLocale) :
             date.toLocaleDateString();
