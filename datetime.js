@@ -114,6 +114,16 @@
 
     function getDisplayTime(date) {
 
+        if ((typeof date).toString().toLowerCase() === 'string') {
+            try {
+
+                date = parseISO8601Date(date, true);
+
+            } catch (err) {
+                return date;
+            }
+        }
+
         var currentLocale = globalize.getCurrentLocale();
 
         var time = currentLocale && toLocaleTimeStringSupportsLocales ?
