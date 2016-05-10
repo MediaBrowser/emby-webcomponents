@@ -150,11 +150,7 @@
         // The dialog may have just been created and webComponents may not have completed initialiazation yet.
         // Without this, seeing some script errors in Firefox
 
-        var delay = browser.animate ? 0 : 500;
-        if (!delay) {
-            focusManager.autoFocus(dlg);
-            return;
-        }
+        var delay = browser.animate ? 200 : 500;
 
         setTimeout(function () {
             focusManager.autoFocus(dlg);
