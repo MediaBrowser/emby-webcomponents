@@ -329,7 +329,7 @@
             dlg = document.createElement('div');
         }
 
-        backdrop.classList.add('focuscontainer');
+        dlg.classList.add('focuscontainer');
         dlg.classList.add('hide');
 
         if (shouldLockDocumentScroll(options)) {
