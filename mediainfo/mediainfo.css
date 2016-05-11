@@ -11,3 +11,12 @@ iron-icon.mediaInfoItem {
 .mediaInfoItem:last-child {
     margin-right: 0;
 }
+
+.starRatingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    padding-top: 0;
+    padding-bottom: 0;
+}
