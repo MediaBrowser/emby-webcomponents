@@ -1,0 +1,13 @@
+.mediaInfoItem {
+    margin: 0 1em 0 0;
+}
+
+iron-icon.mediaInfoItem {
+    width: 4vh;
+    height: 4vh;
+    margin-right: .6em;
+}
+
+.mediaInfoItem:last-child {
+    margin-right: 0;
+}

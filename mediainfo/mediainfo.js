@@ -1,4 +1,4 @@
-define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html'], function (datetime, globalize, embyRouter) {
+define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html', 'css!./mediainfo.css'], function (datetime, globalize, embyRouter) {
 
     function getProgramInfoHtml(item, options) {
         var html = '';
@@ -299,13 +299,13 @@ define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html']
                 var starValue = (i + 1) * 2;
 
                 if (rating < starValue - 2) {
-                    html += '<iron-icon icon="core:star" class="emptyStar"></iron-icon>';
+                    html += '<iron-icon icon="mediainfo:star" class="emptyStar"></iron-icon>';
                 }
                 else if (rating < starValue) {
-                    html += '<iron-icon icon="core:star-half"></iron-icon>';
+                    html += '<iron-icon icon="mediainfo:star-half"></iron-icon>';
                 }
                 else {
-                    html += '<iron-icon icon="core:star"></iron-icon>';
+                    html += '<iron-icon icon="mediainfo:star"></iron-icon>';
                 }
             }
 
