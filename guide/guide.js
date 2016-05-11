@@ -1,4 +1,4 @@
-﻿define(['globalize', 'connectionManager', 'loading', 'scrollHelper', 'datetime', 'focusManager', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationservices', 'clearButtonStyle', 'css!./guide.css', 'html!./icons.html', 'scrollStyles'], function (globalize, connectionManager, loading, scrollHelper, datetime, focusManager, imageLoader, events, layoutManager, itemShortcuts, registrationServices) {
+﻿define(['globalize', 'connectionManager', 'loading', 'scrollHelper', 'datetime', 'focusManager', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationservices', 'clearButtonStyle', 'css!./guide.css', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html', 'scrollStyles'], function (globalize, connectionManager, loading, scrollHelper, datetime, focusManager, imageLoader, events, layoutManager, itemShortcuts, registrationServices) {
 
     var baseUrl;
 
