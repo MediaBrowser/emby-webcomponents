@@ -40,6 +40,17 @@ define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html',
             miscInfo.push('CH ' + item.ChannelNumber);
         }
 
+        if (item.SeriesTimerId) {
+            miscInfo.push({
+                html: '<iron-icon class="mediaInfoItem seriesTimerIcon" icon="mediainfo:fiber-smart-record"></iron-icon>'
+            });
+        }
+        else if (item.TimerId) {
+            miscInfo.push({
+                html: '<iron-icon class="mediaInfoItem timerIcon" icon="mediainfo:fiber-manual-record"></iron-icon>'
+            });
+        }
+
         html += miscInfo.map(function (m) {
             return getMediaInfoItem(m);
         }).join('');
@@ -201,18 +212,18 @@ define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html',
             });
         }
 
-        if (item.HasSubtitles && options.subtitles !== false) {
-            miscInfo.push({
-                html: '<iron-icon class="mediaInfoItem closedCaptionIcon" icon="mediainfo:closed-caption"></iron-icon>'
-            });
-        }
-
         if (item.Video3DFormat) {
             miscInfo.push("3D");
         }
 
         if (item.MediaType == 'Photo' && item.Width && item.Height) {
             miscInfo.push(item.Width + "x" + item.Height);
+        }
+
+        if (item.HasSubtitles && options.subtitles !== false) {
+            miscInfo.push({
+                html: '<iron-icon class="mediaInfoItem closedCaptionIcon" icon="mediainfo:closed-caption"></iron-icon>'
+            });
         }
 
         html += miscInfo.map(function (m) {
