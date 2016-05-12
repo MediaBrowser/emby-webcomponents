@@ -27,19 +27,21 @@ iron-icon.mediaInfoItem {
         height: 3vh;
     }
 
-.mediaInfoItem.criticRatingFresh {
+.mediaInfoItem.criticRating {
     padding-left: 3.15vh;
     background-position: left center;
     background-repeat: no-repeat;
     background-size: auto 2.6vh;
+    min-height: 2.6vh;
+    display: flex;
+    align-items: center;
+}
+
+.mediaInfoItem.criticRatingFresh {
     background-image: url(fresh.png);
 }
 
 .mediaInfoItem.criticRatingRotten {
-    padding-left: 3.15vh;
-    background-position: left center;
-    background-repeat: no-repeat;
-    background-size: auto 2.6vh;
     background-image: url(rotten.png);
 }
 
