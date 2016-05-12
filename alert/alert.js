@@ -70,12 +70,12 @@ define(['dialogHelper', 'layoutManager', 'dialogText', 'html!./../icons/nav.html
             html += '</p>';
         }
 
-        var buttonText = options.type == 'error' ? 'Ok' : 'GotIt';
+        var buttonText = options.type == 'error' ? 'sharedcomponents#ButtonOk' : 'sharedcomponents#ButtonGotIt';
         if (raisedButtons) {
-            html += '<paper-button raised class="btnSubmit"><iron-icon icon="nav:check"></iron-icon><span>' + dialogText.get(buttonText) + '</span></paper-button>';
+            html += '<paper-button raised class="btnSubmit"><iron-icon icon="nav:check"></iron-icon><span>' + globalize.translate(buttonText) + '</span></paper-button>';
         } else {
             html += '<div class="buttons" style="text-align:right;">';
-            html += '<paper-button class="btnSubmit">' + dialogText.get(buttonText) + '</paper-button>';
+            html += '<paper-button class="btnSubmit">' + globalize.translate(buttonText) + '</paper-button>';
             html += '</div>';
         }
 
