@@ -27,6 +27,22 @@ iron-icon.mediaInfoItem {
         height: 3vh;
     }
 
+.mediaInfoItem.criticRatingFresh {
+    padding-left: 3.15vh;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: auto 2.6vh;
+    background-image: url(fresh.png);
+}
+
+.mediaInfoItem.criticRatingRotten {
+    padding-left: 3.15vh;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: auto 2.6vh;
+    background-image: url(rotten.png);
+}
+
 .mediaInfoItem.timerIcon {
     color: #CB272A;
 }
