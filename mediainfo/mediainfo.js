@@ -158,17 +158,17 @@ define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html',
 
             if (item.IsLive) {
                 miscInfo.push({
-                    html: '<span class="liveTvProgram">' + globalize.translate('core#AttributeLive') + '</span>'
+                    html: '<span class="mediaInfoProgramAttribute mediaInfoItem">' + globalize.translate('core#AttributeLive') + '</span>'
                 });
             }
             else if (item.IsPremiere) {
                 miscInfo.push({
-                    html: '<span class="premiereTvProgram">' + globalize.translate('core#AttributePremiere') + '</span>'
+                    html: '<span class="mediaInfoProgramAttribute mediaInfoItem">' + globalize.translate('core#AttributePremiere') + '</span>'
                 });
             }
             else if (item.IsSeries && !item.IsRepeat) {
                 miscInfo.push({
-                    html: '<span class="newTvProgram">' + globalize.translate('core#AttributeNew') + '</span>'
+                    html: '<span class="mediaInfoProgramAttribute mediaInfoItem">' + globalize.translate('core#AttributeNew') + '</span>'
                 });
             }
 

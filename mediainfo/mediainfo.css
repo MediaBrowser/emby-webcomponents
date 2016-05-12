@@ -29,6 +29,10 @@ iron-icon.mediaInfoItem {
     color: #CB272A;
 }
 
+.mediaInfoProgramAttribute {
+    color: yellow;
+}
+
 .layout-tv iron-icon.mediaInfoItem {
     width: 4vh;
     height: 4vh;
