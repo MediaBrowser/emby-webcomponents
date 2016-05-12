@@ -23,6 +23,8 @@ iron-icon.mediaInfoItem {
 
     .starRatingContainer iron-icon {
         color: #CB272A;
+        width: 3vh;
+        height: 3vh;
     }
 
 .mediaInfoItem.timerIcon {
@@ -31,6 +33,7 @@ iron-icon.mediaInfoItem {
 
 .mediaInfoProgramAttribute {
     color: yellow;
+    text-transform: uppercase;
 }
 
 .layout-tv iron-icon.mediaInfoItem {

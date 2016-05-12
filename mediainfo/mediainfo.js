@@ -158,17 +158,17 @@ define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html',
 
             if (item.IsLive) {
                 miscInfo.push({
-                    html: '<span class="mediaInfoProgramAttribute mediaInfoItem">' + globalize.translate('core#AttributeLive') + '</span>'
+                    html: '<div class="mediaInfoProgramAttribute mediaInfoItem">' + globalize.translate('core#AttributeLive') + '</div>'
                 });
             }
             else if (item.IsPremiere) {
                 miscInfo.push({
-                    html: '<span class="mediaInfoProgramAttribute mediaInfoItem">' + globalize.translate('core#AttributePremiere') + '</span>'
+                    html: '<div class="mediaInfoProgramAttribute mediaInfoItem">' + globalize.translate('core#AttributePremiere') + '</div>'
                 });
             }
             else if (item.IsSeries && !item.IsRepeat) {
                 miscInfo.push({
-                    html: '<span class="mediaInfoProgramAttribute mediaInfoItem">' + globalize.translate('core#AttributeNew') + '</span>'
+                    html: '<div class="mediaInfoProgramAttribute mediaInfoItem">' + globalize.translate('core#AttributeNew') + '</div>'
                 });
             }
 
