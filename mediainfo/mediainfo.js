@@ -42,7 +42,7 @@ define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html',
 
         if (item.SeriesTimerId) {
             miscInfo.push({
-                html: '<iron-icon class="mediaInfoItem seriesTimerIcon" icon="mediainfo:fiber-smart-record"></iron-icon>'
+                html: '<iron-icon class="mediaInfoItem timerIcon" icon="mediainfo:fiber-smart-record"></iron-icon>'
             });
         }
         else if (item.TimerId) {
