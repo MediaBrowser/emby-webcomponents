@@ -322,20 +322,8 @@ define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html',
         if (rating) {
             html += '<div class="starRatingContainer mediaInfoItem">';
 
-            for (var i = 0; i < 5; i++) {
-                var starValue = (i + 1) * 2;
-
-                if (rating < starValue - 2) {
-                    html += '<iron-icon icon="mediainfo:star" class="emptyStar"></iron-icon>';
-                }
-                else if (rating < starValue) {
-                    html += '<iron-icon icon="mediainfo:star-half"></iron-icon>';
-                }
-                else {
-                    html += '<iron-icon icon="mediainfo:star"></iron-icon>';
-                }
-            }
-
+            html += '<iron-icon icon="mediainfo:star"></iron-icon>';
+            html += rating;
             html += '</div>';
         }
 
