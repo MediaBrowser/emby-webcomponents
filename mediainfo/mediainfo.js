@@ -203,7 +203,7 @@ define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html',
 
         if (item.HasSubtitles && options.subtitles !== false) {
             miscInfo.push({
-                html: '<iron-icon class="mediaInfoItem closedCaptionIcon" icon="core:closed-caption"></iron-icon>'
+                html: '<iron-icon class="mediaInfoItem closedCaptionIcon" icon="mediainfo:closed-caption"></iron-icon>'
             });
         }
 
