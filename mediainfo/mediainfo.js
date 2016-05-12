@@ -236,17 +236,15 @@ define(['datetime', 'globalize', 'embyRouter', 'html!./../icons/mediainfo.html',
             miscInfo.push(item.Width + "x" + item.Height);
         }
 
-        if (item.HasSubtitles && options.subtitles !== false) {
-            miscInfo.push({
-                html: '<iron-icon class="mediaInfoItem closedCaptionIcon" icon="mediainfo:closed-caption"></iron-icon>'
-            });
-        }
-
         html += miscInfo.map(function (m) {
             return getMediaInfoItem(m);
         }).join('');
 
         html += getStarIconsHtml(item);
+
+        if (item.HasSubtitles && options.subtitles !== false) {
+            html += '<iron-icon class="mediaInfoItem closedCaptionIcon" icon="mediainfo:closed-caption"></iron-icon>';
+        }
 
         if (item.CriticRating && options.criticRating !== false) {
 
