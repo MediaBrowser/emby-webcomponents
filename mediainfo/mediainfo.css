@@ -3,8 +3,8 @@
 }
 
 iron-icon.mediaInfoItem {
-    width: 4vh;
-    height: 4vh;
+    width: 3vh;
+    height: 3vh;
     margin-right: .6em;
 }
 
@@ -22,11 +22,19 @@ iron-icon.mediaInfoItem {
 }
 
     .starRatingContainer iron-icon {
-        width: 3.4vh;
-        height: 3.4vh;
         color: #CB272A;
     }
 
 .mediaInfoItem.timerIcon {
     color: #CB272A;
+}
+
+.layout-tv iron-icon.mediaInfoItem {
+    width: 4vh;
+    height: 4vh;
+}
+
+.layout-tv .starRatingContainer iron-icon {
+    width: 3.4vh;
+    height: 3.4vh;
 }
