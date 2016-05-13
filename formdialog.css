@@ -4,7 +4,6 @@
 }
 
     .formDialog .dialogHeader {
-        margin: 0 0 1.5em !important;
         padding: .35em .5em;
         display: flex;
         align-items: center;
@@ -29,6 +28,7 @@
 
     .formDialog .dialogContentInner {
         padding-bottom: 40vh;
+        padding-top: 1.5em;
     }
 
 @media all and (min-width: 1000px) {
