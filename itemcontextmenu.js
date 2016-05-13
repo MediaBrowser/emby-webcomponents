@@ -4,6 +4,7 @@ define(['apphost', 'globalize', 'connectionManager'], function (appHost, globali
 
         var item = options.item;
 
+        var serverId = item.ServerId;
         var apiClient = connectionManager.getApiClient(serverId);
 
         return apiClient.getCurrentUser().then(function (user) {
