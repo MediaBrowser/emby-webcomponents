@@ -358,7 +358,7 @@
 
                 var html = '';
 
-                html += globalize.translateDocument(template);
+                html += globalize.translateDocument(template, 'sharedcomponents');
 
                 dlg.innerHTML = html;
                 document.body.appendChild(dlg);
