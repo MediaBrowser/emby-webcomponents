@@ -1,18 +1,28 @@
-.formDialog .dialogHeader {
-    margin: 0 0 1.5em !important;
-    padding: .35em .5em;
+.formDialog {
     display: flex;
-    align-items: center;
-    background-color: #101010;
+    flex-direction: column;
 }
 
-.formDialog .dialogHeaderTitle {
-    margin-left: .75em;
-}
+    .formDialog .dialogHeader {
+        margin: 0 0 1.5em !important;
+        padding: .35em .5em;
+        display: flex;
+        align-items: center;
+        background-color: #101010;
+        flex-shrink: 0;
+    }
 
-.formDialog form {
-    margin: 0 auto;
-}
+    .formDialog .dialogHeaderTitle {
+        margin-left: .75em;
+    }
+
+    .formDialog form {
+        margin: 0 auto;
+    }
+
+    .formDialog .dialogContent {
+        flex-grow: 1;
+    }
 
 @media all and (min-width: 1000px) {
 

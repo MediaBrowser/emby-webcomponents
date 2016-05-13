@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading) {
+﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'scrollStyles', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper) {
 
     var currentProgramId;
     var currentServerId;
@@ -354,7 +354,8 @@
             require(['text!./recordingcreator.template.html'], function (template) {
 
                 var dialogOptions = {
-                    removeOnClose: true
+                    removeOnClose: true,
+                    scrollY: false
                 };
 
                 if (layoutManager.tv) {
@@ -388,6 +389,10 @@
                         reject();
                     }
                 });
+
+                if (layoutManager.tv) {
+                    scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
+                }
 
                 hideSeriesRecordingFields(dlg);
                 init(dlg);
