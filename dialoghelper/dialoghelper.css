@@ -67,10 +67,6 @@
     padding: 0 24px;
 }
 
-    .dialog > *:first-child {
-        margin-top: 24px;
-    }
-
 .dialog .buttons {
     position: relative;
     padding: 8px 8px 8px 24px;
