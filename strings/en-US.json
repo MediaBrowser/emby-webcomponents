@@ -2,7 +2,7 @@
   "ValueSpecialEpisodeName": "Special - {0}",
   "Share": "Share",
   "ServerUpdateNeeded": "This Emby Server needs to be updated. To download the latest version, please visit {0}",
-  "MessageLiveTvGuideRequiresUnlock": "The Live TV Guide is currently limited to {0} channels. Click the unlock button to learn how to enjoy the full experience.",
+  "LiveTvGuideRequiresUnlock": "The Live TV Guide is currently limited to {0} channels. Click the unlock button to learn how to enjoy the full experience.",
   "AttributeNew": "New",
   "AttributePremiere": "Premiere",
   "AttributeLive": "Live",
@@ -23,5 +23,17 @@
   "ButtonOk": "Ok",
   "ButtonCancel": "Cancel",
   "ButtonGotIt": "Got It",
-  "MessageRecordingScheduled": "Recording scheduled."
+  "RecordingScheduled": "Recording scheduled.",
+  "HeaderNewRecording": "New Recording",
+  "Sunday": "Sunday",
+  "Monday": "Monday",
+  "Tuesday": "Tuesday",
+  "Wednesday": "Wednesday",
+  "Thursday": "Thursday",
+  "Friday": "Friday",
+  "Saturday": "Saturday",
+  "Days": "Days",
+  "RecordSeries": "Record series",
+  "PrePaddingMinutes": "Pre-padding minutes:",
+  "PostPaddingMinutes": "Post-padding minutes:"
 }

@@ -15,25 +15,23 @@
     <div id="eligibleForSeriesFields" class="hide">
         <br />
         <div>
-            <paper-checkbox id="chkRecordSeries">${OptionRecordSeries}</paper-checkbox>
+            <paper-checkbox id="chkRecordSeries">${RecordSeries}</paper-checkbox>
         </div>
 
         <div id="seriesFields" class="hide">
             <div>
-                <h1>${HeaderDays}</h1>
+                <h1>${Days}</h1>
             </div>
             <div class="paperCheckboxList">
-                <paper-checkbox id="chkSunday">${OptionSunday}</paper-checkbox>
-                <paper-checkbox id="chkMonday">${OptionMonday}</paper-checkbox>
-                <paper-checkbox id="chkTuesday">${OptionTuesday}</paper-checkbox>
-                <paper-checkbox id="chkWednesday">${OptionWednesday}</paper-checkbox>
-                <paper-checkbox id="chkThursday">${OptionThursday}</paper-checkbox>
-                <paper-checkbox id="chkFriday">${OptionFriday}</paper-checkbox>
-                <paper-checkbox id="chkSaturday">${OptionSaturday}</paper-checkbox>
+                <paper-checkbox id="chkSunday">${Sunday}</paper-checkbox>
+                <paper-checkbox id="chkMonday">${Monday}</paper-checkbox>
+                <paper-checkbox id="chkTuesday">${Tuesday}</paper-checkbox>
+                <paper-checkbox id="chkWednesday">${Wednesday}</paper-checkbox>
+                <paper-checkbox id="chkThursday">${Thursday}</paper-checkbox>
+                <paper-checkbox id="chkFriday">${Friday}</paper-checkbox>
+                <paper-checkbox id="chkSaturday">${Saturday}</paper-checkbox>
             </div>
-            <div>
-                <h1>${HeaderRepeatingOptions}</h1>
-            </div>
+            <br />
             <div class="paperCheckboxList">
                 <paper-checkbox id="chkNewOnly">${OptionRecordOnlyNewEpisodes}</paper-checkbox>
                 <paper-checkbox id="chkAnyTime">${OptionRecordAnytime}</paper-checkbox>
@@ -49,11 +47,11 @@
     </div>
     <br />
     <div>
-        <paper-input type="number" id="txtPrePaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${LabelPrePaddingMinutes}"></paper-input>
+        <paper-input type="number" id="txtPrePaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${PrePaddingMinutes}"></paper-input>
     </div>
     <br />
     <div>
-        <paper-input type="number" id="txtPostPaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${LabelPostPaddingMinutes}"></paper-input>
+        <paper-input type="number" id="txtPostPaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${PostPaddingMinutes}"></paper-input>
     </div>
     <br />
     <div>

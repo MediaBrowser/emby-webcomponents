@@ -369,7 +369,7 @@
 
                     if (recordingCreated) {
                         require(['toast'], function (toast) {
-                            toast(globalize.translate('MessageRecordingScheduled'));
+                            toast(globalize.translate('RecordingScheduled'));
                         });
                         resolve();
                     } else {
