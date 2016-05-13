@@ -391,10 +391,6 @@
 
                 reload(dlg, itemId);
 
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg, false);
-                }
-
                 setTimeout(function () {
                     dialogHelper.open(dlg);
                 }, 1000);
