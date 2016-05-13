@@ -21,8 +21,6 @@
 
     .formDialog .dialogContent {
         flex-grow: 1;
-        flex-shrink: 0;
-        height: 100%;
     }
 
     .formDialog .dialogContentInner {
