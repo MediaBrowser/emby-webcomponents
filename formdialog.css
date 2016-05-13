@@ -1,0 +1,30 @@
+.formDialog .dialogHeader {
+    margin: 0 0 1.5em !important;
+    padding: .35em .5em;
+    display: flex;
+    align-items: center;
+    background-color: #101010;
+}
+
+.formDialog .dialogHeaderTitle {
+    margin-left: .75em;
+}
+
+.formDialog form {
+    margin: 0 auto;
+}
+
+@media all and (min-width: 1000px) {
+
+    .formDialog form {
+        max-width: 70vw;
+    }
+}
+
+@media all and (min-height: 1080px) {
+
+    .layout-tv .formDialog .dialogHeader {
+        padding-top: 1em;
+        padding-bottom: 1em;
+    }
+}

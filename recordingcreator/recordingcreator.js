@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'paper-checkbox', 'paper-input', 'paper-icon-button-light'], function (dialogHelper, mediaInfo, appHost, connectionManager, require, loading) {
+﻿define(['dialogHelper', 'scrollHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, scrollHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading) {
 
     var currentProgramId;
     var currentServerId;
@@ -39,7 +39,7 @@
 
     function hideSeriesRecordingFields(context) {
         slideUpToHide(context.querySelector('#seriesFields'));
-        context.querySelector('.btnSubmitContainer').classList.remove('hide');
+        context.querySelector('.btnSubmit').classList.remove('hide');
         context.querySelector('.supporterContainer').classList.add('hide');
     }
 
@@ -125,14 +125,14 @@
 
     function showSeriesRecordingFields(context, apiClient) {
         slideDownToShow(context.querySelector('#seriesFields'));
-        context.querySelector('.btnSubmitContainer').classList.remove('hide');
+        context.querySelector('.btnSubmit').classList.remove('hide');
 
         getRegistration(currentProgramId, apiClient).then(function (regInfo) {
 
             if (regInfo.IsValid) {
-                context.querySelector('.btnSubmitContainer').classList.remove('hide');
+                context.querySelector('.btnSubmit').classList.remove('hide');
             } else {
-                context.querySelector('.btnSubmitContainer').classList.add('hide');
+                context.querySelector('.btnSubmit').classList.add('hide');
             }
 
             if (regInfo.IsRegistered) {
@@ -160,7 +160,7 @@
 
         elem.classList.remove('hide');
 
-        elem.style.overflow = 'hidden';
+        elem.style.overflowY = 'hidden';
 
         requestAnimationFrame(function () {
 
@@ -181,7 +181,7 @@
             return;
         }
 
-        elem.style.overflow = 'hidden';
+        elem.style.overflowY = 'hidden';
 
         requestAnimationFrame(function () {
 
@@ -206,6 +206,22 @@
             } else {
                 hideSeriesRecordingFields(context);
             }
+        });
+
+        context.querySelector('.btnSubmit').addEventListener('click', function () {
+
+            // Do a fake form submit this the button isn't a real submit button
+            var fakeSubmit = document.createElement('input');
+            fakeSubmit.setAttribute('type', 'submit');
+            fakeSubmit.style.display = 'none';
+            var form = context.querySelector('form');
+            form.appendChild(fakeSubmit);
+            fakeSubmit.click();
+
+            // Seeing issues in smart tv browsers where the form does not get submitted if the button is removed prior to the submission actually happening
+            setTimeout(function () {
+                form.removeChild(fakeSubmit);
+            }, 500);
         });
 
         context.querySelector('.btnCancel').addEventListener('click', function () {
@@ -325,24 +341,27 @@
             loading.show();
 
             require(['text!./recordingcreator.template.html'], function (template) {
-                var dlg = dialogHelper.createDialog({
-                    removeOnClose: true,
-                    size: 'small'
-                });
 
-                dlg.classList.add('ui-body-b');
-                dlg.classList.add('background-theme-b');
+                var dialogOptions = {
+                    removeOnClose: true
+                };
+
+                if (layoutManager.tv) {
+                    dialogOptions.size = 'fullscreen';
+                } else {
+                    dialogOptions.size = 'small';
+                }
+
+                var dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
 
                 var html = '';
 
-                html += Globalize.translateDocument(template);
+                html += globalize.translateDocument(template);
 
                 dlg.innerHTML = html;
                 document.body.appendChild(dlg);
-
-                dialogHelper.open(dlg);
 
                 currentDialog = dlg;
 
@@ -350,7 +369,7 @@
 
                     if (recordingCreated) {
                         require(['toast'], function (toast) {
-                            toast(Globalize.translate('MessageRecordingScheduled'));
+                            toast(globalize.translate('MessageRecordingScheduled'));
                         });
                         resolve();
                     } else {
@@ -362,6 +381,14 @@
                 init(dlg);
 
                 reload(dlg, itemId);
+
+                if (layoutManager.tv) {
+                    scrollHelper.centerFocus.on(dlg, false);
+                }
+
+                setTimeout(function () {
+                    dialogHelper.open(dlg);
+                }, 1000);
             });
         });
     }

@@ -5,7 +5,7 @@
     </div>
 </div>
 
-<form class="liveTvNewRecordingForm" style="margin: 0 auto;">
+<form class="liveTvNewRecordingForm">
 
     <h1 class="itemName"></h1>
     <p class="itemEpisodeName"></p>
@@ -17,7 +17,6 @@
         <div>
             <paper-checkbox id="chkRecordSeries">${OptionRecordSeries}</paper-checkbox>
         </div>
-        <br />
 
         <div id="seriesFields" class="hide">
             <div>
@@ -63,9 +62,7 @@
             <p class="supporterTrial hide">${HeaderEnjoyDayTrial}</p>
             <a class="clearLink btnSupporter hide" href="http://emby.media/premiere" target="_blank"><paper-button raised class="accent block"><iron-icon icon="check"></iron-icon><span>${HeaderBecomeProjectSupporter}</span></paper-button></a>
         </div>
-        <button type="submit" data-role="none" class="clearButton btnSubmitContainer">
-            <paper-button raised class="submit block" style="background:#cc3333;" autoFocus><iron-icon icon="videocam"></iron-icon><span>${ButtonRecord}</span></paper-button>
-        </button>
+        <paper-button raised class="submit block btnSubmit"><iron-icon icon="videocam"></iron-icon><span>${ButtonRecord}</span></paper-button>
     </div>
     <br />
     <br />

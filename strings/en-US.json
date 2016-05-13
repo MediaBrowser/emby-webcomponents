@@ -22,5 +22,6 @@
   "HeaderSelectDate": "Select Date",
   "ButtonOk": "Ok",
   "ButtonCancel": "Cancel",
-  "ButtonGotIt": "Got It"
+  "ButtonGotIt": "Got It",
+  "MessageRecordingScheduled": "Recording scheduled."
 }
