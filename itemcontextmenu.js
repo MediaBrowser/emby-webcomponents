@@ -3,18 +3,24 @@ define(['apphost', 'globalize', 'connectionManager'], function (appHost, globali
     function getCommands(options) {
 
         var item = options.item;
-        var commands = [];
 
-        if (item.CanDownload) {
-            if (appHost.supports('filedownload')) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#Download'),
-                    id: 'download'
-                });
+        var apiClient = connectionManager.getApiClient(serverId);
+
+        return apiClient.getCurrentUser().then(function (user) {
+
+            var commands = [];
+
+            if (item.CanDownload && user.Policy.EnableContentDownloading) {
+                if (appHost.supports('filedownload')) {
+                    commands.push({
+                        name: globalize.translate('sharedcomponents#Download'),
+                        id: 'download'
+                    });
+                }
             }
-        }
 
-        return Promise.resolve(commands);
+            return commands;
+        });
     }
 
     function executeCommand(item, id) {
