@@ -399,9 +399,7 @@
 
                 reload(dlg, itemId);
 
-                setTimeout(function () {
-                    dialogHelper.open(dlg);
-                }, 1000);
+                dialogHelper.open(dlg);
             });
         });
     }
