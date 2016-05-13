@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'scrollHelper', 'globalize', 'shell', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, scrollHelper, globalize, shell, layoutManager, mediaInfo, appHost, connectionManager, require, loading) {
+﻿define(['dialogHelper', 'scrollHelper', 'globalize', 'shell', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html'], function (dialogHelper, scrollHelper, globalize, shell, layoutManager, mediaInfo, appHost, connectionManager, require, loading) {
 
     var currentProgramId;
     var currentServerId;
@@ -363,6 +363,7 @@
                 var dlg = dialogHelper.createDialog(dialogOptions);
 
                 dlg.classList.add('formDialog');
+                dlg.classList.add('recordingDialog');
 
                 var html = '';
 
