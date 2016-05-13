@@ -1,4 +1,4 @@
-﻿define(['historyManager', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'css!./dialoghelper.css', 'scrollStyles'], function (historyManager, focusManager, browser, layoutManager, inputManager) {
+﻿define(['historyManager', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'scrollHelper', 'css!./dialoghelper.css', 'scrollStyles'], function (historyManager, focusManager, browser, layoutManager, inputManager, scrollHelper) {
 
     function dialogHashHandler(dlg, hash, resolve) {
 
