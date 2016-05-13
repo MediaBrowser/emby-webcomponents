@@ -19,7 +19,7 @@ define(['apphost', 'globalize', 'connectionManager'], function (appHost, globali
             }
 
             if (item.Type != 'Timer' && user.Policy.EnablePublicSharing && appHost.supports('sharing')) {
-                items.push({
+                commands.push({
                     name: globalize.translate('Share'),
                     id: 'share'
                 });
