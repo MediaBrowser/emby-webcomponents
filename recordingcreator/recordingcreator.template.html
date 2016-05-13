@@ -40,18 +40,23 @@
             </div>
         </div>
         <div class="convertRecordingsContainer hide">
-            <br />
+            <br/>
             <paper-checkbox id="chkConvertRecordings">${OptionConvertRecordingsToStreamingFormat}</paper-checkbox>
             <div class="fieldDescription paperCheckboxFieldDescription">${OptionConvertRecordingsToStreamingFormatHelp}</div>
-            <div class="fieldDescription paperCheckboxFieldDescription btnSupporterForConverting hide"><a target="_blank" class="accent lnkPremiere">${FeatureRequiresEmbyPremiere}</a></div>
+            <div class="fieldDescription paperCheckboxFieldDescription btnSupporterForConverting hide"><a target="_blank" class="accent lnkPremiere">${FeatureRequiresEmbyPremiere}</a>
+            </div>
         </div>
-        <br />
-        <div>
-            <paper-input type="number" id="txtPrePaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${PrePaddingMinutes}"></paper-input>
-        </div>
-        <br />
-        <div>
-            <paper-input type="number" id="txtPostPaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${PostPaddingMinutes}"></paper-input>
+        <div class="advanced hide">
+            <br />
+            <emby-collapsible title="${Advanced}">
+                <div>
+                    <paper-input type="number" id="txtPrePaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${PrePaddingMinutes}"></paper-input>
+                </div>
+                <br />
+                <div>
+                    <paper-input type="number" id="txtPostPaddingMinutes" pattern="[0-9]*" required="required" min="0" step="1" label="${PostPaddingMinutes}"></paper-input>
+                </div>
+            </emby-collapsible>
         </div>
         <br />
         <div>

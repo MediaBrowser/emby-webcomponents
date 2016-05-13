@@ -28,7 +28,7 @@
 
     .formDialog .dialogContentInner {
         padding-bottom: 50vh;
-        padding-top: 1.5em;
+        padding-top: 1em;
     }
 
 @media all and (min-width: 1000px) {
