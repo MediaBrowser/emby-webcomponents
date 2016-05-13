@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'scrollHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, scrollHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading) {
+﻿define(['dialogHelper', 'scrollHelper', 'globalize', 'shell', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, scrollHelper, globalize, shell, layoutManager, mediaInfo, appHost, connectionManager, require, loading) {
 
     var currentProgramId;
     var currentServerId;
@@ -198,6 +198,14 @@
     function init(context) {
 
         var apiClient = connectionManager.getApiClient(currentServerId);
+
+        context.querySelector('.lnkPremiere').addEventListener('click', function (e) {
+
+            shell.openUrl('https://emby.media/premiere');
+            e.preventDefault();
+            return false;
+
+        });
 
         context.querySelector('#chkRecordSeries').addEventListener('change', function () {
 

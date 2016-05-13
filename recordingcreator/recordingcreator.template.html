@@ -33,9 +33,9 @@
             </div>
             <br />
             <div class="paperCheckboxList">
-                <paper-checkbox id="chkNewOnly">${OptionRecordOnlyNewEpisodes}</paper-checkbox>
-                <paper-checkbox id="chkAnyTime">${OptionRecordAnytime}</paper-checkbox>
-                <paper-checkbox id="chkAllChannels">${OptionRecordOnAllChannels}</paper-checkbox>
+                <paper-checkbox id="chkNewOnly">${RecordOnlyNewEpisodes}</paper-checkbox>
+                <paper-checkbox id="chkAnyTime">${RecordAnytime}</paper-checkbox>
+                <paper-checkbox id="chkAllChannels">${RecordOnAllChannels}</paper-checkbox>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
         <br />
         <paper-checkbox id="chkConvertRecordings">${OptionConvertRecordingsToStreamingFormat}</paper-checkbox>
         <div class="fieldDescription paperCheckboxFieldDescription">${OptionConvertRecordingsToStreamingFormatHelp}</div>
-        <div class="fieldDescription paperCheckboxFieldDescription btnSupporterForConverting hide"><a href="https://emby.media/premiere" target="_blank" class="accent">${FeatureRequiresEmbyPremiere}</a></div>
+        <div class="fieldDescription paperCheckboxFieldDescription btnSupporterForConverting hide"><a target="_blank" class="accent lnkPremiere">${FeatureRequiresEmbyPremiere}</a></div>
     </div>
     <br />
     <div>
@@ -60,7 +60,7 @@
             <p class="supporterTrial hide">${HeaderEnjoyDayTrial}</p>
             <a class="clearLink btnSupporter hide" href="http://emby.media/premiere" target="_blank"><paper-button raised class="accent block"><iron-icon icon="check"></iron-icon><span>${HeaderBecomeProjectSupporter}</span></paper-button></a>
         </div>
-        <paper-button raised class="submit block btnSubmit"><iron-icon icon="videocam"></iron-icon><span>${ButtonRecord}</span></paper-button>
+        <paper-button raised class="submit block btnSubmit"><iron-icon icon="videocam"></iron-icon><span>${Record}</span></paper-button>
     </div>
     <br />
     <br />
