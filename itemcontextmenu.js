@@ -11,13 +11,11 @@ define(['apphost', 'globalize', 'connectionManager'], function (appHost, globali
 
             var commands = [];
 
-            if (item.CanDownload && user.Policy.EnableContentDownloading) {
-                if (appHost.supports('filedownload')) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#Download'),
-                        id: 'download'
-                    });
-                }
+            if (item.CanDownload && user.Policy.EnableContentDownloading && appHost.supports('filedownload')) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Download'),
+                    id: 'download'
+                });
             }
 
             return commands;
