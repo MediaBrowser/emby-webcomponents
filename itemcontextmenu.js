@@ -18,6 +18,13 @@ define(['apphost', 'globalize', 'connectionManager'], function (appHost, globali
                 });
             }
 
+            if (item.Type != 'Timer' && user.Policy.EnablePublicSharing && appHost.supports('sharing')) {
+                items.push({
+                    name: globalize.translate('Share'),
+                    id: 'share'
+                });
+            }
+
             return commands;
         });
     }
@@ -28,28 +35,44 @@ define(['apphost', 'globalize', 'connectionManager'], function (appHost, globali
         var serverId = item.ServerId;
         var apiClient = connectionManager.getApiClient(serverId);
 
-        switch (id) {
+        return new Promise(function (resolve, reject) {
 
-            case 'download':
-                {
-                    require(['fileDownloader'], function (fileDownloader) {
-                        var downloadHref = apiClient.getUrl("Items/" + itemId + "/Download", {
-                            api_key: apiClient.accessToken()
+            switch (id) {
+
+                case 'download':
+                    {
+                        require(['fileDownloader'], function (fileDownloader) {
+                            var downloadHref = apiClient.getUrl("Items/" + itemId + "/Download", {
+                                api_key: apiClient.accessToken()
+                            });
+
+                            fileDownloader.download([
+                            {
+                                url: downloadHref,
+                                itemId: itemId,
+                                serverId: serverId
+                            }]);
+
+                            reject();
                         });
 
-                        fileDownloader.download([
-                        {
-                            url: downloadHref,
-                            itemId: itemId,
-                            serverId: serverId
-                        }]);
-                    });
+                        break;
+                    }
+                case 'share':
+                    {
+                        require(['sharingmanager'], function (sharingManager) {
+                            sharingManager.showMenu({
+                                serverId: serverId,
+                                itemId: itemId
 
+                            }).then(reject);
+                        });
+                        break;
+                    }
+                default:
                     break;
-                }
-            default:
-                break;
-        }
+            }
+        });
     }
 
     function show(options) {
