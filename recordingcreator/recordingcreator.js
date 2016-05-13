@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'mediaInfo', 'connectionManager', 'require', 'loading', 'paper-checkbox', 'paper-input', 'paper-icon-button-light'], function (dialogHelper, mediaInfo, connectionManager, require, loading) {
+﻿define(['dialogHelper', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'paper-checkbox', 'paper-input', 'paper-icon-button-light'], function (dialogHelper, mediaInfo, appHost, connectionManager, require, loading) {
 
     var currentProgramId;
     var currentServerId;
@@ -217,14 +217,14 @@
 
         var supporterButtons = context.querySelectorAll('.btnSupporter');
         for (var i = 0, length = supporterButtons.length; i < length; i++) {
-            if (AppInfo.enableSupporterMembership) {
+            if (appHost.supports('externalpremium')) {
                 supporterButtons[i].classList.remove('hide');
             } else {
                 supporterButtons[i].classList.add('hide');
             }
         }
 
-        if (AppInfo.enableSupporterMembership) {
+        if (appHost.supports('externalpremium')) {
             context.querySelector('.btnSupporterForConverting a').href = 'https://emby.media/premiere';
         } else {
             context.querySelector('.btnSupporterForConverting a').href = '#';
