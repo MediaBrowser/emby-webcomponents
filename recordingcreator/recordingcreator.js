@@ -263,11 +263,11 @@
         });
 
         if (layoutManager.tv) {
-            dlg.querySelector('.advanced').classList.add('hide');
+            context.querySelector('.advanced').classList.add('hide');
         } else {
-            dlg.querySelector('.advanced').classList.remove('hide');
+            context.querySelector('.advanced').classList.remove('hide');
+        }
     }
-}
 
     function selectDays(page, days) {
 
@@ -277,9 +277,9 @@
 
             var day = daysOfWeek[i];
 
-            page.querySelector('#chk' +day).checked = days.indexOf(day) != -1;
+            page.querySelector('#chk' + day).checked = days.indexOf(day) != -1;
+        }
     }
-}
 
     function renderRecording(context, defaultTimer, program, apiClient) {
 
@@ -300,7 +300,7 @@
             context.querySelector('#eligibleForSeriesFields').classList.remove('hide');
         } else {
             context.querySelector('#eligibleForSeriesFields').classList.add('hide');
-    }
+        }
 
         selectDays(context, defaultTimer.Days);
 
@@ -309,10 +309,10 @@
             showConvertRecordingsUnlockMessage(context, apiClient);
         } else {
             context.querySelector('.convertRecordingsContainer').classList.add('hide');
-    }
+        }
 
         loading.hide();
-}
+    }
 
     function showConvertRecordingsUnlockMessage(context, apiClient) {
 
@@ -322,13 +322,13 @@
                 context.querySelector('.btnSupporterForConverting').classList.add('hide');
             } else {
                 context.querySelector('.btnSupporterForConverting').classList.remove('hide');
-        }
+            }
 
         }, function () {
 
             context.querySelector('.btnSupporterForConverting').classList.remove('hide');
         });
-}
+    }
 
     function reload(context, programId) {
 
@@ -346,7 +346,7 @@
 
             renderRecording(context, defaults, program, apiClient);
         });
-}
+    }
 
     function showEditor(itemId, serverId) {
 
@@ -360,15 +360,15 @@
             require(['text!./recordingcreator.template.html'], function (template) {
 
                 var dialogOptions = {
-                        removeOnClose: true,
-                        scrollY: false
-            };
+                    removeOnClose: true,
+                    scrollY: false
+                };
 
                 if (layoutManager.tv) {
                     dialogOptions.size = 'fullscreen';
                 } else {
                     dialogOptions.size = 'small';
-            }
+                }
 
                 var dlg = dialogHelper.createDialog(dialogOptions);
 
@@ -393,12 +393,12 @@
                         resolve();
                     } else {
                         reject();
-                }
+                    }
                 });
 
                 if (layoutManager.tv) {
                     scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
-            }
+                }
 
                 hideSeriesRecordingFields(dlg);
                 init(dlg);
@@ -408,9 +408,9 @@
                 dialogHelper.open(dlg);
             });
         });
-}
+    }
 
     return {
-            show: showEditor
-};
+        show: showEditor
+    };
 });
