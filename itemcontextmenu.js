@@ -101,7 +101,7 @@ define(['apphost', 'globalize', 'connectionManager'], function (appHost, globali
         });
 
         require(['toast'], function (toast) {
-            toast(globalize.translate('RefreshQueued'));
+            toast(globalize.translate('sharedcomponents#RefreshQueued'));
         });
     }
 
