@@ -1,6 +1,7 @@
 define(['browser'], function (browser) {
 
-    var pageContainerCount;
+    var allPages = document.querySelectorAll('.mainAnimatedPage');
+    var pageContainerCount = allPages.length;
     var animationDuration = 500;
     var allowAnimation = true;
 
@@ -18,15 +19,12 @@ define(['browser'], function (browser) {
 
     function loadView(options) {
 
-        var animatedPages = document.querySelector('.mainAnimatedPages');
-
         if (options.cancel) {
             return;
         }
 
-        cancelActiveAnimations(animatedPages);
+        cancelActiveAnimations();
 
-        var allPages = animatedPages.querySelectorAll('.mainAnimatedPage');
         var selected = getSelectedIndex(allPages);
         var previousAnimatable = selected == -1 ? null : allPages[selected];
         var pageIndex = selected + 1;
@@ -61,7 +59,7 @@ define(['browser'], function (browser) {
         return animate(animatable, previousAnimatable, options.transition, options.isBack).then(function () {
 
             if (!options.cancel && previousAnimatable) {
-                previousAnimatable.classList.add('hide');
+                afterAnimate(allPages, pageIndex);
             }
 
             return view;
@@ -71,6 +69,16 @@ define(['browser'], function (browser) {
     function beforeAnimate(allPages, newPageIndex, oldPageIndex) {
         for (var i = 0, length = allPages.length; i < length; i++) {
             if (newPageIndex == i || oldPageIndex == i) {
+                //allPages[i].classList.remove('hide');
+            } else {
+                allPages[i].classList.add('hide');
+            }
+        }
+    }
+
+    function afterAnimate(allPages, newPageIndex) {
+        for (var i = 0, length = allPages.length; i < length; i++) {
+            if (newPageIndex == i) {
                 //allPages[i].classList.remove('hide');
             } else {
                 allPages[i].classList.add('hide');
@@ -174,7 +182,7 @@ define(['browser'], function (browser) {
     }
 
     var currentAnimations = [];
-    function cancelActiveAnimations(animatedPages) {
+    function cancelActiveAnimations() {
 
         var animations = currentAnimations;
         for (var i = 0, length = animations.length; i < length; i++) {
@@ -225,15 +233,12 @@ define(['browser'], function (browser) {
 
             if (index != -1) {
 
-                var animatedPages = document.querySelector('.mainAnimatedPages');
-
                 if (options.cancel) {
                     return;
                 }
 
-                cancelActiveAnimations(animatedPages);
+                cancelActiveAnimations();
 
-                var allPages = animatedPages.querySelectorAll('.mainAnimatedPage');
                 var animatable = allPages[index];
                 var selected = getSelectedIndex(allPages);
                 var previousAnimatable = selected == -1 ? null : allPages[selected];
@@ -248,7 +253,7 @@ define(['browser'], function (browser) {
                 return animate(animatable, previousAnimatable, options.transition, options.isBack).then(function () {
 
                     if (!options.cancel && previousAnimatable) {
-                        previousAnimatable.classList.add('hide');
+                        afterAnimate(allPages, index);
                     }
                     return view;
                 });
@@ -286,8 +291,6 @@ define(['browser'], function (browser) {
 
         return elem;
     }
-
-    pageContainerCount = document.querySelectorAll('.mainAnimatedPage').length;
 
     function init(isAnimationAllowed) {
 
