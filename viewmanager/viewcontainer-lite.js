@@ -186,7 +186,16 @@ define(['browser'], function (browser) {
 
         var animations = currentAnimations;
         for (var i = 0, length = animations.length; i < length; i++) {
-            animations[i].cancel();
+            cancelAnimation(animations[i]);
+        }
+    }
+
+    function cancelAnimation(animation) {
+
+        try {
+            animation.cancel();
+        } catch (err) {
+            console.log('Error canceling animation: ' + err);
         }
     }
 
