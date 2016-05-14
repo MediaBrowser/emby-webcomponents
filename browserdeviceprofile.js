@@ -342,10 +342,9 @@ define(['browser'], function (browser) {
                 AudioCodec: videoAudioCodecs.join(','),
                 VideoCodec: 'h264',
                 Context: 'Streaming',
-                Protocol: 'http',
-                // If audio transcoding is needed, limit channels to number of physical audio channels
-                // Trying to transcode to 5 channels when there are only 2 speakers generally does not sound good
-                MaxAudioChannels: physicalAudioChannels.toString()
+                Protocol: 'http'
+                // Edit: Can't use this in firefox because we're seeing situations of no sound when downmixing from 6 channel to 2
+                //MaxAudioChannels: physicalAudioChannels.toString()
             });
         }
 
@@ -414,6 +413,11 @@ define(['browser'], function (browser) {
                         Condition: 'LessThanEqual',
                         Property: 'AudioChannels',
                         Value: videoAudioChannels
+                    },
+                    {
+                        Condition: 'LessThanEqual',
+                        Property: 'AudioBitrate',
+                        Value: '128000'
                     },
                     {
                         Condition: 'Equals',
