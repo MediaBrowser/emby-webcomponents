@@ -232,7 +232,7 @@ define(['browser'], function (browser) {
         if (view) {
 
             var index = -1;
-            var pages = document.querySelectorAll('.mainAnimatedPage');
+            var pages = allPages;
             for (var i = 0, length = pages.length; i < length; i++) {
                 if (pages[i] == page) {
                     index = i;
