@@ -122,7 +122,7 @@ define(['browser'], function (browser) {
             animations.push(oldAnimatedPage.animate([
 
               { transform: 'none', offset: 0 },
-              { transform: 'translateX(' + destination + ')', offset: 1 }
+              { transform: 'translate3d(' + destination + ', 0, 0)', offset: 1 }
 
             ], timings));
         }
@@ -133,7 +133,7 @@ define(['browser'], function (browser) {
 
         animations.push(newAnimatedPage.animate([
 
-          { transform: 'translateX(' + start + ')', offset: 0 },
+          { transform: 'translate3d(' + start + ', 0, 0)', offset: 0 },
           { transform: 'none', offset: 1 }
 
         ], timings));
