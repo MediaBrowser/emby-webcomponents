@@ -97,7 +97,23 @@
 
         context.querySelector('.btnHeaderSave').addEventListener('click', function (e) {
 
-            context.querySelector('.btnSave').click();
+            context.querySelector('.btnSubmit').click();
+        });
+
+        context.querySelector('.btnSubmit').addEventListener('click', function () {
+
+            // Do a fake form submit this the button isn't a real submit button
+            var fakeSubmit = document.createElement('input');
+            fakeSubmit.setAttribute('type', 'submit');
+            fakeSubmit.style.display = 'none';
+            var form = context.querySelector('form');
+            form.appendChild(fakeSubmit);
+            fakeSubmit.click();
+
+            // Seeing issues in smart tv browsers where the form does not get submitted if the button is removed prior to the submission actually happening
+            setTimeout(function () {
+                form.removeChild(fakeSubmit);
+            }, 500);
         });
     }
 
