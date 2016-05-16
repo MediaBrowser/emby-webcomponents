@@ -3,22 +3,25 @@
     var currentDialog;
     var recordingUpdated = false;
     var currentItemId;
+    var currentServerId;
 
     function renderTimer(context, item) {
 
         var programInfo = item.ProgramInfo || {};
 
         context.querySelector('.itemName').innerHTML = item.Name;
-        context.querySelector('.itemEpisodeName').innerHTML = item.EpisodeTitle || '';
+        context.querySelector('.itemEpisodeName').innerHTML = programInfo.EpisodeTitle || '';
 
         context.querySelector('.itemGenres').innerHTML = (programInfo.Genres || []).join(' / ');
         context.querySelector('.itemOverview').innerHTML = programInfo.Overview || '';
 
         var timerPageImageContainer = context.querySelector('.timerPageImageContainer');
 
+        var apiClient = connectionManager.getApiClient(currentServerId);
+
         if (programInfo.ImageTags && programInfo.ImageTags.Primary) {
 
-            var imgUrl = ApiClient.getScaledImageUrl(programInfo.Id, {
+            var imgUrl = apiClient.getScaledImageUrl(programInfo.Id, {
                 maxWidth: 200,
                 maxHeight: 200,
                 tag: programInfo.ImageTags.Primary,
@@ -62,11 +65,13 @@
 
         var form = this;
 
-        ApiClient.getLiveTvTimer(currentItemId).then(function (item) {
+        var apiClient = connectionManager.getApiClient(currentServerId);
+
+        apiClient.getLiveTvTimer(currentItemId).then(function (item) {
 
             item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
             item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
-            ApiClient.updateLiveTvTimer(item).then(function () {
+            apiClient.updateLiveTvTimer(item).then(function () {
                 loading.hide();
                 require(['toast'], function (toast) {
                     toast(Globalize.translate('MessageRecordingSaved'));
@@ -101,7 +106,8 @@
         loading.show();
         currentItemId = id;
 
-        ApiClient.getLiveTvTimer(id).then(function (result) {
+        var apiClient = connectionManager.getApiClient(currentServerId);
+        apiClient.getLiveTvTimer(id).then(function (result) {
 
             renderTimer(context, result);
             loading.hide();
@@ -113,6 +119,7 @@
         return new Promise(function (resolve, reject) {
 
             recordingUpdated = false;
+            currentServerId = serverId;
             loading.show();
 
             require(['text!./recordingeditor.template.html'], function (template) {
