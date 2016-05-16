@@ -17,24 +17,6 @@
 
         var timerPageImageContainer = context.querySelector('.timerPageImageContainer');
 
-        var apiClient = connectionManager.getApiClient(currentServerId);
-
-        if (programInfo.ImageTags && programInfo.ImageTags.Primary) {
-
-            var imgUrl = apiClient.getScaledImageUrl(programInfo.Id, {
-                maxWidth: 200,
-                maxHeight: 200,
-                tag: programInfo.ImageTags.Primary,
-                type: "Primary"
-            });
-
-            timerPageImageContainer.classList.remove('hide');
-            timerPageImageContainer.innerHTML = '<img src="' + imgUrl + '" style="max-width:200px;max-height:200px;" />';
-
-        } else {
-            timerPageImageContainer.classList.add('hide');
-        }
-
         context.querySelector('.itemMiscInfoPrimary').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(programInfo);
         context.querySelector('.itemMiscInfoSecondary').innerHTML = mediaInfo.getSecondaryMediaInfoHtml(programInfo);
 
