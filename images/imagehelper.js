@@ -30,8 +30,11 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events'], functio
 
     var self = {};
 
-    function fillImage(elem) {
-        var source = elem.getAttribute('data-src');
+    function fillImage(elem, source) {
+
+        if (!source) {
+             source = elem.getAttribute('data-src');
+        }
         if (source) {
             if (self.enableFade) {
                 imageFetcher.loadImage(elem, source).then(fadeIn);
@@ -174,12 +177,6 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events'], functio
         unveilElements(elem.getElementsByClassName('lazy'));
     }
 
-    function lazyImage(elem, url) {
-
-        elem.setAttribute('data-src', url);
-        fillImages([elem]);
-    }
-
     function getPrimaryImageAspectRatio(items) {
 
         var values = [];
@@ -247,8 +244,7 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events'], functio
 
     function lazyImage(elem, url) {
 
-        elem.setAttribute('data-src', url);
-        fillImage(elem);
+        fillImage(elem, url);
     }
 
     self.fillImages = fillImages;

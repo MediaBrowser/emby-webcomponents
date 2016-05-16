@@ -36,7 +36,9 @@ define(['browser'], function (browser) {
 
         var view = document.createElement('div');
         view.classList.add('page-view');
-        view.setAttribute('data-type', (options.type || ''));
+        if (options.type) {
+            view.setAttribute('data-type', options.type);
+        }
         view.setAttribute('data-url', options.url);
         view.innerHTML = options.view;
 
@@ -46,10 +48,10 @@ define(['browser'], function (browser) {
 
         if (currentPage) {
             triggerDestroy(currentPage);
-            animatable.removeChild(currentPage);
+            animatable.replaceChild(view, currentPage);
+        } else {
+            animatable.appendChild(view);
         }
-
-        animatable.appendChild(view);
 
         if (onBeforeChange) {
             onBeforeChange(view, false, options);
