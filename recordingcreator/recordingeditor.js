@@ -114,7 +114,7 @@
         });
     }
 
-    function showEditor(itemId) {
+    function showEditor(itemId, serverId) {
 
         return new Promise(function (resolve, reject) {
 
