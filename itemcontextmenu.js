@@ -108,8 +108,8 @@ define(['apphost', 'globalize', 'connectionManager'], function (appHost, globali
 
         return new Promise(function (resolve, reject) {
 
-            var msg = Globalize.translate('ConfirmDeleteItem');
-            var title = Globalize.translate('HeaderDeleteItem');
+            var msg = globalize.translate('sharedcomponents#ConfirmDeleteItem');
+            var title = globalize.translate('sharedcomponents#HeaderDeleteItem');
 
             require(['confirm'], function (confirm) {
 
