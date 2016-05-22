@@ -48,7 +48,14 @@ define([], function () {
         return name;
     }
 
+    function supportsAddingToCollection(item) {
+        var invalidTypes = ['Person', 'Genre', 'MusicGenre', 'Studio', 'GameGenre', 'BoxSet', 'Playlist', 'UserView', 'CollectionFolder', 'Audio', 'Episode', 'TvChannel', 'Program', 'MusicAlbum', 'Timer'];
+
+        return !item.CollectionType && invalidTypes.indexOf(item.Type) == -1 && item.MediaType != 'Photo';
+    }
+
     return {
-        getDisplayName: getDisplayName
+        getDisplayName: getDisplayName,
+        supportsAddingToCollection: supportsAddingToCollection
     };
 });

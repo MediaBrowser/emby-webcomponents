@@ -1,4 +1,4 @@
-define(['apphost', 'globalize', 'connectionManager'], function (appHost, globalize, connectionManager) {
+define(['apphost', 'globalize', 'connectionManager', 'itemHelper'], function (appHost, globalize, connectionManager, itemHelper) {
 
     function getCommands(options) {
 
@@ -11,10 +11,12 @@ define(['apphost', 'globalize', 'connectionManager'], function (appHost, globali
 
             var commands = [];
 
-            commands.push({
-                name: globalize.translate('sharedcomponents#AddToCollection'),
-                id: 'addtocollection'
-            });
+            if (itemHelper.supportsAddingToCollection(item)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#AddToCollection'),
+                    id: 'addtocollection'
+                });
+            }
 
             if (item.CanDelete) {
                 commands.push({

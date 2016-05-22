@@ -89,7 +89,7 @@
             dialogHelper.close(dlg);
 
             require(['toast'], function (toast) {
-                toast(globalize.translate('MessageItemsAdded'));
+                toast(globalize.translate('sharedcomponents#MessageItemsAdded'));
             });
         });
     }
@@ -216,7 +216,7 @@
             }, 500);
         });
 
-        content.querySelector('.newCollectionForm').addEventListener('submit', onSubmit);
+        content.querySelector('form').addEventListener('submit', onSubmit);
 
         content.querySelector('.fldSelectedItemIds', content).value = items.join(',');
 
