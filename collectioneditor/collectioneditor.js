@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'connectionManager', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select', 'html!./../icons/nav.html'], function (dialogHelper, loading, connectionManager, embyRouter, globalize) {
+﻿define(['dialogHelper', 'loading', 'connectionManager', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select', 'html!./../icons/nav.html', 'css!./../formdialog'], function (dialogHelper, loading, connectionManager, embyRouter, globalize) {
 
     var currentServerId;
 
@@ -146,7 +146,7 @@
         html += '<div class="fldSelectCollection">';
         html += '<br/>';
         html += '<br/>';
-        html += '<select is="emby-select" label="' + globalize.translate('LabelSelectCollection') + '" id="selectCollectionToAddTo" autofocus></select>';
+        html += '<select is="emby-select" label="' + globalize.translate('sharedcomponents#LabelCollection') + '" id="selectCollectionToAddTo" autofocus></select>';
         html += '</div>';
 
         html += '<div class="newCollectionInfo">';
@@ -168,7 +168,7 @@
 
         html += '<br />';
         html += '<div>';
-        html += '<button type="submit" class="clearButton" data-role="none"><paper-button raised class="submit block">' + globalize.translate('ButtonOk') + '</paper-button></button>';
+        html += '<button type="submit" class="clearButton" data-role="none"><paper-button raised class="submit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</paper-button></button>';
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';
@@ -216,13 +216,20 @@
             var items = options.items || {};
             currentServerId = options.serverId;
 
-            var dlg = dialogHelper.createDialog({
-                size: 'small',
-                removeOnClose: true
-            });
+            var dialogOptions = {
+                removeOnClose: true,
+                scrollY: false
+            };
 
-            dlg.classList.add('ui-body-b');
-            dlg.classList.add('background-theme-b');
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
+            }
+
+            var dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
 
             var html = '';
             var title = items.length ? globalize.translate('sharedcomponents#AddToCollection') : globalize.translate('sharedcomponents#NewCollection');

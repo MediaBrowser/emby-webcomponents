@@ -56,5 +56,6 @@
   "Refresh": "Refresh",
   "RefreshQueued": "Refresh queued.",
   "AddToCollection": "Add to Collection",
-  "NewCollection": "New Collection"
+  "NewCollection": "New Collection",
+  "LabelCollection": "Collection:"
 }
