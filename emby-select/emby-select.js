@@ -38,14 +38,16 @@
     function onFocus(e) {
         var label = getLabel(this);
         if (label) {
-            label.classList.add('selectLabelFocus');
+            label.classList.add('selectLabelFocused');
+            label.classList.remove('selectLabelUnfocused');
         }
     }
 
     function onBlur(e) {
         var label = getLabel(this);
         if (label) {
-            label.classList.remove('selectLabelFocus');
+            label.classList.add('selectLabelUnfocused');
+            label.classList.remove('selectLabelFocused');
         }
     }
 
