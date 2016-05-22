@@ -1,4 +1,4 @@
-﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select', 'html!./../icons/nav.html', 'css!./../formdialog'], function (shell, dialogHelper, loading, layoutManager, connectionManager, embyRouter, globalize) {
+﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'scrollHelper', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select', 'html!./../icons/nav.html', 'css!./../formdialog'], function (shell, dialogHelper, loading, layoutManager, connectionManager, scrollHelper, embyRouter, globalize) {
 
     var currentServerId;
 
@@ -159,6 +159,7 @@
         html += '</div>';
 
         html += '<br />';
+        html += '<br />';
 
         html += '<div>';
         html += '<paper-checkbox id="chkEnableInternetMetadata">' + globalize.translate('sharedcomponents#SearchForCollectionInternetMetadata') + '</paper-checkbox>';
@@ -280,6 +281,10 @@
 
                 dialogHelper.close(dlg);
             });
+
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
+            }
 
             return new Promise(function (resolve, reject) {
 
