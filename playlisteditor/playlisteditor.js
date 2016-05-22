@@ -16,7 +16,7 @@
         return elem;
     }
 
-    function onSubmit() {
+    function onSubmit(e) {
 
         loading.show();
 
@@ -32,6 +32,7 @@
             createPlaylist(apiClient, panel);
         }
 
+        e.preventDefault();
         return false;
     }
 
@@ -155,7 +156,6 @@
         // newPlaylistInfo
         html += '</div>';
 
-        html += '<br />';
         html += '<br />';
         html += '<div>';
         html += '<paper-button raised class="btnSubmit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</paper-button>';
