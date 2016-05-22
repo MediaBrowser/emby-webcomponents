@@ -57,5 +57,9 @@
   "RefreshQueued": "Refresh queued.",
   "AddToCollection": "Add to Collection",
   "NewCollection": "New Collection",
-  "LabelCollection": "Collection:"
+  "LabelCollection": "Collection:",
+  "Help": "Help",
+  "NewCollectionHelp": "Collections allow you to create personalized groupings of movies and other library content.",
+  "SearchForCollectionInternetMetadata": "Search the internet for artwork and metadata",
+  "LabelName": "Name:"
 }

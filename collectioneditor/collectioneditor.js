@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'connectionManager', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select', 'html!./../icons/nav.html', 'css!./../formdialog'], function (dialogHelper, loading, connectionManager, embyRouter, globalize) {
+﻿define(['dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select', 'html!./../icons/nav.html', 'css!./../formdialog'], function (dialogHelper, loading, layoutManager, connectionManager, embyRouter, globalize) {
 
     var currentServerId;
 
@@ -137,10 +137,12 @@
 
         var html = '';
 
+        html += '<div class="dialogContent smoothScrollY">';
+        html += '<div class="dialogContentInner centeredContent">';
         html += '<form class="newCollectionForm" style="margin:auto;">';
 
         html += '<div>';
-        html += globalize.translate('CreateCollectionHelp');
+        html += globalize.translate('sharedcomponents#NewCollectionHelp');
         html += '</div>';
 
         html += '<div class="fldSelectCollection">';
@@ -152,7 +154,7 @@
         html += '<div class="newCollectionInfo">';
 
         html += '<div>';
-        html += '<paper-input type="text" id="txtNewCollectionName" required="required" label="' + globalize.translate('LabelName') + '"></paper-input>';
+        html += '<paper-input type="text" id="txtNewCollectionName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '"></paper-input>';
         html += '<div class="fieldDescription">' + globalize.translate('NewCollectionNameExample') + '</div>';
         html += '</div>';
 
@@ -160,7 +162,7 @@
         html += '<br />';
 
         html += '<div>';
-        html += '<paper-checkbox id="chkEnableInternetMetadata">' + globalize.translate('OptionSearchForInternetMetadata') + '</paper-checkbox>';
+        html += '<paper-checkbox id="chkEnableInternetMetadata">' + globalize.translate('sharedcomponents#SearchForCollectionInternetMetadata') + '</paper-checkbox>';
         html += '</div>';
 
         // newCollectionInfo
@@ -174,6 +176,8 @@
         html += '<input type="hidden" class="fldSelectedItemIds" />';
 
         html += '</form>';
+        html += '</div>';
+        html += '</div>';
 
         return html;
     }
@@ -240,7 +244,7 @@
             html += title;
             html += '</div>';
 
-            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('ButtonHelp') + '"><iron-icon icon="nav:info"></iron-icon><span style="margin-left:.25em;">' + globalize.translate('ButtonHelp') + '</span></a>';
+            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('sharedcomponents#Help') + '"><iron-icon icon="nav:info"></iron-icon><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
 
             html += '</div>';
 
