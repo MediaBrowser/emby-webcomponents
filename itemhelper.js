@@ -54,8 +54,19 @@ define([], function () {
         return !item.CollectionType && invalidTypes.indexOf(item.Type) == -1 && item.MediaType != 'Photo';
     }
 
+    function supportsAddingToPlaylist(item) {
+        if (item.Type == 'Program') {
+            return false;
+        }
+        if (item.Type == 'Timer') {
+            return false;
+        }
+        return item.RunTimeTicks || item.IsFolder || item.Type == "Genre" || item.Type == "MusicGenre" || item.Type == "MusicArtist";
+    }
+
     return {
         getDisplayName: getDisplayName,
-        supportsAddingToCollection: supportsAddingToCollection
+        supportsAddingToCollection: supportsAddingToCollection,
+        supportsAddingToPlaylist: supportsAddingToPlaylist
     };
 });

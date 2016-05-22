@@ -18,10 +18,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper'], function (ap
                 });
             }
 
-            commands.push({
-                name: globalize.translate('sharedcomponents#AddToPlaylist'),
-                id: 'addtoplaylist'
-            });
+            if (itemHelper.supportsAddingToPlaylist(item)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#AddToPlaylist'),
+                    id: 'addtoplaylist'
+                });
+            }
 
             if (item.CanDelete) {
                 commands.push({
