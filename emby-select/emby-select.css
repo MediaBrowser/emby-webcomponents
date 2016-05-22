@@ -1,0 +1,24 @@
+select[is="emby-select"] {
+    display: block;
+    margin: 0 0 .5em 0;
+    background: none;
+    border: 1px solid rgb(221, 221, 221);
+    border-width: 0 0 1px 0;
+    /* Prefixed box-sizing rules necessary for older browsers */
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    /* Remove select styling */
+    /* Font size must the 16px or larger to prevent iOS page zoom on focus */
+    font-size: inherit;
+    /* General select styles: change as needed */
+    font-family: inherit;
+    font-weight: bold;
+    color: inherit;
+    padding: .6em .8em .3em 0;
+    cursor: pointer;
+}
+
+label.selectLabel {
+    display: block;
+}
