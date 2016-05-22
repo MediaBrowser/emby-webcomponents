@@ -201,7 +201,7 @@
             }
         });
 
-        content.querySelector('.btnSubmit').addEventListener('submit', function () {
+        content.querySelector('.btnSubmit').addEventListener('click', function () {
             // Do a fake form submit this the button isn't a real submit button
             var fakeSubmit = document.createElement('input');
             fakeSubmit.setAttribute('type', 'submit');
