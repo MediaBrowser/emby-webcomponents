@@ -159,7 +159,6 @@
         html += '</div>';
 
         html += '<br />';
-        html += '<br />';
 
         html += '<div>';
         html += '<paper-checkbox id="chkEnableInternetMetadata">' + globalize.translate('sharedcomponents#SearchForCollectionInternetMetadata') + '</paper-checkbox>';
@@ -168,6 +167,7 @@
         // newCollectionInfo
         html += '</div>';
 
+        html += '<br />';
         html += '<br />';
         html += '<div>';
         html += '<paper-button raised class="btnSubmit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</paper-button>';
