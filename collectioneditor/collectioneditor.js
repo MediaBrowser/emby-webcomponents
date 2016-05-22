@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'connectionManager', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select'], function (dialogHelper, loading, connectionManager, embyRouter, globalize) {
+﻿define(['dialogHelper', 'loading', 'connectionManager', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select', 'html!./../icons/nav.html'], function (dialogHelper, loading, connectionManager, embyRouter, globalize) {
 
     var currentServerId;
 
@@ -94,11 +94,6 @@
         });
     }
 
-    function onDialogClosed() {
-
-        loading.hide();
-    }
-
     function triggerChange(select) {
         select.dispatchEvent(new CustomEvent('change', {}));
     }
@@ -123,7 +118,7 @@
 
             var html = '';
 
-            html += '<option value="">' + globalize.translate('OptionNewCollection') + '</option>';
+            html += '<option value="">' + globalize.translate('sharedcomponents#NewCollection') + '</option>';
 
             html += result.Items.map(function (i) {
 
@@ -230,7 +225,7 @@
             dlg.classList.add('background-theme-b');
 
             var html = '';
-            var title = items.length ? globalize.translate('HeaderAddToCollection') : globalize.translate('HeaderNewCollection');
+            var title = items.length ? globalize.translate('sharedcomponents#AddToCollection') : globalize.translate('sharedcomponents#NewCollection');
 
             html += '<div class="dialogHeader" style="margin:0 0 2em;">';
             html += '<button is="paper-icon-button-light" class="btnCancel" tabindex="-1"><iron-icon icon="nav:arrow-back"></iron-icon></button>';
@@ -238,7 +233,7 @@
             html += title;
             html += '</div>';
 
-            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('ButtonHelp') + '"><iron-icon icon="info"></iron-icon><span style="margin-left:.25em;">' + globalize.translate('ButtonHelp') + '</span></a>';
+            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('ButtonHelp') + '"><iron-icon icon="nav:info"></iron-icon><span style="margin-left:.25em;">' + globalize.translate('ButtonHelp') + '</span></a>';
 
             html += '</div>';
 
@@ -249,13 +244,15 @@
 
             initEditor(dlg, items);
 
-            dlg.addEventListener('close', onDialogClosed);
-
-            dialogHelper.open(dlg);
-
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
 
                 dialogHelper.close(dlg);
+            });
+
+            return new Promise(function (resolve, reject) {
+
+                dlg.addEventListener('close', resolve);
+                dialogHelper.open(dlg);
             });
         };
     }

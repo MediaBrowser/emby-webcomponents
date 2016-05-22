@@ -54,5 +54,7 @@
   "HeaderDeleteItem": "Delete Item",
   "ConfirmDeleteItem": "Deleting this item will delete it from both the file system and your media library. Are you sure you wish to continue?",
   "Refresh": "Refresh",
-  "RefreshQueued": "Refresh queued."
+  "RefreshQueued": "Refresh queued.",
+  "AddToCollection": "Add to Collection",
+  "NewCollection": "New Collection"
 }
