@@ -1,6 +1,7 @@
-select[is="emby-select"] {
+[is="emby-select"] {
     display: block;
-    margin: 0 0 .5em 0;
+    margin: 0;
+    margin-bottom: 0 !important;
     background: none;
     border: 1px solid rgb(221, 221, 221);
     border-width: 0 0 1px 0;
@@ -17,8 +18,27 @@ select[is="emby-select"] {
     color: inherit;
     padding: .6em .8em .3em 0;
     cursor: pointer;
+    outline: none !important;
 }
 
-label.selectLabel {
+.selectLabel {
     display: block;
+}
+
+.selectLabelFocus {
+    color: #52B54B;
+}
+
+.emby-select-selectionbar {
+    height: 2px;
+    transform: scale(.01);
+    transition: transform .2s ease-out;
+    position: relative;
+    top: -1px;
+    margin-bottom: .5em;
+}
+
+[is="emby-select"]:focus + .emby-select-selectionbar {
+    background-color: #52B54B;
+    transform: none;
 }

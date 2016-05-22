@@ -27,6 +27,28 @@
         });
     }
 
+    function getLabel(select) {
+        var elem = select.previousSibling;
+        while (elem && elem.tagName != 'LABEL') {
+            elem = elem.previousSibling;
+        }
+        return elem;
+    }
+
+    function onFocus(e) {
+        var label = getLabel(this);
+        if (label) {
+            label.classList.add('selectLabelFocus');
+        }
+    }
+
+    function onBlur(e) {
+        var label = getLabel(this);
+        if (label) {
+            label.classList.remove('selectLabelFocus');
+        }
+    }
+
     function onMouseDown(e) {
 
         if (!enableNativeMenu()) {
@@ -65,6 +87,8 @@
         }
         this.addEventListener('mousedown', onMouseDown);
         this.addEventListener('keydown', onKeyDown);
+        this.addEventListener('focus', onFocus);
+        this.addEventListener('keydown', onBlur);
     };
 
     EmbySelectPrototype.attachedCallback = function () {
@@ -74,6 +98,11 @@
         label.classList.add('selectLabel');
         label.htmlFor = this.id;
         this.parentNode.insertBefore(label, this);
+
+        var div = document.createElement('div');
+        div.classList.add('emby-select-selectionbar');
+        div.innerHTML = '<div class="emby-select-selectionbarInner"></div>';
+        this.parentNode.insertBefore(div, this.nextSibling);
     };
 
     document.registerElement('emby-select', {
