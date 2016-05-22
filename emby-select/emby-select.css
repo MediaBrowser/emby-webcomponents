@@ -33,7 +33,7 @@
 .emby-select-selectionbar {
     height: 2px;
     transform: scale(.01);
-    transition: transform .2s ease-out;
+    transition: transform .25s ease-out;
     position: relative;
     top: -1px;
     margin-bottom: .5em;
