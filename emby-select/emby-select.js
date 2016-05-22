@@ -24,9 +24,13 @@
 
     function showActionSheeet(select) {
 
+        var labelElem = getLabel(select);
+        var title = labelElem ? (labelElem.textContent || labelElem.innerText) : null;
+
         actionsheet.show({
             items: select.options,
-            positionTo: select
+            positionTo: select,
+            title: title
 
         }).then(function (value) {
             select.value = value;
