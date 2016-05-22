@@ -61,5 +61,6 @@
   "Help": "Help",
   "NewCollectionHelp": "Collections allow you to create personalized groupings of movies and other library content.",
   "SearchForCollectionInternetMetadata": "Search the internet for artwork and metadata",
-  "LabelName": "Name:"
+  "LabelName": "Name:",
+  "NewCollectionNameExample": "Example: Star Wars Collection"
 }

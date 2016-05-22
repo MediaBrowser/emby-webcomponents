@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select', 'html!./../icons/nav.html', 'css!./../formdialog'], function (dialogHelper, loading, layoutManager, connectionManager, embyRouter, globalize) {
+﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'embyRouter', 'globalize', 'paper-checkbox', 'paper-input', 'paper-icon-button-light', 'emby-select', 'html!./../icons/nav.html', 'css!./../formdialog'], function (shell, dialogHelper, loading, layoutManager, connectionManager, embyRouter, globalize) {
 
     var currentServerId;
 
@@ -155,10 +155,9 @@
 
         html += '<div>';
         html += '<paper-input type="text" id="txtNewCollectionName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '"></paper-input>';
-        html += '<div class="fieldDescription">' + globalize.translate('NewCollectionNameExample') + '</div>';
+        html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#NewCollectionNameExample') + '</div>';
         html += '</div>';
 
-        html += '<br />';
         html += '<br />';
 
         html += '<div>';
@@ -170,7 +169,7 @@
 
         html += '<br />';
         html += '<div>';
-        html += '<button type="submit" class="clearButton" data-role="none"><paper-button raised class="submit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</paper-button></button>';
+        html += '<paper-button raised class="btnSubmit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</paper-button>';
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';
@@ -180,6 +179,13 @@
         html += '</div>';
 
         return html;
+    }
+
+    function onHelpClick(e) {
+
+        shell.openUrl(this.href);
+        e.preventDefault();
+        return false;
     }
 
     function initEditor(content, items) {
@@ -192,6 +198,21 @@
                 content.querySelector('.newCollectionInfo').classList.remove('hide');
                 content.querySelector('#txtNewCollectionName').setAttribute('required', 'required');
             }
+        });
+
+        content.querySelector('.btnSubmit').addEventListener('submit', function () {
+            // Do a fake form submit this the button isn't a real submit button
+            var fakeSubmit = document.createElement('input');
+            fakeSubmit.setAttribute('type', 'submit');
+            fakeSubmit.style.display = 'none';
+            var form = content.querySelector('form');
+            form.appendChild(fakeSubmit);
+            fakeSubmit.click();
+
+            // Seeing issues in smart tv browsers where the form does not get submitted if the button is removed prior to the submission actually happening
+            setTimeout(function () {
+                form.removeChild(fakeSubmit);
+            }, 500);
         });
 
         content.querySelector('.newCollectionForm').addEventListener('submit', onSubmit);
@@ -244,7 +265,7 @@
             html += title;
             html += '</div>';
 
-            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('sharedcomponents#Help') + '"><iron-icon icon="nav:info"></iron-icon><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+            html += '<a class="btnHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('sharedcomponents#Help') + '"><iron-icon icon="nav:info"></iron-icon><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
 
             html += '</div>';
 

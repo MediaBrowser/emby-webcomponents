@@ -51,7 +51,8 @@
 
     function onMouseDown(e) {
 
-        if (!enableNativeMenu()) {
+        // e.button=0 for primary (left) mouse button click
+        if (!e.button && !enableNativeMenu()) {
             e.preventDefault();
             showActionSheeet(this);
         }
