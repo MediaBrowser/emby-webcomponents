@@ -30,10 +30,6 @@
     color: #52B54B;
 }
 
-[is="emby-select"]:focus {
-    border-color: transparent;
-}
-
 .emby-select-selectionbar {
     height: 2px;
     transform: scale(.01, 1);
