@@ -18,6 +18,11 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper'], function (ap
                 });
             }
 
+            commands.push({
+                name: globalize.translate('sharedcomponents#AddToPlaylist'),
+                id: 'addtoplaylist'
+            });
+
             if (item.CanDelete) {
                 commands.push({
                     name: globalize.translate('sharedcomponents#Delete'),
@@ -66,6 +71,18 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper'], function (ap
                         require(['collectionEditor'], function (collectionEditor) {
 
                             new collectionEditor().show({
+                                items: [itemId],
+                                serverId: serverId
+
+                            }).then(reject, reject);
+                        });
+                        break;
+                    }
+                case 'addtoplaylist':
+                    {
+                        require(['playlistEditor'], function (playlistEditor) {
+
+                            new playlistEditor().show({
                                 items: [itemId],
                                 serverId: serverId
 

@@ -118,7 +118,7 @@
 
             var html = '';
 
-            html += '<option value="">' + globalize.translate('sharedcomponents#NewCollection') + '</option>';
+            html += '<option value="">' + globalize.translate('sharedcomponents#OptionNew') + '</option>';
 
             html += result.Items.map(function (i) {
 

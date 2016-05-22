@@ -22,29 +22,30 @@
 
         var panel = parentWithClass(this, 'dialog');
 
-        var playlistId = $('#selectPlaylistToAddTo', panel).val();
+        var playlistId = panel.querySelector('#selectPlaylistToAddTo').value;
+        var apiClient = connectionManager.getApiClient(currentServerId);
 
         if (playlistId) {
             lastPlaylistId = playlistId;
-            addToPlaylist(panel, playlistId);
+            addToPlaylist(apiClient, panel, playlistId);
         } else {
-            createPlaylist(panel);
+            createPlaylist(apiClient, panel);
         }
 
         return false;
     }
 
-    function createPlaylist(dlg) {
+    function createPlaylist(apiClient, dlg) {
 
-        var url = ApiClient.getUrl("Playlists", {
+        var url = apiClient.getUrl("Playlists", {
 
-            Name: $('#txtNewPlaylistName', dlg).val(),
-            Ids: $('.fldSelectedItemIds', dlg).val() || '',
-            userId: ApiClient.getCurrentUserId()
+            Name: dlg.querySelector('#txtNewPlaylistName').value,
+            Ids: dlg.querySelector('.fldSelectedItemIds').value || '',
+            userId: apiClient.getCurrentUserId()
 
         });
 
-        ApiClient.ajax({
+        apiClient.ajax({
             type: "POST",
             url: url,
             dataType: "json"
@@ -56,7 +57,7 @@
             var id = result.Id;
 
             dialogHelper.close(dlg);
-            redirectToPlaylist(ApiClient, id);
+            redirectToPlaylist(apiClient, id);
         });
     }
 
@@ -68,15 +69,15 @@
         });
     }
 
-    function addToPlaylist(dlg, id) {
+    function addToPlaylist(apiClient, dlg, id) {
 
-        var url = ApiClient.getUrl("Playlists/" + id + "/Items", {
+        var url = apiClient.getUrl("Playlists/" + id + "/Items", {
 
-            Ids: $('.fldSelectedItemIds', dlg).val() || '',
-            userId: ApiClient.getCurrentUserId()
+            Ids: dlg.querySelector('.fldSelectedItemIds').value || '',
+            userId: apiClient.getCurrentUserId()
         });
 
-        ApiClient.ajax({
+        apiClient.ajax({
             type: "POST",
             url: url
 
@@ -98,17 +99,11 @@
 
     function populatePlaylists(panel) {
 
-        var select = $('#selectPlaylistToAddTo', panel);
-
-        if (!select.length) {
-
-            $('#txtNewPlaylistName', panel).val('').focus();
-            return;
-        }
+        var select = panel.querySelector('#selectPlaylistToAddTo');
 
         loading.hide();
 
-        $('.newPlaylistInfo', panel).hide();
+        panel.querySelector('.newPlaylistInfo').classList.add('hide');
 
         var options = {
 
@@ -117,18 +112,21 @@
             SortBy: 'SortName'
         };
 
-        ApiClient.getItems(ApiClient.getCurrentUserId(), options).then(function (result) {
+        var apiClient = connectionManager.getApiClient(currentServerId);
+        apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
 
             var html = '';
 
-            html += '<option value="">' + globalize.translate('OptionNewPlaylist') + '</option>';
+            html += '<option value="">' + globalize.translate('sharedcomponents#OptionNew') + '</option>';
 
             html += result.Items.map(function (i) {
 
                 return '<option value="' + i.Id + '">' + i.Name + '</option>';
             });
 
-            select.html(html).val(lastPlaylistId || '').trigger('change');
+            select.innerHTML = html;
+            select.value = lastPlaylistId || '';
+            triggerChange(select);
 
             loading.hide();
         });
@@ -138,17 +136,18 @@
 
         var html = '';
 
+        html += '<div class="dialogContent smoothScrollY">';
+        html += '<div class="dialogContentInner centeredContent">';
         html += '<form style="margin:auto;">';
 
         html += '<div class="fldSelectPlaylist">';
-        html += '<label for="selectPlaylistToAddTo" class="selectLabel">' + globalize.translate('LabelSelectPlaylist') + '</label>';
-        html += '<select id="selectPlaylistToAddTo" data-mini="true"></select>';
+        html += '<select is="emby-select" id="selectPlaylistToAddTo" label="' + globalize.translate('sharedcomponents#LabelPlaylist') + '"></select>';
         html += '</div>';
 
         html += '<div class="newPlaylistInfo">';
 
         html += '<div>';
-        html += '<paper-input type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('LabelName') + '"></paper-input>';
+        html += '<paper-input type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '"></paper-input>';
         html += '</div>';
 
         html += '<br />';
@@ -157,30 +156,31 @@
         html += '</div>';
 
         html += '<br />';
+        html += '<br />';
         html += '<div>';
-        html += '<button type="submit" class="clearButton" data-role="none"><paper-button raised class="submit block">' + globalize.translate('ButtonOk') + '</paper-button></button>';
+        html += '<paper-button raised class="btnSubmit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</paper-button>';
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';
 
         html += '</form>';
+        html += '</div>';
+        html += '</div>';
 
         return html;
     }
 
     function initEditor(content, items) {
 
-        $('#selectPlaylistToAddTo', content).on('change', function () {
-
+        content.querySelector('#selectPlaylistToAddTo').addEventListener('change', function () {
             if (this.value) {
-                $('.newPlaylistInfo', content).hide();
-                $('input', content).removeAttr('required');
+                content.querySelector('.newPlaylistInfo').classList.add('hide');
+                content.querySelector('#txtNewPlaylistName').removeAttribute('required');
             } else {
-                $('.newPlaylistInfo', content).show();
-                $('input', content).attr('required', 'required');
+                content.querySelector('.newPlaylistInfo').classList.remove('hide');
+                content.querySelector('#txtNewPlaylistName').setAttribute('required', 'required');
             }
-
-        }).trigger('change');
+        });
 
         populatePlaylists(content);
 
@@ -201,14 +201,18 @@
 
         content.querySelector('form').addEventListener('submit', onSubmit);
 
-        $('.fldSelectedItemIds', content).val(items.join(','));
+        content.querySelector('.fldSelectedItemIds', content).value = items.join(',');
 
         if (items.length) {
-            $('.fldSelectPlaylist', content).show();
+            content.querySelector('.fldSelectPlaylist').classList.remove('hide');
             populatePlaylists(content);
         } else {
-            $('.fldSelectPlaylist', content).hide();
-            $('#selectPlaylistToAddTo', content).html('').val('').trigger('change');
+            content.querySelector('.fldSelectPlaylist').classList.add('hide');
+
+            var selectPlaylistToAddTo = content.querySelector('#selectPlaylistToAddTo');
+            selectPlaylistToAddTo.innerHTML = '';
+            selectPlaylistToAddTo.value = '';
+            triggerChange(selectPlaylistToAddTo);
         }
     }
 

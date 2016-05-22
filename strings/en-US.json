@@ -63,5 +63,8 @@
   "SearchForCollectionInternetMetadata": "Search the internet for artwork and metadata",
   "LabelName": "Name:",
   "NewCollectionNameExample": "Example: Star Wars Collection",
-  "MessageItemsAdded": "Items added."
+  "MessageItemsAdded": "Items added.",
+  "OptionNew": "New...",
+  "LabelPlaylist": "Playlist:",
+  "AddToPlaylist": "Add to Playlist"
 }
