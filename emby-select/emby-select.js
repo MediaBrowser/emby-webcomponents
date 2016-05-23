@@ -107,7 +107,7 @@
         this.addEventListener('mousedown', onMouseDown);
         this.addEventListener('keydown', onKeyDown);
         this.addEventListener('focus', onFocus);
-        this.addEventListener('keydown', onBlur);
+        this.addEventListener('blur', onBlur);
     };
 
     EmbySelectPrototype.attachedCallback = function () {
