@@ -4,6 +4,10 @@
 
     function enableNativeMenu() {
 
+        if (browser.xboxOne) {
+            return false;
+        }
+
         // Take advantage of the native input methods
         if (browser.tv) {
             return true;
