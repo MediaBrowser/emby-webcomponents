@@ -122,6 +122,7 @@
         var label = this.ownerDocument.createElement('label');
         label.innerHTML = this.getAttribute('label') || '';
         label.classList.add('selectLabel');
+        label.classList.add('selectLabelUnfocused');
         label.htmlFor = this.id;
         this.parentNode.insertBefore(label, this);
 
