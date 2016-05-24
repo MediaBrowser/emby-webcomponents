@@ -4,14 +4,10 @@ define(['browser'], function (browser) {
     var allPages = [];
     var currentUrls = [];
     var pageContainerCount = 3;
-    var allowAnimation = true;
     var selectedPageIndex = -1;
 
     function enableAnimation() {
 
-        if (!allowAnimation) {
-            return false;
-        }
         if (browser.tv) {
             return false;
         }
@@ -252,7 +248,10 @@ define(['browser'], function (browser) {
 
     function reset() {
 
+        allPages = [];
         currentUrls = [];
+        mainAnimatedPages.innerHTML = '';
+        selectedPageIndex = -1;
     }
 
     if (enableAnimation() && !document.documentElement.animate) {
