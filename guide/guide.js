@@ -8,7 +8,7 @@
         self.refresh = function () {
 
             var date = new Date();
-            changeDate(page, date);
+            changeDate(options.element, date);
         };
 
         self.destroy = function () {
