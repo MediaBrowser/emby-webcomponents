@@ -6,7 +6,9 @@
         var items = {};
 
         self.refresh = function () {
-            reloadPage(options.element);
+
+            var date = new Date();
+            changeDate(page, date);
         };
 
         self.destroy = function () {
