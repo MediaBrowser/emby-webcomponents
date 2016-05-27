@@ -97,7 +97,7 @@ define(['css!./indicators.css', 'html!./../icons/mediainfo.html', 'html!./../ico
             return '<iron-icon class="timerIndicator indicator" icon="mediainfo:fiber-manual-record"></iron-icon>';
         }
 
-        return '<iron-icon class="timerIndicator indicator" icon="check"></iron-icon>';
+        return '';
     }
 
     return {
