@@ -1,4 +1,4 @@
-define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'globalize'], function (playbackManager, inputManager, connectionManager, embyRouter, globalize) {
+define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'globalize', 'loading'], function (playbackManager, inputManager, connectionManager, embyRouter, globalize, loading) {
 
     function playAllFromHere(card, serverId) {
         var cards = card.parentNode.querySelectorAll('.itemAction[data-id]');
