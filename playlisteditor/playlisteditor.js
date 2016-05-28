@@ -147,7 +147,7 @@
 
         html += '<div class="newPlaylistInfo">';
 
-        html += '<emby-input type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '" />';
+        html += '<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '" />';
 
         html += '<br />';
 
