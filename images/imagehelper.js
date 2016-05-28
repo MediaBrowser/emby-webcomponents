@@ -109,6 +109,12 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
 
         var filledCount = 0;
 
+        var options = {};
+
+        if (!layoutManager.desktop) {
+            options.rootMargin = "125%";
+        }
+
         var observer = new IntersectionObserver(function (entries) {
             for (var j = 0, length2 = entries.length; j < length2; j++) {
                 var entry = entries[j];
@@ -126,9 +132,7 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
                 //observer.disconnect();
             }
         },
-        {
-            /* Using default options. Details below */
-        }
+        options
         );
         // Start observing an element
         for (var i = 0, length = images.length; i < length; i++) {
