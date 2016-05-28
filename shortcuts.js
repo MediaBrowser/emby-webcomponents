@@ -123,8 +123,12 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
 
         if (seriesTimerId) {
             // cancel all
+
         } else if (timerId) {
-            // change to series recording
+
+            // change to series recording, if possible
+            // otherwise cancel individual recording
+
         } else if (type == 'Program') {
             // schedule recording
             createRecording(apiClient, id);

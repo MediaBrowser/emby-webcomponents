@@ -4,6 +4,29 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
     var thresholdY;
     var windowSize;
 
+    var supportsIntersectionObserver = function () {
+
+        if (window.IntersectionObserver) {
+
+            // The api exists in chrome 50 but doesn't work
+            if (browser.chrome) {
+
+                var version = parseInt(browser.version.split('.')[0]);
+                return version >= 51;
+            }
+            return true;
+        }
+
+        return false;
+    }();
+
+    function resetWindowSize() {
+        windowSize = {
+            innerHeight: window.innerHeight,
+            innerWidth: window.innerWidth
+        };
+    }
+
     function resetThresholds() {
 
         var x = screen.availWidth;
@@ -19,24 +42,18 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
         resetWindowSize();
     }
 
-    window.addEventListener("orientationchange", resetThresholds);
-    window.addEventListener('resize', resetThresholds);
-    events.on(layoutManager, 'modechange', resetThresholds);
-
-    var wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
-
-    function resetWindowSize() {
-        windowSize = {
-            innerHeight: window.innerHeight,
-            innerWidth: window.innerWidth
-        };
+    if (!supportsIntersectionObserver) {
+        window.addEventListener("orientationchange", resetThresholds);
+        window.addEventListener('resize', resetThresholds);
+        events.on(layoutManager, 'modechange', resetThresholds);
+        resetThresholds();
     }
-    resetThresholds();
 
     function isVisible(elem) {
         return visibleinviewport(elem, true, thresholdX, thresholdY, windowSize);
     }
 
+    var wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
     var self = {};
 
     function fillImage(elem, source, enableEffects) {
@@ -118,22 +135,6 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
             observer.observe(images[i]);
         }
     }
-
-    var supportsIntersectionObserver = function () {
-
-        if (window.IntersectionObserver) {
-
-            // The api exists in chrome 50 but doesn't work
-            if (browser.chrome) {
-
-                var version = parseInt(browser.version.split('.')[0]);
-                return version >= 51;
-            }
-            return true;
-        }
-
-        return false;
-    }();
 
     function unveilElements(images) {
 
