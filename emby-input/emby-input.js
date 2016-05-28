@@ -1,6 +1,6 @@
 ﻿define(['layoutManager', 'browser', 'css!./emby-input'], function (layoutManager, browser) {
 
-    var EmbyInputPrototype = Object.create(HTMLInputtElement.prototype);
+    var EmbyInputPrototype = Object.create(HTMLInputElement.prototype);
 
     function getLabel(input) {
         var elem = input.previousSibling;
