@@ -35,10 +35,10 @@
 
     .inputLabel.blank {
         transform-origin: left top;
-        transform: scale(1.5,1.5) translateY(70%);
+        transform: scale(1.4,1.4) translateY(80%);
     }
 
-.inputLabelFocused {
+.inputLabelFocused:not(.blank) {
     color: #52B54B;
 }
 
