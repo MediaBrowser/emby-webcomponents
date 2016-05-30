@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'appStorage', 'connectionManager', 'loading', 'paper-fab', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, require, layoutManager, globalize, appStorage, connectionManager, loading) {
+﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'scrollHelper', 'appStorage', 'connectionManager', 'loading', 'emby-select', 'paper-fab', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, require, layoutManager, globalize, scrollHelper, appStorage, connectionManager, loading) {
 
     var currentItem;
 
@@ -398,6 +398,10 @@
                 dlg.querySelector('.pathLabel').innerHTML = globalize.translate('MediaInfoFile');
 
                 dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
+
+                if (layoutManager.tv) {
+                    scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
+                }
 
                 dialogHelper.open(dlg);
 
