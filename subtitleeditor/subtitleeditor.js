@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', 'appStorage', 'connectionManager', 'loading', 'paper-fab', 'listViewStyle', 'paper-icon-button-light'], function (dialogHelper, layoutManager, globalize, appStorage, connectionManager, loading) {
+﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'appStorage', 'connectionManager', 'loading', 'paper-fab', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, require, layoutManager, globalize, appStorage, connectionManager, loading) {
 
     var currentItem;
 
@@ -339,7 +339,7 @@
     }
 
     function onSubtitleListClick(e) {
-        
+
         var btnDelete = parentWithClass(e.target, 'btnDelete');
         if (btnDelete) {
             var index = btnDelete.getAttribute('data-index');
@@ -362,12 +362,8 @@
 
         loading.show();
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'components/subtitleeditor/subtitleeditor.template.html', true);
+        require(['text!./subtitleeditor.template.html'], function (template) {
 
-        xhr.onload = function (e) {
-
-            var template = this.response;
             var apiClient = connectionManager.getApiClient(serverId);
 
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
@@ -413,9 +409,7 @@
                     dialogHelper.close(dlg);
                 });
             });
-        }
-
-        xhr.send();
+        });
     }
 
     return {
