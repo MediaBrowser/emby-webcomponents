@@ -99,7 +99,12 @@
         if (subs.length) {
 
             html += '<h1 style="margin-top:1.5em;">' + globalize.translate('HeaderCurrentSubtitles') + '</h1>';
-            html += '<div>';
+
+            if (layoutManager.tv) {
+                html += '<div>';
+            } else {
+                html += '<div class="paperList">';
+            }
 
             html += subs.map(function (s) {
 
@@ -220,7 +225,11 @@
                     html += '</div>';
                 }
                 html += '<h1>' + provider + '</h1>';
-                html += '<div>';
+                if (layoutManager.tv) {
+                    html += '<div>';
+                } else {
+                    html += '<div class="paperList">';
+                }
                 lastProvider = provider;
             }
 
@@ -243,7 +252,7 @@
 
             html += '</div>';
 
-            html += '<div style="font-size:86%;opacity:.7;">' + /*(result.CommunityRating || 0) + ' / ' +*/ (result.DownloadCount || 0) + '</div>';
+            html += '<div class="secondary">' + /*(result.CommunityRating || 0) + ' / ' +*/ (result.DownloadCount || 0) + '</div>';
 
             html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" title="' + globalize.translate('ButtonDownload') + '" class="btnDownload"><iron-icon icon="cloud-download"></iron-icon></button>';
 
