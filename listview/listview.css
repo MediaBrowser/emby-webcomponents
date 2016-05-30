@@ -15,6 +15,15 @@
     padding: .35em .55em;
 }
 
+    .listItemBody h3 {
+        margin: 0;
+        font-weight: normal;
+    }
+
+.listItemBodyText {
+    padding: .25em 0;
+}
+
 .listItemImage {
     width: 7.4vh;
     height: 7.4vh;
@@ -47,6 +56,6 @@
     transition: transform .2s ease-out;
 }
 
-.listItem:focus {
-    transform: scale(1.025, 1.025);
-}
+    .listItem:focus {
+        transform: scale(1.025, 1.025);
+    }
