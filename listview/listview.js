@@ -1,4 +1,4 @@
-define(['itemHelper', 'mediaInfo', 'indicators', 'clearButtonStyle'], function (itemHelper, mediaInfo, indicators) {
+define(['itemHelper', 'mediaInfo', 'indicators', 'clearButtonStyle', 'css!./listview'], function (itemHelper, mediaInfo, indicators) {
 
     function getListViewHtml(items, options) {
 
