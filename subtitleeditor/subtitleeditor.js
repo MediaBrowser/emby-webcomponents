@@ -409,7 +409,7 @@
         }, 500);
     }
 
-    function showEditorInternal(itemId, serverId, apiClient, template) {
+    function showEditorInternal(itemId, serverId, template) {
 
         var apiClient = connectionManager.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
