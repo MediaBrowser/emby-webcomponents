@@ -1,9 +1,20 @@
+button.listItem {
+    background: transparent;
+    border: 0 !important;
+    cursor: pointer;
+    outline: none !important;
+    color: inherit;
+    width: 100%;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
+}
+
 .listItem {
     display: flex;
     align-items: center;
     text-align: left;
     padding: .1em 1.25em !important;
-    outline: none !important;
 }
 
     .listItem.largeImage {

@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'scrollHelper', 'appStorage', 'connectionManager', 'loading', 'emby-select', 'paper-fab', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html'], function (dialogHelper, require, layoutManager, globalize, scrollHelper, appStorage, connectionManager, loading) {
+﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'scrollHelper', 'appStorage', 'connectionManager', 'loading', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html'], function (dialogHelper, require, layoutManager, globalize, scrollHelper, appStorage, connectionManager, loading) {
 
     var currentItem;
 
@@ -98,10 +98,10 @@
 
         if (subs.length) {
 
-            html += '<h1 style="margin-top:1.5em;">' + globalize.translate('sharedcomponents#CurrentSubtitles') + '</h1>';
+            html += '<h1>' + globalize.translate('sharedcomponents#MySubtitles') + '</h1>';
 
             if (layoutManager.tv) {
-                html += '<div>';
+                html += '<div class="paperList clear">';
             } else {
                 html += '<div class="paperList">';
             }
@@ -110,29 +110,18 @@
 
                 var itemHtml = '';
 
-                itemHtml += '<div class="listItem">';
+                var tagName = layoutManager.tv ? 'button' : 'div';
+                var className = layoutManager.tv ? 'listItem btnDelete' : 'listItem';
 
-                itemHtml += '<paper-fab mini class="blue" icon="mediainfo:closed-caption" item-icon></paper-fab>';
+                itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
 
-                var atts = [];
-
-                atts.push(s.Codec);
-                if (s.IsDefault) {
-
-                    atts.push('Default');
-                }
-                if (s.IsForced) {
-
-                    atts.push('Forced');
-                }
+                itemHtml += '<iron-icon icon="mediainfo:closed-caption"></iron-icon>';
 
                 itemHtml += '<div class="listItemBody">';
 
                 itemHtml += '<h3 class="listItemBodyText">';
-                itemHtml += (s.Language || 'und');
+                itemHtml += s.DisplayTitle || '';
                 itemHtml += '</h3>';
-
-                itemHtml += '<div class="secondary listItemBodyText">' + atts.join(' - ') + '</div>';
 
                 if (s.Path) {
                     itemHtml += '<div class="secondary listItemBodyText">' + (s.Path) + '</div>';
@@ -141,11 +130,13 @@
                 itemHtml += '</a>';
                 itemHtml += '</div>';
 
-                if (s.Path) {
-                    itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('sharedcomponents#Delete') + '" class="btnDelete"><iron-icon icon="nav:delete"></iron-icon></button>';
+                if (!layoutManager.tv) {
+                    if (s.Path) {
+                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('sharedcomponents#Delete') + '" class="btnDelete"><iron-icon icon="nav:delete"></iron-icon></button>';
+                    }
                 }
 
-                itemHtml += '</div>';
+                itemHtml += '</' + tagName + '>';
 
                 return itemHtml;
 
@@ -226,7 +217,7 @@
                 }
                 html += '<h1>' + provider + '</h1>';
                 if (layoutManager.tv) {
-                    html += '<div>';
+                    html += '<div class="paperList clear">';
                 } else {
                     html += '<div class="paperList">';
                 }
@@ -235,7 +226,7 @@
 
             html += '<div class="listItem">';
 
-            html += '<paper-fab mini class="blue" icon="mediainfo:closed-caption" item-icon></paper-fab>';
+            html += '<iron-icon icon="mediainfo:closed-caption"></iron-icon>';
 
             html += '<div class="listItemBody">';
 
@@ -254,7 +245,7 @@
 
             html += '<div class="secondary">' + /*(result.CommunityRating || 0) + ' / ' +*/ (result.DownloadCount || 0) + '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" title="' + globalize.translate('sharedcomponents#Download') + '" class="btnDownload"><iron-icon icon="nav:cloud-download"></iron-icon></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnOptions"><iron-icon icon="nav:more-vert"></iron-icon></button>';
 
             html += '</div>';
         }
@@ -359,12 +350,42 @@
 
     function onSubtitleResultsClick(e) {
 
-        var btnDownload = parentWithClass(e.target, 'btnDownload');
-        if (btnDownload) {
-            var id = btnDownload.getAttribute('data-subid');
-            var context = parentWithClass(btnDownload, 'subtitleEditorDialog');
-            downloadRemoteSubtitles(context, id);
+        var btnOptions = parentWithClass(e.target, 'btnOptions');
+        if (btnOptions) {
+            var subtitleId = btnOptions.getAttribute('data-subid');
+            var context = parentWithClass(btnOptions, 'subtitleEditorDialog');
+            showDownloadOptions(btnOptions, context, subtitleId);
         }
+    }
+
+    function showDownloadOptions(button, context, subtitleId) {
+
+        var items = [];
+
+        items.push({
+            name: Globalize.translate('sharedcomponents#Download'),
+            id: 'download'
+        });
+
+        require(['actionsheet'], function (actionsheet) {
+
+            actionsheet.show({
+                items: items,
+                positionTo: button
+
+            }).then(function (id) {
+
+                switch (id) {
+
+                    case 'download':
+                        downloadRemoteSubtitles(context, subtitleId);
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+        });
     }
 
     function showEditor(itemId, serverId) {

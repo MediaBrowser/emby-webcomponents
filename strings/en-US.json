@@ -70,14 +70,14 @@
   "LabelPlaylist": "Playlist:",
   "AddToPlaylist": "Add to Playlist",
   "Subtitles": "Subtitles",
-  "SearchForSubtitles": "Search for Subtitles",
+  "DownloadSubtitles": "Download Subtitles",
   "LabelLanguage": "Language:",
   "Search": "Search",
   "NoSubtitleSearchResultsFound": "No results found.",
   "File": "File",
   "MessageAreYouSureDeleteSubtitles": "Are you sure you wish to delete this subtitle file?",
   "ConfirmDeletion": "Confirm Deletion",
-  "CurrentSubtitles": "Current Subtitles",
+  "MySubtitles": "My Subtitles",
   "MessageDownloadQueued": "Download queued.",
   "EditSubtitles": "Edit Subtitles"
 }
