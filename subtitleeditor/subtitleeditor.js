@@ -224,7 +224,10 @@
                 lastProvider = provider;
             }
 
-            html += '<div class="listItem">';
+            var tagName = layoutManager.tv ? 'button' : 'div';
+            var className = layoutManager.tv ? 'listItem btnOptions' : 'listItem';
+
+            html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
 
             html += '<iron-icon icon="mediainfo:closed-caption"></iron-icon>';
 
@@ -241,11 +244,13 @@
 
             //html += '</a>';
 
-            html += '</div>';
+            html += '</' + tagName + '>';
 
             html += '<div class="secondary">' + /*(result.CommunityRating || 0) + ' / ' +*/ (result.DownloadCount || 0) + '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnOptions"><iron-icon icon="nav:more-vert"></iron-icon></button>';
+            if (!layoutManager.tv) {
+                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnOptions"><iron-icon icon="nav:more-vert"></iron-icon></button>';
+            }
 
             html += '</div>';
         }
@@ -388,6 +393,22 @@
         });
     }
 
+    function onSubmitButtonClick(e) {
+
+        // Do a fake form submit this the button isn't a real submit button
+        var fakeSubmit = document.createElement('input');
+        fakeSubmit.setAttribute('type', 'submit');
+        fakeSubmit.style.display = 'none';
+        var form = parentWithClass(this, 'subtitleSearchForm');
+        form.appendChild(fakeSubmit);
+        fakeSubmit.click();
+
+        // Seeing issues in smart tv browsers where the form does not get submitted if the button is removed prior to the submission actually happening
+        setTimeout(function () {
+            form.removeChild(fakeSubmit);
+        }, 500);
+    }
+
     function showEditor(itemId, serverId) {
 
         loading.show();
@@ -420,8 +441,13 @@
 
                 dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
 
+                var btnSubmit = dlg.querySelector('.btnSubmit');
+
                 if (layoutManager.tv) {
                     scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
+                    dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
+                } else {
+                    btnSubmit.classList.add('hide');
                 }
 
                 dialogHelper.open(dlg);
@@ -442,6 +468,8 @@
 
                     dialogHelper.close(dlg);
                 });
+
+                btnSubmit.addEventListener('click', onSubmitButtonClick);
             });
         });
     }

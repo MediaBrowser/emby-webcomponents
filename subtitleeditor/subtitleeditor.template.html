@@ -10,11 +10,14 @@
 
         <p style="margin: 1.5em 0;" class="originalFile"><span class="mediaInfoLabel pathLabel"></span><span class="pathValue"></span></p>
 
-        <form class="subtitleSearchForm" style="max-width:none;display:flex; align-items: center;">
-            <div class="selectContainer" style="flex-grow:1;margin-bottom:0;">
-                <select is="emby-select" autofocus id="selectLanguage" required="required" label="${LabelLanguage}"></select>
+        <form class="subtitleSearchForm" style="max-width: none;">
+            <div style="display: flex; align-items: center;">
+                <div class="selectContainer" style="flex-grow: 1; margin-bottom: 0;">
+                    <select is="emby-select" id="selectLanguage" required="required" label="${LabelLanguage}"></select>
+                </div>
+                <button type="submit" is="paper-icon-button-light" title="${Search}" class="btnSearchSubtitles" style="flex-shrink: 0;"><iron-icon icon="search"></iron-icon></button>
             </div>
-            <button type="submit" is="paper-icon-button-light" title="${Search}" class="btnSearchSubtitles" style="flex-shrink:0;"><iron-icon icon="search"></iron-icon></button>
+            <paper-button raised style="display:block;" class="btnSubmit">${Search}</paper-button>
         </form>
         <br />
         <div class="subtitleResults"></div>
