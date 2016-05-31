@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'scrollHelper', 'appStorage', 'connectionManager', 'loading', 'emby-select', 'paper-fab', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, require, layoutManager, globalize, scrollHelper, appStorage, connectionManager, loading) {
+﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'scrollHelper', 'appStorage', 'connectionManager', 'loading', 'emby-select', 'paper-fab', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html'], function (dialogHelper, require, layoutManager, globalize, scrollHelper, appStorage, connectionManager, loading) {
 
     var currentItem;
 
@@ -52,18 +52,18 @@
         }).then(function () {
 
             require(['toast'], function (toast) {
-                toast(globalize.translate('MessageDownloadQueued'));
+                toast(globalize.translate('sharedcomponents#MessageDownloadQueued'));
             });
         });
     }
 
     function deleteLocalSubtitle(context, index) {
 
-        var msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
+        var msg = globalize.translate('sharedcomponents#MessageAreYouSureDeleteSubtitles');
 
         require(['confirm'], function (confirm) {
 
-            confirm(msg, globalize.translate('HeaderConfirmDeletion')).then(function () {
+            confirm(msg, globalize.translate('sharedcomponents#ConfirmDeletion')).then(function () {
 
                 loading.show();
 
@@ -98,7 +98,7 @@
 
         if (subs.length) {
 
-            html += '<h1 style="margin-top:1.5em;">' + globalize.translate('HeaderCurrentSubtitles') + '</h1>';
+            html += '<h1 style="margin-top:1.5em;">' + globalize.translate('sharedcomponents#CurrentSubtitles') + '</h1>';
 
             if (layoutManager.tv) {
                 html += '<div>';
@@ -112,7 +112,7 @@
 
                 itemHtml += '<div class="listItem">';
 
-                itemHtml += '<paper-fab mini class="blue" icon="closed-caption" item-icon></paper-fab>';
+                itemHtml += '<paper-fab mini class="blue" icon="mediainfo:closed-caption" item-icon></paper-fab>';
 
                 var atts = [];
 
@@ -129,7 +129,7 @@
                 itemHtml += '<div class="listItemBody">';
 
                 itemHtml += '<h3 class="listItemBodyText">';
-                itemHtml += (s.Language || globalize.translate('LabelUnknownLanaguage'));
+                itemHtml += (s.Language || 'und');
                 itemHtml += '</h3>';
 
                 itemHtml += '<div class="secondary listItemBodyText">' + atts.join(' - ') + '</div>';
@@ -142,7 +142,7 @@
                 itemHtml += '</div>';
 
                 if (s.Path) {
-                    itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete"><iron-icon icon="delete"></iron-icon></button>';
+                    itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('sharedcomponents#Delete') + '" class="btnDelete"><iron-icon icon="nav:delete"></iron-icon></button>';
                 }
 
                 itemHtml += '</div>';
@@ -235,7 +235,7 @@
 
             html += '<div class="listItem">';
 
-            html += '<paper-fab mini class="blue" icon="closed-caption" item-icon></paper-fab>';
+            html += '<paper-fab mini class="blue" icon="mediainfo:closed-caption" item-icon></paper-fab>';
 
             html += '<div class="listItemBody">';
 
@@ -254,7 +254,7 @@
 
             html += '<div class="secondary">' + /*(result.CommunityRating || 0) + ' / ' +*/ (result.DownloadCount || 0) + '</div>';
 
-            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" title="' + globalize.translate('ButtonDownload') + '" class="btnDownload"><iron-icon icon="cloud-download"></iron-icon></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" title="' + globalize.translate('sharedcomponents#Download') + '" class="btnDownload"><iron-icon icon="nav:cloud-download"></iron-icon></button>';
 
             html += '</div>';
         }
@@ -392,10 +392,10 @@
                 dlg.classList.add('formDialog');
                 dlg.classList.add('subtitleEditorDialog');
 
-                dlg.innerHTML = globalize.translateDocument(template);
+                dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
                 document.body.appendChild(dlg);
 
-                dlg.querySelector('.pathLabel').innerHTML = globalize.translate('MediaInfoFile');
+                dlg.querySelector('.pathLabel').innerHTML = globalize.translate('sharedcomponents#File');
 
                 dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
 

@@ -68,5 +68,15 @@
   "MessageItemsAdded": "Items added.",
   "OptionNew": "New...",
   "LabelPlaylist": "Playlist:",
-  "AddToPlaylist": "Add to Playlist"
+  "AddToPlaylist": "Add to Playlist",
+  "Subtitles": "Subtitles",
+  "SearchForSubtitles": "Search for Subtitles",
+  "LabelLanguage": "Language:",
+  "Search": "Search",
+  "NoSubtitleSearchResultsFound": "No results found.",
+  "File": "File",
+  "MessageAreYouSureDeleteSubtitles": "Are you sure you wish to delete this subtitle file?",
+  "ConfirmDeletion": "Confirm Deletion",
+  "CurrentSubtitles": "Current Subtitles",
+  "MessageDownloadQueued": "Download queued"
 }
