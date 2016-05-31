@@ -1,6 +1,7 @@
 ﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'scrollHelper', 'appStorage', 'connectionManager', 'loading', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html', 'css!./subtitleeditor'], function (dialogHelper, require, layoutManager, globalize, scrollHelper, appStorage, connectionManager, loading) {
 
     var currentItem;
+    var hasChanges;
 
     function showLocalSubtitles(context, index) {
 
@@ -51,6 +52,8 @@
 
         }).then(function () {
 
+            hasChanges = true;
+
             require(['toast'], function (toast) {
                 toast(globalize.translate('sharedcomponents#MessageDownloadQueued'));
             });
@@ -79,6 +82,7 @@
 
                 }).then(function () {
 
+                    hasChanges = true;
                     reload(context, apiClient, itemId);
                 });
             });
@@ -115,7 +119,7 @@
 
                 itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
 
-                itemHtml += '<iron-icon icon="mediainfo:closed-caption"></iron-icon>';
+                itemHtml += '<iron-icon class="listItemIcon" icon="mediainfo:closed-caption"></iron-icon>';
 
                 itemHtml += '<div class="listItemBody">';
 
@@ -229,7 +233,7 @@
 
             html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
 
-            html += '<iron-icon icon="mediainfo:closed-caption"></iron-icon>';
+            html += '<iron-icon class="listItemIcon" icon="mediainfo:closed-caption"></iron-icon>';
 
             html += '<div class="listItemBody">';
 
@@ -291,6 +295,7 @@
         context.querySelector('.noSearchResults').classList.add('hide');
 
         function onGetItem(item) {
+
             currentItem = item;
 
             fillSubtitleList(context, item);
@@ -411,10 +416,11 @@
 
     function showEditorInternal(itemId, serverId, template) {
 
+        hasChanges = false;
+
         var apiClient = connectionManager.getApiClient(serverId);
         return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
 
-            var hasChanges;
             var dialogOptions = {
                 removeOnClose: true
             };
@@ -433,7 +439,7 @@
             dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
             document.body.appendChild(dlg);
 
-            dlg.querySelector('.pathLabel').innerHTML = globalize.translate('sharedcomponents#File');
+            dlg.querySelector('.originalFileLabel').innerHTML = globalize.translate('sharedcomponents#File');
 
             dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
 
@@ -446,14 +452,10 @@
                 btnSubmit.classList.add('hide');
             }
 
-            dialogHelper.open(dlg);
-
             var editorContent = dlg.querySelector('.dialogContent');
 
             dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
             dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
-
-            reload(editorContent, apiClient, item);
 
             apiClient.getCultures().then(function (languages) {
 
@@ -465,16 +467,23 @@
                 dialogHelper.close(dlg);
             });
 
-            dlg.addEventListener('close', function () {
-
-                if (hasChanges) {
-                    resolve();
-                } else {
-                    reject();
-                }
-            });
-
             btnSubmit.addEventListener('click', onSubmitButtonClick);
+
+            return new Promise(function (resolve, reject) {
+
+                dlg.addEventListener('close', function () {
+
+                    if (hasChanges) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                });
+
+                dialogHelper.open(dlg);
+
+                reload(editorContent, apiClient, item);
+            });
         });
     }
 

@@ -57,6 +57,11 @@ button.listItem {
     flex-shrink: 0;
 }
 
+.listItemIcon {
+    width: 3vh;
+    height: 3vh;
+}
+
 .listItem.largeImage .listItemImage {
     width: 45vh;
     height: 30vh;
