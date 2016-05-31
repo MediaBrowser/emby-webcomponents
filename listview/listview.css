@@ -14,7 +14,7 @@ button.listItem {
     display: flex;
     align-items: center;
     text-align: left;
-    padding: .1em 1.25em !important;
+    padding: .25em 1.25em !important;
 }
 
     .listItem.largeImage {
