@@ -78,5 +78,6 @@
   "MessageAreYouSureDeleteSubtitles": "Are you sure you wish to delete this subtitle file?",
   "ConfirmDeletion": "Confirm Deletion",
   "CurrentSubtitles": "Current Subtitles",
-  "MessageDownloadQueued": "Download queued"
+  "MessageDownloadQueued": "Download queued.",
+  "EditSubtitles": "Edit Subtitles"
 }
