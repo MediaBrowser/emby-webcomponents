@@ -1,0 +1,8 @@
+﻿.subtitleEditorDialog .originalFileLabel {
+    margin-right: 1em;
+}
+
+.subtitleEditorDialog .dialogContent iron-icon {
+    width: 3vh;
+    height: 3vh;
+}

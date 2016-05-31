@@ -40,8 +40,11 @@ button.listItem {
         text-overflow: ellipsis;
     }
 
+.layout-tv .listItemBody h3 {
+    padding: 0;
+}
+
 .listItemBodyText {
-    padding: .25em 0;
     overflow: hidden;
     text-overflow: ellipsis;
 }

@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'scrollHelper', 'appStorage', 'connectionManager', 'loading', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html'], function (dialogHelper, require, layoutManager, globalize, scrollHelper, appStorage, connectionManager, loading) {
+﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'scrollHelper', 'appStorage', 'connectionManager', 'loading', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'html!./../icons/mediainfo.html', 'html!./../icons/nav.html', 'css!./subtitleeditor'], function (dialogHelper, require, layoutManager, globalize, scrollHelper, appStorage, connectionManager, loading) {
 
     var currentItem;
 
@@ -244,7 +244,7 @@
 
             //html += '</a>';
 
-            html += '</' + tagName + '>';
+            html += '</div>';
 
             html += '<div class="secondary">' + /*(result.CommunityRating || 0) + ' / ' +*/ (result.DownloadCount || 0) + '</div>';
 
@@ -252,7 +252,7 @@
                 html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnOptions"><iron-icon icon="nav:more-vert"></iron-icon></button>';
             }
 
-            html += '</div>';
+            html += '</' + tagName + '>';
         }
 
         if (results.length) {
@@ -409,69 +409,87 @@
         }, 500);
     }
 
+    function showEditorInternal(itemId, serverId, apiClient, template) {
+
+        var apiClient = connectionManager.getApiClient(serverId);
+        return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+
+            var hasChanges;
+            var dialogOptions = {
+                removeOnClose: true
+            };
+
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'small';
+            }
+
+            var dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('formDialog');
+            dlg.classList.add('subtitleEditorDialog');
+
+            dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
+            document.body.appendChild(dlg);
+
+            dlg.querySelector('.pathLabel').innerHTML = globalize.translate('sharedcomponents#File');
+
+            dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
+
+            var btnSubmit = dlg.querySelector('.btnSubmit');
+
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
+                dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
+            } else {
+                btnSubmit.classList.add('hide');
+            }
+
+            dialogHelper.open(dlg);
+
+            var editorContent = dlg.querySelector('.dialogContent');
+
+            dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
+            dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
+
+            reload(editorContent, apiClient, item);
+
+            apiClient.getCultures().then(function (languages) {
+
+                fillLanguages(editorContent, apiClient, languages);
+            });
+
+            dlg.querySelector('.btnCancel').addEventListener('click', function () {
+
+                dialogHelper.close(dlg);
+            });
+
+            dlg.addEventListener('close', function () {
+
+                if (hasChanges) {
+                    resolve();
+                } else {
+                    reject();
+                }
+            });
+
+            btnSubmit.addEventListener('click', onSubmitButtonClick);
+        });
+    }
+
     function showEditor(itemId, serverId) {
 
         loading.show();
 
-        require(['text!./subtitleeditor.template.html'], function (template) {
+        return new Promise(function (resolve, reject) {
 
-            var apiClient = connectionManager.getApiClient(serverId);
+            require(['text!./subtitleeditor.template.html'], function (template) {
 
-            apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-
-                var dialogOptions = {
-                    removeOnClose: true
-                };
-
-                if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
-                } else {
-                    dialogOptions.size = 'small';
-                }
-
-                var dlg = dialogHelper.createDialog(dialogOptions);
-
-                dlg.classList.add('formDialog');
-                dlg.classList.add('subtitleEditorDialog');
-
-                dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
-                document.body.appendChild(dlg);
-
-                dlg.querySelector('.pathLabel').innerHTML = globalize.translate('sharedcomponents#File');
-
-                dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
-
-                var btnSubmit = dlg.querySelector('.btnSubmit');
-
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
-                    dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
-                } else {
-                    btnSubmit.classList.add('hide');
-                }
-
-                dialogHelper.open(dlg);
-
-                var editorContent = dlg.querySelector('.dialogContent');
-
-                dlg.querySelector('.subtitleList').addEventListener('click', onSubtitleListClick);
-                dlg.querySelector('.subtitleResults').addEventListener('click', onSubtitleResultsClick);
-
-                reload(editorContent, apiClient, item);
-
-                apiClient.getCultures().then(function (languages) {
-
-                    fillLanguages(editorContent, apiClient, languages);
-                });
-
-                dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
-                    dialogHelper.close(dlg);
-                });
-
-                btnSubmit.addEventListener('click', onSubmitButtonClick);
+                showEditorInternal(itemId, serverId, template).then(resolve, reject);
             });
         });
+
     }
 
     return {
