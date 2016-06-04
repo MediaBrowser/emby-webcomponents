@@ -1,4 +1,4 @@
-define(['layoutManager', 'globalize', 'emby-button'], function (layoutManager, globalize) {
+define(['layoutManager', 'globalize'], function (layoutManager, globalize) {
 
     function showTvConfirm(options) {
         return new Promise(function (resolve, reject) {
@@ -106,7 +106,7 @@ define(['layoutManager', 'globalize', 'emby-button'], function (layoutManager, g
     function showConfirm(options) {
         return new Promise(function (resolve, reject) {
 
-            require(['dialogHelper', 'paper-button'], function (dialogHelper) {
+            require(['dialogHelper', 'emby-button'], function (dialogHelper) {
                 showConfirmInternal(options, dialogHelper, resolve, reject);
             });
         });
