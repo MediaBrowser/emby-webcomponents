@@ -170,7 +170,7 @@
         html += '<br />';
         html += '<br />';
         html += '<div>';
-        html += '<button is="emby-button" class="raised btnSubmit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</button>';
+        html += '<button is="emby-button" type="submit" class="raised btnSubmit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</button>';
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';

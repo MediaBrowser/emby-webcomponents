@@ -22,7 +22,8 @@
 }
 
 .promptDialog.fullscreen .btnSubmit {
-    display: block;
+    display: flex;
+    width: 100%;
 }
 
 .promptDialog.fullscreen .btnPromptExit {

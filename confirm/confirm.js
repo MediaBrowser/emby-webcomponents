@@ -1,4 +1,4 @@
-define(['layoutManager', 'globalize'], function (layoutManager, globalize) {
+define(['layoutManager', 'globalize', 'emby-button'], function (layoutManager, globalize) {
 
     function showTvConfirm(options) {
         return new Promise(function (resolve, reject) {
@@ -74,9 +74,9 @@ define(['layoutManager', 'globalize'], function (layoutManager, globalize) {
 
         html += '<div class="buttons">';
 
-        html += '<paper-button class="btnConfirm" autofocus>' + globalize.translate('sharedcomponents#ButtonOk') + '</paper-button>';
+        html += '<button is="emby-button" type="button" class="btnConfirm" autofocus>' + globalize.translate('sharedcomponents#ButtonOk') + '</button>';
 
-        html += '<paper-button class="btnCancel">' + globalize.translate('sharedcomponents#ButtonCancel') + '</paper-button>';
+        html += '<button is="emby-button" type="button" class="btnCancel">' + globalize.translate('sharedcomponents#ButtonCancel') + '</button>';
 
         html += '</div>';
 
