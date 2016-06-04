@@ -1,4 +1,4 @@
-define(['dialogHelper', 'layoutManager', 'globalize', 'html!./../icons/nav.html', 'css!./style.css', 'paper-button', 'paper-icon-button-light', 'emby-input'], function (dialogHelper, layoutManager, globalize) {
+define(['dialogHelper', 'layoutManager', 'globalize', 'html!./../icons/nav.html', 'css!./style.css', 'emby-button', 'paper-icon-button-light', 'emby-input'], function (dialogHelper, layoutManager, globalize) {
 
     function getIcon(icon, cssClass, canFocus, autoFocus) {
 

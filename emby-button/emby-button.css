@@ -18,7 +18,6 @@
     padding: 0.7em 0.57em;
     font-weight: normal;
     vertical-align: middle;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
     border: 0;
     vertical-align: middle;
     border-radius: .15em;
@@ -28,6 +27,10 @@
     overflow: hidden;
 }
 
+    [is="emby-button"].raised {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
     [is="emby-button"].block {
         display: flex;
         align-items: center;
@@ -36,7 +39,7 @@
         width: 100%;
     }
 
-    [is="emby-button"]:focus {
+    [is="emby-button"].raised:focus {
         box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
         transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
