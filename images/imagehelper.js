@@ -121,7 +121,7 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
             for (var j = 0, length2 = entries.length; j < length2; j++) {
                 var entry = entries[j];
                 var intersectionRatio = entry.intersectionRatio;
-                if (intersectionRatio) {
+                if (intersectionRatio >= 0) {
 
                     var target = entry.target;
                     observer.unobserve(target);

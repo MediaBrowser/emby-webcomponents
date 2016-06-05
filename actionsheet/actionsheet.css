@@ -27,7 +27,7 @@
     text-align: center;
 }
 
-.actionSheetMenuItem {
+button.actionSheetMenuItem {
     padding: 0 1.6em;
     margin: 0;
     text-transform: none;
@@ -42,7 +42,7 @@
     padding: .8em 0;
 }
 
-.layout-tv .actionSheetMenuItem {
+.layout-tv button.actionSheetMenuItem {
     padding-top: .16em;
     padding-bottom: .16em;
 }
