@@ -1,9 +1,10 @@
-﻿define(['css!./emby-button'], function (layoutManager, browser) {
+﻿define(['browser', 'css!./emby-button'], function (browser) {
 
     var EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
 
     function animateButton(e) {
 
+        var btn = this;
         var div = document.createElement('div');
 
         div.classList.add('ripple-effect');
@@ -16,16 +17,23 @@
             div.style.top = offsetY + 'px';
         }
 
-        this.appendChild(div);
+        btn.appendChild(div);
 
-        setTimeout(function () {
+        div.addEventListener("animationend", function () {
             div.parentNode.removeChild(div);
-        }, 2000);
+        }, false);
     }
 
     function onKeyDown(e) {
 
         if (e.keyCode == 13) {
+            animateButton.call(this, e);
+        }
+    }
+
+    function onMouseDown(e) {
+
+        if (e.button == 0) {
             animateButton.call(this, e);
         }
     }
@@ -39,8 +47,12 @@
         this.setAttribute('data-embybutton', 'true');
 
         this.addEventListener('keydown', onKeyDown);
-        this.addEventListener('mousedown', animateButton);
-        //this.addEventListener('click', animateButton);
+        if (browser.safari) {
+            this.addEventListener('click', animateButton);
+        } else {
+            this.addEventListener('mousedown', onMouseDown);
+            //this.addEventListener('touchstart', animateButton);
+        }
     };
 
     document.registerElement('emby-button', {
