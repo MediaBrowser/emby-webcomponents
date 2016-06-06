@@ -35,6 +35,7 @@
     }
 
     [is="emby-button"].fab {
+        display: inline-flex;
         border-radius: 50%;
         min-width: 56px;
         min-height: 56px;
@@ -43,7 +44,6 @@
         background-color: #444;
         padding: .6em;
         box-sizing: border-box;
-        display: inline-flex;
         align-items: center;
         justify-content: center;
         text-align: center;
@@ -51,23 +51,23 @@
         margin: 0;
     }
 
-        [is="emby-button"].fab.noflex {
-            display: inline-block;
-        }
+    [is="emby-button"].noflex {
+        display: inline-block;
+    }
 
-        [is="emby-button"].fab.mini {
-            min-width: 40px !important;
-            min-height: 40px !important;
-            height: 3.3vh !important;
-            width: 3.3vh !important;
-            padding: .4em;
-        }
+    [is="emby-button"].fab.mini {
+        min-width: 40px !important;
+        min-height: 40px !important;
+        height: 3.3vh !important;
+        width: 3.3vh !important;
+        padding: .4em;
+    }
 
-        [is="emby-button"].fab iron-icon {
-            width: 100%;
-            height: 100%;
-            vertical-align: middle;
-        }
+    [is="emby-button"].fab iron-icon {
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+    }
 
     [is="emby-button"].block {
         display: block;
