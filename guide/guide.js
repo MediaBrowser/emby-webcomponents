@@ -78,20 +78,24 @@
         }
 
         function updateCurrentTimeIndicator() {
+
             if (!currentTimeIndicatorElement) {
                 currentTimeIndicatorElement = options.element.querySelector('.currentTimeIndicator');
             }
 
             var dateDifference = new Date().getTime() - currentDate.getTime();
-            var pct = dateDifference > 0 ? (100 * dateDifference / totalRendererdMs) : 0;
-            pct = Math.min(pct, 100);
+            var pct = dateDifference > 0 ? (dateDifference / totalRendererdMs) : 0;
+            pct = Math.min(pct, 1);
 
-            if (pct <= 0 || pct >= 100) {
+            if (pct <= 0 || pct >= 1) {
                 currentTimeIndicatorElement.classList.add('hide');
             } else {
                 currentTimeIndicatorElement.classList.remove('hide');
+
+                //pct *= 100;
+                //pct = 100 - pct;
+                currentTimeIndicatorElement.style.width = (pct * 100) + '%';
             }
-            currentTimeIndicatorElement.style.width = pct + '%';
         }
 
         function getChannelLimit(context) {
@@ -199,6 +203,8 @@
             }
 
             html += '<div class="currentTimeIndicator hide">';
+            html += '<div class="currentTimeIndicatorBar">';
+            html += '</div>';
             html += '<iron-icon icon="nav:arrow-drop-down"></iron-icon>';
             html += '</div>';
 
