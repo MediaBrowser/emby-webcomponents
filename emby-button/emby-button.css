@@ -51,11 +51,16 @@
         margin: 0;
     }
 
+        [is="emby-button"].fab.noflex {
+            display: inline-block;
+        }
+
         [is="emby-button"].fab.mini {
             min-width: 40px !important;
             min-height: 40px !important;
             height: 3.3vh !important;
             width: 3.3vh !important;
+            padding: .4em;
         }
 
         [is="emby-button"].fab iron-icon {
@@ -125,7 +130,9 @@
 
 [is=paper-icon-button-light] iron-icon {
     width: 100%;
-    height: 100%;
+    /* Can't use 100% height or it will stretch past the boundaries in safari */
+    /*height: 100%;*/
+    max-height: 100%;
     /* Make sure its on top of the ripple */
     position: relative;
     z-index: 1;
