@@ -105,6 +105,31 @@
     position: relative;
 }
 
+.timeslotHeadersInner {
+    position: relative;
+}
+
+.currentTimeIndicator {
+    position: absolute;
+    bottom: .1em;
+    left: .65vh;
+    height: 2px;
+    background-color: #52B54B;
+    color: #52B54B;
+    margin-left: 4px;
+    display: flex;
+    align-items: flex-end;
+}
+
+    .currentTimeIndicator iron-icon {
+        width: 4vh;
+        height: 4vh;
+        margin-top: 4vh;
+        margin-left: auto;
+        margin-right: -1.975vh;
+        margin-bottom: -1.4vh;
+    }
+
 .channelPrograms, .timeslotHeadersInner {
     width: 1800vw;
 }
