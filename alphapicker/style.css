@@ -25,6 +25,14 @@ button.alphaPickerButton {
     opacity: .25;
 }
 
+.vertical .alphaPickerButton {
+    padding: .25em .4em !important;
+}
+
+.layout-desktop .alphaPickerButton {
+    opacity: .7;
+}
+
 [is=paper-icon-button-light].alphaPickerButton {
     opacity: .25;
     width: 4.4vh;

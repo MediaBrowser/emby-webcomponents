@@ -1,4 +1,4 @@
-define(['focusManager', 'css!./style.css', 'clearButtonStyle', 'paper-icon-button-light'], function (focusManager) {
+define(['focusManager', 'layoutManager', 'css!./style.css', 'clearButtonStyle', 'paper-icon-button-light'], function (focusManager, layoutManager) {
 
     function focus() {
         var selected = this.querySelector('.selected');
@@ -162,7 +162,11 @@ define(['focusManager', 'css!./style.css', 'clearButtonStyle', 'paper-icon-butto
                     element.addEventListener('click', onAlphaPickerClick);
                 }
 
-                element.addEventListener('focus', onAlphaPickerFocusIn, true);
+                if (layoutManager.tv) {
+                    element.addEventListener('focus', onAlphaPickerFocusIn, true);
+                } else {
+                    element.addEventListener('click', onAlphaPickerFocusIn);
+                }
 
             } else {
 
@@ -172,6 +176,7 @@ define(['focusManager', 'css!./style.css', 'clearButtonStyle', 'paper-icon-butto
 
                 element.removeEventListener('click', onAlphaPickerClick);
                 element.removeEventListener('focus', onAlphaPickerFocusIn, true);
+                element.removeEventListener('click', onAlphaPickerFocusIn);
             }
         };
 
@@ -216,7 +221,9 @@ define(['focusManager', 'css!./style.css', 'clearButtonStyle', 'paper-icon-butto
 
                 if (applyValue) {
                     element.dispatchEvent(new CustomEvent("alphavaluechanged", {
-                        value: value
+                        detail: {
+                            value: value
+                        }
                     }));
                 }
             }
