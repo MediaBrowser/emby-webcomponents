@@ -743,7 +743,11 @@
         }
 
         function onTimerCreated(e, apiClient, data) {
+
             var programId = data.ProgramId;
+            // This could be null, not supported by all tv providers
+            var newTimerId = data.Id;
+
             // find guide cells by program id, ensure timer icon
             var cells = options.element.querySelectorAll('.programCell[data-id="' + programId + '"]');
             for (var i = 0, length = cells.length; i < length; i++) {
@@ -752,6 +756,10 @@
                 var icon = cell.querySelector('.timerIcon');
                 if (!icon) {
                     cell.insertAdjacentHTML('beforeend', '<iron-icon class="timerIcon" icon="mediainfo:fiber-manual-record"></iron-icon>');
+                }
+
+                if (newTimerId) {
+                    cell.setAttribute('data-timerid', newTimerId);
                 }
             }
         }
@@ -762,20 +770,28 @@
         function onTimerCancelled(e, apiClient, data) {
             var id = data.Id;
             // find guide cells by timer id, remove timer icon
-            var icons = options.element.querySelectorAll('.programCell[data-timerid="' + id + '"] .timerIcon');
-            for (var i = 0, length = icons.length; i < length; i++) {
-                var icon = icons[i];
-                icon.parentNode.removeChild(icon);
+            var cells = options.element.querySelectorAll('.programCell[data-timerid="' + id + '"]');
+            for (var i = 0, length = cells.length; i < length; i++) {
+                var cells = cells[i];
+                var icon = cell.querySelector('.timerIcon');
+                if (icon) {
+                    icon.parentNode.removeChild(icon);
+                }
+                cell.removeAttribute('data-timerid');
             }
         }
 
         function onSeriesTimerCancelled(e, apiClient, data) {
             var id = data.Id;
             // find guide cells by timer id, remove timer icon
-            var icons = options.element.querySelectorAll('.programCell[data-seriestimerid="' + id + '"] .seriesTimerIcon');
-            for (var i = 0, length = icons.length; i < length; i++) {
-                var icon = icons[i];
-                icon.parentNode.removeChild(icon);
+            var cells = options.element.querySelectorAll('.programCell[data-seriestimerid="' + id + '"]');
+            for (var i = 0, length = cells.length; i < length; i++) {
+                var cells = cells[i];
+                var icon = cell.querySelector('.seriesTimerIcon');
+                if (icon) {
+                    icon.parentNode.removeChild(icon);
+                }
+                cell.removeAttribute('data-seriestimerid');
             }
         }
 
