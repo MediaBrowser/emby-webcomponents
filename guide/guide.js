@@ -745,7 +745,7 @@
         function onTimerCreated(e, apiClient, data) {
             var programId = data.ProgramId;
             // find guide cells by program id, ensure timer icon
-            var cells = options.element.querySelectorAll('.programCell[data-id="' + id + '"]');
+            var cells = options.element.querySelectorAll('.programCell[data-id="' + programId + '"]');
             for (var i = 0, length = cells.length; i < length; i++) {
                 var cell = cells[i];
 
