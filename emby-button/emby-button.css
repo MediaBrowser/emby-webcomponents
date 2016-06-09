@@ -69,6 +69,10 @@
         vertical-align: middle;
     }
 
+    [is="emby-button"].fab i {
+        vertical-align: middle;
+    }
+
     [is="emby-button"].block {
         display: block;
         align-items: center;
@@ -83,6 +87,10 @@
     }
 
     [is="emby-button"] iron-icon + span {
+        margin-left: .5em;
+    }
+
+    [is="emby-button"] i + span {
         margin-left: .5em;
     }
 
@@ -143,6 +151,13 @@
 [is=paper-icon-button-light] iron-icon {
     width: 100%;
     height: 100%;
+    /* Make sure its on top of the ripple */
+    position: relative;
+    z-index: 1;
+    vertical-align: middle;
+}
+
+[is=paper-icon-button-light] i {
     /* Make sure its on top of the ripple */
     position: relative;
     z-index: 1;

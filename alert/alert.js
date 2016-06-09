@@ -1,4 +1,4 @@
-define(['dialogHelper', 'layoutManager', 'globalize', 'html!./../icons/nav.html', 'css!./../prompt/style.css', 'emby-button', 'paper-icon-button-light'], function (dialogHelper, layoutManager, globalize) {
+define(['dialogHelper', 'layoutManager', 'globalize', 'material-icons', 'css!./../prompt/style.css', 'emby-button', 'paper-icon-button-light'], function (dialogHelper, layoutManager, globalize) {
 
     function getIcon(icon, cssClass, canFocus, autoFocus) {
 
@@ -44,7 +44,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'html!./../icons/nav.html'
 
         html += '<div class="promptDialogContent">';
         if (backButton) {
-            html += getIcon('dialog:arrow-back', 'btnPromptExit', false);
+            html += getIcon('arrow_back', 'btnPromptExit', false);
         }
 
         if (options.title) {

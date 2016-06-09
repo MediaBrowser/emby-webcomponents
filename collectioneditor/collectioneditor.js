@@ -251,7 +251,7 @@
             html += title;
             html += '</div>';
 
-            html += '<a class="btnHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('sharedcomponents#Help') + '"><iron-icon icon="nav:info"></iron-icon><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+            html += '<a class="btnHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('sharedcomponents#Help') + '"><i class="md-icon">info</i><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
 
             html += '</div>';
 
