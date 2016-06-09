@@ -91,7 +91,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         var tabIndex = canFocus ? '' : ' tabindex="-1"';
         autoFocus = autoFocus ? ' autofocus' : '';
-        return '<button is="paper-icon-button-light" class="' + cssClass + '"' + tabIndex + autoFocus + '><i class="md-icon">' + icon + '</in></button>';
+        return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><i class="md-icon">' + icon + '</i></button>';
     }
 
     return function (options) {
