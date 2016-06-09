@@ -164,7 +164,7 @@
                 html += '<i class="actionSheetItemIcon md-icon">' + option.icon + '</i>';
             }
             else if (renderIcon && !center) {
-                html += '<i class="actionSheetItemIcon md-icon"></i>';
+                html += '<i class="actionSheetItemIcon md-icon" style="visibility:hidden;">check</i>';
             }
             html += '<div class="actionSheetItemText">' + (option.name || option.textContent || option.innerText) + '</div>';
             html += '</' + itemTagName + '>';
