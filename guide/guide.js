@@ -5,23 +5,6 @@
         var self = this;
         var items = {};
 
-        self.refresh = function () {
-
-            reloadPage(options.element);
-        };
-
-        self.destroy = function () {
-
-            events.off(serverNotifications, 'TimerCreated', onTimerCreated);
-            events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
-            events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
-            events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
-
-            clearCurrentTimeUpdateInterval();
-            itemShortcuts.off(options.element);
-            items = {};
-        };
-
         self.options = options;
 
         // 30 mins
@@ -39,6 +22,24 @@
         };
 
         var channelsPromise;
+
+        self.refresh = function () {
+
+            currentDate = null;
+            reloadPage(options.element);
+        };
+
+        self.destroy = function () {
+
+            events.off(serverNotifications, 'TimerCreated', onTimerCreated);
+            events.off(serverNotifications, 'SeriesTimerCreated', onSeriesTimerCreated);
+            events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
+            events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+
+            clearCurrentTimeUpdateInterval();
+            itemShortcuts.off(options.element);
+            items = {};
+        };
 
         function normalizeDateToTimeslot(date) {
 
