@@ -369,9 +369,9 @@
 .programCell i {
     margin-left: auto;
     margin-right: .5em;
-    height: 2.8vh;
-    width: 2.8vh;
-    font-size: 2.8vh;
+    height: 3.5vh;
+    width: 3.5vh;
+    font-size: 3.5vh;
     color: #ddd;
     flex-shrink: 0;
 }

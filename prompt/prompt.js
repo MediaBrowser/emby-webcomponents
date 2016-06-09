@@ -66,7 +66,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'material-icons', 'css!./s
 
         html += '<br/>';
         if (raisedButtons) {
-            html += '<button is="emby-button" type="submit" class="raised btnSubmit"><iron-icon icon="nav:check"></iron-icon><span>' + globalize.translate('sharedcomponents#ButtonOk') + '</span></button>';
+            html += '<button is="emby-button" type="submit" class="raised btnSubmit"><i class="md-icon">check</i><span>' + globalize.translate('sharedcomponents#ButtonOk') + '</span></button>';
         } else {
             html += '<div class="buttons">';
             html += '<button is="emby-button" type="submit" class="btnSubmit">' + globalize.translate('sharedcomponents#ButtonOk') + '</button>';

@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', 'emby-button', 'css!./actionsheet', 'html!./../icons/nav.html', 'scrollStyles'], function (dialogHelper, layoutManager, globalize) {
+﻿define(['dialogHelper', 'layoutManager', 'globalize', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles'], function (dialogHelper, layoutManager, globalize) {
 
     function parentWithClass(elem, className) {
 
@@ -137,9 +137,9 @@
         for (i = 0, length = options.items.length; i < length; i++) {
 
             option = options.items[i];
-            option.ironIcon = option.selected ? 'nav:check' : null;
+            option.icon = option.selected ? 'check' : null;
 
-            if (option.ironIcon) {
+            if (option.icon) {
                 renderIcon = true;
             }
         }
@@ -160,11 +160,11 @@
             var autoFocus = option.selected ? ' autoFocus' : '';
             html += '<' + itemTagName + autoFocus + ' is="emby-button" type="button" class="actionSheetMenuItem" data-id="' + (option.id || option.value) + '">';
 
-            if (option.ironIcon) {
-                html += '<iron-icon class="actionSheetItemIcon" icon="' + option.ironIcon + '"></iron-icon>';
+            if (option.icon) {
+                html += '<i class="actionSheetItemIcon md-icon">' + option.icon + '</i>';
             }
             else if (renderIcon && !center) {
-                html += '<iron-icon class="actionSheetItemIcon"></iron-icon>';
+                html += '<i class="actionSheetItemIcon md-icon"></i>';
             }
             html += '<div class="actionSheetItemText">' + (option.name || option.textContent || option.innerText) + '</div>';
             html += '</' + itemTagName + '>';

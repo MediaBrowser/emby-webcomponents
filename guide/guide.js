@@ -756,7 +756,7 @@
 
                 var icon = cell.querySelector('.timerIcon');
                 if (!icon) {
-                    cell.insertAdjacentHTML('beforeend', '<iron-icon class="timerIcon" icon="mediainfo:fiber-manual-record"></iron-icon>');
+                    cell.insertAdjacentHTML('beforeend', '<i class="timerIcon md-icon">fiber_manual_record</i>');
                 }
 
                 if (newTimerId) {
