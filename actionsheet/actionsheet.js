@@ -48,6 +48,7 @@
     function getPosition(options, dlg) {
 
         var windowHeight = window.innerHeight;
+        var windowWidth = window.innerWidth;
 
         if (windowHeight < 540) {
             return null;
@@ -58,13 +59,23 @@
         pos.top += options.positionTo.offsetHeight / 2;
         pos.left += options.positionTo.offsetWidth / 2;
 
+        var height = dlg.offsetHeight || 300;
+        var width = dlg.offsetWidth || 160;
+
         // Account for popup size 
-        pos.top -= ((dlg.offsetHeight || 300) / 2);
-        pos.left -= ((dlg.offsetWidth || 160) / 2);
+        pos.top -= height / 2;
+        pos.left -= width / 2;
 
         // Avoid showing too close to the bottom
-        pos.top = Math.min(pos.top, windowHeight - 300);
-        pos.left = Math.min(pos.left, window.innerWidth - 300);
+        var overflowX = pos.left + width - windowWidth;
+        var overflowY = pos.top + height - windowHeight;
+
+        if (overflowX > 0) {
+            pos.left -= (overflowX + 20);
+        }
+        if (overflowY > 0) {
+            pos.top -= (overflowY + 20);
+        }
 
         // Do some boundary checking
         pos.top = Math.max(pos.top, 10);
@@ -130,7 +141,9 @@
             }
         }
 
-        html += '<div class="actionSheetScroller hiddenScrollY">';
+        var scrollType = layoutManager.desktop ? 'smoothScrollY' : 'hiddenScrollY';
+
+        html += '<div class="actionSheetScroller ' + scrollType + '">';
 
         var i, length, option;
         var renderIcon = false;
