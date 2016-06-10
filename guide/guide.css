@@ -141,6 +141,7 @@
 .currentTimeIndicatorArrow {
     width: 4vh;
     height: 4vh;
+    font-size: 4vh;
     color: #52B54B;
     margin-left: -2vh;
 }
