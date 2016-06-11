@@ -2,6 +2,18 @@
 
     var EmbyCheckboxPrototype = Object.create(HTMLInputElement.prototype);
 
+    function onKeyDown(e) {
+
+        // Don't submit form on enter
+        if (e.keyCode == 13) {
+            e.preventDefault();
+
+            this.checked = !this.checked;
+
+            return false;
+        }
+    }
+
     EmbyCheckboxPrototype.attachedCallback = function () {
 
         if (this.getAttribute('data-embycheckbox') == 'true') {
@@ -19,9 +31,11 @@
         labelElement.classList.add('mdl-js-ripple-effect');
 
         var labelTextElement = labelElement.querySelector('span');
-        labelElement.insertAdjacentHTML('beforeend', '<span class="mdl-checkbox__focus-helper"></span><span class="mdl-checkbox__box-outline"><span class="mdl-checkbox__tick-outline"></span></span>');
+        labelElement.insertAdjacentHTML('beforeend', '<span class="mdl-checkbox__focus-helper"></span><span class="checkboxOutline"><span class="mdl-checkbox__tick-outline"></span></span>');
 
-        labelTextElement.classList.add('mdl-checkbox__label');
+        labelTextElement.classList.add('checkboxLabel');
+
+        this.addEventListener('keydown', onKeyDown);
     };
 
     document.registerElement('emby-checkbox', {

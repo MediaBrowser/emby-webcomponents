@@ -1,4 +1,4 @@
-﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'scrollHelper', 'embyRouter', 'globalize', 'paper-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, connectionManager, scrollHelper, embyRouter, globalize) {
+﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'scrollHelper', 'embyRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, connectionManager, scrollHelper, embyRouter, globalize) {
 
     var currentServerId;
 
@@ -160,9 +160,10 @@
 
         html += '<br />';
 
-        html += '<div>';
-        html += '<paper-checkbox id="chkEnableInternetMetadata">' + globalize.translate('sharedcomponents#SearchForCollectionInternetMetadata') + '</paper-checkbox>';
-        html += '</div>';
+        html += '<label class="checkboxContainer">';
+        html += '<input is="emby-checkbox" type="checkbox" id="chkEnableInternetMetadata" />';
+        html += '<span>' + globalize.translate('sharedcomponents#SearchForCollectionInternetMetadata') + '</span>';
+        html += '</label>';
 
         // newCollectionInfo
         html += '</div>';
