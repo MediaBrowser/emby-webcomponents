@@ -168,8 +168,6 @@
         // newCollectionInfo
         html += '</div>';
 
-        html += '<br />';
-        html += '<br />';
         html += '<div>';
         html += '<button is="emby-button" type="submit" class="raised btnSubmit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</button>';
         html += '</div>';

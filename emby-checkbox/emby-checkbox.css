@@ -21,6 +21,10 @@
     display: flex;
 }
 
+div.checkboxContainer {
+    display: block;
+}
+
 .mdl-checkbox__input {
     position: absolute;
     width: 0;
