@@ -7,13 +7,13 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    padding-left: 6vh;
+    padding-left: 36px;
     align-items: center;
-    height: 4.6vh;
+    height: 32px;
 }
 
 .checkboxFieldDescription {
-    padding-left: 6vh;
+    padding-left: 36px;
 }
 
 .checkboxContainer {
@@ -45,8 +45,8 @@ div.checkboxContainer {
     left: 0;
     display: inline-block;
     box-sizing: border-box;
-    width: 4.6vh;
-    height: 4.6vh;
+    width: 24px;
+    height: 24px;
     margin: 0;
     cursor: pointer;
     overflow: hidden;
@@ -66,10 +66,10 @@ div.checkboxContainer {
 
 .mdl-checkbox__focus-helper {
     position: absolute;
-    top: -3.7vh;
-    left: -3.7vh;
-    width: 12vh;
-    height: 12vh;
+    top: -12px;
+    left:-12px;
+    width: 48px;
+    height: 48px;
     display: inline-block;
     box-sizing: border-box;
     margin: 3px 0 0 0;
