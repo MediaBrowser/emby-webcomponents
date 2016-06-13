@@ -1,10 +1,20 @@
-﻿define(['css!./emby-slider', 'registerElement', 'emby-input'], function () {
+﻿define(['browser', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser) {
 
     var EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
-    function updateValues(range, backgroundLower, backgroundUpper) {
+    var supportsNativeProgressStyle = browser.firefox || browser.edge || browser.msie;
+    var supportsValueSetOverride = false;
 
-        var fraction = (range.value - range.min) / (range.max - range.min);
+    if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
+
+        var descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+        // descriptor returning null in webos
+        if (descriptor && descriptor.configurable) {
+            supportsValueSetOverride = true;
+        }
+    }
+
+    function updateValues(range, backgroundLower, backgroundUpper) {
 
         //if (fraction === 0) {
         //    range.classList.add('is-lowest-value');
@@ -12,10 +22,14 @@
         //    range.classList.remove('is-lowest-value');
         //}
 
-        backgroundLower.style.flex = fraction;
-        backgroundLower.style.webkitFlex = fraction;
-        backgroundUpper.style.flex = 1 - fraction;
-        backgroundUpper.style.webkitFlex = 1 - fraction;
+        if (backgroundLower) {
+            var fraction = (range.value - range.min) / (range.max - range.min);
+
+            backgroundLower.style.flex = fraction;
+            backgroundLower.style.webkitFlex = fraction;
+            backgroundUpper.style.flex = 1 - fraction;
+            backgroundUpper.style.webkitFlex = 1 - fraction;
+        }
     }
 
     EmbySliderPrototype.attachedCallback = function () {
@@ -32,40 +46,50 @@
         var containerElement = this.parentNode;
         containerElement.classList.add('mdl-slider__container');
 
-        containerElement.insertAdjacentHTML('beforeend', '<div class="mdl-slider__background-flex"><div class="mdl-slider__background-lower"></div><div class="mdl-slider__background-upper"></div></div>');
+        if (!supportsNativeProgressStyle) {
+            containerElement.insertAdjacentHTML('beforeend', '<div class="mdl-slider__background-flex"><div class="mdl-slider__background-lower"></div><div class="mdl-slider__background-upper"></div></div>');
+        }
 
         var backgroundLower = containerElement.querySelector('.mdl-slider__background-lower');
         var backgroundUpper = containerElement.querySelector('.mdl-slider__background-upper');
 
-        var lastUpdateValues = 0;
-
         this.addEventListener('input', function () {
             this.dragging = true;
-            var now = new Date().getTime();
-
-            if ((now - lastUpdateValues) >= 500) {
-                lastUpdateValues = now;
-                updateValues(this, backgroundLower, backgroundUpper);
-            }
         });
         this.addEventListener('change', function () {
             this.dragging = false;
-            var now = new Date().getTime();
-
-            if ((now - lastUpdateValues) >= 500) {
-                lastUpdateValues = now;
-                updateValues(this, backgroundLower, backgroundUpper);
-            }
+            updateValues(this, backgroundLower, backgroundUpper);
         });
-        this.addEventListener('valueset', function () {
 
-            var now = new Date().getTime();
+        if (!supportsNativeProgressStyle) {
 
-            if ((now - lastUpdateValues) >= 500) {
-                lastUpdateValues = now;
-                updateValues(this, backgroundLower, backgroundUpper);
+            if (supportsValueSetOverride) {
+                this.addEventListener('valueset', function () {
+                    updateValues(this, backgroundLower, backgroundUpper);
+                });
+            } else {
+                startInterval(this, backgroundLower, backgroundUpper);
             }
-        });
+        }
+    };
+
+    function startInterval(range, backgroundLower, backgroundUpper) {
+        var interval = range.interval;
+        if (interval) {
+            clearInterval(interval);
+        }
+        range.interval = setInterval(function () {
+            updateValues(range, backgroundLower, backgroundUpper);
+        }, 100);
+    }
+
+    EmbySliderPrototype.detachedCallback = function () {
+
+        var interval = this.interval;
+        if (interval) {
+            clearInterval(interval);
+        }
+        this.interval = null;
     };
 
     document.registerElement('emby-slider', {
