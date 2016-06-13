@@ -69,8 +69,8 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider {
 
     .mdl-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
-        width: 3vh;
-        height: 3vh;
+        width: 2vh;
+        height: 2vh;
         box-sizing: border-box;
         border-radius: 50%;
         background: #52B54B;
@@ -82,8 +82,8 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider {
 
     .mdl-slider::-moz-range-thumb {
         -moz-appearance: none;
-        width: 3vh;
-        height: 3vh;
+        width: 2vh;
+        height: 2vh;
         box-sizing: border-box;
         border-radius: 50%;
         background-image: none;
@@ -113,8 +113,8 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider {
     }
 
     .mdl-slider::-ms-thumb {
-        width: 32px;
-        height: 32px;
+        width: 2vh;
+        height: 2vh;
         border: none;
         border-radius: 50%;
         background: #52B54B;
