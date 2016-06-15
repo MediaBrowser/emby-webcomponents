@@ -1,6 +1,4 @@
-﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'scrollHelper', 'embyRouter', 'globalize', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, connectionManager, scrollHelper, embyRouter, globalize) {
-
-    var currentServerId;
+﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'scrollHelper', 'embyRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, connectionManager, scrollHelper, embyRouter, globalize) {
 
     function parentWithClass(elem, className) {
 
@@ -15,17 +13,6 @@
         return elem;
     }
 
-    function onSubmit(e) {
-
-        loading.show();
-
-        var panel = parentWithClass(this, 'dialog');
-        var apiClient = connectionManager.getApiClient(currentServerId);
-
-        e.preventDefault();
-        return false;
-    }
-
     function getEditorHtml() {
 
         var html = '';
@@ -34,24 +21,25 @@
         html += '<div class="dialogContentInner centeredContent">';
         html += '<form style="margin:auto;">';
 
-        html += '<div class="fldSelectPlaylist">';
-        html += '<select is="emby-select" id="selectPlaylistToAddTo" label="' + globalize.translate('sharedcomponents#LabelPlaylist') + '" autofocus></select>';
+        html += '<div class="fldSelectPlaylist selectContainer">';
+        html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('sharedcomponents#LabelRefreshMode') + '">';
+        html += '<option value="missing">' + globalize.translate('sharedcomponents#SearchForMissingMetadata') + '</option>';
+        html += '<option value="all" selected>' + globalize.translate('sharedcomponents#ReplaceAllMetadata') + '</option>';
+        html += '</select>';
         html += '</div>';
 
-        html += '<div class="newPlaylistInfo">';
+        html += '<label class="checkboxContainer">';
+        html += '<input type="checkbox" is="emby-checkbox" class="chkReplaceImages" />';
+        html += '<span>' + globalize.translate('sharedcomponents#ReplaceExistingImages') + '</span>';
+        html += '</label>';
 
-        html += '<div class="inputContainer">';
-        html += '<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '" />';
-        html += '</div>';
-
-        html += '<br />';
-
-        // newPlaylistInfo
+        html += '<div class="fieldDescription">';
+        html += globalize.translate('sharedcomponents#RefreshDialogHelp');
         html += '</div>';
 
         html += '<br />';
         html += '<div>';
-        html += '<button is="emby-button" type="submit" class="raised btnSubmit block">' + globalize.translate('sharedcomponents#ButtonOk') + '</button>';
+        html += '<button is="emby-button" type="submit" class="raised btnSubmit block" autofocus>' + globalize.translate('sharedcomponents#ButtonOk') + '</button>';
         html += '</div>';
 
         html += '<input type="hidden" class="fldSelectedItemIds" />';
@@ -63,19 +51,50 @@
         return html;
     }
 
-    function initEditor(content, items) {
-
-        content.querySelector('form').addEventListener('submit', onSubmit);
-    }
-
-    function playlisteditor() {
+    return function (options) {
 
         var self = this;
 
-        self.show = function (options) {
+        function onSubmit(e) {
 
-            var items = options.items || {};
-            currentServerId = options.serverId;
+            loading.show();
+
+            var dlg = parentWithClass(this, 'dialog');
+
+            var apiClient = connectionManager.getApiClient(options.serverId);
+
+            var replaceAllImages = dlg.querySelector('.chkReplaceImages').checked;
+            var replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value == 'all';
+
+            options.itemIds.forEach(function (itemId) {
+                apiClient.refreshItem(itemId, {
+
+                    Recursive: true,
+                    ImageRefreshMode: 'FullRefresh',
+                    MetadataRefreshMode: 'FullRefresh',
+                    ReplaceAllImages: replaceAllImages,
+                    ReplaceAllMetadata: replaceAllMetadata
+                });
+            });
+
+            dialogHelper.close(dlg);
+
+            require(['toast'], function (toast) {
+                toast(globalize.translate('sharedcomponents#RefreshQueued'));
+            });
+
+            loading.hide();
+
+            e.preventDefault();
+            return false;
+        }
+
+        function initEditor(content, items) {
+
+            content.querySelector('form').addEventListener('submit', onSubmit);
+        }
+
+        self.show = function () {
 
             var dialogOptions = {
                 removeOnClose: true,
@@ -93,7 +112,7 @@
             dlg.classList.add('formDialog');
 
             var html = '';
-            var title = globalize.translate('sharedcomponents#AddToPlaylist');
+            var title = globalize.translate('sharedcomponents#RefreshMetadata');
 
             html += '<div class="dialogHeader" style="margin:0 0 2em;">';
             html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">arrow_back</i></button>';
@@ -108,7 +127,7 @@
             dlg.innerHTML = html;
             document.body.appendChild(dlg);
 
-            initEditor(dlg, items);
+            initEditor(dlg);
 
             dlg.querySelector('.btnCancel').addEventListener('click', function () {
 
@@ -125,7 +144,5 @@
                 dialogHelper.open(dlg);
             });
         };
-    }
-
-    return playlisteditor;
+    };
 });
