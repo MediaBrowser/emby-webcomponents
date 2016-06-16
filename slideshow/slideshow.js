@@ -254,12 +254,12 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         function onSlideChangeStart(swiper, slide, image) {
 
-            loading.show();
+            //loading.show();
         }
 
         function onSlideChangeEnd(swiper, slide, image) {
 
-            loading.hide();
+            //loading.hide();
         }
 
         function getSwiperSlideHtmlFromSlide(item) {
