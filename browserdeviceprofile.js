@@ -216,7 +216,7 @@ define(['browser'], function (browser) {
 
         var mp3Added = false;
         if (canPlayMkv || canPlayTs) {
-            if (supportsMp3VideoAudio) {
+            if (supportsMp3VideoAudio && !browser.tizen) {
                 mp3Added = true;
                 videoAudioCodecs.push('mp3');
                 hlsVideoAudioCodecs.push('mp3');
@@ -303,7 +303,7 @@ define(['browser'], function (browser) {
         });
 
         // Can't use mkv on mobile because we have to use the native player controls and they won't be able to seek it
-        if (canPlayMkv && options.supportsCustomSeeking) {
+        if (canPlayMkv && options.supportsCustomSeeking && !browser.tizen) {
             profile.TranscodingProfiles.push({
                 Container: 'mkv',
                 Type: 'Video',
@@ -314,7 +314,7 @@ define(['browser'], function (browser) {
             });
         }
 
-        if (canPlayTs) {
+        if (canPlayTs && options.supportsCustomSeeking) {
             profile.TranscodingProfiles.push({
                 Container: 'ts',
                 Type: 'Video',

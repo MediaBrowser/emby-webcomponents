@@ -23,12 +23,27 @@
             return offset;
         };
 
-        /**
-         * Sets textarea height as exact height of content
-         * @returns {boolean}
-         */
-        self.autogrowFn = function () {
+        var offset;
+        function reset() {
+            textarea.rows = 1;
+            offset = self.getOffset(textarea);
+            self.rows = textarea.rows || 1;
+            self.lineHeight = (textarea.scrollHeight / self.rows) - (offset / self.rows);
+            self.maxAllowedHeight = (self.lineHeight * maxLines) - offset;
+        }
+
+        function autogrowFn() {
+            if (!self.lineHeight || self.lineHeight <= 0) {
+                reset();
+            }
+            if (self.lineHeight <= 0) {
+                textarea.style.overflowY = 'scroll';
+                textarea.style.height = 'auto';
+                textarea.rows = 3;
+                return;
+            }
             var newHeight = 0, hasGrown = false;
+
             if ((textarea.scrollHeight - offset) > self.maxAllowedHeight) {
                 textarea.style.overflowY = 'scroll';
                 newHeight = self.maxAllowedHeight;
@@ -36,22 +51,18 @@
             else {
                 textarea.style.overflowY = 'hidden';
                 textarea.style.height = 'auto';
-                newHeight = textarea.scrollHeight - offset;
+                newHeight = textarea.scrollHeight/* - offset*/;
                 hasGrown = true;
             }
             textarea.style.height = newHeight + 'px';
-            return hasGrown;
-        };
-
-        var offset = self.getOffset(textarea);
-        self.rows = textarea.rows || 1;
-        self.lineHeight = (textarea.scrollHeight / self.rows) - (offset / self.rows);
-        self.maxAllowedHeight = (self.lineHeight * maxLines) - offset;
+        }
 
         // Call autogrowFn() when textarea's value is changed
-        textarea.addEventListener('input', self.autogrowFn);
+        textarea.addEventListener('input', autogrowFn);
+        textarea.addEventListener('focus', autogrowFn);
+        textarea.addEventListener('valueset', autogrowFn);
 
-        self.autogrowFn();
+        autogrowFn();
     }
 
     var EmbyTextAreaPrototype = Object.create(HTMLTextAreaElement.prototype);
@@ -140,7 +151,7 @@
             label.innerHTML = text;
         };
 
-        autoGrow(this, 100);
+        new autoGrow(this);
     };
 
     document.registerElement('emby-textarea', {
