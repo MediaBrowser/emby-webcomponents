@@ -8,6 +8,7 @@
     height: 0;
     transition-property: height;
     transition-duration: 300ms;
+    overflow: hidden;
 }
 
 .emby-collapsible-button {
@@ -20,7 +21,7 @@
 
 .emby-collapse-expandIcon {
     transform-origin: 50% 50%;
-    transition: transform 350ms ease-out;
+    transition: transform 180ms ease-out;
 }
 
     .emby-collapse-expandIcon.expanded {
