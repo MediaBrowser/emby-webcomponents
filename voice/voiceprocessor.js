@@ -1,4 +1,4 @@
-﻿define(['voice/voicecommands.js', 'voice/grammarprocessor.js'], function (voicecommands, grammarprocessor) {
+﻿define(['./voicecommands.js', './grammarprocessor.js'], function (voicecommands, grammarprocessor) {
 
     var commandgroups;
 

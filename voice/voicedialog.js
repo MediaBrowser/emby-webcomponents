@@ -1,4 +1,4 @@
-define(['dialogHelper', 'voice/voicereceiver', 'voice/voiceprocessor', 'globalize', 'emby-button', 'css!./voice.css', 'material-icons', 'css!./../formdialog'], function (dialogHelper, voicereceiver, voiceprocessor, globalize) {
+define(['dialogHelper', './voicereceiver', './voiceprocessor', 'globalize', 'emby-button', 'css!./voice.css', 'material-icons', 'css!./../formdialog'], function (dialogHelper, voicereceiver, voiceprocessor, globalize) {
 
     var lang = 'en-US';
 
