@@ -321,7 +321,7 @@ define(['datetime', 'globalize', 'embyRouter', 'material-icons', 'css!./mediainf
         if (rating) {
             html += '<div class="starRatingContainer mediaInfoItem">';
 
-            html += '<i class="md-icon">&#xE8CF;</i>';
+            html += '<i class="md-icon">&#xE838;</i>';
             html += rating;
             html += '</div>';
         }
