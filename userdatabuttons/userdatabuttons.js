@@ -1,4 +1,4 @@
-define(['connectionManager', 'paper-icon-button-light', 'material-icons', 'emby-button'], function (connectionManager) {
+define(['connectionManager', 'globalize', 'paper-icon-button-light', 'material-icons', 'emby-button'], function (connectionManager, globalize) {
 
     function getUserDataButtonHtml(method, itemId, iconCssClass, icon, tooltip, style) {
 
@@ -34,7 +34,7 @@ define(['connectionManager', 'paper-icon-button-light', 'material-icons', 'emby-
         }
 
         if (includePlayed !== false) {
-            var tooltipPlayed = Globalize.translate('core#TooltipPlayed');
+            var tooltipPlayed = globalize.translate('sharedcomponents#Played');
 
             if (item.MediaType == 'Video' || item.Type == 'Series' || item.Type == 'Season' || item.Type == 'BoxSet' || item.Type == 'Playlist') {
                 if (item.Type != 'TvChannel') {
@@ -47,8 +47,8 @@ define(['connectionManager', 'paper-icon-button-light', 'material-icons', 'emby-
             }
         }
 
-        var tooltipLike = Globalize.translate('core#TooltipLike');
-        var tooltipDislike = Globalize.translate('core#TooltipDislike');
+        var tooltipLike = globalize.translate('sharedcomponents#Like');
+        var tooltipDislike = globalize.translate('sharedcomponents#Dislike');
 
         //if (typeof userData.Likes == "undefined") {
         //    html += getUserDataButtonHtml('markDislike', itemId, btnCssClass + ' btnUserData btnDislike', 'thumb-down', tooltipDislike);
@@ -63,7 +63,7 @@ define(['connectionManager', 'paper-icon-button-light', 'material-icons', 'emby-
         //    html += getUserDataButtonHtml('markLike', itemId, btnCssClass + ' btnUserData btnLike', 'thumb-up', tooltipLike);
         //}
 
-        var tooltipFavorite = Globalize.translate('core#TooltipFavorite');
+        var tooltipFavorite = globalize.translate('sharedcomponents#Favorite');
         if (userData.IsFavorite) {
 
             html += getUserDataButtonHtml('markFavorite', itemId, btnCssClass + ' btnUserData btnUserDataOn', 'favorite', tooltipFavorite, style);
