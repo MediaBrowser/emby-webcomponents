@@ -1,6 +1,7 @@
 button.listItem {
     background: transparent;
     border: 0 !important;
+    border-bottom: 1px solid #2a2a2a !important;
     cursor: pointer;
     outline: none !important;
     color: inherit;
@@ -16,6 +17,7 @@ button.listItem {
     text-align: left;
     padding: 0 1em !important;
     line-height: 170%;
+    border-bottom: 1px solid #2a2a2a;
 }
 
     .listItem.largeImage {
@@ -133,10 +135,17 @@ button.listItem {
         background-color: transparent !important;
     }
 
+.listItemMediaInfo {
+    align-items: center;
+}
+
+    .listItemMediaInfo > * {
+        display: inline-block;
+    }
 
 @supports (display: flex) {
 
-    .listItem, .listItemBody {
+    .listItem, .listItemBody, .listItemMediaInfo {
         display: flex;
     }
 }
