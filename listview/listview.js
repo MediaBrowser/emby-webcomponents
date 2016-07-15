@@ -1,10 +1,10 @@
-define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'userdataButtons', 'css!./listview'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, userdataButtons) {
+define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'userdataButtons', 'css!./listview'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, userdataButtons) {
 
     function getIndex(item, options) {
 
         if (options.index == 'disc') {
 
-            return item.ParentIndexNumber == null ? '' : Globalize.translate('sharedcomponents#ValueDiscNumber', item.ParentIndexNumber);
+            return item.ParentIndexNumber == null ? '' : globalize.translate('sharedcomponents#ValueDiscNumber', item.ParentIndexNumber);
         }
 
         var sortBy = (options.sortBy || '').toLowerCase();
@@ -122,32 +122,36 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var clickEntireItem = layoutManager.tv ? true : false;
         var outerTagName = clickEntireItem ? 'button' : 'div';
 
-        return items.map(function (item) {
+        var outerHtml = '';
+
+        outerHtml += items.map(function (item) {
 
             var html = '';
 
-            //if (options.showIndex !== false) {
+            if (options.showIndex !== false) {
 
-            //    var itemGroupTitle = LibraryBrowser.getListViewIndex(item, options);
+                var itemGroupTitle = getIndex(item, options);
 
-            //    if (itemGroupTitle != groupTitle) {
+                if (itemGroupTitle != groupTitle) {
 
-            //        outerHtml += '</div>';
+                    if (html) {
+                        html += '</div>';
+                    }
 
-            //        if (index == 0) {
-            //            html += '<h1>';
-            //        }
-            //        else {
-            //            html += '<h1 style="margin-top:2em;">';
-            //        }
-            //        html += itemGroupTitle;
-            //        html += '</h1>';
+                    if (index == 0) {
+                        html += '<h1>';
+                    }
+                    else {
+                        html += '<h1 style="margin-top:2em;">';
+                    }
+                    html += itemGroupTitle;
+                    html += '</h1>';
 
-            //        html += '<div class="paperList itemsListview">';
+                    html += '<div>';
 
-            //        groupTitle = itemGroupTitle;
-            //    }
-            //}
+                    groupTitle = itemGroupTitle;
+                }
+            }
 
             var cssClass = "itemAction listItem";
 
@@ -263,6 +267,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             return html;
 
         }).join('');
+
+        return outerHtml;
     }
 
     return {
