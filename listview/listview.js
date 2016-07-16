@@ -128,7 +128,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             var html = '';
 
-            if (options.showIndex !== false) {
+            if (options.showIndex) {
 
                 var itemGroupTitle = getIndex(item, options);
 
@@ -139,10 +139,10 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     }
 
                     if (index == 0) {
-                        html += '<h1>';
+                        html += '<h1 class="listGroupHeader first">';
                     }
                     else {
-                        html += '<h1 style="margin-top:2em;">';
+                        html += '<h1 class="listGroupHeader">';
                     }
                     html += itemGroupTitle;
                     html += '</h1>';
@@ -169,7 +169,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             if (imgUrl) {
                 html += '<div class="listItemImage lazy" data-src="' + imgUrl + '" item-icon>';
             } else {
-                html += '<div class="listItemImage" item-icon>';
+                html += '<div class="listItemImage">';
             }
 
             var indicatorsHtml = '';
@@ -223,16 +223,18 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             for (var i = 0, textLinesLength = textlines.length; i < textLinesLength; i++) {
 
                 if (i == 0 && isLargeStyle) {
-                    html += '<h2 class="listItemTitle">';
+                    html += '<h2>';
                 }
                 else if (i == 0) {
-                    html += '<div>';
+                    html += '<h3>';
                 } else {
                     html += '<div class="secondary">';
                 }
                 html += textlines[i] || '&nbsp;';
                 if (i == 0 && isLargeStyle) {
                     html += '</h2>';
+                } else if (i == 0) {
+                    html += '</h3>';
                 } else {
                     html += '</div>';
                 }
@@ -253,7 +255,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             if (!clickEntireItem) {
                 html += '<button is="paper-icon-button-light" class="listviewMenuButton autoSize"><i class="md-icon">&#xE5D4;</i></button>';
                 html += '<span class="listViewUserDataButtons">';
-                html += userdataButtons.getIconsHtml(item);
+                html += userdataButtons.getIconsHtml(item, false);
                 html += '</span>';
             }
 
