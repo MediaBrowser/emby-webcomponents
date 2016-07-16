@@ -26,7 +26,7 @@ div.listItem {
 }
 
 .listItem.largeImage {
-    padding: 1em 0 1em 1em;
+    padding: .5em !important;
 }
 
 .listItem > *:not(.listItemBody) {
