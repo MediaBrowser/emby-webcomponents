@@ -64,10 +64,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                 });
             }
 
-            commands.push({
-                name: globalize.translate('sharedcomponents#Play'),
-                id: 'resume'
-            });
+            if (options.play !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Play'),
+                    id: 'resume'
+                });
+            }
 
             if (options.playAllFromHere) {
                 commands.push({
@@ -77,10 +79,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
             }
 
             if (playbackManager.canQueueMediaType(item.MediaType)) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#Queue'),
-                    id: 'queue'
-                });
+                if (options.queue !== false) {
+                    commands.push({
+                        name: globalize.translate('sharedcomponents#Queue'),
+                        id: 'queue'
+                    });
+                }
 
                 if (options.queueAllFromHere) {
                     commands.push({
