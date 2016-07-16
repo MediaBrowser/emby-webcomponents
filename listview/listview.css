@@ -21,18 +21,22 @@ button.listItem {
     border-bottom: 1px solid #2a2a2a;
 }
 
-    .listItem.largeImage {
-        padding: 1em 0 1em 1em;
-    }
+div.listItem {
+    cursor: pointer;
+}
 
-    .listItem > *:not(.listItemBody) {
-        flex-shrink: 0;
-    }
+.listItem.largeImage {
+    padding: 1em 0 1em 1em;
+}
 
-    .listItem > * {
-        display: inline-block;
-        vertical-align: middle;
-    }
+.listItem > *:not(.listItemBody) {
+    flex-shrink: 0;
+}
+
+.listItem > * {
+    display: inline-block;
+    vertical-align: middle;
+}
 
 .listItemBody {
     flex-grow: 1;
@@ -59,7 +63,6 @@ button.listItem {
 
     .listItemBody h2, .listItemBody h3 {
         margin: 0;
-        font-weight: normal;
         padding: 0;
         overflow: hidden;
         text-overflow: ellipsis;
