@@ -268,7 +268,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             html += '</div>';
 
             if (!clickEntireItem) {
-                html += '<button is="paper-icon-button-light" class="listviewMenuButton autoSize"><i class="md-icon">&#xE5D4;</i></button>';
+                html += '<button is="paper-icon-button-light" class="menuButton autoSize"><i class="md-icon">&#xE5D4;</i></button>';
                 html += '<span class="listViewUserDataButtons">';
                 html += userdataButtons.getIconsHtml(item, false);
                 html += '</span>';
