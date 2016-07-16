@@ -11,7 +11,7 @@
     };
 
     document.registerElement('emby-itemscontainer', {
-        prototype: EmbyButtonPrototype,
+        prototype: ItemsContainerProtoType,
         extends: 'div'
     });
 });
