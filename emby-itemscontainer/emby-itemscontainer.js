@@ -1,4 +1,4 @@
-﻿define(['itemShortcuts', 'connectionManager', 'registerElement'], function (itemShortcuts, connectionManager) {
+﻿define(['itemShortcuts', 'connectionManager', 'layoutManager', 'browser', 'registerElement'], function (itemShortcuts, connectionManager, layoutManager, browser) {
 
     var ItemsContainerProtoType = Object.create(HTMLDivElement.prototype);
 
@@ -85,22 +85,90 @@
     function onClick(e) {
 
         var itemsContainer = this;
+        var target = e.target;
 
-        var menuButton = parentWithClass(e.target, 'menuButton');
+        var menuButton = parentWithClass(target, 'menuButton');
         if (menuButton) {
-            showContextMenu(menuButton, itemsContainer);
-            e.stopPropagation();
-            return false;
+            var card = parentWithAttribute(target, 'data-id');
+            if (card) {
+                showContextMenu(card, target);
+                e.stopPropagation();
+                return false;
+            }
         }
+    }
+
+    function disableEvent(e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    }
+
+    function showContextMenu(card, target, options) {
+
+        var itemId = card.getAttribute('data-id');
+        var serverId = card.getAttribute('data-serverid');
+        var type = card.getAttribute('data-type');
+
+        var apiClient = connectionManager.getApiClient(serverId);
+
+        var promise = type == 'Timer' ? apiClient.getLiveTvTimer(itemId) : apiClient.getItem(apiClient.getCurrentUserId(), itemId);
+
+        promise.then(function (item) {
+
+            require(['itemContextMenu'], function (itemContextMenu) {
+
+                itemContextMenu.show(Object.assign(options || {}, {
+                    item: item,
+                    positionTo: target
+                }));
+            });
+        });
+    }
+
+    function onContextMenu(e) {
+
+        var itemsContainer = this;
+
+        var target = e.target;
+        var card = parentWithAttribute(target, 'data-id');
+        if (card) {
+
+            //var itemSelectionPanel = card.querySelector('.itemSelectionPanel');
+
+            //if (!itemSelectionPanel) {
+            //    showContextMenu(card, {});
+            //}
+
+            showContextMenu(card, target, {
+                identify: false
+            });
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
     }
 
     ItemsContainerProtoType.attachedCallback = function () {
         this.addEventListener('click', onClick);
+
+        // mobile safari doesn't allow contextmenu override
+        if (browser.safari && browser.mobile) {
+            this.addEventListener('contextmenu', disableEvent);
+            // todo: use tap hold
+        } else {
+            this.addEventListener('contextmenu', onContextMenu);
+        }
+
         itemShortcuts.on(this);
     };
 
     ItemsContainerProtoType.detachedCallback = function () {
         this.removeEventListener('click', onClick);
+        this.removeEventListener('contextmenu', onContextMenu);
+        this.removeEventListener('contextmenu', disableEvent);
         itemShortcuts.off(this);
     };
 
