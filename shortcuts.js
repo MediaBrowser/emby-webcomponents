@@ -372,7 +372,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
 
     function onCommand(e) {
         var cmd = e.detail.command;
-        alert(cmd);
+
         if (cmd == 'play' || cmd == 'record' || cmd == 'menu' || cmd == 'info') {
             var card = parentWithClass(e.target, 'itemAction');
 
@@ -390,7 +390,6 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
             context.addEventListener('click', onClick);
         }
 
-        alert(0);
         if (options.command !== false) {
             inputManager.on(context, onCommand);
         }
