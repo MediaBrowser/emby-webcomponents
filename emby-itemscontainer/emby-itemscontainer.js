@@ -96,6 +96,8 @@
                 return false;
             }
         }
+
+        itemShortcuts.onClick.call(this, e);
     }
 
     function disableEvent(e) {
@@ -151,6 +153,12 @@
         return false;
     }
 
+    function getShortcutOptions() {
+        return {
+            click: false
+        };
+    }
+
     ItemsContainerProtoType.attachedCallback = function () {
         this.addEventListener('click', onClick);
 
@@ -162,14 +170,14 @@
             this.addEventListener('contextmenu', onContextMenu);
         }
 
-        itemShortcuts.on(this);
+        itemShortcuts.on(this, getShortcutOptions());
     };
 
     ItemsContainerProtoType.detachedCallback = function () {
         this.removeEventListener('click', onClick);
         this.removeEventListener('contextmenu', onContextMenu);
         this.removeEventListener('contextmenu', disableEvent);
-        itemShortcuts.off(this);
+        itemShortcuts.off(this, getShortcutOptions());
     };
 
     document.registerElement('emby-itemscontainer', {
