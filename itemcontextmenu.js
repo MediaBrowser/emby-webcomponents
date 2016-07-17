@@ -142,7 +142,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                 }
             }
 
-            if (options.sync !== false) {
+            if (!isTheater && options.sync !== false) {
                 if (itemHelper.canSync(user, item)) {
                     commands.push({
                         name: globalize.translate('sharedcomponents#Sync'),
