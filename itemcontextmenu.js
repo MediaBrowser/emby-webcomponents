@@ -1,7 +1,7 @@
 define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter', 'playbackManager'], function (appHost, globalize, connectionManager, itemHelper, embyRouter, playbackManager) {
 
     var isTheater = true;
-    appHost.appInfo().then(function(result) {
+    appHost.appInfo().then(function (result) {
         isTheater = result.appName.toLowerCase().indexOf('theater') != -1;
     });
 
@@ -37,16 +37,19 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                 });
             }
 
-            if (!isTheater && options.edit !== false) {
+            if (options.edit !== false) {
                 if (itemHelper.canEdit(user, item.Type)) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#Edit'),
-                        id: 'edit'
-                    });
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#EditImages'),
-                        id: 'editimages'
-                    });
+
+                    if (!isTheater) {
+                        commands.push({
+                            name: globalize.translate('sharedcomponents#Edit'),
+                            id: 'edit'
+                        });
+                        commands.push({
+                            name: globalize.translate('sharedcomponents#EditImages'),
+                            id: 'editimages'
+                        });
+                    }
                     if (item.MediaType == 'Video' && item.Type != 'TvChannel' && item.Type != 'Program' && item.LocationType != 'Virtual') {
                         commands.push({
                             name: globalize.translate('sharedcomponents#EditSubtitles'),
@@ -82,10 +85,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
             }
 
             if (options.open !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#Open'),
-                    id: 'open'
-                });
+                if (item.Type != 'Timer') {
+                    commands.push({
+                        name: globalize.translate('sharedcomponents#Open'),
+                        id: 'open'
+                    });
+                }
             }
 
             if (options.play !== false) {
@@ -118,19 +123,31 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                 }
             }
 
-            if (user.Policy.IsAdministrator) {
+            if (item.Type == 'Program' && (!item.TimerId && !item.SeriesTimerId)) {
 
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Refresh'),
-                    id: 'refresh'
+                    name: Globalize.translate('sharedcomponents#Record'),
+                    id: 'record'
                 });
             }
 
-            if (item.Type != 'Timer' && user.Policy.EnablePublicSharing && appHost.supports('sharing')) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#Share'),
-                    id: 'share'
-                });
+            if (user.Policy.IsAdministrator) {
+
+                if (item.Type != 'Timer') {
+                    commands.push({
+                        name: globalize.translate('sharedcomponents#Refresh'),
+                        id: 'refresh'
+                    });
+                }
+            }
+
+            if (options.share !== false) {
+                if (itemHelper.canShare(user, item)) {
+                    commands.push({
+                        name: globalize.translate('sharedcomponents#Share'),
+                        id: 'share'
+                    });
+                }
             }
 
             if (item.IsFolder || item.Type == "MusicArtist" || item.Type == "MusicGenre") {
@@ -244,10 +261,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                     }
                 case 'edit':
                     {
-                        require(['components/metadataeditor/metadataeditor'], function (metadataeditor) {
-
-                            metadataeditor.show(itemId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        });
+                        editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
                         break;
                     }
                 case 'editimages':
@@ -280,28 +294,27 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                     }
                 case 'play':
                     {
-                        playbackManager.play({
-                            items: [item]
-                        });
+                        play(item, false);
                         getResolveFunction(resolve, id)();
                         break;
                     }
                 case 'resume':
                     {
-                        playbackManager.play({
-                            items: [item]
-                        });
+                        play(item, true);
                         getResolveFunction(resolve, id)();
                         break;
                     }
                 case 'queue':
                     {
-                        playbackManager.queue({
-                            items: [item]
-                        });
+                        play(item, false, true);
                         getResolveFunction(resolve, id)();
                         break;
                     }
+                case 'record':
+                    require(['recordingCreator'], function (recordingCreator) {
+                        recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
+                    });
+                    break;
                 case 'shuffle':
                     {
                         playbackManager.shuffle(item);
@@ -368,6 +381,40 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                 default:
                     reject();
                     break;
+            }
+        });
+    }
+
+    function play(item, resume, queue) {
+
+        var method = queue ? 'queue' : 'play';
+
+        if (item.Type == 'Program') {
+            playbackManager[method]({
+                ids: [item.ChannelId]
+            });
+        } else {
+            playbackManager[method]({
+                items: [item]
+            });
+        }
+    }
+
+    function editItem(apiClient, item) {
+
+        return new Promise(function (resolve, reject) {
+
+            if (item.Type == 'Timer') {
+                require(['recordingEditor'], function (recordingEditor) {
+
+                    var serverId = apiClient.serverInfo().Id;
+                    recordingEditor.show(item.Id, serverId).then(resolve, reject);
+                });
+            } else {
+                require(['components/metadataeditor/metadataeditor'], function (metadataeditor) {
+
+                    metadataeditor.show(item.Id).then(resolve, reject);
+                });
             }
         });
     }
