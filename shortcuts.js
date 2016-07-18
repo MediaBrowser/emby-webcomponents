@@ -349,7 +349,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
         while ((value ? elem.getAttribute(name) != value : !elem.getAttribute(name))) {
             elem = elem.parentNode;
 
-            if (!elem) {
+            if (!elem || !elem.getAttribute) {
                 return null;
             }
         }
