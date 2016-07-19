@@ -21,6 +21,7 @@
 
     .formDialog .dialogContent {
         flex-grow: 1;
+        padding-top: 2em;
     }
 
     .formDialog .dialogContentInner {
