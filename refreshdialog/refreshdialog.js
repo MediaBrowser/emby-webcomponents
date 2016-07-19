@@ -17,7 +17,7 @@
 
         var html = '';
 
-        html += '<div class="dialogContent smoothScrollY">';
+        html += '<div class="dialogContent smoothScrollY" style="padding-top:2em;">';
         html += '<div class="dialogContentInner centeredContent">';
         html += '<form style="margin:auto;">';
 
