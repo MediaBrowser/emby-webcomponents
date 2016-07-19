@@ -221,7 +221,7 @@
             dlg.classList.add('formDialog');
 
             var html = '';
-            var title = globalize.translate('sharedcomponents#AddToPlaylist');
+            var title = globalize.translate('sharedcomponents#HeaderAddToPlaylist');
 
             html += '<div class="dialogHeader" style="margin:0 0 2em;">';
             html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
