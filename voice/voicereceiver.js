@@ -6,6 +6,15 @@
 
     var currentRecognition = null;
 
+    function validateInput(text, options) {
+        
+        if (options.requireNamedIdentifier) {
+            
+        }
+
+        return true;
+    }
+
     /// <summary> Starts listening for voice commands </summary>
     /// <returns> . </returns>
     function listen(options) {
@@ -31,14 +40,16 @@
                     var resultInput = event.results[resultCount][0].transcript || '';
                     resultCount++;
 
-                    if (options.continuous) {
-                        events.trigger(receiver, 'input', [
-                            {
-                                text: resultInput
-                            }
-                        ]);
-                    } else {
-                        resolve(resultInput);
+                    if (validateInput(resultInput, options)) {
+                        if (options.continuous) {
+                            events.trigger(receiver, 'input', [
+                                {
+                                    text: resultInput
+                                }
+                            ]);
+                        } else {
+                            resolve(resultInput);
+                        }
                     }
                 }
             };
