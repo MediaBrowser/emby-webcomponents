@@ -22,10 +22,14 @@
             recognition.lang = options.lang;
             recognition.continuous = options.continuous || false;
 
+            var resultCount = 0;
+
             recognition.onresult = function (event) {
                 console.log(event);
                 if (event.results.length > 0) {
-                    var resultInput = event.results[0][0].transcript || '';
+
+                    var resultInput = event.results[resultCount][0].transcript || '';
+                    resultCount++;
 
                     if (options.continuous) {
                         events.trigger(receiver, 'input', [
