@@ -31,5 +31,17 @@
   "OptionName": "Name",
   "OptionOverview": "Overview",
   "OptionGenres": "Genres",
+  "LabelType": "Type:",
+  "LabelPersonRole": "Role:",
+  "LabelPersonRoleHelp": "Role is generally only applicable to actors.",
+  "ButtonOk": "Ok",
+  "OptionActor": "Actor",
+  "OptionComposer": "Composer",
+  "OptionDirector": "Director",
+  "OptionGuestStar": "Guest star",
+  "OptionProducer": "Producer",
+  "OptionWriter": "Writer",
+  "LabelName": "Name:",
+  "ButtonEdit": "Edit",
   "MessageItemSaved": "Item saved."
 }
