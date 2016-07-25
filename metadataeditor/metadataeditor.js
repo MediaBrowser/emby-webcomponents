@@ -20,7 +20,7 @@
         function afterContentTypeUpdated() {
 
             require(['toast'], function (toast) {
-                toast(globalize.translate('MessageItemSaved'));
+                toast(globalize.translate('metadataeditor#MessageItemSaved'));
             });
 
             loading.hide();
@@ -487,7 +487,7 @@
             var buttonId = "btnOpen1" + idInfo.Key;
             var formatString = idInfo.UrlFormatString || '';
 
-            var labelText = globalize.translate('LabelDynamicExternalId').replace('{0}', idInfo.Name);
+            var labelText = globalize.translate('metadataeditor#LabelDynamicExternalId').replace('{0}', idInfo.Name);
 
             html += '<div class="inputContainer">';
             html += '<div style="display: flex; align-items: center;">';
@@ -718,14 +718,14 @@
 
         if (item.Type == "Person") {
             //todo
-            context.querySelector('#txtProductionYear').label(globalize.translate('LabelBirthYear'));
-            context.querySelector("#txtPremiereDate").label(globalize.translate('LabelBirthDate'));
-            context.querySelector("#txtEndDate").label(globalize.translate('LabelDeathDate'));
+            context.querySelector('#txtProductionYear').label(globalize.translate('metadataeditor#LabelBirthYear'));
+            context.querySelector("#txtPremiereDate").label(globalize.translate('metadataeditor#LabelBirthDate'));
+            context.querySelector("#txtEndDate").label(globalize.translate('metadataeditor#LabelDeathDate'));
             showElement('#fldPlaceOfBirth');
         } else {
-            context.querySelector('#txtProductionYear').label(globalize.translate('LabelYear'));
-            context.querySelector("#txtPremiereDate").label(globalize.translate('LabelReleaseDate'));
-            context.querySelector("#txtEndDate").label(globalize.translate('LabelEndDate'));
+            context.querySelector('#txtProductionYear').label(globalize.translate('metadataeditor#LabelYear'));
+            context.querySelector("#txtPremiereDate").label(globalize.translate('metadataeditor#LabelReleaseDate'));
+            context.querySelector("#txtEndDate").label(globalize.translate('metadataeditor#LabelEndDate'));
             hideElement('#fldPlaceOfBirth');
         }
 
@@ -739,13 +739,13 @@
             showElement('#fldIndexNumber');
 
             if (item.Type == "Episode") {
-                context.querySelector('#txtIndexNumber').label(globalize.translate('LabelEpisodeNumber'));
+                context.querySelector('#txtIndexNumber').label(globalize.translate('metadataeditor#LabelEpisodeNumber'));
             } else if (item.Type == "Season") {
-                context.querySelector('#txtIndexNumber').label(globalize.translate('LabelSeasonNumber'));
+                context.querySelector('#txtIndexNumber').label(globalize.translate('metadataeditor#LabelSeasonNumber'));
             } else if (item.Type == "Audio") {
-                context.querySelector('#txtIndexNumber').label(globalize.translate('LabelTrackNumber'));
+                context.querySelector('#txtIndexNumber').label(globalize.translate('metadataeditor#LabelTrackNumber'));
             } else {
-                context.querySelector('#txtIndexNumber').label(globalize.translate('LabelNumber'));
+                context.querySelector('#txtIndexNumber').label(globalize.translate('metadataeditor#LabelNumber'));
             }
         } else {
             hideElement('#fldIndexNumber');
@@ -768,7 +768,7 @@
         if (item.Type == "BoxSet") {
             showElement('#fldDisplayOrder', context);
 
-            context.querySelector('#selectDisplayOrder').innerHTML = '<option value="SortName">' + globalize.translate('OptionSortName') + '</option><option value="PremiereDate">' + globalize.translate('OptionReleaseDate') + '</option>';
+            context.querySelector('#selectDisplayOrder').innerHTML = '<option value="SortName">' + globalize.translate('metadataeditor#OptionSortName') + '</option><option value="PremiereDate">' + globalize.translate('metadataeditor#OptionReleaseDate') + '</option>';
         } else {
             context.querySelector('#selectDisplayOrder').innerHTML = '';
             hideElement('#fldDisplayOrder', context);
@@ -973,8 +973,8 @@
         var html = "";
 
         html += "<option value=''></option>";
-        html += "<option value='Continuing'>" + globalize.translate('OptionContinuing') + "</option>";
-        html += "<option value='Ended'>" + globalize.translate('OptionEnded') + "</option>";
+        html += "<option value='Continuing'>" + globalize.translate('metadataeditor#OptionContinuing') + "</option>";
+        html += "<option value='Ended'>" + globalize.translate('metadataeditor#OptionEnded') + "</option>";
         select.innerHTML = html;
     }
 
@@ -1088,37 +1088,37 @@
         lockedFields = lockedFields || new Array();
 
         var metadatafields = [
-            { name: globalize.translate('OptionName'), value: "Name" },
-            { name: globalize.translate('OptionOverview'), value: "Overview" },
-            { name: globalize.translate('OptionGenres'), value: "Genres" },
-            { name: globalize.translate('OptionParentalRating'), value: "OfficialRating" },
-            { name: globalize.translate('OptionPeople'), value: "Cast" }
+            { name: globalize.translate('metadataeditor#OptionName'), value: "Name" },
+            { name: globalize.translate('metadataeditor#OptionOverview'), value: "Overview" },
+            { name: globalize.translate('metadataeditor#OptionGenres'), value: "Genres" },
+            { name: globalize.translate('metadataeditor#OptionParentalRating'), value: "OfficialRating" },
+            { name: globalize.translate('metadataeditor#OptionPeople'), value: "Cast" }
         ];
 
         if (item.Type == "Person") {
-            metadatafields.push({ name: globalize.translate('OptionBirthLocation'), value: "ProductionLocations" });
+            metadatafields.push({ name: globalize.translate('metadataeditor#OptionBirthLocation'), value: "ProductionLocations" });
         } else {
-            metadatafields.push({ name: globalize.translate('OptionProductionLocations'), value: "ProductionLocations" });
+            metadatafields.push({ name: globalize.translate('metadataeditor#OptionProductionLocations'), value: "ProductionLocations" });
         }
 
         if (item.Type == "Series") {
             metadatafields.push({ name: globalize.translate('OptionRuntime'), value: "Runtime" });
         }
 
-        metadatafields.push({ name: globalize.translate('OptionStudios'), value: "Studios" });
-        metadatafields.push({ name: globalize.translate('OptionTags'), value: "Tags" });
-        metadatafields.push({ name: globalize.translate('OptionKeywords'), value: "Keywords" });
-        metadatafields.push({ name: globalize.translate('OptionImages'), value: "Images" });
-        metadatafields.push({ name: globalize.translate('OptionBackdrops'), value: "Backdrops" });
+        metadatafields.push({ name: globalize.translate('metadataeditor#OptionStudios'), value: "Studios" });
+        metadatafields.push({ name: globalize.translate('metadataeditor#OptionTags'), value: "Tags" });
+        metadatafields.push({ name: globalize.translate('metadataeditor#OptionKeywords'), value: "Keywords" });
+        metadatafields.push({ name: globalize.translate('metadataeditor#OptionImages'), value: "Images" });
+        metadatafields.push({ name: globalize.translate('metadataeditor#OptionBackdrops'), value: "Backdrops" });
 
         if (item.Type == "Game") {
-            metadatafields.push({ name: globalize.translate('OptionScreenshots'), value: "Screenshots" });
+            metadatafields.push({ name: globalize.translate('metadataeditor#OptionScreenshots'), value: "Screenshots" });
         }
 
         var html = '';
 
-        html += "<h1>" + globalize.translate('HeaderEnabledFields') + "</h1>";
-        html += "<p>" + globalize.translate('HeaderEnabledFieldsHelp') + "</p>";
+        html += "<h1>" + globalize.translate('metadataeditor#HeaderEnabledFields') + "</h1>";
+        html += "<p>" + globalize.translate('metadataeditor#HeaderEnabledFieldsHelp') + "</p>";
         html += generateSliders(metadatafields, lockedFields);
         container.innerHTML = html;
     }
@@ -1163,54 +1163,80 @@
         });
     }
 
+    function registerDictionary() {
+
+        var baseUrl = require.toUrl('.').split('?')[0] + '/strings/';
+
+        var languages = ['en-US'];
+
+        var strings = languages.map(function (i) {
+            return {
+                lang: i,
+                path: baseUrl + i + '.json'
+            };
+        });
+
+        globalize.loadStrings({
+            name: 'metadataeditor',
+            strings: strings
+        });
+    }
+
+    registerDictionary();
+
+    function show(itemId, serverId) {
+        loading.show();
+
+        require(['text!./metadataeditor.template.html'], function (template) {
+
+            var dialogOptions = {
+                removeOnClose: true
+            };
+
+            if (layoutManager.tv) {
+                dialogOptions.size = 'fullscreen';
+            } else {
+                dialogOptions.size = 'medium';
+            }
+
+            var dlg = dialogHelper.createDialog(dialogOptions);
+
+            dlg.classList.add('ui-body-b');
+            dlg.classList.add('background-theme-b');
+
+            dlg.classList.add('formDialog');
+
+            var html = '';
+
+            html += globalize.translateDocument(template, 'metadataeditor');
+
+            dlg.innerHTML = html;
+            document.body.appendChild(dlg);
+
+            if (layoutManager.tv) {
+                scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
+            }
+
+            dialogHelper.open(dlg);
+
+            dlg.addEventListener('close', function () {
+                unbindItemChanged(dlg, connectionManager.getApiClient(serverId));
+                resolve();
+            });
+
+            currentContext = dlg;
+
+            init(dlg, connectionManager.getApiClient(serverId));
+
+            reload(dlg, itemId, serverId);
+        });
+    }
+
     return {
         show: function (itemId, serverId) {
             return new Promise(function (resolve, reject) {
-
-                loading.show();
-
-                require(['text!./metadataeditor.template.html'], function (template) {
-
-                    var dialogOptions = {
-                        removeOnClose: true
-                    };
-
-                    if (layoutManager.tv) {
-                        dialogOptions.size = 'fullscreen';
-                    } else {
-                        dialogOptions.size = 'medium';
-                    }
-
-                    var dlg = dialogHelper.createDialog(dialogOptions);
-
-                    dlg.classList.add('ui-body-b');
-                    dlg.classList.add('background-theme-b');
-
-                    dlg.classList.add('formDialog');
-
-                    var html = '';
-
-                    html += globalize.translateDocument(template);
-
-                    dlg.innerHTML = html;
-                    document.body.appendChild(dlg);
-
-                    if (layoutManager.tv) {
-                        scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
-                    }
-
-                    dialogHelper.open(dlg);
-
-                    dlg.addEventListener('close', function () {
-                        unbindItemChanged(dlg, connectionManager.getApiClient(serverId));
-                        resolve();
-                    });
-
-                    currentContext = dlg;
-
-                    init(dlg, connectionManager.getApiClient(serverId));
-
-                    reload(dlg, itemId, serverId);
+                return globalize.loadStrings('metadataeditor').then(function () {
+                    return show(itemId, serverId);
                 });
             });
         },
@@ -1222,7 +1248,7 @@
 
                 require(['text!./metadataeditor.template.html'], function (template) {
 
-                    elem.innerHTML = globalize.translateDocument(template);
+                    elem.innerHTML = globalize.translateDocument(template, 'metadataeditor');
 
                     elem.querySelector('.btnCancel').classList.add('hide');
 
