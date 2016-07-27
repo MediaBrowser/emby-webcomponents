@@ -1,4 +1,4 @@
-﻿define(['itemHelper', 'layoutManager', 'scrollHelper', 'dialogHelper', 'datetime', 'loading', 'focusManager', 'connectionManager', 'globalize', 'require', 'emby-checkbox', 'emby-input', 'emby-select', 'listViewStyle', 'emby-textarea', 'emby-button', 'paper-icon-button-light', 'css!./../formdialog'], function (itemHelper, layoutManager, scrollHelper, dialogHelper, datetime, loading, focusManager, connectionManager, globalize, require) {
+﻿define(['itemHelper', 'layoutManager', 'dialogHelper', 'datetime', 'loading', 'focusManager', 'connectionManager', 'globalize', 'require', 'emby-checkbox', 'emby-input', 'emby-select', 'listViewStyle', 'emby-textarea', 'emby-button', 'paper-icon-button-light', 'css!./../formdialog'], function (itemHelper, layoutManager, dialogHelper, datetime, loading, focusManager, connectionManager, globalize, require) {
 
     var currentContext;
     var metadataEditorInfo;
@@ -1184,13 +1184,21 @@
 
     registerDictionary();
 
-    function show(itemId, serverId) {
+    function centerFocus(elem, horiz, on) {
+        require(['scrollHelper'], function (scrollHelper) {
+            var fn = on ? 'on' : 'off';
+            scrollHelper.centerFocus[fn](elem, horiz);
+        });
+    }
+
+    function show(itemId, serverId, resolve, reject) {
         loading.show();
 
         require(['text!./metadataeditor.template.html'], function (template) {
 
             var dialogOptions = {
-                removeOnClose: true
+                removeOnClose: true,
+                scrollY: false
             };
 
             if (layoutManager.tv) {
@@ -1214,12 +1222,16 @@
             document.body.appendChild(dlg);
 
             if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg.querySelector('.dialogContent'), false);
+                centerFocus(dlg.querySelector('.dialogContent'), false, true);
             }
 
             dialogHelper.open(dlg);
 
             dlg.addEventListener('close', function () {
+                if (layoutManager.tv) {
+                    centerFocus(dlg.querySelector('.dialogContent'), false, false);
+                }
+
                 unbindItemChanged(dlg, connectionManager.getApiClient(serverId));
                 resolve();
             });
@@ -1236,7 +1248,7 @@
         show: function (itemId, serverId) {
             return new Promise(function (resolve, reject) {
                 return globalize.loadStrings('metadataeditor').then(function () {
-                    return show(itemId, serverId);
+                    return show(itemId, serverId, resolve, reject);
                 });
             });
         },
