@@ -1219,7 +1219,7 @@
 
                 require(['text!./metadataeditor.template.html'], function (template) {
 
-                    elem.innerHTML = globalize.translateDocument(template, 'metadataeditor');
+                    elem.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
 
                     elem.querySelector('.btnCancel').classList.add('hide');
 

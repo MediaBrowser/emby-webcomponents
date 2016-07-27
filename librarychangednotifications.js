@@ -12,11 +12,56 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
     document.addEventListener('click', onOneDocumentClick);
     document.addEventListener('keydown', onOneDocumentClick);
 
+    function showNewItemNotification(item, apiClient) {
+
+        var notification = {
+            title: "New " + item.Type,
+            body: item.Name,
+            timeout: 15000,
+            vibrate: true,
+            tag: "newItem" + item.Id,
+            data: {
+                //options: {
+                //    url: LibraryBrowser.getHref(item)
+                //}
+            }
+        };
+
+        var imageTags = item.ImageTags || {};
+
+        if (imageTags.Primary) {
+
+            notification.icon = apiClient.getScaledImageUrl(item.Id, {
+                width: 80,
+                tag: imageTags.Primary,
+                type: "Primary"
+            });
+        }
+
+        var notif = new Notification(notification.title, notification);
+
+        if (notif.show) {
+            notif.show();
+        }
+
+        if (notification.timeout) {
+            setTimeout(function () {
+
+                if (notif.close) {
+                    notif.close();
+                }
+                else if (notif.cancel) {
+                    notif.cancel();
+                }
+            }, notification.timeout);
+        }
+    }
+
     function onLibraryChanged(data, apiClient) {
 
         var newItems = data.ItemsAdded;
 
-        if (!newItems.length || /*AppInfo.isNativeApp ||*/ !window.Notification || Notification.permission !== "granted") {
+        if (!newItems.length || !window.Notification || Notification.permission !== "granted") {
             return;
         }
 
@@ -40,49 +85,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
             for (var i = 0, length = items.length ; i < length; i++) {
 
-                var item = items[i];
-
-                var notification = {
-                    title: "New " + item.Type,
-                    body: item.Name,
-                    timeout: 15000,
-                    vibrate: true,
-
-                    data: {
-                        //options: {
-                        //    url: LibraryBrowser.getHref(item)
-                        //}
-                    }
-                };
-
-                var imageTags = item.ImageTags || {};
-
-                if (imageTags.Primary) {
-
-                    notification.icon = apiClient.getScaledImageUrl(item.Id, {
-                        width: 80,
-                        tag: imageTags.Primary,
-                        type: "Primary"
-                    });
-                }
-
-                var notif = new Notification(notification.title, notification);
-
-                if (notif.show) {
-                    notif.show();
-                }
-
-                if (notification.timeout) {
-                    setTimeout(function () {
-
-                        if (notif.close) {
-                            notif.close();
-                        }
-                        else if (notif.cancel) {
-                            notif.cancel();
-                        }
-                    }, notification.timeout);
-                }
+                showNewItemNotification(items[i], apiClient);
             }
         });
     }
