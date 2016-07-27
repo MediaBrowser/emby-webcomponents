@@ -55,9 +55,9 @@
     }
 
     function getSelectedAirDays(form) {
-        var checked = form.querySelectorAll('.chkAirDay:checked') || [];
-        return Array.prototype.map.call(checked, function () {
-            return this.getAttribute('data-day');
+        var checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
+        return Array.prototype.map.call(checkedItems, function (c) {
+            return c.getAttribute('data-day');
         });
     }
 
