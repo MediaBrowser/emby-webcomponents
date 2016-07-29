@@ -138,7 +138,7 @@ button.cardContent {
 .cardImageContainer {
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center bottom;
+    background-position: center center;
     display: -ms-flex;
     display: -webkit-flex;
     display: flex;

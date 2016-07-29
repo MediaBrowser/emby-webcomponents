@@ -427,7 +427,37 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             var imgUrl = null;
             var coverImage = false;
 
-            if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
+            if (options.autoThumb && item.ImageTags && item.ImageTags.Primary && item.PrimaryImageAspectRatio && item.PrimaryImageAspectRatio >= 1.34) {
+
+                width = posterWidth;
+                height = primaryImageAspectRatio ? Math.round(posterWidth / primaryImageAspectRatio) : null;
+
+                imgUrl = ApiClient.getScaledImageUrl(item.Id, {
+                    type: "Primary",
+                    maxHeight: height,
+                    maxWidth: width,
+                    tag: item.ImageTags.Primary,
+                    enableImageEnhancers: enableImageEnhancers
+                });
+
+                if (primaryImageAspectRatio) {
+                    if (uiAspect) {
+                        if (Math.abs(primaryImageAspectRatio - uiAspect) <= .2) {
+                            coverImage = true;
+                        }
+                    }
+                }
+
+            } else if (options.autoThumb && item.ImageTags && item.ImageTags.Thumb) {
+
+                imgUrl = ApiClient.getScaledImageUrl(item.Id, {
+                    type: "Thumb",
+                    maxWidth: thumbWidth,
+                    tag: item.ImageTags.Thumb,
+                    enableImageEnhancers: enableImageEnhancers
+                });
+
+            } else if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
@@ -935,7 +965,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                 className += " itemAction";
             }
 
-            if (options.scalable) {
+            var scalable = options.scalable !== false;
+            if (scalable) {
                 className += " scalableCard";
             }
 
@@ -955,7 +986,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                 cardImageContainerClass += ' emptyCardImageContainer defaultCardColor' + getRandomInt(1, 5);
             }
 
-            var separateCardBox = options.scalable;
+            var separateCardBox = scalable;
 
             if (!separateCardBox) {
                 cardImageContainerClass += " cardBox";
@@ -1039,7 +1070,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             }
 
             var overlayButtons = '';
-            if (!layoutManager.tv && options.scalable) {
+            if (!layoutManager.tv && scalable) {
                 if (options.overlayPlayButton && !item.IsPlaceHolder && (item.LocationType != 'Virtual' || !item.MediaType || item.Type == 'Program') && item.Type != 'Person' && item.PlayAccess == 'Full') {
                     overlayButtons += '<button is="paper-icon-button-light" class="cardOverlayButton itemAction autoSize" data-action="playmenu" onclick="return false;"><i class="md-icon">play_arrow</i></button>';
                 }
@@ -1048,7 +1079,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                 }
             }
 
-            var tagName = layoutManager.tv || !options.scalable ? 'button' : 'div';
+            var tagName = layoutManager.tv || !scalable ? 'button' : 'div';
 
             var prefix = (item.SortName || item.Name || '')[0];
 
@@ -1068,7 +1099,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             var collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
             var playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
 
-            var actionAttribute = layoutManager.tv ? (' data-action="' + action + '"') : '';
+            var actionAttribute = tagName == 'button' ? (' data-action="' + action + '"') : '';
 
             if (outerCardFooter && !options.cardLayout) {
                 className += ' bottomPaddedCard';
