@@ -429,15 +429,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
             if (options.autoThumb && item.ImageTags && item.ImageTags.Primary && item.PrimaryImageAspectRatio && item.PrimaryImageAspectRatio >= 1.34) {
 
-                width = posterWidth;
-                height = primaryImageAspectRatio ? Math.round(posterWidth / primaryImageAspectRatio) : null;
+                height = primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
                 imgUrl = ApiClient.getScaledImageUrl(item.Id, {
                     type: "Primary",
                     maxHeight: height,
                     maxWidth: width,
-                    tag: item.ImageTags.Primary,
-                    enableImageEnhancers: enableImageEnhancers
+                    tag: item.ImageTags.Primary
                 });
 
                 if (primaryImageAspectRatio) {
@@ -452,9 +450,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
                 imgUrl = ApiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
-                    maxWidth: thumbWidth,
-                    tag: item.ImageTags.Thumb,
-                    enableImageEnhancers: enableImageEnhancers
+                    maxWidth: width,
+                    tag: item.ImageTags.Thumb
                 });
 
             } else if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
@@ -658,7 +655,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
             var showOtherText = isOuterFooter ? !options.overlayText : options.overlayText;
 
-            if (isOuterFooter && options.cardLayout) {
+            if (isOuterFooter && options.cardLayout && !layoutManager.tv) {
                 var moreIcon = appHost.moreIcon == 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
                 html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions autoSize" data-action="menu"><i class="md-icon">' + moreIcon + '</i></button>';
             }
@@ -962,10 +959,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
             var action = options.action || 'link';
 
-            if (layoutManager.tv) {
-                className += " itemAction";
-            }
-
             var scalable = options.scalable !== false;
             if (scalable) {
                 className += " scalableCard";
@@ -1038,6 +1031,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
             var showTitle = options.showTitle == 'auto' ? true : (options.showTitle || item.Type == 'PhotoAlbum' || item.Type == 'Folder');
 
+            if (forceName && !options.cardLayout) {
+                showTitle = false;
+            }
+
             if (!imgUrl) {
                 var defaultName = item.EpisodeTitle ? item.Name : itemHelper.getDisplayName(item);
                 cardImageContainerOpen += '<div class="cardText cardCenteredText">' + defaultName + '</div>';
@@ -1103,7 +1100,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             var collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
             var playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
 
-            var actionAttribute = tagName == 'button' ? (' data-action="' + action + '"') : '';
+            var actionAttribute;
+
+            if (tagName == 'button') {
+                className += " itemAction";
+                actionAttribute = ' data-action="' + action + '"';
+            } else {
+                actionAttribute = '';
+            }
 
             if (outerCardFooter && !options.cardLayout) {
                 className += ' bottomPaddedCard';
