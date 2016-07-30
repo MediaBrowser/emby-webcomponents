@@ -620,6 +620,27 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
+        var numRandomColors = 5;
+        function getDefaultColorIndex(str) {
+
+            if (str) {
+                var character = String(str.substr(str.length - 1).charCodeAt());
+                var sum = 0;
+                for (var i = 0; i < character.length; i++) {
+                    sum += parseInt(character.charAt(i));
+                }
+                var index = String(sum).substr(-1);
+
+                return (index % numRandomColors) + 1;
+            } else {
+                return getRandomInt(1, numRandomColors);
+            }
+        }
+
+        function getDefaultColorClass(str) {
+            return 'defaultCardColor' + getDefaultColorIndex(str);
+        }
+
         function getCardTextLines(lines, cssClass, forceLines) {
 
             var html = '';
@@ -977,13 +998,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             }
 
             if (!imgUrl) {
-                cardImageContainerClass += ' defaultCardColor' + getRandomInt(1, 5);
+                cardImageContainerClass += ' ' + getDefaultColorClass(item.Name);
             }
 
             var separateCardBox = scalable;
-
+            var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
             if (!separateCardBox) {
-                cardImageContainerClass += " cardBox";
+                cardImageContainerClass += " " + cardBoxClass;
             }
 
             // cardBox can be it's own separate element if an outer footer is ever needed
@@ -1003,7 +1024,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                     cardContentOpen = '<button type="button" class="clearButton cardContent itemAction" data-action="' + action + '">';
                     cardContentClose = '</button>';
                 }
-                cardImageContainerOpen = '<div class="cardBox"><div class="cardScalable"><div class="cardPadder"></div>' + cardContentOpen + cardImageContainerOpen;
+                cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="cardScalable"><div class="cardPadder"></div>' + cardContentOpen + cardImageContainerOpen;
                 cardBoxClose = '</div>';
                 cardScalableClose = '</div>';
                 cardImageContainerClose = '</div>';
@@ -1040,7 +1061,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                 cardImageContainerOpen += '<div class="cardText cardCenteredText">' + defaultName + '</div>';
             }
 
-            var innerCardFooterClass = 'innerCardFooter';
+            var footerCssClass;
             var progressHtml = indicators.getProgressBarHtml(item);
 
             var innerCardFooter = '';
@@ -1049,7 +1070,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
             if (options.overlayText) {
 
-                var footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
+                footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
                 innerCardFooter += getCardFooterText(item, options, showTitle, imgUrl, footerCssClass, progressHtml, false);
                 footerOverlayed = true;
             }
@@ -1063,7 +1084,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
             var outerCardFooter = '';
             if (!options.overlayText && !footerOverlayed) {
-                var footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter transparent';
+                footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter transparent';
                 outerCardFooter = getCardFooterText(item, options, showTitle, imgUrl, footerCssClass, progressHtml, true);
             }
 
@@ -1311,6 +1332,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
         return {
             getCardsHtml: getCardsHtml,
             buildCards: buildCards,
-            onUserDataChanged: onUserDataChanged
+            onUserDataChanged: onUserDataChanged,
+            getDefaultColorClass: getDefaultColorClass
         };
     });
