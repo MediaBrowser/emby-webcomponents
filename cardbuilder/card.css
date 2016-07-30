@@ -17,14 +17,20 @@
     display: flex;
 }
 
-.verticalItemsContainer {
+.vertical-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.vertical-wrap {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-    .verticalItemsContainer .card {
-        contain: layout style;
+    .vertical-wrap .card {
+        contain: strict;
     }
 
 .card, .card:focus {
@@ -279,10 +285,6 @@ button.cardContent {
         background-color: rgba(0,0,0,.9) !important;
         transition: background-color .5s ease-out;
     }
-
-.emptyCardImageContainer {
-    font-size: 90%;
-}
 
 .defaultCardColor1 {
     background-color: #009688;
