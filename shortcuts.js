@@ -168,6 +168,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
         return {
             Type: card.getAttribute('data-type'),
             Id: card.getAttribute('data-id'),
+            CollectionType: card.getAttribute('data-collectiontype'),
             ChannelId: card.getAttribute('data-channelid'),
             SeriesId: card.getAttribute('data-seriesid'),
             ServerId: card.getAttribute('data-serverid'),
