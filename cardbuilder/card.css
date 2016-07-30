@@ -29,9 +29,17 @@
     flex-wrap: wrap;
 }
 
+    .vertical-wrap.centered {
+        justify-content: center;
+    }
+
     .vertical-wrap .card {
         contain: strict;
     }
+
+.layout-tv .vertical-wrap .card {
+    contain: layout style;
+}
 
 .card, .card:focus {
     font-weight: inherit !important;
@@ -310,8 +318,12 @@ button.cardContent {
     width: 14.285714285714285714285714285714%;
 }
 
-.scalableCard.backdropCard, .scalableCard.smallBackdropCard {
+.scalableCard.backdropCard {
     width: 100%;
+}
+
+.scalableCard.smallBackdropCard {
+    width: 50%;
 }
 
 .scalableCard.squareCard {
@@ -338,7 +350,7 @@ button.cardContent {
 
 @media all and (min-width: 420px) {
 
-    .scalableCard.backdropCard, .scalableCard.smallBackdropCard {
+    .scalableCard.backdropCard {
         width: 50%;
     }
 }
