@@ -49,7 +49,7 @@
 
         if (!hasId && !lookupInfo.Name) {
             require(['toast'], function (toast) {
-                toast(globalize.translate('MessagePleaseEnterNameOrId'));
+                toast(globalize.translate('sharedcomponents#PleaseEnterNameOrId'));
             });
             return;
         }
@@ -262,7 +262,7 @@
 
                 html += '<div class="inputContainer">';
 
-                var idLabel = globalize.translate('LabelDynamicExternalId').replace('{0}', idInfo.Name);
+                var idLabel = globalize.translate('sharedcomponents#LabelDynamicExternalId').replace('{0}', idInfo.Name);
 
                 var value = providerIds[idInfo.Key] || '';
 
@@ -285,7 +285,7 @@
 
             page.querySelector('.identifyProviderIds').innerHTML = html;
 
-            page.querySelector('.dialogHeaderTitle').innerHTML = globalize.translate('HeaderIdentify');
+            page.querySelector('.dialogHeaderTitle').innerHTML = globalize.translate('sharedcomponents#Identify');
         });
     }
 
@@ -311,7 +311,7 @@
                 dlg.classList.add('background-theme-b');
 
                 var html = '';
-                html += globalize.translateDocument(template);
+                html += globalize.translateDocument(template, 'sharedcomponents');
 
                 dlg.innerHTML = html;
                 document.body.appendChild(dlg);
@@ -373,7 +373,7 @@
             dlg.classList.add('background-theme-a');
 
             var html = '';
-            html += globalize.translateDocument(template);
+            html += globalize.translateDocument(template, 'sharedcomponents');
 
             dlg.innerHTML = html;
             document.body.appendChild(dlg);
@@ -421,7 +421,7 @@
             dlg.querySelector('#txtLookupYear').value = itemYear;
         }
 
-        dlg.querySelector('.dialogHeaderTitle').innerHTML = globalize.translate('HeaderSearch');
+        dlg.querySelector('.dialogHeaderTitle').innerHTML = globalize.translate('sharedcomponents#Search');
     }
 
     return {
