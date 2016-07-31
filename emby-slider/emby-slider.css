@@ -316,8 +316,8 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider {
     position: absolute;
     top: -3.7em;
     left: 0;
-    padding: .25em .7em;
-    background: #181818;
+    padding: .5em 1em;
+    background: #282828;
     color: #fff;
     display: flex;
     align-items: center;
