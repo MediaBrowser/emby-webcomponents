@@ -1,4 +1,4 @@
-define(['imageLoader', 'itemShortcuts'], function (imageLoader, itemShortcuts) {
+define(['imageLoader', 'itemShortcuts', 'connectionManager'], function (imageLoader, itemShortcuts, connectionManager) {
 
     function buildPeopleCardsHtml(people, options) {
 
@@ -12,6 +12,7 @@ define(['imageLoader', 'itemShortcuts'], function (imageLoader, itemShortcuts) {
         var itemsInRow = 0;
 
         var serverId = options.serverId;
+        var apiClient = connectionManager.getApiClient(serverId);
 
         for (var i = 0, length = people.length; i < length; i++) {
 
@@ -21,7 +22,7 @@ define(['imageLoader', 'itemShortcuts'], function (imageLoader, itemShortcuts) {
 
             var person = people[i];
 
-            html += buildPersonCard(person, serverId, options, className);
+            html += buildPersonCard(person, apiClient, serverId, options, className);
             itemsInRow++;
 
             if (options.rows && itemsInRow >= options.rows) {
@@ -33,11 +34,26 @@ define(['imageLoader', 'itemShortcuts'], function (imageLoader, itemShortcuts) {
         return html;
     }
 
-    function buildPersonCard(person, serverId, options, className) {
+    function getImgUrl(person, maxWidth, apiClient) {
+
+        if (person.PrimaryImageTag) {
+
+            return apiClient.getScaledImageUrl(person.Id, {
+
+                maxWidth: maxWidth,
+                tag: person.PrimaryImageTag,
+                type: "Primary"
+            });
+        }
+
+        return null;
+    }
+
+    function buildPersonCard(person, apiClient, serverId, options, className) {
 
         className += " itemAction scalableCard";
 
-        var imgUrl = person.images ? person.images.primary : '';
+        var imgUrl = getImgUrl(person, options.width, apiClient);
 
         var cardImageContainerClass = 'cardImageContainer';
         if (options.coverImage) {
