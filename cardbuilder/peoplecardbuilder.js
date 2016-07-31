@@ -2,7 +2,7 @@ define(['imageLoader', 'itemShortcuts', 'connectionManager'], function (imageLoa
 
     function buildPeopleCardsHtml(people, options) {
 
-        var className = 'card portraitCard personCard';
+        var className = 'card ' + (options.shape || 'portrait') + 'Card personCard';
 
         if (options.block || options.rows) {
             className += ' block';
@@ -95,12 +95,12 @@ define(['imageLoader', 'itemShortcuts', 'connectionManager'], function (imageLoa
 
     function buildPeopleCards(items, options) {
 
-        // Abort if the container has been disposed
-        if (!document.body.contains(options.parentContainer)) {
-            return;
-        }
-
         if (options.parentContainer) {
+            // Abort if the container has been disposed
+            if (!document.body.contains(options.parentContainer)) {
+                return;
+            }
+
             if (items.length) {
                 options.parentContainer.classList.remove('hide');
             } else {
