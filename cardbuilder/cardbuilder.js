@@ -105,6 +105,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
         function getImageWidth(shape) {
 
             var screenWidth = window.innerWidth;
+
+            if (!browser.mobile && !browser.tv) {
+                var roundScreenTo = 100;
+                screenWidth = Math.ceil(screenWidth / roundScreenTo) * roundScreenTo;
+            }
+
             var imagesPerRow = getPostersPerRow(shape, screenWidth);
 
             var shapeWidth = screenWidth / imagesPerRow;
@@ -1080,9 +1086,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             var forceName = imgInfo.forceName;
 
             var showTitle = options.showTitle == 'auto' ? true : (options.showTitle || item.Type == 'PhotoAlbum' || item.Type == 'Folder');
+            var overlayText = options.overlayText;
 
             if (forceName && !options.cardLayout) {
-                showTitle = false;
+                showTitle = imgUrl;
+                
+                if (overlayText == null) {
+                    overlayText = true;
+                }
             }
 
             if (!imgUrl) {
@@ -1097,14 +1108,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
             var footerOverlayed = false;
 
-            if (options.overlayText) {
+            if (overlayText) {
 
                 footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
                 innerCardFooter += getCardFooterText(item, options, showTitle, imgUrl, footerCssClass, progressHtml, false);
                 footerOverlayed = true;
             }
             else if (progressHtml) {
-                innerCardFooter += '<div class="innerCardFooter fullInnerCardFooter">';
+                innerCardFooter += '<div class="innerCardFooter fullInnerCardFooter innerCardFooterClear">';
                 innerCardFooter += progressHtml;
                 innerCardFooter += '</div>';
 
@@ -1117,7 +1128,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             }
 
             var outerCardFooter = '';
-            if (!options.overlayText && !footerOverlayed) {
+            if (!overlayText && !footerOverlayed) {
                 footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter transparent';
                 outerCardFooter = getCardFooterText(item, options, showTitle, imgUrl, footerCssClass, progressHtml, true);
             }

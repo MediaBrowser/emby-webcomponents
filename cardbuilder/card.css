@@ -275,12 +275,16 @@ button.cardImageContainer {
     max-width: 100%;
 }
 
+.innerCardFooterClear {
+    background-color: transparent;
+}
+
 .fullInnerCardFooter {
     right: 0;
 }
 
 .cardText {
-    padding: .35em .35em;
+    padding: .35em .5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
