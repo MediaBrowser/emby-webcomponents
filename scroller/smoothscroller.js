@@ -908,7 +908,7 @@ define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, l
                 passive: true
             });
 
-            dragSourceElement.addEventListener('mousedown', dragInitSlidee);
+            dragSourceElement.removeEventListener('mousedown', dragInitSlidee);
 
             // Reset initialized status and return the instance
             self.initialized = 0;

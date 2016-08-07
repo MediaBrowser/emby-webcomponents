@@ -3,11 +3,9 @@
     border: 0;
     outline: none !important;
     color: inherit;
-    width: 100%;
     vertical-align: middle;
     font-family: inherit;
     font-size: inherit;
-
     margin: 0;
     display: block;
     align-items: center;
@@ -20,6 +18,10 @@
     overflow: hidden;
 }
 
+.listItem-button {
+    width: 100%;
+}
+
 .listItem-nosidepadding {
     padding-left: 0;
     padding-right: 0;
@@ -29,7 +31,7 @@
     padding: .5em !important;
 }
 
-.listItemImage, .listItemIcon {
+.listItemImage, .listItemIcon, .listItemAside {
     flex-shrink: 0;
 }
 
