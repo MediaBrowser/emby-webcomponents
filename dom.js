@@ -74,7 +74,7 @@ define([], function () {
         parentWithAttribute: parentWithAttribute,
         parentWithClass: parentWithClass,
         parentWithTag: parentWithTag,
-        addEventListenerWithOptions: addEventListenerWithOptions,
-        removeEventListenerWithOptions: removeEventListenerWithOptions
+        addEventListener: addEventListenerWithOptions,
+        removeEventListener: removeEventListenerWithOptions
     };
 });

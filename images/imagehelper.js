@@ -159,19 +159,19 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
             }
 
             if (!images.length) {
-                dom.removeEventListenerWithOptions(document, 'focus', unveil, {
+                dom.removeEventListener(document, 'focus', unveil, {
                     capture: true,
                     passive: true
                 });
-                dom.removeEventListenerWithOptions(document, 'scroll', unveil, {
+                dom.removeEventListener(document, 'scroll', unveil, {
                     capture: true,
                     passive: true
                 });
-                dom.removeEventListenerWithOptions(document, wheelEvent, unveil, {
+                dom.removeEventListener(document, wheelEvent, unveil, {
                     capture: true,
                     passive: true
                 });
-                dom.removeEventListenerWithOptions(window, 'resize', unveil, {
+                dom.removeEventListener(window, 'resize', unveil, {
                     capture: true,
                     passive: true
                 });
@@ -190,19 +190,19 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
             }, 1);
         }
 
-        dom.addEventListenerWithOptions(document, 'focus', unveil, {
+        dom.addEventListener(document, 'focus', unveil, {
             capture: true,
             passive: true
         });
-        dom.addEventListenerWithOptions(document, 'scroll', unveil, {
+        dom.addEventListener(document, 'scroll', unveil, {
             capture: true,
             passive: true
         });
-        dom.addEventListenerWithOptions(document, wheelEvent, unveil, {
+        dom.addEventListener(document, wheelEvent, unveil, {
             capture: true,
             passive: true
         });
-        dom.addEventListenerWithOptions(window, 'resize', unveil, {
+        dom.addEventListener(window, 'resize', unveil, {
             capture: true,
             passive: true
         });

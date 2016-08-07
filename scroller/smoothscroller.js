@@ -76,13 +76,9 @@ define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, l
     var namespace = pluginName;
 
     // Other global values
-    var dragInitEventNames = ['touchstart', 'mousedown'];
-    var dragInitEvents = 'touchstart.' + namespace + ' mousedown.' + namespace;
     var dragMouseEvents = ['mousemove', 'mouseup'];
     var dragTouchEvents = ['touchmove', 'touchend'];
     var wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
-    var clickEvent = 'click.' + namespace;
-    var mouseDownEvent = 'mousedown.' + namespace;
     var interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
     var tmpArray = [];
     var time;
@@ -900,13 +896,19 @@ define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, l
             window.removeEventListener('resize', onResize, true);
 
             // Reset native FRAME element scroll
-            dom.removeEventListenerWithOptions(frameElement, 'scroll', resetScroll, {
+            dom.removeEventListener(frameElement, 'scroll', resetScroll, {
                 passive: true
             });
 
-            dom.removeEventListenerWithOptions(scrollSource, wheelEvent, scrollHandler, {
+            dom.removeEventListener(scrollSource, wheelEvent, scrollHandler, {
                 passive: true
             });
+
+            dom.removeEventListener(dragSourceElement, 'touchstart', dragInitSlidee, {
+                passive: true
+            });
+
+            dragSourceElement.addEventListener('mousedown', dragInitSlidee);
 
             // Reset initialized status and return the instance
             self.initialized = 0;
@@ -965,22 +967,24 @@ define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, l
             }
 
             if (transform) {
-                dragInitEventNames.forEach(function (eventName) {
-                    dragSourceElement.addEventListener(eventName, dragInitSlidee);
+
+                dom.addEventListener(dragSourceElement, 'touchstart', dragInitSlidee, {
+                    passive: true
                 });
+                dragSourceElement.addEventListener('mousedown', dragInitSlidee);
 
                 if (!o.scrollWidth) {
                     window.addEventListener('resize', onResize, true);
                 }
 
                 if (!o.horizontal) {
-                    dom.addEventListenerWithOptions(frameElement, 'scroll', resetScroll, {
+                    dom.addEventListener(frameElement, 'scroll', resetScroll, {
                         passive: true
                     });
                 }
 
                 // Scrolling navigation
-                dom.addEventListenerWithOptions(scrollSource, wheelEvent, scrollHandler, {
+                dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
                     passive: true
                 });
 
@@ -989,7 +993,7 @@ define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, l
                 // Don't bind to mouse events with vertical scroll since the mouse wheel can handle this natively
 
                 // Scrolling navigation
-                dom.addEventListenerWithOptions(scrollSource, wheelEvent, scrollHandler, {
+                dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
                     passive: true
                 });
             }

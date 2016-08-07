@@ -800,13 +800,13 @@
 
             programGrid.addEventListener('focus', onProgramGridFocus, true);
 
-            dom.addEventListenerWithOptions(programGrid, 'scroll', function (e) {
+            dom.addEventListener(programGrid, 'scroll', function (e) {
                 onProgramGridScroll(context, this, timeslotHeaders);
             }, {
                 passive: true
             });
 
-            dom.addEventListenerWithOptions(timeslotHeaders, 'scroll', function () {
+            dom.addEventListener(timeslotHeaders, 'scroll', function () {
                 onTimeslotHeadersScroll(context, this, programGrid);
             }, {
                 passive: true
