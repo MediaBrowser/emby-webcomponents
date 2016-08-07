@@ -1,30 +1,4 @@
-define(['browser', 'layoutManager', 'scrollStyles'], function (browser, layoutManager) {
-
-    var supportsCaptureOption = false;
-    try {
-        var opts = Object.defineProperty({}, 'capture', {
-            get: function () {
-                supportsCaptureOption = true;
-            }
-        });
-        window.addEventListener("test", null, opts);
-    } catch (e) { }
-
-    function addEventListenerWithOptions(target, type, handler, options) {
-        var optionsOrCapture = options;
-        if (!supportsCaptureOption) {
-            optionsOrCapture = options.capture;
-        }
-        target.addEventListener(type, handler, optionsOrCapture);
-    }
-
-    function removeEventListenerWithOptions(target, type, handler, options) {
-        var optionsOrCapture = options;
-        if (!supportsCaptureOption) {
-            optionsOrCapture = options.capture;
-        }
-        target.removeEventListener(type, handler, optionsOrCapture);
-    }
+define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, layoutManager, dom) {
 
     /**
 * Return type of the value.
@@ -926,11 +900,11 @@ define(['browser', 'layoutManager', 'scrollStyles'], function (browser, layoutMa
             window.removeEventListener('resize', onResize, true);
 
             // Reset native FRAME element scroll
-            removeEventListenerWithOptions(frameElement, 'scroll', resetScroll, {
+            dom.removeEventListenerWithOptions(frameElement, 'scroll', resetScroll, {
                 passive: true
             });
 
-            removeEventListenerWithOptions(scrollSource, wheelEvent, scrollHandler, {
+            dom.removeEventListenerWithOptions(scrollSource, wheelEvent, scrollHandler, {
                 passive: true
             });
 
@@ -1000,13 +974,13 @@ define(['browser', 'layoutManager', 'scrollStyles'], function (browser, layoutMa
                 }
 
                 if (!o.horizontal) {
-                    addEventListenerWithOptions(frameElement, 'scroll', resetScroll, {
+                    dom.addEventListenerWithOptions(frameElement, 'scroll', resetScroll, {
                         passive: true
                     });
                 }
 
                 // Scrolling navigation
-                addEventListenerWithOptions(scrollSource, wheelEvent, scrollHandler, {
+                dom.addEventListenerWithOptions(scrollSource, wheelEvent, scrollHandler, {
                     passive: true
                 });
 
@@ -1015,7 +989,7 @@ define(['browser', 'layoutManager', 'scrollStyles'], function (browser, layoutMa
                 // Don't bind to mouse events with vertical scroll since the mouse wheel can handle this natively
 
                 // Scrolling navigation
-                addEventListenerWithOptions(scrollSource, wheelEvent, scrollHandler, {
+                dom.addEventListenerWithOptions(scrollSource, wheelEvent, scrollHandler, {
                     passive: true
                 });
             }
