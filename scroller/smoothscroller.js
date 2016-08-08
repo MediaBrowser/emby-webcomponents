@@ -109,7 +109,6 @@ define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, l
             touchDragging: 1, // Enable navigation by dragging the SLIDEE with touch events.
             releaseSwing: false, // Ease out on dragging swing release.
             swingSpeed: 0.2, // Swing synchronization speed, where: 1 = instant, 0 = infinite.
-            elasticBounds: false, // Stretch SLIDEE position limits when dragging past FRAME boundaries.
             dragThreshold: 3, // Distance in pixels before Sly recognizes dragging.
             intervactive: null, // Selector for special interactive elements.
 
@@ -351,16 +350,7 @@ define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, l
 		 */
         function slideTo(newPos, immediate) {
 
-            // Handle overflowing position limits
-            if (dragging.init && dragging.slidee && o.elasticBounds) {
-                if (newPos > pos.end) {
-                    newPos = pos.end + (newPos - pos.end) / 6;
-                } else if (newPos < pos.start) {
-                    newPos = pos.start + (newPos - pos.start) / 6;
-                }
-            } else {
-                newPos = within(newPos, pos.start, pos.end);
-            }
+            newPos = within(newPos, pos.start, pos.end);
 
             if (!transform) {
 
@@ -387,10 +377,6 @@ define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, l
         var scrollEvent = new CustomEvent("scroll");
 
         function renderAnimate() {
-
-            if (!transform) {
-                return;
-            }
 
             var obj = getComputedStyle(slideeElement, null).getPropertyValue('transform').match(/([-+]?(?:\d*\.)?\d+)\D*, ([-+]?(?:\d*\.)?\d+)\D*\)/);
             if (obj) {
