@@ -427,66 +427,36 @@ define(['browser', 'layoutManager', 'dom', 'scrollStyles'], function (browser, l
             };
         }
 
-        function getOffsets(elems) {
+        function getBoundingClientRect(elem) {
 
-            var doc = document;
-            var results = [];
-
-            if (!doc) {
-                return results;
+            // Support: BlackBerry 5, iOS 3 (original iPhone)
+            // If we don't have gBCR, just use 0,0 rather than error
+            if (elem.getBoundingClientRect) {
+                return elem.getBoundingClientRect();
+            } else {
+                return { top: 0, left: 0 };
             }
-
-            var docElem = doc.documentElement;
-            var docElemValues = {
-                clientTop: docElem.clientTop,
-                clientLeft: docElem.clientLeft
-            };
-
-            var win = doc.defaultView;
-            var winValues = {
-                pageXOffset: win.pageXOffset,
-                pageYOffset: win.pageYOffset
-            };
-
-            var box;
-            var elem;
-
-            for (var i = 0, length = elems.length; i < length; i++) {
-
-                elem = elems[i];
-                // Support: BlackBerry 5, iOS 3 (original iPhone)
-                // If we don't have gBCR, just use 0,0 rather than error
-                if (elem.getBoundingClientRect) {
-                    box = elem.getBoundingClientRect();
-                } else {
-                    box = { top: 0, left: 0 };
-                }
-
-                results[i] = {
-                    top: box.top + winValues.pageYOffset - docElemValues.clientTop,
-                    left: box.left + winValues.pageXOffset - docElemValues.clientLeft
-                };
-            }
-
-            return results;
         }
 
         /**
-		 * Returns the position object.
-		 *
-		 * @param {Mixed} item
-		 *
-		 * @return {Object}
-		 */
+         * Returns the position object.
+         *
+         * @param {Mixed} item
+         *
+         * @return {Object}
+         */
         self.getPos = function (item) {
 
-            var offsets = getOffsets([slideeElement, item]);
+            var doc = document;
 
-            var slideeOffset = offsets[0];
-            var itemOffset = offsets[1];
+            var slideeOffset = getBoundingClientRect(slideeElement);
+            var itemOffset = getBoundingClientRect(item);
 
             var offset = o.horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
-            var size = item[o.horizontal ? 'offsetWidth' : 'offsetHeight'];
+            var size = o.horizontal ? itemOffset.width : itemOffset.height;
+            if (!size) {
+                size = item[o.horizontal ? 'offsetWidth' : 'offsetHeight'];
+            }
 
             var centerOffset = o.centerOffset || 0;
 
