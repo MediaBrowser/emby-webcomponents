@@ -18,6 +18,10 @@
     overflow: hidden;
 }
 
+.listItem-noborder {
+    border-bottom: 0;
+}
+
 .listItem-button {
     width: 100%;
 }
@@ -131,11 +135,11 @@
     color: inherit !important;
 }
 
-.layout-tv .listItem {
+.listItem-focusscale {
     transition: transform .2s ease-out;
 }
 
-    .layout-tv .listItem:focus {
+    .listItem-focusscale:focus {
         transform: scale(1.025, 1.025);
     }
 
@@ -150,11 +154,7 @@
     background-color: transparent !important;
 }
 
-.paperList .listItem {
-    border-bottom: 0;
-}
-
-.layout-tv .listItemMediaInfo {
+.listItemMediaInfo-padded {
     margin: .5em 0;
 }
 

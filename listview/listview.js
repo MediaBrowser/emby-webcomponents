@@ -184,6 +184,10 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 cssClass += ' itemAction listItem-button';
             }
 
+            if (layoutManager.tv) {
+                cssClass += ' listItem-focusscale';
+            }
+
             var downloadWidth = 80;
 
             if (isLargeStyle) {
@@ -281,7 +285,13 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             html += getTextLinesHtml(textlines, isLargeStyle);
 
             if (!enableSideMediaInfo) {
-                html += '<div class="secondary listItemMediaInfo listItemBodyText">' + mediaInfo.getPrimaryMediaInfoHtml(item) + '</div>';
+
+                var mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
+                if (layoutManager.tv) {
+                    mediaInfoClass += ' listItemMediaInfo-padded';
+                }
+
+                html += '<div class="' + mediaInfoClass + '">' + mediaInfo.getPrimaryMediaInfoHtml(item) + '</div>';
             }
 
             if (enableOverview && item.Overview) {
