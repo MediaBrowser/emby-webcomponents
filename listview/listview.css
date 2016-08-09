@@ -12,14 +12,13 @@
     text-align: left;
     padding: .25em 1.15em;
     line-height: 160%;
-    border-bottom: 1px solid #2a2a2a;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
 }
 
-.listItem-noborder {
-    border-bottom: 0;
+.listItem-border {
+    border-bottom: 1px solid #2a2a2a;
 }
 
 .listItem-button {
