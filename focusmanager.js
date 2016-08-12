@@ -1,5 +1,17 @@
 define(['dom'], function (dom) {
 
+    var scopes = [];
+    function pushScope(elem) {
+        scopes.push(elem);
+    }
+
+    function popScope(elem) {
+
+        if (scopes.length) {
+            scopes.length -= 1;
+        }
+    }
+
     function autoFocus(view, defaultToFirst, findAutoFocusElement) {
 
         var element;
@@ -101,8 +113,12 @@ define(['dom'], function (dom) {
         return isCurrentlyFocusableInternal(elem);
     }
 
+    function getDefaultScope() {
+        return scopes[0] || document.body;
+    }
+
     function getFocusableElements(parent) {
-        var elems = (parent || document.body).querySelectorAll(focusableQuery);
+        var elems = (parent || getDefaultScope()).querySelectorAll(focusableQuery);
         var focusableElements = [];
 
         for (var i = 0, length = elems.length; i < length; i++) {
@@ -145,7 +161,7 @@ define(['dom'], function (dom) {
             elem = elem.parentNode;
 
             if (!elem) {
-                return document.body;
+                return getDefaultScope();
             }
         }
 
@@ -205,7 +221,7 @@ define(['dom'], function (dom) {
             activeElement = focusableParent(activeElement);
         }
 
-        var container = activeElement ? getFocusContainer(activeElement, direction) : document.body;
+        var container = activeElement ? getFocusContainer(activeElement, direction) : getDefaultScope();
 
         if (!activeElement) {
             autoFocus(container, true, false);
@@ -428,6 +444,8 @@ define(['dom'], function (dom) {
             nav(sourceElement, 3);
         },
         sendText: sendText,
-        isCurrentlyFocusable: isCurrentlyFocusable
+        isCurrentlyFocusable: isCurrentlyFocusable,
+        pushScope: pushScope,
+        popScope: popScope
     };
 });
