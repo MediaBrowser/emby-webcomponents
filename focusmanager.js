@@ -247,9 +247,9 @@ define(['dom'], function (dom) {
                 continue;
             }
 
-            if (!isCurrentlyFocusableInternal(curr)) {
-                continue;
-            }
+            //if (!isCurrentlyFocusableInternal(curr)) {
+            //    continue;
+            //}
 
             var elementRect = getViewportBoundingClientRect(curr, windowData);
 
