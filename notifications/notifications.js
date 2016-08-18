@@ -131,7 +131,6 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             IsFolder: false,
             SortBy: "DateCreated",
             SortOrder: "Descending",
-            ImageTypes: "Primary",
             Ids: newItems.join(',')
 
         }).then(function (result) {
