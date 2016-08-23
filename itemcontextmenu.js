@@ -428,7 +428,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                                 items: [
                                 {
                                     Id: itemId
-                                }]
+                                }],
+                                serverId: serverId
                             });
                         });
                         getResolveFunction(resolve, id)();
@@ -442,7 +443,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                                 {
                                     Id: itemId
                                 }],
-                                isLocalSync: true
+                                isLocalSync: true,
+                                serverId: serverId
                             });
                         });
                         getResolveFunction(resolve, id)();

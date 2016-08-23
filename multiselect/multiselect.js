@@ -345,7 +345,8 @@
                                             return {
                                                 Id: i
                                             };
-                                        })
+                                        }),
+                                        serverId: serverId
                                     });
                                 });
                                 hideSelections();
@@ -359,7 +360,8 @@
                                                 Id: i
                                             };
                                         }),
-                                        isLocalSync: true
+                                        isLocalSync: true,
+                                        serverId: serverId
                                     });
                                 });
                                 hideSelections();
