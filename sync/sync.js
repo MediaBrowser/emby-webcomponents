@@ -22,7 +22,7 @@
         if (!target) {
 
             require(['toast'], function (toast) {
-                toast(globalize.translate('PleaseSelectDeviceToSyncTo'));
+                toast(globalize.translate('sharedcomponents#PleaseSelectDeviceToSyncTo'));
             });
             return false;
         }
@@ -57,7 +57,7 @@
             dialogHelper.close(dlg);
             require(['toast'], function (toast) {
 
-                var msg = target == apiClient.deviceId() ? globalize.translate('DownloadScheduled') : globalize.translate('SyncJobCreated');
+                var msg = target == apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadScheduled') : globalize.translate('sharedcomponents#SyncJobCreated');
 
                 toast(msg);
             });
@@ -142,17 +142,17 @@
         if (options.showName || dialogOptions.Options.indexOf('Name') != -1) {
 
             html += '<div class="inputContainer' + targetContainerClass + '">';
-            html += '<input is="emby-input" type="text" id="txtSyncJobName" class="txtSyncJobName" required="required" label="' + globalize.translate('LabelSyncJobName') + '"/>';
+            html += '<input is="emby-input" type="text" id="txtSyncJobName" class="txtSyncJobName" required="required" label="' + globalize.translate('sharedcomponents#LabelSyncJobName') + '"/>';
             html += '</div>';
         }
 
         if (options.readOnlySyncTarget) {
             html += '<div class="inputContainer' + targetContainerClass + '">';
-            html += '<input is="emby-input" type="text" id="selectSyncTarget" readonly label="' + globalize.translate('LabelSyncTo') + '"/>';
+            html += '<input is="emby-input" type="text" id="selectSyncTarget" readonly label="' + globalize.translate('sharedcomponents#LabelSyncTo') + '"/>';
             html += '</div>';
         } else {
             html += '<div class="selectContainer' + targetContainerClass + '">';
-            html += '<select is="emby-select" id="selectSyncTarget" required="required" label="' + globalize.translate('LabelSyncTo') + '">';
+            html += '<select is="emby-select" id="selectSyncTarget" required="required" label="' + globalize.translate('sharedcomponents#LabelSyncTo') + '">';
 
             html += targets.map(function (t) {
 
@@ -163,35 +163,35 @@
             }).join('');
             html += '</select>';
             if (!targets.length) {
-                html += '<div class="fieldDescription">' + globalize.translate('LabelSyncNoTargetsHelp') + '</div>';
-                html += '<div class="fieldDescription"><a class="lnkHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('LearnMore') + '</a></div>';
+                html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#LabelSyncNoTargetsHelp') + '</div>';
+                html += '<div class="fieldDescription"><a class="lnkHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('sharedcomponents#LearnMore') + '</a></div>';
             }
             html += '</div>';
         }
 
         html += '<div class="fldProfile selectContainer hide">';
-        html += '<select is="emby-select" id="selectProfile" label="' + globalize.translate('LabelProfile') + '">';
+        html += '<select is="emby-select" id="selectProfile" label="' + globalize.translate('sharedcomponents#LabelProfile') + '">';
         html += '</select>';
         html += '<div class="fieldDescription profileDescription"></div>';
         html += '</div>';
 
         html += '<div class="fldQuality selectContainer hide">';
-        html += '<select is="emby-select" id="selectQuality" data-mini="true" required="required" label="' + globalize.translate('LabelQuality') + '">';
+        html += '<select is="emby-select" id="selectQuality" data-mini="true" required="required" label="' + globalize.translate('sharedcomponents#LabelQuality') + '">';
         html += '</select>';
         html += '<div class="fieldDescription qualityDescription"></div>';
         html += '</div>';
 
         html += '<div class="fldBitrate inputContainer hide">';
-        html += '<input is="emby-input" type="number" step=".1" min=".1" id="txtBitrate" label="' + globalize.translate('LabelBitrateMbps') + '"/>';
+        html += '<input is="emby-input" type="number" step=".1" min=".1" id="txtBitrate" label="' + globalize.translate('sharedcomponents#LabelBitrateMbps') + '"/>';
         html += '</div>';
 
         if (dialogOptions.Options.indexOf('UnwatchedOnly') != -1) {
             html += '<div class="checkboxContainer checkboxContainer-withDescription">';
             html += '<label>';
             html += '<input is="emby-checkbox" type="checkbox" id="chkUnwatchedOnly"/>';
-            html += '<span>' + globalize.translate('SyncUnwatchedVideosOnly') + '</span>';
+            html += '<span>' + globalize.translate('sharedcomponents#SyncUnwatchedVideosOnly') + '</span>';
             html += '</label>';
-            html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('SyncUnwatchedVideosOnlyHelp') + '</div>';
+            html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('sharedcomponents#SyncUnwatchedVideosOnlyHelp') + '</div>';
             html += '</div>';
         }
 
@@ -199,16 +199,16 @@
             html += '<div class="checkboxContainer checkboxContainer-withDescription">';
             html += '<label>';
             html += '<input is="emby-checkbox" type="checkbox" id="chkSyncNewContent"/>';
-            html += '<span>' + globalize.translate('AutomaticallySyncNewContent') + '</span>';
+            html += '<span>' + globalize.translate('sharedcomponents#AutomaticallySyncNewContent') + '</span>';
             html += '</label>';
-            html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('AutomaticallySyncNewContentHelp') + '</div>';
+            html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('sharedcomponents#AutomaticallySyncNewContentHelp') + '</div>';
             html += '</div>';
         }
 
         if (dialogOptions.Options.indexOf('ItemLimit') != -1) {
             html += '<div class="inputContainer">';
-            html += '<input is="emby-input" type="number" step="1" min="1" id="txtItemLimit" label="' + globalize.translate('LabelItemLimit') + '"/>';
-            html += '<div class="fieldDescription">' + globalize.translate('LabelItemLimitHelp') + '</div>';
+            html += '<input is="emby-input" type="number" step="1" min="1" id="txtItemLimit" label="' + globalize.translate('sharedcomponents#LabelItemLimit') + '"/>';
+            html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#LabelItemLimitHelp') + '</div>';
             html += '</div>';
         }
 
@@ -309,10 +309,10 @@
             html += '<div class="formDialogHeader">';
             html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
             html += '<div class="formDialogHeaderTitle">';
-            html += globalize.translate('Sync');
+            html += globalize.translate('sharedcomponents#Sync');
             html += '</div>';
 
-            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="clearLink" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><button is="emby-button" type="button" class="mini"><i class="md-icon">info</i><span>' + globalize.translate('ButtonHelp') + '</span></button></a>';
+            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="clearLink" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><button is="emby-button" type="button" class="mini"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#ButtonHelp') + '</span></button></a>';
 
             html += '</div>';
 
@@ -324,7 +324,7 @@
             html += '<div class="formFields"></div>';
 
             html += '<p>';
-            html += '<button is="emby-button" type="submit" class="raised submit block"><i class="md-icon">sync</i><span>' + globalize.translate('Sync') + '</span></button>';
+            html += '<button is="emby-button" type="submit" class="raised submit block"><i class="md-icon">sync</i><span>' + globalize.translate('sharedcomponents#Sync') + '</span></button>';
             html += '</p>';
 
             html += '</form>';
