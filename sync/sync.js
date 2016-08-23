@@ -22,7 +22,7 @@
         if (!target) {
 
             require(['toast'], function (toast) {
-                toast(globalize.translate('MessagePleaseSelectDeviceToSyncTo'));
+                toast(globalize.translate('PleaseSelectDeviceToSyncTo'));
             });
             return false;
         }
@@ -57,7 +57,7 @@
             dialogHelper.close(dlg);
             require(['toast'], function (toast) {
 
-                var msg = target == apiClient.deviceId() ? globalize.translate('MessageDownloadScheduled') : globalize.translate('MessageSyncJobCreated');
+                var msg = target == apiClient.deviceId() ? globalize.translate('DownloadScheduled') : globalize.translate('SyncJobCreated');
 
                 toast(msg);
             });
@@ -164,7 +164,7 @@
             html += '</select>';
             if (!targets.length) {
                 html += '<div class="fieldDescription">' + globalize.translate('LabelSyncNoTargetsHelp') + '</div>';
-                html += '<div class="fieldDescription"><a class="lnkHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('ButtonLearnMore') + '</a></div>';
+                html += '<div class="fieldDescription"><a class="lnkHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('LearnMore') + '</a></div>';
             }
             html += '</div>';
         }
@@ -189,9 +189,9 @@
             html += '<div class="checkboxContainer checkboxContainer-withDescription">';
             html += '<label>';
             html += '<input is="emby-checkbox" type="checkbox" id="chkUnwatchedOnly"/>';
-            html += '<span>' + globalize.translate('OptionSyncUnwatchedVideosOnly') + '</span>';
+            html += '<span>' + globalize.translate('SyncUnwatchedVideosOnly') + '</span>';
             html += '</label>';
-            html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('OptionSyncUnwatchedVideosOnlyHelp') + '</div>';
+            html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('SyncUnwatchedVideosOnlyHelp') + '</div>';
             html += '</div>';
         }
 
@@ -199,9 +199,9 @@
             html += '<div class="checkboxContainer checkboxContainer-withDescription">';
             html += '<label>';
             html += '<input is="emby-checkbox" type="checkbox" id="chkSyncNewContent"/>';
-            html += '<span>' + globalize.translate('OptionAutomaticallySyncNewContent') + '</span>';
+            html += '<span>' + globalize.translate('AutomaticallySyncNewContent') + '</span>';
             html += '</label>';
-            html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('OptionAutomaticallySyncNewContentHelp') + '</div>';
+            html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('AutomaticallySyncNewContentHelp') + '</div>';
             html += '</div>';
         }
 
@@ -309,7 +309,7 @@
             html += '<div class="formDialogHeader">';
             html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
             html += '<div class="formDialogHeaderTitle">';
-            html += globalize.translate('SyncMedia');
+            html += globalize.translate('Sync');
             html += '</div>';
 
             html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="clearLink" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><button is="emby-button" type="button" class="mini"><i class="md-icon">info</i><span>' + globalize.translate('ButtonHelp') + '</span></button></a>';
@@ -324,7 +324,7 @@
             html += '<div class="formFields"></div>';
 
             html += '<p>';
-            html += '<button is="emby-button" type="submit" class="raised submit block"><i class="md-icon">sync</i><span>' + globalize.translate('ButtonSync') + '</span></button>';
+            html += '<button is="emby-button" type="submit" class="raised submit block"><i class="md-icon">sync</i><span>' + globalize.translate('Sync') + '</span></button>';
             html += '</p>';
 
             html += '</form>';
