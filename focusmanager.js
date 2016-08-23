@@ -127,10 +127,10 @@ define(['dom'], function (dom) {
 
             if (isCurrentlyFocusableInternal(elem)) {
                 focusableElements.push(elem);
-            }
 
-            if (limit && focusableElements.length >= limit) {
-                break;
+                if (limit && focusableElements.length >= limit) {
+                    break;
+                }
             }
         }
 

@@ -137,7 +137,7 @@
 
         var html = '';
 
-        var targetContainerClass = options.isLocalSync ? ' hide' : ' hide';
+        var targetContainerClass = options.isLocalSync ? ' hide' : '';
 
         if (options.showName || dialogOptions.Options.indexOf('Name') != -1) {
 
