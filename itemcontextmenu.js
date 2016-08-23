@@ -212,7 +212,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                 }
             }
 
-            if (isMobileApp && options.sync !== false) {
+            if (options.sync !== false) {
                 if (itemHelper.canSync(user, item)) {
                     commands.push({
                         name: globalize.translate('sharedcomponents#SyncToOtherDevice'),
