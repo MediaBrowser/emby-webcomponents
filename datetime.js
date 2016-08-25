@@ -160,7 +160,7 @@
         return time;
     }
 
-    function isOffsetFromToday(date, offsetInDays) {
+    function isRelativeDay(date, offsetInDays) {
         var yesterday = new Date();
         var day = yesterday.getDate() + offsetInDays;
 
@@ -174,6 +174,6 @@
         getDisplayRunningTime: getDisplayRunningTime,
         toLocaleDateString: toLocaleDateString,
         getDisplayTime: getDisplayTime,
-        isOffsetFromToday: isOffsetFromToday
+        isRelativeDay: isRelativeDay
     };
 });
