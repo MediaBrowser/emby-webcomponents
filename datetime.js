@@ -104,7 +104,7 @@
     }();
 
     function toLocaleDateString(date) {
-        
+
         var currentLocale = globalize.getCurrentLocale();
 
         return currentLocale && toLocaleTimeStringSupportsLocales ?
@@ -160,9 +160,9 @@
         return time;
     }
 
-    function isYesterday(date) {
+    function isOffsetFromToday(date, offsetInDays) {
         var yesterday = new Date();
-        var day = yesterday.getDate() - 1;
+        var day = yesterday.getDate() + offsetInDays;
 
         yesterday.setDate(day); // automatically adjusts month/year appropriately
 
@@ -174,6 +174,6 @@
         getDisplayRunningTime: getDisplayRunningTime,
         toLocaleDateString: toLocaleDateString,
         getDisplayTime: getDisplayTime,
-        isYesterday: isYesterday
+        isOffsetFromToday: isOffsetFromToday
     };
 });
