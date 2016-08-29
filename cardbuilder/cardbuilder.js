@@ -873,7 +873,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                 }
             }
 
-            if (showTitle && forceName && overlayText && lines.length == 1) {
+            if ((showTitle || !imgUrl) && forceName && overlayText && lines.length == 1) {
                 lines = [];
             }
 
