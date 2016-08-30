@@ -327,7 +327,6 @@
                 dlg.classList.add('formDialog');
 
                 dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
-                dlg.querySelector('.formDialogHeaderTitle').innerHTML = item.Name;
 
                 document.body.appendChild(dlg);
 
