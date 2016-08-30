@@ -132,24 +132,24 @@
             if (image.ImageType == "Backdrop" || image.ImageType == "Screenshot") {
 
                 if (index > 0) {
-                    html += '<button is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><i class="md-icon">chevron_left</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('sharedcomponents#MoveLeft') + '"><i class="md-icon">chevron_left</i></button>';
                 } else {
-                    html += '<button is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveLeft') + '"><i class="md-icon">chevron_left</i></button>';
+                    html += '<button is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('sharedcomponents#MoveLeft') + '"><i class="md-icon">chevron_left</i></button>';
                 }
 
                 if (index < length - 1) {
-                    html += '<button is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
+                    html += '<button is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('sharedcomponents#MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
                 } else {
-                    html += '<button is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
+                    html += '<button is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('sharedcomponents#MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
                 }
             }
             else {
                 if (imageProviders.length) {
-                    html += '<button is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><i class="md-icon">search</i></button>';
+                    html += '<button is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('sharedcomponents#Search') + '"><i class="md-icon">search</i></button>';
                 }
             }
 
-            html += '<button is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : "null") + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><i class="md-icon">delete</i></button>';
+            html += '<button is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : "null") + '" class="btnDeleteImage autoSize" title="' + globalize.translate('sharedcomponents#Delete') + '"><i class="md-icon">delete</i></button>';
             html += '</div>';
         }
 
@@ -195,7 +195,7 @@
 
             require(['confirm'], function (confirm) {
 
-                confirm(globalize.translate('ConfirmDeleteImage')).then(function () {
+                confirm(globalize.translate('sharedcomponents#ConfirmDeleteImage')).then(function () {
 
                     ApiClient.deleteItemImage(currentItem.Id, type, index).then(function () {
 
@@ -326,7 +326,7 @@
 
                 dlg.classList.add('formDialog');
 
-                dlg.innerHTML = globalize.translateDocument(template);
+                dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
                 dlg.querySelector('.formDialogHeaderTitle').innerHTML = item.Name;
 
                 document.body.appendChild(dlg);
