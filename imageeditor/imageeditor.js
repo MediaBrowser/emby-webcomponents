@@ -241,6 +241,9 @@
         });
 
         addListeners(elem, 'btnMoveImage', 'click', function () {
+            var type = this.getAttribute('data-imagetype');
+            var index = this.getAttribute('data-index');
+            var newIndex = this.getAttribute('data-newindex');
             moveImage(page, apiClient, currentItem.Id, type, index, newIndex, dom.parentWithClass(this, 'itemsContainer'));
         });
     }
