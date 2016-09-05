@@ -264,7 +264,7 @@
 }
 
 .timeslotHeader, .channelTimeslotHeader {
-    height: 3.5em;
+    height: 3em;
 }
 
 .pointerInput .channelHeaderCell:hover {
@@ -401,7 +401,6 @@
 }
 
 .guideOptions {
-    padding: 0 .5em;
     color: #eee;
     flex-shrink: 0;
     display: flex;
