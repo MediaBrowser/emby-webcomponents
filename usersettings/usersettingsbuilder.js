@@ -1,27 +1,29 @@
-define(['appSettings', 'apiClientResolver', 'events'], function (appsettings, apiClientResolver, events) {
+define(['appSettings', 'events'], function (appsettings, events) {
 
-    return function (configuredUserId) {
+    return function () {
 
         var self = this;
+        var currentUserId;
+        var currentApiClient;
+        var displayPrefs;
 
-        function getUserId(apiClient) {
+        self.setUserInfo = function (userId, apiClient) {
+            currentUserId = userId;
+            currentApiClient = apiClient;
 
-            if (configuredUserId) {
-                return configuredUserId;
-            }
+            apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
+                displayPrefs = result;
+                displayPrefs.CustomPrefs = displayPrefs.CustomPrefs || {};
+            });
+        };
 
-            var apiClientInstance = apiClient || apiClientResolver();
-
-            if (apiClientInstance) {
-                return apiClientInstance.getCurrentUserId();
-            }
-
-            return null;
+        function saveServerPreferences() {
+            currentApiClient.updateDisplayPreferences('usersettings', displayPrefs, currentUserId, 'emby');
         }
 
-        self.set = function (name, value) {
+        self.set = function (name, value, enableOnServer) {
 
-            var userId = getUserId();
+            var userId = currentUserId;
             if (!userId) {
                 throw new Error('userId cannot be null');
             }
@@ -29,16 +31,26 @@ define(['appSettings', 'apiClientResolver', 'events'], function (appsettings, ap
             var currentValue = self.get(name);
             appsettings.set(name, value, userId);
 
+            if (enableOnServer !== false) {
+                displayPrefs.CustomPrefs[name] = value == null ? value : value.toString();
+                saveServerPreferences();
+            }
+
             if (currentValue != value) {
                 events.trigger(self, 'change', [name]);
             }
         };
 
-        self.get = function (name) {
-            var userId = getUserId();
+        self.get = function (name, enableOnServer) {
+            var userId = currentUserId;
             if (!userId) {
                 throw new Error('userId cannot be null');
             }
+
+            if (enableOnServer !== false) {
+                return displayPrefs.CustomPrefs[name];
+            }
+
             return appsettings.get(name, userId);
         };
 
@@ -48,7 +60,7 @@ define(['appSettings', 'apiClientResolver', 'events'], function (appsettings, ap
                 self.set('enableCinemaMode', val.toString());
             }
 
-            val = self.get('enableCinemaMode');
+            val = self.get('enableCinemaMode', false);
 
             if (val) {
                 return val != 'false';
@@ -86,15 +98,15 @@ define(['appSettings', 'apiClientResolver', 'events'], function (appsettings, ap
 
         self.serverConfig = function (config) {
 
-            var apiClient = apiClientResolver();
+            var apiClient = currentApiClient;
 
             if (config) {
 
-                return apiClient.updateUserConfiguration(getUserId(apiClient), config);
+                return apiClient.updateUserConfiguration(currentUserId, config);
 
             } else {
 
-                return apiClient.getUser(getUserId(apiClient)).then(function (user) {
+                return apiClient.getUser(currentUserId).then(function (user) {
 
                     return user.Configuration;
                 });
