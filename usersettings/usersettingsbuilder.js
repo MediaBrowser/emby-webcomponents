@@ -8,12 +8,18 @@ define(['appSettings', 'events'], function (appsettings, events) {
         var displayPrefs;
 
         self.setUserInfo = function (userId, apiClient) {
+
             currentUserId = userId;
             currentApiClient = apiClient;
 
-            apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
+            if (!userId) {
+                displayPrefs = null;
+                return Promise.resolve();
+            }
+
+            return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
+                result.CustomPrefs = result.CustomPrefs || {};
                 displayPrefs = result;
-                displayPrefs.CustomPrefs = displayPrefs.CustomPrefs || {};
             });
         };
 
@@ -31,7 +37,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
             var currentValue = self.get(name);
             appsettings.set(name, value, userId);
 
-            if (enableOnServer !== false) {
+            if (enableOnServer !== false && displayPrefs) {
                 displayPrefs.CustomPrefs[name] = value == null ? value : value.toString();
                 saveServerPreferences();
             }
@@ -48,7 +54,10 @@ define(['appSettings', 'events'], function (appsettings, events) {
             }
 
             if (enableOnServer !== false) {
-                return displayPrefs.CustomPrefs[name];
+                if (displayPrefs) {
+                    return displayPrefs.CustomPrefs[name];
+                }
+                alert(name);
             }
 
             return appsettings.get(name, userId);
