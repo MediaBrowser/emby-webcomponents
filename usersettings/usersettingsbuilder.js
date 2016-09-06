@@ -57,7 +57,6 @@ define(['appSettings', 'events'], function (appsettings, events) {
                 if (displayPrefs) {
                     return displayPrefs.CustomPrefs[name];
                 }
-                alert(name);
             }
 
             return appsettings.get(name, userId);

@@ -834,6 +834,13 @@
             var context = options.element;
             context.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
 
+            if (layoutManager.desktop) {
+                var visibleGuideScrollers = context.querySelectorAll('.guideScroller');
+                for (var i = 0, length = visibleGuideScrollers.length; i < length; i++) {
+                    visibleGuideScrollers[i].classList.add('visibleGuideScroller');
+                }
+            }
+
             var programGrid = context.querySelector('.programGrid');
             var timeslotHeaders = context.querySelector('.timeslotHeaders');
 
