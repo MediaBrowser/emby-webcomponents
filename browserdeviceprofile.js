@@ -1,5 +1,8 @@
 define(['browser'], function (browser) {
 
+    // TODO:
+    // Many of the checks for tizen are only applicable to tizen native, and not tizen in the browser
+
     function canPlayH264() {
         var v = document.createElement('video');
         return !!(v.canPlayType && v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
@@ -276,9 +279,12 @@ define(['browser'], function (browser) {
             hlsVideoAudioCodecs.push('mp3');
         }
 
+        if (browser.tizen) {
+            videoAudioCodecs.push('dca');
+            videoAudioCodecs.push('dts');
+        }
+
         if (browser.edgeUwp) {
-            //videoAudioCodecs.push('dca');
-            //videoAudioCodecs.push('dts');
             //videoAudioCodecs.push('truehd');
         }
 
@@ -475,7 +481,7 @@ define(['browser'], function (browser) {
             }]
         });
 
-        var videoAudioChannels = '6';
+        var videoAudioChannels = browser.tizen ? '8' : '6';
 
         // Handle he-aac not supported
         if (!videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.5"').replace(/no/, '')) {
