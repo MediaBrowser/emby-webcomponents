@@ -50,7 +50,7 @@
     margin-right: .5em;
     color: #fff;
     font-size: 82%;
-    padding: .3em;
+    padding: .25em;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -265,6 +265,10 @@
 .btnGuideViewSettings {
     margin: 0;
     flex-shrink: 0;
+}
+
+.btnGuideViewSettingsIcon {
+    font-size: 1.5em !important;
 }
 
 @media all and (max-width: 1280px) {
