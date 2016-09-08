@@ -237,8 +237,6 @@
             });
         }
 
-        document.body.appendChild(dlg);
-
         // Seeing an issue in some non-chrome browsers where this is requiring a double click
         //var eventName = browser.firefox ? 'mousedown' : 'click';
         var selectedId;
@@ -262,6 +260,7 @@
                     selectedId = actionSheetMenuItem.getAttribute('data-id');
 
                     if (options.resolveOnClick) {
+
                         resolve(selectedId);
                         isResolved = true;
                     }
