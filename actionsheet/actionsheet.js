@@ -296,7 +296,7 @@
 
             dialogHelper.open(dlg);
 
-            var pos = options.positionTo ? getPosition(options, dlg) : null;
+            var pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options, dlg) : null;
 
             if (pos) {
                 dlg.style.position = 'fixed';
