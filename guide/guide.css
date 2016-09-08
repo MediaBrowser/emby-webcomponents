@@ -367,6 +367,8 @@
     padding: 0 .5em 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
 }
 
 .guideProgramTime {
