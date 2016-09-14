@@ -6,42 +6,9 @@
     var recordingCreated = false;
     var closeAction;
 
-    function getDaysOfWeek() {
-
-        return [
-         'Sunday',
-         'Monday',
-         'Tuesday',
-         'Wednesday',
-         'Thursday',
-         'Friday',
-         'Saturday'
-        ];
-    }
-
-    function getDays(context) {
-
-        var daysOfWeek = getDaysOfWeek();
-
-        var days = [];
-
-        for (var i = 0, length = daysOfWeek.length; i < length; i++) {
-
-            var day = daysOfWeek[i];
-
-            if (context.querySelector('#chk' + day).checked) {
-                days.push(day);
-            }
-
-        }
-
-        return days;
-    }
-
     function hideSeriesRecordingFields(context) {
 
         slideUpToHide(context.querySelector('.seriesFields'));
-        slideUpToHide(context.querySelector('.seriesDays'));
         context.querySelector('.btnSubmit').classList.remove('hide');
         context.querySelector('.supporterContainer').classList.add('hide');
     }
@@ -69,14 +36,9 @@
 
         apiClient.getNewLiveTvTimerDefaults({ programId: currentProgramId }).then(function (item) {
 
-            item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
-            item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
-
             item.RecordNewOnly = form.querySelector('#chkNewOnly').checked;
             item.RecordAnyChannel = form.querySelector('#chkAllChannels').checked;
             item.RecordAnyTime = form.querySelector('#chkAnyTime').checked;
-
-            item.Days = getDays(form);
 
             if (form.querySelector('#chkRecordSeries').checked) {
 
@@ -126,15 +88,6 @@
         });
     }
 
-    function showSeriesDays(context) {
-
-        if (context.querySelector('#chkAnyTime').checked) {
-            slideUpToHide(context.querySelector('.seriesDays'));
-        } else {
-            slideDownToShow(context.querySelector('.seriesDays'));
-        }
-    }
-
     function setPlayButtonVisible(context, visible) {
 
         var btnPlay = context.querySelector('.btnPlay');
@@ -149,7 +102,6 @@
     function showSeriesRecordingFields(context, apiClient) {
 
         slideDownToShow(context.querySelector('.seriesFields'));
-        showSeriesDays(context);
 
         getRegistration(apiClient, currentProgramId, 'seriesrecordings').then(function (regInfo) {
 
@@ -256,11 +208,6 @@
             closeDialog(false);
         });
 
-        context.querySelector('#chkAnyTime').addEventListener('change', function () {
-
-            showSeriesDays(context);
-        });
-
         context.querySelector('form', context).addEventListener('submit', onSubmit);
 
         var supporterButtons = context.querySelectorAll('.btnSupporter');
@@ -276,24 +223,6 @@
 
             context.querySelector('#chkConvertRecordings').checked = config.EnableRecordingEncoding;
         });
-
-        if (layoutManager.tv) {
-            context.querySelector('.advanced').classList.add('hide');
-        } else {
-            context.querySelector('.advanced').classList.remove('hide');
-        }
-    }
-
-    function selectDays(page, days) {
-
-        var daysOfWeek = getDaysOfWeek();
-
-        for (var i = 0, length = daysOfWeek.length; i < length; i++) {
-
-            var day = daysOfWeek[i];
-
-            page.querySelector('#chk' + day).checked = days.indexOf(day) != -1;
-        }
     }
 
     function getImageUrl(item, apiClient, imageHeight) {
@@ -358,16 +287,11 @@
         context.querySelector('#chkAllChannels').checked = defaultTimer.RecordAnyChannel;
         context.querySelector('#chkAnyTime').checked = defaultTimer.RecordAnyTime;
 
-        context.querySelector('#txtPrePaddingMinutes').value = defaultTimer.PrePaddingSeconds / 60;
-        context.querySelector('#txtPostPaddingMinutes').value = defaultTimer.PostPaddingSeconds / 60;
-
         if (program.IsSeries) {
             context.querySelector('#eligibleForSeriesFields').classList.remove('hide');
         } else {
             context.querySelector('#eligibleForSeriesFields').classList.add('hide');
         }
-
-        selectDays(context, defaultTimer.Days);
 
         context.querySelector('.convertRecordingsContainer').classList.remove('hide');
         showConvertRecordingsUnlockMessage(context, apiClient);
