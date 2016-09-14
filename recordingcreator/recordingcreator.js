@@ -1,9 +1,10 @@
-﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'shell', 'emby-checkbox', 'emby-button', 'emby-collapse', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, shell) {
+﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'datetime', 'imageLoader', 'shell', 'emby-checkbox', 'emby-button', 'emby-collapse', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, datetime, imageLoader, shell) {
 
     var currentProgramId;
     var currentServerId;
     var currentDialog;
     var recordingCreated = false;
+    var closeAction;
 
     function getDaysOfWeek() {
 
@@ -126,7 +127,7 @@
     }
 
     function showSeriesDays(context) {
-        
+
         if (context.querySelector('#chkAnyTime').checked) {
             slideUpToHide(context.querySelector('.seriesDays'));
         } else {
@@ -134,16 +135,27 @@
         }
     }
 
+    function setPlayButtonVisible(context, visible) {
+
+        var btnPlay = context.querySelector('.btnPlay');
+
+        if (!visible) {
+            btnPlay.classList.add('hide');
+        } else {
+            btnPlay.classList.remove('hide');
+        }
+    }
+
     function showSeriesRecordingFields(context, apiClient) {
 
         slideDownToShow(context.querySelector('.seriesFields'));
         showSeriesDays(context);
-        context.querySelector('.btnSubmit').classList.remove('hide');
 
         getRegistration(apiClient, currentProgramId, 'seriesrecordings').then(function (regInfo) {
 
             if (regInfo.IsRegistered) {
                 context.querySelector('.btnSubmit').classList.remove('hide');
+                setPlayButtonVisible(context, true);
                 context.querySelector('.supporterContainer').classList.add('hide');
 
             } else {
@@ -151,18 +163,18 @@
                 context.querySelector('.supporterContainerText').innerHTML = globalize.translate('sharedcomponents#MessageActiveSubscriptionRequiredSeriesRecordings');
                 context.querySelector('.supporterContainer').classList.remove('hide');
                 context.querySelector('.btnSubmit').classList.add('hide');
+                setPlayButtonVisible(context, false);
             }
         });
     }
 
     function showSingleRecordingFields(context, apiClient) {
 
-        context.querySelector('.btnSubmit').classList.remove('hide');
-
         getRegistration(apiClient, currentProgramId, 'dvr').then(function (regInfo) {
 
             if (regInfo.IsRegistered) {
                 context.querySelector('.btnSubmit').classList.remove('hide');
+                setPlayButtonVisible(context, true);
                 context.querySelector('.supporterContainer').classList.add('hide');
 
             } else {
@@ -170,6 +182,7 @@
                 context.querySelector('.supporterContainerText').innerHTML = globalize.translate('sharedcomponents#DvrSubscriptionRequired');
                 context.querySelector('.supporterContainer').classList.remove('hide');
                 context.querySelector('.btnSubmit').classList.add('hide');
+                setPlayButtonVisible(context, false);
             }
         });
     }
@@ -231,8 +244,15 @@
             }
         });
 
+        context.querySelector('.btnPlay').addEventListener('click', function () {
+
+            closeAction = 'play';
+            closeDialog(false);
+        });
+
         context.querySelector('.btnCancel').addEventListener('click', function () {
 
+            closeAction = null;
             closeDialog(false);
         });
 
@@ -276,9 +296,60 @@
         }
     }
 
+    function getImageUrl(item, apiClient, imageHeight) {
+
+        var imageTags = item.ImageTags || {};
+
+        if (item.PrimaryImageTag) {
+            imageTags.Primary = item.PrimaryImageTag;
+        }
+
+        if (imageTags.Primary) {
+
+            return apiClient.getScaledImageUrl(item.Id, {
+                type: "Primary",
+                maxHeight: imageHeight,
+                tag: item.ImageTags.Primary
+            });
+        }
+        else if (imageTags.Thumb) {
+
+            return apiClient.getScaledImageUrl(item.Id, {
+                type: "Thumb",
+                maxHeight: imageHeight,
+                tag: item.ImageTags.Thumb
+            });
+        }
+
+        return null;
+    }
+
     function renderRecording(context, defaultTimer, program, apiClient) {
 
-        context.querySelector('.itemName').innerHTML = program.Name;
+        var imgUrl = getImageUrl(program, apiClient, 200);
+        var imageContainer = context.querySelector('.recordingDialog-imageContainer');
+
+        if (imgUrl) {
+            imageContainer.innerHTML = '<img src="' + require.toUrl('.').split('?')[0] + '/empty.png" data-src="' + imgUrl + '" class="recordingDialog-img lazy" />';
+            imageContainer.classList.remove('hide');
+
+            imageLoader.lazyChildren(imageContainer);
+        } else {
+            imageContainer.innerHTML = '';
+            imageContainer.classList.add('hide');
+        }
+
+        context.querySelector('.recordingDialog-itemName').innerHTML = program.Name;
+        context.querySelector('.formDialogHeaderTitle').innerHTML = program.Name;
+        context.querySelector('.itemGenres').innerHTML = (program.Genres || []).join(' / ');
+
+        var btnPlay = context.querySelector('.btnPlay');
+        var now = new Date();
+        if (now >= datetime.parseISO8601Date(program.StartDate, true) && now < datetime.parseISO8601Date(program.EndDate, true)) {
+            btnPlay.classList.remove('btnPlay-notplayable');
+        } else {
+            btnPlay.classList.add('btnPlay-notplayable');
+        }
 
         context.querySelector('.itemMiscInfoPrimary').innerHTML = mediaInfo.getPrimaryMediaInfoHtml(program);
         context.querySelector('.itemMiscInfoSecondary').innerHTML = mediaInfo.getSecondaryMediaInfoHtml(program);
@@ -346,6 +417,23 @@
         });
     }
 
+    function executeCloseAction(action, programId, serverId) {
+
+        if (action == 'play') {
+
+            require(['playbackManager'], function (playbackManager) {
+
+                var apiClient = connectionManager.getApiClient(serverId);
+
+                apiClient.getLiveTvProgram(programId, apiClient.getCurrentUserId()).then(function (item) {
+
+                    playbackManager.play(item.ChannelId, serverId);
+                });
+            });
+            return;
+        }
+    }
+
     function showEditor(itemId, serverId) {
 
         return new Promise(function (resolve, reject) {
@@ -382,6 +470,8 @@
                 currentDialog = dlg;
 
                 dlg.addEventListener('close', function () {
+
+                    executeCloseAction(closeAction, currentProgramId, currentServerId);
 
                     if (recordingCreated) {
                         require(['toast'], function (toast) {
