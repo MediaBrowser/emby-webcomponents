@@ -17,6 +17,10 @@
     padding-left: 2em;
 }
 
+.toggleContainer {
+    margin-bottom: 1.8em;
+}
+
 .mdl-switch__input {
     line-height: 1.72em;
 }
@@ -59,7 +63,7 @@
     background: #999;
     position: absolute;
     left: 0;
-    top: .16em;
+    top: .15em;
     height: 1.44em;
     width: 1.44em;
     border-radius: 50%;
@@ -89,8 +93,8 @@
     transform: translate(-50%, -50%);
     display: inline-block;
     box-sizing: border-box;
-    width: .7em;
-    height: .7em;
+    width: .6em;
+    height: .6em;
     border-radius: 50%;
     background-color: transparent;
 }
