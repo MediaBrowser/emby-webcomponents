@@ -64,11 +64,7 @@
         recordingUpdated = true;
         recordingDeleted = isDeleted;
 
-        if (isDeleted) {
-            dialogHelper.close(currentDialog);
-        } else {
-            currentDialog.querySelector('.btnSubmit').click();
-        }
+        dialogHelper.close(currentDialog);
     }
 
     function onSubmit(e) {
@@ -81,12 +77,10 @@
 
             item.PrePaddingSeconds = form.querySelector('#txtPrePaddingMinutes').value * 60;
             item.PostPaddingSeconds = form.querySelector('#txtPostPaddingMinutes').value * 60;
-            item.RecordAnyChannel = context.querySelector('.selectChannels').value == 'all';
-            item.RecordAnyTime = context.querySelector('.selectAirTime').value == 'any';
+            item.RecordAnyChannel = form.querySelector('.selectChannels').value == 'all';
+            item.RecordAnyTime = form.querySelector('.selectAirTime').value == 'any';
 
-            apiClient.updateLiveTvTimer(item).then(function () {
-                dialogHelper.close(currentDialog);
-            });
+            apiClient.updateLiveTvSeriesTimer(item);
         });
 
         e.preventDefault();
@@ -169,6 +163,13 @@
                 }
 
                 currentDialog = dlg;
+
+                dlg.addEventListener('close', function () {
+
+                    if (!recordingDeleted) {
+                        this.querySelector('.btnSubmit').click();
+                    }
+                });
 
                 dlg.addEventListener('close', function () {
 

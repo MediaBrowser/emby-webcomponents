@@ -296,5 +296,6 @@
   "ChannelNameOnly": "Channel {0} only",
   "Anytime": "Anytime",
   "AroundTime": "Around {0}",
-  "LabelAirtime": "Airtime:"
+  "LabelAirtime": "Airtime:",
+  "AllChannels": "All channels"
 }
