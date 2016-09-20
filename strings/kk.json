@@ -6,6 +6,8 @@
     "DeleteMedia": "\u0422\u0430\u0441\u044b\u0493\u044b\u0448\u0434\u0435\u0440\u0435\u043a\u0442\u0456 \u0436\u043e\u044e",
     "SeriesSettings": "Series settings",
     "HeaderRecordingOptions": "Recording Options",
+    "DoNotRecord": "Do not record",
+    "CancelSeries": "Cancel series",
     "ValueSpecialEpisodeName": "\u0410\u0440\u043d\u0430\u0439\u044b - {0}",
     "Share": "\u041e\u0440\u0442\u0430\u049b\u0442\u0430\u0441\u0443",
     "Add": "\u04ae\u0441\u0442\u0435\u0443",
