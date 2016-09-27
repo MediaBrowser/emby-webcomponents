@@ -204,7 +204,7 @@ define(['browser'], function (browser) {
     function getMaxBitrate() {
 
         if (browser.edgeUwp) {
-            return 24000000;
+            return 26000000;
         }
 
         // 10mbps
