@@ -14,6 +14,11 @@
             }
         }
 
+        if (categories.indexOf('news') != -1 ||
+            categories.indexOf('kids') != -1) {
+            categories.push('series');
+        }
+
         // differentiate between none and all
         categories.push('all');
         options.categories = categories;

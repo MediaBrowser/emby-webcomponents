@@ -143,10 +143,6 @@
     contain: strict;
 }
 
-.channelHeaderCell {
-    border-radius: 2px;
-}
-
 @media all and (min-width: 500px) {
 
     .channelHeaderCell, .channelTimeslotHeader {
@@ -219,9 +215,7 @@
 }
 
 .channelHeaderCell {
-    height: 3.61em;
-    contain: strict;
-    margin-bottom: .39em;
+    border-bottom: .65vh solid #121212 !important;
     background-size: auto 70%;
     background-position: 92% center;
     background-repeat: no-repeat;
@@ -241,19 +235,18 @@
     }
 }
 
-.channelPrograms {
-    height: 3.999em;
+.channelPrograms, .channelHeaderCell {
+    height: 4em;
     contain: strict;
+}
+
+.channelPrograms {
     display: flex;
     flex-direction: column;
 }
 
-.channelPrograms-tv {
-    height: 3.1999em;
-}
-
-.channelHeaderCell-tv {
-    height: 2.81em;
+.channelPrograms-tv, .channelHeaderCell-tv {
+    height: 3.2em;
 }
 
 .channelTimeslotHeader {
@@ -279,7 +272,9 @@
 .programCell {
     position: absolute;
     top: 0;
-    bottom: .39em;
+    /* Unfortunately the borders using vh get rounded while the bottom property doesn't. So this is a little hack to try and make them even*/
+    bottom: .59vh;
+    border-left: .65vh solid #121212 !important;
     background-color: rgba(32, 32, 32, .95);
     display: flex;
     text-decoration: none;
@@ -288,7 +283,6 @@
     /* Needed for Firefox */
     text-align: left;
     contain: strict;
-    border-radius: 2px;
 }
 
 .programAccent {
