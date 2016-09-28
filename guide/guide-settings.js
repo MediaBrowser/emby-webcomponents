@@ -7,8 +7,9 @@
 
             var type = chkIndicators[i].getAttribute('data-type');
             userSettings.set('guide-indicator-' + type, chkIndicators[i].checked);
-
         }
+
+        userSettings.set('guide-colorcodedbackgrounds', context.querySelector('.chkColorCodedBackgrounds').checked);
     }
 
     function load(context) {
@@ -24,6 +25,8 @@
                 chkIndicators[i].checked = userSettings.get('guide-indicator-' + type) == 'true';
             }
         }
+
+        context.querySelector('.chkColorCodedBackgrounds').checked = userSettings.get('guide-colorcodedbackgrounds') == 'true';
     }
 
     function showEditor() {

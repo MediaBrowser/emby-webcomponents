@@ -36,34 +36,6 @@
     color: #fff;
 }
 
-.programAccent {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-}
-
-.sportsAccent {
-    background-color: #3F51B5;
-}
-
-.movieAccent {
-    background-color: #673AB7;
-}
-
-.childAccent {
-    background-color: #2196F3;
-}
-
-.newsAccent {
-    background-color: #4CAF50;
-}
-
-.specialsAccent {
-    background-color: #FF9800;
-}
-
 .channelTimeslotHeader {
     flex-shrink: 0;
 }
@@ -317,14 +289,32 @@
     contain: strict;
 }
 
-.timeslotCellInner {
+.programAccent {
     position: absolute;
     bottom: 0;
-    overflow: hidden;
-    width: 100%;
-    top: 0;
-    display: block;
-    text-decoration: none;
+    left: 0;
+    right: 0;
+    height: 2px;
+}
+
+.sportsAccent {
+    background-color: #3F51B5;
+}
+
+.movieAccent {
+    background-color: #673AB7;
+}
+
+.childAccent {
+    background-color: #2196F3;
+}
+
+.newsAccent {
+    background-color: #4CAF50;
+}
+
+.specialsAccent {
+    background-color: #FF9800;
 }
 
 .guideProgramName {
@@ -333,11 +323,6 @@
     text-overflow: ellipsis;
     display: flex;
     align-items: center;
-}
-
-.guideProgramTime {
-    padding: 0 .5em .35em;
-    color: #bbb;
 }
 
 .programIcon {

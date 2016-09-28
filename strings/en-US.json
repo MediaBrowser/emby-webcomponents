@@ -309,9 +309,10 @@
   "UntilIDelete": "Until I delete",
   "UntilSpaceNeeded": "Until space needed",
   "Categories": "Categories",
-  "Sports":  "Sports",
-  "News":  "News",
-  "Movies":  "Movies",
-  "Kids":  "Kids",
-  "Others":  "Others"
+  "Sports": "Sports",
+  "News": "News",
+  "Movies": "Movies",
+  "Kids": "Kids",
+  "Others": "Others",
+  "EnableColorCodedBackgrounds": "Enable color coded backgrounds"
 }
