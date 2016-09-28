@@ -143,6 +143,10 @@
     contain: strict;
 }
 
+.channelHeaderCell {
+    border-radius: 2px;
+}
+
 @media all and (min-width: 500px) {
 
     .channelHeaderCell, .channelTimeslotHeader {
@@ -215,7 +219,9 @@
 }
 
 .channelHeaderCell {
-    border-bottom: .65vh solid #121212 !important;
+    height: 3.61em;
+    contain: strict;
+    margin-bottom: .39em;
     background-size: auto 70%;
     background-position: 92% center;
     background-repeat: no-repeat;
@@ -235,18 +241,19 @@
     }
 }
 
-.channelPrograms, .channelHeaderCell {
-    height: 4em;
-    contain: strict;
-}
-
 .channelPrograms {
+    height: 3.999em;
+    contain: strict;
     display: flex;
     flex-direction: column;
 }
 
-.channelPrograms-tv, .channelHeaderCell-tv {
-    height: 3.2em;
+.channelPrograms-tv {
+    height: 3.1999em;
+}
+
+.channelHeaderCell-tv {
+    height: 2.81em;
 }
 
 .channelTimeslotHeader {
@@ -261,10 +268,6 @@
     height: 3em;
 }
 
-.pointerInput .channelHeaderCell:hover {
-    background-color: #444;
-}
-
 .programGrid {
     padding-bottom: 4px;
 }
@@ -276,9 +279,7 @@
 .programCell {
     position: absolute;
     top: 0;
-    /* Unfortunately the borders using vh get rounded while the bottom property doesn't. So this is a little hack to try and make them even*/
-    bottom: .59vh;
-    border-left: .65vh solid #121212 !important;
+    bottom: .39em;
     background-color: rgba(32, 32, 32, .95);
     display: flex;
     text-decoration: none;
@@ -287,6 +288,7 @@
     /* Needed for Firefox */
     text-align: left;
     contain: strict;
+    border-radius: 2px;
 }
 
 .programAccent {
@@ -298,23 +300,23 @@
 }
 
 .sportsAccent {
-    background-color: #3F51B5;
+    background-color: #3949AB;
 }
 
 .movieAccent {
-    background-color: #673AB7;
+    background-color: #5E35B1;
 }
 
 .childAccent {
-    background-color: #2196F3;
+    background-color: #039BE5;
 }
 
 .newsAccent {
-    background-color: #4CAF50;
+    background-color: #43A047;
 }
 
 .specialsAccent {
-    background-color: #FF9800;
+    background-color: #FB8C00;
 }
 
 .guideProgramName {
@@ -370,17 +372,18 @@
 
 .channelsContainer {
     display: flex;
+    flex-shrink: 0;
 }
 
 .btnCategories {
-    margin: 0 .3em !important;
+    margin: 0 .3em 0 .5em !important;
     padding: 0 !important;
     flex-shrink: 0;
     background: rgba(40, 40, 40, .9);
     border-radius: 0 !important;
-    width: 2.8em;
+    width: 2.6em;
     font-weight: normal !important;
-    align-items: flex-start;
+    position: relative;
 }
 
 .btnCategoriesText {
@@ -389,10 +392,10 @@
     transform-origin: left;
     margin-left: 1.2em;
     letter-spacing: .25em;
-    /*position: fixed;
-    top: 20%;*/
+    position: absolute;
+    top: 0;
+    margin-top: 1em;
     white-space: nowrap;
-    margin-top: -10em;
 }
 
 .channelList {

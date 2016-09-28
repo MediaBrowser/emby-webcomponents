@@ -391,6 +391,10 @@
                     displayInnerContent = displayOtherContent;
                 }
 
+                if (!displayInnerContent) {
+                    accentCssClass = null;
+                }
+
                 if (enableColorCodedBackgrounds && accentCssClass) {
                     cssClass += ' ' + accentCssClass;
 
@@ -405,7 +409,7 @@
                     timerAttributes += ' data-seriestimerid="' + program.SeriesTimerId + '"';
                 }
 
-                html += '<button data-action="' + clickAction + '"' + timerAttributes + ' data-isfolder="' + program.IsFolder + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
+                html += '<button data-action="' + clickAction + '"' + timerAttributes + ' data-isfolder="' + program.IsFolder + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + (startPercent + 0.04) + '%;width:' + (endPercent - 0.04) + '%;">';
 
                 if (displayInnerContent) {
                     var guideProgramNameClass = "guideProgramName";
