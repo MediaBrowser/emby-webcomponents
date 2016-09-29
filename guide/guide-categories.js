@@ -14,8 +14,7 @@
             }
         }
 
-        if (categories.indexOf('news') != -1 ||
-            categories.indexOf('kids') != -1) {
+        if (categories.length >= 4) {
             categories.push('series');
         }
 
