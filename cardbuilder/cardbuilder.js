@@ -940,6 +940,24 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                     }
 
                 }
+
+                if (options.showSeriesTimerTime) {
+                    if (item.RecordAnyTime) {
+
+                        lines.push(globalize.translate('sharedcomponents#Anytime'));
+                    } else {
+                        lines.push(datetime.getDisplayTime(item.StartDate));
+                    }
+                }
+
+                if (options.showSeriesTimerChannel) {
+                    if (item.RecordAnyChannel) {
+                        lines.push(globalize.translate('sharedcomponents#AllChannels'));
+                    }
+                    else if (item.ChannelId) {
+                        lines.push(item.ChannelName || '');
+                    }
+                }
             }
 
             if ((showTitle || !imgUrl) && forceName && overlayText && lines.length === 1) {
