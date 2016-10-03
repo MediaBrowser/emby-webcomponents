@@ -366,6 +366,11 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction autoSize" data-action="menu"><i class="md-icon">' + moreIcon + '</i></button>';
                 }
 
+                if (options.recordButton) {
+
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction autoSize" data-action="programdialog">' + indicators.getTimerIndicator(item) + '</button>';
+                }
+
                 if (options.enableUserDataButtons !== false) {
                     html += '<span class="listViewUserDataButtons">';
                     html += userdataButtons.getIconsHtml({
