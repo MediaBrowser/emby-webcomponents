@@ -231,20 +231,22 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
             }
         }
 
-        if (item.Type != "Series" && item.Type != "Episode" && item.Type != "Person" && item.MediaType != 'Photo' && item.Type != 'Program') {
+        if (options.year !== false) {
+            if (item.Type != "Series" && item.Type != "Episode" && item.Type != "Person" && item.MediaType != 'Photo' && item.Type != 'Program') {
 
-            if (item.ProductionYear) {
+                if (item.ProductionYear) {
 
-                miscInfo.push(item.ProductionYear);
-            }
-            else if (item.PremiereDate) {
-
-                try {
-                    text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
-                    miscInfo.push(text);
+                    miscInfo.push(item.ProductionYear);
                 }
-                catch (e) {
-                    console.log("Error parsing date: " + item.PremiereDate);
+                else if (item.PremiereDate) {
+
+                    try {
+                        text = datetime.parseISO8601Date(item.PremiereDate).getFullYear();
+                        miscInfo.push(text);
+                    }
+                    catch (e) {
+                        console.log("Error parsing date: " + item.PremiereDate);
+                    }
                 }
             }
         }
