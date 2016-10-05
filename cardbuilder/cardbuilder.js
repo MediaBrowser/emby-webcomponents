@@ -1439,10 +1439,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
                     playedIndicator = document.createElement('div');
                     playedIndicator.classList.add('playedIndicator');
+                    playedIndicator.classList.add('indicator');
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
-                playedIndicator.innerHTML = '<i class="md-icon">check</i>';
+                playedIndicator.innerHTML = '<i class="md-icon indicatorIcon">check</i>';
             } else {
 
                 playedIndicator = card.querySelector('.playedIndicator');
