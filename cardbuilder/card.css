@@ -210,6 +210,9 @@ button {
 .cardImage-img {
     max-height: 100%;
     max-width: 100%;
+    /* This is simply for lazy image purposes, to ensure the image is visible sooner when scrolling */
+    min-height: 70%;
+    min-width: 70%;
     align-self: flex-end;
     position: static;
 }
