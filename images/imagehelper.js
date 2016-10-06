@@ -1,4 +1,4 @@
-define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser', 'dom', 'appSettings', 'vibrant'], function (visibleinviewport, imageFetcher, layoutManager, events, browser, dom, appSettings) {
+define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser', 'dom', 'appSettings'], function (visibleinviewport, imageFetcher, layoutManager, events, browser, dom, appSettings) {
 
     var thresholdX;
     var thresholdY;
