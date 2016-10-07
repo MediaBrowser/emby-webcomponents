@@ -45,10 +45,10 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
         self.autoLayout = function () {
 
             // Take a guess at initial layout. The consuming app can override
-            if (browser.mobile) {
-                self.setLayout('mobile', false);
-            } else if (browser.tv || browser.xboxOne) {
+            if (browser.tv || browser.xboxOne) {
                 self.setLayout('tv', false);
+            } else if (browser.mobile) {
+                self.setLayout('mobile', false);
             } else {
                 self.setLayout(self.undetectedAutoLayout || 'desktop', false);
             }
