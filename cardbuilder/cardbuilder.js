@@ -543,7 +543,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                     tag: item.SeriesThumbImageTag
                 });
 
-            } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false) {
+            } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
                     type: "Thumb",
@@ -1166,7 +1166,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             if (coveredImage) {
                 cardImageContainerClass += ' coveredImage';
 
-                if (item.MediaType === 'Photo' || item.Type === 'PhotoAlbum' || item.Type === 'Folder' || item.ProgramInfo || item.Type === 'Program') {
+                if (item.MediaType === 'Photo' || item.Type === 'PhotoAlbum' || item.Type === 'Folder' || item.ProgramInfo || item.Type === 'Program' || item.Type === 'Recording') {
                     cardImageContainerClass += ' coveredImage-noScale';
                 }
             }
