@@ -191,7 +191,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
 
             if (isResizable(screenWidth)) {
                 var roundScreenTo = 100;
-                screenWidth = Math.ceil(screenWidth / roundScreenTo) * roundScreenTo;
+                screenWidth = Math.floor(screenWidth / roundScreenTo) * roundScreenTo;
             }
 
             if (window.screen) {
