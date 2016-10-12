@@ -1,4 +1,5 @@
 define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser', 'dom', 'appSettings', 'require'], function (visibleinviewport, imageFetcher, layoutManager, events, browser, dom, appSettings, require) {
+    'use strict';
 
     var thresholdX;
     var thresholdY;
@@ -64,7 +65,7 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
     function fillImageElement(elem, source, enableEffects) {
         imageFetcher.loadImage(elem, source).then(function () {
 
-            var fillingVibrant = elem.tagName != 'IMG' ? false : fillVibrant(elem, source);
+            var fillingVibrant = elem.tagName !== 'IMG' ? false : fillVibrant(elem, source);
 
             if (enableFade && !layoutManager.tv && enableEffects !== false && !fillingVibrant) {
                 fadeIn(elem);
@@ -152,8 +153,8 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
             if (swatch.length) {
 
                 var index = 0;
-                vibrantElement.style['backgroundColor'] = swatch[index];
-                vibrantElement.style['color'] = swatch[index + 1];
+                vibrantElement.style.backgroundColor = swatch[index];
+                vibrantElement.style.color = swatch[index + 1];
             }
         });
         /*
@@ -195,23 +196,23 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
         var swatches = vibrant.swatches();
 
         value = '';
-        var swatch = swatches['DarkVibrant'];
+        var swatch = swatches.DarkVibrant;
         if (swatch) {
             value += swatch.getHex() + '|' + swatch.getBodyTextColor();
         }
-        swatch = swatches['DarkMuted'];
+        swatch = swatches.DarkMuted;
         if (swatch) {
             value += '|' + swatch.getHex() + '|' + swatch.getBodyTextColor();
         } else {
             value += '||';
         }
-        swatch = swatches['Vibrant'];
+        swatch = swatches.Vibrant;
         if (swatch) {
             value += '|' + swatch.getHex() + '|' + swatch.getBodyTextColor();
         } else {
             value += '||';
         }
-        swatch = swatches['Muted'];
+        swatch = swatches.Muted;
         if (swatch) {
             value += '|' + swatch.getHex() + '|' + swatch.getBodyTextColor();
         } else {
@@ -391,31 +392,33 @@ define(['visibleinviewport', 'imageFetcher', 'layoutManager', 'events', 'browser
 
         var result;
 
-        if (values.length % 2)
+        if (values.length % 2) {
             result = values[half];
-        else
+        }
+        else {
             result = (values[half - 1] + values[half]) / 2.0;
+        }
 
         // If really close to 2:3 (poster image), just return 2:3
         var aspect2x3 = 2 / 3;
-        if (Math.abs(aspect2x3 - result) <= .15) {
+        if (Math.abs(aspect2x3 - result) <= 0.15) {
             return aspect2x3;
         }
 
         // If really close to 16:9 (episode image), just return 16:9
         var aspect16x9 = 16 / 9;
-        if (Math.abs(aspect16x9 - result) <= .2) {
+        if (Math.abs(aspect16x9 - result) <= 0.2) {
             return aspect16x9;
         }
 
         // If really close to 1 (square image), just return 1
-        if (Math.abs(1 - result) <= .15) {
+        if (Math.abs(1 - result) <= 0.15) {
             return 1;
         }
 
         // If really close to 4:3 (poster image), just return 2:3
         var aspect4x3 = 4 / 3;
-        if (Math.abs(aspect4x3 - result) <= .15) {
+        if (Math.abs(aspect4x3 - result) <= 0.15) {
             return aspect4x3;
         }
 
