@@ -144,17 +144,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                     return 1;
                 case 'overflowPortrait':
                     if (screenWidth >= 1000) {
-                        return 100 / 23;
+                        return 100 / 22;
                     }
-                    if (screenWidth >= 640) {
-                        return 100 / 36;
+                    if (screenWidth >= 540) {
+                        return 100 / 30;
                     }
-                    return 2.5;
+                    return 100 / 42;
                 case 'overflowSquare':
                     if (screenWidth >= 1000) {
                         return 100 / 22;
                     }
-                    if (screenWidth >= 640) {
+                    if (screenWidth >= 540) {
                         return 100 / 30;
                     }
                     return 100 / 42;
@@ -163,9 +163,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                         return 100 / 40;
                     }
                     if (screenWidth >= 640) {
-                        return 100 / 60;
+                        return 100 / 56;
                     }
-                    return 100 / 84;
+                    if (screenWidth >= 540) {
+                        return 100 / 64;
+                    }
+                    return 100 / 72;
                 default:
                     return 4;
             }
