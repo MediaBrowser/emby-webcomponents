@@ -11,6 +11,7 @@
 .actionsheet-not-fullscreen {
     background-color: #121314;
     max-width: 90%;
+    max-height: 90%;
 }
 
 .actionSheetMenuItem:hover {
