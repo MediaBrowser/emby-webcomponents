@@ -144,13 +144,6 @@ define(['browser', 'css!./viewcontainer-lite'], function (browser) {
         });
     }
 
-    function setAnimation(elem, value) {
-
-        requestAnimationFrame(function() {
-            elem.style.animation = value;
-        });
-    }
-
     function fade(newAnimatedPage, oldAnimatedPage, transition, isBack) {
 
         return new Promise(function (resolve, reject) {
@@ -163,12 +156,19 @@ define(['browser', 'css!./viewcontainer-lite'], function (browser) {
                 animations.push(oldAnimatedPage);
             }
 
-            setAnimation(newAnimatedPage, 'view-fadein ' + duration + 'ms ease-out normal both');
+            setAnimation(newAnimatedPage, 'view-fadein ' + duration + 'ms ease-in normal both');
             animations.push(newAnimatedPage);
 
             currentAnimations = animations;
 
             setTimeout(resolve, duration);
+        });
+    }
+
+    function setAnimation(elem, value) {
+
+        requestAnimationFrame(function () {
+            elem.style.animation = value;
         });
     }
 
