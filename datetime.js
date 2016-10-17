@@ -161,7 +161,7 @@
 
         var timeLower = time.toLowerCase();
 
-        if (timeLower.indexOf('am') != -1 || timeLower.indexOf('pm') != -1) {
+        if (timeLower.indexOf('am') !== -1 || timeLower.indexOf('pm') !== -1) {
 
             time = timeLower;
             var hour = date.getHours() % 12;
