@@ -143,12 +143,14 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
 
                 }, options || {})).then(function (result) {
 
+                    var itemsContainer;
+
                     if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
                         executeAction(card, options.positionTo, result.command);
                     }
                     else if (result.command === 'removefromplaylist' || result.command === 'removefromcollection') {
 
-                        var itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
+                        itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
 
                         if (itemsContainer) {
                             itemsContainer.dispatchEvent(new CustomEvent('needsrefresh', {
@@ -160,7 +162,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
                     }
                     else if (result.command === 'canceltimer') {
 
-                        var itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
+                        itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
 
                         if (itemsContainer) {
                             itemsContainer.dispatchEvent(new CustomEvent('timercancelled', {
@@ -254,7 +256,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
             playAllFromHere(card, serverId);
         }
 
-        else if (action == 'queueallfromhere') {
+        else if (action === 'queueallfromhere') {
             playAllFromHere(card, serverId, true);
         }
 

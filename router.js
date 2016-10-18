@@ -445,10 +445,11 @@ define(['loading', 'dom', 'viewManager', 'skinManager', 'pluginManager', 'backdr
         var regex = new RegExp(regexS, "i");
 
         var results = regex.exec(url || getWindowLocationSearch());
-        if (results == null)
+        if (results == null) {
             return "";
-        else
+        } else {
             return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
     }
 
     function back() {
