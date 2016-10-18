@@ -3,6 +3,24 @@
 
     var globalOnOpenCallback;
 
+    function enableAnimation() {
+
+        if (browser.animate) {
+            return true;
+        }
+
+        if (browser.edge) {
+            return true;
+        }
+
+        // An indication of an older browser
+        if (browser.noFlex) {
+            return false;
+        }
+
+        return true;
+    }
+
     function removeCenterFocus(dlg) {
 
         if (layoutManager.tv) {
@@ -226,27 +244,36 @@
             }
         };
 
-        setTimeout(onAnimationFinish, dlg.animationConfig.entry.timing.duration);
+        if (enableAnimation()) {
+            setTimeout(onAnimationFinish, dlg.animationConfig.entry.timing.duration);
+        } else {
+            onAnimationFinish();
+        }
     }
 
     function animateDialogClose(dlg, onAnimationFinish) {
 
-        switch (dlg.animationConfig.exit.name) {
+        var duration = 0;
 
-            case 'fadeout':
-                dlg.style.animation = 'fadeout ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
-                break;
-            case 'scaledown':
-                dlg.style.animation = 'scaledown ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
-                break;
-            case 'slidedown':
-                dlg.style.animation = 'slidedown ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
-                break;
-            default:
-                break;
+        if (enableAnimation()) {
+            switch (dlg.animationConfig.exit.name) {
+
+                case 'fadeout':
+                    dlg.style.animation = 'fadeout ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
+                    break;
+                case 'scaledown':
+                    dlg.style.animation = 'scaledown ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
+                    break;
+                case 'slidedown':
+                    dlg.style.animation = 'slidedown ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
+                    break;
+                default:
+                    break;
+            }
+            duration = dlg.animationConfig.exit.timing.duration;
         }
 
-        setTimeout(onAnimationFinish, dlg.animationConfig.exit.timing.duration);
+        setTimeout(onAnimationFinish, duration);
     }
 
     function shouldLockDocumentScroll(options) {
@@ -375,19 +402,21 @@
             dlg.classList.add('dialog-' + options.size);
         }
 
-        switch (dlg.animationConfig.entry.name) {
+        if (enableAnimation()) {
+            switch (dlg.animationConfig.entry.name) {
 
-            case 'fadein':
-                dlg.style.animation = 'fadein ' + entryAnimationDuration + 'ms ease-out normal';
-                break;
-            case 'scaleup':
-                dlg.style.animation = 'scaleup ' + entryAnimationDuration + 'ms ease-out normal both';
-                break;
-            case 'slideup':
-                dlg.style.animation = 'slideup ' + entryAnimationDuration + 'ms ease-out normal';
-                break;
-            default:
-                break;
+                case 'fadein':
+                    dlg.style.animation = 'fadein ' + entryAnimationDuration + 'ms ease-out normal';
+                    break;
+                case 'scaleup':
+                    dlg.style.animation = 'scaleup ' + entryAnimationDuration + 'ms ease-out normal both';
+                    break;
+                case 'slideup':
+                    dlg.style.animation = 'slideup ' + entryAnimationDuration + 'ms ease-out normal';
+                    break;
+                default:
+                    break;
+            }
         }
 
         return dlg;
