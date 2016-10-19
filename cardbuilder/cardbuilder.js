@@ -1274,8 +1274,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
                     cardImageContainerOpen = '<div class="' + cardImageContainerClass + '">';
 
                     var imgClass = 'cardImage cardImage-img lazy';
-                    if (coveredImage && devicePixelRatio === 1) {
-                        imgClass += ' coveredImage-img';
+                    if (coveredImage) {
+                        if (devicePixelRatio === 1) {
+                            imgClass += ' coveredImage-noscale-img';
+                        } else {
+                            imgClass += ' coveredImage-img';
+                        }
                     }
                     cardImageContainerOpen += '<img crossOrigin="Anonymous" class="' + imgClass + '" data-vibrant="' + cardFooterId + '" data-swatch="db" data-src="' + imgUrl + '" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />';
 
