@@ -1177,9 +1177,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'mediaInfo
             var separateCardBox = scalable;
             var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
 
-            if (!layoutManager.tv) {
-                cardBoxClass += ' cardBox-mobile';
-            } else {
+            if (layoutManager.tv) {
                 cardBoxClass += ' cardBox-focustransform';
             }
 
