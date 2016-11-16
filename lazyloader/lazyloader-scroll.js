@@ -8,16 +8,6 @@ define(['visibleinviewport', 'browser', 'dom'], function (visibleinviewport, bro
         fn();
     };
 
-    var supportsIntersectionObserver = function () {
-
-        if (window.IntersectionObserver) {
-
-            return true;
-        }
-
-        return false;
-    }();
-
     function resetThresholds() {
 
         var x = screen.availWidth;
@@ -32,11 +22,9 @@ define(['visibleinviewport', 'browser', 'dom'], function (visibleinviewport, bro
         thresholdY = y;
     }
 
-    if (!supportsIntersectionObserver) {
-        dom.addEventListener(window, "orientationchange", resetThresholds, { passive: true });
-        dom.addEventListener(window, 'resize', resetThresholds, { passive: true });
-        resetThresholds();
-    }
+    dom.addEventListener(window, "orientationchange", resetThresholds, { passive: true });
+    dom.addEventListener(window, 'resize', resetThresholds, { passive: true });
+    resetThresholds();
 
     function isVisible(elem) {
         return visibleinviewport(elem, true, thresholdX, thresholdY);
@@ -80,11 +68,6 @@ define(['visibleinviewport', 'browser', 'dom'], function (visibleinviewport, bro
     function unveilElements(elements, root, callback) {
 
         if (!elements.length) {
-            return;
-        }
-
-        if (supportsIntersectionObserver) {
-            unveilWithIntersection(elements, root, callback);
             return;
         }
 
