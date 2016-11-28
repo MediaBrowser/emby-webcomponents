@@ -271,5 +271,8 @@
     browser.keyboard = hasKeyboard(browser);
     browser.supportsCssAnimation = supportsCssAnimation;
 
+    browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
+    browser.iOS = browser.ipad || browser.iphone || browser.ipod;
+
     return browser;
 });
