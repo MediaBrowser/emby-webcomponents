@@ -225,7 +225,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
         var serverId = item.ServerId;
         var type = item.Type;
 
-        var playableItemId = type == 'Program' ? item.ChannelId : item.Id;
+        var playableItemId = type === 'Program' ? item.ChannelId : item.Id;
 
         if (action === 'link') {
 
