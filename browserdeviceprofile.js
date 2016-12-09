@@ -298,6 +298,7 @@ define(['browser'], function (browser) {
                 videoAudioCodecs.push('mp3');
             }
             if (!browser.ps4) {
+                // PS4 fails to load HLS with mp3 audio
                 hlsVideoAudioCodecs.push('mp3');
             }
         }
