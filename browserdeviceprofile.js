@@ -297,7 +297,9 @@ define(['browser'], function (browser) {
             if (!mp3Added) {
                 videoAudioCodecs.push('mp3');
             }
-            hlsVideoAudioCodecs.push('mp3');
+            if (!browser.ps4) {
+                hlsVideoAudioCodecs.push('mp3');
+            }
         }
 
         if (browser.tizen || options.supportsDts) {
