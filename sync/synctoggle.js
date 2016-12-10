@@ -1,4 +1,4 @@
-﻿define(['itemHelper', 'apphost', 'connectionManager', 'events', 'emby-checkbox'], function (itemHelper, appHost, connectionManager, events) {
+﻿define(['itemHelper', 'globalize', 'apphost', 'connectionManager', 'events', 'emby-checkbox'], function (itemHelper, globalize, appHost, connectionManager, events) {
     'use strict';
 
     function updateSyncStatus(container, item) {
@@ -24,7 +24,7 @@
                         serverId: options.item.ServerId
 
                     }).then(function () {
-                        events.trigger(self, 'synced');
+                        events.trigger(self, 'sync');
                     }, resetSyncStatus);
                 });
             } else {
