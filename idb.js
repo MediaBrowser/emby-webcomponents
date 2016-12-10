@@ -34,7 +34,9 @@
     function promisifyCursorRequestCall(obj, method, args) {
         var p = promisifyRequestCall(obj, method, args);
         return p.then(function (value) {
-            if (!value) return;
+            if (!value) {
+                return;
+            }
             return new Cursor(value, p.request);
         });
     }
@@ -51,7 +53,9 @@
 
     function proxyRequestMethods(ProxyClass, targetProp, Constructor, properties) {
         properties.forEach(function (prop) {
-            if (!(prop in Constructor.prototype)) return;
+            if (!(prop in Constructor.prototype)) {
+                return;
+            }
             ProxyClass.prototype[prop] = function () {
                 return promisifyRequestCall(this[targetProp], prop, arguments);
             };
@@ -60,7 +64,9 @@
 
     function proxyMethods(ProxyClass, targetProp, Constructor, properties) {
         properties.forEach(function (prop) {
-            if (!(prop in Constructor.prototype)) return;
+            if (!(prop in Constructor.prototype)) {
+                return;
+            }
             ProxyClass.prototype[prop] = function () {
                 return this[targetProp][prop].apply(this[targetProp], arguments);
             };
@@ -69,7 +75,9 @@
 
     function proxyCursorRequestMethods(ProxyClass, targetProp, Constructor, properties) {
         properties.forEach(function (prop) {
-            if (!(prop in Constructor.prototype)) return;
+            if (!(prop in Constructor.prototype)) {
+                return;
+            }
             ProxyClass.prototype[prop] = function () {
                 return promisifyCursorRequestCall(this[targetProp], prop, arguments);
             };
@@ -119,14 +127,18 @@
 
     // proxy 'next' methods
     ['advance', 'continue', 'continuePrimaryKey'].forEach(function (methodName) {
-        if (!(methodName in IDBCursor.prototype)) return;
+        if (!(methodName in IDBCursor.prototype)) {
+            return;
+        }
         Cursor.prototype[methodName] = function () {
             var cursor = this;
             var args = arguments;
             return Promise.resolve().then(function () {
                 cursor._cursor[methodName].apply(cursor._cursor, args);
                 return promisifyRequest(cursor._request).then(function (value) {
-                    if (!value) return;
+                    if (!value) {
+                        return;
+                    }
                     return new Cursor(value, cursor._request);
                 });
             });
@@ -257,7 +269,9 @@
 
     // polyfill getAll
     [Index, ObjectStore].forEach(function (Constructor) {
-        if (Constructor.prototype.getAll) return;
+        if (Constructor.prototype.getAll) {
+            return;
+        }
         Constructor.prototype.getAll = function (query, count) {
             var instance = this;
             var items = [];
@@ -270,7 +284,7 @@
                     }
                     items.push(cursor.value);
 
-                    if (count !== undefined && items.length == count) {
+                    if (count !== undefined && items.length === count) {
                         resolve(items);
                         return;
                     }
