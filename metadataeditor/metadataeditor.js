@@ -701,13 +701,11 @@
         }
 
         if (item.Type === "TvChannel") {
-            hideElement('#tagsCollapsible', context);
             hideElement('#metadataSettingsCollapsible', context);
             hideElement('#fldPremiereDate', context);
             hideElement('#fldDateAdded', context);
             hideElement('#fldYear', context);
         } else {
-            showElement('#tagsCollapsible', context);
             showElement('#metadataSettingsCollapsible', context);
             showElement('#fldPremiereDate', context);
             showElement('#fldDateAdded', context);
