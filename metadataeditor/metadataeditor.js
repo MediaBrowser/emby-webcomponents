@@ -700,6 +700,8 @@
             showElement('#fldCustomRating', context);
         }
 
+        showElement('#tagsCollapsible', context);
+
         if (item.Type === "TvChannel") {
             hideElement('#metadataSettingsCollapsible', context);
             hideElement('#fldPremiereDate', context);
