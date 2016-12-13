@@ -560,13 +560,13 @@ define(['browser'], function (browser) {
                     Condition: 'NotEquals',
                     Property: 'HasAudioCodec',
                     Value: 'dca',
-                    IsRequired: true
+                    IsRequired: false
                 },
                 {
                     Condition: 'NotEquals',
                     Property: 'HasAudioCodec',
                     Value: 'dts',
-                    IsRequired: true
+                    IsRequired: false
                 }]
             });
         }
