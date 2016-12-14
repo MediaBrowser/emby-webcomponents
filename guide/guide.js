@@ -793,6 +793,7 @@
 
                 start.setDate(start.getDate() + 1);
                 start.setHours(0, 0, 0, 0);
+                tabIndex++;
             }
 
             page.querySelector('.emby-tabs-slider').innerHTML = dateTabsHtml;
@@ -959,8 +960,9 @@
                 restartAutoRefresh();
             });
 
-            context.querySelector('.guideDateTabsSlider').addEventListener('click', function (e) {
-                var tabButton = dom.parentWithClass(e.target, 'guide-date-tab-button');
+            context.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
+
+                var tabButton = e.target.querySelectorAll('.guide-date-tab-button')[parseInt(e.detail.selectedTabIndex)];
                 if (tabButton) {
                     var date = new Date();
                     date.setTime(parseInt(tabButton.getAttribute('data-date')));
