@@ -36,6 +36,18 @@
             restartAutoRefresh();
         };
 
+        self.pause = function () {
+            stopAutoRefresh();
+        };
+
+        self.resume = function (refreshData) {
+            if (refreshData) {
+                self.refresh();
+            } else {
+                restartAutoRefresh();
+            }
+        };
+
         self.destroy = function () {
 
             stopAutoRefresh();
@@ -493,7 +505,7 @@
                     timerAttributes += ' data-seriestimerid="' + program.SeriesTimerId + '"';
                 }
 
-                html += '<button data-action="' + clickAction + '"' + timerAttributes + ' data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
+                html += '<button data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
                 if (displayInnerContent) {
                     var guideProgramNameClass = "guideProgramName";
