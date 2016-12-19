@@ -275,6 +275,10 @@
         }
     }
 
+    if (userAgent.toLowerCase().indexOf('embytheaterpi') !== -1) {
+        browser.slow = true;
+    }
+
     browser.keyboard = hasKeyboard(browser);
     browser.supportsCssAnimation = supportsCssAnimation;
 

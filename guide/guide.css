@@ -307,8 +307,8 @@
 .programIcon {
     margin-left: auto;
     margin-right: .25em;
-    height: auto;
-    width: auto;
+    height: 1em;
+    width: 1em;
     font-size: 1.6em;
     color: #ddd;
     flex-shrink: 0;

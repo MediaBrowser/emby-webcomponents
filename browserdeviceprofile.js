@@ -308,8 +308,8 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('dts');
         }
 
-        if (browser.edgeUwp) {
-            //videoAudioCodecs.push('truehd');
+        if (options.supportsTrueHd) {
+            videoAudioCodecs.push('truehd');
         }
 
         videoAudioCodecs = videoAudioCodecs.filter(function (c) {
