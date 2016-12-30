@@ -1,4 +1,4 @@
-define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'globalize', 'connectionManager', 'loading'], function (Events, datetime, appSettings, pluginManager, userSettings, globalize, connectionManager, loading) {
+define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'serverNotifications'], function (events, datetime, appSettings, pluginManager, userSettings, globalize, connectionManager, loading, serverNotifications) {
     'use strict';
 
     function playbackManager() {
@@ -6,6 +6,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
         var self = this;
 
         var currentPlayer;
+        var lastLocalPlayer;
         var repeatMode = 'RepeatNone';
         var playlist = [];
         var currentPlaylistIndex;
@@ -65,6 +66,13 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
         self.currentPlayer = function () {
             return currentPlayer;
         };
+
+        function setCurrentPlayer(player) {
+            currentPlayer = player;
+            if (player && player.isLocalPlayer) {
+                lastLocalPlayer = player;
+            }
+        }
 
         self.isPlaying = function () {
             var player = currentPlayer;
@@ -257,6 +265,26 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             player.setSubtitleStreamIndex(selectedTrackElementIndex);
 
             getPlayerData(player).subtitleStreamIndex = index;
+        };
+
+        self.toggleDisplayMirroring = function () {
+            self.enableDisplayMirroring(!self.enableDisplayMirroring());
+        };
+
+        self.enableDisplayMirroring = function (enabled) {
+
+            if (enabled != null) {
+
+                var val = enabled ? '1' : '0';
+                appSettings.set('displaymirror--' + Dashboard.getCurrentUserId(), val);
+
+                if (enabled) {
+                    mirrorIfEnabled();
+                }
+                return;
+            }
+
+            return (appSettings.get('displaymirror--' + Dashboard.getCurrentUserId()) || '') != '0';
         };
 
         self.stop = function () {
@@ -997,9 +1025,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 if (player) {
                     player.destroy();
                 }
-                currentPlayer = null;
+                setCurrentPlayer(null);
 
-                Events.trigger(self, 'playbackcancelled');
+                events.trigger(self, 'playbackcancelled');
 
                 return Promise.reject();
             });
@@ -1661,7 +1689,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
         self.setRepeatMode = function (value) {
             repeatMode = value;
-            Events.trigger(self, 'repeatmodechange');
+            events.trigger(self, 'repeatmodechange');
         };
 
         self.getRepeatMode = function () {
@@ -1765,7 +1793,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
         function onPlaybackStarted(player, streamInfo, mediaSource) {
 
-            currentPlayer = player;
+            setCurrentPlayer(player);
             getPlayerData(player).streamInfo = streamInfo;
 
             if (mediaSource) {
@@ -1784,7 +1812,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             startProgressInterval(player);
 
-            Events.trigger(self, 'playbackstart', [player]);
+            events.trigger(self, 'playbackstart', [player]);
         }
 
         function onPlaybackError(e, error) {
@@ -1867,18 +1895,14 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 nextMediaType: nextMediaType
             };
 
-            Events.trigger(self, 'playbackstop', [playbackStopInfo]);
+            events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
             var newPlayer = nextItem ? getPlayer(nextItem.item, currentPlayOptions) : null;
 
             if (newPlayer !== player) {
                 player.destroy();
-                currentPlayer = null;
+                setCurrentPlayer(null);
             }
-
-            //if (player === currentPlayer) {
-            //    currentPlayer = null;
-            //}
 
             if (nextItem) {
                 self.nextTrack();
@@ -1909,7 +1933,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                 clearProgressInterval(activePlayer);
 
-                Events.trigger(self, 'playbackstop', [{
+                events.trigger(self, 'playbackstop', [{
                     player: activePlayer,
                     state: state,
                     nextItem: newItem,
@@ -1921,11 +1945,11 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
         function initMediaPlayer(plugin) {
             plugin.currentState = {};
 
-            Events.on(plugin, 'error', onPlaybackError);
-            Events.on(plugin, 'stopped', onPlaybackStopped);
+            events.on(plugin, 'error', onPlaybackError);
+            events.on(plugin, 'stopped', onPlaybackStopped);
         }
 
-        Events.on(pluginManager, 'registered', function (e, plugin) {
+        events.on(pluginManager, 'registered', function (e, plugin) {
 
             if (plugin.type === 'mediaplayer') {
 
@@ -1999,6 +2023,14 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 playNextAfterEnded = false;
                 onPlaybackStopped.call(player);
             }
+        });
+
+        events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
+            self.setDefaultPlayerActive();
+        });
+
+        events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
+            self.setDefaultPlayerActive();
         });
     }
 
