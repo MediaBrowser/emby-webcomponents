@@ -1,6 +1,16 @@
 define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'serverNotifications'], function (events, datetime, appSettings, pluginManager, userSettings, globalize, connectionManager, loading, serverNotifications) {
     'use strict';
 
+    function enableLocalPlaylistManagement(player) {
+        
+        if (player.isLocalPlayer) {
+            
+            return true;
+        }
+
+        return false;
+    }
+
     function playbackManager() {
 
         var self = this;
@@ -2161,7 +2171,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             });
         }
 
-        function initMediaPlayer(plugin) {
+        function initMediaPlayer(player) {
 
             players.push(player);
             players.sort(function (a, b) {
@@ -2173,10 +2183,12 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 player.isLocalPlayer = true;
             }
 
-            plugin.currentState = {};
+            player.currentState = {};
 
-            events.on(plugin, 'error', onPlaybackError);
-            events.on(plugin, 'stopped', onPlaybackStopped);
+            if (enableLocalPlaylistManagement(player)) {
+                events.on(player, 'error', onPlaybackError);
+                events.on(player, 'stopped', onPlaybackStopped);
+            }
         }
 
         events.on(pluginManager, 'registered', function (e, plugin) {
