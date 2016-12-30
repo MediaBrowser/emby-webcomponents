@@ -2,9 +2,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
     'use strict';
 
     function enableLocalPlaylistManagement(player) {
-        
+
         if (player.isLocalPlayer) {
-            
+
             return true;
         }
 
@@ -105,7 +105,11 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             currentPairingId = targetInfo.id;
 
-            player.tryPair(targetInfo).then(function () {
+            var promise = player.tryPair ? 
+                player.tryPair(targetInfo) :
+                Promise.resolve();
+
+            promise.then(function () {
 
                 var previousPlayer = currentPlayer;
 
@@ -144,11 +148,36 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             });
         };
 
+        function getSupportedCommands(player) {
+
+            if (player.isLocalPlayer) {
+                return Dashboard.getSupportedRemoteCommands();
+            }
+
+            throw new Error('player must define supported commands');
+        }
+
+        function getPlayerTargets(player) {
+            if (player.getTargets) {
+                return player.getTargets();
+            }
+
+            return Promise.resolve([{
+
+                name: player.name,
+                id: player.id,
+                playerName: player.name,
+                playableMediaTypes: ['Audio', 'Video', 'Game'].map(player.canPlayMediaType),
+                isLocalPlayer: player.isLocalPlayer,
+                supportedCommands: getSupportedCommands(player)
+            }]);
+        }
+
         self.setDefaultPlayerActive = function () {
 
             var player = self.getDefaultPlayer();
 
-            player.getTargets().then(function (targets) {
+            getPlayerTargets(player).then(function (targets) {
 
                 self.setActivePlayer(player, targets[0]);
             });
@@ -219,9 +248,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
         self.getTargets = function () {
 
-            var promises = players.map(function (p) {
-                return p.getTargets();
-            });
+            var promises = players.map(getPlayerTargets);
 
             return Promise.all(promises).then(function (responses) {
 
