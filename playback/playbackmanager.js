@@ -43,6 +43,18 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             events.trigger(self, 'playerchange', [newPlayer, newTarget, previousPlayer]);
         }
 
+        self.beginPlayerUpdates = function(player) {
+            if (player.beginPlayerUpdates) {
+                player.beginPlayerUpdates();
+            }
+        };
+
+        self.endPlayerUpdates = function (player) {
+            if (player.endPlayerUpdates) {
+                player.endPlayerUpdates();
+            }
+        };
+
         self.getPlayerInfo = function () {
 
             var player = currentPlayer;
@@ -136,7 +148,24 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
         function getSupportedCommands(player) {
 
             if (player.isLocalPlayer) {
-                return Dashboard.getSupportedRemoteCommands();
+                // Full list
+                // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs
+                return [
+                    "GoHome",
+                    "GoToSettings",
+                    "VolumeUp",
+                    "VolumeDown",
+                    "Mute",
+                    "Unmute",
+                    "ToggleMute",
+                    "SetVolume",
+                    "SetAudioStreamIndex",
+                    "SetSubtitleStreamIndex",
+                    "DisplayContent",
+                    "GoToSearch",
+                    "DisplayMessage",
+                    "SetRepeatMode"
+                ];
             }
 
             throw new Error('player must define supported commands');
@@ -539,7 +568,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             if (enabled != null) {
 
                 var val = enabled ? '1' : '0';
-                appSettings.set('displaymirror--' + Dashboard.getCurrentUserId(), val);
+                appSettings.set('displaymirror', val);
 
                 if (enabled) {
                     mirrorIfEnabled();
@@ -547,7 +576,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 return;
             }
 
-            return (appSettings.get('displaymirror--' + Dashboard.getCurrentUserId()) || '') !== '0';
+            return (appSettings.get('displaymirror') || '') !== '0';
         };
 
         self.stop = function () {
@@ -1007,7 +1036,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             nowPlayingItem.PremiereDate = item.PremiereDate;
             nowPlayingItem.SeriesName = item.SeriesName;
             nowPlayingItem.Album = item.Album;
-            nowPlayingItem.Artists = item.ArtistItems;
+            nowPlayingItem.AlbumId = item.AlbumId;
+            nowPlayingItem.Artists = item.Artists;
+            nowPlayingItem.ArtistItems = item.ArtistItems;
 
             var imageTags = item.ImageTags || {};
 
@@ -2296,16 +2327,16 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
         }
 
-        window.addEventListener("beforeunload", function (e) {
+        //window.addEventListener("beforeunload", function (e) {
 
-            var player = currentPlayer;
+        //    var player = currentPlayer;
 
-            // Try to report playback stopped before the browser closes
-            if (player && getPlayerData(player).currentProgressInterval) {
-                playNextAfterEnded = false;
-                onPlaybackStopped.call(player);
-            }
-        });
+        //    // Try to report playback stopped before the browser closes
+        //    if (player && getPlayerData(player).currentProgressInterval) {
+        //        playNextAfterEnded = false;
+        //        onPlaybackStopped.call(player);
+        //    }
+        //});
 
         events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
             self.setDefaultPlayerActive();
