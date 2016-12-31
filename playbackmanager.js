@@ -76,15 +76,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 throw new Error('null player');
             }
 
-            var previousPlayer = currentPlayer;
-
-            currentPairingId = null;
-            currentPlayer = player;
-            currentTargetInfo = targetInfo;
-
-            console.log('Active player: ' + JSON.stringify(currentTargetInfo));
-
-            triggerPlayerChange(player, targetInfo, previousPlayer);
+            setCurrentPlayerInternal(player, targetInfo);
         };
 
         self.trySetActivePlayer = function (player, targetInfo) {
@@ -111,14 +103,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             promise.then(function () {
 
-                var previousPlayer = currentPlayer;
-
-                currentPlayer = player;
-                currentTargetInfo = targetInfo;
-
-                console.log('Active player: ' + JSON.stringify(currentTargetInfo));
-
-                triggerPlayerChange(player, targetInfo, previousPlayer);
+                setCurrentPlayerInternal(player, targetInfo);
             }, function () {
 
                 if (currentPairingId === targetInfo.id) {
@@ -157,20 +142,23 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             throw new Error('player must define supported commands');
         }
 
-        function getPlayerTargets(player) {
-            if (player.getTargets) {
-                return player.getTargets();
-            }
-
-            return Promise.resolve([{
-
+        function createTarget(player) {
+            return {
                 name: player.name,
                 id: player.id,
                 playerName: player.name,
                 playableMediaTypes: ['Audio', 'Video', 'Game'].map(player.canPlayMediaType),
                 isLocalPlayer: player.isLocalPlayer,
                 supportedCommands: getSupportedCommands(player)
-            }]);
+            };
+        }
+
+        function getPlayerTargets(player) {
+            if (player.getTargets) {
+                return player.getTargets();
+            }
+
+            return Promise.resolve([createTarget(player)]);
         }
 
         self.setDefaultPlayerActive = function () {
@@ -323,11 +311,31 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             return currentPlayer;
         };
 
-        function setCurrentPlayer(player) {
+        function setCurrentPlayerInternal(player, targetInfo) {
+
+            var previousPlayer = currentPlayer;
+
+            if (player && !targetInfo && player.isLocalPlayer) {
+                targetInfo = createTarget(player);
+            }
+
+            if (player && !targetInfo) {
+                throw new Error('targetInfo cannot be null');
+            }
+
+            currentPairingId = null;
             currentPlayer = player;
+            currentTargetInfo = targetInfo;
+
+            if (targetInfo) {
+                console.log('Active player: ' + JSON.stringify(targetInfo));
+            }
+
             if (player && player.isLocalPlayer) {
                 lastLocalPlayer = player;
             }
+
+            triggerPlayerChange(player, targetInfo, previousPlayer);
         }
 
         self.isPlaying = function () {
@@ -916,8 +924,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             player = player || currentPlayer;
             var playerData = getPlayerData(player);
-            var item = playerData.streamInfo.item;
-            var mediaSource = playerData.streamInfo.mediaSource;
+            var streamInfo = playerData.streamInfo;
+            var item = streamInfo ? streamInfo.item : null;
+            var mediaSource = streamInfo ? streamInfo.mediaSource : null;
 
             var state = {
                 PlayState: {}
@@ -928,12 +937,10 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 state.PlayState.VolumeLevel = player.volume();
                 state.PlayState.IsMuted = player.isMuted();
                 state.PlayState.IsPaused = player.paused();
-                state.PlayState.PositionTicks = getCurrentTicks(player);
                 state.PlayState.RepeatMode = self.getRepeatMode();
 
-                var currentSrc = player.currentSrc();
-
-                if (currentSrc) {
+                if (streamInfo) {
+                    state.PlayState.PositionTicks = getCurrentTicks(player);
 
                     state.PlayState.SubtitleStreamIndex = playerData.subtitleStreamIndex;
                     state.PlayState.AudioStreamIndex = playerData.audioStreamIndex;
@@ -963,7 +970,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 state.NowPlayingItem = getNowPlayingItemForReporting(player, item, mediaSource);
             }
 
-            return state;
+            return Promise.resolve(state);
         };
 
         self.currentTime = function (player) {
@@ -1281,7 +1288,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 if (player) {
                     player.destroy();
                 }
-                setCurrentPlayer(null);
+                setCurrentPlayerInternal(null);
 
                 events.trigger(self, 'playbackcancelled');
 
@@ -2049,7 +2056,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
         function onPlaybackStarted(player, streamInfo, mediaSource) {
 
-            setCurrentPlayer(player);
+            setCurrentPlayerInternal(player);
             getPlayerData(player).streamInfo = streamInfo;
 
             if (mediaSource) {
@@ -2062,13 +2069,15 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             playNextAfterEnded = true;
 
-            var state = self.getPlayerState(player);
+            self.getPlayerState(player).then(function (state) {
 
-            reportPlayback(state, getPlayerData(player).streamInfo.item.ServerId, 'reportPlaybackStart');
+                reportPlayback(state, getPlayerData(player).streamInfo.item.ServerId, 'reportPlaybackStart');
 
-            startProgressInterval(player);
+                startProgressInterval(player);
 
-            events.trigger(self, 'playbackstart', [player]);
+                events.trigger(player, 'playbackstart', [state]);
+                events.trigger(self, 'playbackstart', [player]);
+            });
         }
 
         function onPlaybackError(e, error) {
@@ -2126,75 +2135,78 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
 
             // User clicked stop or content ended
-            var state = self.getPlayerState(player);
-            var streamInfo = getPlayerData(player).streamInfo;
+            self.getPlayerState(player).then(function(state) {
+                var streamInfo = getPlayerData(player).streamInfo;
 
-            if (isServerItem(streamInfo.item)) {
+                if (isServerItem(streamInfo.item)) {
 
-                if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
-                    state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
+                    if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
+                        state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
+                    }
+
+                    reportPlayback(state, streamInfo.item.ServerId, 'reportPlaybackStopped');
                 }
 
-                reportPlayback(state, streamInfo.item.ServerId, 'reportPlaybackStopped');
-            }
+                clearProgressInterval(player);
 
-            clearProgressInterval(player);
+                var nextItem = playNextAfterEnded ? getNextItemInfo() : null;
 
-            var nextItem = playNextAfterEnded ? getNextItemInfo() : null;
+                var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
-            var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
+                var playbackStopInfo = {
+                    player: player,
+                    state: state,
+                    nextItem: (nextItem ? nextItem.item : null),
+                    nextMediaType: nextMediaType
+                };
 
-            var playbackStopInfo = {
-                player: player,
-                state: state,
-                nextItem: (nextItem ? nextItem.item : null),
-                nextMediaType: nextMediaType
-            };
+                events.trigger(player, 'playbackstop', [state]);
+                events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
-            events.trigger(self, 'playbackstop', [playbackStopInfo]);
+                var newPlayer = nextItem ? getPlayer(nextItem.item, currentPlayOptions) : null;
 
-            var newPlayer = nextItem ? getPlayer(nextItem.item, currentPlayOptions) : null;
+                if (newPlayer !== player) {
+                    player.destroy();
+                    setCurrentPlayerInternal(null);
+                }
 
-            if (newPlayer !== player) {
-                player.destroy();
-                setCurrentPlayer(null);
-            }
-
-            if (nextItem) {
-                self.nextTrack();
-            }
+                if (nextItem) {
+                    self.nextTrack();
+                }
+            });
         }
 
         function onPlaybackChanging(activePlayer, newPlayer, newItem) {
 
-            var state = self.getPlayerState(activePlayer);
-            var serverId = getPlayerData(activePlayer).streamInfo.item.ServerId;
+            return self.getPlayerState(activePlayer).then(function(state) {
+                var serverId = getPlayerData(activePlayer).streamInfo.item.ServerId;
 
-            // User started playing something new while existing content is playing
-            var promise;
+                // User started playing something new while existing content is playing
+                var promise;
 
-            if (activePlayer === newPlayer) {
+                if (activePlayer === newPlayer) {
 
-                // If we're staying with the same player, stop it
-                promise = activePlayer.stop(false, false);
+                    // If we're staying with the same player, stop it
+                    promise = activePlayer.stop(false, false);
 
-            } else {
+                } else {
 
-                // If we're switching players, tear down the current one
-                promise = activePlayer.stop(true, false);
-            }
+                    // If we're switching players, tear down the current one
+                    promise = activePlayer.stop(true, false);
+                }
 
-            return promise.then(function () {
-                reportPlayback(state, serverId, 'reportPlaybackStopped');
+                return promise.then(function () {
+                    reportPlayback(state, serverId, 'reportPlaybackStopped');
 
-                clearProgressInterval(activePlayer);
+                    clearProgressInterval(activePlayer);
 
-                events.trigger(self, 'playbackstop', [{
-                    player: activePlayer,
-                    state: state,
-                    nextItem: newItem,
-                    nextMediaType: newItem.MediaType
-                }]);
+                    events.trigger(self, 'playbackstop', [{
+                        player: activePlayer,
+                        state: state,
+                        nextItem: newItem,
+                        nextMediaType: newItem.MediaType
+                    }]);
+                });
             });
         }
 
@@ -2214,7 +2226,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             if (enableLocalPlaylistManagement(player)) {
                 events.on(player, 'error', onPlaybackError);
-                events.on(player, 'stopped', onPlaybackStopped);
+                events.on(player, 'playbackstop', onPlaybackStopped);
             }
         }
 
@@ -2249,9 +2261,10 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             player.lastProgressReport = new Date().getTime();
 
-            var state = self.getPlayerState(player);
-            var currentItem = getPlayerData(player).streamInfo.item;
-            reportPlayback(state, currentItem.ServerId, 'reportPlaybackProgress');
+            self.getPlayerState(player).then(function (state) {
+                var currentItem = getPlayerData(player).streamInfo.item;
+                reportPlayback(state, currentItem.ServerId, 'reportPlaybackProgress');
+            });
         }
 
         function reportPlayback(state, serverId, method) {
