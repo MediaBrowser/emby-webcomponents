@@ -1,4 +1,4 @@
-define(['inputmanager', 'focusManager', 'browser', 'layoutManager', 'events', 'dom'], function (inputmanager, focusManager, browser, layoutManager, events, dom) {
+define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'dom'], function (inputmanager, focusManager, browser, layoutManager, events, dom) {
     'use strict';
 
     var self = {};
