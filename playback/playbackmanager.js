@@ -1038,13 +1038,13 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 return player.instantMix(item);
             }
 
-            var apiClient = connectionManager.getApiClient(serverId);
+            var apiClient = connectionManager.getApiClient(item.ServerId);
 
             var options = {};
             options.UserId = apiClient.getCurrentUserId();
             options.Fields = 'MediaSources';
 
-            apiClient.getInstantMixFromItem(id, item).then(function (result) {
+            apiClient.getInstantMixFromItem(item.Id, options).then(function (result) {
                 self.play({
                     items: result.Items
                 });
