@@ -336,7 +336,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             if (player && player.displayContent) {
                 player.displayContent(options);
             }
-        }
+        };
 
         self.sendCommand = function (cmd, player) {
 
