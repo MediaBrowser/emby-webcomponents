@@ -1210,6 +1210,16 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             return getCurrentTicks(player);
         };
 
+        self.duration = function (player) {
+
+            player = player || currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                return player.duration();
+            }
+
+            return getPlayerData(player).streamInfo.mediaSource.RunTimeTicks || player.duration();
+        };
+
         function getCurrentTicks(player) {
 
             var playerTime = Math.floor(10000 * (player || currentPlayer).currentTime());
