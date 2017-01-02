@@ -1,4 +1,4 @@
-define(['pluginManager', 'events', 'browser'], function (pluginManager, Events, browser) {
+define(['pluginManager', 'events', 'browser', 'embyRouter'], function (pluginManager, Events, browser, embyRouter) {
     "use strict";
 
     return function () {
@@ -21,7 +21,9 @@ define(['pluginManager', 'events', 'browser'], function (pluginManager, Events, 
 
         self.canPlayMediaType = function (mediaType) {
 
-            return (mediaType || '').toLowerCase() === 'video';
+            mediaType = (mediaType || '').toLowerCase();
+
+            return mediaType === 'audio' || mediaType === 'video';
         };
 
         self.canPlayItem = function (item) {
@@ -176,7 +178,7 @@ define(['pluginManager', 'events', 'browser'], function (pluginManager, Events, 
 
         self.destroy = function () {
 
-            Emby.Page.setTransparency('none');
+            embyRouter.setTransparency('none');
 
             var dlg = videoDialog;
             if (dlg) {
@@ -216,12 +218,23 @@ define(['pluginManager', 'events', 'browser'], function (pluginManager, Events, 
         };
 
         self.volume = function (val) {
+            if (val != null) {
+                return self.setVolume(val);
+            }
+
+            return self.getVolume();
+        };
+
+        self.setVolume = function (val) {
             if (currentYoutubePlayer) {
                 if (val != null) {
                     currentYoutubePlayer.setVolume(val);
-                    return;
                 }
+            }
+        };
 
+        self.getVolume = function () {
+            if (currentYoutubePlayer) {
                 return currentYoutubePlayer.getVolume();
             }
         };
@@ -300,12 +313,12 @@ define(['pluginManager', 'events', 'browser'], function (pluginManager, Events, 
 
                 if (playOptions.fullscreen) {
 
-                    Emby.Page.showVideoOsd().then(function () {
+                    embyRouter.showVideoOsd().then(function () {
                         videoDialog.classList.remove('onTop');
                     });
 
                 } else {
-                    Emby.Page.setTransparency('backdrop');
+                    embyRouter.setTransparency('backdrop');
                     videoDialog.classList.remove('onTop');
                 }
 
