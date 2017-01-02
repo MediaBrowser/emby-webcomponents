@@ -875,8 +875,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 return true;
 
             } else {
-                var duration = player.duration();
-                return duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY;
+                return player.duration();
             }
         }
 
@@ -1225,9 +1224,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             if (mediaSource) {
                 nowPlayingItem.RunTimeTicks = mediaSource.RunTimeTicks;
-            } else {
-                nowPlayingItem.RunTimeTicks = player.duration() * 10000;
             }
+
+            nowPlayingItem.RunTimeTicks = nowPlayingItem.RunTimeTicks || player.duration() * 10000;
 
             return nowPlayingItem;
         }
