@@ -966,16 +966,11 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
         self.seekPercent = function (percent, player) {
 
-            var data = getPlayerData(player).streamInfo;
-            var mediaSource = data.mediaSource;
+            var ticks = self.duration(player) || 0;
 
-            if (mediaSource) {
-                var ticks = mediaSource.RunTimeTicks || 0;
-
-                percent /= 100;
-                ticks *= percent;
-                self.seek(parseInt(ticks));
-            }
+            percent /= 100;
+            ticks *= percent;
+            self.seek(parseInt(ticks));
         };
 
         self.playTrailers = function (item) {
@@ -1217,7 +1212,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 return player.duration();
             }
 
-            return getPlayerData(player).streamInfo.mediaSource.RunTimeTicks || player.duration();
+            return getPlayerData(player).streamInfo.mediaSource.RunTimeTicks || ((player.duration() || 0) * 10000);
         };
 
         function getCurrentTicks(player) {
