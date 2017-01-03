@@ -997,7 +997,8 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                             Name: t.Name || (item.Name + ' Trailer'),
                             Url: t.Url,
                             MediaType: 'Video',
-                            Type: 'Trailer'
+                            Type: 'Trailer',
+                            ServerId: apiClient.serverId()
                         };
                     })
                 });
@@ -1224,7 +1225,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 playerDuration *= 10000;
             }
 
-            return null;
+            return playerDuration;
         };
 
         function getCurrentTicks(player) {
