@@ -376,6 +376,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     break;
                 case 'SetSubtitleStreamIndex':
                     self.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
+                    break;
                 case 'SetMaxStreamingBitrate':
                     self.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
                     break;
