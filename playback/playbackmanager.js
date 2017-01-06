@@ -11,6 +11,12 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
         return false;
     }
 
+    function bindToFullscreenChange(player) {
+        events.on(fullscreenManager, 'fullscreenchange', function () {
+            events.trigger(player, 'fullscreenchange');
+        });
+    }
+
     function PlaybackManager() {
 
         var self = this;
@@ -2550,6 +2556,10 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             if (enableLocalPlaylistManagement(player)) {
                 events.on(player, 'error', onPlaybackError);
+            }
+
+            if (player.isLocalPlayer) {
+                bindToFullscreenChange(player);
             }
             bindStopped(player);
         }
