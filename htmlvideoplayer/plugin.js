@@ -697,7 +697,6 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                     // MEDIA_ERR_DECODE
                     handleMediaError();
                     return;
-                    break;
                 case 4:
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
                     break;
