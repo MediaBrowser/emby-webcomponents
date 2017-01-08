@@ -306,7 +306,10 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                     // Chrome now returns a promise
                     return promise.catch(function (e) {
 
-                        if ((e.name || '').toLowerCase() === 'notallowederror') {
+                        var errorName = (e.name || '').toLowerCase();
+                        // safari uses aborterror
+                        if (errorName === 'notallowederror' ||
+                            errorName === 'aborterror') {
                             // swallow this error because the user can still click the play button on the video element
                             return Promise.resolve();
                         }
