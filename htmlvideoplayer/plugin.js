@@ -118,7 +118,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
         function updateVideoUrl(streamInfo) {
 
-            var isHls = streamInfo.url.toLowerCase().indexOf('.m3u8') != -1;
+            var isHls = streamInfo.url.toLowerCase().indexOf('.m3u8') !== -1;
 
             var mediaSource = streamInfo.mediaSource;
             var item = streamInfo.item;
