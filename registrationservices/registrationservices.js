@@ -69,7 +69,7 @@
 
                 html += '<button is="emby-button" type="button" class="raised button-submit block btnGetPremiere block formDialogFooterItem" autoFocus><span>' + globalize.translate('sharedcomponents#HeaderBecomeProjectSupporter') + '</span></button>';
 
-                var seconds = 12;
+                var seconds = 16;
 
                 html += '<div class="continueTimeText formDialogFooterItem" style="margin: 1.5em 0 .5em;">' + globalize.translate('sharedcomponents#ContinueInSecondsValue', seconds) + '</div>';
 
@@ -155,7 +155,7 @@
             return Promise.resolve();
         }
 
-        var settingsKey = 'periodicmessage10-' + feature;
+        var settingsKey = 'periodicmessage11-' + feature;
 
         var lastMessage = parseInt(appSettings.get(settingsKey) || '0');
 
