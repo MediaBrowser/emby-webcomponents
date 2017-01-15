@@ -896,6 +896,8 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
         self.seek = function (ticks, player) {
 
+            ticks = Math.max(0, ticks);
+
             player = player || currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.seek(ticks);
