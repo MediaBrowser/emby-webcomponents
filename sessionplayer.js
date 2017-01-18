@@ -283,6 +283,10 @@
             return state.MediaType === 'Audio';
         };
 
+        self.getPlaylist = function () {
+            return Promise.resolve([]);
+        };
+
         self.getCurrentPlaylistIndex = function () {
             return 0;
         };

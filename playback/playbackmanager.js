@@ -454,8 +454,14 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             });
         };
 
-        self.playlist = function () {
-            return playlist.slice(0);
+        self.getPlaylist = function (player) {
+
+            player = player || currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                return player.getPlaylist();
+            }
+
+            return Promise.resolve(playlist.slice(0));
         };
 
         self.getCurrentPlayer = function () {
@@ -916,9 +922,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             changeStream(player, ticks);
         };
 
-        self.nextChapter = function () {
+        self.nextChapter = function (player) {
 
-            var player = currentPlayer;
+            player = player || currentPlayer;
             var item = self.currentItem(player);
 
             var ticks = getCurrentTicks(player);
@@ -930,15 +936,15 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             })[0];
 
             if (nextChapter) {
-                self.seek(nextChapter.StartPositionTicks);
+                self.seek(nextChapter.StartPositionTicks, player);
             } else {
-                self.nextTrack();
+                self.nextTrack(player);
             }
         };
 
-        self.previousChapter = function () {
+        self.previousChapter = function (player) {
 
-            var player = currentPlayer;
+            player = player || currentPlayer;
             var item = self.currentItem(player);
 
             var ticks = getCurrentTicks(player);
@@ -946,21 +952,26 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             // Go back 10 seconds
             ticks -= 100000000;
 
+            // If there's no previous track, then at least rewind to beginning
+            if (self.getCurrentPlaylistIndex(player) === 0) {
+                ticks = Math.max(ticks, 0);
+            }
+
             var previousChapters = (item.Chapters || []).filter(function (i) {
 
                 return i.StartPositionTicks <= ticks;
             });
 
             if (previousChapters.length) {
-                self.seek(previousChapters[previousChapters.length - 1].StartPositionTicks);
+                self.seek(previousChapters[previousChapters.length - 1].StartPositionTicks, player);
             } else {
-                self.previousTrack();
+                self.previousTrack(player);
             }
         };
 
-        self.fastForward = function () {
+        self.fastForward = function (player) {
 
-            var player = currentPlayer;
+            player = player || currentPlayer;
 
             if (player.fastForward != null) {
                 player.fastForward(userSettings.skipForwardLength());
@@ -979,9 +990,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
         };
 
-        self.rewind = function () {
+        self.rewind = function (player) {
 
-            var player = currentPlayer;
+            player = player || currentPlayer;
 
             if (player.rewind != null) {
                 player.rewind(userSettings.skipBackLength());
