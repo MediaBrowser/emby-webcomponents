@@ -30,6 +30,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
         var repeatMode = 'RepeatNone';
         var playlist = [];
         var currentPlaylistIndex;
+        var currentPlaylistItemId;
         var currentPlayOptions;
         var playNextAfterEnded = true;
         var playerStates = {};
@@ -1503,7 +1504,15 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
 
             var afterPlayInternal = function () {
-                setPlaylistState(0, items);
+
+                for (var i = 0, length = items.length; i < length; i++) {
+                    addUniquePlaylistItemId(items[i]);
+                }
+                playlist = items.slice(0);
+
+                var playIndex = 0;
+
+                setPlaylistState(items[playIndex].PlaylistItemId, playIndex);
                 loading.hide();
             };
 
@@ -1530,13 +1539,22 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             return true;
         }
 
-        // Set currentPlaylistIndex and playlist. Using a method allows for overloading in derived player implementations
-        function setPlaylistState(i, items) {
-            if (!isNaN(i)) {
-                currentPlaylistIndex = i;
+        var currentId = 0;
+        function addUniquePlaylistItemId(item) {
+
+            if (!item.PlaylistItemId) {
+
+                item.PlaylistItemId = "playlistItem" + currentId;
+                currentId++;
             }
-            if (items) {
-                playlist = items.slice(0);
+        }
+
+        // Set playlist state. Using a method allows for overloading in derived player implementations
+        function setPlaylistState(playlistItemId, index) {
+
+            if (!isNaN(index)) {
+                currentPlaylistIndex = index;
+                currentPlaylistItemId = playlistItemId;
             }
         }
 
@@ -2226,53 +2244,112 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
         }
 
-        self.setCurrentPlaylistIndex = function (i, player) {
+        function findPlaylistIndex(playlistItemId, list) {
+            
+            for (var i = 0, length = playlist.length; i < length; i++) {
+                if (list[i].PlaylistItemId === playlistItemId) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        self.setCurrentPlaylistItem = function (playlistItemId, player) {
 
             player = player || currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
-                return player.setCurrentPlaylistIndex(i);
+                return player.setCurrentPlaylistItem(playlistItemId);
             }
 
-            var newItem = playlist[i];
+            var newItem;
+            var newItemIndex;
+            for (var i = 0, length = playlist.length; i < length; i++) {
+                if (playlist[i].PlaylistItemId === playlistItemId) {
+                    newItem = playlist[i];
+                    newItemIndex = i;
+                    break;
+                }
+            }
 
-            var playOptions = Object.assign({}, currentPlayOptions, {
-                startPositionTicks: 0
-            });
+            if (newItem) {
+                var playOptions = Object.assign({}, currentPlayOptions, {
+                    startPositionTicks: 0
+                });
 
-            playInternal(newItem, playOptions, function () {
-                currentPlaylistIndex = i;
-            });
+                playInternal(newItem, playOptions, function () {
+                    setPlaylistState(newItem.PlaylistItemId, newItemIndex);
+                });
+            }
         };
 
-        self.removeFromPlaylist = function (index, player) {
+        self.removeFromPlaylist = function (playlistItemIds, player) {
 
-            if (index < 0) {
-                throw new Error('Invalid playlist index');
+            if (!playlistItemIds) {
+                throw new Error('Invalid playlistItemIds');
             }
 
             player = player || currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
-                return player.removeFromPlaylist(i);
+                return player.removeFromPlaylist(playlistItemIds);
             }
 
-            if (playlist.length <= 1) {
+            if (playlist.length <= playlistItemIds.length) {
                 return self.stop();
             }
 
-            var isCurrentIndex = self.getCurrentPlaylistIndex(player) === index;
+            var currentPlaylistItemId = self.currentItem(player).PlaylistItemId;
+            var isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
 
-            playlist.splice(index, 1);
-
+            playlist = playlist.filter(function (item) {
+                return playlistItemIds.indexOf(item.PlaylistItemId) === -1;
+            });
             events.trigger(player, 'playlistitemremove', [
             {
-                index: index
+                playlistItemIds: playlistItemIds
             }]);
 
             if (isCurrentIndex) {
-                return self.setCurrentPlaylistIndex(Math.min(index, playlist.length - 1), player);
+                return self.setCurrentPlaylistItem(0, player);
             }
 
             return Promise.resolve();
+        };
+
+        function moveInArray(array, from, to) {
+            array.splice(to, 0, array.splice(from, 1)[0]);
+        }
+
+        self.movePlaylistItem = function (playlistItemId, newIndex, player) {
+
+            player = player || currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                return player.movePlaylistItem(playlistItemId, newIndex);
+            }
+
+            var oldIndex;
+            for (var i = 0, length = playlist.length; i < length; i++) {
+                if (playlist[i].PlaylistItemId === playlistItemId) {
+                    oldIndex = i;
+                    break;
+                }
+            }
+
+            if (oldIndex === -1 || oldIndex === newIndex) {
+                return;
+            }
+
+            if (newIndex >= playlist.length) {
+                throw new Error('newIndex out of bounds');
+            }
+
+            moveInArray(playlist, oldIndex, newIndex);
+
+            events.trigger(player, 'playlistitemmove', [
+            {
+                playlistItemId: playlistItemId,
+                newIndex: newIndex
+            }]);
         };
 
         self.getCurrentPlaylistIndex = function (i, player) {
@@ -2282,7 +2359,17 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 return player.getCurrentPlaylistIndex();
             }
 
-            return currentPlaylistIndex;
+            return findPlaylistIndex(currentPlaylistItemId, playlist);
+        };
+
+        self.getCurrentPlaylistItemId = function (i, player) {
+
+            player = player || currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                return player.getCurrentPlaylistItemId();
+            }
+
+            return currentPlaylistItemId;
         };
 
         self.setRepeatMode = function (value, player) {
@@ -2306,7 +2393,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             return repeatMode;
         };
 
-        function getNextItemInfo() {
+        function getNextItemInfo(player) {
 
             var newIndex;
             var playlistLength = playlist.length;
@@ -2314,16 +2401,16 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             switch (self.getRepeatMode()) {
 
                 case 'RepeatOne':
-                    newIndex = currentPlaylistIndex;
+                    newIndex = self.getCurrentPlaylistIndex(player);
                     break;
                 case 'RepeatAll':
-                    newIndex = currentPlaylistIndex + 1;
+                    newIndex = self.getCurrentPlaylistIndex(player) + 1;
                     if (newIndex >= playlistLength) {
                         newIndex = 0;
                     }
                     break;
                 default:
-                    newIndex = currentPlaylistIndex + 1;
+                    newIndex = self.getCurrentPlaylistIndex(player) + 1;
                     break;
             }
 
@@ -2350,7 +2437,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 return player.nextTrack();
             }
 
-            var newItemInfo = getNextItemInfo();
+            var newItemInfo = getNextItemInfo(player);
 
             if (newItemInfo) {
 
@@ -2361,7 +2448,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 });
 
                 playInternal(newItemInfo.item, playOptions, function () {
-                    setPlaylistState(newItemInfo.index);
+                    setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
                 });
             }
         };
@@ -2373,7 +2460,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 return player.previousTrack();
             }
 
-            var newIndex = currentPlaylistIndex - 1;
+            var newIndex = self.getCurrentPlaylistIndex(player) - 1;
             if (newIndex >= 0) {
                 var newItem = playlist[newIndex];
 
@@ -2384,7 +2471,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     });
 
                     playInternal(newItem, playOptions, function () {
-                        setPlaylistState(newIndex);
+                        setPlaylistState(newItem.PlaylistItemId, newIndex);
                     });
                 }
             }
@@ -2442,6 +2529,8 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
         function queueAll(items, mode) {
             for (var i = 0, length = items.length; i < length; i++) {
+
+                addUniquePlaylistItemId(items[i]);
                 playlist.push(items[i]);
             }
         }
@@ -2542,7 +2631,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                 clearProgressInterval(player);
 
-                var nextItem = playNextAfterEnded ? getNextItemInfo() : null;
+                var nextItem = playNextAfterEnded ? getNextItemInfo(player) : null;
 
                 var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -2559,6 +2648,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 if (!nextItem) {
                     playlist = [];
                     currentPlaylistIndex = -1;
+                    currentPlaylistItemId = null;
                 }
 
                 events.trigger(player, 'playbackstop', [state]);
