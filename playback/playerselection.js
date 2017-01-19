@@ -1,4 +1,4 @@
-﻿define(['appSettings', 'events', 'browser', 'libraryMenu', 'loading', 'playbackManager', 'embyRouter', 'globalize'], function (appSettings, events, browser, libraryMenu, loading, playbackManager, embyRouter, globalize) {
+﻿define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'embyRouter', 'globalize'], function (appSettings, events, browser, loading, playbackManager, embyRouter, globalize) {
     'use strict';
 
     var currentDisplayInfo;
@@ -25,7 +25,7 @@
             var player = playbackManager.getPlayerInfo();
 
             if (player) {
-                if (!player.isLocalPlayer && player.supportedCommands.indexOf('DisplayContent') != -1) {
+                if (!player.isLocalPlayer && player.supportedCommands.indexOf('DisplayContent') !== -1) {
                     mirrorItem(info, player);
                 }
             }
@@ -53,7 +53,7 @@
 
                 var name = t.name;
 
-                if (t.appName && t.appName != t.name) {
+                if (t.appName && t.appName !== t.name) {
                     name += " - " + t.appName;
                 }
 
@@ -86,7 +86,7 @@
                 actionsheet.show(menuOptions).then(function (id) {
 
                     var target = targets.filter(function (t) {
-                        return t.id == id;
+                        return t.id === id;
                     })[0];
 
                     playbackManager.trySetActivePlayer(target.playerName, target);
@@ -129,7 +129,7 @@
 
         html += '<div>';
 
-        if (playerInfo.supportedCommands.indexOf('DisplayContent') != -1) {
+        if (playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
 
             html += '<label class="checkboxContainer">';
             var checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
@@ -186,34 +186,21 @@
         playbackManager.enableDisplayMirroring(this.checked);
     }
 
-    function onCastButtonClicked() {
-
-        showPlayerSelection(this);
-    }
-
-    function bindCastButton() {
-        var btnCast = document.querySelector('.headerButton-btnCast');
-
-        if (btnCast) {
-            btnCast.removeEventListener('click', onCastButtonClicked);
-            btnCast.addEventListener('click', onCastButtonClicked);
-        }
-    }
-
-    document.addEventListener('headercreated', bindCastButton);
-    bindCastButton();
-
-    pageClassOn('pagebeforeshow', "page", function () {
-
-        var page = this;
-
+    document.addEventListener('viewbeforeshow', function () {
         currentDisplayInfo = null;
     });
 
-    pageClassOn('displayingitem', "libraryPage", function (e) {
+    document.addEventListener('viewshow', function (e) {
 
-        var info = e.detail;
-        mirrorIfEnabled(info);
+        var state = e.detail.state || {};
+        var item = state.item;
+
+        if (item && item.ServerId) {
+            mirrorIfEnabled({
+                item: item
+            });
+            return;
+        }
     });
 
     events.on(appSettings, 'change', function (e, name) {
