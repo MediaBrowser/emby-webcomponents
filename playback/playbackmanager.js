@@ -1519,7 +1519,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             var apiClient = connectionManager.getApiClient(firstItem.ServerId);
 
-            return apiClient.getJSON(apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/Items/' + firstItem.Id + '/Intros')).then(function (intros) {
+            return apiClient.getIntros(firstItem.Id).then(function (intros) {
 
                 items = intros.Items.concat(items);
                 currentPlayOptions = options;
@@ -2075,8 +2075,6 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     return s.SupportsTranscoding;
                 })[0];
 
-                // never return null unless the list of media sources is empty
-                // if this is ever changed then playback of offline items will need to be reworked
                 return optimalVersion || versions[0];
             });
         }
