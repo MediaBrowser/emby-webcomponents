@@ -1895,6 +1895,11 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 playMethod = 'DirectPlay';
             }
 
+            // Fallback (used for offline items)
+            if (!mediaUrl && mediaSource.SupportsDirectPlay) {
+                mediaUrl = mediaSource.Path;
+            }
+
             var resultInfo = {
                 url: mediaUrl,
                 mimeType: contentType,
@@ -2070,7 +2075,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     return s.SupportsTranscoding;
                 })[0];
 
-                return optimalVersion;
+                // never return null unless the list of media sources is empty
+                // if this is ever changed then playback of offline items will need to be reworked
+                return optimalVersion || versions[0];
             });
         }
 
