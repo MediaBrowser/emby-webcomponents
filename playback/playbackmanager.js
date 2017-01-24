@@ -2075,6 +2075,8 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     return s.SupportsTranscoding;
                 })[0];
 
+                // Never return null unless the list is emtpy
+                // If this is ever changed, offline item playback will need to be reworked
                 return optimalVersion || versions[0];
             });
         }
