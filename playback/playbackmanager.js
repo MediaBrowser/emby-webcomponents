@@ -2013,10 +2013,6 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
         function getPlaybackInfo(apiClient, itemId, deviceProfile, maxBitrate, startPosition, mediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId) {
 
-            var postData = {
-                DeviceProfile: deviceProfile
-            };
-
             var query = {
                 UserId: apiClient.getCurrentUserId(),
                 StartTimeTicks: startPosition || 0
@@ -2038,14 +2034,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 query.MaxStreamingBitrate = maxBitrate;
             }
 
-            return apiClient.ajax({
-                url: apiClient.getUrl('Items/' + itemId + '/PlaybackInfo', query),
-                type: 'POST',
-                data: JSON.stringify(postData),
-                contentType: "application/json",
-                dataType: "json"
-
-            });
+            return apiClient.getPlaybackInfo(itemId, query, deviceProfile);
         }
 
         function getOptimalMediaSource(apiClient, item, versions) {
