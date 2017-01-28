@@ -199,11 +199,11 @@
             menuItemClass += ' ' + options.menuItemClass;
         }
 
-        var actionSheetItemTextClass = 'actionSheetItemText';
-
         if (extraSpacing) {
-            actionSheetItemTextClass += ' actionSheetItemText-extraspacing';
+            menuItemClass += ' actionSheetMenuItem-extraspacing';
         }
+
+        var actionSheetItemTextClass = 'actionSheetItemText';
 
         for (i = 0, length = options.items.length; i < length; i++) {
 
@@ -219,6 +219,11 @@
                 html += '<i class="actionSheetItemIcon md-icon" style="visibility:hidden;">check</i>';
             }
             html += '<div class="' + actionSheetItemTextClass + '">' + (option.name || option.textContent || option.innerText) + '</div>';
+
+            if (option.secondaryText) {
+                html += '<div class="actionSheetItemSecondaryText">' + (option.secondaryText) + '</div>';
+            }
+
             html += '</button>';
         }
 

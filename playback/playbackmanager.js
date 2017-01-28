@@ -405,7 +405,8 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     self.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
                     break;
                 case 'SetMaxStreamingBitrate':
-                    self.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
+                    // todo
+                    //self.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
                     break;
                 case 'ToggleFullscreen':
                     self.toggleFullscreen(player);
@@ -721,23 +722,39 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             return getPlayerData(player).maxStreamingBitrate || appSettings.maxStreamingBitrate();
         };
 
-        self.setMaxStreamingBitrate = function (bitrate, player) {
+        self.enableAutomaticBitrateDetection = function(player) {
 
             player = player || currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
-                return player.setMaxStreamingBitrate(bitrate);
+                return player.enableAutomaticBitrateDetection();
             }
 
-            if (bitrate) {
-                appSettings.enableAutomaticBitrateDetection(false);
-            } else {
+            return appSettings.enableAutomaticBitrateDetection();
+        };
+
+        self.setMaxStreamingBitrate = function (options, player) {
+
+            player = player || currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                return player.setMaxStreamingBitrate(options);
+            }
+
+            var promise;
+            if (options.enableAutomaticBitrateDetection) {
                 appSettings.enableAutomaticBitrateDetection(true);
+                promise = connectionManager.getApiClient(self.currentItem(player).ServerId).detectBitrate(true);
+            } else {
+                appSettings.enableAutomaticBitrateDetection(false);
+                promise = Promise.resolve(options.maxBitrate);
             }
 
-            appSettings.maxStreamingBitrate(bitrate);
+            promise.then(function (bitrate) {
 
-            changeStream(player, getCurrentTicks(player), {
-                MaxStreamingBitrate: bitrate
+                appSettings.maxStreamingBitrate(bitrate);
+
+                changeStream(player, getCurrentTicks(player), {
+                    MaxStreamingBitrate: bitrate
+                });
             });
         };
 

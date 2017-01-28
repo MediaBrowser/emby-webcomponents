@@ -252,7 +252,7 @@
 
         };
 
-        self.setMaxStreamingBitrate = function (bitrate) {
+        self.setMaxStreamingBitrate = function (options) {
 
         };
 

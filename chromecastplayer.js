@@ -893,11 +893,10 @@
             return state.MaxStreamingBitrate;
         };
 
-        self.setMaxStreamingBitrate = function (bitrate) {
+        self.setMaxStreamingBitrate = function (options) {
+
             castPlayer.sendMessage({
-                options: {
-                    bitrate: bitrate
-                },
+                options: options,
                 command: 'SetMaxStreamingBitrate'
             });
         };

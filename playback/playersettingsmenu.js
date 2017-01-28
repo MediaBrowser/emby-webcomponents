@@ -2,23 +2,25 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
     'use strict';
 
     function showQualityMenu(player, btn) {
-        
+
         var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
             return stream.Type === "Video";
         })[0];
         var videoWidth = videoStream ? videoStream.Width : null;
 
-        var options = qualityoptions.getVideoQualityOptions(playbackManager.getMaxStreamingBitrate(player), videoWidth);
-
-        //if (isStatic) {
-        //    options[0].name = "Direct";
-        //}
+        var options = qualityoptions.getVideoQualityOptions({
+            currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
+            isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
+            videoWidth: videoWidth,
+            enableAuto: true
+        });
 
         var menuItems = options.map(function (o) {
 
             var opt = {
                 name: o.name,
-                id: o.bitrate
+                id: o.bitrate,
+                secondaryText: o.secondaryText
             };
 
             if (o.selected) {
@@ -41,7 +43,13 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         }).then(function (id) {
             var bitrate = parseInt(id);
             if (bitrate !== selectedId) {
-                playbackManager.setMaxStreamingBitrate(bitrate, player);
+
+                playbackManager.setMaxStreamingBitrate({
+
+                    enableAutomaticBitrateDetection: bitrate ? false : true,
+                    maxBitrate: bitrate
+
+                }, player);
             }
         });
     }
@@ -50,43 +58,104 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
     }
 
+    function getQualitySecondaryText(player) {
+
+        return playbackManager.getPlayerState(player).then(function(state) {
+            var isAutoEnabled = playbackManager.enableAutomaticBitrateDetection(player);
+            var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
+
+            var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
+                return stream.Type === "Video";
+            })[0];
+            var videoWidth = videoStream ? videoStream.Width : null;
+
+            var options = qualityoptions.getVideoQualityOptions({
+                currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
+                isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
+                videoWidth: videoWidth,
+                enableAuto: true
+            });
+
+            var menuItems = options.map(function (o) {
+
+                var opt = {
+                    name: o.name,
+                    id: o.bitrate,
+                    secondaryText: o.secondaryText
+                };
+
+                if (o.selected) {
+                    opt.selected = true;
+                }
+
+                return opt;
+            });
+
+            var selectedOption = options.filter(function (o) {
+                return o.selected;
+            });
+
+            if (!selectedOption.length) {
+                return null;
+            }
+
+            selectedOption = selectedOption[0];
+
+            var text = selectedOption.name;
+
+            if (selectedOption.autoText) {
+                if (state.PlayState && state.PlayState.PlayMethod !== 'Transcode') {
+                    text += ' - Direct';
+                } else {
+                    text += ' ' + selectedOption.autoText;
+                }
+            }
+
+            return text;
+        });
+    }
+
     function show(options) {
 
         var player = options.player;
-        var mediaType = options.mediaType;
-        return showQualityMenu(player, options.positionTo);
 
-        //var menuItems = [];
+        return getQualitySecondaryText(player).then(function (secondaryQualityText) {
+            var mediaType = options.mediaType;
+            //return showQualityMenu(player, options.positionTo);
 
-        //menuItems.push({
-        //    name: globalize.translate('sharedcomponents#Quality'),
-        //    id: 'quality'
-        //});
+            var menuItems = [];
 
-        //menuItems.push({
-        //    name: globalize.translate('sharedcomponents#Settings'),
-        //    id: 'settings'
-        //});
+            menuItems.push({
+                name: globalize.translate('sharedcomponents#Quality'),
+                id: 'quality',
+                secondaryText: secondaryQualityText
+            });
 
-        //return actionsheet.show({
+            //menuItems.push({
+            //    name: globalize.translate('sharedcomponents#Settings'),
+            //    id: 'settings'
+            //});
 
-        //    items: menuItems,
-        //    positionTo: options.positionTo
+            return actionsheet.show({
 
-        //}).then(function (id) {
+                items: menuItems,
+                positionTo: options.positionTo
 
-        //    switch (id) {
+            }).then(function (id) {
 
-        //        case 'quality':
-        //            return showQualityMenu(player, options.positionTo);
-        //        case 'settings':
-        //            return showSettingsMenu(player, options.positionTo);
-        //        default:
-        //            break;
-        //    }
+                switch (id) {
 
-        //    return Promise.reject();
-        //});
+                    case 'quality':
+                        return showQualityMenu(player, options.positionTo);
+                    case 'settings':
+                        return showSettingsMenu(player, options.positionTo);
+                    default:
+                        break;
+                }
+
+                return Promise.reject();
+            });
+        });
     }
 
     return {
