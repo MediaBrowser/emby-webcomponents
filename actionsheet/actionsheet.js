@@ -140,7 +140,7 @@
         var html = '';
 
         var scrollType = layoutManager.desktop ? 'smoothScrollY' : 'hiddenScrollY';
-        var style = (browser.firefox) ? 'max-height:400px;' : '';
+        var style = '';
 
         // Admittedly a hack but right now the scrollbar is being factored into the width which is causing truncation
         if (options.items.length > 20) {

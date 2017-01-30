@@ -380,7 +380,9 @@ define(['browser'], function (browser) {
             });
         }
 
-        ['opus', 'mp3', 'aac', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+        // For streaming, prioritize opus transcoding after mp3/aac. It is too problematic with random failures
+        // But for static (offline sync), it will be just fine.
+        ['mp3', 'aac', 'opus', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
 
             profile.TranscodingProfiles.push({
                 Container: audioFormat,
@@ -390,6 +392,10 @@ define(['browser'], function (browser) {
                 Protocol: 'http',
                 MaxAudioChannels: physicalAudioChannels.toString()
             });
+        });
+
+        ['opus', 'mp3', 'aac', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+
             profile.TranscodingProfiles.push({
                 Container: audioFormat,
                 Type: 'Audio',
