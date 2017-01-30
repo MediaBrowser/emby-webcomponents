@@ -2706,17 +2706,6 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                 var streamInfo = getPlayerData(player).streamInfo;
 
-                if (isServerItem(streamInfo.item)) {
-
-                    if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
-                        state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
-                    }
-
-                    reportPlayback(state, streamInfo.item.ServerId, 'reportPlaybackStopped');
-                }
-
-                clearProgressInterval(player);
-
                 var nextItem = playNextAfterEnded ? getNextItemInfo(player) : null;
 
                 var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
@@ -2728,14 +2717,26 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     nextMediaType: nextMediaType
                 };
 
-                state.nextMediaType = nextMediaType;
-                state.nextItem = playbackStopInfo.nextItem;
+                state.NextMediaType = nextMediaType;
+
+                if (isServerItem(streamInfo.item)) {
+
+                    if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
+                        state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
+                    }
+
+                    reportPlayback(state, streamInfo.item.ServerId, 'reportPlaybackStopped');
+                }
+
+                state.NextItem = playbackStopInfo.nextItem;
 
                 if (!nextItem) {
                     playlist = [];
                     currentPlaylistIndex = -1;
                     currentPlaylistItemId = null;
                 }
+
+                clearProgressInterval(player);
 
                 events.trigger(player, 'playbackstop', [state]);
                 events.trigger(self, 'playbackstop', [playbackStopInfo]);
