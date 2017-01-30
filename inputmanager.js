@@ -25,7 +25,9 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
     var eventListenerCount = 0;
     function on(scope, fn) {
         eventListenerCount++;
-        scope.addEventListener('command', fn);
+        dom.addEventListener(scope, 'command', fn, {
+            
+        });
     }
 
     function off(scope, fn) {
@@ -34,7 +36,9 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
             eventListenerCount--;
         }
 
-        scope.removeEventListener('command', fn);
+        dom.removeEventListener(scope, 'command', fn, {
+
+        });
     }
 
     var commandTimes = {};
