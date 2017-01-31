@@ -349,7 +349,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                 var mimeType = options.mimeType;
 
                 // Opera TV guidelines suggest using source elements, so let's do that if we have a valid mimeType
-                if (mimeType && browser.operaTv) {
+                if (mimeType && browser.operaTv && browser.operaTv1) {
 
                     if (browser.chrome && mimeType === 'video/x-matroska') {
                         mimeType = 'video/webm';

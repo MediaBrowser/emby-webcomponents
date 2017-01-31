@@ -30,6 +30,8 @@ define(['events', 'dom'], function (events, dom) {
             document.webkitExitFullscreen();
         } else if (document.webkitCancelFullscreen) {
             document.webkitCancelFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
         }
     };
 

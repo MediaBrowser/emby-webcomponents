@@ -121,7 +121,6 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
         return getQualitySecondaryText(player).then(function (secondaryQualityText) {
             var mediaType = options.mediaType;
-            //return showQualityMenu(player, options.positionTo);
 
             var menuItems = [];
 

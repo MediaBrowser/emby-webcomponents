@@ -1581,6 +1581,12 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             // Normalize defaults to simplfy checks throughout the process
             normalizePlayOptions(playOptions);
 
+            if (playOptions.isFirstItem) {
+                playOptions.isFirstItem = false;
+            } else {
+                playOptions.isFirstItem = true;
+            }
+
             return runInterceptors(item, playOptions).then(function () {
 
                 if (playOptions.fullscreen) {
@@ -1694,7 +1700,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     return player.play(streamInfo).then(function () {
                         loading.hide();
                         onPlaybackStartedFn();
-                        onPlaybackStarted(player, streamInfo);
+                        onPlaybackStarted(player, playOptions, streamInfo);
                     });
                 });
             }
@@ -1716,7 +1722,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                         return player.play(streamInfo).then(function () {
                             loading.hide();
                             onPlaybackStartedFn();
-                            onPlaybackStarted(player, streamInfo, mediaSource);
+                            onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
                         });
                     });
                 });
@@ -2562,7 +2568,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
         }
 
-        function onPlaybackStarted(player, streamInfo, mediaSource) {
+        function onPlaybackStarted(player, playOptions, streamInfo, mediaSource) {
 
             setCurrentPlayerInternal(player);
             getPlayerData(player).streamInfo = streamInfo;
@@ -2576,6 +2582,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
 
             playNextAfterEnded = true;
+            var isFirstItem = playOptions.isFirstItem;
 
             self.getPlayerState(player).then(function (state) {
 
@@ -2583,6 +2590,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                 startProgressInterval(player);
 
+                state.IsFirstItem = isFirstItem;
                 events.trigger(player, 'playbackstart', [state]);
                 events.trigger(self, 'playbackstart', [player, state]);
 
