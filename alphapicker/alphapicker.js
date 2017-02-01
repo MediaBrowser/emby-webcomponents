@@ -21,7 +21,12 @@ define(['focusManager', 'css!./style.css', 'paper-icon-button-light', 'material-
     function render(element, options) {
 
         element.classList.add('alphaPicker');
-        element.classList.add('focuscontainer-x');
+
+        if (element.classList.contains('alphaPicker-vertical')) {
+
+        } else {
+            element.classList.add('focuscontainer-x');
+        }
 
         var html = '';
         var letters;

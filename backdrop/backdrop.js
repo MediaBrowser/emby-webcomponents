@@ -16,6 +16,11 @@
             return false;
         }
 
+        // Causes high cpu usage
+        if (browser.firefox) {
+            return false;
+        }
+
         return true;
     }
 

@@ -161,6 +161,14 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
         self.play = function (options) {
 
+            if (browser.msie) {
+                if (options.playMethod === 'Transcode') {
+
+                    alert('Playback of this content is not supported in Internet Explorer. For a better experience, try a modern browser such as Microsoft Edge, Google Chrome, Firefox or Opera.');
+                    return Promise.reject();
+                }
+            }
+
             started = false;
             _currentTime = null;
 
@@ -349,7 +357,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                 var mimeType = options.mimeType;
 
                 // Opera TV guidelines suggest using source elements, so let's do that if we have a valid mimeType
-                if (mimeType && browser.operaTv && browser.operaTv1) {
+                if (mimeType && browser.operaTv) {
 
                     if (browser.chrome && mimeType === 'video/x-matroska') {
                         mimeType = 'video/webm';

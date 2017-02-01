@@ -722,7 +722,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             return getPlayerData(player).maxStreamingBitrate || appSettings.maxStreamingBitrate();
         };
 
-        self.enableAutomaticBitrateDetection = function(player) {
+        self.enableAutomaticBitrateDetection = function (player) {
 
             player = player || currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
@@ -1506,6 +1506,22 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
         }
 
+        function enableIntros(item) {
+
+            if (item.MediaType !== 'Video') {
+                return false;
+            }
+            if (item.Type === 'TvChannel') {
+                return false;
+            }
+            // disable for in-progress recordings
+            if (item.Status === 'InProgress') {
+                return false;
+            }
+
+            return isServerItem(item);
+        }
+
         function playWithIntros(items, options, user) {
 
             var firstItem = items[0];
@@ -1528,7 +1544,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 loading.hide();
             };
 
-            if (options.startPositionTicks || firstItem.MediaType !== 'Video' || !isServerItem(firstItem) || options.fullscreen === false || !userSettings.enableCinemaMode()) {
+            if (options.startPositionTicks || options.fullscreen === false || !enableIntros(firstItem) || !userSettings.enableCinemaMode()) {
 
                 currentPlayOptions = options;
                 return playInternal(firstItem, options, afterPlayInternal);
