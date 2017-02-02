@@ -160,7 +160,7 @@
         if (!lastMessage) {
 
             // Don't show on the very first playback attempt
-            appSettings.set(settingsKey, new Date().getTime() - (intervalMs / 2));
+            appSettings.set(settingsKey, new Date().getTime());
             return Promise.resolve();
         }
 

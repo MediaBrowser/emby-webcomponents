@@ -11,13 +11,25 @@ define(['events', 'dom'], function (events, dom) {
 
         if (element.requestFullscreen) {
             element.requestFullscreen();
+            return;
         } else if (element.mozRequestFullScreen) {
             element.mozRequestFullScreen();
+            return;
         } else if (element.webkitRequestFullscreen) {
             element.webkitRequestFullscreen();
+            return;
         } else if (element.msRequestFullscreen) {
             element.msRequestFullscreen();
+            return;
         }
+
+        // Hack - This is only available for video elements in ios safari
+        if (element.tagName !== 'VIDEO') {
+            element = document.querySelector('video') || element;
+        }
+        if (element.webkitEnterFullscreen) {
+            element.webkitEnterFullscreen();
+        } 
     };
 
     fullscreenManager.prototype.exitFullscreen = function () {
