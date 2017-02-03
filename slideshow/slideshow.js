@@ -248,9 +248,9 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 html += '<div class="slideText">';
                 html += '<div class="slideTextInner">';
                 if (item.title) {
-                    html += '<div class="slideTitle">';
+                    html += '<h1 class="slideTitle">';
                     html += item.title;
-                    html += '</div>';
+                    html += '</h1>';
                 }
                 if (item.description) {
                     html += '<div class="slideSubtitle">';

@@ -26,7 +26,8 @@
 
 .hiddenScrollY, .layout-tv .smoothScrollY {
     -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
+    /* Can't do this because it not only hides the scrollbar, but also prevents scrolling */
+    /*overflow: -moz-scrollbars-none;*/
 }
 
     .hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar {

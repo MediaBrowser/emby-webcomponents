@@ -47,7 +47,7 @@ define(['appStorage', 'events'], function (appStorage, events) {
                 self.set('maxStaticMusicBitrate', val);
             }
 
-            var defaultValue = 384000;
+            var defaultValue = 320000;
             return parseInt(self.get('maxStaticMusicBitrate') || defaultValue.toString()) || defaultValue;
         };
 

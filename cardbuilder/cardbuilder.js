@@ -242,10 +242,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     options.width = options.width || 500;
                 }
                 else if (options.shape === 'portrait') {
-                    options.width = options.width || 243;
+                    options.width = options.width || 256;
                 }
                 else if (options.shape === 'square') {
-                    options.width = options.width || 243;
+                    options.width = options.width || 256;
                 }
                 else if (options.shape === 'banner') {
                     options.width = options.width || 800;
@@ -1249,7 +1249,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var outerCardFooter = '';
             if (!overlayText && !footerOverlayed) {
-                footerCssClass = options.cardLayout ? 'cardFooter visualCardBox-cardFooter' : 'cardFooter transparent';
+                footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter transparent';
                 outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, true, cardFooterId, vibrantSwatch);
             }
 
@@ -1325,7 +1325,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy"' + vibrantAttributes + ' data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + '">');
                 }
 
-                var cardScalableClass = options.cardLayout ? 'cardScalable visualCardBox-cardScalable' : 'cardScalable';
+                var cardScalableClass = 'cardScalable';
                 cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + options.shape + '"></div>' + cardContentOpen + cardImageContainerOpen;
                 cardBoxClose = '</div>';
                 cardScalableClose = '</div>';

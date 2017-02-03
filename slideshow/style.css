@@ -16,9 +16,9 @@
     line-height: normal;
 }
 
-    .slideshowImage-cover {
-        background-size: cover;
-    }
+.slideshowImage-cover {
+    background-size: cover;
+}
 
 .slideshowImageText {
     position: fixed;
@@ -46,13 +46,8 @@
 }
 
 .slideshowButtonIcon {
-    width: auto!important;
-    height: auto!important;
-    font-size: 3.1em!important;
     color: #fff;
     opacity: .7;
-    min-width: 40px;
-    min-height: 40px;
 }
 
 .btnSlideshowPrevious {
@@ -132,7 +127,7 @@
 }
 
 .slideTitle {
-    font-size: 180%;
+    margin: 0 0 .25em;
 }
 
 .slideSubtitle {

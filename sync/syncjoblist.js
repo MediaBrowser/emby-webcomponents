@@ -69,7 +69,12 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
 
         if (job.Status === 'Transferring' || job.Status === 'Converting' || job.Status === 'Completed') {
             html += ' ';
-            html += (job.Progress || 0) + '%';
+
+            var progress = job.Progress || 0;
+            if (progress > 0 && progress < 100) {
+                progress = progress.toFixed(1);
+            }
+            html += progress + '%';
         }
 
         return html;

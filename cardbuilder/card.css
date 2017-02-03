@@ -71,9 +71,9 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: 2px;
+    margin: 5px;
     transition: none;
-    border: 3px solid transparent;
+    border: 0 solid transparent;
     /* Needed in case cardBox is a button */
     background-color: transparent;
 }
@@ -98,6 +98,8 @@ button {
 }
 
     .card:focus .cardBox {
+        margin: 2px;
+        border-width: 3px;
         border-color: transparent;
     }
 
@@ -220,13 +222,10 @@ button {
     position: relative;
 }
 
-.visualCardBox-cardScalable, .visualCardBox-cardFooter {
+.visualCardBox {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
     background-color: #222326;
-}
-
-.visualCardBox-cardFooter {
-    border-bottom-left-radius: 1px;
-    border-bottom-right-radius: 1px;
+    border-radius: 1px;
 }
 
 .innerCardFooter {
@@ -250,7 +249,7 @@ button {
 }
 
 .cardText {
-    padding: .35em .5em;
+    padding: .3em .5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -444,7 +443,7 @@ button {
     }
 
     .overflowSmallBackdropCard-scalable {
-        width: 40%
+        width: 40%;
     }
 }
 
@@ -459,7 +458,7 @@ button {
     }
 
     .overflowSmallBackdropCard-scalable {
-        width: 40%
+        width: 40%;
     }
 }
 
@@ -475,7 +474,7 @@ button {
     }
 
     .overflowSmallBackdropCard-scalable {
-        width: 30%
+        width: 30%;
     }
 }
 
@@ -518,7 +517,7 @@ button {
     }
 
     .overflowSmallBackdropCard-scalable {
-        width: 24%
+        width: 24%;
     }
 
     .overflowSquareCard-scalable {
@@ -549,7 +548,7 @@ button {
     }
 
     .overflowSmallBackdropCard-scalable {
-        width: 18%
+        width: 18%;
     }
 }
 
