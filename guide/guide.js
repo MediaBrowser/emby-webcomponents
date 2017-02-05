@@ -622,9 +622,10 @@
 
                 html += '<button type="button" class="' + cssClass + '"' + dataSrc + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
 
-                cssClass = 'guideChannelNumber';
-
-                html += '<h3 class="' + cssClass + '">' + channel.Number + '</h3>';
+                if (channel.Number) {
+                    
+                    html += '<h3 class="guideChannelNumber">' + channel.Number + '</h3>';
+                }
 
                 if (!hasChannelImage && channel.Name) {
                     html += '<div class="guideChannelName">' + channel.Name + '</div>';

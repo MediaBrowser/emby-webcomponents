@@ -1,4 +1,4 @@
-﻿define(['appSettings', 'playbackManager', 'connectionManager', 'globalize', 'events'], function (appSettings, playbackManager, connectionManager, globalize, events) {
+﻿define(['appSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'castSenderApiLoader'], function (appSettings, playbackManager, connectionManager, globalize, events, castSenderApiLoader) {
     'use strict';
 
     // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
@@ -495,7 +495,6 @@
 
         function initializeChromecast() {
 
-            fileref.loaded = true;
             castPlayer = new CastPlayer();
 
             // To allow the native android app to override
@@ -1064,20 +1063,8 @@
             }
         };
 
-        if (fileref.loaded) {
-            initializeChromecast();
-        } else {
-            fileref.onload = initializeChromecast;
-        }
+        castSenderApiLoader.load().then(initializeChromecast);
     }
-
-    var fileref = document.createElement('script');
-    fileref.setAttribute("type", "text/javascript");
-    fileref.onload = function () {
-        fileref.loaded = true;
-    };
-    fileref.setAttribute("src", "https://www.gstatic.com/cv/js/sender/v1/cast_sender.js");
-    document.querySelector('head').appendChild(fileref);
 
     return chromecastPlayer;
 });

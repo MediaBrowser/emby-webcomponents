@@ -32,6 +32,10 @@
         }
     }
 
+    function emptyCallback() {
+        // avoid console logs about uncaught promises
+    }
+
     function showPlayerSelection(button) {
 
         var currentPlayerInfo = playbackManager.getPlayerInfo();
@@ -93,7 +97,7 @@
 
                     mirrorIfEnabled();
 
-                });
+                }, emptyCallback);
             });
         });
     }
@@ -179,7 +183,7 @@
             if (destination) {
                 embyRouter.show(destination);
             }
-        });
+        }, emptyCallback);
     }
 
     function onMirrorChange() {
