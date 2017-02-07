@@ -605,7 +605,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                         passive: true
                     });
                 });
-            } else if (!transform) {
+            } else if (transform) {
                 dragMouseEvents.forEach(function (eventName) {
                     dom.addEventListener(document, eventName, dragHandler, {
                         passive: true
