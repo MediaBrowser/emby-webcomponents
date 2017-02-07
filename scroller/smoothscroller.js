@@ -116,8 +116,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         self.options = o;
 
         // Frame
-        var frameElement = frame;
-        var slideeElement = o.slidee ? o.slidee : sibling(frameElement.firstChild)[0];
+        var slideeElement = o.slidee ? o.slidee : sibling(frame.firstChild)[0];
         var frameSize = 0;
         var pos = {
             start: 0,
@@ -136,8 +135,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         };
 
         // Miscellaneous
-        var scrollSource = o.scrollSource ? o.scrollSource : frameElement;
-        var dragSourceElement = o.dragSource ? o.dragSource : frameElement;
+        var scrollSource = o.scrollSource ? o.scrollSource : frame;
+        var dragSourceElement = o.dragSource ? o.dragSource : frame;
         var animation = {};
         var dragging = {
             released: 1
@@ -150,12 +149,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
         var i, l;
 
-        // Normalizing frame
-        frame = frameElement;
-
         // Expose properties
         self.initialized = 0;
-        self.frame = frame;
         self.slidee = slideeElement;
         self.options = o;
         self.dragging = dragging;
@@ -182,7 +177,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         function load(isInit) {
 
             // Reset global variables
-            frameSize = getWidthOrHeight(frameElement, o.horizontal ? 'width' : 'height');
+            frameSize = getWidthOrHeight(frame, o.horizontal ? 'width' : 'height');
             var slideeSize = o.scrollWidth || Math.max(slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']);
 
             // Set position limits & relativess
@@ -789,7 +784,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             });
 
             // Reset native FRAME element scroll
-            dom.removeEventListener(frameElement, 'scroll', resetScroll, {
+            dom.removeEventListener(frame, 'scroll', resetScroll, {
                 passive: true
             });
 
@@ -801,7 +796,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 passive: true
             });
 
-            dom.removeEventListener(frameElement, 'click', onFrameClick, {
+            dom.removeEventListener(frame, 'click', onFrameClick, {
                 passive: true,
                 capture: true
             });
@@ -845,13 +840,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             if (self.initialized) {
                 return;
             }
-
-            // Disallow multiple instances on the same element
-            if (frame.sly) {
-                throw new Error('There is already a Sly instance on this element');
-            }
-
-            frame.sly = true;
 
             // Set required styles
             var movables = [];
@@ -902,7 +890,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 }
 
                 if (!o.horizontal) {
-                    dom.addEventListener(frameElement, 'scroll', resetScroll, {
+                    dom.addEventListener(frame, 'scroll', resetScroll, {
                         passive: true
                     });
                 }
@@ -922,7 +910,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 });
             }
 
-            dom.addEventListener(frameElement, 'click', onFrameClick, {
+            dom.addEventListener(frame, 'click', onFrameClick, {
                 passive: true,
                 capture: true
             });
