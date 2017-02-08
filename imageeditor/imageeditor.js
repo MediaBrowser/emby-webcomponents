@@ -104,7 +104,7 @@
 
         if (tagName === 'button') {
             cssClass += ' card-focusscale btnImageCard';
-            cardBoxCssClass += ' cardBox-focustransform cardBox-focustransform-transition';
+            cardBoxCssClass += ' cardBox-focustransform';
 
             html += '<button type="button" class="' + cssClass + '"';
         } else {
