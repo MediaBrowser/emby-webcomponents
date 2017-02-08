@@ -162,8 +162,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
         self.play = function (options) {
 
             if (browser.msie) {
-                if (options.playMethod === 'Transcode') {
-
+                if (options.playMethod === 'Transcode' && !window.MediaSource) {
                     alert('Playback of this content is not supported in Internet Explorer. For a better experience, try a modern browser such as Microsoft Edge, Google Chrome, Firefox or Opera.');
                     return Promise.reject();
                 }

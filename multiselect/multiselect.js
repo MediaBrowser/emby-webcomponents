@@ -452,26 +452,125 @@
             return false;
         }
 
+        function getTouches(e) {
+
+            return e.changedTouches || e.targetTouches || e.touches;
+        }
+
+        var touchTarget;
+        var touchStartTimeout;
+        var touchStartX;
+        function onTouchStart(e) {
+
+            var touch = getTouches(e)[0];
+            touchTarget = null;
+            touchStartX = 0;
+
+            if (touch) {
+                touchStartX = touch.clientX;
+                var element = touch.target;
+
+                if (element) {
+                    var card = dom.parentWithClass(element, 'card');
+
+                    if (card) {
+
+                        if (touchStartTimeout) {
+                            clearTimeout(touchStartTimeout);
+                            touchStartTimeout = null;
+                        }
+
+                        touchTarget = card;
+                        touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
+                    }
+                }
+            }
+        }
+
+        function onTouchMove(e) {
+
+            if (touchTarget) {
+                var touch = getTouches(e)[0];
+                var deltaX;
+
+                if (touch) {
+                    var touchEndX = touch.clientX || 0;
+                    deltaX = Math.abs(touchEndX - (touchStartX || 0));
+                } else {
+                    deltaX = 100;
+                }
+                if (deltaX >= 10) {
+                    onMouseOut(e);
+                }
+            }
+        }
+
+        function onTouchEnd(e) {
+
+            onMouseOut(e);
+        }
+
+        function onMouseDown(e) {
+
+            if (touchStartTimeout) {
+                clearTimeout(touchStartTimeout);
+                touchStartTimeout = null;
+            }
+
+            touchTarget = e.target;
+            touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
+        }
+
+        function onMouseOut(e) {
+
+            if (touchStartTimeout) {
+                clearTimeout(touchStartTimeout);
+                touchStartTimeout = null;
+            }
+            touchTarget = null;
+        }
+
+        function onTouchStartTimerFired() {
+
+            if (!touchTarget) {
+                return;
+            }
+
+            var card = dom.parentWithClass(touchTarget, 'card');
+            touchTarget = null;
+
+            if (card) {
+
+                showSelections(card);
+            }
+        }
+
         function initTapHold(element) {
 
             // mobile safari doesn't allow contextmenu override
             if (browser.touch && !browser.safari) {
-                container.addEventListener('contextmenu', onTapHold);
+                element.addEventListener('contextmenu', onTapHold);
             } else {
-                require(['hammer'], function (Hammer) {
-
-                    var manager = new Hammer.Manager(element);
-
-                    var press = new Hammer.Press({
-                        time: 500
-                    });
-
-                    manager.add(press);
-
-                    //var hammertime = new Hammer(element);
-
-                    manager.on('press', onTapHold);
-                    self.manager = manager;
+                dom.addEventListener(element, 'touchstart', onTouchStart, {
+                    passive: true
+                });
+                dom.addEventListener(element, 'touchmove', onTouchMove, {
+                    passive: true
+                });
+                dom.addEventListener(element, 'touchend', onTouchEnd, {
+                    passive: true
+                });
+                dom.addEventListener(element, 'touchcancel', onTouchEnd, {
+                    passive: true
+                });
+                dom.addEventListener(element, 'mousedown', onMouseDown, {
+                    passive: true
+                });
+                dom.addEventListener(element, 'mouseleave', onMouseOut, {
+                    passive: true
+                });
+                dom.addEventListener(element, 'mouseup', onMouseOut, {
+                    passive: true
                 });
             }
         }
@@ -489,11 +588,30 @@
             container.removeEventListener('click', onContainerClick);
             container.removeEventListener('contextmenu', onTapHold);
 
-            var manager = self.manager;
-            if (manager) {
-                manager.destroy();
-                self.manager = null;
-            }
+            var element = container;
+
+            dom.removeEventListener(element, 'touchstart', onTouchStart, {
+                passive: true
+            });
+            dom.removeEventListener(element, 'touchmove', onTouchMove, {
+                passive: true
+            });
+            dom.removeEventListener(element, 'touchend', onTouchEnd, {
+                passive: true
+            });
+            // this fires in safari due to magnifying class
+            //dom.removeEventListener(element, 'touchcancel', onTouchEnd, {
+            //    passive: true
+            //});
+            dom.removeEventListener(element, 'mousedown', onMouseDown, {
+                passive: true
+            });
+            dom.removeEventListener(element, 'mouseleave', onMouseOut, {
+                passive: true
+            });
+            dom.removeEventListener(element, 'mouseup', onMouseOut, {
+                passive: true
+            });
         };
     };
 });
