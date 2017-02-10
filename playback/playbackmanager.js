@@ -1027,12 +1027,14 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             var currentSrc = (player.currentSrc() || '').toLowerCase();
 
             if (currentSrc.indexOf('.m3u8') !== -1) {
-
                 return true;
-
-            } else {
-                return player.duration();
             }
+
+            if (getPlayerData(player).streamInfo.playMethod === 'Transcode') {
+                return false;
+            }
+
+            return player.duration();
         }
 
         function changeStream(player, ticks, params) {
@@ -1127,7 +1129,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             percent /= 100;
             ticks *= percent;
-            self.seek(parseInt(ticks));
+            self.seek(parseInt(ticks), player);
         };
 
         self.playTrailers = function (item) {
