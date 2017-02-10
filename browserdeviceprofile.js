@@ -583,10 +583,6 @@ define(['browser'], function (browser) {
             (browser.tizen && isTizenFhd ? '20000000' : '')));
 
         var h264MaxVideoBitrate = globalMaxVideoBitrate;
-        if (browser.tizen && !isTizenFhd) {
-
-            h264MaxVideoBitrate = '60000000';
-        }
 
         if (h264MaxVideoBitrate) {
             profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
@@ -606,42 +602,6 @@ define(['browser'], function (browser) {
                     Property: 'VideoBitrate',
                     Value: globalMaxVideoBitrate
                 }]
-            });
-        }
-
-        if (browser.tizen && !isTizenFhd) {
-            profile.CodecProfiles.push({
-                Type: 'Video',
-                Codec: 'vp9',
-                Conditions: [
-                    {
-                        Condition: 'LessThanEqual',
-                        Property: 'VideoBitrate',
-                        Value: '40000000'
-                    }
-                ]
-            });
-            profile.CodecProfiles.push({
-                Type: 'Video',
-                Codec: 'mpeg4,vc1,mpeg2video,mpeg1video,msmpeg4,h263,vp6,vp8',
-                Conditions: [
-                    {
-                        Condition: 'LessThanEqual',
-                        Property: 'VideoBitrate',
-                        Value: '20000000'
-                    }
-                ]
-            });
-            // All others fall here
-            profile.CodecProfiles.push({
-                Type: 'Video',
-                Conditions: [
-                    {
-                        Condition: 'LessThanEqual',
-                        Property: 'VideoBitrate',
-                        Value: '80000000'
-                    }
-                ]
             });
         }
 
