@@ -1,0 +1,17 @@
+.lazy-image-fadein {
+    animation: lazy-image-fadein 300ms ease-in normal both;
+}
+
+.lazy-image-fadein-fast {
+    animation: lazy-image-fadein 160ms ease-in normal both;
+}
+
+@keyframes lazy-image-fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
