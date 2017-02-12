@@ -1024,7 +1024,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
         // Returns true if the player can seek using native client-side seeking functions
         function canPlayerSeek(player) {
 
-            var currentSrc = (player.currentSrc() || '').toLowerCase();
+            var currentSrc = (getPlayerData(player).streamInfo.url || '').toLowerCase();
 
             if (currentSrc.indexOf('.m3u8') !== -1) {
                 return true;

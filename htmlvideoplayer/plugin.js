@@ -1,4 +1,4 @@
-define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager'], function (browser, pluginManager, events, appHost, loading, playbackManager, embyRouter, appSettings, connectionManager) {
+define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager', 'itemHelper'], function (browser, pluginManager, events, appHost, loading, playbackManager, embyRouter, appSettings, connectionManager, itemHelper) {
     "use strict";
 
     return function () {
@@ -372,8 +372,16 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
                     elem.addEventListener('loadedmetadata', onLoadedMetadata);
                 } else {
-                    applySrc(elem, val);
-                    setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+
+                    return applySrc(elem, val, options).then(function () {
+
+                        setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+
+                        currentSrc = val;
+
+                        setCurrentTrackElement(currentTrackIndex);
+                        return playWithPromise(elem);
+                    });
                 }
 
                 // This is needed in setCurrentTrackElement
@@ -414,22 +422,27 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
         }
 
-        function applySrc(elem, src) {
+        function applySrc(elem, src, options) {
 
-            if (window.Windows) {
+            if (window.Windows && itemHelper.isLocalItem(options.item)) {
 
-                var playlist = new Windows.Media.Playback.MediaPlaybackList();
-                var source1 = Windows.Media.Core.MediaSource.createFromUri(new Windows.Foundation.Uri(src));
+                return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
 
-                winJsPlaybackItem = new Windows.Media.Playback.MediaPlaybackItem(source1);
-                playlist.items.append(winJsPlaybackItem);
+                    var playlist = new Windows.Media.Playback.MediaPlaybackList();
 
-                elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
+                    var source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
+                    var startTime = (options.playerStartPositionTicks || 0) / 10000;
+                    playlist.items.append(new Windows.Media.Playback.MediaPlaybackItem(source1, startTime));
+                    elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
+                    return Promise.resolve();
+                });
 
             } else {
 
                 elem.src = src;
             }
+
+            return Promise.resolve();
         }
 
         function playWithPromise(elem) {
@@ -465,10 +478,6 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
         self.canSetAudioStreamIndex = function () {
 
-            if (winJsPlaybackItem) {
-                return true;
-            }
-
             return false;
         };
 
@@ -482,11 +491,6 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
             if (!track) {
                 return;
-            }
-
-            if (winJsPlaybackItem) {
-                var audioIndex = audioTracks.indexOf(track);
-                winJsPlaybackItem.audioTracks.selectedIndex = audioIndex;
             }
         };
 
@@ -682,7 +686,6 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
 
             currentSrc = null;
-            winJsPlaybackItem = null;
         }
 
         function onTimeUpdate(e) {

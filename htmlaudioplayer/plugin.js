@@ -1,4 +1,4 @@
-define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], function (events, browser, pluginManager, appHost, appSettings) {
+define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHelper'], function (events, browser, pluginManager, appHost, appSettings, itemHelper) {
     "use strict";
 
     return function () {
@@ -50,6 +50,22 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
             return currentSrc;
         };
 
+        function playUwp(options, elem) {
+
+            return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
+
+                var playlist = new Windows.Media.Playback.MediaPlaybackList();
+                var source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
+                var startTime = (options.playerStartPositionTicks || 0) / 10000;
+                var winJsPlaybackItem = new Windows.Media.Playback.MediaPlaybackItem(source1, startTime);
+                playlist.items.append(winJsPlaybackItem);
+                elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
+                currentSrc = elem.src;
+                currentPlayOptions = options;
+                return playWithPromise(elem);
+            });
+        }
+
         self.play = function (options) {
 
             _currentTime = null;
@@ -77,7 +93,14 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
 
                 elem.innerHTML = '<source src="' + val + '" type="' + options.mimeType + '">';
             } else {
-                elem.src = val;
+
+                if (window.Windows && itemHelper.isLocalItem(options.item)) {
+
+                    return playUwp(opitons, elem);
+                } else {
+
+                    elem.src = val;
+                }
             }
 
             currentSrc = val;
@@ -98,7 +121,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
                         // safari uses aborterror
                         if (errorName === 'notallowederror' ||
                             errorName === 'aborterror') {
-                            // swallow this error because the user can still click the play button on the video element
+                            // swallow this error because the user can still click the play button on the audio element
                             return Promise.resolve();
                         }
                         return Promise.reject();
@@ -107,7 +130,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
                     return Promise.resolve();
                 }
             } catch (err) {
-                console.log('error calling video.play: ' + err);
+                console.log('error calling audio.play: ' + err);
                 return Promise.reject();
             }
         }

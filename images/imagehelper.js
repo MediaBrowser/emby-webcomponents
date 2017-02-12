@@ -1,4 +1,4 @@
-define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'require'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, require) {
+define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'require', 'css!./style'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, require) {
     'use strict';
 
     var requestIdleCallback = window.requestIdleCallback || function (fn) {
@@ -9,7 +9,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
 
     var self = {};
 
-    var enableFade = browser.animate && !browser.slow;
+    var enableFade = !browser.slow;
 
     function fillImage(elem, source, enableEffects) {
 
@@ -200,13 +200,9 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
 
     function fadeIn(elem) {
 
-        var duration = layoutManager.tv ? 160 : 300;
+        var cssClass = layoutManager.tv ? 'lazy-image-fadein-fast' : 'lazy-image-fadein';
 
-        var keyframes = [
-          { opacity: '0', offset: 0 },
-          { opacity: '1', offset: 1 }];
-        var timing = { duration: duration, iterations: 1 };
-        elem.animate(keyframes, timing);
+        elem.classList.add(cssClass);
     }
 
     function lazyChildren(elem) {
