@@ -50,7 +50,7 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
             } else if (browser.tv || browser.xboxOne) {
                 self.setLayout('tv', false);
             } else {
-                self.setLayout(self.undetectedAutoLayout || 'desktop', false);
+                self.setLayout(self.defaultLayout || '', false);
             }
         };
 

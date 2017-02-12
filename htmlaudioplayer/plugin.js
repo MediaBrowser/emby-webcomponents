@@ -96,7 +96,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
 
                 if (window.Windows && itemHelper.isLocalItem(options.item)) {
 
-                    return playUwp(opitons, elem);
+                    return playUwp(options, elem);
                 } else {
 
                     elem.src = val;

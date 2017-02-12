@@ -20,49 +20,35 @@
         }
     }
 
+    function onSlideTransitionComplete() {
+        this.classList.add('hide');
+    }
+
     function slideDownToHide(elem) {
 
         if (elem.classList.contains('hide')) {
             return;
         }
 
-        if (!elem.animate) {
-            elem.classList.add('hide');
-            return;
-        }
-
-        requestAnimationFrame(function () {
-            var keyframes = [
-              { transform: 'none', offset: 0 },
-              { transform: 'translateY(100%)', offset: 1 }];
-            var timing = { duration: 140, iterations: 1, fill: 'forwards', easing: 'ease-out' };
-
-            elem.animate(keyframes, timing).onfinish = function () {
-                elem.classList.add('hide');
-            };
+        dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideTransitionComplete, {
+            once: true
         });
+
+        elem.classList.remove('cardOverlayTarget-open');
     }
 
     function slideUpToShow(elem) {
 
-        if (!elem.classList.contains('hide')) {
-            return;
-        }
+        dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideTransitionComplete, {
+            once: true
+        });
 
         elem.classList.remove('hide');
 
-        if (!elem.animate) {
-            return;
-        }
+        // force a reflow
+        void elem.offsetWidth;
 
-        requestAnimationFrame(function () {
-
-            var keyframes = [
-              { transform: 'translateY(100%)', offset: 0 },
-              { transform: 'none', offset: 1 }];
-            var timing = { duration: 200, iterations: 1, fill: 'forwards', easing: 'ease-out' };
-            elem.animate(keyframes, timing);
-        });
+        elem.classList.add('cardOverlayTarget-open');
     }
 
     function getOverlayHtml(apiClient, item, currentUser, card) {

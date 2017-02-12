@@ -9,6 +9,12 @@
     z-index: 1;
     line-height: initial;
     font-size: initial;
+    transition: transform 200ms ease-out;
+    transform: translateY(100%);
+}
+
+.cardOverlayTarget-open {
+    transform: none;
 }
 
 .cardOverlayInner {
