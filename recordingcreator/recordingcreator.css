@@ -5,12 +5,11 @@
 .recordingDialog-imageContainer {
     flex-shrink: 0;
     padding: 1em 1em 1em 0;
-    min-width: 17%;
-    max-width: 25%;
+    width: 25%;
 }
 
 .recordingDialog-img {
-    max-width: 100%;
+    width: 100%;
 }
 
 .recordingDialog-itemName {
