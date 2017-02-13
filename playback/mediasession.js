@@ -5,16 +5,6 @@
     var currentPlayer;
     var lastUpdateTime = 0;
 
-    function allowLocalPlayer(playerId, isVideo) {
-
-        // It has the notifications built-in
-        //if (playerId === 'vlcplayer') {
-        //    return false;
-        //}
-
-        return true;
-    }
-
     function seriesImageUrl(item, options) {
 
         if (item.Type !== 'Episode') {
@@ -76,7 +66,7 @@
     function pushImageUrl(item, height, list) {
 
         var imageOptions = {
-            maxHeight: height
+            height: height
         };
 
         var url = seriesImageUrl(item, imageOptions) || imageUrl(item, imageOptions);
@@ -102,23 +92,10 @@
     function updatePlayerState(player, state, eventName) {
 
         var item = state.NowPlayingItem;
+        console.log('updating mediaSession');
 
         if (!item) {
             hideMediaControls();
-            return;
-        }
-
-        // dummy this up
-        if (eventName == 'init') {
-            eventName = 'timeupdate';
-        }
-
-        var isLocalPlayer = player.isLocalPlayer || false;
-
-        var isVideo = item.MediaType == 'Video';
-
-        // Local players do their own notifications
-        if (isLocalPlayer && !allowLocalPlayer(player.id, isVideo)) {
             return;
         }
 
@@ -129,6 +106,8 @@
         var artist = parts.length == 1 ? '' : parts[0].text;
         var title = parts[parts.length - 1].text;
 
+        var isVideo = item.MediaType == 'Video';
+
         // Switch these two around for video
         if (isVideo && parts.length > 1) {
             var temp = artist;
@@ -136,12 +115,18 @@
             title = temp;
         }
 
+        var albumArtist;
+
+        if (item.AlbumArtists && item.AlbumArtists[0]) {
+            albumArtist = item.AlbumArtists[0].Name;
+        }
+
         var album = item.Album || '';
         var itemId = item.Id;
 
         // Convert to ms
-        var duration = item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0;
-        var currentTime = playState.PositionTicks ? (playState.PositionTicks / 10000) : 0;
+        var duration = parseInt(item.RunTimeTicks ? (item.RunTimeTicks / 10000) : 0);
+        var currentTime = parseInt(playState.PositionTicks ? (playState.PositionTicks / 10000) : 0);
 
         var isPaused = playState.IsPaused || false;
         var canSeek = playState.CanSeek || false;
@@ -151,10 +136,12 @@
             artist: artist,
             album: album,
             artwork: getImageUrls(item),
+            albumArtist: albumArtist,
             currentTime: currentTime,
             duration: duration,
             paused: isPaused,
-            itemId: itemId
+            itemId: itemId,
+            mediaType: item.MediaType
         });
     }
 
@@ -219,10 +206,6 @@
             return;
         }
 
-        if (player.isLocalPlayer && !allowLocalPlayer(player.id)) {
-            return;
-        }
-
         currentPlayer = player;
 
         console.log('binding remotecontrols to ' + player.name);
@@ -243,10 +226,7 @@
     console.log('binding remotecontrols to playbackManager');
 
     function execute(name) {
-        var player = currentPlayer;
-        if (player) {
-            playbackManager[name](player);
-        }
+        playbackManager[name](currentPlayer);
     }
 
     navigator.mediaSession.setActionHandler('previoustrack', function () {
