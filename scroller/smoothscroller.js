@@ -101,7 +101,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             // native smooth scroll
             options.enableNativeScroll = true;
         }
-        else if (options.requireAnimation) {
+        else if (options.requireAnimation && browser.animate) {
 
             // transform is the only way to guarantee animation
             options.enableNativeScroll = false;
