@@ -55,6 +55,12 @@
 
         dom.addEventListener(this, 'focus', function () {
             onChange.call(this);
+
+            // For Samsung orsay devices
+            if (document.attachIME) {
+                document.attachIME(this);
+            }
+
             label.classList.add('inputLabelFocused');
             label.classList.remove('inputLabelUnfocused');
         }, {

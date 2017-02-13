@@ -2601,6 +2601,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             playNextAfterEnded = true;
             var isFirstItem = playOptions.isFirstItem;
+            var fullscreen = playOptions.fullscreen;
 
             self.getPlayerState(player).then(function (state) {
 
@@ -2609,6 +2610,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 startProgressInterval(player);
 
                 state.IsFirstItem = isFirstItem;
+                state.IsFullscreen = fullscreen;
                 events.trigger(player, 'playbackstart', [state]);
                 events.trigger(self, 'playbackstart', [player, state]);
 

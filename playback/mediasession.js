@@ -1,4 +1,5 @@
 ﻿define(['playbackManager', 'nowPlayingHelper', 'events', 'connectionManager'], function (playbackManager, nowPlayingHelper, events, connectionManager) {
+    "use strict";
 
     // Reports media playback to the device for lock screen control
 
@@ -92,7 +93,6 @@
     function updatePlayerState(player, state, eventName) {
 
         var item = state.NowPlayingItem;
-        console.log('updating mediaSession');
 
         if (!item) {
             hideMediaControls();
@@ -103,10 +103,10 @@
 
         var parts = nowPlayingHelper.getNowPlayingNames(item);
 
-        var artist = parts.length == 1 ? '' : parts[0].text;
+        var artist = parts.length === 1 ? '' : parts[0].text;
         var title = parts[parts.length - 1].text;
 
-        var isVideo = item.MediaType == 'Video';
+        var isVideo = item.MediaType === 'Video';
 
         // Switch these two around for video
         if (isVideo && parts.length > 1) {
@@ -230,11 +230,11 @@
     }
 
     navigator.mediaSession.setActionHandler('previoustrack', function () {
-        execute('previousTrack');
+        execute('previousChapter');
     });
 
     navigator.mediaSession.setActionHandler('nexttrack', function () {
-        execute('nextTrack');
+        execute('nextChapter');
     });
 
     navigator.mediaSession.setActionHandler('play', function () {
