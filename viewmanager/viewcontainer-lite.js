@@ -115,10 +115,19 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
                 return slide(newAnimatedPage, oldAnimatedPage, transition, isBack);
             } else if (transition === 'fade') {
                 return fade(newAnimatedPage, oldAnimatedPage, transition, isBack);
+            } else {
+                clearAnimation(newAnimatedPage);
+                if (oldAnimatedPage) {
+                    clearAnimation(oldAnimatedPage);
+                }
             }
         }
 
         return Promise.resolve();
+    }
+
+    function clearAnimation(elem) {
+        setAnimation(elem, 'none');
     }
 
     function slide(newAnimatedPage, oldAnimatedPage, transition, isBack) {
