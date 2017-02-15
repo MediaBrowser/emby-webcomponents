@@ -1022,7 +1022,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 lines = [];
             }
 
-            html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, isOuterFooter && options.cardLayout && !options.centerText, options.lines);
+            var addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.overlayMoreButton !== false && !layoutManager.tv;
+
+            html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
 
             if (progressHtml) {
                 html += progressHtml;
