@@ -393,7 +393,6 @@ button {
 
 .overflowPortraitCard-scalable {
     width: 42%;
-    max-width: 200px;
 }
 
 .overflowBackdropCard-scalable {
@@ -550,6 +549,10 @@ button {
     .overflowSmallBackdropCard-scalable {
         width: 18%;
     }
+
+    .overflowPortraitCard-scalable {
+        width: 18%;
+    }
 }
 
 
@@ -565,6 +568,10 @@ button {
 
     .smallBackdropCard-scalable {
         width: 14.285714285714285714285714285714%;
+    }
+
+    .overflowPortraitCard-scalable {
+        width: 16%;
     }
 }
 
@@ -634,22 +641,22 @@ button {
     }
 }
 
-.layout-tv .backdropCard-scalable {
+.itemsContainer-tv > .backdropCard-scalable {
     width: 25%;
 }
 
-.layout-tv .squareCard-scalable {
+.itemsContainer-tv > .squareCard-scalable {
     width: 16.66666666666666667%;
 }
 
-.layout-tv .portraitCard-scalable {
+.itemsContainer-tv > .portraitCard-scalable {
     width: 16.66666666666666667%;
 }
 
 
 @media all and (min-width: 1600px) {
 
-    .layout-tv .backdropCard-scalable {
+    .itemsContainer-tv > .backdropCard-scalable {
         width: 25%;
     }
 }
