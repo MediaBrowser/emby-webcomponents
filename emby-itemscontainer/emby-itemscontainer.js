@@ -276,6 +276,10 @@
             this.enableMultiSelect(true);
         }
 
+        if (layoutManager.tv) {
+            this.classList.add('itemsContainer-tv');
+        }
+
         itemShortcuts.on(this, getShortcutOptions());
 
         addNotificationEvent(this, 'UserDataChanged', onUserDataChanged);
