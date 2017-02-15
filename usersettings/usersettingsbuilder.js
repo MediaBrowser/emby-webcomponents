@@ -1,7 +1,7 @@
 define(['appSettings', 'events', 'browser'], function (appsettings, events, browser) {
     'use strict';
 
-    return function () {
+    function UserSettings () {
 
         var self = this;
         var currentUserId;
@@ -83,74 +83,6 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
             return appsettings.get(name, userId);
         };
 
-        self.enableCinemaMode = function (val) {
-
-            if (val != null) {
-                self.set('enableCinemaMode', val.toString(), false);
-            }
-
-            val = self.get('enableCinemaMode', false);
-
-            if (val) {
-                return val !== 'false';
-            }
-
-            return true;
-        };
-
-        self.enableThemeSongs = function (val) {
-
-            if (val != null) {
-                self.set('enableThemeSongs', val.toString(), false);
-            }
-
-            val = self.get('enableThemeSongs', false);
-
-            return val !== 'false';
-        };
-
-        self.enableThemeVideos = function (val) {
-
-            if (val != null) {
-                self.set('enableThemeVideos', val.toString(), false);
-            }
-
-            val = self.get('enableThemeVideos', false);
-
-            if (val) {
-                return val !== 'false';
-            }
-
-            return !browser.slow;
-        };
-
-        self.language = function (val) {
-
-            if (val != null) {
-                self.set('language', val.toString(), false);
-            }
-
-            return self.get('language', false);
-        };
-
-        self.skipBackLength = function (val) {
-
-            if (val != null) {
-                self.set('skipBackLength', val.toString());
-            }
-
-            return parseInt(self.get('skipBackLength') || '15000');
-        };
-
-        self.skipForwardLength = function (val) {
-
-            if (val != null) {
-                self.set('skipForwardLength', val.toString());
-            }
-
-            return parseInt(self.get('skipForwardLength') || '15000');
-        };
-
         self.serverConfig = function (config) {
 
             var apiClient = currentApiClient;
@@ -167,5 +99,112 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
                 });
             }
         };
+
+        self.loadQuerySettings = function() {
+
+        };
     };
+
+    UserSettings.prototype.enableCinemaMode = function (val) {
+
+        if (val != null) {
+            this.set('enableCinemaMode', val.toString(), false);
+        }
+
+        val = this.get('enableCinemaMode', false);
+
+        if (val) {
+            return val !== 'false';
+        }
+
+        return true;
+    };
+
+    UserSettings.prototype.enableThemeSongs = function (val) {
+
+        if (val != null) {
+            this.set('enableThemeSongs', val.toString(), false);
+        }
+
+        val = this.get('enableThemeSongs', false);
+
+        return val !== 'false';
+    };
+
+    UserSettings.prototype.enableThemeVideos = function (val) {
+
+        if (val != null) {
+            this.set('enableThemeVideos', val.toString(), false);
+        }
+
+        val = this.get('enableThemeVideos', false);
+
+        if (val) {
+            return val !== 'false';
+        }
+
+        return !browser.slow;
+    };
+
+    UserSettings.prototype.language = function (val) {
+
+        if (val != null) {
+            this.set('language', val.toString(), false);
+        }
+
+        return this.get('language', false);
+    };
+
+    UserSettings.prototype.skipBackLength = function (val) {
+
+        if (val != null) {
+            this.set('skipBackLength', val.toString());
+        }
+
+        return parseInt(this.get('skipBackLength') || '15000');
+    };
+
+    UserSettings.prototype.skipForwardLength = function (val) {
+
+        if (val != null) {
+            this.set('skipForwardLength', val.toString());
+        }
+
+        return parseInt(this.get('skipForwardLength') || '15000');
+    };
+
+    function getSavedQueryKey(context) {
+
+        return 'query-' + context;
+    }
+
+    UserSettings.prototype.loadQuerySettings = function (query, context) {
+
+        var key = getSavedQueryKey(context);
+        var values = this.get(key);
+
+        if (values) {
+
+            values = JSON.parse(values);
+
+            return Object.assign(query, values);
+        }
+    };
+
+    UserSettings.prototype.saveQuerySettings = function (query, context) {
+
+        var key = getSavedQueryKey(context);
+        var values = {};
+
+        if (query.SortBy) {
+            values.SortBy = query.SortBy;
+        }
+        if (query.SortOrder) {
+            values.SortOrder = query.SortOrder;
+        }
+
+        this.set(key, JSON.stringify(values));
+    };
+
+    return UserSettings;
 });
