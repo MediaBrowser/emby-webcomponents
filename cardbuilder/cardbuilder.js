@@ -792,6 +792,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                         lines.push(getTextActionButton({
                             Id: item.SeriesId,
+                            ServerId: item.ServerId,
                             Name: item.SeriesName,
                             Type: 'Series',
                             IsFolder: true
@@ -838,7 +839,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
                         item.AlbumArtists[0].Type = 'MusicArtist';
                         item.AlbumArtists[0].IsFolder = true;
-                        lines.push(getTextActionButton(item.AlbumArtists[0]));
+                        lines.push(getTextActionButton(item.AlbumArtists[0], null, item.ServerId));
                     } else {
                         lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Album || item.AlbumArtist || item.GameSystem || ""));
                     }
@@ -949,6 +950,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         lines.push(getTextActionButton({
 
                             Id: item.ChannelId,
+                            ServerId: item.ServerId,
                             Name: item.ChannelName,
                             Type: 'TvChannel',
                             MediaType: item.MediaType,
@@ -1047,13 +1049,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getTextActionButton(item, text) {
+        function getTextActionButton(item, text, serverId) {
 
             if (!text) {
                 text = itemHelper.getDisplayName(item);
             }
 
-            var html = '<button data-id="' + item.Id + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '" type="button" class="itemAction textActionButton" data-action="link">';
+            if (layoutManager.tv) {
+                return text;
+            }
+
+            var html = '<button data-id="' + item.Id + '" data-serverid="' + (serverId || item.ServerId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '" type="button" class="itemAction textActionButton" data-action="link">';
             html += text;
             html += '</button>';
 
