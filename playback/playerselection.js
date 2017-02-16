@@ -22,11 +22,11 @@
 
         if (info && playbackManager.enableDisplayMirroring()) {
 
-            var player = playbackManager.getPlayerInfo();
+            var getPlayerInfo = playbackManager.getPlayerInfo();
 
-            if (player) {
-                if (!player.isLocalPlayer && player.supportedCommands.indexOf('DisplayContent') !== -1) {
-                    mirrorItem(info, player);
+            if (getPlayerInfo) {
+                if (!getPlayerInfo.isLocalPlayer && getPlayerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
+                    mirrorItem(info, playbackManager.getCurrentPlayer());
                 }
             }
         }

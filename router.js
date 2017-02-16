@@ -257,6 +257,11 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
             return false;
         }
 
+        // Does not support history
+        if (browser.orsay) {
+            return false;
+        }
+
         return true;
     }
 
