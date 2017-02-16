@@ -1,7 +1,7 @@
 define(['appSettings', 'events', 'browser'], function (appsettings, events, browser) {
     'use strict';
 
-    function UserSettings () {
+    function UserSettings() {
 
         var self = this;
         var currentUserId;
@@ -100,10 +100,10 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
             }
         };
 
-        self.loadQuerySettings = function() {
+        self.loadQuerySettings = function () {
 
         };
-    };
+    }
 
     UserSettings.prototype.enableCinemaMode = function (val) {
 
