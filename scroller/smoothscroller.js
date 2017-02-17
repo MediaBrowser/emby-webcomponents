@@ -331,6 +331,14 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             }
         }
 
+        function setStyleProperty(elem, name, value) {
+
+            elem.style[name] = value;
+            //requestAnimationFrame(function () {
+            //    elem.style[name] = value;
+            //});
+        }
+
         var scrollEvent = new CustomEvent("scroll");
 
         function renderAnimate() {
@@ -350,37 +358,30 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                     { transform: 'translate3d(' + (-round(pos.cur || animation.from)) + 'px, 0, 0)', offset: 0 },
                     { transform: 'translate3d(' + (-round(animation.to)) + 'px, 0, 0)', offset: 1 }
                 ];
+                //setStyleProperty(slideeElement, 'transform', 'translateX('+(-round(animation.to)) + 'px)')
             } else {
                 keyframes = [
                     { transform: 'translate3d(0, ' + (-round(pos.cur || animation.from)) + 'px, 0)', offset: 0 },
                     { transform: 'translate3d(0, ' + (-round(animation.to)) + 'px, 0)', offset: 1 }
                 ];
+                //setStyleProperty(slideeElement, 'transform', 'translateY(' + (-round(animation.to)) + 'px)')
             }
 
             var speed = o.speed;
 
             if (animation.immediate) {
                 speed = o.immediateSpeed || 50;
-                if (!browser.animate) {
-                    o.immediateSpeed = 0;
-                }
             }
 
-            var animationConfig = {
+            slideeElement.animate(keyframes, {
                 duration: speed,
                 iterations: 1,
-                fill: 'both'
-            };
+                fill: 'both',
+                easing: 'ease-out'
 
-            if (browser.animate) {
-                animationConfig.easing = 'ease-out';
-            }
-
-            var animationInstance = slideeElement.animate(keyframes, animationConfig);
-
-            animationInstance.onfinish = function () {
+            }).onfinish = function () {
                 pos.cur = animation.to;
-                document.dispatchEvent(scrollEvent);
+                //document.dispatchEvent(scrollEvent);
             };
         }
 
@@ -863,6 +864,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 }
             } else {
                 slideeElement.style['will-change'] = 'transform';
+                //slideeElement.classList.add('smoothscroller');
                 if (o.horizontal) {
                     slideeElement.classList.add('animatedScrollX');
                 } else {
