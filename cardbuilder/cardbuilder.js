@@ -1022,7 +1022,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 lines = [];
             }
 
-            var addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.overlayMoreButton !== false && !layoutManager.tv;
+            var addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && !layoutManager.tv;
 
             html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
 

@@ -460,14 +460,17 @@
         var touchTarget;
         var touchStartTimeout;
         var touchStartX;
+        var touchStartY;
         function onTouchStart(e) {
 
             var touch = getTouches(e)[0];
             touchTarget = null;
             touchStartX = 0;
+            touchStartY = 0;
 
             if (touch) {
                 touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
                 var element = touch.target;
 
                 if (element) {
@@ -496,10 +499,12 @@
                 if (touch) {
                     var touchEndX = touch.clientX || 0;
                     deltaX = Math.abs(touchEndX - (touchStartX || 0));
+                    deltaY = Math.abs(touchEndY - (touchStartY || 0));
                 } else {
                     deltaX = 100;
+                    deltaY = 100;
                 }
-                if (deltaX >= 10) {
+                if (deltaX >= 10 || deltaY >= 10) {
                     onMouseOut(e);
                 }
             }
