@@ -282,6 +282,11 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('dts');
         }
 
+        if (browser.tizen) {
+            videoAudioCodecs.push('pcm_s16le');
+            videoAudioCodecs.push('pcm_s24le');
+        }
+
         if (options.supportsTrueHd) {
             videoAudioCodecs.push('truehd');
         }
