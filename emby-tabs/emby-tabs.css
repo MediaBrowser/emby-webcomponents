@@ -8,7 +8,6 @@
     width: auto;
     font-family: inherit;
     font-size: inherit;
-    color: #aaa;
     display: inline-block;
     vertical-align: middle;
     flex-shrink: 0;
@@ -20,9 +19,25 @@
     line-height: initial;
     border-radius: 0 !important;
     overflow: hidden;
+    color: #999;
 }
 
+    .emby-tab-button.emby-button-tv {
+        padding-top: .4em;
+        padding-bottom: .4em;
+    }
+
 .emby-tab-button-active {
+    color: #52B54B;
+    border-color: #52B54B;
+}
+
+    .emby-tab-button-active.emby-button-tv {
+        border-color: transparent;
+        color: #fff;
+    }
+
+.emby-tab-button.emby-button-tv:focus {
     color: #52B54B;
     border-color: #52B54B;
 }
@@ -60,4 +75,8 @@
 
 .emby-tab-button-ripple-effect {
     background: #141414 !important;
+}
+
+.tabContent:not(.is-active) {
+    display: none;
 }

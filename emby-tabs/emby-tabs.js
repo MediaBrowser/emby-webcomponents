@@ -19,15 +19,16 @@
     function animtateSelectionBar(bar, start, pos, duration, onFinish) {
 
         var endTransform = pos ? ('translateX(' + Math.round(pos) + 'px)') : 'none';
-        var startTransform = start ? ('translateX(' + Math.round(start) + 'px)') : 'none';
 
-        if (!duration || !bar.animate) {
+        if (!duration || !bar.animate || layoutManager.tv) {
             bar.style.transform = endTransform;
             if (onFinish) {
                 onFinish();
             }
             return;
         }
+
+        var startTransform = start ? ('translateX(' + Math.round(start) + 'px)') : 'none';
 
         bar.style.transform = startTransform;
 
@@ -114,6 +115,67 @@
         }
     }
 
+    function getTabPanel(tabs, index) {
+
+        var tabsContainer = dom.parentWithClass(tabs, 'tabs-container');
+        if (tabsContainer) {
+            return tabsContainer.querySelector('.tabContent[data-index="' + index + '"]');
+        }
+    }
+
+    function removeActivePanelClass(tabs, index) {
+        var tabPanel = getTabPanel(tabs, index);
+        if (tabPanel) {
+            tabPanel.classList.remove('is-active');
+        }
+    }
+
+    function addActivePanelClass(tabs, index) {
+        var tabPanel = getTabPanel(tabs, index);
+        if (tabPanel) {
+            tabPanel.classList.add('is-active');
+        }
+    }
+
+    function fadeInRight(elem) {
+
+        var pct = browser.mobile ? '4%' : '0.5%';
+
+        var keyframes = [
+          { opacity: '0', transform: 'translate3d(' + pct + ', 0, 0)', offset: 0 },
+          { opacity: '1', transform: 'none', offset: 1 }];
+
+        elem.animate(keyframes, {
+            duration: 160,
+            iterations: 1,
+            easing: 'ease-out'
+        });
+    }
+
+    function triggerBeforeTabChange(tabs, index, previousIndex) {
+
+        tabs.dispatchEvent(new CustomEvent("beforetabchange", {
+            detail: {
+                selectedTabIndex: index,
+                previousIndex: previousIndex
+            }
+        }));
+        if (previousIndex != null && previousIndex !== index) {
+            removeActivePanelClass(tabs, previousIndex);
+        }
+
+        var newPanel = getTabPanel(tabs, index);
+
+        if (newPanel) {
+            // animate new panel ?
+            if (newPanel.animate) {
+                fadeInRight(newPanel);
+            }
+
+            newPanel.classList.add('is-active');
+        }
+    }
+
     function onClick(e) {
 
         var tabs = this;
@@ -132,12 +194,7 @@
             moveSelectionBar(tabs, tabButton, current, true);
             var index = parseInt(tabButton.getAttribute('data-index'));
 
-            tabs.dispatchEvent(new CustomEvent("beforetabchange", {
-                detail: {
-                    selectedTabIndex: index,
-                    previousIndex: previousIndex
-                }
-            }));
+            triggerBeforeTabChange(tabs, index, previousIndex);
 
             // If toCenter is called syncronously within the click event, it sometimes ends up canceling it
             setTimeout(function () {
@@ -259,7 +316,9 @@
         var current = this.querySelector('.' + activeButtonClass);
         var currentIndex = current ? parseInt(current.getAttribute('data-index')) : 0;
 
-        var newTabButton = this.querySelectorAll('.' + buttonClass)[currentIndex];
+        var tabButtons = this.querySelectorAll('.' + buttonClass);
+
+        var newTabButton = tabButtons[currentIndex];
 
         if (newTabButton) {
             moveSelectionBar(this, newTabButton, current, false);
@@ -300,11 +359,8 @@
 
         if (current === selected || triggerEvent === false) {
 
-            tabs.dispatchEvent(new CustomEvent("beforetabchange", {
-                detail: {
-                    selectedTabIndex: selected
-                }
-            }));
+            triggerBeforeTabChange(tabs, selected, current);
+
             tabs.dispatchEvent(new CustomEvent("tabchange", {
                 detail: {
                     selectedTabIndex: selected
@@ -327,11 +383,7 @@
 
         var tabs = this;
 
-        tabs.dispatchEvent(new CustomEvent("beforetabchange", {
-            detail: {
-                selectedTabIndex: tabs.selectedIndex()
-            }
-        }));
+        triggerBeforeTabChange(tabs, tabs.selectedIndex());
     };
 
     EmbyTabs.triggerTabChange = function (selected) {
