@@ -94,7 +94,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
                 elem.innerHTML = '<source src="' + val + '" type="' + options.mimeType + '">';
             } else {
 
-                if (window.Windows && itemHelper.isLocalItem(options.item)) {
+                if (window.Windows &&  options.mediaSource && options.mediaSource.IsLocal) {
 
                     return playUwp(options, elem);
                 } else {

@@ -424,7 +424,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
         function applySrc(elem, src, options) {
 
-            if (window.Windows && itemHelper.isLocalItem(options.item)) {
+            if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
 
                 return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
 

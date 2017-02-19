@@ -132,8 +132,6 @@
                 CommunityRating: form.querySelector('#txtCommunityRating').value,
                 VoteCount: form.querySelector('#txtCommunityVoteCount').value,
                 HomePageUrl: form.querySelector('#txtHomePageUrl').value,
-                Budget: form.querySelector('#txtBudget').value,
-                Revenue: form.querySelector('#txtRevenue').value,
                 CriticRating: form.querySelector('#txtCriticRating').value,
                 CriticRatingSummary: form.querySelector('#txtCriticRatingSummary').value,
                 IndexNumber: form.querySelector('#txtIndexNumber').value || null,
@@ -594,14 +592,6 @@
             hideElement('#fldEndDate', context);
         }
 
-        if (item.Type === "Movie" || item.MediaType === "Game" || item.MediaType === "Trailer" || item.Type === "MusicVideo") {
-            showElement('#fldBudget', context);
-            showElement('#fldRevenue', context);
-        } else {
-            hideElement('#fldBudget', context);
-            hideElement('#fldRevenue', context);
-        }
-
         if (item.Type === "MusicAlbum") {
             showElement('#albumAssociationMessage', context);
         } else {
@@ -850,9 +840,6 @@
 
         context.querySelector('#txtAwardSummary').value = item.AwardSummary || "";
         context.querySelector('#txtMetascore').value = item.Metascore || "";
-
-        context.querySelector('#txtBudget').value = item.Budget || "";
-        context.querySelector('#txtRevenue').value = item.Revenue || "";
 
         context.querySelector('#txtCriticRating').value = item.CriticRating || "";
         context.querySelector('#txtCriticRatingSummary').value = item.CriticRatingSummary || "";

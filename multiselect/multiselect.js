@@ -504,7 +504,7 @@
                     deltaX = 100;
                     deltaY = 100;
                 }
-                if (deltaX >= 10 || deltaY >= 10) {
+                if (deltaX >= 5 || deltaY >= 5) {
                     onMouseOut(e);
                 }
             }
