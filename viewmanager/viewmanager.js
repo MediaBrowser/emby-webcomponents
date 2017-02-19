@@ -129,9 +129,6 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
 
     document.addEventListener('skinunload', resetCachedViews);
 
-    //events.on(connectionManager, 'localusersignedin', resetCachedViews);
-    //events.on(connectionManager, 'localusersignedout', resetCachedViews);
-
     function ViewManager() {
     }
 

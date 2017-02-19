@@ -51,7 +51,7 @@
         elem.classList.add('cardOverlayTarget-open');
     }
 
-    function getOverlayHtml(apiClient, item, currentUser, card) {
+    function getOverlayHtml(apiClient, item, card) {
 
         var html = '';
 
@@ -185,15 +185,10 @@
         var serverId = dataElement.getAttribute('data-serverid');
 
         var apiClient = connectionManager.getApiClient(serverId);
-        var promise1 = apiClient.getItem(apiClient.getCurrentUserId(), id);
-        var promise2 = apiClient.getCurrentUser();
 
-        Promise.all([promise1, promise2]).then(function (responses) {
+        apiClient.getItem(apiClient.getCurrentUserId(), id).then(function (item) {
 
-            var item = responses[0];
-            var user = responses[1];
-
-            innerElem.innerHTML = getOverlayHtml(apiClient, item, user, dataElement);
+            innerElem.innerHTML = getOverlayHtml(apiClient, item, dataElement);
 
             userdataButtons.fill({
                 item: item,

@@ -351,11 +351,13 @@
             receiverName = session.receiver.friendlyName;
         }
 
+        var apiClient = ApiClient;
+
         message = Object.assign(message, {
-            userId: ApiClient.getCurrentUserId(),
-            deviceId: ApiClient.deviceId(),
-            accessToken: ApiClient.accessToken(),
-            serverAddress: ApiClient.serverAddress(),
+            userId: apiClient.getCurrentUserId(),
+            deviceId: apiClient.deviceId(),
+            accessToken: apiClient.accessToken(),
+            serverAddress: apiClient.serverAddress(),
             receiverName: receiverName
         });
 
@@ -368,7 +370,7 @@
 
             require(['chromecasthelpers'], function (chromecasthelpers) {
 
-                chromecasthelpers.getServerAddress(ApiClient).then(function (serverAddress) {
+                chromecasthelpers.getServerAddress(apiClient).then(function (serverAddress) {
                     message.serverAddress = serverAddress;
                     player.sendMessageInternal(message).then(resolve, reject);
 
@@ -474,10 +476,11 @@
 
         self.getItemsForPlayback = function (query) {
 
-            var userId = ApiClient.getCurrentUserId();
+            var apiClient = ApiClient;
+            var userId = apiClient.getCurrentUserId();
 
             if (query.Ids && query.Ids.split(',').length === 1) {
-                return ApiClient.getItem(userId, query.Ids.split(',')).then(function (item) {
+                return apiClient.getItem(userId, query.Ids.split(',')).then(function (item) {
                     return {
                         Items: [item],
                         TotalRecordCount: 1
@@ -489,7 +492,7 @@
                 query.Limit = query.Limit || 100;
                 query.ExcludeLocationTypes = "Virtual";
 
-                return ApiClient.getItems(userId, query);
+                return apiClient.getItems(userId, query);
             }
         };
 
@@ -571,28 +574,23 @@
 
         self.play = function (options) {
 
-            return ApiClient.getCurrentUser().then(function (user) {
+            if (options.items) {
 
-                if (options.items) {
+                return self.playWithCommand(options, 'PlayNow');
 
+            } else {
+
+                return self.getItemsForPlayback({
+
+                    Ids: options.ids.join(',')
+
+                }).then(function (result) {
+
+                    options.items = result.Items;
                     return self.playWithCommand(options, 'PlayNow');
 
-                } else {
-
-                    return self.getItemsForPlayback({
-
-                        Ids: options.ids.join(',')
-
-                    }).then(function (result) {
-
-                        options.items = result.Items;
-                        return self.playWithCommand(options, 'PlayNow');
-
-                    });
-                }
-
-            });
-
+                });
+            }
         };
 
         self.playWithCommand = function (options, command) {

@@ -71,7 +71,10 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
         self.get = function (name, enableOnServer) {
             var userId = currentUserId;
             if (!userId) {
-                throw new Error('userId cannot be null');
+                // TODO: I'd like to continue to throw this exception but it causes issues with offline use
+                // Revisit in the future and restore it
+                return null;
+                //throw new Error('userId cannot be null');
             }
 
             if (enableOnServer !== false) {
