@@ -169,6 +169,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
 
             started = false;
+
             _currentTime = null;
 
             return createMediaElement(options).then(function (elem) {
@@ -268,6 +269,8 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             //    resolve();
             //    return;
             //}
+
+            elem.removeEventListener('error', onError);
 
             var val = options.url;
 
@@ -418,6 +421,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                     hlsPlayer.recoverMediaError();
                 } else {
                     console.error('cannot recover, last media error recovery failed ...');
+                    onErrorInternal('mediadecodeerror');
                 }
             }
         }
@@ -445,6 +449,11 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             return Promise.resolve();
         }
 
+        function onSuccessfulPlay(elem) {
+
+            elem.addEventListener('error', onError);
+        }
+
         function playWithPromise(elem) {
 
             try {
@@ -458,11 +467,13 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                         if (errorName === 'notallowederror' ||
                             errorName === 'aborterror') {
                             // swallow this error because the user can still click the play button on the video element
+                            onSuccessfulPlay(elem);
                             return Promise.resolve();
                         }
                         return Promise.reject();
                     });
                 } else {
+                    onSuccessfulPlay(elem);
                     return Promise.resolve();
                 }
             } catch (err) {
@@ -478,19 +489,46 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
         self.canSetAudioStreamIndex = function () {
 
+            if (browser.edge || browser.msie) {
+                return true;
+            }
+
             return false;
         };
 
         self.setAudioStreamIndex = function (index) {
 
-            var audioTracks = getMediaStreamAudioTracks(currentPlayOptions.mediaSource);
+            var audioStreams = getMediaStreamAudioTracks(currentPlayOptions.mediaSource);
 
-            var track = audioTracks.filter(function (t) {
-                return t.Index === index;
-            })[0];
+            var audioTrackOffset = -1;
+            var i, length;
 
-            if (!track) {
+            for (i = 0, length = audioStreams.length; i < length; i++) {
+
+                if (audioStreams[i].Index === index) {
+                    audioTrackOffset = i;
+                    break;
+                }
+            }
+
+            if (audioTrackOffset === -1) {
                 return;
+            }
+
+            var elem = mediaElement;
+            if (!elem) {
+                return;
+            }
+
+            // https://msdn.microsoft.com/en-us/library/hh772507(v=vs.85).aspx
+            var elemAudioTracks = elem.audioTracks || [];
+            for (i = 0, length = elemAudioTracks.length; i < length; i++) {
+
+                if (audioTrackOffset === i) {
+                    elemAudioTracks[i].enabled = true;
+                } else {
+                    elemAudioTracks[i].enabled = false;
+                }
             }
         };
 
@@ -539,7 +577,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
                 destroyHlsPlayer();
 
-                onEndedInternal(reportEnded);
+                onEndedInternal(reportEnded, elem);
 
                 if (destroyPlayer) {
                     self.destroy();
@@ -569,7 +607,6 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                 videoElement.removeEventListener('volumechange', onVolumeChange);
                 videoElement.removeEventListener('pause', onPause);
                 videoElement.removeEventListener('playing', onPlaying);
-                videoElement.removeEventListener('error', onError);
                 videoElement.removeEventListener('loadedmetadata', onLoadedMetadata);
                 videoElement.removeEventListener('click', onClick);
                 videoElement.removeEventListener('dblclick', onDblClick);
@@ -664,10 +701,12 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
         function onEnded() {
 
             destroyCustomTrack(this);
-            onEndedInternal(true);
+            onEndedInternal(true, this);
         }
 
-        function onEndedInternal(triggerEnded) {
+        function onEndedInternal(triggerEnded, elem) {
+
+            elem.removeEventListener('error', onError);
 
             if (self.originalDocumentTitle) {
                 document.title = self.originalDocumentTitle;
@@ -692,6 +731,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
             // Get the player position + the transcoding offset
             var time = this.currentTime;
+
             _currentTime = time;
             var timeMs = time * 1000;
             timeMs += ((currentPlayOptions.transcodingOffsetTicks || 0) / 10000);
@@ -801,15 +841,20 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                     return;
                 case 4:
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
+                    type = 'medianotsupported';
                     break;
             }
 
+            onErrorInternal(type);
+        }
+
+        function onErrorInternal(type) {
             destroyCustomTrack(this);
 
-            //events.trigger(self, 'error', [
-            //{
-            //    type: type
-            //}]);
+            events.trigger(self, 'error', [
+            {
+                type: type
+            }]);
         }
 
         function onLoadedMetadata(e) {
@@ -1274,7 +1319,6 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                         videoElement.addEventListener('volumechange', onVolumeChange);
                         videoElement.addEventListener('pause', onPause);
                         videoElement.addEventListener('playing', onPlaying);
-                        videoElement.addEventListener('error', onError);
                         videoElement.addEventListener('click', onClick);
                         videoElement.addEventListener('dblclick', onDblClick);
 

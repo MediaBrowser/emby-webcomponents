@@ -69,6 +69,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
         self.play = function (options) {
 
             _currentTime = null;
+
             started = false;
             var elem = createMediaElement();
 
@@ -334,6 +335,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
 
             // Get the player position + the transcoding offset
             var time = this.currentTime;
+
             _currentTime = time;
             events.trigger(self, 'timeupdate');
         }
@@ -403,16 +405,23 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
                     break;
                 case 3:
                     // MEDIA_ERR_DECODE
+                    type = 'mediadecodeerror';
                     break;
                 case 4:
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
+                    type = 'medianotsupported';
                     break;
             }
 
-            //events.trigger(self, 'error', [
-            //{
-            //    type: type
-            //}]);
+            onErrorInternal(type);
+        }
+
+        function onErrorInternal(type) {
+
+            events.trigger(self, 'error', [
+            {
+                type: type
+            }]);
         }
 
         function createMediaElement() {

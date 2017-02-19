@@ -1067,7 +1067,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                 var maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
 
-                getPlaybackInfo(apiClient, currentItem.Id, deviceProfile, maxBitrate, ticks, currentMediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId).then(function (result) {
+                getPlaybackInfo(apiClient, currentItem.Id, deviceProfile, maxBitrate, ticks, currentMediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream).then(function (result) {
 
                     if (validatePlaybackInfoResult(result)) {
 
@@ -1120,6 +1120,10 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                 startProgressInterval(player);
                 sendProgressUpdate(player);
+            }, function (e) {
+                onPlaybackError.call(player, e, {
+                    type: 'mediadecodeerror'
+                });
             });
         }
 
@@ -1719,6 +1723,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                         loading.hide();
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo);
+                    }, function () {
+                        // TODO: show error message
+                        self.stop(player);
                     });
                 });
             }
@@ -1741,6 +1748,16 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                             loading.hide();
                             onPlaybackStartedFn();
                             onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
+                        }, function () {
+
+                            // TODO: Improve this because it will report playback start on a failure
+                            onPlaybackStartedFn();
+                            onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
+                            setTimeout(function (err) {
+                                onPlaybackError.call(player, err, {
+                                    type: 'mediadecodeerror'
+                                });
+                            }, 100);
                         });
                     });
                 });
@@ -1819,7 +1836,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             return type + '/' + container;
         }
 
-        function createStreamInfo(apiClient, type, item, mediaSource, startPosition) {
+        function createStreamInfo(apiClient, type, item, mediaSource, startPosition, forceTranscoding) {
 
             var mediaUrl;
             var contentType;
@@ -1836,14 +1853,14 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                 contentType = getMimeType('video', mediaSourceContainer);
 
-                if (mediaSource.enableDirectPlay) {
+                if (mediaSource.enableDirectPlay && !forceTranscoding) {
                     mediaUrl = mediaSource.Path;
 
                     playMethod = 'DirectPlay';
 
                 } else {
 
-                    if (mediaSource.SupportsDirectStream) {
+                    if (mediaSource.SupportsDirectStream && !forceTranscoding) {
 
                         directOptions = {
                             Static: true,
@@ -1887,7 +1904,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                 contentType = getMimeType('audio', mediaSourceContainer);
 
-                if (mediaSource.enableDirectPlay) {
+                if (mediaSource.enableDirectPlay && !forceTranscoding) {
 
                     mediaUrl = mediaSource.Path;
 
@@ -1897,7 +1914,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                     var isDirectStream = mediaSource.SupportsDirectStream;
 
-                    if (isDirectStream) {
+                    if (isDirectStream && !forceTranscoding) {
 
                         directOptions = {
                             Static: true,
@@ -1942,6 +1959,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             // Fallback (used for offline items)
             if (!mediaUrl && mediaSource.SupportsDirectPlay) {
                 mediaUrl = mediaSource.Path;
+                playMethod = 'DirectPlay';
             }
 
             var resultInfo = {
@@ -2060,7 +2078,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             });
         }
 
-        function getPlaybackInfo(apiClient, itemId, deviceProfile, maxBitrate, startPosition, mediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId) {
+        function getPlaybackInfo(apiClient, itemId, deviceProfile, maxBitrate, startPosition, mediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId, enableDirectPlay, enableDirectStream) {
 
             var query = {
                 UserId: apiClient.getCurrentUserId(),
@@ -2072,6 +2090,12 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
             if (subtitleStreamIndex != null) {
                 query.SubtitleStreamIndex = subtitleStreamIndex;
+            }
+            if (enableDirectPlay != null) {
+                query.EnableDirectPlay = enableDirectPlay;
+            }
+            if (enableDirectStream != null) {
+                query.EnableDirectStream = enableDirectStream;
             }
             if (mediaSource) {
                 query.MediaSourceId = mediaSource.Id;
@@ -2680,45 +2704,33 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             var player = this;
             error = error || {};
 
-            var menuItems = [];
-            menuItems.push({
-                name: globalize.translate('Resume'),
-                id: 'resume'
-            });
-            menuItems.push({
-                name: globalize.translate('Stop'),
-                id: 'stop'
-            });
+            // network
+            // mediadecodeerror
+            // medianotsupported
+            var errorType = error.type;
 
-            var msg;
+            var streamInfo = getPlayerData(player).streamInfo;
 
-            if (error.type === 'network') {
-                msg = 'A network error has occurred. Please check your connection and try again.';
-            } else {
-                msg = 'A network error has occurred. Please check your connection and try again.';
+            // Auto switch to transcoding, for video playback only
+            if (streamInfo) {
+
+                if (streamInfo.playMethod !== 'Transcode' && streamInfo.mediaSource.SupportsTranscoding && streamInfo.mediaType === 'Video') {
+
+                    var startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
+
+                    changeStream(player, startTime, {
+
+                        // force transcoding
+                        EnableDirectPlay: false,
+                        EnableDirectStream: false
+
+                    }, true);
+
+                    return;
+                }
             }
 
-            require(['actionsheet'], function (actionsheet) {
-
-                actionsheet.show({
-
-                    items: menuItems,
-                    text: msg
-
-                }).then(function (id) {
-                    switch (id) {
-
-                        case 'stop':
-                            self.stop();
-                            break;
-                        case 'resume':
-                            player.resume();
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            });
+            self.nextTrack(player);
         }
 
         function onPlaybackStopped(e) {

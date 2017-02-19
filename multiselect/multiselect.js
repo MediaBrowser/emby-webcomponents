@@ -495,9 +495,11 @@
             if (touchTarget) {
                 var touch = getTouches(e)[0];
                 var deltaX;
+                var deltaY;
 
                 if (touch) {
                     var touchEndX = touch.clientX || 0;
+                    var touchEndY = touch.clientY || 0;
                     deltaX = Math.abs(touchEndX - (touchStartX || 0));
                     deltaY = Math.abs(touchEndY - (touchStartY || 0));
                 } else {
