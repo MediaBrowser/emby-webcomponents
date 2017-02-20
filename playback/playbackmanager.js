@@ -2712,7 +2712,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             var streamInfo = getPlayerData(player).streamInfo;
 
             // Auto switch to transcoding, for video playback only
-            if (streamInfo) {
+            if (streamInfo && (errorType === 'mediadecodeerror' || errorType === 'medianotsupported')) {
 
                 if (streamInfo.playMethod !== 'Transcode' && streamInfo.mediaSource.SupportsTranscoding && streamInfo.mediaType === 'Video') {
 
