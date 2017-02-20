@@ -1,10 +1,12 @@
-﻿define(['events', 'playbackManager', 'dom', 'css!./volumeosd', 'material-icons'], function (events, playbackManager, dom) {
+﻿define(['events', 'playbackManager', 'dom', 'browser', 'css!./volumeosd', 'material-icons'], function (events, playbackManager, dom, browser) {
     'use strict';
 
     var currentPlayer;
     var osdElement;
     var iconElement;
     var progressElement;
+
+    var enableAnimation;
 
     function getOsdElementHtml() {
         var html = '';
@@ -20,6 +22,9 @@
 
         var elem = osdElement;
         if (!elem) {
+
+            enableAnimation = browser.supportsCssAnimation();
+
             elem = document.createElement('div');
             elem.classList.add('hide');
             elem.classList.add('volumeOsd');
@@ -75,16 +80,20 @@
         var elem = osdElement;
         if (elem) {
 
-            // trigger reflow
-            void elem.offsetWidth;
+            if (enableAnimation) {
+                // trigger reflow
+                void elem.offsetWidth;
 
-            requestAnimationFrame(function () {
-                elem.classList.add('volumeOsd-hidden');
+                requestAnimationFrame(function () {
+                    elem.classList.add('volumeOsd-hidden');
 
-                dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
-                    once: true
+                    dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
+                        once: true
+                    });
                 });
-            });
+            } else {
+                onHideComplete.call(elem);
+            }
         }
     }
 
