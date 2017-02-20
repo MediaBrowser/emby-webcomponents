@@ -247,9 +247,9 @@
 
     function fillJobValues(context, job, editOptions) {
 
-        var txtSyncJobName = context.querySelector('#txtSyncJobName');
+        var txtSyncJobName = context.querySelector('.syncJobName');
         if (txtSyncJobName) {
-            txtSyncJobName.value = job.Name;
+            txtSyncJobName.innerHTML = job.Name;
         }
 
         var selectProfile = context.querySelector('#selectProfile');

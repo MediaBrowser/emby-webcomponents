@@ -67,7 +67,7 @@
 
                 html += '<button is="emby-button" type="button" class="raised button-submit block btnGetPremiere block formDialogFooterItem" autoFocus><span>' + globalize.translate('sharedcomponents#HeaderBecomeProjectSupporter') + '</span></button>';
 
-                var seconds = 14;
+                var seconds = 12;
 
                 html += '<div class="continueTimeText formDialogFooterItem" style="margin: 1.5em 0 .5em;">' + globalize.translate('sharedcomponents#ContinueInSecondsValue', seconds) + '</div>';
 

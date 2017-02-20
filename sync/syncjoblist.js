@@ -117,14 +117,16 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
 
         var textLines = [];
 
+        var name = job.Name;
+
         if (job.ParentName) {
-            textLines.push(job.ParentName);
+            name += ' - ' + job.ParentName;
         }
 
-        textLines.push(job.Name);
+        textLines.push(name);
 
         if (job.ItemCount === 1) {
-            textLines.push(globalize.translate('sharedcomponents#ValueOneItem'));
+            //textLines.push(globalize.translate('sharedcomponents#ValueOneItem'));
         } else {
             textLines.push(globalize.translate('sharedcomponents#ItemCount', job.ItemCount));
         }

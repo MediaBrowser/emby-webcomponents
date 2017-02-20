@@ -127,11 +127,6 @@
         }
         job.Bitrate = bitrate;
 
-        var txtSyncJobName = form.querySelector('#txtSyncJobName');
-        if (txtSyncJobName) {
-            job.Name = txtSyncJobName.value;
-        }
-
         var selectQuality = form.querySelector('#selectQuality');
         if (selectQuality) {
             job.Quality = selectQuality.value;
@@ -194,9 +189,7 @@
 
         if (options.showName || dialogOptions.Options.indexOf('Name') !== -1) {
 
-            html += '<div class="inputContainer' + targetContainerClass + '">';
-            html += '<input is="emby-input" type="text" id="txtSyncJobName" class="txtSyncJobName" required="required" label="' + globalize.translate('sharedcomponents#LabelSyncJobName') + '"/>';
-            html += '</div>';
+            html += '<h1 style="margin-top:0;" class="syncJobName ' + targetContainerClass + '"></h1>';
         }
 
         if (options.readOnlySyncTarget) {
