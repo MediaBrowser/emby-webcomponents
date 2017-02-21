@@ -392,12 +392,11 @@ button {
 }
 
 .overflowPortraitCard-scalable {
-    width: 42%;
+    width: 42vw;
 }
 
 .overflowBackdropCard-scalable {
-    width: 72%;
-    max-width: 400px;
+    width: 72vw;
 }
 
 .overflowSmallBackdropCard-scalable {
@@ -405,7 +404,7 @@ button {
 }
 
 .overflowSquareCard-scalable {
-    width: 42%;
+    width: 42vw;
     max-width: 200px;
 }
 
@@ -430,15 +429,15 @@ button {
 @media all and (min-width: 540px) {
 
     .overflowPortraitCard-scalable {
-        width: 30%;
+        width: 30vw;
     }
 
     .overflowBackdropCard-scalable {
-        width: 64%;
+        width: 64vw;
     }
 
     .overflowSquareCard-scalable {
-        width: 30%;
+        width: 30vw;
     }
 
     .overflowSmallBackdropCard-scalable {
@@ -453,7 +452,7 @@ button {
     }
 
     .overflowBackdropCard-scalable {
-        width: 56%;
+        width: 56vw;
     }
 
     .overflowSmallBackdropCard-scalable {
@@ -508,11 +507,11 @@ button {
     }
 
     .overflowPortraitCard-scalable {
-        width: 22%;
+        width: 22vw;
     }
 
     .overflowBackdropCard-scalable {
-        width: 40%;
+        width: 40vw;
     }
 
     .overflowSmallBackdropCard-scalable {
@@ -520,7 +519,7 @@ button {
     }
 
     .overflowSquareCard-scalable {
-        width: 22%;
+        width: 22vw;
     }
 }
 
@@ -551,7 +550,7 @@ button {
     }
 
     .overflowPortraitCard-scalable {
-        width: 18%;
+        width: 18vw;
     }
 }
 
@@ -571,7 +570,11 @@ button {
     }
 
     .overflowPortraitCard-scalable {
-        width: 16%;
+        width: 15vw;
+    }
+
+    .overflowBackdropCard-scalable {
+        width: 30vw;
     }
 }
 
@@ -598,6 +601,10 @@ button {
 
     .smallBackdropCard-scalable {
         width: 10%;
+    }
+
+    .overflowBackdropCard-scalable {
+        width: 23.5vw;
     }
 }
 

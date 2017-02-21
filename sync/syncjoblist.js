@@ -87,7 +87,7 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
         var tagName = layoutManager.tv ? 'button' : 'div';
         var typeAttribute = tagName === 'button' ? ' type="button"' : '';
 
-        var listItemClass = 'listItem';
+        var listItemClass = 'listItem listItem-shaded';
 
         if (layoutManager.tv) {
             listItemClass += ' listItem-button listItem-focusscale';
