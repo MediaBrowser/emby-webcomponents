@@ -606,7 +606,7 @@
                 if (hasChannelImage) {
 
                     var url = apiClient.getScaledImageUrl(channel.Id, {
-                        maxHeight: 200,
+                        maxHeight: 220,
                         tag: channel.ImageTags.Primary,
                         type: "Primary"
                     });
