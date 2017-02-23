@@ -944,8 +944,6 @@
             if (browser.iOS || browser.osx) {
                 context.querySelector('.channelsContainer').classList.add('noRubberBanding');
 
-                var programGrid = context.querySelector('.programGrid');
-
                 programGrid.classList.add('noRubberBanding');
                 programGrid.classList.remove('smoothScrollX');
                 programGrid.classList.add('hiddenScrollX');

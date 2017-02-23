@@ -1,4 +1,9 @@
-﻿.emby-tab-button {
+﻿.emby-tabs-verticalpaddinghack {
+    padding: 1.5em;
+    margin: -1.5em;
+}
+
+.emby-tab-button {
     background: transparent;
     box-shadow: none;
     border: 2px solid transparent;

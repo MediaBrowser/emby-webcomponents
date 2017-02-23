@@ -154,6 +154,7 @@
     /* Needed in firefox */
     text-align: left;
     contain: strict;
+    flex-shrink: 0;
 }
 
 /* Important - have to put the fixed width on channelsContainer, not the individual channelHeaderCell

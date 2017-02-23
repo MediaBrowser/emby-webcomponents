@@ -71,7 +71,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             horizontal: false, // Switch to horizontal mode.
 
             // Scrolling
-            scrollSource: null, // Element for catching the mouse wheel scrolling. Default is FRAME.
             scrollBy: 0, // Pixels or items to move per one mouse scroll. 0 to disable scrolling.
             scrollHijack: 300, // Milliseconds since last wheel event after which it is acceptable to hijack global scroll.
 
@@ -129,7 +128,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         var transform = !options.enableNativeScroll;
 
         // Miscellaneous
-        var scrollSource = o.scrollSource ? o.scrollSource : frame;
+        var scrollSource = frame;
         var dragSourceElement = o.dragSource ? o.dragSource : frame;
         var animation = {};
         var dragging = {
@@ -146,6 +145,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         self.slidee = slideeElement;
         self.options = o;
         self.dragging = dragging;
+
+        var nativeScrollElement = frame;
 
         function sibling(n, elem) {
             var matched = [];
@@ -182,9 +183,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 slideTo(within(pos.dest, pos.start, pos.end));
             }
         }
-        
+
         function initFrameResizeObserver() {
-            
+
             var observerOptions = {};
 
             self.frameResizeObserver = new ResizeObserver(function (entries) {
@@ -234,7 +235,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
             if (!transform) {
 
-                nativeScrollTo(slideeElement, newPos, immediate);
+                nativeScrollTo(nativeScrollElement, newPos, immediate);
                 return;
             }
 
@@ -332,9 +333,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             if (!transform) {
                 centerOffset = 0;
                 if (o.horizontal) {
-                    offset += slideeElement.scrollLeft;
+                    offset += nativeScrollElement.scrollLeft;
                 } else {
-                    offset += slideeElement.scrollTop;
+                    offset += nativeScrollElement.scrollTop;
                 }
             }
 
@@ -660,9 +661,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 }
 
                 if (o.horizontal) {
-                    slideeElement.scrollLeft += delta;
+                    nativeScrollElement.scrollLeft += delta;
                 } else {
-                    slideeElement.scrollTop += delta;
+                    nativeScrollElement.scrollTop += delta;
                 }
             }
         }
@@ -741,35 +742,24 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 return;
             }
 
-            // Set required styles
-            var movables = [];
-            if (slideeElement) {
-                movables.push(slideeElement);
-            }
-
             if (!transform) {
                 if (o.horizontal) {
                     if (layoutManager.desktop) {
-                        slideeElement.classList.add('smoothScrollX');
+                        nativeScrollElement.classList.add('smoothScrollX');
                     } else {
-                        slideeElement.classList.add('hiddenScrollX');
+                        nativeScrollElement.classList.add('hiddenScrollX');
                     }
                 } else {
                     if (layoutManager.desktop) {
-                        slideeElement.classList.add('smoothScrollY');
+                        nativeScrollElement.classList.add('smoothScrollY');
                     } else {
-                        slideeElement.classList.add('hiddenScrollY');
+                        nativeScrollElement.classList.add('hiddenScrollY');
                     }
                 }
             } else {
+                frame.style.overflow = 'hidden';
                 slideeElement.style['will-change'] = 'transform';
                 slideeElement.style.transition = 'transform ' + o.speed + 'ms ease-out';
-                //slideeElement.classList.add('smoothscroller');
-                if (o.horizontal) {
-                    slideeElement.classList.add('animatedScrollX');
-                } else {
-                    slideeElement.classList.add('animatedScrollY');
-                }
             }
 
             if (o.horizontal || transform) {

@@ -297,6 +297,10 @@
             capture: true
         });
 
+        if (layoutManager.tv) {
+            this.classList.add('emby-tabs-verticalpaddinghack');
+        }
+
         initSelectionBar(this);
     };
 

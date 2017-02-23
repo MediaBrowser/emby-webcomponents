@@ -35,7 +35,6 @@
 
         var horizontal = this.getAttribute('data-horizontal') !== 'false';
 
-        this.style.overflow = 'hidden';
         var slider = this.querySelector('.scrollSlider');
 
         if (horizontal) {
