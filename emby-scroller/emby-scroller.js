@@ -7,11 +7,13 @@
         this.classList.add('emby-scroller');
     };
 
-    function initCenterFocus(elem, scrollerInstance, className) {
+    function initCenterFocus(elem, scrollerInstance, selector) {
+
+        var classNames = selector.split(',');
 
         dom.addEventListener(elem, 'focus', function (e) {
 
-            var focused = dom.parentWithClass(e.target, className);
+            var focused = dom.parentWithClass(e.target, classNames);
 
             if (focused) {
                 scrollerInstance.toCenter(focused);
@@ -31,7 +33,7 @@
 
     ScrollerProtoType.attachedCallback = function () {
 
-        var horizontal = true;
+        var horizontal = this.getAttribute('data-horizontal') !== 'false';
 
         this.style.overflow = 'hidden';
         var slider = this.querySelector('.scrollSlider');
@@ -49,14 +51,11 @@
         else if (frameSizeConfig === 'matchgrandparent') {
             frameSizeElement = this.parentNode.parentNode;
         }
-
         var options = {
             horizontal: horizontal,
             mouseDragging: 1,
             touchDragging: 1,
             slidee: slider,
-            smart: true,
-            releaseSwing: true,
             scrollBy: 200,
             speed: 300,
             //immediateSpeed: pageOptions.immediateSpeed,
@@ -64,16 +63,21 @@
             dragHandle: 1,
             scrollWidth: 500000,
             frameSizeElement: frameSizeElement,
-            autoImmediate: true
+            autoImmediate: true,
+            skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true'
         };
 
-        this.scroller = new scroller(this, options);
-        this.scroller.init();
+        // If just inserted it might not have any height yet - yes this is a hack
+        var self = this;
+        setTimeout(function () {
+            self.scroller = new scroller(self, options);
+            self.scroller.init();
 
-        var centerFocus = this.getAttribute('data-centerfocus');
-        if (centerFocus) {
-            initCenterFocus(this, this.scroller, centerFocus);
-        }
+            var centerFocus = self.getAttribute('data-centerfocus');
+            if (centerFocus) {
+                initCenterFocus(self, self.scroller, centerFocus);
+            }
+        }, 0);
     };
 
     ScrollerProtoType.detachedCallback = function () {

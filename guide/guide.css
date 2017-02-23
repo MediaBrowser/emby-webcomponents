@@ -10,6 +10,9 @@
     flex-direction: column;
     flex-shrink: 0;
     display: flex;
+    /* Try to give this a min height that will be semi accurate so that the heaeder always takes up a certain amount of space */
+    /* This is needed when setting up the animated virtual scroller, where the frame height is needed before the header contents are set. */
+    min-height: 5.6em;
 }
 
 .guideHeaderDateSelection {
@@ -57,9 +60,7 @@
 .programContainer {
     white-space: nowrap;
     position: relative;
-    display: flex;
     align-items: flex-start;
-    flex-grow: 1;
 }
 
 .channelPrograms {

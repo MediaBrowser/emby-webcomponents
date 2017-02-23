@@ -32,9 +32,24 @@ define([], function () {
         return elem;
     }
 
-    function parentWithClass(elem, className) {
+    function containsAnyClass(classList, classNames) {
 
-        while (!elem.classList || !elem.classList.contains(className)) {
+        for (var i = 0, length = classNames.length; i < length; i++) {
+            if (classList.contains(classNames[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function parentWithClass(elem, classNames) {
+
+        // accept both string and array passed in
+        if (!Array.isArray(classNames)) {
+            classNames = [classNames];
+        }
+
+        while (!elem.classList || !containsAnyClass(elem.classList, classNames)) {
             elem = elem.parentNode;
 
             if (!elem) {

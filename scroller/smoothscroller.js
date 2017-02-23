@@ -141,8 +141,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             resetTime: 200
         };
 
-        var i, l;
-
         // Expose properties
         self.initialized = 0;
         self.slidee = slideeElement;
@@ -171,7 +169,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         function load(isInit) {
 
             // Reset global variables
-            frameSize = getWidthOrHeight((o.frameSizeElement || frame), o.horizontal ? 'width' : 'height');
+            frameSize = o.horizontal ? (o.frameSizeElement || frame).offsetWidth : (o.frameSizeElement || frame).offsetHeight;
+
             var slideeSize = o.scrollWidth || Math.max(slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']);
 
             // Set position limits & relativess
@@ -183,93 +182,23 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 slideTo(within(pos.dest, pos.start, pos.end));
             }
         }
+        
+        function initFrameResizeObserver() {
+            
+            var observerOptions = {};
 
-        var pnum = (/[+-]?(?:\d*\.|)\d+(?:[eE][+-]?\d+|)/).source;
-        var rnumnonpx = new RegExp("^(" + pnum + ")(?!px)[a-z%]+$", "i");
-
-        function getWidthOrHeight(elem, name) {
-
-            // Start with offset property, which is equivalent to the border-box value
-            var valueIsBorderBox = true,
-                val = name === "width" ? elem.offsetWidth : elem.offsetHeight,
-                styles = getComputedStyle(elem, null),
-                isBorderBox = styles.getPropertyValue("box-sizing") === "border-box";
-
-            // Some non-html elements return undefined for offsetWidth, so check for null/undefined
-            // svg - https://bugzilla.mozilla.org/show_bug.cgi?id=649285
-            // MathML - https://bugzilla.mozilla.org/show_bug.cgi?id=491668
-            if (val <= 0 || val == null) {
-                // Fall back to computed then uncomputed css if necessary
-                //val = curCSS(elem, name, styles);
-                if (val < 0 || val == null) {
-                    val = elem.style[name];
+            self.frameResizeObserver = new ResizeObserver(function (entries) {
+                for (var j = 0, length2 = entries.length; j < length2; j++) {
+                    var entry = entries[j];
+                    var target = entry.target;
+                    console.log('resize: ' + frame.className);
+                    load(false);
                 }
-
-                // Computed unit is not pixels. Stop here and return.
-                if (rnumnonpx.test(val)) {
-                    return val;
-                }
-
-                // Check for style in case a browser which returns unreliable values
-                // for getComputedStyle silently falls back to the reliable elem.style
-                valueIsBorderBox = isBorderBox &&
-                (support.boxSizingReliable() || val === elem.style[name]);
-
-                // Normalize "", auto, and prepare for extra
-                val = parseFloat(val) || 0;
-            }
-
-            // Use the active box-sizing model to add/subtract irrelevant styles
-            return (val +
-                    augmentWidthOrHeight(
-                        elem,
-                        name,
-                        (isBorderBox ? "border" : "content"),
-                        valueIsBorderBox,
-                        styles
-                    )
+            },
+            observerOptions
             );
-        }
 
-        var cssExpand = ["Top", "Right", "Bottom", "Left"];
-
-        function augmentWidthOrHeight(elem, name, extra, isBorderBox, styles) {
-            var i = extra === (isBorderBox ? "border" : "content") ?
-                    // If we already have the right measurement, avoid augmentation
-                    4 :
-                    // Otherwise initialize for horizontal or vertical properties
-                    name === "width" ? 1 : 0,
-
-                val = 0;
-
-            for (; i < 4; i += 2) {
-                // Both box models exclude margin, so add it if we want it
-                if (extra === "margin") {
-                    //val += jQuery.css(elem, extra + cssExpand[i], true, styles);
-                }
-
-                if (isBorderBox) {
-                    // border-box includes padding, so remove it if we want content
-                    if (extra === "content") {
-                        //val -= jQuery.css(elem, "padding" + cssExpand[i], true, styles);
-                    }
-
-                    // At this point, extra isn't border nor margin, so remove border
-                    if (extra !== "margin") {
-                        //val -= jQuery.css(elem, "border" + cssExpand[i] + "Width", true, styles);
-                    }
-                } else {
-                    // At this point, extra isn't content, so add padding
-                    //val += jQuery.css(elem, "padding" + cssExpand[i], true, styles);
-
-                    // At this point, extra isn't content nor padding, so add border
-                    if (extra !== "padding") {
-                        //val += jQuery.css(elem, "border" + cssExpand[i] + "Width", true, styles);
-                    }
-                }
-            }
-
-            return val;
+            self.frameResizeObserver.observe(frame);
         }
 
         self.reload = function () { load(); };
@@ -299,7 +228,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 		 *
 		 * @return {Void}
 		 */
-        function slideTo(newPos, immediate) {
+        function slideTo(newPos, immediate, fullItemPos) {
 
             newPos = within(newPos, pos.start, pos.end);
 
@@ -322,9 +251,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 }
             }
 
-            //if (immediate || !visibleInViewport(focused, false, -50, -50)) {
-            // cancel if already visible and not immediate
-            //}
+            if (!animation.immediate && o.skipSlideToWhenVisible && fullItemPos && fullItemPos.isVisible) {
+
+                return;
+            }
 
             // Start animation rendering
             if (newPos !== pos.dest) {
@@ -387,7 +317,11 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             var slideeOffset = getBoundingClientRect(slideeElement);
             var itemOffset = getBoundingClientRect(item);
 
+            var slideeStartPos = o.horizontal ? slideeOffset.left : slideeOffset.top;
+            var slideeEndPos = o.horizontal ? slideeOffset.right : slideeOffset.bottom;
+
             var offset = o.horizontal ? itemOffset.left - slideeOffset.left : itemOffset.top - slideeOffset.top;
+
             var size = o.horizontal ? itemOffset.width : itemOffset.height;
             if (!size && size !== 0) {
                 size = item[o.horizontal ? 'offsetWidth' : 'offsetHeight'];
@@ -404,11 +338,18 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 }
             }
 
+            var currentStart = pos.cur;
+            var currentEnd = currentStart + frameSize;
+
+            //console.log('offset:' + offset + ' currentStart:' + currentStart + ' currentEnd:' + currentEnd);
+            var isVisible = offset >= currentStart && (offset + size) <= currentEnd;
+
             return {
                 start: offset,
                 center: offset + centerOffset - (frameSize / 2) + (size / 2),
                 end: offset - frameSize + size,
-                size: size
+                size: size,
+                isVisible: isVisible
             };
         };
 
@@ -472,8 +413,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 //}
 
                 var itemPos = self.getPos(item);
+
                 if (itemPos) {
-                    slideTo(itemPos[location], immediate, true);
+                    slideTo(itemPos[location], immediate, itemPos);
                 }
             }
         }
@@ -736,6 +678,11 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 passive: true
             });
 
+            if (self.frameResizeObserver) {
+                self.frameResizeObserver.disconnect();
+                self.frameResizeObserver = null;
+            }
+
             // Reset native FRAME element scroll
             dom.removeEventListener(frame, 'scroll', resetScroll, {
                 passive: true
@@ -838,7 +785,11 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                     passive: true
                 });
 
-                if (!o.scrollWidth) {
+                if (window.ResizeObserver) {
+                    initFrameResizeObserver();
+                }
+
+                else if (!o.scrollWidth) {
                     dom.addEventListener(window, 'resize', onResize, {
                         passive: true
                     });

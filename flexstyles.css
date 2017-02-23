@@ -6,6 +6,10 @@
     flex-direction: column;
 }
 
+.flex-direction-row {
+    flex-direction: row;
+}
+
 .flex-grow {
     flex-grow: 1;
 }
