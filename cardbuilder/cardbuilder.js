@@ -1,4 +1,4 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'emby-button', 'css!./card', 'paper-icon-button-light', 'clearButtonStyle'],
+define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'css!./card', 'paper-icon-button-light', 'clearButtonStyle'],
     function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser) {
         'use strict';
 

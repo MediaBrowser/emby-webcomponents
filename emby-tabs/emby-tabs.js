@@ -178,6 +178,10 @@
 
     function onClick(e) {
 
+        if (this.focusTimeout) {
+            clearTimeout(this.focusTimeout);
+        }
+
         var tabs = this;
 
         var current = tabs.querySelector('.' + activeButtonClass);
@@ -192,6 +196,7 @@
             var previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
 
             moveSelectionBar(tabs, tabButton, current, true);
+
             var index = parseInt(tabButton.getAttribute('data-index'));
 
             triggerBeforeTabChange(tabs, index, previousIndex);
@@ -262,6 +267,10 @@
         }
 
         if (tabs.getAttribute('data-selectionbar') === 'false') {
+            return;
+        }
+
+        if (layoutManager.tv) {
             return;
         }
 
@@ -375,7 +384,11 @@
             }
 
         } else {
-            tabButtons[selected].click();
+
+            onClick.call(tabs, {
+                target: tabButtons[selected]
+            });
+            //tabButtons[selected].click();
         }
     };
 
