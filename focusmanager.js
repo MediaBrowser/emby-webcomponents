@@ -143,17 +143,28 @@ define(['dom'], function (dom) {
         if (focusableContainerTagNames.indexOf(elem.tagName) !== -1) {
             return true;
         }
-        if (elem.classList.contains('focuscontainer')) {
+
+        var classList = elem.classList;
+
+        if (classList.contains('focuscontainer')) {
             return true;
         }
 
-        if (direction < 2) {
-            if (elem.classList.contains('focuscontainer-x')) {
+        if (direction === 0) {
+            if (classList.contains('focuscontainer-x')) {
+                return true;
+            }
+        }
+        else if (direction === 1) {
+            if (classList.contains('focuscontainer-x')) {
+                return true;
+            }
+            if (classList.contains('focuscontainer-right')) {
                 return true;
             }
         }
         else if (direction === 3) {
-            if (elem.classList.contains('focuscontainer-down')) {
+            if (classList.contains('focuscontainer-down')) {
                 return true;
             }
         }

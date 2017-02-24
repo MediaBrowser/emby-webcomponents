@@ -31,6 +31,18 @@
         }
     };
 
+    ScrollerProtoType.scrollToPosition = function (pos, immediate) {
+        if (this.scroller) {
+            this.scroller.slideTo(pos, immediate);
+        }
+    };
+
+    ScrollerProtoType.getScrollPosition = function () {
+        if (this.scroller) {
+            return this.scroller.getScrollPosition();
+        }
+    };
+
     ScrollerProtoType.attachedCallback = function () {
 
         var horizontal = this.getAttribute('data-horizontal') !== 'false';

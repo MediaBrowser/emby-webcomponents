@@ -405,7 +405,6 @@ button {
 
 .overflowSquareCard-scalable {
     width: 42vw;
-    max-width: 200px;
 }
 
 @media all and (min-width: 400px) {
@@ -660,10 +659,14 @@ button {
     width: 16.66666666666666667%;
 }
 
+.itemsContainer-tv > .overflowSmallBackdropCard-scalable {
+    width: 18vw;
+}
 
-@media all and (min-width: 1600px) {
+.itemsContainer-tv > .overflowBackdropCard-scalable {
+    width: 23vw;
+}
 
-    .itemsContainer-tv > .backdropCard-scalable {
-        width: 25%;
-    }
+.itemsContainer-tv > .overflowSquareCard-scalable {
+    width: 22vw;
 }

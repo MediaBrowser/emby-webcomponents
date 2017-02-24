@@ -30,6 +30,10 @@
     .emby-tab-button.emby-button-tv {
         padding-top: .4em;
         padding-bottom: .4em;
+        padding-left: .5em;
+        padding-right: .5em;
+        margin-left: .4em;
+        margin-right: .4em;
     }
 
 .emby-tab-button-active {
@@ -44,7 +48,7 @@
 
 .emby-tab-button.emby-button-tv:focus {
     color: #52B54B;
-    border-color: #52B54B;
+    border-color: transparent
 }
 
 .emby-tabs-slider {

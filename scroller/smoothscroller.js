@@ -266,11 +266,12 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             }
         }
 
-        function setStyleProperty(elem, name, value, speed) {
+        function setStyleProperty(elem, name, value, speed, resetTransition) {
 
-            elem.style.transition = 'none';
-
-            void elem.offsetWidth;
+            if (resetTransition || browser.edge) {
+                elem.style.transition = 'none';
+                void elem.offsetWidth;
+            }
 
             elem.style.transition = 'transform ' + speed + 'ms ease-out';
 
@@ -293,6 +294,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 setStyleProperty(slideeElement, 'transform', 'translateY(' + (-round(animation.to)) + 'px)', speed);
             }
             pos.cur = animation.to;
+
+            //frame.dispatchEvent(new CustomEvent('scroll', {}));
         }
 
         function getBoundingClientRect(elem) {
@@ -732,6 +735,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             }
         }
 
+        self.getScrollPosition = function() {
+            return pos.cur;
+        };
+
         /**
 		 * Initialize.
 		 *
@@ -760,6 +767,12 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 frame.style.overflow = 'hidden';
                 slideeElement.style['will-change'] = 'transform';
                 slideeElement.style.transition = 'transform ' + o.speed + 'ms ease-out';
+
+                if (o.horizontal) {
+                    slideeElement.classList.add('animatedScrollX');
+                } else {
+                    slideeElement.classList.add('animatedScrollY');
+                }
             }
 
             if (o.horizontal || transform) {
