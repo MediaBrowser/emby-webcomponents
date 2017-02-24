@@ -18,6 +18,8 @@ define(['dom', 'events'], function (dom, events) {
         var swipeYThreshold = options.swipeYThreshold || 50;
         var swipeXMaxY = 30;
 
+        var excludeTagNames = options.ignoreTagNames || [];
+
         var touchStart = function (e) {
 
             var touch = getTouches(e)[0];
@@ -26,13 +28,22 @@ define(['dom', 'events'], function (dom, events) {
             touchStartY = 0;
 
             if (touch) {
+
+                var currentTouchTarget = touch.target;
+
+                if (dom.parentWithTag(currentTouchTarget, excludeTagNames)) {
+                    return;
+                }
+
+                touchTarget = currentTouchTarget;
                 touchStartX = touch.clientX;
                 touchStartY = touch.clientY;
-                touchTarget = touch.target;
             }
         };
 
         var touchEnd = function (e) {
+
+            var isTouchMove = e.type === 'touchmove';
 
             if (touchTarget) {
                 var touch = getTouches(e)[0];
@@ -75,16 +86,16 @@ define(['dom', 'events'], function (dom, events) {
                         clientY: clientY
                     }]);
                 }
+
+                if (isTouchMove && options.preventDefaultOnMove) {
+                    e.preventDefault();
+                }
             }
 
-            if (e.type !== 'touchmove') {
+            if (!isTouchMove) {
                 touchTarget = null;
                 touchStartX = 0;
                 touchStartY = 0;
-            } else {
-                if (options.preventDefaultOnMove) {
-                    e.preventDefault();
-                }
             }
         };
 

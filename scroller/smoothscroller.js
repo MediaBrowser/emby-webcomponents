@@ -100,12 +100,12 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             // native smooth scroll
             options.enableNativeScroll = true;
         }
-        else if (options.requireAnimation && (browser.animate || browser.edge)) {
+        else if (options.requireAnimation && (browser.animate)) {
 
             // transform is the only way to guarantee animation
             options.enableNativeScroll = false;
         }
-        else if (!layoutManager.tv || !(browser.animate || browser.edge)) {
+        else if (!layoutManager.tv || !(browser.animate)) {
 
             options.enableNativeScroll = true;
         }
@@ -274,7 +274,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             }
 
             elem.style.transition = 'transform ' + speed + 'ms ease-out';
-
             elem.style[name] = value;
         }
 
