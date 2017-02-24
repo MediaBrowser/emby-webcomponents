@@ -1,6 +1,6 @@
-﻿.volumeOsd {
+﻿.iconOsd {
     position: fixed;
-    top: 8%;
+    top: 7%;
     right: 3%;
     z-index: 100000;
     background: #222;
@@ -12,25 +12,24 @@
     transition: opacity 200ms ease-out;
 }
 
-.volumeOsd-hidden {
+.iconOsd-hidden {
     opacity: 0;
 }
 
-.volumeOsdIcon {
-    font-size: 300%;
+.iconOsdIcon {
+    font-size: 320%;
     display: block;
     margin: .25em .7em;
 }
 
-.volumeOsdProgressOuter {
+.iconOsdProgressOuter {
     margin: 1.5em .25em 1em;
     height: .35em;
     background: #222;
     border-radius: .25em;
 }
 
-.volumeOsdProgressInner {
-    width: 40%;
+.iconOsdProgressInner {
     background: #52B54B;
     height: 100%;
     border-radius: .25em;

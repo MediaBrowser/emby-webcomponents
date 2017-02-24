@@ -71,8 +71,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             horizontal: false, // Switch to horizontal mode.
 
             // Scrolling
-            scrollBy: 0, // Pixels or items to move per one mouse scroll. 0 to disable scrolling.
-            scrollHijack: 300, // Milliseconds since last wheel event after which it is acceptable to hijack global scroll.
+            mouseWheel: true,
+            scrollBy: 0, // Pixels or items to move per one mouse scroll. 0 to disable scrolling
 
             // Dragging
             dragSource: null, // Selector or DOM element for catching dragging events. Default is FRAME.
@@ -804,19 +804,23 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                     });
                 }
 
-                // Scrolling navigation
-                dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
-                    passive: true
-                });
+                if (o.mouseWheel) {
+                    // Scrolling navigation
+                    dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
+                        passive: true
+                    });
+                }
 
             } else if (o.horizontal) {
 
                 // Don't bind to mouse events with vertical scroll since the mouse wheel can handle this natively
 
-                // Scrolling navigation
-                dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
-                    passive: true
-                });
+                if (o.mouseWheel) {
+                    // Scrolling navigation
+                    dom.addEventListener(scrollSource, wheelEvent, scrollHandler, {
+                        passive: true
+                    });
+                }
             }
 
             dom.addEventListener(frame, 'click', onFrameClick, {

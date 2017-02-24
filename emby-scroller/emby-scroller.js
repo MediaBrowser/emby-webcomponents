@@ -65,6 +65,7 @@
         var options = {
             horizontal: horizontal,
             mouseDragging: 1,
+            mouseWheel: this.getAttribute('data-mousewheel') !== 'false',
             touchDragging: 1,
             slidee: slider,
             scrollBy: 200,

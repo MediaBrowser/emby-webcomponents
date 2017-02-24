@@ -1,4 +1,4 @@
-﻿define(['events', 'playbackManager', 'dom', 'browser', 'css!./volumeosd', 'material-icons'], function (events, playbackManager, dom, browser) {
+﻿define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'material-icons'], function (events, playbackManager, dom, browser) {
     'use strict';
 
     var currentPlayer;
@@ -11,9 +11,9 @@
     function getOsdElementHtml() {
         var html = '';
 
-        html += '<i class="md-icon volumeOsdIcon">&#xE050;</i>';
+        html += '<i class="md-icon iconOsdIcon">&#xE050;</i>';
 
-        html += '<div class="volumeOsdProgressOuter"><div class="volumeOsdProgressInner"></div></div>';
+        html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner"></div></div>';
 
         return html;
     }
@@ -27,12 +27,12 @@
 
             elem = document.createElement('div');
             elem.classList.add('hide');
-            elem.classList.add('volumeOsd');
-            elem.classList.add('volumeOsd-hidden');
+            elem.classList.add('iconOsd');
+            elem.classList.add('iconOsd-hidden');
             elem.innerHTML = getOsdElementHtml();
 
             iconElement = elem.querySelector('i');
-            progressElement = elem.querySelector('.volumeOsdProgressInner');
+            progressElement = elem.querySelector('.iconOsdProgressInner');
 
             document.body.appendChild(elem);
             osdElement = elem;
@@ -60,7 +60,7 @@
         void elem.offsetWidth;
 
         requestAnimationFrame(function () {
-            elem.classList.remove('volumeOsd-hidden');
+            elem.classList.remove('iconOsd-hidden');
 
             hideTimeout = setTimeout(hideOsd, 3000);
         });
@@ -85,7 +85,7 @@
                 void elem.offsetWidth;
 
                 requestAnimationFrame(function () {
-                    elem.classList.add('volumeOsd-hidden');
+                    elem.classList.add('iconOsd-hidden');
 
                     dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
                         once: true
