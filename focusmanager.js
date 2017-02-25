@@ -202,6 +202,17 @@ define(['dom'], function (dom) {
         }
 
         if (box.right === null) {
+
+            // Create a new object because some browsers will throw an error when trying to set data onto the Rect object
+            var newBox = {
+                top: box.top,
+                left: box.left,
+                width: box.width,
+                height: box.height
+            };
+
+            box = newBox;
+
             box.right = box.left + box.width;
             box.bottom = box.top + box.height;
         }
