@@ -11,9 +11,9 @@
     function getOsdElementHtml() {
         var html = '';
 
-        html += '<i class="md-icon iconOsdIcon">&#xE050;</i>';
+        html += '<i class="md-icon iconOsdIcon">&#xE1AC;</i>';
 
-        html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner"></div></div>';
+        html += '<div class="iconOsdProgressOuter"><div class="iconOsdProgressInner brightnessOsdProgressInner"></div></div>';
 
         return html;
     }
@@ -29,7 +29,7 @@
             elem.classList.add('hide');
             elem.classList.add('iconOsd');
             elem.classList.add('iconOsd-hidden');
-            elem.classList.add('volumeOsd');
+            elem.classList.add('brightnessOsd');
             elem.innerHTML = getOsdElementHtml();
 
             iconElement = elem.querySelector('i');
@@ -98,13 +98,20 @@
         }
     }
 
-    function updatePlayerVolumeState(isMuted, volume) {
+    function updateElementsFromPlayer(brightness) {
 
         if (iconElement) {
-            iconElement.innerHTML = isMuted ? '&#xE04F;' : '&#xE050;';
+            if (brightness >= 80) {
+                iconElement.innerHTML = '&#xE1AC;';
+            }
+            else if (brightness >= 20) {
+                iconElement.innerHTML = '&#xE1AE;';
+            } else {
+                iconElement.innerHTML = '&#xE1AD;';
+            }
         }
         if (progressElement) {
-            progressElement.style.width = (volume || 0) + '%';
+            progressElement.style.width = (brightness || 0) + '%';
         }
     }
 
@@ -113,19 +120,19 @@
         var player = currentPlayer;
 
         if (player) {
-            events.off(player, 'volumechange', onVolumeChanged);
+            events.off(player, 'brightnesschange', onBrightnessChanged);
             events.off(player, 'playbackstop', hideOsd);
             currentPlayer = null;
         }
     }
 
-    function onVolumeChanged(e) {
+    function onBrightnessChanged(e) {
 
         var player = this;
 
         ensureOsdElement();
 
-        updatePlayerVolumeState(player.isMuted(), player.getVolume());
+        updateElementsFromPlayer(playbackManager.getBrightness(player));
 
         showOsd();
     }
@@ -145,7 +152,7 @@
         }
 
         hideOsd();
-        events.on(player, 'volumechange', onVolumeChanged);
+        events.on(player, 'brightnesschange', onBrightnessChanged);
         events.on(player, 'playbackstop', hideOsd);
     }
 

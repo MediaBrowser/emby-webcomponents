@@ -187,18 +187,19 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
             var video = document.createElement('video');
             //if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === "function") {
-            //    list.push('pictureinpicture');
+            //    list.push('PictureInPicture');
             //}
             if (browser.ipad) {
 
                 // Unfortunately this creates a false positive on devices where its' not actually supported
                 if (navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
                     if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
-                        list.push('pictureinpicture');
+                        list.push('PictureInPicture');
                     }
                 }
             }
 
+            list.push('SetBrightness');
             return list;
         }
 
@@ -662,6 +663,33 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
 
             return false;
+        };
+
+        self.setBrightness = function (val) {
+
+            var elem = mediaElement;
+
+            if (elem) {
+
+                val = Math.max(0, val);
+                val = Math.min(100, val);
+
+                var rawValue = val;
+                rawValue = Math.max(20, rawValue);
+
+                var cssValue = rawValue >= 100 ? 'none' : (rawValue / 100);
+                elem.style['-webkit-filter'] = 'brightness(' + cssValue + ');';
+                elem.style.filter = 'brightness(' + cssValue + ')';
+                elem.brightnessValue = val;
+                events.trigger(self, 'brightnesschange');
+            }
+        };
+
+        self.getBrightness = function () {
+            if (mediaElement) {
+                var val = mediaElement.brightnessValue;
+                return val == null ? 100 : val;
+            }
         };
 
         self.setVolume = function (val) {

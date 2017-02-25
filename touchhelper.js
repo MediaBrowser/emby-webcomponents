@@ -122,21 +122,23 @@ define(['dom', 'events'], function (dom, events) {
 
         var elem = this.elem;
 
-        var touchStart = this.touchStart;
-        var touchEnd = this.touchEnd;
+        if (elem) {
+            var touchStart = this.touchStart;
+            var touchEnd = this.touchEnd;
 
-        dom.removeEventListener(elem, 'touchstart', touchStart, {
-            passive: true
-        });
-        dom.removeEventListener(elem, 'touchmove', touchEnd, {
-            passive: true
-        });
-        dom.removeEventListener(elem, 'touchend', touchEnd, {
-            passive: true
-        });
-        dom.removeEventListener(elem, 'touchcancel', touchEnd, {
-            passive: true
-        });
+            dom.removeEventListener(elem, 'touchstart', touchStart, {
+                passive: true
+            });
+            dom.removeEventListener(elem, 'touchmove', touchEnd, {
+                passive: true
+            });
+            dom.removeEventListener(elem, 'touchend', touchEnd, {
+                passive: true
+            });
+            dom.removeEventListener(elem, 'touchcancel', touchEnd, {
+                passive: true
+            });
+        }
 
         this.touchStart = null;
         this.touchEnd = null;

@@ -210,8 +210,13 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     list.push('ToggleFullscreen');
                 }
 
-                if (player.supports && player.supports('pictureinpicture')) {
-                    list.push('PictureInPicture');
+                if (player.supports) {
+                    if (player.supports('PictureInPicture')) {
+                        list.push('PictureInPicture');
+                    }
+                    if (player.supports('SetBrightness')) {
+                        list.push('SetBrightness');
+                    }
                 }
 
                 return list;
@@ -397,6 +402,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     break;
                 case 'SetVolume':
                     self.setVolume(cmd.Arguments.Volume, player);
+                    break;
+                case 'SetBrightness':
+                    self.setBrightness(cmd.Arguments.Brightness, player);
                     break;
                 case 'SetAudioStreamIndex':
                     self.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
@@ -645,6 +653,30 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 } else {
                     player.setMute(!player.isMuted());
                 }
+            }
+        };
+
+        var brightnessOsdLoaded;
+        self.setBrightness = function (val, player) {
+
+            player = player || currentPlayer;
+
+            if (player) {
+
+                if (!brightnessOsdLoaded) {
+                    brightnessOsdLoaded = true;
+                    require(['brightnessOsd']);
+                }
+                player.setBrightness(val);
+            }
+        };
+
+        self.getBrightness = function (player) {
+
+            player = player || currentPlayer;
+
+            if (player) {
+                return player.getBrightness();
             }
         };
 

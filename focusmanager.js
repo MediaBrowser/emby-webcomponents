@@ -218,8 +218,11 @@ define(['dom'], function (dom) {
         return offset;
     }
 
+    var lastHorizontalDirection = 0;
+    var lastVerticalDirection = 2;
     function nav(activeElement, direction) {
 
+        console.log('nav--------------------------------------------------------');
         activeElement = activeElement || document.activeElement;
 
         if (activeElement) {
@@ -239,12 +242,44 @@ define(['dom'], function (dom) {
         var focusableElements = [];
 
         var focusable = container.querySelectorAll(focusableQuery);
+
+        var fromBox = boxInDirection(rect, direction);
+
+        var maxDistance = Infinity;
+        var minDistance = maxDistance;
+
+        var target;
+
+        var focusPointBox = {
+            x: (rect.right - rect.left) / 2,
+            y: (rect.bottom - rect.top) / 2
+        };
+
+        lastHorizontalDirection = 0;
+        lastVerticalDirection = 2;
+
+        if (lastHorizontalDirection === 0) {
+            focusPointBox.x = 0;
+        }
+        else if (lastHorizontalDirection === 1) {
+            focusPointBox.x = rect.right - rect.left;
+        }
+        if (lastVerticalDirection === 2) {
+            focusPointBox.y = 0;
+        }
+        else if (lastVerticalDirection === 3) {
+            focusPointBox.y = rect.bottom - rect.top;
+        }
+
+        var fromFocusPoint = directions[direction].toUnified(boxCoordsToClient(focusPointBox, rect));
+
         for (var i = 0, length = focusable.length; i < length; i++) {
             var curr = focusable[i];
 
             if (curr === activeElement) {
                 continue;
             }
+
             // Don't refocus into the same container
             if (curr === focusableContainer) {
                 continue;
@@ -302,17 +337,25 @@ define(['dom'], function (dom) {
                 default:
                     break;
             }
-            focusableElements.push({
-                element: curr,
-                clientRect: elementRect
-            });
+
+            var toBox = boxInDirection(elementRect, direction);
+
+            // Skip elements that are not in the direction of movement
+            if (toBox.fwd1 < fromBox.fwd2) {
+                continue;
+            }
+
+            var dist = distance(fromBox, fromFocusPoint, toBox, direction);
+
+            if (dist < minDistance) {
+                target = curr;
+                minDistance = dist;
+            }
         }
 
-        var nearest = getNearestElements(focusableElements, rect, direction);
+        var nearestElement = target;
 
-        if (nearest.length) {
-
-            var nearestElement = nearest[0].node;
+        if (nearestElement) {
 
             // See if there's a focusable container, and if so, send the focus command to that
             if (activeElement) {
@@ -323,111 +366,129 @@ define(['dom'], function (dom) {
                     }
                 }
             }
+
+            if (direction < 2) {
+                lastHorizontalDirection = direction;
+            } else {
+                lastVerticalDirection = direction;
+            }
+
             focus(nearestElement);
         }
     }
 
-    function intersectsInternal(a1, a2, b1, b2) {
-
-        return (b1 >= a1 && b1 <= a2) || (b2 >= a1 && b2 <= a2);
-    }
-
-    function intersects(a1, a2, b1, b2) {
-
-        return intersectsInternal(a1, a2, b1, b2) || intersectsInternal(b1, b2, a1, a2);
-    }
-
-    function getNearestElements(elementInfos, options, direction) {
-
-        // Get elements and work out x/y points
-        var cache = [],
-			point1x = parseFloat(options.left) || 0,
-			point1y = parseFloat(options.top) || 0,
-			point2x = parseFloat(point1x + options.width - 1) || point1x,
-			point2y = parseFloat(point1y + options.height - 1) || point1y,
-			// Shortcuts to help with compression
-			min = Math.min,
-			max = Math.max;
-
-        var sourceMidX = options.left + (options.width / 2);
-        var sourceMidY = options.top + (options.height / 2);
-
-        // Loop through all elements and check their positions
-        for (var i = 0, length = elementInfos.length; i < length; i++) {
-
-            var elementInfo = elementInfos[i];
-            var elem = elementInfo.element;
-
-            var off = elementInfo.clientRect,
-                x = off.left,
-                y = off.top,
-                x2 = x + off.width - 1,
-                y2 = y + off.height - 1;
-
-            var intersectX = intersects(point1x, point2x, x, x2);
-            var intersectY = intersects(point1y, point2y, y, y2);
-
-            var midX = off.left + (off.width / 2);
-            var midY = off.top + (off.height / 2);
-
-            var distX;
-            var distY;
-
-            switch (direction) {
-
-                case 0:
-                    // left
-                    distX = Math.abs(point1x - Math.min(point1x, x2));
-                    distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
-                    break;
-                case 1:
-                    // right
-                    distX = Math.abs(point2x - Math.max(point2x, x));
-                    distY = intersectY ? 0 : Math.abs(sourceMidY - midY);
-                    break;
-                case 2:
-                    // up
-                    distY = Math.abs(point1y - Math.min(point1y, y2));
-                    distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
-                    break;
-                case 3:
-                    // down
-                    distY = Math.abs(point2y - Math.max(point2y, y));
-                    distX = intersectX ? 0 : Math.abs(sourceMidX - midX);
-                    break;
-                default:
-                    break;
+    var directions = {
+        // left
+        0: {
+            toUnified: function (coords) {
+                return { fwd: -coords.x, ort: -coords.y };
+            },
+            fromUnified: function (coords) {
+                return { x: -coords.fwd, y: -coords.ort };
             }
-
-            var distT = Math.sqrt(distX * distX + distY * distY);
-
-            cache.push({
-                node: elem,
-                distX: distX,
-                distY: distY,
-                distT: distT,
-                index: i
-            });
+        },
+        // right
+        1: {
+            toUnified: function (coords) {
+                return { fwd: coords.x, ort: coords.y };
+            },
+            fromUnified: function (coords) {
+                return { x: coords.fwd, y: coords.ort };
+            }
+        },
+        // up
+        2: {
+            toUnified: function (coords) {
+                return { fwd: -coords.y, ort: coords.x };
+            },
+            fromUnified: function (coords) {
+                return { x: coords.ort, y: -coords.fwd };
+            }
+        },
+        // down
+        3: {
+            toUnified: function (coords) {
+                return { fwd: coords.y, ort: -coords.x };
+            },
+            fromUnified: function (coords) {
+                return { x: -coords.ort, y: coords.fwd };
+            }
         }
+    };
 
-        cache.sort(sortNodesT);
-
-        return cache;
+    function boxInDirection(box, direction) {
+        var p1 = directions[direction].toUnified({ x: box.left, y: box.top });
+        var p2 = directions[direction].toUnified({ x: box.right, y: box.bottom });
+        return {
+            fwd1: Math.min(p1.fwd, p2.fwd),
+            ort1: Math.min(p1.ort, p2.ort),
+            fwd2: Math.max(p1.fwd, p2.fwd),
+            ort2: Math.max(p1.ort, p2.ort)
+        };
     }
 
-    function sortNodesT(a, b) {
+    function boxOverlap(box1, box2) {
+        var orts = {
+            ort1: box1.ort1,
+            ort2: box1.ort2
+        };
 
-        var result = a.distT - b.distT;
-        if (result !== 0) {
-            return result;
+        if (box2.ort1 > orts.ort1) {
+            orts.ort1 = box2.ort1;
+        }
+        if (box2.ort2 < orts.ort2) {
+            orts.ort2 = box2.ort2;
         }
 
-        result = a.index - b.index;
-        if (result !== 0) {
-            return result;
+        var result = orts.ort2 - orts.ort1;
+        if (result < 0) {
+            result = 0;
         }
 
-        return 0;
+        return result;
+    }
+
+    function boxCoordsToClient(coords, box) {
+        return {
+            x: coords.x + box.left,
+            y: coords.y + box.top
+        };
+    }
+
+    function bound(val, min, max) {
+        return Math.min(Math.max(val, min), max);
+    }
+
+    function distance(fromBox, fromFocusPoint, toBox, direction) {
+
+        var fromPointFwd = fromFocusPoint.fwd;
+        var fromPointOrt = fromFocusPoint.ort;
+
+        var toPoint = {
+            fwd: toBox.fwd1,
+            ort: bound(fromPointOrt, toBox.ort1, toBox.ort2)
+        };
+
+        var fwdDist = Math.abs(toPoint.fwd - fromPointFwd);
+        var ortDist = Math.abs(toPoint.ort - fromPointOrt);
+
+        // The Euclidian distance between the current focus point position and
+        // its potential position in the candidate.
+        // If the two positions have the same coordinate on the axis orthogonal
+        // to the navigation direction, dotDist is forced to 0 in order to favor
+        // elements in direction of navigation
+        var dotDist;
+        if (toPoint.ort === fromPointOrt) {
+            dotDist = 0;
+        } else {
+            dotDist = Math.sqrt(fwdDist * fwdDist + ortDist * ortDist);
+        }
+
+        // The overlap between the opposing edges of currently focused element and the candidate.
+        // Elements are rewarded for having high overlap with the currently focused element.
+        var overlap = boxOverlap(fromBox, toBox);
+
+        return dotDist + fwdDist + 2 * ortDist - Math.sqrt(overlap);
     }
 
     function sendText(text) {
