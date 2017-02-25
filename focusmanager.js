@@ -200,22 +200,13 @@ define(['dom'], function (dom) {
                 height: 0
             };
         }
-        return {
-            top: box.top,
-            left: box.left,
-            width: box.width,
-            height: box.height
-        };
-    }
 
-    function getViewportBoundingClientRect(elem) {
+        if (box.right === null) {
+            box.right = box.left + box.width;
+            box.bottom = box.top + box.height;
+        }
 
-        var offset = getOffset(elem);
-
-        offset.right = offset.left + offset.width;
-        offset.bottom = offset.top + offset.height;
-
-        return offset;
+        return box;
     }
 
     var lastHorizontalDirection = 0;
@@ -238,7 +229,7 @@ define(['dom'], function (dom) {
 
         var focusableContainer = dom.parentWithClass(activeElement, 'focusable');
 
-        var rect = getViewportBoundingClientRect(activeElement);
+        var rect = getOffset(activeElement);
         var focusableElements = [];
 
         var focusable = container.querySelectorAll(focusableQuery);
@@ -289,7 +280,7 @@ define(['dom'], function (dom) {
             //    continue;
             //}
 
-            var elementRect = getViewportBoundingClientRect(curr);
+            var elementRect = getOffset(curr);
 
             // not currently visible
             if (!elementRect.width && !elementRect.height) {
