@@ -1,4 +1,4 @@
-﻿define(['scroller', 'dom', 'registerElement'], function (scroller, dom) {
+﻿define(['scroller', 'dom', 'layoutManager', 'registerElement'], function (scroller, dom, layoutManager) {
     'use strict';
 
     var ScrollerProtoType = Object.create(HTMLDivElement.prototype);
@@ -86,7 +86,7 @@
             self.scroller.init();
 
             var centerFocus = self.getAttribute('data-centerfocus');
-            if (centerFocus) {
+            if (centerFocus && layoutManager.tv) {
                 initCenterFocus(self, self.scroller, centerFocus);
             }
         }, 0);

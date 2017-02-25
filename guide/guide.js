@@ -939,14 +939,14 @@
             var programGrid = context.querySelector('.programGrid');
             var timeslotHeaders = context.querySelector('.timeslotHeaders');
 
-            programGrid.addEventListener('focus', onProgramGridFocus, true);
+            if (layoutManager.tv) {
+                programGrid.addEventListener('focus', onProgramGridFocus, true);
+            }
 
             if (browser.iOS || browser.osx) {
                 context.querySelector('.channelsContainer').classList.add('noRubberBanding');
 
                 programGrid.classList.add('noRubberBanding');
-                programGrid.classList.remove('smoothScrollX');
-                programGrid.classList.add('hiddenScrollX');
             }
 
             dom.addEventListener(programGrid, 'scroll', function (e) {
