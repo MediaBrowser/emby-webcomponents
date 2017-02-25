@@ -48,7 +48,8 @@
 
 .emby-tab-button.emby-button-tv:focus {
     color: #52B54B;
-    border-color: #52B54B
+    border-color: transparent;
+    transform: scale(1.24);
 }
 
 .emby-tabs-slider {

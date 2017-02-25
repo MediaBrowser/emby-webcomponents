@@ -8,7 +8,7 @@ define(['browser'], function (browser) {
 
     function canPlayH265() {
 
-        if (browser.tizen) {
+        if (browser.tizen || browser.orsay) {
             return true;
         }
 
@@ -60,7 +60,7 @@ define(['browser'], function (browser) {
         var typeString;
 
         if (format === 'flac') {
-            if (browser.tizen) {
+            if (browser.tizen || browser.orsay) {
                 return true;
             }
             if (browser.edgeUwp) {
@@ -69,7 +69,7 @@ define(['browser'], function (browser) {
         }
 
         else if (format === 'wma') {
-            if (browser.tizen) {
+            if (browser.tizen || browser.orsay) {
                 return true;
             }
             if (browser.edgeUwp) {
@@ -125,7 +125,7 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        if (browser.tizen) {
+        if (browser.tizen || browser.orsay) {
             return true;
         }
 
@@ -139,7 +139,7 @@ define(['browser'], function (browser) {
 
     function testCanPlayTs() {
 
-        return browser.tizen || browser.web0s || browser.edgeUwp;
+        return browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
     }
 
     function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs) {
@@ -151,15 +151,15 @@ define(['browser'], function (browser) {
         switch (container) {
 
             case 'asf':
-                supported = browser.tizen || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.edgeUwp;
                 videoAudioCodecs = [];
                 break;
             case 'avi':
-                supported = browser.tizen || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.edgeUwp;
                 break;
             case 'mpg':
             case 'mpeg':
-                supported = browser.edgeUwp || browser.tizen;
+                supported = browser.edgeUwp || browser.tizen || browser.orsay;
                 break;
             case '3gp':
             case 'flv':
@@ -167,18 +167,18 @@ define(['browser'], function (browser) {
             case 'trp':
             case 'vob':
             case 'vro':
-                supported = browser.tizen;
+                supported = browser.tizen || browser.orsay;
                 break;
             case 'mov':
-                supported = browser.tizen || browser.chrome || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.chrome || browser.edgeUwp;
                 videoCodecs.push('h264');
                 break;
             case 'm2ts':
-                supported = browser.tizen || browser.web0s || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
                 videoCodecs.push('h264');
                 break;
             case 'wmv':
-                supported = browser.tizen || browser.web0s || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
                 videoAudioCodecs = [];
                 break;
             case 'ts':
@@ -241,7 +241,7 @@ define(['browser'], function (browser) {
         // Only put mp3 first if mkv support is there
         // Otherwise with HLS and mp3 audio we're seeing some browsers
         // safari is lying
-        if ((videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '') && !browser.osx && !browser.iOS) || browser.edgeUwp || browser.tizen || browser.web0s) {
+        if ((videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '') && !browser.osx && !browser.iOS) || browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s) {
             videoAudioCodecs.push('ac3');
 
             // This works in edge desktop, but not mobile
@@ -251,7 +251,7 @@ define(['browser'], function (browser) {
             }
         }
 
-        if (browser.tizen) {
+        if (browser.tizen || browser.orsay) {
             videoAudioCodecs.push('eac3');
             hlsVideoAudioCodecs.push('eac3');
         }
@@ -277,7 +277,7 @@ define(['browser'], function (browser) {
             }
         }
 
-        if (browser.tizen || options.supportsDts) {
+        if (browser.tizen || browser.orsay || options.supportsDts) {
             videoAudioCodecs.push('dca');
             videoAudioCodecs.push('dts');
         }
@@ -317,7 +317,7 @@ define(['browser'], function (browser) {
             });
         }
 
-        if (browser.tizen) {
+        if (browser.tizen || browser.orsay) {
             mp4VideoCodecs.push('mpeg2video');
             mp4VideoCodecs.push('vc1');
         }
@@ -412,7 +412,7 @@ define(['browser'], function (browser) {
         });
 
         // Can't use mkv on mobile because we have to use the native player controls and they won't be able to seek it
-        if (canPlayMkv && !browser.tizen && options.enableMkvProgressive !== false) {
+        if (canPlayMkv && !browser.tizen && !browser.orsay && options.enableMkvProgressive !== false) {
             profile.TranscodingProfiles.push({
                 Container: 'mkv',
                 Type: 'Video',
@@ -489,7 +489,7 @@ define(['browser'], function (browser) {
 
         profile.CodecProfiles = [];
 
-        var supportsSecondaryAudio = browser.tizen || browser.edge || browser.msie;
+        var supportsSecondaryAudio = browser.tizen || browser.orsay || browser.edge || browser.msie;
 
         // Handle he-aac not supported
         if (!videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.5"').replace(/no/, '')) {
@@ -562,7 +562,7 @@ define(['browser'], function (browser) {
             }]
         });
 
-        if (!browser.edgeUwp && !browser.tizen && !browser.web0s) {
+        if (!browser.edgeUwp && !browser.tizen && !browser.orsay && !browser.web0s) {
             profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
                 Condition: 'NotEquals',
                 Property: 'IsAVC',
