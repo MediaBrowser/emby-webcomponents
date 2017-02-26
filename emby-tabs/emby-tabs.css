@@ -1,9 +1,4 @@
-﻿.emby-tabs-verticalpaddinghack {
-    padding: 1.5em;
-    margin: -1.5em;
-}
-
-.emby-tab-button {
+﻿.emby-tab-button {
     background: transparent;
     box-shadow: none;
     cursor: pointer;
@@ -15,24 +10,15 @@
     vertical-align: middle;
     flex-shrink: 0;
     margin: 0;
-    padding: 1em .9em;
+    padding: .4em .9em;
     position: relative;
     height: auto;
     min-width: initial;
     line-height: initial;
     border-radius: 0 !important;
     overflow: hidden;
-    color: #999;
+    color: #888;
 }
-
-    .emby-tab-button.emby-button-tv {
-        padding-top: .4em;
-        padding-bottom: .4em;
-        padding-left: .5em;
-        padding-right: .5em;
-        margin-left: .4em;
-        margin-right: .4em;
-    }
 
 .emby-tab-button-active {
     color: #52B54B;
@@ -44,7 +30,7 @@
 
 .emby-tab-button.emby-button-tv:focus {
     color: #52B54B;
-    transform: scale(1.24);
+    transform: scale(1.26);
 }
 
 .emby-tabs-slider {

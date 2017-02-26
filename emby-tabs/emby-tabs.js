@@ -181,10 +181,6 @@
             passive: true,
             capture: true
         });
-
-        if (layoutManager.tv) {
-            this.classList.add('emby-tabs-verticalpaddinghack');
-        }
     };
 
     EmbyTabs.focus = function () {

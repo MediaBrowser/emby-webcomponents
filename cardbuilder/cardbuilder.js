@@ -1078,9 +1078,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 childText = '';
 
-                if (item.CumulativeRunTimeTicks) {
+                if (item.RunTimeTicks) {
 
-                    var minutes = item.CumulativeRunTimeTicks / 600000000;
+                    var minutes = item.RunTimeTicks / 600000000;
 
                     minutes = minutes || 1;
 
