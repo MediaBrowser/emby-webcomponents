@@ -317,7 +317,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
          */
         self.getPos = function (item) {
 
-            var slideeOffset = getBoundingClientRect(slideeElement);
+            var scrollElement = transform ? slideeElement : nativeScrollElement;
+            var slideeOffset = getBoundingClientRect(scrollElement);
             var itemOffset = getBoundingClientRect(item);
 
             var slideeStartPos = o.horizontal ? slideeOffset.left : slideeOffset.top;
