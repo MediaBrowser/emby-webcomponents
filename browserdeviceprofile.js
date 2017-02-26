@@ -282,7 +282,7 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('dts');
         }
 
-        if (browser.tizen) {
+        if (browser.tizen || browser.orsay) {
             videoAudioCodecs.push('pcm_s16le');
             videoAudioCodecs.push('pcm_s24le');
         }

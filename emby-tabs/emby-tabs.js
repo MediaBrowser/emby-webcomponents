@@ -5,97 +5,9 @@
     var buttonClass = 'emby-tab-button';
     var activeButtonClass = buttonClass + '-active';
 
-    function getBoundingClientRect(elem) {
+    function setActiveTabButton(tabs, newButton, oldButton, animate) {
 
-        // Support: BlackBerry 5, iOS 3 (original iPhone)
-        // If we don't have gBCR, just use 0,0 rather than error
-        if (elem.getBoundingClientRect) {
-            return elem.getBoundingClientRect();
-        } else {
-            return { top: 0, left: 0 };
-        }
-    }
-
-    function animtateSelectionBar(bar, start, pos, duration, onFinish) {
-
-        var endTransform = pos ? ('translateX(' + Math.round(pos) + 'px)') : 'none';
-
-        if (!duration || !bar.animate || layoutManager.tv) {
-            bar.style.transform = endTransform;
-            if (onFinish) {
-                onFinish();
-            }
-            return;
-        }
-
-        var startTransform = start ? ('translateX(' + Math.round(start) + 'px)') : 'none';
-
-        bar.style.transform = startTransform;
-
-        var keyframes = [
-          { transform: 'translateX(' + start + 'px)', offset: 0 },
-          { transform: endTransform, offset: 1 }];
-
-        bar.animate(keyframes, {
-            duration: duration,
-            iterations: 1,
-            easing: 'linear',
-            fill: 'forwards'
-        });
-
-        // for some reason onFinish is not firing. temporary browser issue?
-        setTimeout(onFinish, duration);
-    }
-
-    function moveSelectionBar(tabs, newButton, oldButton, animate) {
-
-        var selectionBar = tabs.selectionBar;
-
-        if (selectionBar) {
-            selectionBar.style.width = newButton.offsetWidth + 'px';
-            selectionBar.classList.remove('hide');
-        }
-
-        var tabsOffset = getBoundingClientRect(tabs);
-        var startOffset = tabs.currentOffset || 0;
-
-        if (oldButton) {
-            if (tabs.scroller) {
-                startOffset = tabs.scroller.getCenterPosition(oldButton);
-            } else {
-                startOffset = getBoundingClientRect(oldButton).left - tabsOffset.left;
-            }
-        }
-
-        var endPosition;
-        if (tabs.scroller) {
-            endPosition = tabs.scroller.getCenterPosition(newButton);
-        } else {
-            var tabButtonOffset = getBoundingClientRect(newButton);
-            endPosition = tabButtonOffset.left - tabsOffset.left;
-        }
-
-        var delay = animate ? 100 : 0;
-        tabs.currentOffset = endPosition;
-
-        var onAnimationFinish = function () {
-
-            //if (tabs.getAttribute('data-selectionbar') !== 'false') {
-            //    showButtonSelectionBar(newButton);
-            //}
-            newButton.classList.add(activeButtonClass);
-
-            if (selectionBar) {
-                selectionBar.classList.add('hide');
-            }
-
-        };
-
-        if (selectionBar) {
-            animtateSelectionBar(selectionBar, startOffset, endPosition, delay, onAnimationFinish);
-        } else {
-            onAnimationFinish();
-        }
+        newButton.classList.add(activeButtonClass);
     }
 
     function getFocusCallback(tabs, e) {
@@ -195,7 +107,7 @@
 
             var previousIndex = current ? parseInt(current.getAttribute('data-index')) : null;
 
-            moveSelectionBar(tabs, tabButton, current, true);
+            setActiveTabButton(tabs, tabButton, current, true);
 
             var index = parseInt(tabButton.getAttribute('data-index'));
 
@@ -254,33 +166,6 @@
         }
     }
 
-    function initSelectionBar(tabs) {
-
-        if (!browser.animate) {
-            return;
-        }
-
-        var contentScrollSlider = tabs.querySelector('.emby-tabs-slider');
-
-        if (!contentScrollSlider) {
-            return;
-        }
-
-        if (tabs.getAttribute('data-selectionbar') === 'false') {
-            return;
-        }
-
-        if (layoutManager.tv) {
-            return;
-        }
-
-        var elem = document.createElement('div');
-        elem.classList.add('emby-tabs-selection-bar');
-
-        contentScrollSlider.appendChild(elem);
-        tabs.selectionBar = elem;
-    }
-
     EmbyTabs.createdCallback = function () {
 
         if (this.classList.contains('emby-tabs')) {
@@ -300,8 +185,6 @@
         if (layoutManager.tv) {
             this.classList.add('emby-tabs-verticalpaddinghack');
         }
-
-        initSelectionBar(this);
     };
 
     EmbyTabs.focus = function () {
@@ -327,14 +210,17 @@
         initScroller(this);
 
         var current = this.querySelector('.' + activeButtonClass);
-        var currentIndex = current ? parseInt(current.getAttribute('data-index')) : 0;
+        var currentIndex = current ? parseInt(current.getAttribute('data-index')) : parseInt(this.getAttribute('data-index') || '1');
 
-        var tabButtons = this.querySelectorAll('.' + buttonClass);
+        if (currentIndex !== -1) {
 
-        var newTabButton = tabButtons[currentIndex];
+            var tabButtons = this.querySelectorAll('.' + buttonClass);
 
-        if (newTabButton) {
-            moveSelectionBar(this, newTabButton, current, false);
+            var newTabButton = tabButtons[currentIndex];
+
+            if (newTabButton) {
+                setActiveTabButton(this, newTabButton, current, false);
+            }
         }
     };
 
@@ -352,7 +238,6 @@
             passive: true,
             capture: true
         });
-        this.selectionBar = null;
     };
 
     EmbyTabs.selectedIndex = function (selected, triggerEvent) {
@@ -381,7 +266,7 @@
             }));
 
             var currentTabButton = tabButtons[current];
-            moveSelectionBar(tabs, tabButtons[selected], currentTabButton, false);
+            setActiveTabButton(tabs, tabButtons[selected], currentTabButton, false);
 
             if (current !== selected && currentTabButton) {
                 currentTabButton.classList.remove(activeButtonClass);

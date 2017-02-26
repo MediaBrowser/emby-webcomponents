@@ -342,11 +342,6 @@ define(['dom'], function (dom) {
 
             var toBox = boxInDirection(elementRect, direction);
 
-            // Skip elements that are not in the direction of movement
-            if (toBox.fwd1 < fromBox.fwd2) {
-                continue;
-            }
-
             var dist = distance(fromBox, fromFocusPoint, toBox, direction);
 
             if (dist < minDistance) {

@@ -71,7 +71,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: 6px;
+    margin: .45em;
     transition: none;
     border: 0 solid transparent;
     /* Needed in case cardBox is a button */
@@ -88,7 +88,7 @@ button {
 }
 
 .cardBox-scaled-small {
-    transform: scale(1.12, 1.12);
+    transform: scale(1.16, 1.16);
 }
 
 .card:focus {
@@ -98,8 +98,8 @@ button {
 }
 
     .card:focus .cardBox {
-        margin: 4px;
-        border-width: 2px;
+        margin: .36em;
+        border-width: .09em;
         border-color: transparent;
     }
 
