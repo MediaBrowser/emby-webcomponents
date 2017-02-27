@@ -809,7 +809,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             }
 
                         } else {
-                            var parentTitle = item.SeriesName || item.Album || item.AlbumArtist || item.GameSystem || "";
+                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || "";
 
                             if (parentTitle || showTitle) {
                                 lines.push(parentTitle);
@@ -841,7 +841,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         item.AlbumArtists[0].IsFolder = true;
                         lines.push(getTextActionButton(item.AlbumArtists[0], null, item.ServerId));
                     } else {
-                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Album || item.AlbumArtist || item.GameSystem || ""));
+                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || ""));
                     }
                 }
 
@@ -1185,6 +1185,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var scalable = options.scalable !== false;
             if (scalable) {
                 className += " scalableCard " + options.shape + "Card-scalable";
+            }
+
+            if (layoutManager.tv && (browser.animate || browser.edge)) {
+                className += ' card-focusscale';
             }
 
             var imgInfo = getCardImageUrl(item, apiClient, options);

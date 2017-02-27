@@ -116,7 +116,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
         // Frame
         var slideeElement = o.slidee ? o.slidee : sibling(frame.firstChild)[0];
-        var frameSize = 0;
         var pos = {
             start: 0,
             center: 0,
@@ -159,6 +158,25 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             return matched;
         }
 
+        var requiresReflow = true;
+
+        var frameSize = 0;
+        function ensureSizeInfo() {
+
+            if (requiresReflow) {
+
+                requiresReflow = false;
+
+                // Reset global variables
+                frameSize = o.horizontal ? (frame).offsetWidth : (frame).offsetHeight;
+
+                var slideeSize = o.scrollWidth || Math.max(slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']);
+
+                // Set position limits & relativess
+                pos.end = max(slideeSize - frameSize, 0);
+            }
+        }
+
         /**
 		 * Loading function.
 		 *
@@ -169,16 +187,12 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 		 */
         function load(isInit) {
 
-            // Reset global variables
-            frameSize = o.horizontal ? (o.frameSizeElement || frame).offsetWidth : (o.frameSizeElement || frame).offsetHeight;
-
-            var slideeSize = o.scrollWidth || Math.max(slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']);
-
-            // Set position limits & relativess
-            pos.start = 0;
-            pos.end = max(slideeSize - frameSize, 0);
+            requiresReflow = true;
 
             if (!isInit) {
+
+                ensureSizeInfo();
+
                 // Fix possible overflowing
                 slideTo(within(pos.dest, pos.start, pos.end));
             }
@@ -193,7 +207,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                     var entry = entries[j];
                     var target = entry.target;
                     console.log('resize: ' + frame.className);
-                    load(false);
+                    onResize();
                 }
             },
             observerOptions
@@ -230,6 +244,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 		 * @return {Void}
 		 */
         function slideTo(newPos, immediate, fullItemPos) {
+
+            ensureSizeInfo();
 
             newPos = within(newPos, pos.start, pos.end);
 
@@ -342,6 +358,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 }
             }
 
+            ensureSizeInfo();
+
             var currentStart = pos.cur;
             var currentEnd = currentStart + frameSize;
 
@@ -358,6 +376,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         };
 
         self.getCenterPosition = function (item) {
+
+            ensureSizeInfo();
 
             var pos = self.getPos(item);
             return within(pos.center, pos.start, pos.end);
@@ -644,6 +664,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 		 */
         function scrollHandler(event) {
 
+            ensureSizeInfo();
+
             // Ignore if there is no scrolling to be done
             if (!o.scrollBy || pos.start === pos.end) {
                 return;
@@ -735,7 +757,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             }
         }
 
-        self.getScrollPosition = function() {
+        self.getScrollPosition = function () {
             return pos.cur;
         };
 

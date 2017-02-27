@@ -2741,6 +2741,8 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             // medianotsupported
             var errorType = error.type;
 
+            console.log('playbackmanager playback error type: ' + (errorType || ''));
+
             var streamInfo = getPlayerData(player).streamInfo;
 
             // Auto switch to transcoding, for video playback only

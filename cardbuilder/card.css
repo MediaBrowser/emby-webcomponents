@@ -83,11 +83,7 @@ button {
     transition: transform 200ms ease-out;
 }
 
-.card-focusscale:focus > .cardBox-focustransform, .cardBox-scaled {
-    transform: scale(1.16, 1.16);
-}
-
-.cardBox-scaled-small {
+.card-focusscale:focus > .cardBox-focustransform {
     transform: scale(1.16, 1.16);
 }
 
@@ -218,7 +214,7 @@ button {
 }
 
 .cardFooter {
-    padding: .5em .3em;
+    padding: .44em .3em;
     position: relative;
 }
 
@@ -249,7 +245,7 @@ button {
 }
 
 .cardText {
-    padding: .3em .5em;
+    padding: .24em .5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -551,6 +547,10 @@ button {
     .overflowPortraitCard-scalable {
         width: 18vw;
     }
+
+    .overflowSquareCard-scalable {
+        width: 18vw;
+    }
 }
 
 
@@ -569,6 +569,10 @@ button {
     }
 
     .overflowPortraitCard-scalable {
+        width: 15vw;
+    }
+
+    .overflowSquareCard-scalable {
         width: 15vw;
     }
 
@@ -667,6 +671,10 @@ button {
     width: 23vw;
 }
 
+.itemsContainer-tv > .overflowPortraitCard-scalable {
+    width: 14.5vw;
+}
+
 .itemsContainer-tv > .overflowSquareCard-scalable {
-    width: 13vw;
+    width: 14.5vw;
 }
