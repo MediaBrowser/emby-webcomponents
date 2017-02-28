@@ -310,7 +310,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             }
             pos.cur = animation.to;
 
-            //frame.dispatchEvent(new CustomEvent('scroll', {}));
+            if (o.dispatchScrollEvent) {
+                frame.dispatchEvent(new CustomEvent('scroll', {}));
+            }
         }
 
         function getBoundingClientRect(elem) {

@@ -66,7 +66,8 @@
             dragHandle: 1,
             scrollWidth: 500000,
             autoImmediate: true,
-            skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true'
+            skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
+            dispatchScrollEvent: this.getAttribute('data-scrollevent') === 'true'
         };
 
         // If just inserted it might not have any height yet - yes this is a hack

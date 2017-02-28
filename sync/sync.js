@@ -278,9 +278,12 @@
             selectProfile.addEventListener('change', function () {
                 onProfileChange(elem, this.value);
             });
-            selectProfile.dispatchEvent(new CustomEvent('change', {
-                bubbles: true
-            }));
+            
+            if (dialogOptions.ProfileOptions.length) {
+                selectProfile.dispatchEvent(new CustomEvent('change', {
+                    bubbles: true
+                }));
+            }
         }
 
         var selectQuality = elem.querySelector('#selectQuality');
@@ -490,7 +493,14 @@
     function onProfileChange(form, profileId) {
 
         var options = currentDialogOptions || {};
-        var option = (options.ProfileOptions || []).filter(function (o) {
+
+        var profileOptions = options.ProfileOptions || [];
+
+        if (!profileOptions.length) {
+            return;
+        }
+
+        var option = profileOptions.filter(function (o) {
             return o.Id === profileId;
         })[0];
 
