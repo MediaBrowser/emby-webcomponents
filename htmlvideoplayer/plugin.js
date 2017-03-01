@@ -568,15 +568,11 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             var elem = mediaElement;
             var src = currentSrc;
 
-            if (elem && src) {
+            if (elem) {
 
-                elem.pause();
-
-                elem.src = '';
-                elem.innerHTML = '';
-                elem.removeAttribute("src");
-
-                destroyHlsPlayer();
+                if (src) {
+                    elem.pause();
+                }
 
                 onEndedInternal(reportEnded, elem);
 
@@ -735,6 +731,12 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
         function onEndedInternal(triggerEnded, elem) {
 
             elem.removeEventListener('error', onError);
+
+            elem.src = '';
+            elem.innerHTML = '';
+            elem.removeAttribute("src");
+
+            destroyHlsPlayer();
 
             if (self.originalDocumentTitle) {
                 document.title = self.originalDocumentTitle;
@@ -1004,16 +1006,13 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             window.removeEventListener('resize', onVideoResize);
             window.removeEventListener('orientationchange', onVideoResize);
 
-            if (isPlaying) {
+            var allTracks = videoElement.textTracks || []; // get list of tracks
+            for (var i = 0; i < allTracks.length; i++) {
 
-                var allTracks = mediaElement.textTracks; // get list of tracks
-                for (var i = 0; i < allTracks.length; i++) {
+                var currentTrack = allTracks[i];
 
-                    var currentTrack = allTracks[i];
-
-                    if (currentTrack.label.indexOf('manualTrack') !== -1) {
-                        currentTrack.mode = 'disabled';
-                    }
+                if (currentTrack.label.indexOf('manualTrack') !== -1) {
+                    currentTrack.mode = 'disabled';
                 }
             }
 

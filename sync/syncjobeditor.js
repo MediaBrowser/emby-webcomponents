@@ -28,9 +28,19 @@
 
         var html = '';
 
-        html += '<div class="listItem listItem-shaded" data-itemid="' + jobItem.Id + '" data-status="' + jobItem.Status + '" data-remove="' + jobItem.IsMarkedForRemoval + '">';
-
         var hasActions = ['Queued', 'Cancelled', 'Failed', 'ReadyToTransfer', 'Transferring', 'Converting', 'Synced'].indexOf(jobItem.Status) !== -1;
+
+        var listItemClass = 'listItem listItem-shaded';
+        if (layoutManager.tv && hasActions) {
+            listItemClass += ' btnJobItemMenu';
+        }
+
+        if (layoutManager.tv) {
+            listItemClass += ' listItem-button';
+        }
+
+        var tagName = layoutManager.tv ? 'button' : 'div';
+        html += '<' + tagName + ' type="button" class="' + listItemClass + '" data-itemid="' + jobItem.Id + '" data-status="' + jobItem.Status + '" data-remove="' + jobItem.IsMarkedForRemoval + '">';
 
         var imgUrl;
 
@@ -45,10 +55,10 @@
         }
 
         if (imgUrl) {
-            html += '<button type="button" is="emby-button" class="blue mini fab autoSize" icon="sync" style="background-image:url(\'' + imgUrl + '\');background-repeat:no-repeat;background-position:center center;background-size: cover;"><i style="visibility:hidden;" class="md-icon">sync</i></button>';
+            html += '<div class="listItemImage" style="background-image:url(\'' + imgUrl + '\');background-repeat:no-repeat;background-position:center center;background-size: cover;"></div>';
         }
         else {
-            html += '<button type="button" is="emby-button" class="blue mini fab autoSize" icon="sync"><i class="md-icon">sync</i></button>';
+            html += '<i class="md-icon listItemIcon">sync</i>';
         }
 
         html += '<div class="listItemBody three-line">';
@@ -70,21 +80,23 @@
         html += '</div>';
 
         html += '<div class="secondary listItemBodyText" style="padding-top:5px;">';
-        html += '<div style="background:#e0e0e0;height:4px;"><div style="background:#52B54B;width:' + (jobItem.Progress || 0) + '%;height:100%;"></div></div>';
+        html += '<div style="background:#e0e0e0;height:2px;"><div style="background:#52B54B;width:' + (jobItem.Progress || 0) + '%;height:100%;"></div></div>';
         html += '</div>';
 
         html += '</div>';
 
         var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
 
-        if (hasActions) {
+        if (!layoutManager.tv) {
+            if (hasActions) {
 
-            html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu autoSize"><i class="md-icon">' + moreIcon + '</i></button>';
-        } else {
-            html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu autoSize" disabled><i class="md-icon">' + moreIcon + '</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu autoSize"><i class="md-icon">' + moreIcon + '</i></button>';
+            } else {
+                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu autoSize" disabled><i class="md-icon">' + moreIcon + '</i></button>';
+            }
         }
 
-        html += '</div>';
+        html += '</' + tagName + '>';
         return html;
     }
 
@@ -125,7 +137,7 @@
 
     function showJobItemMenu(elem, jobId, apiClient) {
 
-        var context = parentWithClass(elem, 'page');
+        var context = parentWithClass(elem, 'formDialog');
         var listItem = parentWithClass(elem, 'listItem');
         var jobItemId = listItem.getAttribute('data-itemid');
         var status = listItem.getAttribute('data-status');

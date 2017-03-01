@@ -79,7 +79,8 @@ button {
 }
 
 .layout-tv .cardBox {
-    margin: 12px;
+    margin: .38em;
+    border: .09em solid transparent;
 }
 
 .cardBox-focustransform {
@@ -98,8 +99,6 @@ button {
 }
 
     .card:focus .cardBox {
-        margin: 10px;
-        border-width: 2px;
         border-color: transparent;
     }
 
@@ -218,7 +217,7 @@ button {
 }
 
 .cardFooter {
-    padding: .44em .3em;
+    padding: .5em .3em;
     position: relative;
 }
 
@@ -249,12 +248,16 @@ button {
 }
 
 .cardText {
-    padding: .1em .5em;
+    padding: .3em .5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     color: inherit;
     text-align: left;
+}
+
+.layout-tv .cardText {
+    padding: .1em .5em;
 }
 
 .innerCardFooter > .cardText {
@@ -271,6 +274,7 @@ button {
 
 .cardText-secondary {
     opacity: .5;
+    font-size: 90%;
 }
 
 .cardText-rightmargin {
