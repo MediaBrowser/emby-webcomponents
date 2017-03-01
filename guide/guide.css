@@ -99,11 +99,6 @@
     transition: transform 500ms ease-out;
 }
 
-.layout-tv .currentTimeIndicatorBar, .layout-tv .currentTimeIndicatorArrowContainer {
-    /* Need to account for the scrollbar not being there */
-    left: 4px;
-}
-
 .currentTimeIndicatorArrow {
     width: 1em;
     height: 1em;
@@ -460,8 +455,9 @@
         opacity: 1;
     }
 
-.layout-tv .guide-date-tab-button:focus {
-    background-color: #52B54B !important;
-    border-radius: .15em !important;
-    color: #fff !important;
-}
+    .guide-date-tab-button.emby-button-tv:focus {
+        background-color: #52B54B !important;
+        border-radius: .15em !important;
+        color: #fff !important;
+        transform: none !important;
+    }

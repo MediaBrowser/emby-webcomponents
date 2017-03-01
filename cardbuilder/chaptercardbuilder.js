@@ -1,9 +1,13 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager'], function (datetime, imageLoader, connectionManager, layoutManager) {
+define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browser'], function (datetime, imageLoader, connectionManager, layoutManager, browser) {
     'use strict';
 
     function buildChapterCardsHtml(item, chapters, options) {
 
         var className = 'card scalableCard itemAction chapterCard';
+
+        if (layoutManager.tv && (browser.animate || browser.edge)) {
+            className += ' card-focusscale';
+        }
 
         var mediaStreams = ((item.MediaSources || [])[0] || {}).MediaStreams || [];
         var videoStream = mediaStreams.filter(function (i) {

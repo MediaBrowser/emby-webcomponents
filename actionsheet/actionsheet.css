@@ -58,10 +58,6 @@
         transform: none !important;
     }
 
-.actionSheetMenuItem-noflex {
-    display: block;
-}
-
 .actionSheetMenuItem-extraspacing {
     padding: .9em 1.6em;
 }
@@ -101,7 +97,7 @@
     width: 100%;
 }
 
-.layout-tv .actionSheetScroller {
+.actionSheetScroller-tv {
     max-height: 64%;
     max-width: 60%;
     width: auto;

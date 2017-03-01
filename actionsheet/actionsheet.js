@@ -191,9 +191,13 @@
             html += '</p>';
         }
 
-        html += '<div class="actionSheetScroller ' + scrollType + '" style="' + style + '">';
+        var scrollerClassName = 'actionSheetScroller';
+        if (layoutManager.tv) {
+            scrollerClassName += ' actionSheetScroller-tv';
+        }
+        html += '<div class="' + scrollerClassName + ' ' + scrollType + '" style="' + style + '">';
 
-        var menuItemClass = browser.firefox ? 'actionSheetMenuItem actionSheetMenuItem-noflex' : 'actionSheetMenuItem';
+        var menuItemClass = 'actionSheetMenuItem';
 
         if (options.menuItemClass) {
             menuItemClass += ' ' + options.menuItemClass;

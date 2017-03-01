@@ -1,4 +1,4 @@
-define(['focusManager', 'css!./style.css', 'paper-icon-button-light', 'material-icons'], function (focusManager) {
+define(['focusManager', 'layoutManager', 'css!./style.css', 'paper-icon-button-light', 'material-icons'], function (focusManager, layoutManager) {
     'use strict';
 
     var selectedButtonClass = 'alphaPickerButton-selected';
@@ -14,8 +14,19 @@ define(['focusManager', 'css!./style.css', 'paper-icon-button-light', 'material-
         }
     }
 
+    function getAlphaPickerButtonClassName() {
+
+        var alphaPickerButtonClassName = 'alphaPickerButton';
+
+        if (layoutManager.tv) {
+            alphaPickerButtonClassName += ' alphaPickerButton-tv';
+        }
+
+        return alphaPickerButtonClassName;
+    }
+
     function getLetterButton(l) {
-        return '<button data-value="' + l + '" class="alphaPickerButton">' + l + '</button>';
+        return '<button data-value="' + l + '" class="' + getAlphaPickerButtonClassName() + '">' + l + '</button>';
     }
 
     function render(element, options) {
@@ -31,10 +42,18 @@ define(['focusManager', 'css!./style.css', 'paper-icon-button-light', 'material-
         var html = '';
         var letters;
 
-        html += '<div class="alphaPickerRow">';
+        var alphaPickerButtonClassName = getAlphaPickerButtonClassName();
+
+        var rowClassName = 'alphaPickerRow';
+
+        if (element.classList.contains('alphaPicker-vertical')) {
+            rowClassName += ' alphaPickerRow-vertical';
+        }
+
+        html += '<div class="' + rowClassName + '">';
         if (options.mode === 'keyboard') {
             // space_bar icon
-            html += '<button data-value=" " is="paper-icon-button-light" class="alphaPickerButton autoSize"><i class="md-icon alphaPickerButtonIcon">&#xE256;</i></button>';
+            html += '<button data-value=" " is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="md-icon alphaPickerButtonIcon">&#xE256;</i></button>';
         } else {
             letters = ['#'];
             html += letters.map(getLetterButton).join('');
@@ -45,11 +64,11 @@ define(['focusManager', 'css!./style.css', 'paper-icon-button-light', 'material-
 
         if (options.mode === 'keyboard') {
             // backspace icon
-            html += '<button data-value="backspace" is="paper-icon-button-light" class="alphaPickerButton autoSize"><i class="md-icon alphaPickerButtonIcon">&#xE14A;</i></button>';
+            html += '<button data-value="backspace" is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="md-icon alphaPickerButtonIcon">&#xE14A;</i></button>';
             html += '</div>';
 
             letters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-            html += '<div class="alphaPickerRow">';
+            html += '<div class="' + rowClassName + '">';
             html += '<br/>';
             html += letters.map(getLetterButton).join('');
             html += '</div>';
