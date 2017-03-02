@@ -387,7 +387,8 @@ define(['browser'], function (browser) {
 
         // For streaming, prioritize opus transcoding after mp3/aac. It is too problematic with random failures
         // But for static (offline sync), it will be just fine.
-        ['mp3', 'aac', 'opus', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+        // Prioritize aac higher because the encoder can accept more channels than mp3
+        ['aac', 'mp3', 'opus', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
 
             profile.TranscodingProfiles.push({
                 Container: audioFormat,

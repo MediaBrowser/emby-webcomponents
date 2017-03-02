@@ -269,10 +269,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             setCardData(items, options);
 
-            if (options.indexBy === 'Genres') {
-                return buildCardsByGenreHtmlInternal(items, options);
-            }
-
             var className = 'card';
 
             if (options.shape) {
@@ -316,10 +312,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             } catch (err) {
                             }
                         }
-                    }
-
-                    else if (options.indexBy === 'Genres') {
-                        newIndexValue = item.Name;
                     }
 
                     else if (options.indexBy === 'ProductionYear') {
@@ -395,100 +387,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (isVertical) {
                     html += '</div>';
                 }
-            }
-
-            return html;
-        }
-
-        function filterItemsByGenre(items, genre) {
-
-            var genreLower = genre.toLowerCase();
-            return items.filter(function (currentItem) {
-
-                return currentItem.Genres.filter(function (g) {
-
-                    return g.toLowerCase() === genreLower;
-
-                }).length > 0;
-            });
-        }
-
-        function buildCardsByGenreHtmlInternal(items, options) {
-
-            var className = 'card';
-
-            if (options.shape) {
-                className += ' ' + options.shape + 'Card';
-            }
-
-            var html = '';
-
-            var loopItems = options.genres;
-
-            var itemsInRow;
-            var hasOpenRow;
-
-            var onGenre = function (renderItem) {
-
-                var currentItemHtml = '';
-
-                if (options.rows && itemsInRow === 0) {
-
-                    if (hasOpenRow) {
-                        currentItemHtml += '</div>';
-                        hasOpenRow = false;
-                    }
-
-                    currentItemHtml += '<div class="cardColumn">';
-                    hasOpenRow = true;
-                }
-
-                var cardClass = className;
-                currentItemHtml += buildCard(i, renderItem, connectionManager.getApiClient(renderItem.ServerId || options.serverId), options, cardClass);
-
-                itemsInRow++;
-
-                if (options.rows && itemsInRow >= options.rows) {
-                    currentItemHtml += '</div>';
-                    hasOpenRow = false;
-                    itemsInRow = 0;
-                }
-
-                return currentItemHtml;
-            };
-
-            for (var i = 0, length = loopItems.length; i < length; i++) {
-
-                var item = loopItems[i];
-
-                var renderItems = filterItemsByGenre(items, item.Name);
-
-                if (!renderItems.length) {
-                    continue;
-                }
-
-                html += '<div class="horizontalSection focuscontainer-down">';
-                html += '<div class="sectionTitle">' + item.Name + '</div>';
-
-                var showMoreButton = false;
-                if (renderItems.length > options.indexLimit) {
-                    renderItems.length = Math.min(renderItems.length, options.indexLimit);
-                    showMoreButton = true;
-                }
-
-                itemsInRow = 0;
-                hasOpenRow = false;
-
-                html += renderItems.map(onGenre).join('');
-
-                if (showMoreButton) {
-                    html += '<div class="listItemsMoreButtonContainer">';
-                    html += '<button is="emby-button" class="listItemsMoreButton raised" data-parentid="' + options.parentId + '" data-indextype="Genres" data-indexvalue="' + item.Id + '">' + globalize.translate('sharedcomponents#More') + '</button>';
-                    html += '</div>';
-                }
-
-                html += '</div>';
-                html += '</div>';
             }
 
             return html;
@@ -1460,10 +1358,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (options.autoFocus) {
                 focusManager.autoFocus(options.itemsContainer, true);
             }
-
-            if (options.indexBy === 'Genres') {
-                options.itemsContainer.addEventListener('click', onItemsContainerClick);
-            }
         }
 
         function parentWithClass(elem, className) {
@@ -1477,24 +1371,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             return elem;
-        }
-
-        function onItemsContainerClick(e) {
-
-            var listItemsMoreButton = parentWithClass(e.target, 'listItemsMoreButton');
-
-            if (listItemsMoreButton) {
-
-                var value = listItemsMoreButton.getAttribute('data-indexvalue');
-                var parentid = listItemsMoreButton.getAttribute('data-parentid');
-
-                require(['embyRouter'], function (embyRouter) {
-                    embyRouter.showGenre({
-                        ParentId: parentid,
-                        Id: value
-                    });
-                });
-            }
         }
 
         function ensureIndicators(card, indicatorsElem) {

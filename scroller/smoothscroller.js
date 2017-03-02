@@ -85,10 +85,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             // Mixed options
             speed: 0, // Animations speed in milliseconds. 0 to disable animations.
 
-            // Classes
-            draggedClass: 'dragged', // Class for dragged elements (like SLIDEE or scrollbar handle).
-            activeClass: 'active', // Class for active items and pages.
-            disabledClass: 'disabled' // Class for disabled navigation elements.
         }, options);
 
         var isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
@@ -537,9 +533,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                     });
                 }
             }
-
-            // Add dragging class
-            slideeElement.classList.add(o.draggedClass);
         }
 
         /**
@@ -614,8 +607,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                     passive: true
                 });
             });
-
-            slideeElement.classList.remove(o.draggedClass);
 
             // Make sure that disableOneEvent is not active in next tick.
             setTimeout(function () {
@@ -802,12 +793,14 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 }
             }
 
-            if (transform) {
-
+            if (transform || layoutManager.tv) {
                 // This can prevent others from being able to listen to mouse events
                 dom.addEventListener(dragSourceElement, 'mousedown', dragInitSlidee, {
                     //passive: true
                 });
+            }
+
+            if (transform) {
 
                 dom.addEventListener(dragSourceElement, 'touchstart', dragInitSlidee, {
                     passive: true

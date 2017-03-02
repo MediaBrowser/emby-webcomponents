@@ -163,7 +163,15 @@ define(['dom'], function (dom) {
                 return true;
             }
         }
+        else if (direction === 2) {
+            if (classList.contains('focuscontainer-y')) {
+                return true;
+            }
+        }
         else if (direction === 3) {
+            if (classList.contains('focuscontainer-y')) {
+                return true;
+            }
             if (classList.contains('focuscontainer-down')) {
                 return true;
             }
