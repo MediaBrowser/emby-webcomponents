@@ -185,7 +185,7 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 }
                 break;
             case 'changezoom':
-                // TODO
+                playbackManager.cycleAspectRatio();
                 break;
             case 'changeaudiotrack':
                 // TODO
@@ -205,7 +205,7 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 playbackManager.rewind();
                 break;
             case 'togglefullscreen':
-                // TODO
+                playbackManager.toggleFullscreen();
                 break;
             case 'disabledisplaymirror':
                 playbackManager.enableDisplayMirroring(false);

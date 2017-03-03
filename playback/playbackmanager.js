@@ -217,6 +217,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     if (player.supports('SetBrightness')) {
                         list.push('SetBrightness');
                     }
+                    if (player.supports('SetAspectRatio')) {
+                        list.push('SetAspectRatio');
+                    }
                 }
 
                 return list;
@@ -402,6 +405,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                     break;
                 case 'SetVolume':
                     self.setVolume(cmd.Arguments.Volume, player);
+                    break;
+                case 'SetAspectRatio':
+                    self.setAspectRatio(cmd.Arguments.AspectRatio, player);
                     break;
                 case 'SetBrightness':
                     self.setBrightness(cmd.Arguments.Brightness, player);
@@ -653,6 +659,60 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
                 } else {
                     player.setMute(!player.isMuted());
                 }
+            }
+        };
+
+        self.cycleAspectRatio = function (player) {
+
+            player = player || currentPlayer;
+
+            if (player) {
+                var current = self.getAspectRatio(player);
+
+                var supported = self.getSupportedAspectRatios(player);
+
+                var index = -1;
+                for (var i = 0, length = supported.length; i < length; i++) {
+                    if (supported[i].id === current) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                index++;
+                if (index >= supported.length) {
+                    index = 0;
+                }
+
+                self.setAspectRatio(supported[index].id, player);
+            }
+        };
+
+        self.setAspectRatio = function (val, player) {
+
+            player = player || currentPlayer;
+
+            if (player) {
+
+                player.setAspectRatio(val);
+            }
+        };
+
+        self.getSupportedAspectRatios = function (player) {
+
+            player = player || currentPlayer;
+
+            if (player) {
+                return player.getSupportedAspectRatios();
+            }
+        };
+
+        self.getAspectRatio = function (player) {
+
+            player = player || currentPlayer;
+
+            if (player) {
+                return player.getAspectRatio();
             }
         };
 
@@ -2233,6 +2293,10 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
         function supportsDirectPlay(apiClient, mediaSource) {
 
             if (mediaSource.SupportsDirectPlay) {
+
+                if (mediaSource.IsRemote && !apphost.supports('remotemedia')) {
+                    return Promise.resolve(false);
+                }
 
                 if (mediaSource.Protocol === 'Http' && !mediaSource.RequiredHttpHeaders.length) {
 

@@ -27,6 +27,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
         var currentClock;
         var currentAssRenderer;
         var customTrackIndex = -1;
+        var currentAspectRatio;
 
         self.canPlayMediaType = function (mediaType) {
 
@@ -210,6 +211,24 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
 
             return supportedFeatures.indexOf(feature) !== -1;
+        };
+
+        self.setAspectRatio = function (val) {
+
+            var video = mediaElement;
+            if (video) {
+                currentAspectRatio = val;
+            }
+        };
+
+        self.getAspectRatio = function () {
+
+            return currentAspectRatio;
+        };
+
+        self.getSupportedAspectRatios = function () {
+
+            return [];
         };
 
         self.togglePictureInPicture = function () {
@@ -1018,6 +1037,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
             customTrackIndex = -1;
             currentClock = null;
+            currentAspectRatio = null;
 
             var renderer = currentAssRenderer;
             if (renderer) {

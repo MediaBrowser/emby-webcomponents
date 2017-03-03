@@ -54,13 +54,9 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         });
     }
 
-    function showSettingsMenu(player, btn) {
-
-    }
-
     function getQualitySecondaryText(player) {
 
-        return playbackManager.getPlayerState(player).then(function(state) {
+        return playbackManager.getPlayerState(player).then(function (state) {
             var isAutoEnabled = playbackManager.enableAutomaticBitrateDetection(player);
             var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
 
@@ -115,6 +111,27 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         });
     }
 
+    function showAspectRatioMenu(player, btn) {
+
+        // Each has name/id
+        var menuItems = player.getSupportedAspectRatios();
+
+        return actionsheet.show({
+
+            items: menuItems,
+            positionTo: btn
+
+        }).then(function (id) {
+
+            if (id) {
+                playbackManager.setAspectRatio(id, player);
+                return Promise.resolve();
+            }
+
+            return Promise.reject();
+        });
+    }
+
     function show(options) {
 
         var player = options.player;
@@ -123,6 +140,14 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
             var mediaType = options.mediaType;
 
             var menuItems = [];
+
+            if (player.supports && player.supports('SetAspectRatio')) {
+                menuItems.push({
+                    name: globalize.translate('sharedcomponents#AspectRatio'),
+                    id: 'aspectratio',
+                    secondaryText: playbackManager.getAspectRatio(player)
+                });
+            }
 
             menuItems.push({
                 name: globalize.translate('sharedcomponents#Quality'),
@@ -146,8 +171,8 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
                     case 'quality':
                         return showQualityMenu(player, options.positionTo);
-                    case 'settings':
-                        return showSettingsMenu(player, options.positionTo);
+                    case 'aspectratio':
+                        return showAspectRatioMenu(player, options.positionTo);
                     default:
                         break;
                 }
