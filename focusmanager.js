@@ -154,6 +154,9 @@ define(['dom'], function (dom) {
             if (classList.contains('focuscontainer-x')) {
                 return true;
             }
+            if (classList.contains('focuscontainer-left')) {
+                return true;
+            }
         }
         else if (direction === 1) {
             if (classList.contains('focuscontainer-x')) {
