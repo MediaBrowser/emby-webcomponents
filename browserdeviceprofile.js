@@ -18,6 +18,10 @@ define(['browser'], function (browser) {
     var _supportsTextTracks;
     function supportsTextTracks() {
 
+        if (browser.tizen || browser.orsay) {
+            return true;
+        }
+
         if (_supportsTextTracks == null) {
             _supportsTextTracks = document.createElement('video').textTracks != null;
         }
@@ -36,8 +40,12 @@ define(['browser'], function (browser) {
     }
 
     function canPlayNativeHls() {
-        var media = document.createElement('video');
+        
+        if (browser.tizen || browser.orsay) {
+            return true;
+        }
 
+        var media = document.createElement('video');
         if (media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
             media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')) {
             return true;
@@ -102,6 +110,10 @@ define(['browser'], function (browser) {
 
     function testCanPlayMkv(videoTestElement) {
 
+        if (browser.tizen || browser.orsay) {
+            return true;
+        }
+
         if (videoTestElement.canPlayType('video/x-matroska') ||
             videoTestElement.canPlayType('video/mkv')) {
             return true;
@@ -122,10 +134,6 @@ define(['browser'], function (browser) {
                 return false;
             }
 
-            return true;
-        }
-
-        if (browser.tizen || browser.orsay) {
             return true;
         }
 
