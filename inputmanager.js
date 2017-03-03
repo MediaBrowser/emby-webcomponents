@@ -185,7 +185,7 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 }
                 break;
             case 'changezoom':
-                playbackManager.cycleAspectRatio();
+                playbackManager.toggleAspectRatio();
                 break;
             case 'changeaudiotrack':
                 // TODO

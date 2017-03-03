@@ -114,7 +114,14 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
     function showAspectRatioMenu(player, btn) {
 
         // Each has name/id
-        var menuItems = player.getSupportedAspectRatios();
+        var currentId = playbackManager.getAspectRatio(player);
+        var menuItems = playbackManager.getSupportedAspectRatios(player).map(function (i) {
+            return {
+                id: i.id,
+                name: i.name,
+                selected: i.id === currentId
+            };
+        });
 
         return actionsheet.show({
 
@@ -142,10 +149,16 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
             var menuItems = [];
 
             if (player.supports && player.supports('SetAspectRatio')) {
+
+                var currentAspectRatioId = playbackManager.getAspectRatio(player);
+                var currentAspectRatio = playbackManager.getSupportedAspectRatios(player).filter(function (i) {
+                    return i.id === currentAspectRatioId;
+                })[0];
+
                 menuItems.push({
                     name: globalize.translate('sharedcomponents#AspectRatio'),
                     id: 'aspectratio',
-                    secondaryText: playbackManager.getAspectRatio(player)
+                    secondaryText: currentAspectRatio ? currentAspectRatio.name : null
                 });
             }
 

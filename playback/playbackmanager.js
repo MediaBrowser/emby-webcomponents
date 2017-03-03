@@ -662,7 +662,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
         };
 
-        self.cycleAspectRatio = function (player) {
+        self.toggleAspectRatio = function (player) {
 
             player = player || currentPlayer;
 
@@ -692,7 +692,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             player = player || currentPlayer;
 
-            if (player) {
+            if (player && player.setAspectRatio) {
 
                 player.setAspectRatio(val);
             }
@@ -702,16 +702,18 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             player = player || currentPlayer;
 
-            if (player) {
+            if (player && player.getSupportedAspectRatios) {
                 return player.getSupportedAspectRatios();
             }
+
+            return [];
         };
 
         self.getAspectRatio = function (player) {
 
             player = player || currentPlayer;
 
-            if (player) {
+            if (player && getAspectRatio) {
                 return player.getAspectRatio();
             }
         };
