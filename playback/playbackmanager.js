@@ -713,7 +713,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             player = player || currentPlayer;
 
-            if (player && getAspectRatio) {
+            if (player && player.getAspectRatio) {
                 return player.getAspectRatio();
             }
         };
