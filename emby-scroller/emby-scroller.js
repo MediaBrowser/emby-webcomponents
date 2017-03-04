@@ -64,7 +64,7 @@
             //immediateSpeed: pageOptions.immediateSpeed,
             elasticBounds: 1,
             dragHandle: 1,
-            scrollWidth: 500000,
+            scrollWidth: 5000000,
             autoImmediate: true,
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
             dispatchScrollEvent: this.getAttribute('data-scrollevent') === 'true'

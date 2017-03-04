@@ -91,7 +91,6 @@
         switch (e.keyCode) {
 
             case 13:
-            case 29443:     //Orsay Enter Key
                 if (!enableNativeMenu()) {
                     e.preventDefault();
                     showActionSheet(this);

@@ -103,8 +103,14 @@
         cssClass += " backdropCard backdropCard-scalable";
 
         if (tagName === 'button') {
-            cssClass += ' card-focusscale btnImageCard';
-            cardBoxCssClass += ' cardBox-focustransform';
+            cssClass += ' btnImageCard';
+
+            if (layoutManager.tv) {
+                cssClass += ' card-focusscale';
+                cardBoxCssClass += ' cardBox-focustransform';
+            }
+
+            cardBoxCssClass += ' card-focuscontent';
 
             html += '<button type="button" class="' + cssClass + '"';
         } else {

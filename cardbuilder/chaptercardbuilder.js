@@ -93,7 +93,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         var cardBoxCssClass = 'cardBox';
 
         if (layoutManager.tv) {
-            cardBoxCssClass += ' cardBox-focustransform';
+            cardBoxCssClass += ' cardBox-focustransform card-focuscontent';
         }
 
         var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="cardScalable"><div class="cardPadder-' + shape + '"></div><div class="cardContent">' + cardImageContainer + '</div><div class="innerCardFooter">' + nameHtml + '</div></div></div></div></button>';

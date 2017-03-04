@@ -1124,6 +1124,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (layoutManager.tv) {
                 cardBoxClass += ' cardBox-focustransform';
+
+                if (options.cardLayout || !separateCardBox) {
+                    cardBoxClass += ' card-focuscontent';
+                }
             }
 
             var footerCssClass;
@@ -1236,6 +1240,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 var cardScalableClass = 'cardScalable';
+
+                if (layoutManager.tv && !options.cardLayout) {
+                    cardScalableClass += ' card-focuscontent';
+                }
                 cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + options.shape + '"></div>' + cardContentOpen + cardImageContainerOpen;
                 cardBoxClose = '</div>';
                 cardScalableClose = '</div>';

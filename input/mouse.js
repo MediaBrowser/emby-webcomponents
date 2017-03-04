@@ -57,9 +57,11 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     function onMouseEnter(e) {
 
-        var parent = focusManager.focusableParent(e.target);
-        if (parent) {
-            focusManager.focus(e.target);
+        if (!isMouseIdle) {
+            var parent = focusManager.focusableParent(e.target);
+            if (parent) {
+                focusManager.focus(e.target);
+            }
         }
     }
 

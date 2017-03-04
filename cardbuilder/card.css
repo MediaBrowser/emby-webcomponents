@@ -74,11 +74,16 @@ button {
     margin: .427em;
     transition: none;
     border: 0 solid transparent;
-    /* Needed in case cardBox is a button */
+    /* These both are needed in case cardBox is a button */
     background-color: transparent;
+    outline: none !important;
 }
 
 .layout-tv .cardBox {
+    margin: .45em;
+}
+
+.card-focuscontent {
     border: .09em solid transparent;
 }
 
@@ -96,10 +101,6 @@ button {
     z-index: 10 !important;
     font-weight: inherit !important;
 }
-
-    .card:focus .cardBox {
-        border-color: transparent;
-    }
 
 .cardBox-bottompadded {
     margin-bottom: 1em;

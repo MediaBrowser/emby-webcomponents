@@ -197,6 +197,8 @@
             cardBoxCssClass += ' cardBox-focustransform';
         }
 
+        cardBoxCssClass += ' card-focuscontent';
+
         html += '<button type="button" class="' + cssClass + '" data-index="' + index + '">';
         html += '<div class="' + cardBoxCssClass + '">';
         html += '<div class="cardScalable visualCardBox-cardScalable">';
