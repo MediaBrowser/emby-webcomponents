@@ -71,7 +71,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .427em;
+    margin: .5em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -79,12 +79,8 @@ button {
     outline: none !important;
 }
 
-.layout-tv .cardBox {
-    margin: .45em;
-}
-
 .card-focuscontent {
-    border: .09em solid transparent;
+    border: .1em solid transparent;
 }
 
 .cardBox-focustransform {
@@ -103,7 +99,7 @@ button {
 }
 
 .cardBox-bottompadded {
-    margin-bottom: 1em;
+    margin-bottom: 1.2em !important;
 }
 
 .btnCardOptions {
@@ -221,6 +217,10 @@ button {
     position: relative;
 }
 
+    .cardFooter.transparent {
+        padding-top: .1em;
+    }
+
 .visualCardBox {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
     background-color: #222326;
@@ -258,6 +258,7 @@ button {
 
 .layout-tv .cardText {
     padding: .1em .5em;
+    font-size: 90%;
 }
 
 .innerCardFooter > .cardText {
@@ -666,7 +667,7 @@ button {
 }
 
 .itemsContainer-tv > .portraitCard-scalable {
-    width: 14.285714285714285714285714285714%;
+    width: 16.666666666666666666666666666667%;
 }
 
 .itemsContainer-tv > .overflowSmallBackdropCard-scalable {

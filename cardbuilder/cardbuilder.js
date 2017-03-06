@@ -1288,7 +1288,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var tagName = (layoutManager.tv || !scalable) && !overlayButtons ? 'button' : 'div';
 
-            var prefix = (item.SortName || item.Name || '')[0];
+            var nameWithPrefix = (item.SortName || item.Name || '');
+            var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
 
             if (prefix) {
                 prefix = prefix.toUpperCase();

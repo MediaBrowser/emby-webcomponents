@@ -1,4 +1,4 @@
-﻿define(['scroller', 'dom', 'layoutManager', 'registerElement'], function (scroller, dom, layoutManager) {
+﻿define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'registerElement'], function (scroller, dom, layoutManager, inputManager, focusManager) {
     'use strict';
 
     var ScrollerProtoType = Object.create(HTMLDivElement.prototype);
@@ -30,6 +30,11 @@
             this.scroller.slideTo(0, true);
         }
     };
+    ScrollerProtoType.toStart = function (elem, immediate) {
+        if (this.scroller) {
+            this.scroller.toStart(elem, immediate);
+        }
+    };
 
     ScrollerProtoType.scrollToPosition = function (pos, immediate) {
         if (this.scroller) {
@@ -43,7 +48,37 @@
         }
     };
 
+    function onInputCommand(e) {
+
+        var cmd = e.detail.command;
+
+        if (cmd === 'home') {
+            focusManager.focusFirst(this, '.' + this.getAttribute('data-navcommands'));
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        else if (cmd === 'end') {
+            focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        else if (cmd === 'pageup') {
+            focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), -12);
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        else if (cmd === 'pagedown') {
+            focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), 12);
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }
+
     ScrollerProtoType.attachedCallback = function () {
+
+        if (this.getAttribute('data-navcommands')) {
+            inputManager.on(this, onInputCommand);
+        }
 
         var horizontal = this.getAttribute('data-horizontal') !== 'false';
 
@@ -60,7 +95,7 @@
             touchDragging: 1,
             slidee: slider,
             scrollBy: 200,
-            speed: 300,
+            speed: horizontal ? 300 : 270,
             //immediateSpeed: pageOptions.immediateSpeed,
             elasticBounds: 1,
             dragHandle: 1,
@@ -84,6 +119,10 @@
     };
 
     ScrollerProtoType.detachedCallback = function () {
+
+        if (this.getAttribute('data-navcommands')) {
+            inputManager.off(this, onInputCommand);
+        }
 
         var scrollerInstance = this.scroller;
         if (scrollerInstance) {

@@ -413,6 +413,77 @@ define(['dom'], function (dom) {
         elem.value = text;
     }
 
+    function focusFirst(container, focusableSelector) {
+
+        var elems = container.querySelectorAll(focusableSelector);
+
+        for (var i = 0, length = elems.length; i < length; i++) {
+
+            var elem = elems[i];
+
+            if (isCurrentlyFocusableInternal(elem)) {
+                focus(elem);
+                break;
+            }
+        }
+    }
+
+    function focusLast(container, focusableSelector) {
+
+        var elems = [].slice.call(container.querySelectorAll(focusableSelector), 0).reverse();
+
+        for (var i = 0, length = elems.length; i < length; i++) {
+
+            var elem = elems[i];
+
+            if (isCurrentlyFocusableInternal(elem)) {
+                focus(elem);
+                break;
+            }
+        }
+    }
+
+    function moveFocus(sourceElement, container, focusableSelector, offset) {
+
+        var elems = container.querySelectorAll(focusableSelector);
+        var list = [];
+        var i, length, elem;
+
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            elem = elems[i];
+
+            if (isCurrentlyFocusableInternal(elem)) {
+                list.push(elem);
+            }
+        }
+
+        var currentIndex = -1;
+
+        for (i = 0, length = list.length; i < length; i++) {
+
+            elem = list[i];
+
+            if (sourceElement === elem || elem.contains(sourceElement)) {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        if (currentIndex === -1) {
+            return;
+        }
+
+        var newIndex = currentIndex + offset;
+        newIndex = Math.max(0, newIndex);
+        newIndex = Math.min(newIndex, list.length - 1);
+
+        var newElem = list[newIndex];
+        if (newElem) {
+            focus(newElem);
+        }
+    }
+
     return {
         autoFocus: autoFocus,
         focus: focus,
@@ -433,6 +504,9 @@ define(['dom'], function (dom) {
         sendText: sendText,
         isCurrentlyFocusable: isCurrentlyFocusable,
         pushScope: pushScope,
-        popScope: popScope
+        popScope: popScope,
+        focusFirst: focusFirst,
+        focusLast: focusLast,
+        moveFocus: moveFocus
     };
 });
