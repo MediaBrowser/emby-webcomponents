@@ -886,8 +886,13 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                     break;
                 case 3:
                     // MEDIA_ERR_DECODE
-                    handleMediaError();
-                    return;
+                    if (hlsPlayer) {
+                        handleMediaError();
+                        return;
+                    } else {
+                        type = 'mediadecodeerror';
+                    }
+                    break;
                 case 4:
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
                     type = 'medianotsupported';
@@ -898,7 +903,8 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
         }
 
         function onErrorInternal(type) {
-            destroyCustomTrack(this);
+
+            destroyCustomTrack(mediaElement);
 
             events.trigger(self, 'error', [
             {

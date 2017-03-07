@@ -2149,7 +2149,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                                 return getLiveStream(apiClient, item.Id, playbackInfoResult.PlaySessionId, deviceProfile, maxBitrate, startPosition, mediaSource, null, null).then(function (openLiveStreamResult) {
 
-                                    return supportsDirectPlay(apiClient, openLiveStreamResult.MediaSource).then(function (result) {
+                                    return supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then(function (result) {
 
                                         openLiveStreamResult.MediaSource.enableDirectPlay = result;
                                         return openLiveStreamResult.MediaSource;
@@ -2207,7 +2207,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
         function getOptimalMediaSource(apiClient, item, versions) {
 
             var promises = versions.map(function (v) {
-                return supportsDirectPlay(apiClient, v);
+                return supportsDirectPlay(apiClient, item, v);
             });
 
             if (!promises.length) {
@@ -2292,11 +2292,11 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             return Promise.resolve(false);
         }
 
-        function supportsDirectPlay(apiClient, mediaSource) {
+        function supportsDirectPlay(apiClient, item, mediaSource) {
 
             if (mediaSource.SupportsDirectPlay) {
 
-                if (mediaSource.IsRemote && !apphost.supports('remotemedia')) {
+                if (mediaSource.IsRemote && item.Type === 'TvChannel' && !apphost.supports('remotemedia')) {
                     return Promise.resolve(false);
                 }
 
