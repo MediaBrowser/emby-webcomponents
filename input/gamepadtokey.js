@@ -19,7 +19,7 @@
 // #      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // #      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // #      THE SOFTWARE.
-(function () {
+require(['apphost'], function (appHost) {
     "use strict";
 
     var _GAMEPAD_A_BUTTON_INDEX = 0,
@@ -181,6 +181,13 @@
     }
 
     function raiseEvent(name, key, keyCode) {
+
+        // This seems to be raising events even with the window minimized
+        // TODO: Switch this to use Page Visibility API
+        if (appHost.getWindowState() === 'Minimized') {
+            return;
+        }
+
         var event = document.createEvent('Event');
         event.initEvent(name, true, true);
         event.key = key;
@@ -338,4 +345,4 @@
         window.navigator.gamepadInputEmulation = "gamepad";
     }
 
-})();
+});

@@ -18,7 +18,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
         if (videoStream.Width && videoStream.Height) {
 
-            if ((videoStream.Width / videoStream.Height) <= 1.34) {
+            if ((videoStream.Width / videoStream.Height) <= 1.2) {
                 shape = (options.squareShape || 'square');
             }
         }
