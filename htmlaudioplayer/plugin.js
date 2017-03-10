@@ -80,7 +80,11 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
                 val += '#t=' + seconds;
             }
 
-            elem.crossOrigin = getCrossOriginValue(options.mediaSource);
+            var crossOrigin = getCrossOriginValue(options.mediaSource);
+            if (crossOrigin) {
+                elem.crossOrigin = crossOrigin;
+            }
+
             elem.title = options.title;
 
             // Opera TV guidelines suggest using source elements, so let's do that if we have a valid mimeType
@@ -137,6 +141,10 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
         }
 
         function getCrossOriginValue(mediaSource) {
+
+            if (mediaSource.IsRemote) {
+                return null;
+            }
 
             return 'anonymous';
         }

@@ -257,6 +257,10 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
         function getCrossOriginValue(mediaSource) {
 
+            if (mediaSource.IsRemote) {
+                return null;
+            }
+
             return 'anonymous';
         }
 
@@ -321,7 +325,10 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
             currentPlayOptions = options;
 
-            elem.crossOrigin = getCrossOriginValue(options.mediaSource);
+            var crossOrigin = getCrossOriginValue(options.mediaSource);
+            if (crossOrigin) {
+                elem.crossOrigin = crossOrigin;
+            }
 
             if (enableHlsPlayer(val, options.item, options.mediaSource)) {
 

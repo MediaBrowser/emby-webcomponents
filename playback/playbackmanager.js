@@ -2188,6 +2188,10 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             if (enableDirectPlay != null) {
                 query.EnableDirectPlay = enableDirectPlay;
             }
+
+            if (enableDirectPlay !== false) {
+                query.ForceDirectPlayRemoteMediaSource = true;
+            }
             if (enableDirectStream != null) {
                 query.EnableDirectStream = enableDirectStream;
             }
@@ -2811,10 +2815,10 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             var streamInfo = getPlayerData(player).streamInfo;
 
-            // Auto switch to transcoding, for video playback only
+            // Auto switch to transcoding
             if (streamInfo && (errorType === 'mediadecodeerror' || errorType === 'medianotsupported')) {
 
-                if (streamInfo.playMethod !== 'Transcode' && streamInfo.mediaSource.SupportsTranscoding && streamInfo.mediaType === 'Video') {
+                if (streamInfo.playMethod !== 'Transcode' && streamInfo.mediaSource.SupportsTranscoding) {
 
                     var startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
 

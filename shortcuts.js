@@ -236,7 +236,8 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
         if (action === 'link') {
 
             showItem(item, {
-                context: card.getAttribute('data-context')
+                context: card.getAttribute('data-context'),
+                parentId: card.getAttribute('data-parentid')
             });
         }
 

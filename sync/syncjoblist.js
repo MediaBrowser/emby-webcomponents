@@ -91,6 +91,8 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
 
         if (layoutManager.tv) {
             listItemClass += ' listItem-button listItem-focusscale';
+
+            listItemClass += ' btnJobMenu';
         }
 
         html += '<' + tagName + typeAttribute + ' class="' + listItemClass + '" data-id="' + job.Id + '" data-status="' + job.Status + '">';
@@ -295,6 +297,12 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
                 id: 'delete'
             });
         } else {
+
+            menuItems.push({
+                name: globalize.translate('sharedcomponents#Edit'),
+                id: 'edit'
+            });
+
             var txt = listInstance.options.isLocalSync ?
 globalize.translate('sharedcomponents#RemoveDownload') :
 globalize.translate('sharedcomponents#ButtonCancelSyncJob');
@@ -320,6 +328,9 @@ globalize.translate('sharedcomponents#ButtonCancelSyncJob');
                         case 'cancel':
                             cancelJob(listInstance, jobId);
                             break;
+                        case 'edit':
+                            showJobEditor(listInstance, elem);
+                            break;
                         default:
                             break;
                     }
@@ -339,7 +350,11 @@ globalize.translate('sharedcomponents#ButtonCancelSyncJob');
             return;
         }
 
-        var listItem = dom.parentWithClass(e.target, 'listItem');
+        showJobEditor(listInstance, e.target);
+    }
+
+    function showJobEditor(listInstance, elem) {
+        var listItem = dom.parentWithClass(elem, 'listItem');
         if (listItem) {
             var jobId = listItem.getAttribute('data-id');
             // edit job

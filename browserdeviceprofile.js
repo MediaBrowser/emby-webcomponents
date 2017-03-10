@@ -357,7 +357,7 @@ define(['browser'], function (browser) {
             profile.DirectPlayProfiles.push(i);
         });
 
-        ['opus', 'mp3', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+        ['opus', 'mp3', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
 
             profile.DirectPlayProfiles.push({
                 Container: audioFormat === 'webma' ? 'webma,webm' : audioFormat,
