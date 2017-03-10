@@ -88,7 +88,7 @@ button {
     transition: transform 200ms ease-out;
 }
 
-.card-focusscale:focus > .cardBox-focustransform {
+.card:focus > .cardBox-focustransform {
     transform: scale(1.16, 1.16);
 }
 

@@ -33,7 +33,8 @@
         var target = e.target;
         var card = dom.parentWithAttribute(target, 'data-id');
 
-        if (card) {
+        // check for serverId, it won't be present on selectserver
+        if (card && card.getAttribute('data-serverid')) {
 
             //var itemSelectionPanel = card.querySelector('.itemSelectionPanel');
 

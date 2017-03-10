@@ -61,7 +61,7 @@
 .fab {
     display: inline-flex;
     border-radius: 50%;
-    background-color: rgba(170,170,190, .4);
+    background-color: rgba(170,170,190, .5);
     padding: .6em;
     box-sizing: border-box;
     align-items: center;
