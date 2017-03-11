@@ -37,7 +37,10 @@
 .button-flat {
     background: transparent;
     box-shadow: none;
-    text-transform: uppercase;
+}
+
+.button-flat-accent {
+    color: #52B54B;
 }
 
 .emby-button-focusscale {
@@ -107,6 +110,10 @@
 }
 
 .raised-mini {
+    padding: .5em .7em;
+}
+
+.button-flat-mini {
     padding: .5em .7em;
 }
 

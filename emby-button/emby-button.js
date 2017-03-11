@@ -1,4 +1,4 @@
-﻿define(['browser', 'dom', 'layoutManager', 'css!./emby-button', 'registerElement'], function (browser, dom, layoutManager) {
+﻿define(['browser', 'dom', 'layoutManager', 'shell', 'apphost', 'css!./emby-button', 'registerElement'], function (browser, dom, layoutManager, shell, appHost) {
     'use strict';
 
     var EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
@@ -65,6 +65,10 @@
         return true;
     }
 
+    function onClickOpenTarget(e) {
+        shell.openUrl(this.getAttribute('data-target'));
+    }
+
     EmbyButtonPrototype.createdCallback = function () {
 
         if (this.classList.contains('emby-button')) {
@@ -96,6 +100,27 @@
                     passive: true
                 });
                 //this.addEventListener('touchstart', animateButton);
+            }
+        }
+    };
+
+    EmbyButtonPrototype.attachedCallback = function () {
+
+        if (this.getAttribute('data-target')) {
+            dom.removeEventListener(this, 'click', onClickOpenTarget, {
+                passive: true
+            });
+
+            dom.addEventListener(this, 'click', onClickOpenTarget, {
+                passive: true
+            });
+
+            if (this.getAttribute('data-autohide') !== 'false') {
+                if (appHost.supports('externallinks')) {
+                    this.classList.remove('hide');
+                } else {
+                    this.classList.add('hide');
+                }
             }
         }
     };

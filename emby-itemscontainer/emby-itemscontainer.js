@@ -362,12 +362,14 @@
             });
         }
 
-        if (layoutManager.desktop) {
+        if (layoutManager.desktop && this.getAttribute('data-hovermenu') !== 'false') {
             this.enableHoverMenu(true);
         }
 
         if (layoutManager.desktop || layoutManager.mobile) {
-            this.enableMultiSelect(true);
+            if (this.getAttribute('data-multiselect') !== 'false') {
+                this.enableMultiSelect(true);
+            }
         }
 
         if (layoutManager.tv) {

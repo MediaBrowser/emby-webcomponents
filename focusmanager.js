@@ -25,7 +25,7 @@ define(['dom'], function (dom) {
         }
 
         if (defaultToFirst !== false) {
-            element = getFocusableElements(view, 1)[0];
+            element = getFocusableElements(view, 1, 'noautofocus')[0];
 
             if (element) {
                 focus(element);
@@ -118,13 +118,17 @@ define(['dom'], function (dom) {
         return scopes[0] || document.body;
     }
 
-    function getFocusableElements(parent, limit) {
+    function getFocusableElements(parent, limit, excludeClass) {
         var elems = (parent || getDefaultScope()).querySelectorAll(focusableQuery);
         var focusableElements = [];
 
         for (var i = 0, length = elems.length; i < length; i++) {
 
             var elem = elems[i];
+
+            if (excludeClass && elem.classList.contains(excludeClass)) {
+                continue;
+            }
 
             if (isCurrentlyFocusableInternal(elem)) {
                 focusableElements.push(elem);
