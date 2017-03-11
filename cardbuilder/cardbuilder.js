@@ -1085,10 +1085,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += " scalableCard " + options.shape + "Card-scalable";
             }
 
-            if (layoutManager.tv && (browser.animate || browser.edge)) {
-                className += ' card-focusscale';
-            }
-
             var imgInfo = getCardImageUrl(item, apiClient, options);
             var imgUrl = imgInfo.imgUrl;
 

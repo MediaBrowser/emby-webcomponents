@@ -7,13 +7,11 @@
         this.classList.add('emby-scroller');
     };
 
-    function initCenterFocus(elem, scrollerInstance, selector) {
-
-        var classNames = selector.split(',');
+    function initCenterFocus(elem, scrollerInstance) {
 
         dom.addEventListener(elem, 'focus', function (e) {
 
-            var focused = dom.parentWithClass(e.target, classNames);
+            var focused = focusManager.focusableParent(e.target);
 
             if (focused) {
                 scrollerInstance.toCenter(focused);
@@ -113,7 +111,7 @@
 
             var centerFocus = self.getAttribute('data-centerfocus');
             if (centerFocus && layoutManager.tv) {
-                initCenterFocus(self, self.scroller, centerFocus);
+                initCenterFocus(self, self.scroller);
             }
         }, 0);
     };
