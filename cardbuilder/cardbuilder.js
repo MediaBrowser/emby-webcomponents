@@ -786,9 +786,24 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
 
-                if (options.showYear) {
+                if (options.showYear || options.showSeriesYear) {
 
-                    lines.push(item.ProductionYear || '');
+                    if (item.Type === 'Series') {
+                        if (item.Status === "Continuing") {
+
+                            lines.push(globalize.translate('sharedcomponents#SeriesYearToPresent', item.ProductionYear || ''));
+
+                        } else {
+
+                            if (item.EndDate && item.ProductionYear) {
+                                lines.push(item.ProductionYear + ' - ' + datetime.parseISO8601Date(item.EndDate).getFullYear());
+                            } else {
+                                lines.push(item.ProductionYear || '');
+                            }
+                        }
+                    } else {
+                        lines.push(item.ProductionYear || '');
+                    }
                 }
 
                 if (options.showRuntime) {
@@ -867,23 +882,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     } else {
                         lines.push('');
                     }
-                }
-
-                if (options.showSeriesYear) {
-
-                    if (item.Status === "Continuing") {
-
-                        lines.push(globalize.translate('sharedcomponents#SeriesYearToPresent', item.ProductionYear || ''));
-
-                    } else {
-
-                        if (item.EndDate && item.ProductionYear) {
-                            lines.push(item.ProductionYear + ' - ' + datetime.parseISO8601Date(item.EndDate).getFullYear());
-                        } else {
-                            lines.push(item.ProductionYear || '');
-                        }
-                    }
-
                 }
 
                 if (options.showSeriesTimerTime) {
