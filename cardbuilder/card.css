@@ -313,9 +313,9 @@ button {
 }
 
 .cardImageIcon {
-    width: 12vh;
-    height: 12vh;
-    font-size: 12vh;
+    width: auto;
+    height: auto;
+    font-size: 5em;
     color: #fff;
 }
 
