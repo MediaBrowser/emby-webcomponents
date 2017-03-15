@@ -904,6 +904,10 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
                     type = 'medianotsupported';
                     break;
+                default:
+                    // seeing cases where Edge is firing error events with no error code
+                    // example is start playing something, then immediately change src to something else
+                    return;
             }
 
             onErrorInternal(type);

@@ -99,7 +99,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
                 elem.innerHTML = '<source src="' + val + '" type="' + options.mimeType + '">';
             } else {
 
-                if (window.Windows &&  options.mediaSource && options.mediaSource.IsLocal) {
+                if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
 
                     return playUwp(options, elem);
                 } else {
@@ -419,6 +419,10 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
                     type = 'medianotsupported';
                     break;
+                default:
+                    // seeing cases where Edge is firing error events with no error code
+                    // example is start playing something, then immediately change src to something else
+                    return;
             }
 
             onErrorInternal(type);

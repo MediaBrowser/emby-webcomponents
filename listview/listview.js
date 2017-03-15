@@ -293,6 +293,12 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 textlines.push(datetime.getDisplayTime(datetime.parseISO8601Date(item.StartDate)));
             }
 
+            if (options.showChannel) {
+                if (item.ChannelName) {
+                    textlines.push(item.ChannelName);
+                }
+            }
+
             var parentTitle = null;
 
             if (options.showParentTitle) {

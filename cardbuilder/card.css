@@ -71,12 +71,16 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .5em;
+    margin: .427em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
     background-color: transparent;
     outline: none !important;
+}
+
+.layout-tv .cardBox {
+    margin: .5em;
 }
 
 .card-focuscontent {
@@ -136,7 +140,7 @@ button {
     justify-content: center;
     position: relative;
     background-clip: content-box !important;
-    color: #fff;
+    color: inherit;
     /* This is only needed for scalable cards */
     height: 100%;
 }
@@ -316,7 +320,7 @@ button {
     width: auto;
     height: auto;
     font-size: 5em;
-    color: #fff;
+    color: inherit;
 }
 
 .cardIndicators {
