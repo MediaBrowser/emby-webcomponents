@@ -192,13 +192,17 @@
             html += '<h1 style="margin-top:0;" class="syncJobName ' + targetContainerClass + '"></h1>';
         }
 
+        var syncTargetLabel = options.isLocalSync ?
+            globalize.translate('sharedcomponents#LabelDownloadTo') :
+            globalize.translate('sharedcomponents#LabelSyncTo');
+
         if (options.readOnlySyncTarget) {
             html += '<div class="inputContainer' + targetContainerClass + '">';
-            html += '<input is="emby-input" type="text" id="selectSyncTarget" readonly label="' + globalize.translate('sharedcomponents#LabelSyncTo') + '"/>';
+            html += '<input is="emby-input" type="text" id="selectSyncTarget" readonly label="' + syncTargetLabel + '"/>';
             html += '</div>';
         } else {
             html += '<div class="selectContainer' + targetContainerClass + '">';
-            html += '<select is="emby-select" id="selectSyncTarget" required="required" label="' + globalize.translate('sharedcomponents#LabelSyncTo') + '">';
+            html += '<select is="emby-select" id="selectSyncTarget" required="required" label="' + syncTargetLabel + '">';
 
             html += targets.map(function (t) {
 
@@ -389,7 +393,12 @@
             html += '<div class="formDialogHeader">';
             html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
             html += '<h3 class="formDialogHeaderTitle">';
-            html += globalize.translate('sharedcomponents#Sync');
+
+            var syncButtonLabel = options.isLocalSync ?
+                globalize.translate('sharedcomponents#Download') :
+                globalize.translate('sharedcomponents#Sync');
+
+            html += syncButtonLabel;
             html += '</h3>';
 
             html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="clearLink lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><button is="emby-button" type="button" class="button-accent-flat button-flat"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></button></a>';
@@ -404,7 +413,8 @@
             html += '<div class="formFields"></div>';
 
             html += '<div class="formDialogFooter">';
-            html += '<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem"><span>' + globalize.translate('sharedcomponents#Sync') + '</span></button>';
+
+            html += '<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem"><span>' + syncButtonLabel + '</span></button>';
             html += '</div>';
 
             html += '</form>';
