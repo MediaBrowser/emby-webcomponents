@@ -44,71 +44,24 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
         }
 
-        function getBaseProfileOptions(item) {
-
-            var disableHlsVideoAudioCodecs = [];
-            if (!canPlayNativeHls() || (browser.edge && !item.RunTimeTicks)) {
-
-                // this does not work with hls.js + edge, but seems to be fine in other browsers
-                if (browser.edge) {
-                    disableHlsVideoAudioCodecs.push('mp3');
-                }
-
-                // hls.js does not support this
-                disableHlsVideoAudioCodecs.push('ac3');
-            }
-
-            var enableMkvProgressive = (item.RunTimeTicks && browser.edgeUwp) ? true : false;
-
-            return {
-                enableMkvProgressive: enableMkvProgressive,
-                disableHlsVideoAudioCodecs: disableHlsVideoAudioCodecs
-            };
-        }
-
-        function getDeviceProfileForWindowsUwp(item) {
+        function getDefaultProfile() {
 
             return new Promise(function (resolve, reject) {
 
-                require(['browserdeviceprofile', 'environments/windows-uwp/mediacaps'], function (profileBuilder, uwpMediaCaps) {
+                require(['browserdeviceprofile'], function (profileBuilder) {
 
-                    var profileOptions = getBaseProfileOptions(item);
-                    profileOptions.supportsDts = uwpMediaCaps.supportsDTS();
-                    profileOptions.supportsTrueHd = uwpMediaCaps.supportsDolby();
-                    profileOptions.audioChannels = uwpMediaCaps.getAudioChannels();
-
-                    resolve(profileBuilder(profileOptions));
+                    resolve(profileBuilder({}));
                 });
             });
         }
 
         self.getDeviceProfile = function (item) {
 
-            if (window.Windows) {
-                return getDeviceProfileForWindowsUwp(item);
+            if (appHost.getDeviceProfile) {
+                return appHost.getDeviceProfile(item);
             }
 
-            return new Promise(function (resolve, reject) {
-
-                require(['browserdeviceprofile'], function (profileBuilder) {
-
-                    var profile = profileBuilder(getBaseProfileOptions(item));
-
-                    if (!browser.edge && !browser.msie) {
-                        // libjass not working here
-                        profile.SubtitleProfiles.push({
-                            Format: 'ass',
-                            Method: 'External'
-                        });
-                        profile.SubtitleProfiles.push({
-                            Format: 'ssa',
-                            Method: 'External'
-                        });
-                    }
-
-                    resolve(profile);
-                });
-            });
+            return getDefaultProfile();
         };
 
         self.currentSrc = function () {

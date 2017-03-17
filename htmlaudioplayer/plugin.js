@@ -33,17 +33,24 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
             return (mediaType || '').toLowerCase() === 'audio';
         };
 
-        self.getDeviceProfile = function () {
+        function getDefaultProfile() {
 
             return new Promise(function (resolve, reject) {
 
                 require(['browserdeviceprofile'], function (profileBuilder) {
 
-                    var profile = profileBuilder({
-                    });
-                    resolve(profile);
+                    resolve(profileBuilder({}));
                 });
             });
+        }
+
+        self.getDeviceProfile = function (item) {
+
+            if (appHost.getDeviceProfile) {
+                return appHost.getDeviceProfile(item);
+            }
+
+            return getDefaultProfile();
         };
 
         self.currentSrc = function () {

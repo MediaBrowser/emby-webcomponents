@@ -40,7 +40,7 @@ define(['browser'], function (browser) {
     }
 
     function canPlayNativeHls() {
-        
+
         if (browser.tizen || browser.orsay) {
             return true;
         }
@@ -146,8 +146,15 @@ define(['browser'], function (browser) {
     }
 
     function testCanPlayTs() {
-
         return browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
+    }
+
+    function supportsMpeg2Video() {
+        return browser.orsay || browser.tizen || browser.edgeUwp;
+    }
+
+    function supportsVc1() {
+        return browser.orsay || browser.tizen || browser.edgeUwp;
     }
 
     function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs) {
@@ -184,6 +191,12 @@ define(['browser'], function (browser) {
             case 'm2ts':
                 supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
                 videoCodecs.push('h264');
+                if (supportsVc1()) {
+                    videoCodecs.push('vc1');
+                }
+                if (supportsMpeg2Video()) {
+                    videoCodecs.push('mpeg2video');
+                }
                 break;
             case 'wmv':
                 supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
@@ -195,6 +208,12 @@ define(['browser'], function (browser) {
                 if (canPlayH265()) {
                     videoCodecs.push('h265');
                     videoCodecs.push('hevc');
+                }
+                if (supportsVc1()) {
+                    videoCodecs.push('vc1');
+                }
+                if (supportsMpeg2Video()) {
+                    videoCodecs.push('mpeg2video');
                 }
                 profileContainer = 'ts,mpegts';
                 break;
@@ -325,8 +344,11 @@ define(['browser'], function (browser) {
             });
         }
 
-        if (browser.tizen || browser.orsay) {
+        if (supportsMpeg2Video()) {
             mp4VideoCodecs.push('mpeg2video');
+        }
+
+        if (supportsVc1()) {
             mp4VideoCodecs.push('vc1');
         }
 
@@ -337,15 +359,6 @@ define(['browser'], function (browser) {
                 VideoCodec: mp4VideoCodecs.join(','),
                 AudioCodec: videoAudioCodecs.join(',')
             });
-
-            if (browser.edgeUwp) {
-                profile.DirectPlayProfiles.push({
-                    Container: 'mkv',
-                    Type: 'Video',
-                    VideoCodec: 'vc1',
-                    AudioCodec: videoAudioCodecs.join(',')
-                });
-            }
         }
 
         // These are formats we can't test for but some devices will support
@@ -441,7 +454,8 @@ define(['browser'], function (browser) {
                 VideoCodec: 'h264',
                 Context: 'Streaming',
                 Protocol: 'hls',
-                MaxAudioChannels: physicalAudioChannels.toString()
+                MaxAudioChannels: physicalAudioChannels.toString(),
+                MinSegments: browser.iOS || browser.osx ? '2' : '2'
             });
         }
 
