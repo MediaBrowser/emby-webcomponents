@@ -231,7 +231,9 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
             }
 
             if ((item.IsSeries || item.EpisodeTitle) && options.episodeTitle !== false) {
-                miscInfo.push(itemHelper.getDisplayName(item));
+                miscInfo.push(itemHelper.getDisplayName(item, {
+                    includeIndexNumber: options.episodeTitleIndexNumber
+                }));
             }
 
             else if (item.PremiereDate && options.originalAirDate !== false) {

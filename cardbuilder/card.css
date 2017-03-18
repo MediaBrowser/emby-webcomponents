@@ -83,6 +83,10 @@ button {
     margin: .5em;
 }
 
+.layout-mobile .cardBox {
+    margin: .3em;
+}
+
 .card-focuscontent {
     border: .12em solid transparent;
 }
