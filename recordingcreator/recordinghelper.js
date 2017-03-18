@@ -15,7 +15,6 @@
                         return apiClient.createLiveTvSeriesTimer(timerDefaults).then(function () {
 
                             loading.hide();
-                            sendToast(globalize.translate('sharedcomponents#SeriesRecordingScheduled'));
                         });
                     });
                 });
@@ -98,7 +97,6 @@
 
             if (hideLoading) {
                 loading.hide();
-                sendToast(globalize.translate('sharedcomponents#RecordingCancelled'));
             }
         });
     }
@@ -115,14 +113,7 @@
             return promise.then(function () {
 
                 loading.hide();
-                sendToast(globalize.translate('sharedcomponents#RecordingScheduled'));
             });
-        });
-    }
-
-    function sendToast(msg) {
-        require(['toast'], function (toast) {
-            toast(msg);
         });
     }
 

@@ -41,9 +41,14 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
         if (item.StartDate) {
 
             try {
+
+                text = '';
+
                 date = datetime.parseISO8601Date(item.StartDate);
 
-                text = datetime.toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' });
+                if (options.startDate !== false) {
+                    text += datetime.toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' });
+                }
 
                 text += ' ' + datetime.getDisplayTime(date);
 
@@ -55,7 +60,7 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
                 miscInfo.push(text);
             }
             catch (e) {
-                console.log("Error parsing date: " + item.PremiereDate);
+                console.log("Error parsing date: " + item.StartDate);
             }
         }
 
@@ -122,7 +127,7 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
             }
         }
 
-        if (item.Type === "Episode" || item.MediaType === 'Photo') {
+        if ((item.Type === "Episode" || item.MediaType === 'Photo') && options.originalAirDate !== false) {
 
             if (item.PremiereDate) {
 
@@ -168,7 +173,7 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
                 }
             }
             catch (e) {
-                console.log("Error parsing date: " + item.PremiereDate);
+                console.log("Error parsing date: " + item.StartDate);
             }
         }
 
@@ -240,8 +245,7 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
                     console.log("Error parsing date: " + item.PremiereDate);
                 }
             } else if (item.ProductionYear) {
-                text = globalize.translate('sharedcomponents#ReleaseYearValue', item.ProductionYear);
-                miscInfo.push(text);
+                miscInfo.push(item.ProductionYear);
             }
         }
 
