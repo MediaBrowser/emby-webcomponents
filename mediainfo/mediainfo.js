@@ -209,31 +209,38 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
 
         if (item.Type === 'Program') {
 
-            if (item.IsLive) {
-                miscInfo.push({
-                    html: '<div class="mediaInfoProgramAttribute mediaInfoItem liveTvProgram">' + globalize.translate('sharedcomponents#Live') + '</div>'
-                });
-            }
-            else if (item.IsPremiere) {
-                miscInfo.push({
-                    html: '<div class="mediaInfoProgramAttribute mediaInfoItem premiereTvProgram">' + globalize.translate('sharedcomponents#Premiere') + '</div>'
-                });
-            }
-            else if (item.IsSeries && !item.IsRepeat) {
-                miscInfo.push({
-                    html: '<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">' + globalize.translate('sharedcomponents#AttributeNew') + '</div>'
-                });
-            }
-            else if (item.IsSeries && item.IsRepeat) {
-                miscInfo.push({
-                    html: '<div class="mediaInfoProgramAttribute mediaInfoItem repeatTvProgram">' + globalize.translate('sharedcomponents#Repeat') + '</div>'
-                });
+            if (options.programIndicator !== false) {
+                if (item.IsLive) {
+                    miscInfo.push({
+                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem liveTvProgram">' + globalize.translate('sharedcomponents#Live') + '</div>'
+                    });
+                }
+                else if (item.IsPremiere) {
+                    miscInfo.push({
+                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem premiereTvProgram">' + globalize.translate('sharedcomponents#Premiere') + '</div>'
+                    });
+                }
+                else if (item.IsSeries && !item.IsRepeat) {
+                    miscInfo.push({
+                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">' + globalize.translate('sharedcomponents#AttributeNew') + '</div>'
+                    });
+                }
+                else if (item.IsSeries && item.IsRepeat) {
+                    miscInfo.push({
+                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem repeatTvProgram">' + globalize.translate('sharedcomponents#Repeat') + '</div>'
+                    });
+                }
             }
 
             if ((item.IsSeries || item.EpisodeTitle) && options.episodeTitle !== false) {
-                miscInfo.push(itemHelper.getDisplayName(item, {
+
+                text = itemHelper.getDisplayName(item, {
                     includeIndexNumber: options.episodeTitleIndexNumber
-                }));
+                });
+
+                if (text) {
+                    miscInfo.push(text);
+                }
             }
 
             else if (item.PremiereDate && options.originalAirDate !== false) {

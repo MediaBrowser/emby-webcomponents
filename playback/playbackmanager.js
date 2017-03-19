@@ -908,9 +908,11 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             var selectedTrackElementIndex = -1;
 
+            var currentPlayMethod = (getPlayerData(player).streamInfo || {}).playMethod;
+
             if (currentStream && !newStream) {
 
-                if (currentStream.DeliveryMethod === 'Encode') {
+                if (currentStream.DeliveryMethod === 'Encode' || (currentStream.DeliveryMethod === 'Embed' && currentPlayMethod === 'Transcode')) {
 
                     // Need to change the transcoded stream to remove subs
                     changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
@@ -918,7 +920,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
             else if (!currentStream && newStream) {
 
-                if (newStream.DeliveryMethod === 'External' || newStream.DeliveryMethod === 'Embed') {
+                if (newStream.DeliveryMethod === 'External') {
+                    selectedTrackElementIndex = index;
+                } else if (newStream.DeliveryMethod === 'Embed' && currentPlayMethod !== 'Transcode') {
                     selectedTrackElementIndex = index;
                 } else {
 
@@ -928,9 +932,12 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
             else if (currentStream && newStream) {
 
-                if (newStream.DeliveryMethod === 'External' || newStream.DeliveryMethod === 'Embed') {
+                // Switching tracks
+                // We can handle this clientside if the new track is external or the new track is embedded and we're not transcoding
+                if (newStream.DeliveryMethod === 'External' || (newStream.DeliveryMethod === 'Embed' && currentPlayMethod !== 'Transcode')) {
                     selectedTrackElementIndex = index;
 
+                    // But in order to handle this client side, if the previous track is being added via transcoding, we'll have to remove it
                     if (currentStream.DeliveryMethod !== 'External' && currentStream.DeliveryMethod !== 'Embed') {
                         changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
                     }
