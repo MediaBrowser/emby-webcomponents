@@ -1,63 +1,37 @@
 ﻿define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'registrationServices', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields'], function (globalize, connectionManager, serverNotifications, require, loading, appHost, dom, recordingHelper, events, registrationServices) {
     'use strict';
 
-    function getRegistration(apiClient, programId, feature) {
+    function getRegistration(apiClient, feature) {
 
-        loading.show();
-
-        return apiClient.getJSON(apiClient.getUrl('LiveTv/Registration', {
-
-            ProgramId: programId,
-            Feature: feature
-
-        })).then(function (result) {
-
-            loading.hide();
-            return result;
-
-        }, function () {
-
-            loading.hide();
-
-            return {
-                TrialVersion: true,
-                IsValid: true,
-                IsRegistered: false
-            };
+        return registrationServices.validateFeature(feature, {
+            showDialog: false
         });
     }
 
     function showConvertRecordingsUnlockMessage(context, apiClient) {
 
-        apiClient.getPluginSecurityInfo().then(function (regInfo) {
+        getRegistration(apiClient, getDvrFeatureCode()).then(function () {
 
-            if (regInfo.IsMBSupporter) {
-                context.querySelector('.convertRecordingsContainer').classList.add('hide');
-            } else {
-                context.querySelector('.convertRecordingsContainer').classList.remove('hide');
-            }
-
+            context.querySelector('.convertRecordingsContainer').classList.add('hide');
         }, function () {
-
             context.querySelector('.convertRecordingsContainer').classList.remove('hide');
         });
     }
 
     function showSeriesRecordingFields(context, programId, apiClient) {
 
-        getRegistration(apiClient, programId, 'seriesrecordings').then(function (regInfo) {
-            if (regInfo.IsRegistered) {
-                context.querySelector('.supporterContainer').classList.add('hide');
-                context.querySelector('.convertRecordingsContainer').classList.add('hide');
-                context.querySelector('.recordSeriesContainer').classList.remove('hide');
+        getRegistration(apiClient, getDvrFeatureCode()).then(function () {
 
-            } else {
+            context.querySelector('.supporterContainer').classList.add('hide');
+            context.querySelector('.convertRecordingsContainer').classList.add('hide');
+            context.querySelector('.recordSeriesContainer').classList.remove('hide');
 
-                context.querySelector('.supporterContainerText').innerHTML = globalize.translate('sharedcomponents#MessageActiveSubscriptionRequiredSeriesRecordings');
-                context.querySelector('.supporterContainer').classList.remove('hide');
-                context.querySelector('.recordSeriesContainer').classList.add('hide');
-                context.querySelector('.convertRecordingsContainer').classList.add('hide');
-            }
+        }, function () {
+
+            context.querySelector('.supporterContainerText').innerHTML = globalize.translate('sharedcomponents#MessageActiveSubscriptionRequiredSeriesRecordings');
+            context.querySelector('.supporterContainer').classList.remove('hide');
+            context.querySelector('.recordSeriesContainer').classList.add('hide');
+            context.querySelector('.convertRecordingsContainer').classList.add('hide');
         });
     }
 
@@ -68,30 +42,28 @@
 
     function showSingleRecordingFields(context, programId, apiClient) {
 
-        getRegistration(apiClient, programId, getDvrFeatureCode()).then(function (regInfo) {
+        getRegistration(apiClient, getDvrFeatureCode()).then(function () {
 
-            if (regInfo.IsRegistered) {
-                context.querySelector('.supporterContainer').classList.add('hide');
-                showConvertRecordingsUnlockMessage(context, apiClient);
-            } else {
+            context.querySelector('.supporterContainer').classList.add('hide');
+            showConvertRecordingsUnlockMessage(context, apiClient);
 
-                context.querySelector('.supporterContainerText').innerHTML = globalize.translate('sharedcomponents#DvrSubscriptionRequired');
-                context.querySelector('.supporterContainer').classList.remove('hide');
-                context.querySelector('.convertRecordingsContainer').classList.add('hide');
-            }
+        }, function () {
+
+            context.querySelector('.supporterContainerText').innerHTML = globalize.translate('sharedcomponents#DvrSubscriptionRequired');
+            context.querySelector('.supporterContainer').classList.remove('hide');
+            context.querySelector('.convertRecordingsContainer').classList.add('hide');
         });
     }
 
     function showRecordingFieldsContainer(context, programId, apiClient) {
 
-        getRegistration(apiClient, programId, getDvrFeatureCode()).then(function (regInfo) {
+        getRegistration(apiClient, getDvrFeatureCode()).then(function () {
 
-            if (regInfo.IsRegistered) {
-                context.querySelector('.recordingFields').classList.remove('hide');
-            } else {
+            context.querySelector('.recordingFields').classList.remove('hide');
 
-                context.querySelector('.recordingFields').classList.add('hide');
-            }
+        }, function () {
+
+            context.querySelector('.recordingFields').classList.add('hide');
         });
     }
 
