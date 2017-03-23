@@ -127,15 +127,10 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 // TODO
                 break;
             case 'next':
-                if (playbackManager.isPlaying()) {
-                    playbackManager.nextChapter();
-                }
+                playbackManager.nextChapter();
                 break;
             case 'previous':
-
-                if (playbackManager.isPlaying()) {
-                    playbackManager.previousChapter();
-                }
+                playbackManager.previousChapter();
                 break;
             case 'guide':
                 embyRouter.showGuide();
