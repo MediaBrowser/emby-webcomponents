@@ -8,15 +8,13 @@
         return apiClient.getItem(apiClient.getCurrentUserId(), programId).then(function (item) {
 
             if (item.IsSeries) {
-                // cancel, then create series
-                return cancelTimer(apiClient, timerId, false).then(function () {
-                    return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (timerDefaults) {
+                // create series
+                return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (timerDefaults) {
 
-                        return apiClient.createLiveTvSeriesTimer(timerDefaults).then(function () {
+                    return apiClient.createLiveTvSeriesTimer(timerDefaults).then(function () {
 
-                            loading.hide();
-                            sendToast(globalize.translate('sharedcomponents#SeriesRecordingScheduled'));
-                        });
+                        loading.hide();
+                        sendToast(globalize.translate('sharedcomponents#SeriesRecordingScheduled'));
                     });
                 });
             } else {
