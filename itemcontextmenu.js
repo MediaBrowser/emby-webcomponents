@@ -592,27 +592,25 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
 
     function show(options) {
 
-        return getCommands(options).then(function (commands) {
+        var commands = getCommands(options);
 
-            if (!commands.length) {
-                return Promise.reject();
-            }
+        if (!commands.length) {
+            return Promise.reject();
+        }
 
-            return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-                require(['actionsheet'], function (actionSheet) {
+            require(['actionsheet'], function (actionSheet) {
 
-                    actionSheet.show({
+                actionSheet.show({
 
-                        items: commands,
-                        positionTo: options.positionTo
+                    items: commands,
+                    positionTo: options.positionTo
 
-                    }).then(function (id) {
-                        executeCommand(options.item, id, options).then(resolve);
-                    }, reject);
-                });
+                }).then(function (id) {
+                    executeCommand(options.item, id, options).then(resolve);
+                }, reject);
             });
-
         });
     }
 
