@@ -175,7 +175,7 @@
             });
         }
 
-        function reloadGuide(context, newStartDate, focusProgramOnRender) {
+        function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, focusProgramOnRender) {
 
             var apiClient = connectionManager.currentApiClient();
 
@@ -290,7 +290,7 @@
 
                     }).then(function (programsResult) {
 
-                        renderGuide(context, date, channelsResult.Items, programsResult.Items, apiClient, focusProgramOnRender);
+                        renderGuide(context, date, channelsResult.Items, programsResult.Items, apiClient, scrollToTimeMs, focusToTimeMs, focusProgramOnRender);
 
                         hideLoading();
 
@@ -401,16 +401,12 @@
             return '<i class="md-icon programIcon timerIcon">&#xE061;</i>';
         }
 
-        function getChannelProgramsHtml(context, date, channel, programs, options, index) {
+        function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
 
             var html = '';
 
             var startMs = date.getTime();
             var endMs = startMs + msPerDay - 1;
-
-            programs = programs.filter(function (curr) {
-                return curr.ChannelId === channel.Id;
-            });
 
             var outerCssClass = layoutManager.tv ? 'channelPrograms channelPrograms-tv' : 'channelPrograms';
 
@@ -426,13 +422,23 @@
             var displaySeriesContent = !categories.length || categories.indexOf('series') !== -1;
             var enableColorCodedBackgrounds = userSettings.get('guide-colorcodedbackgrounds') === 'true';
 
-            for (var i = 0, length = programs.length; i < length; i++) {
+            var programsFound;
+
+            for (var i = listInfo.startIndex, length = programs.length; i < length; i++) {
 
                 var program = programs[i];
 
                 if (program.ChannelId !== channel.Id) {
+
+                    if (programsFound) {
+                        break;
+                    }
+
                     continue;
                 }
+
+                programsFound = true;
+                listInfo.startIndex++;
 
                 parseDates(program);
 
@@ -564,35 +570,6 @@
             return html;
         }
 
-        function renderPrograms(context, date, channels, programs) {
-
-            var html = [];
-
-            // Normally we'd want to just let responsive css handle this,
-            // but since mobile browsers are often underpowered, 
-            // it can help performance to get them out of the markup
-            var allowIndicators = dom.getWindowSize().innerWidth >= 600;
-
-            var options = {
-                showHdIcon: allowIndicators && userSettings.get('guide-indicator-hd') === 'true',
-                showLiveIndicator: allowIndicators && userSettings.get('guide-indicator-live') !== 'false',
-                showPremiereIndicator: allowIndicators && userSettings.get('guide-indicator-premiere') !== 'false',
-                showNewIndicator: allowIndicators && userSettings.get('guide-indicator-new') === 'true',
-                showRepeatIndicator: allowIndicators && userSettings.get('guide-indicator-repeat') === 'true',
-                showEpisodeTitle: layoutManager.tv ? false : true
-            };
-
-            for (var i = 0, length = channels.length; i < length; i++) {
-
-                html.push(getChannelProgramsHtml(context, date, channels[i], programs, options, i));
-            }
-
-            var programGrid = context.querySelector('.programGrid');
-            programGrid.innerHTML = html.join('');
-
-            programGrid.scrollTop = 0;
-            programGrid.scrollLeft = 0;
-        }
 
         function renderChannelHeaders(context, channels, apiClient) {
 
@@ -623,7 +600,7 @@
                 html += '<button type="button" class="' + cssClass + '"' + dataSrc + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
 
                 if (channel.Number) {
-                    
+
                     html += '<h3 class="guideChannelNumber">' + channel.Number + '</h3>';
                 }
 
@@ -639,46 +616,60 @@
             imageLoader.lazyChildren(channelList);
         }
 
-        function renderGuide(context, date, channels, programs, apiClient, focusProgramOnRender) {
+        function renderPrograms(context, date, channels, programs) {
 
-            //var list = [];
-            //channels.forEach(function(i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels.forEach(function (i) {
-            //    list.push(i);
-            //});
-            //channels = list;
+            // Normally we'd want to just let responsive css handle this,
+            // but since mobile browsers are often underpowered, 
+            // it can help performance to get them out of the markup
+            var allowIndicators = dom.getWindowSize().innerWidth >= 600;
+
+            var options = {
+                showHdIcon: allowIndicators && userSettings.get('guide-indicator-hd') === 'true',
+                showLiveIndicator: allowIndicators && userSettings.get('guide-indicator-live') !== 'false',
+                showPremiereIndicator: allowIndicators && userSettings.get('guide-indicator-premiere') !== 'false',
+                showNewIndicator: allowIndicators && userSettings.get('guide-indicator-new') === 'true',
+                showRepeatIndicator: allowIndicators && userSettings.get('guide-indicator-repeat') === 'true',
+                showEpisodeTitle: layoutManager.tv ? false : true
+            };
+
+            var listInfo = {
+                startIndex: 0
+            };
+
+            var html = [];
+
+            for (var i = 0, length = channels.length; i < length; i++) {
+
+                html.push(getChannelProgramsHtml(context, date, channels[i], programs, options, listInfo));
+            }
+
+            var programGrid = context.querySelector('.programGrid');
+            programGrid.innerHTML = html.join('');
+        }
+
+        function getProgramSortOrder(program, channels) {
+
+            var channelId = program.ChannelId;
+            var channelIndex = -1;
+
+            for (var i = 0, length = channels.length; i < length; i++) {
+                if (channelId === channels[i].Id) {
+                    channelIndex = i;
+                    break;
+                }
+            }
+
+            var start = datetime.parseISO8601Date(program.StartDate, { toLocal: true });
+
+            return (channelIndex * 10000000) + (start.getTime() / 60000);
+        }
+
+        function renderGuide(context, date, channels, programs, apiClient, scrollToTimeMs, focusToTimeMs, focusProgramOnRender) {
+
+            programs.sort(function (a, b) {
+                return getProgramSortOrder(a, channels) - getProgramSortOrder(b, channels);
+            });
+
             var activeElement = document.activeElement;
             var itemId = activeElement && activeElement.getAttribute ? activeElement.getAttribute('data-id') : null;
             var channelRowId = null;
@@ -698,25 +689,66 @@
             renderPrograms(context, date, channels, programs);
 
             if (focusProgramOnRender) {
+                focusProgram(context, itemId, channelRowId, focusToTimeMs);
+            } else {
+                scrollProgramGridToTimeMs(context, scrollToTimeMs);
+            }
+        }
 
-                var focusElem;
-                if (itemId) {
-                    focusElem = context.querySelector('[data-id="' + itemId + '"]');
+        function scrollProgramGridToTimeMs(context, scrollToTimeMs) {
+
+            var pct = scrollToTimeMs / msPerDay;
+            var programGrid = context.querySelector('.programGrid');
+
+            programGrid.scrollTop = 0;
+
+            var scrollPos = pct * programGrid.scrollWidth;
+
+            nativeScrollTo(programGrid, scrollPos, true);
+        }
+
+        function focusProgram(context, itemId, channelRowId, focusToTimeMs) {
+
+            var focusElem;
+            if (itemId) {
+                focusElem = context.querySelector('[data-id="' + itemId + '"]');
+            }
+
+            if (focusElem) {
+                focusManager.focus(focusElem);
+            } else {
+
+                var autoFocusParent;
+                var programGrid = context.querySelector('.programGrid');
+
+                if (channelRowId) {
+                    autoFocusParent = context.querySelector('[data-channelid="' + channelRowId + '"]');
                 }
 
-                if (focusElem) {
-                    focusManager.focus(focusElem);
+                if (!autoFocusParent) {
+                    autoFocusParent = programGrid;
+                }
+
+                var pct = (focusToTimeMs / msPerDay) * 100;
+
+                var programCell = autoFocusParent.querySelector('.programCell');
+
+                while (programCell) {
+
+                    var left = (programCell.style.left || '').replace('%', '');
+                    left = left ? parseFloat(left) : 0;
+                    var width = (programCell.style.width || '').replace('%', '');
+                    width = width ? parseFloat(width) : 0;
+
+                    if (left >= pct || (left + width) >= pct) {
+                        break;
+                    }
+                    programCell = programCell.nextSibling;
+                }
+
+                if (programCell) {
+                    focusManager.focus(programCell);
                 } else {
-
-                    var autoFocusParent;
-
-                    if (channelRowId) {
-                        autoFocusParent = context.querySelector('[data-channelid="' + channelRowId + '"]');
-                    }
-
-                    if (!autoFocusParent) {
-                        autoFocusParent = context.querySelector('.programGrid');
-                    }
                     focusManager.autoFocus(autoFocusParent, true);
                 }
             }
@@ -757,14 +789,14 @@
             }
         }
 
-        function changeDate(page, date, focusProgramOnRender) {
+        function changeDate(page, date, scrollToTimeMs, focusToTimeMs, focusProgramOnRender) {
 
             clearCurrentTimeUpdateInterval();
 
             var newStartDate = normalizeDateToTimeslot(date);
             currentDate = newStartDate;
 
-            reloadGuide(page, newStartDate, focusProgramOnRender);
+            reloadGuide(page, newStartDate, scrollToTimeMs, focusToTimeMs, focusProgramOnRender);
         }
 
         function getDateTabText(date, isActive, tabIndex) {
@@ -808,6 +840,9 @@
                 date.setTime(currentDate.getTime());
             }
 
+            date.setHours(0, 0, 0, 0);
+            start.setHours(0, 0, 0, 0);
+
             while (start <= end) {
 
                 var isActive = date.getDate() === start.getDate() && date.getMonth() === start.getMonth() && date.getFullYear() === start.getFullYear();
@@ -822,7 +857,10 @@
             page.querySelector('.emby-tabs-slider').innerHTML = dateTabsHtml;
             page.querySelector('.guideDateTabs').refresh();
 
-            changeDate(page, date, layoutManager.tv);
+            var newDate = new Date();
+            var scrollToTimeMs = newDate.getHours() * 60 * 60 * 1000;
+            var focusToTimeMs = ((newDate.getHours() * 60) + newDate.getMinutes()) * 60 * 1000;
+            changeDate(page, date, scrollToTimeMs, focusToTimeMs, layoutManager.tv);
         }
 
         function reloadPage(page) {
@@ -990,7 +1028,17 @@
                 if (tabButton) {
                     var date = new Date();
                     date.setTime(parseInt(tabButton.getAttribute('data-date')));
-                    changeDate(context, date, false);
+                    var programGrid = context.querySelector('.programGrid');
+
+                    var scrollWidth = programGrid.scrollWidth;
+                    var scrollToTimeMs;
+                    if (scrollWidth) {
+                        scrollToTimeMs = (programGrid.scrollLeft / scrollWidth) * msPerDay;
+                    } else {
+                        scrollToTimeMs = 0;
+                    }
+
+                    changeDate(context, date, scrollToTimeMs, scrollToTimeMs, false);
                 }
             });
 

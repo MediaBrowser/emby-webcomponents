@@ -179,12 +179,19 @@ require(['apphost'], function (appHost) {
     function resetThrottle(key) {
         times[key] = new Date().getTime();
     }
+    
+    function allowInput() {
+        
+        if (document.hidden) {
+            return false;
+        }
+
+        return true;
+    }
 
     function raiseEvent(name, key, keyCode) {
 
-        // This seems to be raising events even with the window minimized
-        // TODO: Switch this to use Page Visibility API
-        if (appHost.getWindowState() === 'Minimized') {
+        if (!allowInput()) {
             return;
         }
 
@@ -193,6 +200,15 @@ require(['apphost'], function (appHost) {
         event.key = key;
         event.keyCode = keyCode;
         (document.activeElement || document.body).dispatchEvent(event);
+    }
+
+    function clickElement(elem) {
+        
+        if (!allowInput()) {
+            return;
+        }
+
+        elem.click();
     }
 
     function raiseKeyEvent(oldPressedState, newPressedState, key, keyCode, enableRepeatKeyDown, clickonKeyUp) {
@@ -224,7 +240,7 @@ require(['apphost'], function (appHost) {
                 raiseEvent("keyup", key, keyCode);
             }
             if (clickonKeyUp) {
-                (document.activeElement || window).click();
+                clickElement(document.activeElement || window);
             }
         }
     }

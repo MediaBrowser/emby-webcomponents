@@ -5,246 +5,242 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
 
         var item = options.item;
 
-        var serverId = item.ServerId;
-        var apiClient = connectionManager.getApiClient(serverId);
-
         var canPlay = playbackManager.canPlay(item);
 
-        return apiClient.getCurrentUser().then(function (user) {
+        var commands = [];
 
-            var commands = [];
-
-            if (itemHelper.isLocalItem(item)) {
-
-                return commands;
-            }
-
-            if (itemHelper.supportsAddingToCollection(item)) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#AddToCollection'),
-                    id: 'addtocollection'
-                });
-            }
-
-            if (itemHelper.supportsAddingToPlaylist(item)) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#AddToPlaylist'),
-                    id: 'addtoplaylist'
-                });
-            }
-
-            if (playbackManager.canQueue(item)) {
-                if (options.queue !== false) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#AddToPlayQueue'),
-                        id: 'queue'
-                    });
-                }
-
-                //if (options.queueAllFromHere) {
-                //    commands.push({
-                //        name: globalize.translate('sharedcomponents#QueueAllFromHere'),
-                //        id: 'queueallfromhere'
-                //    });
-                //}
-            }
-
-            if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#CancelRecording'),
-                    id: 'canceltimer'
-                });
-            }
-
-            if ((item.Type === 'Recording' && item.Status === 'InProgress') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#CancelRecording'),
-                    id: 'canceltimer'
-                });
-            }
-
-            if ((item.Type === 'SeriesTimer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#CancelSeries'),
-                    id: 'cancelseriestimer'
-                });
-            }
-
-            if (item.CanDelete && options.deleteItem !== false) {
-
-                if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#Delete'),
-                        id: 'delete'
-                    });
-                } else {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#DeleteMedia'),
-                        id: 'delete'
-                    });
-                }
-            }
-
-            if (item.CanDownload && appHost.supports('filedownload')) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#Download'),
-                    id: 'download'
-                });
-            }
-
-            if (itemHelper.canEdit(user, item)) {
-
-                if (options.edit !== false && item.Type !== 'SeriesTimer') {
-
-                    var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('sharedcomponents#Edit') : globalize.translate('sharedcomponents#EditInfo');
-
-                    commands.push({
-                        name: text,
-                        id: 'edit'
-                    });
-                }
-            }
-
-            if (itemHelper.canEditImages(user, item)) {
-
-                if (options.editImages !== false) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#EditImages'),
-                        id: 'editimages'
-                    });
-                }
-            }
-
-            if (itemHelper.canEdit(user, item)) {
-
-                if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
-                    if (options.editSubtitles !== false) {
-                        commands.push({
-                            name: globalize.translate('sharedcomponents#EditSubtitles'),
-                            id: 'editsubtitles'
-                        });
-                    }
-                }
-            }
-
-            if (options.identify !== false) {
-                if (itemHelper.canIdentify(user, item.Type)) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#Identify'),
-                        id: 'identify'
-                    });
-                }
-            }
-
-            if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist" || item.Type === "MusicGenre" || item.CollectionType === "music") {
-                if (options.instantMix !== false) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#InstantMix'),
-                        id: 'instantmix'
-                    });
-                }
-            }
-
-            if (appHost.supports('sync') && options.syncLocal !== false) {
-                if (itemHelper.canSync(user, item)) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#MakeAvailableOffline'),
-                        id: 'synclocal'
-                    });
-                }
-            }
-
-            if (canPlay) {
-                if (options.play !== false) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#Play'),
-                        id: 'resume'
-                    });
-                }
-
-                if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#PlayAllFromHere'),
-                        id: 'playallfromhere'
-                    });
-                }
-            }
-
-            if (item.Type === 'Program' && options.record !== false) {
-
-                commands.push({
-                    name: Globalize.translate('sharedcomponents#Record'),
-                    id: 'record'
-                });
-            }
-
-            if (user.Policy.IsAdministrator) {
-
-                if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#Refresh'),
-                        id: 'refresh'
-                    });
-                }
-            }
-
-            if (item.PlaylistItemId && options.playlistId) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#RemoveFromPlaylist'),
-                    id: 'removefromplaylist'
-                });
-            }
-
-            if (options.collectionId) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#RemoveFromCollection'),
-                    id: 'removefromcollection'
-                });
-            }
-
-            if (options.share !== false) {
-                if (itemHelper.canShare(user, item)) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#Share'),
-                        id: 'share'
-                    });
-                }
-            }
-
-            if (item.IsFolder || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
-                if (options.shuffle !== false) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#Shuffle'),
-                        id: 'shuffle'
-                    });
-                }
-            }
-
-            if (options.sync !== false) {
-                if (itemHelper.canSync(user, item)) {
-                    commands.push({
-                        name: globalize.translate('sharedcomponents#SyncToOtherDevice'),
-                        id: 'sync'
-                    });
-                }
-            }
-
-            if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
-                commands.push({
-                    name: Globalize.translate('sharedcomponents#ViewAlbum'),
-                    id: 'album'
-                });
-            }
-
-            if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
-                commands.push({
-                    name: Globalize.translate('sharedcomponents#ViewArtist'),
-                    id: 'artist'
-                });
-            }
+        if (itemHelper.isLocalItem(item)) {
 
             return commands;
-        });
+        }
+
+        var user = options.user;
+
+        if (itemHelper.supportsAddingToCollection(item)) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#AddToCollection'),
+                id: 'addtocollection'
+            });
+        }
+
+        if (itemHelper.supportsAddingToPlaylist(item)) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#AddToPlaylist'),
+                id: 'addtoplaylist'
+            });
+        }
+
+        if (playbackManager.canQueue(item)) {
+            if (options.queue !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#AddToPlayQueue'),
+                    id: 'queue'
+                });
+            }
+
+            //if (options.queueAllFromHere) {
+            //    commands.push({
+            //        name: globalize.translate('sharedcomponents#QueueAllFromHere'),
+            //        id: 'queueallfromhere'
+            //    });
+            //}
+        }
+
+        if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#CancelRecording'),
+                id: 'canceltimer'
+            });
+        }
+
+        if ((item.Type === 'Recording' && item.Status === 'InProgress') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#CancelRecording'),
+                id: 'canceltimer'
+            });
+        }
+
+        if ((item.Type === 'SeriesTimer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#CancelSeries'),
+                id: 'cancelseriestimer'
+            });
+        }
+
+        if (item.CanDelete && options.deleteItem !== false) {
+
+            if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Delete'),
+                    id: 'delete'
+                });
+            } else {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#DeleteMedia'),
+                    id: 'delete'
+                });
+            }
+        }
+
+        if (item.CanDownload && appHost.supports('filedownload')) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#Download'),
+                id: 'download'
+            });
+        }
+
+        if (itemHelper.canEdit(user, item)) {
+
+            if (options.edit !== false && item.Type !== 'SeriesTimer') {
+
+                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('sharedcomponents#Edit') : globalize.translate('sharedcomponents#EditInfo');
+
+                commands.push({
+                    name: text,
+                    id: 'edit'
+                });
+            }
+        }
+
+        if (itemHelper.canEditImages(user, item)) {
+
+            if (options.editImages !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#EditImages'),
+                    id: 'editimages'
+                });
+            }
+        }
+
+        if (itemHelper.canEdit(user, item)) {
+
+            if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
+                if (options.editSubtitles !== false) {
+                    commands.push({
+                        name: globalize.translate('sharedcomponents#EditSubtitles'),
+                        id: 'editsubtitles'
+                    });
+                }
+            }
+        }
+
+        if (options.identify !== false) {
+            if (itemHelper.canIdentify(user, item.Type)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Identify'),
+                    id: 'identify'
+                });
+            }
+        }
+
+        if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist" || item.Type === "MusicGenre" || item.CollectionType === "music") {
+            if (options.instantMix !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#InstantMix'),
+                    id: 'instantmix'
+                });
+            }
+        }
+
+        if (appHost.supports('sync') && options.syncLocal !== false) {
+            if (itemHelper.canSync(user, item)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#MakeAvailableOffline'),
+                    id: 'synclocal'
+                });
+            }
+        }
+
+        if (canPlay) {
+            if (options.play !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Play'),
+                    id: 'resume'
+                });
+            }
+
+            if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#PlayAllFromHere'),
+                    id: 'playallfromhere'
+                });
+            }
+        }
+
+        if (item.Type === 'Program' && options.record !== false) {
+
+            commands.push({
+                name: Globalize.translate('sharedcomponents#Record'),
+                id: 'record'
+            });
+        }
+
+        if (user.Policy.IsAdministrator) {
+
+            if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Refresh'),
+                    id: 'refresh'
+                });
+            }
+        }
+
+        if (item.PlaylistItemId && options.playlistId) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#RemoveFromPlaylist'),
+                id: 'removefromplaylist'
+            });
+        }
+
+        if (options.collectionId) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#RemoveFromCollection'),
+                id: 'removefromcollection'
+            });
+        }
+
+        if (options.share !== false) {
+            if (itemHelper.canShare(user, item)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Share'),
+                    id: 'share'
+                });
+            }
+        }
+
+        if (item.IsFolder || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
+            if (options.shuffle !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Shuffle'),
+                    id: 'shuffle'
+                });
+            }
+        }
+
+        if (options.sync !== false) {
+            if (itemHelper.canSync(user, item)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#SyncToOtherDevice'),
+                    id: 'sync'
+                });
+            }
+        }
+
+        if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
+            commands.push({
+                name: Globalize.translate('sharedcomponents#ViewAlbum'),
+                id: 'album'
+            });
+        }
+
+        if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
+            commands.push({
+                name: Globalize.translate('sharedcomponents#ViewArtist'),
+                id: 'artist'
+            });
+        }
+
+        return commands;
     }
 
     function getResolveFunction(resolve, id, changed, deleted) {

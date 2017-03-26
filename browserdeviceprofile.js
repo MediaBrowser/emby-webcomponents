@@ -446,6 +446,18 @@ define(['browser'], function (browser) {
             });
         }
 
+        if (canPlayMkv && options.enableMkvProgressive !== false) {
+            profile.TranscodingProfiles.push({
+                Container: 'mkv',
+                Type: 'Video',
+                AudioCodec: videoAudioCodecs.join(','),
+                VideoCodec: 'h264',
+                Context: 'Static',
+                MaxAudioChannels: physicalAudioChannels.toString(),
+                CopyTimestamps: true
+            });
+        }
+
         if (canPlayHls() && options.enableHls !== false) {
             profile.TranscodingProfiles.push({
                 Container: 'ts',
