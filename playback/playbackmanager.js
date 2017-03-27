@@ -2307,7 +2307,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
             if (mediaSource.SupportsDirectPlay) {
 
-                if (mediaSource.IsRemote && item.Type === 'TvChannel' && !apphost.supports('remotemedia')) {
+                if (mediaSource.IsRemote && (item.Type === 'TvChannel' || item.Type === 'Trailer') && !apphost.supports('remotemedia')) {
                     return Promise.resolve(false);
                 }
 
