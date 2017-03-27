@@ -273,7 +273,8 @@
                 sync: false,
                 share: false,
                 play: false,
-                queue: false
+                queue: false,
+                user: user
 
             }).then(function (result) {
 

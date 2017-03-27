@@ -132,46 +132,49 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
 
             require(['itemContextMenu'], function (itemContextMenu) {
 
-                itemContextMenu.show(Object.assign({
-                    item: item,
-                    play: true,
-                    queue: true,
-                    playAllFromHere: !item.IsFolder,
-                    queueAllFromHere: !item.IsFolder,
-                    playlistId: playlistId,
-                    collectionId: collectionId
+                connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function(user) {
+                    itemContextMenu.show(Object.assign({
+                        item: item,
+                        play: true,
+                        queue: true,
+                        playAllFromHere: !item.IsFolder,
+                        queueAllFromHere: !item.IsFolder,
+                        playlistId: playlistId,
+                        collectionId: collectionId,
+                        user: user
 
-                }, options || {})).then(function (result) {
+                    }, options || {})).then(function (result) {
 
-                    var itemsContainer;
+                        var itemsContainer;
 
-                    if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
-                        executeAction(card, options.positionTo, result.command);
-                    }
-                    else if (result.command === 'removefromplaylist' || result.command === 'removefromcollection') {
-
-                        itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
-
-                        if (itemsContainer) {
-                            itemsContainer.dispatchEvent(new CustomEvent('needsrefresh', {
-                                detail: {},
-                                cancelable: false,
-                                bubbles: true
-                            }));
+                        if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
+                            executeAction(card, options.positionTo, result.command);
                         }
-                    }
-                    else if (result.command === 'canceltimer') {
+                        else if (result.command === 'removefromplaylist' || result.command === 'removefromcollection') {
 
-                        itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
+                            itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
 
-                        if (itemsContainer) {
-                            itemsContainer.dispatchEvent(new CustomEvent('timercancelled', {
-                                detail: {},
-                                cancelable: false,
-                                bubbles: true
-                            }));
+                            if (itemsContainer) {
+                                itemsContainer.dispatchEvent(new CustomEvent('needsrefresh', {
+                                    detail: {},
+                                    cancelable: false,
+                                    bubbles: true
+                                }));
+                            }
                         }
-                    }
+                        else if (result.command === 'canceltimer') {
+
+                            itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
+
+                            if (itemsContainer) {
+                                itemsContainer.dispatchEvent(new CustomEvent('timercancelled', {
+                                    detail: {},
+                                    cancelable: false,
+                                    bubbles: true
+                                }));
+                            }
+                        }
+                    });
                 });
             });
         });
