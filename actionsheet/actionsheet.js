@@ -214,7 +214,10 @@
             option = options.items[i];
 
             var autoFocus = option.selected ? ' autoFocus' : '';
-            html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + (option.id || option.value) + '">';
+
+            // Check for null in case int 0 was passed in
+            var optionId = option.id == null ? option.value : option.id;
+            html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
             if (option.icon) {
                 html += '<i class="actionSheetItemIcon md-icon">' + option.icon + '</i>';
