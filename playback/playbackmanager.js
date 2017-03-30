@@ -2808,6 +2808,31 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
         }
 
+        function enablePlaybackRetryWithTranscoding(streamInfo, errorType) {
+            
+            if (!streamInfo) {
+                return false;
+            }
+
+            if (errorType === 'mediadecodeerror' || errorType === 'medianotsupported') {
+
+                if (streamInfo.playMethod !== 'Transcode' && streamInfo.mediaSource.SupportsTranscoding) {
+
+                    return true;
+                }
+            }
+
+            if (errorType === 'network') {
+
+                if (streamInfo.playMethod === 'DirectPlay' && streamInfo.mediaSource.IsRemote && streamInfo.mediaSource.SupportsTranscoding) {
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         function onPlaybackError(e, error) {
 
             var player = this;
@@ -2823,22 +2848,19 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             var streamInfo = getPlayerData(player).streamInfo;
 
             // Auto switch to transcoding
-            if (streamInfo && (errorType === 'mediadecodeerror' || errorType === 'medianotsupported')) {
+            if (enablePlaybackRetryWithTranscoding(streamInfo, errorType)) {
 
-                if (streamInfo.playMethod !== 'Transcode' && streamInfo.mediaSource.SupportsTranscoding) {
+                var startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
 
-                    var startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
+                changeStream(player, startTime, {
 
-                    changeStream(player, startTime, {
+                    // force transcoding
+                    EnableDirectPlay: false,
+                    EnableDirectStream: false
 
-                        // force transcoding
-                        EnableDirectPlay: false,
-                        EnableDirectStream: false
+                }, true);
 
-                    }, true);
-
-                    return;
-                }
+                return;
             }
 
             self.nextTrack(player);
