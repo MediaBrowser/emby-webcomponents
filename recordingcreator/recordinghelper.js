@@ -102,7 +102,7 @@
         loading.show();
         return apiClient.getNewLiveTvTimerDefaults({ programId: programId }).then(function (item) {
 
-            var promise = isSeries && item.IsSeries ?
+            var promise = isSeries ?
                 apiClient.createLiveTvSeriesTimer(item) :
                 apiClient.createLiveTvTimer(item);
 

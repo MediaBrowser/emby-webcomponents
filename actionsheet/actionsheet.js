@@ -216,7 +216,7 @@
             var autoFocus = option.selected ? ' autoFocus' : '';
 
             // Check for null in case int 0 was passed in
-            var optionId = option.id == null ? option.value : option.id;
+            var optionId = option.id == null || option.id === '' ? option.value : option.id;
             html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
             if (option.icon) {
