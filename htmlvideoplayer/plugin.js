@@ -78,7 +78,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             // Huge hack alert. Safari doesn't seem to like if the segments aren't available right away when playback starts
             // This will start the transcoding process before actually feeding the video url into the player
             // Edit: Also seeing stalls from hls.js
-            if (mediaSource && item && !mediaSource.RunTimeTicks && isHls && (browser.iOS || browser.osx)) {
+            if (mediaSource && item && !mediaSource.RunTimeTicks && isHls && streamInfo.playMethod === 'Transcode' && (browser.iOS || browser.osx)) {
 
                 var hlsPlaylistUrl = streamInfo.url.replace('master.m3u8', 'live.m3u8');
 
@@ -224,6 +224,67 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             });
         }
 
+        function bindEventsToHlsPlayer(hls, elem, resolve, reject) {
+
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                playWithPromise(elem).then(resolve, function() {
+                    
+                    if (reject) {
+                        reject();
+                        reject = null;
+                    }
+                });
+            });
+
+            hls.on(Hls.Events.ERROR, function (event, data) {
+
+                console.log('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
+
+                if (data.fatal) {
+                    switch (data.type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR:
+                            // try to recover network error
+                            if (data.response && data.response.code && data.response.code >= 400 && data.response.code < 500) {
+
+                                console.log('hls.js response error code: ' + data.response.code);
+
+                                // Trigger failure differently depending on whether this is prior to start of playback, or after
+                                if (reject) {
+                                    reject();
+                                    reject = null;
+                                } else {
+                                    onErrorInternal('network');
+                                }
+
+                            } else {
+                                console.log("fatal network error encountered, try to recover");
+                                hls.startLoad();
+                            }
+
+                            break;
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+                            console.log("fatal media error encountered, try to recover");
+                            var currentReject = reject;
+                            reject = null;
+                            handleMediaError(currentReject);
+                            break;
+                        default:
+                            // cannot recover
+                            // Trigger failure differently depending on whether this is prior to start of playback, or after
+                            hls.destroy();
+
+                            if (reject) {
+                                reject();
+                                reject = null;
+                            } else {
+                                onErrorInternal('mediadecodeerror');
+                            }
+                            break;
+                    }
+                }
+            });
+        }
+
         function setCurrentSrc(elem, options) {
 
             //if (!elem) {
@@ -250,7 +311,6 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             elem.removeEventListener('error', onError);
 
             var val = options.url;
-
             console.log('playing url: ' + val);
 
             //if (AppInfo.isNativeApp && $.browser.safari) {
@@ -297,32 +357,8 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                         });
                         hls.loadSource(val);
                         hls.attachMedia(elem);
-                        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                            playWithPromise(elem).then(resolve, reject);
-                        });
 
-                        hls.on(Hls.Events.ERROR, function (event, data) {
-
-                            console.log('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
-
-                            if (data.fatal) {
-                                switch (data.type) {
-                                    case Hls.ErrorTypes.NETWORK_ERROR:
-                                        // try to recover network error
-                                        console.log("fatal network error encountered, try to recover");
-                                        hls.startLoad();
-                                        break;
-                                    case Hls.ErrorTypes.MEDIA_ERROR:
-                                        console.log("fatal media error encountered, try to recover");
-                                        handleMediaError();
-                                        break;
-                                    default:
-                                        // cannot recover
-                                        hls.destroy();
-                                        break;
-                                }
-                            }
-                        });
+                        bindEventsToHlsPlayer(hls, elem, resolve, reject);
 
                         hlsPlayer = hls;
 
@@ -377,7 +413,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
         var recoverDecodingErrorDate, recoverSwapAudioCodecDate;
 
-        function handleMediaError() {
+        function handleMediaError(reject) {
 
             if (!hlsPlayer) {
                 return;
@@ -401,7 +437,12 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                     hlsPlayer.recoverMediaError();
                 } else {
                     console.error('cannot recover, last media error recovery failed ...');
-                    onErrorInternal('mediadecodeerror');
+
+                    if (reject) {
+                        reject();
+                    } else {
+                        onErrorInternal('mediadecodeerror');
+                    }
                 }
             }
         }
