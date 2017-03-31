@@ -109,8 +109,7 @@
             self.scroller = new scroller(self, options);
             self.scroller.init();
 
-            var centerFocus = self.getAttribute('data-centerfocus');
-            if (centerFocus && layoutManager.tv) {
+            if (layoutManager.tv && self.getAttribute('data-centerfocus')) {
                 initCenterFocus(self, self.scroller);
             }
         }, 0);

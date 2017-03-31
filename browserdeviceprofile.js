@@ -352,6 +352,10 @@ define(['browser'], function (browser) {
             mp4VideoCodecs.push('vc1');
         }
 
+        if (browser.tizen || browser.orsay) {
+            mp4VideoCodecs.push('msmpeg4v2');
+        }
+
         if (canPlayMkv && mp4VideoCodecs.length) {
             profile.DirectPlayProfiles.push({
                 Container: 'mkv',
