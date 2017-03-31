@@ -1,4 +1,4 @@
-define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'serverNotifications', 'apphost', 'fullscreenManager', 'layoutManager'], function (events, datetime, appSettings, pluginManager, userSettings, globalize, connectionManager, loading, serverNotifications, apphost, fullscreenManager, layoutManager) {
+﻿define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'serverNotifications', 'apphost', 'fullscreenManager', 'layoutManager'], function (events, datetime, appSettings, pluginManager, userSettings, globalize, connectionManager, loading, serverNotifications, apphost, fullscreenManager, layoutManager) {
     'use strict';
 
     function enableLocalPlaylistManagement(player) {
@@ -1168,7 +1168,7 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                 var maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
 
-                getPlaybackInfo(apiClient, currentItem.Id, deviceProfile, maxBitrate, ticks, currentMediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream).then(function (result) {
+                getPlaybackInfo(apiClient, currentItem.Id, deviceProfile, maxBitrate, ticks, currentMediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
 
                     if (validatePlaybackInfoResult(result)) {
 
@@ -2179,7 +2179,19 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             });
         }
 
-        function getPlaybackInfo(apiClient, itemId, deviceProfile, maxBitrate, startPosition, mediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId, enableDirectPlay, enableDirectStream) {
+        function getPlaybackInfo(apiClient,
+            itemId,
+            deviceProfile,
+            maxBitrate,
+            startPosition,
+            mediaSource,
+            audioStreamIndex,
+            subtitleStreamIndex,
+            liveStreamId,
+            enableDirectPlay,
+            enableDirectStream,
+            allowVideoStreamCopy,
+            allowAudioStreamCopy) {
 
             var query = {
                 UserId: apiClient.getCurrentUserId(),
@@ -2201,6 +2213,12 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
             }
             if (enableDirectStream != null) {
                 query.EnableDirectStream = enableDirectStream;
+            }
+            if (allowVideoStreamCopy != null) {
+                query.AllowVideoStreamCopy = allowVideoStreamCopy;
+            }
+            if (allowAudioStreamCopy != null) {
+                query.AllowAudioStreamCopy = allowAudioStreamCopy;
             }
             if (mediaSource) {
                 query.MediaSourceId = mediaSource.Id;
@@ -2856,7 +2874,9 @@ define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'g
 
                     // force transcoding
                     EnableDirectPlay: false,
-                    EnableDirectStream: false
+                    EnableDirectStream: false,
+                    AllowVideoStreamCopy: false,
+                    AllowAudioStreamCopy: false
 
                 }, true);
 
