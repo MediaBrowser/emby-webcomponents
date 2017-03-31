@@ -433,7 +433,6 @@ define(['browser'], function (browser) {
             });
         });
 
-        // Can't use mkv on mobile because we have to use the native player controls and they won't be able to seek it
         if (canPlayMkv && !browser.tizen && !browser.orsay && options.enableMkvProgressive !== false) {
             profile.TranscodingProfiles.push({
                 Container: 'mkv',
@@ -446,7 +445,7 @@ define(['browser'], function (browser) {
             });
         }
 
-        if (canPlayMkv && options.enableMkvProgressive !== false) {
+        if (canPlayMkv) {
             profile.TranscodingProfiles.push({
                 Container: 'mkv',
                 Type: 'Video',
