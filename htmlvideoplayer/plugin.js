@@ -830,8 +830,29 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                 }
 
                 loading.hide();
+
+                ensureValidVideo(this);
             }
             events.trigger(self, 'playing');
+        }
+
+        function ensureValidVideo(elem) {
+            setTimeout(function() {
+                
+                if (elem !== mediaElement) {
+                    return;
+                }
+
+                if (elem.videoWidth === 0 && elem.videoHeight === 0) {
+                    onErrorInternal('mediadecodeerror');
+                    return;
+                }
+
+                //if (elem.audioTracks && !elem.audioTracks.length) {
+                //    onErrorInternal('mediadecodeerror');
+                //}
+
+            }, 100);
         }
 
         function seekOnPlaybackStart(element) {

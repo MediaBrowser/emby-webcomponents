@@ -47,14 +47,6 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             return Math.floor(item.CriticRating);
         }
-        if (sortBy.indexOf('metascore') === 0) {
-
-            if (item.Metascore == null) {
-                return globalize.translate('sharedcomponents#Unrated');
-            }
-
-            return Math.floor(item.Metascore);
-        }
         if (sortBy.indexOf('albumartist') === 0) {
 
             // SortName

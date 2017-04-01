@@ -1203,11 +1203,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (separateCardBox) {
                 var cardContentOpen;
 
+                var cardContentClass = 'cardContent';
+                if (!options.cardLayout) {
+                    cardContentClass += ' cardContent-shadow';
+                }
+
                 if (layoutManager.tv) {
-                    cardContentOpen = '<div class="cardContent">';
+                    cardContentOpen = '<div class="' + cardContentClass + '">';
                     cardContentClose = '</div>';
                 } else {
-                    cardContentOpen = '<button type="button" class="clearButton cardContent itemAction" data-action="' + action + '">';
+                    cardContentOpen = '<button type="button" class="clearButton ' + cardContentClass + ' itemAction" data-action="' + action + '">';
                     cardContentClose = '</button>';
                 }
 
