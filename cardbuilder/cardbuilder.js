@@ -290,7 +290,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var apiClient;
             var lastServerId;
 
-            for (var i = 0, length = items.length; i < length; i++) {
+            var i, length;
+
+            for (i = 0, length = items.length; i < length; i++) {
 
                 var item = items[i];
                 var serverId = item.ServerId || options.serverId;
@@ -387,6 +389,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (isVertical) {
                     html += '</div>';
                 }
+            }
+
+            if (options.trailingButtons) {
+
+                for (i = 0, length = options.trailingButtons.length; i < length; i++) {
+
+                    html += '<button data-textcardid="' + options.trailingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card scalableCard ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow"><div class="cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.trailingButtons[i].name + '</div></div></div></div></div></button>';
+                }
+
             }
 
             return html;
@@ -1367,19 +1378,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (options.autoFocus) {
                 focusManager.autoFocus(options.itemsContainer, true);
             }
-        }
-
-        function parentWithClass(elem, className) {
-
-            while (!elem.classList || !elem.classList.contains(className)) {
-                elem = elem.parentNode;
-
-                if (!elem) {
-                    return null;
-                }
-            }
-
-            return elem;
         }
 
         function ensureIndicators(card, indicatorsElem) {

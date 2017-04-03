@@ -418,7 +418,9 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
 
             if (!action) {
                 actionElement = dom.parentWithAttribute(actionElement, 'data-action');
-                action = actionElement.getAttribute('data-action');
+                if (actionElement) {
+                    action = actionElement.getAttribute('data-action');
+                }
             }
 
             if (action) {

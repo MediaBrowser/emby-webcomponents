@@ -227,8 +227,8 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
         function bindEventsToHlsPlayer(hls, elem, resolve, reject) {
 
             hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                playWithPromise(elem).then(resolve, function() {
-                    
+                playWithPromise(elem).then(resolve, function () {
+
                     if (reject) {
                         reject();
                         reject = null;
@@ -837,8 +837,8 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
         }
 
         function ensureValidVideo(elem) {
-            setTimeout(function() {
-                
+            setTimeout(function () {
+
                 if (elem !== mediaElement) {
                     return;
                 }
@@ -966,6 +966,10 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
 
             if (canPlayNativeHls()) {
+
+                if (browser.edge) {
+                    return true;
+                }
 
                 // simple playback should use the native support
                 if (mediaSource.RunTimeTicks) {

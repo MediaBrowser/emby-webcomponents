@@ -27,6 +27,7 @@ button {
 
 .itemsContainer {
     display: flex;
+    align-items: flex-start;
 }
 
 .vertical-list {
@@ -61,7 +62,7 @@ button {
     padding-bottom: 100%;
 }
 
-.cardPadder-portrait, .cardPadder-overflowPortrait {
+.cardPadder-portrait, .cardPadder-overflowPortrait, .overflowPortraitCard-textCardPadder {
     padding-bottom: 150%;
 }
 
@@ -152,6 +153,10 @@ button {
 .chapterCardImageContainer {
     background-color: #000;
     border-radius: 0;
+}
+
+.textCardImageContainer {
+    background-color: #444;
 }
 
 .cardImageContainer-button {
@@ -696,6 +701,14 @@ button {
 
 .itemsContainer-tv > .overflowBackdropCard-scalable {
     width: 23.3vw;
+}
+
+.overflowBackdropCard-textCard {
+    width: 15.5vw!important;
+}
+
+.overflowBackdropCard-textCardPadder {
+    padding-bottom: 87.75%;
 }
 
 .itemsContainer-tv > .overflowSquareCard-scalable, .itemsContainer-tv > .overflowPortraitCard-scalable {

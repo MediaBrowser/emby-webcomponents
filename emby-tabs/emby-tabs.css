@@ -18,10 +18,12 @@
     border-radius: 0 !important;
     overflow: hidden;
     color: #999;
+    font-weight: 500;
 }
 
     .emby-tab-button.emby-button-tv {
         padding: .4em .9em;
+        font-weight: 400;
     }
 
 .emby-tab-button-active {
