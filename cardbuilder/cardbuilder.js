@@ -391,6 +391,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
+            if (options.leadingButtons) {
+
+                for (i = 0, length = options.leadingButtons.length; i < length; i++) {
+
+                    html = '<button data-textcardid="' + options.leadingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card scalableCard ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow"><div class="cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.leadingButtons[i].name + '</div></div></div></div></div></button>' + html;
+                }
+
+            }
+
             if (options.trailingButtons) {
 
                 for (i = 0, length = options.trailingButtons.length; i < length; i++) {

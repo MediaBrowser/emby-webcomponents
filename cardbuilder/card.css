@@ -27,7 +27,6 @@ button {
 
 .itemsContainer {
     display: flex;
-    align-items: flex-start;
 }
 
 .vertical-list {
@@ -291,7 +290,7 @@ button {
 }
 
 .cardFooter.transparent > .cardText {
-    opacity: .7;
+    opacity: .8;
 }
 
 .cardText-secondary {
