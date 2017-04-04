@@ -192,9 +192,7 @@
             html += '<h1 style="margin-top:0;" class="syncJobName ' + targetContainerClass + '"></h1>';
         }
 
-        var syncTargetLabel = options.isLocalSync ?
-            globalize.translate('sharedcomponents#LabelDownloadTo') :
-            globalize.translate('sharedcomponents#LabelSyncTo');
+        var syncTargetLabel = globalize.translate('sharedcomponents#LabelDownloadTo');
 
         if (options.readOnlySyncTarget) {
             html += '<div class="inputContainer' + targetContainerClass + '">';
