@@ -1,4 +1,4 @@
-define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter', 'playbackManager', 'loading', 'appSettings'], function (appHost, globalize, connectionManager, itemHelper, embyRouter, playbackManager, loading, appSettings) {
+define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter', 'playbackManager', 'loading', 'appSettings', 'browser'], function (appHost, globalize, connectionManager, itemHelper, embyRouter, playbackManager, loading, appSettings, browser) {
     'use strict';
 
     function getCommands(options) {
@@ -10,7 +10,10 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
         var commands = [];
 
         if (itemHelper.isLocalItem(item)) {
+            return commands;
+        }
 
+        if (browser.operaTv || browser.web0s) {
             return commands;
         }
 

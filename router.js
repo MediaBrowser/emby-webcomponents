@@ -518,11 +518,16 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
         var skin = skinManager.getCurrentSkin();
 
-        var homeRoute = skin.getRoutes().filter(function (r) {
-            return r.type === 'home';
-        })[0];
+        if (skin.getHomeRoute) {
+            var homePath = skin.getHomeRoute();
+            return show(pluginManager.mapRoute(skin, homePath));
+        } else {
+            var homeRoute = skin.getRoutes().filter(function (r) {
+                return r.type === 'home';
+            })[0];
 
-        return show(pluginManager.mapRoute(skin, homeRoute));
+            return show(pluginManager.mapRoute(skin, homeRoute));
+        }
     }
 
     function showItem(item, serverId, options) {
