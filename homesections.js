@@ -18,7 +18,7 @@
             case 5:
                 return 'latestmedia';
             case 6:
-                return 'latesttvrecordings';
+                return 'none';
             default:
                 return '';
         }
@@ -39,17 +39,8 @@
         if (section === 'latestmedia') {
             return loadRecentlyAdded(elem, apiClient, user);
         }
-        else if (section === 'librarytiles') {
-            return loadLibraryTiles(elem, apiClient, user, 'backdrop', index);
-        }
-        else if (section === 'smalllibrarytiles') {
+        else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
             return loadLibraryTiles(elem, apiClient, user, 'smallBackdrop', index);
-        }
-        else if (section === 'smalllibrarytiles-automobile') {
-            return loadLibraryTiles(elem, apiClient, user, 'smallBackdrop', index);
-        }
-        else if (section === 'librarytiles-automobile') {
-            return loadLibraryTiles(elem, apiClient, user, 'backdrop', index);
         }
         else if (section === 'librarybuttons') {
             return loadlibraryButtons(elem, apiClient, userId, index);
@@ -978,6 +969,7 @@
         loadLatestChannelItems: loadLatestChannelItems,
         loadLatestLiveTvRecordings: loadLatestLiveTvRecordings,
         loadlibraryButtons: loadlibraryButtons,
-        loadSection: loadSection
+        loadSection: loadSection,
+        getDefaultSection: getDefaultSection
     };
 });

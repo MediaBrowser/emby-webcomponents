@@ -859,7 +859,13 @@
 
             var newDate = new Date();
             var scrollToTimeMs = newDate.getHours() * 60 * 60 * 1000;
-            var focusToTimeMs = ((newDate.getHours() * 60) + newDate.getMinutes()) * 60 * 1000;
+
+            var minutes = newDate.getMinutes();
+            if (minutes >= 30) {
+                scrollToTimeMs += 30 * 60 * 1000
+            }
+
+            var focusToTimeMs = ((newDate.getHours() * 60) + minutes) * 60 * 1000;
             changeDate(page, date, scrollToTimeMs, focusToTimeMs, layoutManager.tv);
         }
 

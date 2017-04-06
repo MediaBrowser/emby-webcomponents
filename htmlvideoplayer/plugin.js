@@ -29,6 +29,9 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
         var customTrackIndex = -1;
         var currentAspectRatio;
 
+        var videoSubtitlesElem;
+        var currentTrackEvents;
+
         self.canPlayMediaType = function (mediaType) {
 
             return (mediaType || '').toLowerCase() === 'video';
@@ -1061,6 +1064,14 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             window.removeEventListener('resize', onVideoResize);
             window.removeEventListener('orientationchange', onVideoResize);
 
+            if (videoSubtitlesElem) {
+                var subtitlesContainer = videoSubtitlesElem.parentNode;
+                subtitlesContainer.parentNode.removeChild(subtitlesContainer);
+                videoSubtitlesElem = null;
+            }
+
+            currentTrackEvents = null;
+
             var allTracks = videoElement.textTracks || []; // get list of tracks
             for (var i = 0; i < allTracks.length; i++) {
 
@@ -1158,12 +1169,42 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
         }
 
+        function requiresCustomSubtitlesElement() {
+
+            // after a system update, ps4 isn't showing anything when creating a track element dynamically
+            // going to have to do it ourselves
+            if (browser.ps4) {
+                return true;
+            }
+
+            return false;
+        }
+
+        function renderSubtitlesWithCustomElement(videoElement, track, serverId) {
+
+            fetchSubtitles(track, serverId).then(function (data) {
+                if (!videoSubtitlesElem) {
+                    var subtitlesContainer = document.createElement('div');
+                    subtitlesContainer.classList.add('videoSubtitles');
+                    subtitlesContainer.innerHTML = '<div class="videoSubtitlesInner"></div>';
+                    videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
+                    videoElement.parentNode.appendChild(subtitlesContainer);
+                    currentTrackEvents = data.TrackEvents;
+                }
+            });
+        }
+
         function renderTracksEvents(videoElement, track, serverId) {
 
             var format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
                 // libjass is needed here
                 renderWithLibjass(videoElement, track, serverId);
+                return;
+            }
+
+            if (requiresCustomSubtitlesElement()) {
+                renderSubtitlesWithCustomElement(videoElement, track, serverId);
                 return;
             }
 
@@ -1196,7 +1237,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                     data.TrackEvents.forEach(function (trackEvent) {
 
                         var trackCueObject = window.VTTCue || window.TextTrackCue;
-                        var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, trackEvent.Text.replace(/\\N/gi, '\n'));
+                        var cue = new trackCueObject(trackEvent.StartPositionTicks / 10000000, trackEvent.EndPositionTicks / 10000000, normalizeTrackEventText(trackEvent.Text));
 
                         trackElement.addCue(cue);
                     });
@@ -1207,11 +1248,39 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
         }
 
+        function normalizeTrackEventText(text) {
+            return text.replace(/\\N/gi, '\n');
+        }
+
         function updateSubtitleText(timeMs) {
 
             var clock = currentClock;
             if (clock) {
                 clock.seek(timeMs / 1000);
+            }
+
+            var trackEvents = currentTrackEvents;
+            if (trackEvents && videoSubtitlesElem) {
+                var ticks = timeMs * 10000;
+                var selectedTrackEvent;
+                for (var i = 0; i < trackEvents.length; i++) {
+
+                    var currentTrackEvent = trackEvents[i];
+                    if (currentTrackEvent.StartPositionTicks >= ticks) {
+                        selectedTrackEvent = currentTrackEvent;
+                        break;
+                    }
+                }
+
+                if (selectedTrackEvent) {
+
+                    videoSubtitlesElem.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text);
+                    videoSubtitlesElem.classList.remove('hide');
+
+                } else {
+                    videoSubtitlesElem.innerHTML = '';
+                    videoSubtitlesElem.classList.add('hide');
+                }
             }
         }
 

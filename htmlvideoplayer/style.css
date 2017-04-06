@@ -42,3 +42,21 @@
         -webkit-font-smoothing: antialiased;
         font-family: inherit;
     }
+
+.videoSubtitles {
+    position: fixed;
+    bottom: 10%;
+    text-align: center;
+    left: 0;
+    right: 0;
+    color: #fff;
+    font-size: 150%;
+}
+
+.videoSubtitlesInner {
+    max-width: 70%;
+    background-color: rgba(0,0,0,.8);
+    padding: .25em;
+    margin: auto;
+    display: inline-block;
+}
