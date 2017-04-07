@@ -102,7 +102,7 @@
         html += '<div>';
 
         html += '<div>';
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
         html += '</div>';
 
         html += '<div is="emby-itemscontainer" class="itemsContainer vertical-wrap" data-multiselect="false">';
@@ -344,9 +344,11 @@
             if (items.length) {
 
                 html += '<div class="sectionTitleContainer">';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('LatestFromLibrary', parent.Name) + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name) + '</h2>';
                 if (!layoutManager.tv) {
-                    html += '<a href="' + libraryBrowser.getHref(parent) + '" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + Globalize.translate('ButtonMore') + '</span></button></a>';
+                    html += '<button data-href="" type="button" is="emby-button" class="raised raised-mini sectionTitleButton btnMore">';
+                    html += '<span>' + globalize.translate('sharedcomponents#More') + '</span>';
+                    html += '</button>';
                 }
                 html += '</div>';
 
@@ -439,7 +441,7 @@
 
         var options = {
 
-            Limit: screenWidth >= 2400 ? 10 : (screenWidth >= 1600 ? 10 : (screenWidth >= 1440 ? 8 : (screenWidth >= 800 ? 7 : 6))),
+            Limit: enableScrollX() ? 12 : (screenWidth >= 2400 ? 10 : (screenWidth >= 1600 ? 10 : (screenWidth >= 1440 ? 8 : (screenWidth >= 800 ? 7 : 6)))),
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
             Filters: "IsUnplayed",
             UserId: userId
@@ -450,7 +452,7 @@
             var html = '';
 
             if (result.Items.length) {
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderLatestChannelMedia') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderLatestChannelMedia') + '</h2>';
 
                 if (enableScrollX()) {
                     html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
@@ -489,7 +491,7 @@
             if (items.length) {
 
                 html += '<div>';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
                 html += '</div>';
 
                 var scrollX = enableScrollX();
@@ -564,7 +566,7 @@
             var html = '';
 
             if (result.Items.length) {
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueWatching') + '</h2>';
 
                 if (enableScrollX()) {
                     html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
@@ -644,7 +646,7 @@
             var html = '';
 
             if (result.Items.length) {
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueListening') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueListening') + '</h2>';
 
                 if (enableScrollX()) {
                     html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
@@ -701,7 +703,7 @@
 
             if (result.Items.length) {
 
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderActiveRecordings') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderActiveRecordings') + '</h2>';
 
                 if (enableScrollX()) {
                     html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
@@ -765,9 +767,12 @@
             if (result.Items.length) {
 
                 html += '<div class="sectionTitleContainer">';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderNextUp') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderNextUp') + '</h2>';
                 if (!layoutManager.tv) {
-                    html += '<a href="secondaryitems.html?type=nextup" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('ButtonMore') + '</span></button></a>';
+                    //html += '<a href="secondaryitems.html?type=nextup" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('sharedcomponents#More') + '</span></button></a>';
+                    //html += '<button data-href="" type="button" is="emby-button" class="raised raised-mini sectionTitleButton btnMore">';
+                    //html += '<span>' + globalize.translate('sharedcomponents#More') + '</span>';
+                    //html += '</button>';
                 }
                 html += '</div>';
 
@@ -845,7 +850,7 @@
 
         var options = {
 
-            Limit: screenWidth >= 1600 ? 10 : (screenWidth >= 1440 ? 5 : (screenWidth >= 800 ? 6 : 6)),
+            Limit: enableScrollX() ? 12 : (screenWidth >= 1600 ? 10 : (screenWidth >= 1440 ? 5 : (screenWidth >= 800 ? 6 : 6))),
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
             Filters: "IsUnplayed",
             UserId: apiClient.getCurrentUserId(),
@@ -861,10 +866,13 @@
                 html += '<div class="verticalSection">';
 
                 html += '<div class="sectionTitleContainer">';
-                var text = globalize.translate('HeaderLatestFromChannel').replace('{0}', channel.Name);
+                var text = globalize.translate('sharedcomponents#HeaderLatestFrom').replace('{0}', channel.Name);
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + text + '</h2>';
                 if (!layoutManager.tv) {
-                    html += '<a href="channelitems.html?id=' + channel.Id + '" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('ButtonMore') + '</span></button></a>';
+                    //html += '<a href="channelitems.html?id=' + channel.Id + '" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('sharedcomponents#More') + '</span></button></a>';
+                    //html += '<button data-href="" type="button" is="emby-button" class="raised raised-mini sectionTitleButton btnMore">';
+                    //html += '<span>' + globalize.translate('sharedcomponents#More') + '</span>';
+                    //html += '</button>';
                 }
                 html += '</div>';
 
@@ -917,9 +925,12 @@
             if (result.Items.length) {
 
                 html += '<div class="sectionTitleContainer">';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderLatestTvRecordings') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderLatestRecordings') + '</h2>';
                 if (!layoutManager.tv) {
-                    html += '<a href="livetv.html?tab=3" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('ButtonMore') + '</span></button></a>';
+                    //html += '<a href="livetv.html?tab=3" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('sharedcomponents#More') + '</span></button></a>';
+                    //html += '<button data-href="" type="button" is="emby-button" class="raised raised-mini sectionTitleButton btnMore">';
+                    //html += '<span>' + globalize.translate('sharedcomponents#More') + '</span>';
+                    //html += '</button>';
                 }
                 html += '</div>';
             }

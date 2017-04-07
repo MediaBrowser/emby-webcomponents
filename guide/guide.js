@@ -862,7 +862,7 @@
 
             var minutes = newDate.getMinutes();
             if (minutes >= 30) {
-                scrollToTimeMs += 30 * 60 * 1000
+                scrollToTimeMs += 30 * 60 * 1000;
             }
 
             var focusToTimeMs = ((newDate.getHours() * 60) + minutes) * 60 * 1000;
