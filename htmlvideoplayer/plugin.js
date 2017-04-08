@@ -1059,7 +1059,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             return true;
         }
 
-        function destroyCustomTrack(videoElement, isPlaying) {
+        function destroyCustomTrack(videoElement) {
 
             window.removeEventListener('resize', onVideoResize);
             window.removeEventListener('orientationchange', onVideoResize);
@@ -1072,13 +1072,15 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
             currentTrackEvents = null;
 
-            var allTracks = videoElement.textTracks || []; // get list of tracks
-            for (var i = 0; i < allTracks.length; i++) {
+            if (videoElement) {
+                var allTracks = videoElement.textTracks || []; // get list of tracks
+                for (var i = 0; i < allTracks.length; i++) {
 
-                var currentTrack = allTracks[i];
+                    var currentTrack = allTracks[i];
 
-                if (currentTrack.label.indexOf('manualTrack') !== -1) {
-                    currentTrack.mode = 'disabled';
+                    if (currentTrack.label.indexOf('manualTrack') !== -1) {
+                        currentTrack.mode = 'disabled';
+                    }
                 }
             }
 
@@ -1110,7 +1112,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
         function setTrackForCustomDisplay(videoElement, track) {
 
             if (!track) {
-                destroyCustomTrack(videoElement, true);
+                destroyCustomTrack(videoElement);
                 return;
             }
 
@@ -1121,7 +1123,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
             var serverId = currentPlayOptions.item.ServerId;
 
-            destroyCustomTrack(videoElement, true);
+            destroyCustomTrack(videoElement);
             customTrackIndex = track.Index;
             renderTracksEvents(videoElement, track, serverId);
             lastCustomTrackMs = 0;
@@ -1406,14 +1408,15 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             }
         }
 
-        function zoomIn(elem, iterations) {
-            var keyframes = [
-                { transform: 'scale3d(.2, .2, .2)  ', opacity: '.6', offset: 0 },
-                { transform: 'none', opacity: '1', offset: 1 }
-            ];
+        function zoomIn(elem) {
 
-            var timing = { duration: 240, iterations: iterations };
-            return elem.animate(keyframes, timing);
+            var duration = 240;
+
+            elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
+
+            return new Promise(function (resolve, reject) {
+                setTimeout(resolve, duration);
+            });
         }
 
         function createMediaElement(options) {
@@ -1479,10 +1482,10 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                         mediaElement = videoElement;
 
                         // don't animate on smart tv's, too slow
-                        if (options.fullscreen && dlg.animate && !browser.slow) {
-                            zoomIn(dlg, 1).onfinish = function () {
+                        if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
+                            zoomIn(dlg).then(function() {
                                 resolve(videoElement);
-                            };
+                            });
                         } else {
                             resolve(videoElement);
                         }

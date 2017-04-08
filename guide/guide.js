@@ -135,6 +135,10 @@
                 currentTimeIndicatorArrow = options.element.querySelector('.currentTimeIndicatorArrowContainer');
             }
 
+            if (!currentDate) {
+                return;
+            }
+
             var dateDifference = new Date().getTime() - currentDate.getTime();
             var pct = dateDifference > 0 ? (dateDifference / totalRendererdMs) : 0;
             pct = Math.min(pct, 1);

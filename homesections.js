@@ -383,7 +383,7 @@
                     allowBottomPadding: !enableScrollX() && !cardLayout,
                     cardLayout: cardLayout,
                     showTitle: viewType === 'music' || viewType === 'tvshows' || viewType === 'movies' || !viewType || cardLayout,
-                    showYear: viewType === 'movies' || !viewType,
+                    showYear: viewType === 'movies' || viewType === 'tvshows' || !viewType,
                     showParentTitle: viewType === 'music' || viewType === 'tvshows' || !viewType || (cardLayout && (viewType === 'tvshows')),
                     vibrant: supportsImageAnalysis && cardLayout,
                     lines: 2

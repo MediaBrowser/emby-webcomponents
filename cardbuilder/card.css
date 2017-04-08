@@ -233,9 +233,9 @@ button {
     position: relative;
 }
 
-    .cardFooter.transparent {
-        padding-top: .2em;
-    }
+.cardFooter-transparent {
+    padding-top: .2em;
+}
 
 .visualCardBox {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -289,7 +289,7 @@ button {
     text-align: center;
 }
 
-.cardFooter.transparent > .cardText {
+.cardFooter-transparent > .cardText {
     opacity: .8;
 }
 
@@ -703,7 +703,7 @@ button {
 }
 
 .overflowBackdropCard-textCard {
-    width: 15.5vw!important;
+    width: 15.5vw !important;
 }
 
 .overflowBackdropCard-textCardPadder {

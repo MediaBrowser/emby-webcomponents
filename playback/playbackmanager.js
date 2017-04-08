@@ -36,11 +36,21 @@
         var playerStates = {};
 
         self.currentItem = function (player) {
+
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
             var data = getPlayerData(player);
             return data.streamInfo ? data.streamInfo.item : null;
         };
 
         self.currentMediaSource = function (player) {
+
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
             var data = getPlayerData(player);
             return data.streamInfo ? data.streamInfo.mediaSource : null;
         };
@@ -436,6 +446,10 @@
         };
 
         function getCurrentSubtitleStream(player) {
+
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
 
             var index = getPlayerData(player).subtitleStreamIndex;
 
@@ -884,8 +898,13 @@
         self.getSubtitleStreamIndex = function (player) {
 
             player = player || currentPlayer;
+
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.getSubtitleStreamIndex();
+            }
+
+            if (!player) {
+                throw new Error('player cannot be null');
             }
 
             return getPlayerData(player).subtitleStreamIndex;
@@ -1125,13 +1144,19 @@
         // Returns true if the player can seek using native client-side seeking functions
         function canPlayerSeek(player) {
 
-            var currentSrc = (getPlayerData(player).streamInfo.url || '').toLowerCase();
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
+            var playerData = getPlayerData(player);
+
+            var currentSrc = (playerData.streamInfo.url || '').toLowerCase();
 
             if (currentSrc.indexOf('.m3u8') !== -1) {
                 return true;
             }
 
-            if (getPlayerData(player).streamInfo.playMethod === 'Transcode') {
+            if (playerData.streamInfo.playMethod === 'Transcode') {
                 return false;
             }
 
@@ -1198,9 +1223,11 @@
 
             clearProgressInterval(player);
 
-            getPlayerData(player).isChangingStream = true;
+            var playerData = getPlayerData(player);
 
-            if (getPlayerData(player).MediaType === "Video") {
+            playerData.isChangingStream = true;
+
+            if (playerData.MediaType === "Video") {
                 apiClient.stopActiveEncodings(playSessionId).then(function () {
 
                     setSrcIntoPlayer(apiClient, player, streamInfo);
@@ -1216,8 +1243,10 @@
 
             player.play(streamInfo).then(function () {
 
-                getPlayerData(player).isChangingStream = false;
-                getPlayerData(player).streamInfo = streamInfo;
+                var playerData = getPlayerData(player);
+
+                playerData.isChangingStream = false;
+                playerData.streamInfo = streamInfo;
 
                 startProgressInterval(player);
                 sendProgressUpdate(player);
@@ -1403,6 +1432,10 @@
 
             player = player || currentPlayer;
 
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
             if (!enableLocalPlaylistManagement(player)) {
                 return player.getPlayerState();
             }
@@ -1473,8 +1506,13 @@
         self.duration = function (player) {
 
             player = player || currentPlayer;
+
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.duration();
+            }
+
+            if (!player) {
+                throw new Error('player cannot be null');
             }
 
             var streamInfo = getPlayerData(player).streamInfo;
@@ -1493,6 +1531,10 @@
         };
 
         function getCurrentTicks(player) {
+
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
 
             var playerTime = Math.floor(10000 * (player || currentPlayer).currentTime());
             playerTime += getPlayerData(player).streamInfo.transcodingOffsetTicks || 0;
@@ -2739,15 +2781,22 @@
 
         function onPlaybackStarted(player, playOptions, streamInfo, mediaSource) {
 
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
             setCurrentPlayerInternal(player);
-            getPlayerData(player).streamInfo = streamInfo;
+
+            var playerData = getPlayerData(player);
+
+            playerData.streamInfo = streamInfo;
 
             if (mediaSource) {
-                getPlayerData(player).audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
-                getPlayerData(player).subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
+                playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
+                playerData.subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
             } else {
-                getPlayerData(player).audioStreamIndex = null;
-                getPlayerData(player).subtitleStreamIndex = null;
+                playerData.audioStreamIndex = null;
+                playerData.subtitleStreamIndex = null;
             }
 
             playNextAfterEnded = true;
@@ -2770,6 +2819,10 @@
         }
 
         function acquireResourceLocks(player, mediaType) {
+
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
 
             if (!player.isLocalPlayer || player.hasResourceLocks) {
                 return;
@@ -2807,6 +2860,10 @@
         }
 
         function releaseResourceLocks(player) {
+
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
 
             if (!player.isLocalPlayer || player.hasResourceLocks) {
                 return;
@@ -3050,6 +3107,10 @@
 
         function startProgressInterval(player) {
 
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
             clearProgressInterval(player);
 
             var intervalTime = 800;
@@ -3066,6 +3127,10 @@
         }
 
         function sendProgressUpdate(player) {
+
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
 
             player.lastProgressReport = new Date().getTime();
 
@@ -3098,9 +3163,15 @@
 
         function clearProgressInterval(player) {
 
-            if (getPlayerData(player).currentProgressInterval) {
-                clearTimeout(getPlayerData(player).currentProgressInterval);
-                getPlayerData(player).currentProgressInterval = null;
+            if (!player) {
+                throw new Error('player cannot be null');
+            }
+
+            var playerData = getPlayerData(player);
+
+            if (playerData.currentProgressInterval) {
+                clearTimeout(playerData.currentProgressInterval);
+                playerData.currentProgressInterval = null;
             }
         }
 

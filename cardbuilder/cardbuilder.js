@@ -1177,7 +1177,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var outerCardFooter = '';
             if (!overlayText && !footerOverlayed) {
-                footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter transparent';
+                footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter cardFooter-transparent';
                 outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, true, cardFooterId, vibrantSwatch);
             }
 
