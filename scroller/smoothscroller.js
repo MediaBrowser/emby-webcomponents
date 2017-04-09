@@ -754,7 +754,16 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         }
 
         self.getScrollPosition = function () {
-            return pos.cur;
+
+            if (transform) {
+                return pos.cur;
+            }
+
+            if (o.horizontal) {
+                return nativeScrollElement.scrollLeft;
+            } else {
+                return nativeScrollElement.scrollTop;
+            }
         };
 
         /**

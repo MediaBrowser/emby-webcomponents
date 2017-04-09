@@ -243,6 +243,10 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
                 }
             }
 
+            else if (item.IsMovie && item.ProductionYear && options.originalAirDate !== false) {
+                miscInfo.push(item.ProductionYear);
+            }
+
             else if (item.PremiereDate && options.originalAirDate !== false) {
 
                 try {

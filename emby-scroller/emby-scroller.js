@@ -72,6 +72,19 @@
         }
     }
 
+    function initHeadroom(elem) {
+        require(['headroom'], function (Headroom) {
+
+            var headroom = new Headroom([], {
+                scroller: elem
+            });
+            // initialise
+            headroom.init();
+            headroom.add(document.querySelector('.skinHeader'));
+            elem.headroom = headroom;
+        });
+    }
+
     ScrollerProtoType.attachedCallback = function () {
 
         if (this.getAttribute('data-navcommands')) {
@@ -85,6 +98,8 @@
         if (horizontal) {
             slider.style['white-space'] = 'nowrap';
         }
+
+        var bindHeader = this.getAttribute('data-bindheader') === 'true';
 
         var options = {
             horizontal: horizontal,
@@ -100,7 +115,7 @@
             scrollWidth: 5000000,
             autoImmediate: true,
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
-            dispatchScrollEvent: this.getAttribute('data-scrollevent') === 'true'
+            dispatchScrollEvent: bindHeader || this.getAttribute('data-scrollevent') === 'true'
         };
 
         // If just inserted it might not have any height yet - yes this is a hack
@@ -112,6 +127,10 @@
             if (layoutManager.tv && self.getAttribute('data-centerfocus')) {
                 initCenterFocus(self, self.scroller);
             }
+
+            if (bindHeader) {
+                initHeadroom(self);
+            }
         }, 0);
     };
 
@@ -119,6 +138,12 @@
 
         if (this.getAttribute('data-navcommands')) {
             inputManager.off(this, onInputCommand);
+        }
+
+        var headroom = this.headroom;
+        if (headroom) {
+            headroom.destroy();
+            this.headroom = null;
         }
 
         var scrollerInstance = this.scroller;

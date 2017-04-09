@@ -234,7 +234,7 @@ button {
 }
 
 .cardFooter-transparent {
-    padding-top: .2em;
+    padding-top: 0;
 }
 
 .visualCardBox {
@@ -273,16 +273,12 @@ button {
 }
 
 .layout-tv .cardText {
-    padding: .1em .5em;
+    padding: 0 .5em;
     font-size: 92%;
 }
 
 .innerCardFooter > .cardText {
     padding: .3em .5em;
-}
-
-.singleCardText {
-    padding: .5em;
 }
 
 .cardTextCentered {
