@@ -286,16 +286,16 @@ button {
 }
 
 .cardFooter-transparent > .cardText {
-    opacity: .8;
+    color: #c8c8c8;
 }
 
 .cardText-secondary {
-    opacity: .5 !important;
+    color: #888 !important;
     font-size: 92%;
 }
 
 .card:focus .cardText {
-    opacity: 1;
+    color: #fff !important;
 }
 
 .cardText-rightmargin {
@@ -325,7 +325,6 @@ button {
 
     .textActionButton:hover {
         text-decoration: underline;
-        opacity: 1;
     }
 
 .cardFooterLogo {

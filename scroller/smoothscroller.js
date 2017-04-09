@@ -309,7 +309,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             pos.cur = animation.to;
 
             if (o.dispatchScrollEvent) {
-                frame.dispatchEvent(new CustomEvent('scroll', {}));
+                frame.dispatchEvent(new CustomEvent('scroll', {
+                    bubbles: true,
+                    cancelable: false
+                }));
             }
         }
 
