@@ -132,7 +132,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
 
             require(['itemContextMenu'], function (itemContextMenu) {
 
-                connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function(user) {
+                connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
                     itemContextMenu.show(Object.assign({
                         item: item,
                         play: true,
@@ -471,9 +471,16 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
         }
     }
 
-    function getShortcutAttributesHtml(item) {
+    function getShortcutAttributesHtml(item, serverId) {
 
-        return 'data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '"';
+        var html = 'data-id="' + item.Id + '" data-serverid="' + (serverId || item.ServerId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '"';
+
+        var collectionType = item.CollectionType;
+        if (collectionType) {
+            html += ' data-collectiontype="' + collectionType + '"';
+        }
+
+        return html;
     }
 
     return {

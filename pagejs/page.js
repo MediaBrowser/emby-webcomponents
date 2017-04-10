@@ -688,14 +688,8 @@ define([], function () {
             e.preventDefault();
             return;
         }
+
         if (!hashbang && el.pathname === location.pathname && (el.hash || '#' === link)) {
-            return;
-        }
-
-
-
-        // Check for mailto: in the href
-        if (link && link.indexOf('mailto:') > -1) {
             return;
         }
 
@@ -708,8 +702,6 @@ define([], function () {
         if (!sameOrigin(el.href)) {
             return;
         }
-
-
 
         // rebuild path
         var path = el.pathname + el.search + (el.hash || '');

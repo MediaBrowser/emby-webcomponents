@@ -234,6 +234,10 @@ button {
 }
 
 .cardFooter-transparent {
+    padding-top: .16em;
+}
+
+.layout-tv .cardFooter-transparent {
     padding-top: 0;
 }
 
@@ -264,7 +268,7 @@ button {
 }
 
 .cardText {
-    padding: .3em .5em;
+    padding: .1em .5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -286,12 +290,16 @@ button {
 }
 
 .cardFooter-transparent > .cardText {
-    color: #c8c8c8;
+    color: #ccc;
 }
 
 .cardText-secondary {
     color: #888 !important;
-    font-size: 92%;
+}
+
+.visualCardBox .cardText-secondary {
+    color: inherit !important;
+    opacity: .5;
 }
 
 .card:focus .cardText {
