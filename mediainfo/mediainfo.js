@@ -1,4 +1,4 @@
-define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', 'css!./mediainfo.css', 'programStyles'], function (datetime, globalize, embyRouter, itemHelper) {
+define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', 'css!./mediainfo.css', 'programStyles', 'emby-linkbutton'], function (datetime, globalize, embyRouter, itemHelper) {
     'use strict';
 
     function getTimerIndicator(item) {
@@ -71,7 +71,16 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
         if (item.ChannelName) {
 
             if (options.interactive && item.ChannelId) {
-                miscInfo.push('<a class="lnkChannel" data-id="' + item.ChannelId + '" data-serverid="' + item.ServerId + '" href="#">' + item.ChannelName + '</a>');
+                miscInfo.push({
+                    html: '<a is="emby-linkbutton" class="button-flat mediaInfoItem" href="' + embyRouter.getRouteUrl({
+                        
+                        ServerId: item.ServerId,
+                        Type: 'TvChannel',
+                        Name: item.ChannelName,
+                        Id: item.ChannelId
+
+                    }) + '">' + item.ChannelName + '</a>'
+                });
             } else {
                 miscInfo.push(item.ChannelName);
             }

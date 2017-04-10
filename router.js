@@ -647,6 +647,7 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
     embyRouter.pushState = pushState;
     embyRouter.enableNativeHistory = enableNativeHistory;
     embyRouter.showVideoOsd = showVideoOsd;
+    embyRouter.handleAnchorClick = page.handleAnchorClick;
     embyRouter.TransparencyLevel = {
         None: 0,
         Backdrop: 1,

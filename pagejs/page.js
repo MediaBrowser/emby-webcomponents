@@ -649,9 +649,9 @@ define([], function () {
      * Handle "click" events.
      */
 
-    function onclick(e) {
+    function onclick(e, checkWhich) {
 
-        if (1 !== which(e)) {
+        if (1 !== which(e) && checkWhich !== false) {
             return;
         }
 
@@ -663,16 +663,15 @@ define([], function () {
         }
 
 
-
         // ensure link
         var el = e.target;
+
         while (el && 'A' !== el.nodeName) {
             el = el.parentNode;
         }
         if (!el || 'A' !== el.nodeName) {
             return;
         }
-
 
 
         // Ignore if tag has
@@ -724,6 +723,8 @@ define([], function () {
         e.preventDefault();
         page.show(orig);
     }
+
+    page.handleAnchorClick = onclick;
 
     /**
      * Event button.

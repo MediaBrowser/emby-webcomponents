@@ -1,4 +1,4 @@
-﻿define(['browser', 'dom', 'layoutManager', 'shell', 'apphost', 'css!./emby-button', 'registerElement'], function (browser, dom, layoutManager, shell, appHost) {
+﻿define(['browser', 'dom', 'layoutManager', 'shell', 'embyRouter', 'apphost', 'css!./emby-button', 'registerElement'], function (browser, dom, layoutManager, shell, embyRouter, appHost) {
     'use strict';
 
     var EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
@@ -70,6 +70,21 @@
         shell.openUrl(this.getAttribute('data-target'));
     }
 
+    function onAnchorClick(e) {
+
+        var href = this.getAttribute('href');
+
+        if (href !== '#') {
+
+            if (this.getAttribute('target')) {
+                e.preventDefault();
+                shell.openUrl(href);
+            } else {
+                embyRouter.handleAnchorClick(e);
+            }
+        }
+    }
+
     EmbyButtonPrototype.createdCallback = function () {
 
         if (this.classList.contains('emby-button')) {
@@ -107,7 +122,15 @@
 
     EmbyButtonPrototype.attachedCallback = function () {
 
-        if (this.getAttribute('data-target')) {
+        if (this.tagName === 'A') {
+
+            dom.removeEventListener(this, 'click', onAnchorClick, {
+            });
+
+            dom.addEventListener(this, 'click', onAnchorClick, {
+            });
+        }
+        else if (this.getAttribute('data-target')) {
             dom.removeEventListener(this, 'click', onClickOpenTarget, {
                 passive: true
             });
