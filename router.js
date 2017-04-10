@@ -530,6 +530,11 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
         }
     }
 
+    function getRouteUrl(item, options) {
+        
+        return skinManager.getCurrentSkin().getRouteUrl(item, options);
+    }
+
     function showItem(item, serverId, options) {
 
         if (typeof (item) === 'string') {
@@ -638,6 +643,7 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
     embyRouter.setTitle = setTitle;
     embyRouter.setTransparency = setTransparency;
     embyRouter.getRoutes = getRoutes;
+    embyRouter.getRouteUrl = getRouteUrl;
     embyRouter.pushState = pushState;
     embyRouter.enableNativeHistory = enableNativeHistory;
     embyRouter.showVideoOsd = showVideoOsd;

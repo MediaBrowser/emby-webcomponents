@@ -1,5 +1,5 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'css!./card', 'paper-icon-button-light', 'clearButtonStyle'],
-    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser) {
+define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'clearButtonStyle'],
+    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, itemShortcuts) {
         'use strict';
 
         var devicePixelRatio = window.devicePixelRatio || 1;
@@ -977,7 +977,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 return text;
             }
 
-            var html = '<button data-id="' + item.Id + '" data-serverid="' + (serverId || item.ServerId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '" type="button" class="itemAction textActionButton" data-action="link">';
+            var html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" data-action="link">';
             html += text;
             html += '</button>';
 

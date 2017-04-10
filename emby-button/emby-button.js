@@ -2,6 +2,7 @@
     'use strict';
 
     var EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
+    var EmbyLinkButtonPrototype = Object.create(HTMLAnchorElement.prototype);
 
     function animateButtonInternal(e, btn) {
 
@@ -125,8 +126,16 @@
         }
     };
 
+    EmbyLinkButtonPrototype.createdCallback = EmbyButtonPrototype.createdCallback;
+    EmbyLinkButtonPrototype.attachedCallback = EmbyButtonPrototype.attachedCallback;
+
     document.registerElement('emby-button', {
         prototype: EmbyButtonPrototype,
         extends: 'button'
+    });
+
+    document.registerElement('emby-linkbutton', {
+        prototype: EmbyLinkButtonPrototype,
+        extends: 'a'
     });
 });

@@ -1,4 +1,4 @@
-define(['playbackManager'], function (playbackManager) {
+define(['playbackManager', 'itemHelper'], function (playbackManager, itemHelper) {
     "use strict";
 
     return function () {
@@ -14,6 +14,10 @@ define(['playbackManager'], function (playbackManager) {
 
             // Don't care about video backdrops, or theme music or any kind of non-fullscreen playback
             if (!options.fullscreen) {
+                return Promise.resolve();
+            }
+
+            if (options.item && itemHelper.isLocalItem(options.item)) {
                 return Promise.resolve();
             }
 
