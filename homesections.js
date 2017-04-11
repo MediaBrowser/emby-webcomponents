@@ -40,10 +40,10 @@
             return loadRecentlyAdded(elem, apiClient, user);
         }
         else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
-            return loadLibraryTiles(elem, apiClient, user, 'smallBackdrop', index);
+            return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop');
         }
         else if (section === 'librarybuttons') {
-            return loadlibraryButtons(elem, apiClient, userId, index);
+            return loadlibraryButtons(elem, apiClient, userId, userSettings);
         }
         else if (section === 'resume') {
             return loadResumeVideo(elem, apiClient, userId);
@@ -101,6 +101,11 @@
 
         html += '<div class="sectionTitleContainer">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
+
+        if (!layoutManager.tv) {
+            html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE8B8;</i></button>';
+        }
+
         html += '</div>';
 
         html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-multiselect="false">';
@@ -162,7 +167,7 @@
         return html;
     }
 
-    function loadlibraryButtons(elem, apiClient, userId, index) {
+    function loadlibraryButtons(elem, apiClient, userId, userSettings) {
 
         return getUserViews(apiClient, userId).then(function (items) {
 
@@ -171,6 +176,8 @@
             return getAppInfo().then(function (infoHtml) {
 
                 elem.innerHTML = html + infoHtml;
+
+                bindHomeScreenSettingsIcon(elem, apiClient, userId, userSettings);
             });
         });
     }
@@ -323,7 +330,11 @@
                 html += '<div class="sectionTitleContainer">';
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name) + '</h2>';
                 if (!layoutManager.tv) {
-                    html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl(parent) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
+                    html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl(parent, {
+
+                        section: 'latest'
+
+                    }) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
                 }
                 html += '</div>';
 
@@ -455,7 +466,38 @@
         });
     }
 
-    function loadLibraryTiles(elem, apiClient, user, shape) {
+    function getRequirePromise(deps) {
+
+        return new Promise(function (resolve, reject) {
+
+            require(deps, resolve);
+        });
+    }
+
+    function showHomeScreenSettings(options) {
+        return getRequirePromise(['homescreenSettingsDialog']).then(function (homescreenSettingsDialog) {
+
+            return homescreenSettingsDialog.show(options);
+        });
+    }
+
+    function bindHomeScreenSettingsIcon(elem, apiClient, userId, userSettings) {
+
+        var btnHomeScreenSettings = elem.querySelector('.btnHomeScreenSettings');
+        if (!btnHomeScreenSettings) {
+            return;
+        }
+
+        btnHomeScreenSettings.addEventListener('click', function () {
+            showHomeScreenSettings({
+                serverId: apiClient.serverId(),
+                userId: userId,
+                userSettings: userSettings
+            });
+        });
+    }
+
+    function loadLibraryTiles(elem, apiClient, user, userSettings, shape) {
 
         return getUserViews(apiClient, user.Id).then(function (items) {
 
@@ -465,8 +507,13 @@
 
             if (items.length) {
 
-                html += '<div>';
+                html += '<div class="sectionTitleContainer">';
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
+
+                if (!layoutManager.tv) {
+                    html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE8B8;</i></button>';
+                }
+
                 html += '</div>';
 
                 var scrollX = enableScrollX();
@@ -499,6 +546,8 @@
             return getAppInfo().then(function (infoHtml) {
 
                 elem.innerHTML = html + infoHtml;
+                bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
+
                 imageLoader.lazyChildren(elem);
             });
         });
@@ -745,7 +794,7 @@
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderNextUp') + '</h2>';
                 if (!layoutManager.tv) {
                     html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('nextup', {
-                        
+
                         serverId: apiClient.serverId()
 
                     }) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';

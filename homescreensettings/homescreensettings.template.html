@@ -1,12 +1,13 @@
 ﻿<form style="margin:0 auto;">
 
-    <div>
-        
-        <h1>
+    <div class="verticalSection">
+
+        <br />
+        <h1 class="sectionTitle">
             ${HeaderHomeScreen}
         </h1>
 
-        <br/>
+        <br />
         <div class="selectContainer">
             <select is="emby-select" id="selectHomeSection1" label="{section1label}">
                 <option value="smalllibrarytiles">${HeaderMyMedia}</option>
@@ -107,8 +108,9 @@
         </div>
     </div>
 
-    <div>
-        <h1>
+    <div class="verticalSection">
+
+        <h1 class="sectionTitle">
             ${HeaderLibraryOrder}
         </h1>
         <div class="paperList viewOrderList">
@@ -117,8 +119,8 @@
 
     </div>
 
-    <div>
-        <h1>
+    <div class="verticalSection">
+        <h1 class="sectionTitle">
             ${HeaderLatestMedia}
         </h1>
         <p>${LabelSelectLastestItemsFolders}</p>
@@ -133,7 +135,7 @@
         </label>
 
     </div>
-    <br />
+
     <button is="emby-button" type="submit" class="raised button-submit block btnSave hide">
         <span>${Save}</span>
     </button>

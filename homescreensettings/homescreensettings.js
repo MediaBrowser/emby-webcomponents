@@ -1,4 +1,4 @@
-define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 'dom', 'listViewStyle', 'emby-select', 'emby-checkbox', 'css!./homescreensettings'], function (require, globalize, loading, connectionManager, homeSections, dom) {
+define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-checkbox', 'css!./homescreensettings'], function (require, globalize, loading, connectionManager, homeSections, dom, events) {
     "use strict";
 
     var numConfigurableSections = 7;
@@ -221,7 +221,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
     }
 
-    function save(context, userId, userSettings, apiClient, enableSaveConfirmation) {
+    function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
 
         loading.show();
 
@@ -235,6 +235,8 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
                         toast(globalize.translate('sharedcomponents#SettingsSaved'));
                     });
                 }
+
+                events.trigger(instance, 'saved');
 
             }, function () {
                 loading.hide();
@@ -252,7 +254,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         userSettings.setUserInfo(userId, apiClient).then(function () {
 
             var enableSaveConfirmation = self.options.enableSaveConfirmation;
-            save(self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
+            save(self, self.options.element, userId, userSettings, apiClient, enableSaveConfirmation);
         });
 
         // Disable default form submission
