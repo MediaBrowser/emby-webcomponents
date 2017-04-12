@@ -317,9 +317,22 @@
 
     function renderLatestSection(elem, apiClient, user, parent) {
 
+        var limit = 12;
+
+        if (!enableScrollX()) {
+            
+            if (parent.CollectionType === 'tvshows') {
+                limit = 5;
+            } else if (parent.CollectionType === 'music') {
+                limit = 9;
+            } else {
+                limit = 8;
+            }
+        }
+
         var options = {
 
-            Limit: 12,
+            Limit: limit,
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Backdrop,Thumb",

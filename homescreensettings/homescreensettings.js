@@ -26,7 +26,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
 
             var id = 'chkIncludeInLatest' + i.Id;
 
-            var isChecked = user.Configuration.LatestItemsExcludes.indexOf(i.Id) == -1;
+            var isChecked = user.Configuration.LatestItemsExcludes.indexOf(i.Id) === -1;
             var checkedHtml = isChecked ? ' checked="checked"' : '';
 
             currentHtml += '<label>';
@@ -174,7 +174,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
 
         for (var i = 0, length = inputs.length; i < length; i++) {
 
-            if (inputs[i].checked == isChecked) {
+            if (inputs[i].checked === isChecked) {
                 list.push(inputs[i]);
             }
 
