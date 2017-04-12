@@ -416,5 +416,7 @@
   "HeaderLatestChannelItems": "Latest Channel Items",
   "LabelSelectLastestItemsFolders": "Include items from the following sections in Latest Media",
   "HeaderLibraryOrder": "Library Order",
-  "HideWatchedContentFromLatestMedia": "Hide watched content from latest media"
+  "HideWatchedContentFromLatestMedia": "Hide watched content from latest media",
+  "HeaderOnNow": "On Now",
+  "Guide": "Guide"
 }

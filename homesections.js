@@ -16,8 +16,10 @@
             case 4:
                 return 'nextup';
             case 5:
-                return 'latestmedia';
+                return 'onnow';
             case 6:
+                return 'latestmedia';
+            case 7:
                 return 'none';
             default:
                 return '';
@@ -56,6 +58,9 @@
         }
         else if (section === 'nextup') {
             return loadNextUp(elem, apiClient, userId);
+        }
+        else if (section === 'onnow') {
+            return loadOnNow(elem, apiClient, userId);
         }
         else if (section === 'latesttvrecordings') {
             return loadLatestLiveTvRecordings(elem, apiClient, userId);
@@ -757,6 +762,79 @@
                     overlayMoreButton: true
                     //action: 'play'
 
+                });
+
+                if (enableScrollX()) {
+                    html += '</div>';
+                }
+
+                html += '</div>';
+            }
+
+            elem.innerHTML = html;
+
+            imageLoader.lazyChildren(elem);
+        });
+    }
+
+    function loadOnNow(elem, apiClient, userId) {
+
+        return apiClient.getLiveTvRecommendedPrograms({
+
+            userId: apiClient.getCurrentUserId(),
+            IsAiring: true,
+            limit: enableScrollX() ? 18: 10,
+            ImageTypeLimit: 1,
+            EnableImageTypes: "Primary,Thumb,Backdrop",
+            EnableTotalRecordCount: false,
+            Fields: "ChannelInfo"
+
+        }).then(function (result) {
+
+            var html = '';
+
+            if (result.Items.length) {
+
+                html += '<div class="sectionTitleContainer">';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderOnNow') + '</h2>';
+                if (!layoutManager.tv) {
+                    html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
+
+                        serverId: apiClient.serverId(),
+                        section: 'onnow'
+
+                    }) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
+                    html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
+
+                        serverId: apiClient.serverId(),
+                        section: 'guide'
+
+                    }) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#Guide') + '</a>';
+                }
+                html += '</div>';
+
+                if (enableScrollX()) {
+                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                } else {
+                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+                }
+
+                html += cardBuilder.getCardsHtml({
+                    items: result.Items,
+                    preferThumb: true,
+                    inheritThumb: false,
+                    shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+                    showParentTitleOrTitle: true,
+                    showTitle: false,
+                    centerText: true,
+                    coverImage: true,
+                    overlayText: false,
+                    overlayPlayButton: true,
+                    allowBottomPadding: !enableScrollX(),
+                    showAirTime: true,
+                    showChannelName: true,
+                    showAirDateTime: false,
+                    showAirEndTime: true
                 });
 
                 if (enableScrollX()) {
