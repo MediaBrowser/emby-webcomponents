@@ -783,7 +783,7 @@
 
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
-            limit: enableScrollX() ? 18: 10,
+            limit: enableScrollX() ? 18: 5,
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Thumb,Backdrop",
             EnableTotalRecordCount: false,
