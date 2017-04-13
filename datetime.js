@@ -125,12 +125,20 @@
     }
 
     function toLocaleString(date, options) {
+
+        if (!date) {
+            throw new Error('date cannot be null');
+        }
+
         options = options || {};
 
-        var currentLocale = getCurrentLocale();
+        if (toLocaleTimeStringSupportsLocales) {
 
-        if (currentLocale && toLocaleTimeStringSupportsLocales) {
-            return date.toLocaleString(currentLocale, options);
+            var currentLocale = getCurrentLocale();
+
+            if (currentLocale) {
+                return date.toLocaleString(currentLocale, options);
+            }
         }
 
         return date.toLocaleString();
@@ -138,12 +146,19 @@
 
     function toLocaleDateString(date, options) {
 
+        if (!date) {
+            throw new Error('date cannot be null');
+        }
+
         options = options || {};
 
-        var currentLocale = getCurrentLocale();
+        if (toLocaleTimeStringSupportsLocales) {
 
-        if (currentLocale && toLocaleTimeStringSupportsLocales) {
-            return date.toLocaleDateString(currentLocale, options);
+            var currentLocale = getCurrentLocale();
+
+            if (currentLocale) {
+                return date.toLocaleDateString(currentLocale, options);
+            }
         }
 
         // This is essentially a hard-coded polyfill
@@ -165,18 +180,29 @@
 
     function toLocaleTimeString(date, options) {
 
+        if (!date) {
+            throw new Error('date cannot be null');
+        }
+
         options = options || {};
 
-        var currentLocale = getCurrentLocale();
+        if (toLocaleTimeStringSupportsLocales) {
 
-        if (currentLocale && toLocaleTimeStringSupportsLocales) {
-            return date.toLocaleTimeString(currentLocale, options);
+            var currentLocale = getCurrentLocale();
+
+            if (currentLocale) {
+                return date.toLocaleTimeString(currentLocale, options);
+            }
         }
 
         return date.toLocaleTimeString();
     }
 
     function getDisplayTime(date) {
+
+        if (!date) {
+            throw new Error('date cannot be null');
+        }
 
         if ((typeof date).toString().toLowerCase() === 'string') {
             try {
@@ -232,6 +258,11 @@
     }
 
     function isRelativeDay(date, offsetInDays) {
+
+        if (!date) {
+            throw new Error('date cannot be null');
+        }
+
         var yesterday = new Date();
         var day = yesterday.getDate() + offsetInDays;
 
