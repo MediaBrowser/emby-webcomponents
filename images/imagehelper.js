@@ -13,6 +13,10 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
 
     function fillImage(elem, source, enableEffects) {
 
+        if (!elem) {
+            throw new Error('elem cannot be null');
+        }
+
         if (!source) {
             source = elem.getAttribute('data-src');
         }

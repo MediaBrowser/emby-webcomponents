@@ -3,6 +3,10 @@ define(['dom'], function (dom) {
 
     function loadImage(elem, url) {
 
+        if (!elem) {
+            return Promise.reject('elem cannot be null');
+        }
+
         if (elem.tagName !== "IMG") {
 
             elem.style.backgroundImage = "url('" + url + "')";
