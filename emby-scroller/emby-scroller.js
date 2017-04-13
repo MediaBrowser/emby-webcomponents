@@ -120,18 +120,16 @@
 
         // If just inserted it might not have any height yet - yes this is a hack
         var self = this;
-        setTimeout(function () {
-            self.scroller = new scroller(self, options);
-            self.scroller.init();
+        self.scroller = new scroller(self, options);
+        self.scroller.init();
 
-            if (layoutManager.tv && self.getAttribute('data-centerfocus')) {
-                initCenterFocus(self, self.scroller);
-            }
+        if (layoutManager.tv && self.getAttribute('data-centerfocus')) {
+            initCenterFocus(self, self.scroller);
+        }
 
-            if (bindHeader) {
-                initHeadroom(self);
-            }
-        }, 0);
+        if (bindHeader) {
+            initHeadroom(self);
+        }
     };
 
     ScrollerProtoType.detachedCallback = function () {
