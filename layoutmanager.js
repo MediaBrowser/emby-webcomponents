@@ -14,55 +14,54 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
 
     function LayoutManager() {
 
-        var self = this;
-
-        self.setLayout = function (layout, save) {
-
-            if (!layout || layout === 'auto') {
-                self.autoLayout();
-
-                if (save !== false) {
-                    appSettings.set('layout', '');
-                }
-            } else {
-                setLayout(self, 'mobile', layout);
-                setLayout(self, 'tv', layout);
-                setLayout(self, 'desktop', layout);
-
-                if (save !== false) {
-                    appSettings.set('layout', layout);
-                }
-            }
-
-            events.trigger(self, 'modechange');
-        };
-
-        self.getSavedLayout = function (layout) {
-
-            return appSettings.get('layout');
-        };
-
-        self.autoLayout = function () {
-
-            // Take a guess at initial layout. The consuming app can override
-            if (browser.mobile) {
-                self.setLayout('mobile', false);
-            } else if (browser.tv || browser.xboxOne) {
-                self.setLayout('tv', false);
-            } else {
-                self.setLayout(self.defaultLayout || 'tv', false);
-            }
-        };
-
-        self.init = function () {
-            var saved = self.getSavedLayout();
-            if (saved) {
-                self.setLayout(saved, false);
-            } else {
-                self.autoLayout();
-            }
-        };
     }
+
+    LayoutManager.prototype.setLayout = function (layout, save) {
+
+        if (!layout || layout === 'auto') {
+            this.autoLayout();
+
+            if (save !== false) {
+                appSettings.set('layout', '');
+            }
+        } else {
+            setLayout(this, 'mobile', layout);
+            setLayout(this, 'tv', layout);
+            setLayout(this, 'desktop', layout);
+
+            if (save !== false) {
+                appSettings.set('layout', layout);
+            }
+        }
+
+        events.trigger(this, 'modechange');
+    };
+
+    LayoutManager.prototype.getSavedLayout = function (layout) {
+
+        return appSettings.get('layout');
+    };
+
+    LayoutManager.prototype.autoLayout = function () {
+
+        // Take a guess at initial layout. The consuming app can override
+        if (browser.mobile) {
+            this.setLayout('mobile', false);
+        } else if (browser.tv || browser.xboxOne) {
+            this.setLayout('tv', false);
+        } else {
+            this.setLayout(this.defaultLayout || 'tv', false);
+        }
+    };
+
+    LayoutManager.prototype.init = function () {
+        var saved = this.getSavedLayout();
+        if (saved) {
+            this.setLayout(saved, false);
+        } else {
+            this.autoLayout();
+        }
+    };
 
     return new LayoutManager();
 });

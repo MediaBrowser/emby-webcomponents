@@ -227,7 +227,7 @@
 
         //    var infos = [getPremiereInfo];
 
-        //    if (!browserInfo.safari || !AppInfo.isNativeApp) {
+        //    if (appHost.supports('apppromotions')) {
         //        infos.push(getTheaterInfo);
         //    }
 
@@ -291,24 +291,6 @@
         html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater1.png', cardTarget);
         html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater2.png', cardTarget);
         html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater3.png', cardTarget);
-        html += '</div>';
-        html += '<br/>';
-        html += '</div>';
-        return html;
-    }
-
-    function getUpgradeMobileLayoutsInfo() {
-        var html = '';
-        html += '<div>';
-        html += '<h1>Unlock Improved Layouts with Emby Premiere<button is="paper-icon-button-light" style="margin-left:1em;" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button></h1>';
-
-        var cardTarget = AppInfo.isNativeApp ? '' : 'https://emby.media/premiere';
-        var learnMoreText = AppInfo.isNativeApp ? '' : '<a href="https://emby.media/premiere" target="_blank">Learn more</a>';
-
-        html += '<p>Combined horizontal and vertical swiping, better detail layouts, and more. ' + learnMoreText + '</p>';
-        html += '<div class="itemsContainer vertical-wrap">';
-        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/ms1.png', cardTarget, 'portraitCard');
-        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/ms2.png', cardTarget, 'portraitCard');
         html += '</div>';
         html += '<br/>';
         html += '</div>';

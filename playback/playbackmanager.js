@@ -3113,7 +3113,7 @@
 
             clearProgressInterval(player);
 
-            var intervalTime = 800;
+            var intervalTime = 1200;
             player.lastProgressReport = 0;
 
             getPlayerData(player).currentProgressInterval = setInterval(function () {

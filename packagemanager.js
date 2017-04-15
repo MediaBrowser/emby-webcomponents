@@ -1,16 +1,12 @@
 define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
     'use strict';
 
-    function packageManager() {
+    function PackageManager() {
 
         var self = this;
         var settingsKey = 'installedpackages1';
 
         var packages = [];
-
-        self.packages = function () {
-            return packages.slice(0);
-        };
 
         function addPackage(pkg) {
 
@@ -21,6 +17,10 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
 
             packages.push(pkg);
         }
+
+        self.packages = function () {
+            return packages.slice(0);
+        };
 
         self.install = function (url) {
 
@@ -126,23 +126,23 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
                 xhr.send();
             });
         }
-
-        self.mapPath = function (pkg, pluginUrl) {
-
-            var urlLower = pluginUrl.toLowerCase();
-            if (urlLower.indexOf('http:') === 0 || urlLower.indexOf('https:') === 0 || urlLower.indexOf('file:') === 0) {
-                return pluginUrl;
-            }
-
-            var packageUrl = pkg.url;
-            packageUrl = packageUrl.substring(0, packageUrl.lastIndexOf('/'));
-
-            packageUrl += '/';
-            packageUrl += pluginUrl;
-
-            return packageUrl;
-        };
     }
 
-    return new packageManager();
+    PackageManager.prototype.mapPath = function (pkg, pluginUrl) {
+
+        var urlLower = pluginUrl.toLowerCase();
+        if (urlLower.indexOf('http:') === 0 || urlLower.indexOf('https:') === 0 || urlLower.indexOf('file:') === 0) {
+            return pluginUrl;
+        }
+
+        var packageUrl = pkg.url;
+        packageUrl = packageUrl.substring(0, packageUrl.lastIndexOf('/'));
+
+        packageUrl += '/';
+        packageUrl += pluginUrl;
+
+        return packageUrl;
+    };
+
+    return new PackageManager();
 });

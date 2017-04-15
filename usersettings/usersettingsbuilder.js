@@ -1,112 +1,108 @@
 define(['appSettings', 'events', 'browser'], function (appsettings, events, browser) {
     'use strict';
 
-    function UserSettings() {
+    function onSaveTimeout() {
 
         var self = this;
-        var currentUserId;
-        var currentApiClient;
-        var displayPrefs;
-        var saveTimeout;
-
-        self.setUserInfo = function (userId, apiClient) {
-
-            if (saveTimeout) {
-                clearTimeout(saveTimeout);
-            }
-
-            currentUserId = userId;
-            currentApiClient = apiClient;
-
-            if (!userId) {
-                displayPrefs = null;
-                return Promise.resolve();
-            }
-
-            return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
-                result.CustomPrefs = result.CustomPrefs || {};
-                displayPrefs = result;
-            });
-        };
-
-        function onSaveTimeout() {
-            saveTimeout = null;
-            currentApiClient.updateDisplayPreferences('usersettings', displayPrefs, currentUserId, 'emby');
-        }
-        function saveServerPreferences() {
-            if (saveTimeout) {
-                clearTimeout(saveTimeout);
-            }
-            saveTimeout = setTimeout(onSaveTimeout, 50);
-        }
-
-        self.getData = function () {
-            return displayPrefs;
-        };
-
-        self.importFrom = function (instance) {
-            displayPrefs = instance.getData();
-        };
-
-        self.set = function (name, value, enableOnServer) {
-
-            var userId = currentUserId;
-            if (!userId) {
-                throw new Error('userId cannot be null');
-            }
-
-            var currentValue = self.get(name);
-            appsettings.set(name, value, userId);
-
-            if (enableOnServer !== false && displayPrefs) {
-                displayPrefs.CustomPrefs[name] = value == null ? value : value.toString();
-                saveServerPreferences();
-            }
-
-            if (currentValue !== value) {
-                events.trigger(self, 'change', [name]);
-            }
-        };
-
-        self.get = function (name, enableOnServer) {
-            var userId = currentUserId;
-            if (!userId) {
-                // TODO: I'd like to continue to throw this exception but it causes issues with offline use
-                // Revisit in the future and restore it
-                return null;
-                //throw new Error('userId cannot be null');
-            }
-
-            if (enableOnServer !== false) {
-                if (displayPrefs) {
-                    return displayPrefs.CustomPrefs[name];
-                }
-            }
-
-            return appsettings.get(name, userId);
-        };
-
-        self.serverConfig = function (config) {
-
-            var apiClient = currentApiClient;
-
-            if (config) {
-
-                return apiClient.updateUserConfiguration(currentUserId, config);
-
-            } else {
-
-                return apiClient.getUser(currentUserId).then(function (user) {
-
-                    return user.Configuration;
-                });
-            }
-        };
-
-        self.loadQuerySettings = function () {
-
-        };
+        self.saveTimeout = null;
+        self.currentApiClient.updateDisplayPreferences('usersettings', self.displayPrefs, self.currentUserId, 'emby');
     }
+
+    function saveServerPreferences(instance) {
+        if (instance.saveTimeout) {
+            clearTimeout(instance.saveTimeout);
+        }
+        instance.saveTimeout = setTimeout(onSaveTimeout.bind(instance), 50);
+    }
+
+    function UserSettings() {
+
+    }
+
+    UserSettings.prototype.setUserInfo = function (userId, apiClient) {
+
+        if (this.saveTimeout) {
+            clearTimeout(this.saveTimeout);
+        }
+
+        this.currentUserId = userId;
+        this.currentApiClient = apiClient;
+
+        if (!userId) {
+            this.displayPrefs = null;
+            return Promise.resolve();
+        }
+
+        var self = this;
+
+        return apiClient.getDisplayPreferences('usersettings', userId, 'emby').then(function (result) {
+            result.CustomPrefs = result.CustomPrefs || {};
+            self.displayPrefs = result;
+        });
+    };
+
+    UserSettings.prototype.getData = function () {
+        return this.displayPrefs;
+    };
+
+    UserSettings.prototype.importFrom = function (instance) {
+        this.displayPrefs = instance.getData();
+    };
+
+    UserSettings.prototype.set = function (name, value, enableOnServer) {
+
+        var userId = this.currentUserId;
+        if (!userId) {
+            throw new Error('userId cannot be null');
+        }
+
+        var currentValue = this.get(name);
+        appsettings.set(name, value, userId);
+
+        if (enableOnServer !== false && this.displayPrefs) {
+            this.displayPrefs.CustomPrefs[name] = value == null ? value : value.toString();
+            saveServerPreferences();
+        }
+
+        if (currentValue !== value) {
+            events.trigger(this, 'change', [name]);
+        }
+    };
+
+    UserSettings.prototype.get = function (name, enableOnServer) {
+        var userId = this.currentUserId;
+        if (!userId) {
+            // TODO: I'd like to continue to throw this exception but it causes issues with offline use
+            // Revisit in the future and restore it
+            return null;
+            //throw new Error('userId cannot be null');
+        }
+
+        if (enableOnServer !== false) {
+            if (this.displayPrefs) {
+                return this.displayPrefs.CustomPrefs[name];
+            }
+        }
+
+        return appsettings.get(name, userId);
+    };
+
+    UserSettings.prototype.serverConfig = function (config) {
+
+        var apiClient = this.currentApiClient;
+
+        if (config) {
+
+            return apiClient.updateUserConfiguration(this.currentUserId, config);
+
+        } else {
+
+            return apiClient.getUser(this.currentUserId).then(function (user) {
+
+                return user.Configuration;
+            });
+        }
+    };
 
     UserSettings.prototype.enableCinemaMode = function (val) {
 
