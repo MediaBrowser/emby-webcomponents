@@ -61,7 +61,7 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
 
         if (enableOnServer !== false && this.displayPrefs) {
             this.displayPrefs.CustomPrefs[name] = value == null ? value : value.toString();
-            saveServerPreferences();
+            saveServerPreferences(this);
         }
 
         if (currentValue !== value) {

@@ -1,4 +1,4 @@
-define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost'], function (loading, viewManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost) {
+define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager'], function (loading, viewManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
     var embyRouter = {
@@ -36,8 +36,6 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
             skinManager.getCurrentSkin().showFavorites();
         }
     };
-
-    var connectionManager;
 
     function beginConnectionWizard() {
 
@@ -226,27 +224,22 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
         loading.show();
 
-        require(['connectionManager'], function (connectionManagerInstance) {
+        connectionManager.connect({
 
-            connectionManager = connectionManagerInstance;
+            enableAutoLogin: appSettings.enableAutoLogin()
 
-            connectionManager.connect({
+        }).then(function (result) {
 
-                enableAutoLogin: appSettings.enableAutoLogin()
+            firstConnectionResult = result;
 
-            }).then(function (result) {
+            loading.hide();
 
-                firstConnectionResult = result;
+            options = options || {};
 
-                loading.hide();
-
-                options = options || {};
-
-                page({
-                    click: options.click !== false,
-                    hashbang: options.hashbang !== false,
-                    enableHistory: enableHistory()
-                });
+            page({
+                click: options.click !== false,
+                hashbang: options.hashbang !== false,
+                enableHistory: enableHistory()
             });
         });
     }
@@ -538,11 +531,9 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
     function showItem(item, serverId, options) {
 
         if (typeof (item) === 'string') {
-            require(['connectionManager'], function (connectionManager) {
-                var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
-                apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                    embyRouter.showItem(item, options);
-                });
+            var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
+            apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
+                embyRouter.showItem(item, options);
             });
         } else {
 
