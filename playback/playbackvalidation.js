@@ -1,64 +1,66 @@
 define(['playbackManager', 'itemHelper'], function (playbackManager, itemHelper) {
     "use strict";
 
-    return function () {
+    function getRequirePromise(deps) {
 
-        var self = this;
+        return new Promise(function (resolve, reject) {
 
-        self.name = 'Playback validation';
-        self.type = 'preplayintercept';
-        self.id = 'playbackvalidation';
-        self.order = -1;
+            require(deps, resolve);
+        });
+    }
 
-        self.intercept = function (options) {
+    function validatePlayback(options) {
+        return getRequirePromise(["registrationServices"]).then(function (registrationServices) {
+            return registrationServices.validateFeature('playback', options).then(function (result) {
 
-            // Don't care about video backdrops, or theme music or any kind of non-fullscreen playback
-            if (!options.fullscreen) {
-                return Promise.resolve();
-            }
-
-            if (options.item && itemHelper.isLocalItem(options.item)) {
-                return Promise.resolve();
-            }
-
-            return validatePlayback(options);
-        };
-
-        function validatePlayback(options) {
-            return new Promise(function (resolve, reject) {
-
-                require(["registrationServices"], function (registrationServices) {
-                    registrationServices.validateFeature('playback', options).then(function (result) {
-
-                        if (result && result.enableTimeLimit) {
-                            startAutoStopTimer();
-                        }
-                        resolve();
-                    });
-                });
+                if (result && result.enableTimeLimit) {
+                    startAutoStopTimer();
+                }
             });
+        });
+    }
+
+    var autoStopTimeout;
+    function startAutoStopTimer() {
+        stopAutoStopTimer();
+        autoStopTimeout = setTimeout(onAutoStopTimeout, 63000);
+    }
+
+    function onAutoStopTimeout() {
+        stopAutoStopTimer();
+        playbackManager.stop();
+    }
+
+    function stopAutoStopTimer() {
+
+        var timeout = autoStopTimeout;
+        if (timeout) {
+            clearTimeout(timeout);
+            autoStopTimeout = null;
+        }
+    }
+
+    function PlaybackValidation() {
+
+        this.name = 'Playback validation';
+        this.type = 'preplayintercept';
+        this.id = 'playbackvalidation';
+        this.order = -1;
+    }
+
+    PlaybackValidation.prototype.intercept = function (options) {
+
+        // Don't care about video backdrops, or theme music or any kind of non-fullscreen playback
+        if (!options.fullscreen) {
+            return Promise.resolve();
         }
 
-        var autoStopTimeout;
-        var lockedTimeLimitMs = 63000;
-
-        function startAutoStopTimer() {
-            stopAutoStopTimer();
-            autoStopTimeout = setTimeout(onAutoStopTimeout, lockedTimeLimitMs);
+        if (options.item && itemHelper.isLocalItem(options.item)) {
+            return Promise.resolve();
         }
 
-        function onAutoStopTimeout() {
-            stopAutoStopTimer();
-            playbackManager.stop();
-        }
-
-        function stopAutoStopTimer() {
-
-            var timeout = autoStopTimeout;
-            if (timeout) {
-                clearTimeout(timeout);
-                autoStopTimeout = null;
-            }
-        }
+        return validatePlayback(options);
     };
+
+    return PlaybackValidation;
 });

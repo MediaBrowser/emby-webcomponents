@@ -1,61 +1,56 @@
 define(['connectionManager', 'globalize'], function (connectionManager, globalize) {
     "use strict";
 
-    return function () {
+    function getRequirePromise(deps) {
 
-        var self = this;
+        return new Promise(function (resolve, reject) {
 
-        self.name = 'Playback validation';
-        self.type = 'preplayintercept';
-        self.id = 'playaccessvalidation';
-        self.order = -2;
+            require(deps, resolve);
+        });
+    }
 
-        self.intercept = function (options) {
+    function showErrorMessage() {
+        return getRequirePromise(['alert']).then(function (alert) {
 
-            return validatePlayback(options);
-        };
+            return alert(globalize.translate('sharedcomponents#MessagePlayAccessRestricted')).then(function () {
+                return Promise.reject();
+            });
+        });
+    }
 
-        function validatePlayback(options) {
+    function PlayAccessValidation() {
 
-            var item = options.item;
-            if (!item) {
+        this.name = 'Playback validation';
+        this.type = 'preplayintercept';
+        this.id = 'playaccessvalidation';
+        this.order = -2;
+    }
+
+    PlayAccessValidation.prototype.intercept = function (options) {
+
+        var item = options.item;
+        if (!item) {
+            return Promise.resolve();
+        }
+        var serverId = item.ServerId;
+        if (!serverId) {
+            return Promise.resolve();
+        }
+
+        return connectionManager.getApiClient(serverId).getCurrentUser().then(function (user) {
+
+            if (user.Policy.EnableMediaPlayback) {
                 return Promise.resolve();
             }
-            var serverId = item.ServerId;
-            if (!serverId) {
-                return Promise.resolve();
+
+            // reject but don't show an error message
+            if (!options.fullscreen) {
+                return Promise.reject();
             }
 
-            return connectionManager.getApiClient(serverId).getCurrentUser().then(function (user) {
-
-                if (user.Policy.EnableMediaPlayback) {
-                    return Promise.resolve();
-                }
-
-                // reject but don't show an error message
-                if (!options.fullscreen) {
-                    return Promise.reject();
-                }
-
-                return showErrorMessage();
-            });
-        }
-
-        function getRequirePromise(deps) {
-
-            return new Promise(function (resolve, reject) {
-
-                require(deps, resolve);
-            });
-        }
-
-        function showErrorMessage() {
-            return getRequirePromise(['alert']).then(function (alert) {
-
-                return alert(globalize.translate('sharedcomponents#MessagePlayAccessRestricted')).then(function () {
-                    return Promise.reject();
-                });
-            });
-        }
+            return showErrorMessage();
+        });
     };
+
+    return PlayAccessValidation;
 });

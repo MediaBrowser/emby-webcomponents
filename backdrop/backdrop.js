@@ -26,71 +26,71 @@
 
     function Backdrop() {
 
+    }
+
+    Backdrop.prototype.load = function (url, parent, existingBackdropImage) {
+
+        var img = new Image();
+
         var self = this;
-        var isDestroyed;
-        var currentAnimatingElement;
 
-        self.load = function (url, parent, existingBackdropImage) {
+        img.onload = function () {
 
-            var img = new Image();
-            img.onload = function () {
+            if (self.isDestroyed) {
+                return;
+            }
 
-                if (isDestroyed) {
-                    return;
+            var backdropImage = document.createElement('div');
+            backdropImage.classList.add('backdropImage');
+            backdropImage.classList.add('displayingBackdropImage');
+            backdropImage.style.backgroundImage = "url('" + url + "')";
+            backdropImage.setAttribute('data-url', url);
+
+            backdropImage.classList.add('backdropImageFadeIn');
+            parent.appendChild(backdropImage);
+
+            if (!enableAnimation(backdropImage)) {
+                if (existingBackdropImage && existingBackdropImage.parentNode) {
+                    existingBackdropImage.parentNode.removeChild(existingBackdropImage);
                 }
+                internalBackdrop(true);
+                return;
+            }
 
-                var backdropImage = document.createElement('div');
-                backdropImage.classList.add('backdropImage');
-                backdropImage.classList.add('displayingBackdropImage');
-                backdropImage.style.backgroundImage = "url('" + url + "')";
-                backdropImage.setAttribute('data-url', url);
-
-                backdropImage.classList.add('backdropImageFadeIn');
-                parent.appendChild(backdropImage);
-
-                if (!enableAnimation(backdropImage)) {
-                    if (existingBackdropImage && existingBackdropImage.parentNode) {
-                        existingBackdropImage.parentNode.removeChild(existingBackdropImage);
-                    }
-                    internalBackdrop(true);
-                    return;
-                }
-
-                var onAnimationComplete = function () {
-                    dom.removeEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
-                        once: true
-                    });
-                    if (backdropImage === currentAnimatingElement) {
-                        currentAnimatingElement = null;
-                    }
-                    if (existingBackdropImage && existingBackdropImage.parentNode) {
-                        existingBackdropImage.parentNode.removeChild(existingBackdropImage);
-                    }
-                };
-
-                dom.addEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
+            var onAnimationComplete = function () {
+                dom.removeEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
                     once: true
                 });
-
-                internalBackdrop(true);
+                if (backdropImage === self.currentAnimatingElement) {
+                    self.currentAnimatingElement = null;
+                }
+                if (existingBackdropImage && existingBackdropImage.parentNode) {
+                    existingBackdropImage.parentNode.removeChild(existingBackdropImage);
+                }
             };
-            img.src = url;
-        };
 
-        function cancelAnimation() {
-            var elem = currentAnimatingElement;
-            if (elem) {
-                elem.classList.remove('backdropImageFadeIn');
-                currentAnimatingElement = null;
-            }
+            dom.addEventListener(backdropImage, dom.whichAnimationEvent(), onAnimationComplete, {
+                once: true
+            });
+
+            internalBackdrop(true);
+        };
+        img.src = url;
+    };
+
+    Backdrop.prototype.cancelAnimation = function () {
+        var elem = this.currentAnimatingElement;
+        if (elem) {
+            elem.classList.remove('backdropImageFadeIn');
+            this.currentAnimatingElement = null;
         }
+    };
 
-        self.destroy = function () {
+    Backdrop.prototype.destroy = function () {
 
-            isDestroyed = true;
-            cancelAnimation();
-        };
-    }
+        this.isDestroyed = true;
+        this.cancelAnimation();
+    };
 
     var backdropContainer;
     function getBackdropContainer() {
