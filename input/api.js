@@ -26,7 +26,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
     function displayContent(cmd, apiClient) {
 
-        apiClient.getItem(apiClient.getCurrentUserId(), cmd.ItemId).then(function (item) {
+        apiClient.getItem(apiClient.getCurrentUserId(), cmd.Arguments.ItemId).then(function (item) {
             embyRouter.showItem(item);
         });
     }
