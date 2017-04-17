@@ -2884,7 +2884,7 @@
         }
 
         function enablePlaybackRetryWithTranscoding(streamInfo, errorType) {
-            
+
             if (!streamInfo) {
                 return false;
             }
@@ -3053,6 +3053,16 @@
             }
         }
 
+        function onPlaybackPause(e) {
+            var player = this;
+            sendProgressUpdate(player);
+        }
+
+        function onPlaybackUnpause(e) {
+            var player = this;
+            sendProgressUpdate(player);
+        }
+
         function unbindStopped(player) {
 
             events.off(player, 'stopped', onPlaybackStopped);
@@ -3087,6 +3097,8 @@
 
             if (enableLocalPlaylistManagement(player)) {
                 events.on(player, 'error', onPlaybackError);
+                events.on(player, 'pause', onPlaybackPause);
+                events.on(player, 'unpause', onPlaybackUnpause);
             }
 
             if (player.isLocalPlayer) {
@@ -3113,12 +3125,11 @@
 
             clearProgressInterval(player);
 
-            var intervalTime = 1200;
             player.lastProgressReport = 0;
 
             getPlayerData(player).currentProgressInterval = setInterval(function () {
 
-                if ((new Date().getTime() - player.lastProgressReport) > intervalTime) {
+                if ((new Date().getTime() - player.lastProgressReport) > 10000) {
 
                     sendProgressUpdate(player);
                 }
@@ -3148,14 +3159,9 @@
                 return;
             }
 
-            var info = {
-                QueueableMediaTypes: state.NowPlayingItem.MediaType,
-                ItemId: state.NowPlayingItem.Id
-            };
+            var info = Object.assign({}, state.PlayState);
+            info.ItemId = state.NowPlayingItem.Id;
 
-            for (var i in state.PlayState) {
-                info[i] = state.PlayState[i];
-            }
             //console.log(method + '-' + JSON.stringify(info));
             var apiClient = connectionManager.getApiClient(serverId);
             apiClient[method](info);

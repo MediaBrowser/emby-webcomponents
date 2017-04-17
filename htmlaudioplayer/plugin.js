@@ -370,6 +370,8 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHel
                 this.removeAttribute('controls');
 
                 seekOnPlaybackStart(e.target);
+            } else {
+                events.trigger(self, 'unpause');
             }
             events.trigger(self, 'playing');
         }

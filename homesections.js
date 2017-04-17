@@ -178,11 +178,27 @@
 
             var html = getLibraryButtonsHtml(items);
 
-            return getAppInfo().then(function (infoHtml) {
+            return getAppInfo(apiClient).then(function (infoHtml) {
 
                 elem.innerHTML = html + infoHtml;
 
                 bindHomeScreenSettingsIcon(elem, apiClient, userId, userSettings);
+
+                if (infoHtml) {
+                    bindAppInfoEvents(elem);
+                }
+            });
+        });
+    }
+
+    function bindAppInfoEvents(elem) {
+
+        getRequirePromise(['registrationServices']).then(function (registrationServices) {
+            elem.querySelector('.appInfoSection').addEventListener('click', function (e) {
+
+                if (dom.parentWithClass(e.target, 'card')) {
+                    registrationServices.showPremiereInfo();
+                }
             });
         });
     }
@@ -195,64 +211,59 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function getAppInfo() {
+    function getAppInfo(apiClient) {
 
-        return Promise.resolve('');
-        //var frequency = 86400000;
+        var frequency = 172800000;
 
-        //if (AppInfo.isNativeApp) {
-        //    frequency = 172800000;
-        //}
+        var cacheKey = 'lastappinfopresent5';
+        var lastDatePresented = parseInt(appSettings.get(cacheKey) || '0');
 
-        //var cacheKey = 'lastappinfopresent5';
-        //var lastDatePresented = parseInt(appSettings.get(cacheKey) || '0');
+        // Don't show the first time, right after installation
+        if (!lastDatePresented) {
+            appSettings.set(cacheKey, new Date().getTime());
+            return Promise.resolve('');
+        }
 
-        //// Don't show the first time, right after installation
-        //if (!lastDatePresented) {
-        //    appSettings.set(cacheKey, new Date().getTime());
-        //    return Promise.resolve('');
-        //}
+        if ((new Date().getTime() - lastDatePresented) < frequency) {
+            return Promise.resolve('');
+        }
 
-        //if ((new Date().getTime() - lastDatePresented) < frequency) {
-        //    return Promise.resolve('');
-        //}
+        return getRequirePromise(['registrationServices']).then(function (registrationServices) {
 
-        //return Dashboard.getPluginSecurityInfo().then(function (pluginSecurityInfo) {
+            return registrationServices.validateFeature('dvr', {
 
-        //    appSettings.set(cacheKey, new Date().getTime());
+                showDialog: false
 
-        //    if (pluginSecurityInfo.IsMBSupporter) {
-        //        return '';
-        //    }
+            }).then(function () {
 
-        //    var infos = [getPremiereInfo];
+                appSettings.set(cacheKey, new Date().getTime());
+                return '';
 
-        //    if (appHost.supports('apppromotions')) {
-        //        infos.push(getTheaterInfo);
-        //    }
+            }, function () {
 
-        //    return infos[getRandomInt(0, infos.length - 1)]();
-        //});
+                appSettings.set(cacheKey, new Date().getTime());
+
+                var infos = [getPremiereInfo];
+
+                if (appHost.supports('otherapppromotions')) {
+                    infos.push(getTheaterInfo);
+                }
+
+                return infos[getRandomInt(0, infos.length - 1)]();
+            });
+        });
     }
 
-    function getCard(img, target, shape) {
+    function getCard(img, shape) {
 
         shape = shape || 'backdropCard';
         var html = '<div class="card scalableCard ' + shape + ' ' + shape + '-scalable"><div class="cardBox"><div class="cardScalable"><div class="cardPadder cardPadder-backdrop"></div>';
 
-        if (target) {
-            html += '<a class="cardContent" href="' + target + '" target="_blank">';
-        } else {
-            html += '<div class="cardContent">';
-        }
+        html += '<div class="cardContent">';
 
         html += '<div class="cardImage lazy" data-src="' + img + '"></div>';
 
-        if (target) {
-            html += '</a>';
-        } else {
-            html += '</div>';
-        }
+        html += '</div>';
 
         html += '</div></div></div>';
 
@@ -262,17 +273,21 @@
     function getTheaterInfo() {
 
         var html = '';
-        html += '<div>';
-        html += '<h1>Discover Emby Theater<button is="paper-icon-button-light" style="margin-left:1em;" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button></h1>';
-
-        var nameText = AppInfo.isNativeApp ? 'Emby Theater' : '<a href="https://emby.media/download" target="_blank">Emby Theater</a>';
-        html += '<p>A beautiful app for your TV and large screen tablet. ' + nameText + ' runs on Windows, Xbox One, Raspberry Pi, Samsung Smart TVs, Sony PS4, Web Browsers, and more.</p>';
-        html += '<div class="itemsContainer vertical-wrap">';
-        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater1.png', 'https://emby.media/download');
-        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater2.png', 'https://emby.media/download');
-        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater3.png', 'https://emby.media/download');
+        html += '<div class="verticalSection appInfoSection">';
+        html += '<div class="sectionTitleContainer">';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Emby Theater</h2>';
+        html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button>';
         html += '</div>';
-        html += '<br/>';
+
+        var nameText = 'Emby Theater';
+        html += '<div class="padded-left padded-right">';
+        html += '<p class="sectionTitle-cards">A beautiful app for your TV and large screen tablet. ' + nameText + ' runs on Windows, Xbox One, Raspberry Pi, Samsung Smart TVs, Sony PS4, Web Browsers, and more.</p>';
+        html += '<div class="itemsContainer vertical-wrap">';
+        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater1.png');
+        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater2.png');
+        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater3.png');
+        html += '</div>';
+        html += '</div>';
         html += '</div>';
         return html;
     }
@@ -280,19 +295,20 @@
     function getPremiereInfo() {
 
         var html = '';
-        html += '<div>';
-        html += '<h1>Discover Emby Premiere<button is="paper-icon-button-light" style="margin-left:1em;" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button></h1>';
-
-        var cardTarget = AppInfo.isNativeApp ? '' : 'https://emby.media/premiere';
-        var learnMoreText = AppInfo.isNativeApp ? '' : '<a href="https://emby.media/premiere" target="_blank">Learn more</a>';
-
-        html += '<p>Design beautiful Cover Art, enjoy free access to Emby apps, and more. ' + learnMoreText + '</p>';
-        html += '<div class="itemsContainer vertical-wrap">';
-        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater1.png', cardTarget);
-        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater2.png', cardTarget);
-        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater3.png', cardTarget);
+        html += '<div class="verticalSection appInfoSection">';
+        html += '<div class="sectionTitleContainer">';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Emby Premiere</h2>';
+        html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button>';
         html += '</div>';
-        html += '<br/>';
+
+        html += '<div class="padded-left padded-right">';
+        html += '<p class="sectionTitle-cards">Enjoy Emby DVR, get free access to Emby apps, and more.</p>';
+        html += '<div class="itemsContainer vertical-wrap">';
+        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater1.png');
+        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater2.png');
+        html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater3.png');
+        html += '</div>';
+        html += '</div>';
         html += '</div>';
         return html;
     }
@@ -302,7 +318,7 @@
         var limit = 12;
 
         if (!enableScrollX()) {
-            
+
             if (parent.CollectionType === 'tvshows') {
                 limit = 5;
             } else if (parent.CollectionType === 'music') {
@@ -543,10 +559,14 @@
 
             html += '</div>';
 
-            return getAppInfo().then(function (infoHtml) {
+            return getAppInfo(apiClient).then(function (infoHtml) {
 
                 elem.innerHTML = html + infoHtml;
                 bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
+
+                if (infoHtml) {
+                    bindAppInfoEvents(elem);
+                }
 
                 imageLoader.lazyChildren(elem);
             });
@@ -778,7 +798,7 @@
 
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
-            limit: enableScrollX() ? 18: 5,
+            limit: enableScrollX() ? 18 : 5,
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Thumb,Backdrop",
             EnableTotalRecordCount: false,

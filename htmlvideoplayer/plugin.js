@@ -814,6 +814,8 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                 loading.hide();
 
                 ensureValidVideo(this);
+            } else {
+                events.trigger(self, 'unpause');
             }
             events.trigger(self, 'playing');
         }
