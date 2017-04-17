@@ -290,27 +290,6 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
         function setCurrentSrc(elem, options) {
 
-            //if (!elem) {
-            //    currentSrc = null;
-            //    resolve();
-            //    return;
-            //}
-
-            //if (!options) {
-            //    currentSrc = null;
-            //    elem.src = null;
-            //    elem.src = "";
-
-            //    // When the browser regains focus it may start auto-playing the last video
-            //    //if ($.browser.safari) {
-            //    //    elem.src = 'files/dummy.mp4';
-            //    //    elem.play();
-            //    //}
-
-            //    resolve();
-            //    return;
-            //}
-
             elem.removeEventListener('error', onError);
 
             var val = options.url;
@@ -1048,6 +1027,11 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                 return false;
             }
 
+            // Edge is randomly not rendering subtitles
+            if (browser.edge) {
+                return false;
+            }
+
             if (track) {
                 var format = (track.Codec || '').toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
@@ -1179,6 +1163,10 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                 return true;
             }
 
+            if (browser.edge) {
+                return true;
+            }
+
             return false;
         }
 
@@ -1268,7 +1256,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                 for (var i = 0; i < trackEvents.length; i++) {
 
                     var currentTrackEvent = trackEvents[i];
-                    if (currentTrackEvent.StartPositionTicks >= ticks) {
+                    if (currentTrackEvent.StartPositionTicks <= ticks && currentTrackEvent.EndPositionTicks >= ticks) {
                         selectedTrackEvent = currentTrackEvent;
                         break;
                     }

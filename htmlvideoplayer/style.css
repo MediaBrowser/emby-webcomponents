@@ -69,6 +69,6 @@
 
     to {
         transform: none;
-        opacity: 1;
+        opacity: initial;
     }
 }
