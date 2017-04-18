@@ -2422,8 +2422,8 @@
 
             require(['alert'], function (alert) {
                 alert({
-                    text: globalize.translate('core#MessagePlaybackError' + errorCode),
-                    title: globalize.translate('core#HeaderPlaybackError')
+                    text: globalize.translate('sharedcomponents#PlaybackError' + errorCode),
+                    title: globalize.translate('sharedcomponents#HeaderPlaybackError')
                 }).then(function () {
 
                     if (playNextTrack) {
