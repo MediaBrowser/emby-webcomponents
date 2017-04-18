@@ -43,6 +43,93 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         context.querySelector('.latestItemsList').innerHTML = folderHtml;
     }
 
+    function getLandingScreenOptions(type) {
+
+        var list = [];
+
+        list.push({
+            name: globalize.translate('sharedcomponents#Suggestions'),
+            value: 'suggestions',
+            isDefault: true
+        });
+
+        if (type === 'movies') {
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Movies'),
+                value: 'movies'
+            });
+            list.push({
+                name: globalize.translate('sharedcomponents#Favorites'),
+                value: 'favorites'
+            });
+            list.push({
+                name: globalize.translate('sharedcomponents#Collections'),
+                value: 'collections'
+            });
+        }
+        else if (type === 'tvshows') {
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Latest'),
+                value: 'latest'
+            });
+            list.push({
+                name: globalize.translate('sharedcomponents#Shows'),
+                value: 'shows'
+            });
+            list.push({
+                name: globalize.translate('sharedcomponents#Favorites'),
+                value: 'favorites'
+            });
+        }
+
+        list.push({
+            name: globalize.translate('sharedcomponents#Genres'),
+            value: 'genres'
+        });
+
+        return list;
+    }
+
+    function renderLandingScreens(context, user, userSettings, result) {
+
+        var html = '';
+
+        for (var i = 0, length = result.Items.length; i < length; i++) {
+            var folder = result.Items[i];
+
+            if (!(folder.CollectionType === 'movies' || folder.CollectionType === 'tvshows')) {
+                continue;
+            }
+
+            html += '<div class="selectContainer">';
+            html += '<select is="emby-select" class="selectLanding" data-folderid="' + folder.Id + '" label="' + folder.Name + '">';
+
+            var userValue = userSettings.get('landing-' + folder.Id);
+
+            html += getLandingScreenOptions(folder.CollectionType).map(function (o) {
+
+                var selected = userValue === o.value || (o.isDefault && !userValue);
+                var selectedHtml = selected ? ' selected' : '';
+                var optionValue = o.isDefault ? '' : o.value;
+
+                return '<option value="' + optionValue + '"' + selectedHtml + '>' + o.name + '</option>';
+            }).join('');
+
+            html += '</select>';
+            html += '</div>';
+        }
+
+        context.querySelector('.landingScreens').innerHTML = html;
+
+        if (html) {
+            context.querySelector('.landingScreensSection').classList.remove('hide');
+        } else {
+            context.querySelector('.landingScreensSection').classList.add('hide');
+        }
+    }
+
     function renderViewOrder(context, user, result) {
 
         var html = '';
@@ -111,6 +198,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
 
             renderLatestItems(context, user, responses[0]);
             renderViewOrder(context, user, responses[0]);
+            renderLandingScreens(context, user, userSettings, responses[0]);
 
             loading.hide();
         });
@@ -200,7 +288,8 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
 
         var viewItems = context.querySelectorAll('.viewItem');
         var orderedViews = [];
-        for (var i = 0, length = viewItems.length; i < length; i++) {
+        var i, length;
+        for ( i = 0, length = viewItems.length; i < length; i++) {
             orderedViews.push(viewItems[i].getAttribute('data-viewid'));
         }
 
@@ -213,6 +302,12 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         userSettingsInstance.set('homesection4', context.querySelector('#selectHomeSection5').value);
         userSettingsInstance.set('homesection5', context.querySelector('#selectHomeSection6').value);
         userSettingsInstance.set('homesection6', context.querySelector('#selectHomeSection7').value);
+
+        var selectLandings = context.querySelectorAll('.selectLanding');
+        for (i = 0, length = selectLandings.length; i < length; i++) {
+            var selectLanding = selectLandings[i];
+            userSettingsInstance.set('landing-' + selectLanding.getAttribute('data-folderid'), selectLanding.value);
+        }
 
         if (user.Id === apiClient.getCurrentUserId()) {
             refreshGlobalUserSettings(userSettingsInstance);
