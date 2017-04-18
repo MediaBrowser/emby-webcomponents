@@ -26,6 +26,30 @@
         }
     }
 
+    function loadSections(elem, user, userSettings) {
+
+        var i, length;
+        var sectionCount = 7;
+
+        var html = '';
+        for (i = 0, length = sectionCount; i < length; i++) {
+
+            html += '<div class="verticalSection section' + i + '"></div>';
+        }
+
+        elem.innerHTML = html;
+        elem.classList.add('homeSectionsContainer');
+
+        var promises = [];
+
+        for (i = 0, length = sectionCount; i < length; i++) {
+
+            promises.push(loadSection(elem, ApiClient, user, userSettings, i));
+        }
+
+        return Promise.all(promises);
+    }
+
     function loadSection(page, apiClient, user, userSettings, index) {
 
         var userId = user.Id;
@@ -490,10 +514,15 @@
         });
     }
 
-    function showHomeScreenSettings(options) {
+    function showHomeScreenSettings(elem, options) {
         return getRequirePromise(['homescreenSettingsDialog']).then(function (homescreenSettingsDialog) {
 
-            return homescreenSettingsDialog.show(options);
+            return homescreenSettingsDialog.show(options).then(function () {
+
+                dom.parentWithClass(elem, 'homeSectionsContainer').dispatchEvent(new CustomEvent('settingschange', {
+                    cancelable: false
+                }));
+            });
         });
     }
 
@@ -505,10 +534,11 @@
         }
 
         btnHomeScreenSettings.addEventListener('click', function () {
-            showHomeScreenSettings({
+            showHomeScreenSettings(elem, {
                 serverId: apiClient.serverId(),
                 userId: userId,
                 userSettings: userSettings
+
             });
         });
     }
@@ -1096,6 +1126,7 @@
         loadLatestLiveTvRecordings: loadLatestLiveTvRecordings,
         loadlibraryButtons: loadlibraryButtons,
         loadSection: loadSection,
-        getDefaultSection: getDefaultSection
+        getDefaultSection: getDefaultSection,
+        loadSections: loadSections
     };
 });

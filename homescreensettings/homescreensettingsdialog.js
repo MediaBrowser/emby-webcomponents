@@ -57,7 +57,7 @@
                     }
 
                     if (submitted) {
-                        resolve(person);
+                        resolve();
                     } else {
                         reject();
                     }
@@ -70,10 +70,12 @@
 
                 dlg.querySelector('.btnSave').addEventListener('click', function (e) {
 
+                    submitted = true;
                     homescreenSettingsInstance.submit();
                 });
 
                 events.on(homescreenSettingsInstance, 'saved', function () {
+                    submitted = true;
                     dialogHelper.close(dlg);
                 });
             });
