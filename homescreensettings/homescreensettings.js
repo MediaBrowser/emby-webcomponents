@@ -92,6 +92,18 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         return list;
     }
 
+    function getLandingScreenOptionsHtml(type, userValue) {
+
+        return getLandingScreenOptions(type).map(function (o) {
+
+            var selected = userValue === o.value || (o.isDefault && !userValue);
+            var selectedHtml = selected ? ' selected' : '';
+            var optionValue = o.isDefault ? '' : o.value;
+
+            return '<option value="' + optionValue + '"' + selectedHtml + '>' + o.name + '</option>';
+        }).join('');
+    }
+
     function renderLandingScreens(context, user, userSettings, result) {
 
         var html = '';
@@ -108,14 +120,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
 
             var userValue = userSettings.get('landing-' + folder.Id);
 
-            html += getLandingScreenOptions(folder.CollectionType).map(function (o) {
-
-                var selected = userValue === o.value || (o.isDefault && !userValue);
-                var selectedHtml = selected ? ' selected' : '';
-                var optionValue = o.isDefault ? '' : o.value;
-
-                return '<option value="' + optionValue + '"' + selectedHtml + '>' + o.name + '</option>';
-            }).join('');
+            html += getLandingScreenOptionsHtml(folder.CollectionType, userValue);
 
             html += '</select>';
             html += '</div>';
