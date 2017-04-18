@@ -26,7 +26,7 @@
         }
     }
 
-    function loadSections(elem, user, userSettings) {
+    function loadSections(elem, apiClient, user, userSettings) {
 
         var i, length;
         var sectionCount = 7;
@@ -44,7 +44,7 @@
 
         for (i = 0, length = sectionCount; i < length; i++) {
 
-            promises.push(loadSection(elem, ApiClient, user, userSettings, i));
+            promises.push(loadSection(elem, apiClient, user, userSettings, i));
         }
 
         return Promise.all(promises);
