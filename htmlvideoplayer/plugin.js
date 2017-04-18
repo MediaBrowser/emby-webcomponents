@@ -1248,7 +1248,12 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
             var clock = currentClock;
             if (clock) {
-                clock.seek(timeMs / 1000);
+                try {
+                    clock.seek(timeMs / 1000);
+                } catch (err) {
+                    console.log('Error in libjass: ' + err);
+                }
+                return;
             }
 
             var trackEvents = currentTrackEvents;
@@ -1473,7 +1478,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
-                            zoomIn(dlg).then(function() {
+                            zoomIn(dlg).then(function () {
                                 resolve(videoElement);
                             });
                         } else {
