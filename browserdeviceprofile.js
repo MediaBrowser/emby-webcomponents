@@ -12,6 +12,17 @@ define(['browser'], function (browser) {
             return true;
         }
 
+        var userAgent = navigator.userAgent.toLowerCase();
+        var isChromecast = userAgent.indexOf('crkey') !== -1;
+
+        if (isChromecast) {
+
+            var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
+            if (isChromecastUltra) {
+                return true;
+            }
+        }
+
         return false;
     }
 
@@ -238,6 +249,28 @@ define(['browser'], function (browser) {
         return 120000000;
     }
 
+    function getGlobalMaxVideoBitrate() {
+
+        var userAgent = navigator.userAgent.toLowerCase();
+
+        var isChromecast = userAgent.indexOf('crkey') !== -1;
+
+        if (isChromecast) {
+
+            var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
+            if (isChromecastUltra) {
+                return 40000000;
+            }
+
+            return 11000000;
+        }
+
+        return browser.ps4 ? 8000000 :
+            (browser.xboxOne ? 10000000 :
+            (browser.edgeUwp ? 40000000 :
+            (browser.tizen && isTizenFhd ? 20000000 : null)));
+    }
+
     return function (options) {
 
         options = options || {};
@@ -442,7 +475,7 @@ define(['browser'], function (browser) {
                 Container: 'mkv',
                 Type: 'Video',
                 AudioCodec: videoAudioCodecs.join(','),
-                VideoCodec: 'h264',
+                VideoCodec: mp4VideoCodecs.join(','),
                 Context: 'Streaming',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 CopyTimestamps: true
@@ -472,20 +505,6 @@ define(['browser'], function (browser) {
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '2',
                 BreakOnNonKeyFrames: browser.iOS || browser.osx ? true : false
-            });
-        }
-
-        // Put mp4 ahead of webm
-        if (browser.firefox) {
-            profile.TranscodingProfiles.push({
-                Container: 'mp4',
-                Type: 'Video',
-                AudioCodec: videoAudioCodecs.join(','),
-                VideoCodec: 'h264',
-                Context: 'Streaming',
-                Protocol: 'http'
-                // Edit: Can't use this in firefox because we're seeing situations of no sound when downmixing from 6 channel to 2
-                //MaxAudioChannels: physicalAudioChannels.toString()
             });
         }
 
@@ -615,10 +634,7 @@ define(['browser'], function (browser) {
             }
         }
 
-        var globalMaxVideoBitrate = browser.ps4 ? '8000000' :
-            (browser.xboxOne ? '10000000' :
-            (browser.edgeUwp ? '40000000' :
-            (browser.tizen && isTizenFhd ? '20000000' : '')));
+        var globalMaxVideoBitrate = (getGlobalMaxVideoBitrate() || '').toString();
 
         var h264MaxVideoBitrate = globalMaxVideoBitrate;
 

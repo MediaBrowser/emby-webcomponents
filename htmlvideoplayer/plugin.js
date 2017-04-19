@@ -58,10 +58,10 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
             });
         }
 
-        self.getDeviceProfile = function (item) {
+        self.getDeviceProfile = function (item, options) {
 
             if (appHost.getDeviceProfile) {
-                return appHost.getDeviceProfile(item);
+                return appHost.getDeviceProfile(item, options);
             }
 
             return getDefaultProfile();
@@ -1142,6 +1142,8 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
                         } catch (ex) {
                         }
                     });
+                }, function() {
+                    onErrorInternal('mediadecodeerror');
                 });
             });
         }

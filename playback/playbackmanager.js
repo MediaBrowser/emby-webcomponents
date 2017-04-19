@@ -1179,7 +1179,11 @@
             var playerData = getPlayerData(player);
             var currentItem = playerData.streamInfo.item;
 
-            player.getDeviceProfile(currentItem).then(function (deviceProfile) {
+            player.getDeviceProfile(currentItem, {
+                
+                isRetry: params.EnableDirectPlay === false
+
+            }).then(function (deviceProfile) {
 
                 var audioStreamIndex = params.AudioStreamIndex == null ? getPlayerData(player).audioStreamIndex : params.AudioStreamIndex;
                 var subtitleStreamIndex = params.SubtitleStreamIndex == null ? getPlayerData(player).subtitleStreamIndex : params.SubtitleStreamIndex;
