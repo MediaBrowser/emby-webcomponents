@@ -29,6 +29,19 @@
         }
     }
 
+    function tryRemoveElement(elem) {
+        var parentNode = elem.parentNode;
+        if (parentNode) {
+
+            // Seeing crashes in edge webview
+            try {
+                parentNode.removeChild(elem);
+            } catch (err) {
+                console.log('Error removing dialog element: ' + err);
+            }
+        }
+    }
+
     function DialogHashHandler(dlg, hash, resolve) {
 
         var self = this;
@@ -91,10 +104,10 @@
 
                 var dialogContainer = dlg.dialogContainer;
                 if (dialogContainer) {
-                    dialogContainer.parentNode.removeChild(dialogContainer);
+                    tryRemoveElement(dialogContainer);
                     dlg.dialogContainer = null;
                 } else {
-                    dlg.parentNode.removeChild(dlg);
+                    tryRemoveElement(dlg);
                 }
             }
 
@@ -323,7 +336,7 @@
         dlg.backdrop = null;
 
         var onAnimationFinish = function () {
-            backdrop.parentNode.removeChild(backdrop);
+            tryRemoveElement(backdrop);
         };
 
         if (enableAnimation()) {
