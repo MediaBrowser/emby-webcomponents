@@ -43,6 +43,35 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         context.querySelector('.latestItemsList').innerHTML = folderHtml;
     }
 
+    function renderViews(page, user, result) {
+
+        var folderHtml = '';
+
+        folderHtml += '<div class="checkboxList">';
+        folderHtml += result.map(function (i) {
+
+            var currentHtml = '';
+
+            var id = 'chkGroupFolder' + i.Id;
+
+            var isChecked = user.Configuration.GroupedFolders.indexOf(i.Id) != -1;
+
+            var checkedHtml = isChecked ? ' checked="checked"' : '';
+
+            currentHtml += '<label>';
+            currentHtml += '<input type="checkbox" is="emby-checkbox" class="chkGroupFolder" data-folderid="' + i.Id + '" id="' + id + '"' + checkedHtml + '/>';
+            currentHtml += '<span>' + i.Name + '</span>';
+            currentHtml += '</label>';
+
+            return currentHtml;
+
+        }).join('');
+
+        folderHtml += '</div>';
+
+        page.querySelector('.folderGroupList').innerHTML = folderHtml;
+    }
+
     function renderViewOrder(context, user, result) {
 
         var html = '';
@@ -106,9 +135,11 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         updateHomeSectionValues(context, userSettings);
 
         var promise1 = apiClient.getUserViews({}, user.Id);
+        var promise2 = ApiClient.getJSON(ApiClient.getUrl("Users/" + user.Id + "/GroupingOptions"));
 
-        Promise.all([promise1]).then(function (responses) {
+        Promise.all([promise1, promise2]).then(function (responses) {
 
+            renderViews(context, user, responses[1]);
             renderLatestItems(context, user, responses[0]);
             renderViewOrder(context, user, responses[0]);
 
@@ -194,6 +225,11 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
 
         user.Configuration.LatestItemsExcludes = getCheckboxItems(".chkIncludeInLatest", context, false).map(function (i) {
+
+            return i.getAttribute('data-folderid');
+        });
+
+        user.Configuration.GroupedFolders = getCheckboxItems(".chkGroupFolder", context, true).map(function (i) {
 
             return i.getAttribute('data-folderid');
         });

@@ -16,7 +16,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     var lastMouseMoveData;
-    dom.addEventListener(document, 'mousemove', function (e) {
+    function onMouseMove(e) {
 
         var eventX = e.screenX;
         var eventY = e.screenY;
@@ -51,9 +51,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
             document.body.classList.remove('mouseIdle');
             events.trigger(self, 'mouseactive');
         }
-    }, {
-        passive: true
-    });
+    }
 
     function onMouseEnter(e) {
 
@@ -82,7 +80,50 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         return false;
     }
 
-    function initMouseFocus() {
+    function onMouseInterval() {
+
+        if (mouseIdleTime() >= 5000) {
+            isMouseIdle = true;
+            document.body.classList.add('mouseIdle');
+            events.trigger(self, 'mouseidle');
+        }
+    }
+
+    var mouseInterval;
+    function startMouseInterval() {
+
+        if (!mouseInterval) {
+            mouseInterval = setInterval(onMouseInterval, 5000);
+        }
+    }
+
+    function stopMouseInterval() {
+
+        var interval = mouseInterval;
+
+        if (interval) {
+            clearInterval(interval);
+            mouseInterval = null;
+        }
+
+        document.body.classList.remove('mouseIdle');
+    }
+
+    function initMouse() {
+
+        stopMouseInterval();
+
+        dom.removeEventListener(document, 'mousemove', onMouseMove, {
+            passive: true
+        });
+
+        if (!layoutManager.mobile) {
+            startMouseInterval();
+
+            dom.addEventListener(document, 'mousemove', onMouseMove, {
+                passive: true
+            });
+        }
 
         dom.removeEventListener(document, 'mouseenter', onMouseEnter, {
             capture: true,
@@ -97,19 +138,9 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         }
     }
 
-    initMouseFocus();
+    initMouse();
 
-    events.on(layoutManager, 'modechange', initMouseFocus);
-
-    setInterval(function () {
-
-        if (mouseIdleTime() >= 5000) {
-            isMouseIdle = true;
-            document.body.classList.add('mouseIdle');
-            events.trigger(self, 'mouseidle');
-        }
-
-    }, 5000);
+    events.on(layoutManager, 'modechange', initMouse);
 
     return self;
 });

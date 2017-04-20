@@ -425,5 +425,8 @@
   "Suggestions": "Suggestions",
   "Favorites": "Favorites",
   "Collections": "Collections",
-  "Shows": "Shows"
+  "LabelSelectFolderGroups": "Automatically group content from the following folders into views such as Movies, Music and TV:",
+  "LabelSelectFolderGroupsHelp": "Folders that are unchecked will be displayed by themselves in their own view.",
+  "Shows": "Shows",
+  "HeaderLibraryFolders": "Library Folders"
 }
