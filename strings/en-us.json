@@ -428,5 +428,7 @@
   "LabelSelectFolderGroups": "Automatically group content from the following folders into views such as Movies, Music and TV:",
   "LabelSelectFolderGroupsHelp": "Folders that are unchecked will be displayed by themselves in their own view.",
   "Shows": "Shows",
-  "HeaderLibraryFolders": "Library Folders"
+  "HeaderLibraryFolders": "Library Folders",
+  "HeaderLandingScreens": "Landing Screens",
+  "LandingScreensHelp": "Select the default landing screen when clicking on a library."
 }

@@ -84,7 +84,7 @@
             return loadNextUp(elem, apiClient, userId);
         }
         else if (section === 'onnow') {
-            return loadOnNow(elem, apiClient, userId);
+            return loadOnNow(elem, apiClient, user);
         }
         else if (section === 'latesttvrecordings') {
             return loadLatestLiveTvRecordings(elem, apiClient, userId);
@@ -822,8 +822,13 @@
         });
     }
 
-    function loadOnNow(elem, apiClient, userId) {
+    function loadOnNow(elem, apiClient, user) {
 
+        if (!user.Policy.EnableLiveTvAccess) {
+            return Promise.resolve('');
+        }
+
+        var userId = user.Id;
         return apiClient.getLiveTvRecommendedPrograms({
 
             userId: apiClient.getCurrentUserId(),
