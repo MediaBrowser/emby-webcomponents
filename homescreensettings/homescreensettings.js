@@ -54,7 +54,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
 
             var id = 'chkGroupFolder' + i.Id;
 
-            var isChecked = user.Configuration.GroupedFolders.indexOf(i.Id) != -1;
+            var isChecked = user.Configuration.GroupedFolders.indexOf(i.Id) !== -1;
 
             var checkedHtml = isChecked ? ' checked="checked"' : '';
 
