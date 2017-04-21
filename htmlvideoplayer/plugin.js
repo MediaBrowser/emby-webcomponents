@@ -1,4 +1,4 @@
-define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager', 'itemHelper'], function (browser, pluginManager, events, appHost, loading, playbackManager, embyRouter, appSettings, connectionManager, itemHelper) {
+define(['browser', 'require', 'events', 'apphost', 'loading', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager'], function (browser, require, events, appHost, loading, playbackManager, embyRouter, appSettings, connectionManager) {
     "use strict";
 
     return function () {
@@ -1429,7 +1429,7 @@ define(['browser', 'pluginManager', 'events', 'apphost', 'loading', 'playbackMan
 
                 if (!dlg) {
 
-                    require(['css!' + pluginManager.mapPath(self, 'style.css')], function () {
+                    require(['css!./style'], function () {
 
                         loading.show();
 

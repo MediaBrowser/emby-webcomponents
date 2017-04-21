@@ -1,4 +1,4 @@
-define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', 'itemHelper'], function (events, browser, pluginManager, appHost, appSettings, itemHelper) {
+define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], function (events, browser, pluginManager, appHost, appSettings) {
     "use strict";
 
     return function () {
