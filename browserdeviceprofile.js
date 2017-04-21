@@ -368,15 +368,6 @@ define(['browser'], function (browser) {
             mp4VideoCodecs.push('hevc');
         }
 
-        if (mp4VideoCodecs.length) {
-            profile.DirectPlayProfiles.push({
-                Container: 'mp4,m4v',
-                Type: 'Video',
-                VideoCodec: mp4VideoCodecs.join(','),
-                AudioCodec: videoAudioCodecs.join(',')
-            });
-        }
-
         if (supportsMpeg2Video()) {
             mp4VideoCodecs.push('mpeg2video');
         }
@@ -387,6 +378,15 @@ define(['browser'], function (browser) {
 
         if (browser.tizen || browser.orsay) {
             mp4VideoCodecs.push('msmpeg4v2');
+        }
+
+        if (mp4VideoCodecs.length) {
+            profile.DirectPlayProfiles.push({
+                Container: 'mp4,m4v',
+                Type: 'Video',
+                VideoCodec: mp4VideoCodecs.join(','),
+                AudioCodec: videoAudioCodecs.join(',')
+            });
         }
 
         if (canPlayMkv && mp4VideoCodecs.length) {

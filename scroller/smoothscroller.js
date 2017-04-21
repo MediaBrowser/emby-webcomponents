@@ -200,16 +200,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
             var observerOptions = {};
 
-            self.frameResizeObserver = new ResizeObserver(function (entries) {
-                for (var j = 0, length2 = entries.length; j < length2; j++) {
-                    var entry = entries[j];
-                    var target = entry.target;
-                    console.log('resize: ' + frame.className);
-                    onResize();
-                }
-            },
-            observerOptions
-            );
+            self.frameResizeObserver = new ResizeObserver(onResize, observerOptions);
 
             self.frameResizeObserver.observe(frame);
         }
