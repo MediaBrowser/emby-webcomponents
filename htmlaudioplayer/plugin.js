@@ -1,7 +1,61 @@
 define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], function (events, browser, pluginManager, appHost, appSettings) {
     "use strict";
 
-    return function () {
+    function getSavedVolume() {
+        return appSettings.get("volume") || 1;
+    }
+
+    function saveVolume(value) {
+        if (value) {
+            appSettings.set("volume", value);
+        }
+    }
+
+    function getDefaultProfile() {
+
+        return new Promise(function (resolve, reject) {
+
+            require(['browserdeviceprofile'], function (profileBuilder) {
+
+                resolve(profileBuilder({}));
+            });
+        });
+    }
+
+    var fadeTimeout;
+
+    function fade(elem, startingVolume) {
+
+        // Need to record the starting volume on each pass rather than querying elem.volume
+        // This is due to iOS safari not allowing volume changes and always returning the system volume value
+
+        var newVolume = Math.max(0, startingVolume - 0.15);
+        console.log('fading volume to ' + newVolume);
+        elem.volume = newVolume;
+
+        if (newVolume <= 0) {
+            return Promise.resolve();
+        }
+
+        return new Promise(function (resolve, reject) {
+
+            cancelFadeTimeout();
+
+            fadeTimeout = setTimeout(function () {
+                fade(elem, newVolume).then(resolve, reject);
+            }, 100);
+        });
+    }
+
+    function cancelFadeTimeout() {
+        var timeout = fadeTimeout;
+        if (timeout) {
+            clearTimeout(timeout);
+            fadeTimeout = null;
+        }
+    }
+
+    function HtmlAudioPlayer() {
 
         var self = this;
 
@@ -12,46 +66,9 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
         // Let any players created by plugins take priority
         self.priority = 1;
 
-        var mediaElement;
         var currentSrc;
         var currentPlayOptions;
         var started;
-        var _currentTime;
-
-        function getSavedVolume() {
-            return appSettings.get("volume") || 1;
-        }
-
-        function saveVolume(value) {
-            if (value) {
-                appSettings.set("volume", value);
-            }
-        }
-
-        self.canPlayMediaType = function (mediaType) {
-
-            return (mediaType || '').toLowerCase() === 'audio';
-        };
-
-        function getDefaultProfile() {
-
-            return new Promise(function (resolve, reject) {
-
-                require(['browserdeviceprofile'], function (profileBuilder) {
-
-                    resolve(profileBuilder({}));
-                });
-            });
-        }
-
-        self.getDeviceProfile = function (item) {
-
-            if (appHost.getDeviceProfile) {
-                return appHost.getDeviceProfile(item);
-            }
-
-            return getDefaultProfile();
-        };
 
         self.currentSrc = function () {
             return currentSrc;
@@ -73,12 +90,37 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
             });
         }
 
+        function createMediaElement() {
+
+            var elem = document.querySelector('.mediaPlayerAudio');
+
+            if (!elem) {
+                elem = document.createElement('audio');
+                elem.classList.add('mediaPlayerAudio');
+                elem.classList.add('hide');
+
+                document.body.appendChild(elem);
+
+                elem.volume = getSavedVolume();
+
+                elem.addEventListener('timeupdate', onTimeUpdate);
+                elem.addEventListener('ended', onEnded);
+                elem.addEventListener('volumechange', onVolumeChange);
+                elem.addEventListener('pause', onPause);
+                elem.addEventListener('playing', onPlaying);
+                elem.addEventListener('error', onError);
+            }
+
+            return elem;
+        }
+
         self.play = function (options) {
 
-            _currentTime = null;
+            self._currentTime = null;
 
             started = false;
             var elem = createMediaElement();
+            self.mediaElement = elem;
 
             var val = options.url;
 
@@ -156,35 +198,6 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
             return 'anonymous';
         }
 
-        // Save this for when playback stops, because querying the time at that point might return 0
-        self.currentTime = function (val) {
-
-            if (mediaElement) {
-                if (val != null) {
-                    mediaElement.currentTime = val / 1000;
-                    return;
-                }
-
-                if (_currentTime) {
-                    return _currentTime * 1000;
-                }
-
-                return (mediaElement.currentTime || 0) * 1000;
-            }
-        };
-
-        self.duration = function (val) {
-
-            if (mediaElement) {
-                var duration = mediaElement.duration;
-                if (duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY) {
-                    return duration * 1000;
-                }
-            }
-
-            return null;
-        };
-
         function supportsFade() {
 
             if (browser.tv) {
@@ -200,7 +213,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
 
             cancelFadeTimeout();
 
-            var elem = mediaElement;
+            var elem = self.mediaElement;
             var src = currentSrc;
 
             if (elem && src) {
@@ -234,105 +247,6 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
             return Promise.resolve();
         };
 
-        self.destroy = function () {
-
-        };
-
-        var fadeTimeout;
-
-        function fade(elem, startingVolume) {
-
-            // Need to record the starting volume on each pass rather than querying elem.volume
-            // This is due to iOS safari not allowing volume changes and always returning the system volume value
-
-            var newVolume = Math.max(0, startingVolume - 0.15);
-            console.log('fading volume to ' + newVolume);
-            elem.volume = newVolume;
-
-            if (newVolume <= 0) {
-                return Promise.resolve();
-            }
-
-            return new Promise(function (resolve, reject) {
-
-                cancelFadeTimeout();
-
-                fadeTimeout = setTimeout(function () {
-                    fade(elem, newVolume).then(resolve, reject);
-                }, 100);
-            });
-        }
-
-        function cancelFadeTimeout() {
-            var timeout = fadeTimeout;
-            if (timeout) {
-                clearTimeout(timeout);
-                fadeTimeout = null;
-            }
-        }
-
-        self.pause = function () {
-            if (mediaElement) {
-                mediaElement.pause();
-            }
-        };
-
-        // This is a retry after error
-        self.resume = function () {
-            if (mediaElement) {
-                mediaElement.play();
-            }
-        };
-
-        self.unpause = function () {
-            if (mediaElement) {
-                mediaElement.play();
-            }
-        };
-
-        self.paused = function () {
-
-            if (mediaElement) {
-                return mediaElement.paused;
-            }
-
-            return false;
-        };
-
-        self.setVolume = function (val) {
-            if (mediaElement) {
-                mediaElement.volume = val / 100;
-            }
-        };
-
-        self.getVolume = function () {
-            if (mediaElement) {
-                return mediaElement.volume * 100;
-            }
-        };
-
-        self.volumeUp = function () {
-            self.setVolume(Math.min(self.getVolume() + 2, 100));
-        };
-
-        self.volumeDown = function () {
-            self.setVolume(Math.max(self.getVolume() - 2, 0));
-        };
-
-        self.setMute = function (mute) {
-
-            if (mediaElement) {
-                mediaElement.muted = mute;
-            }
-        };
-
-        self.isMuted = function () {
-            if (mediaElement) {
-                return mediaElement.muted;
-            }
-            return false;
-        };
-
         function onEnded() {
 
             var stopInfo = {
@@ -341,7 +255,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
 
             events.trigger(self, 'stopped', [stopInfo]);
 
-            _currentTime = null;
+            self._currentTime = null;
             currentSrc = null;
             currentPlayOptions = null;
         }
@@ -351,7 +265,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
             // Get the player position + the transcoding offset
             var time = this.currentTime;
 
-            _currentTime = time;
+            self._currentTime = time;
             events.trigger(self, 'timeupdate');
         }
 
@@ -445,32 +359,6 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
             }]);
         }
 
-        function createMediaElement() {
-
-            var elem = document.querySelector('.mediaPlayerAudio');
-
-            if (!elem) {
-                elem = document.createElement('audio');
-                elem.classList.add('mediaPlayerAudio');
-                elem.classList.add('hide');
-
-                document.body.appendChild(elem);
-
-                elem.volume = getSavedVolume();
-
-                elem.addEventListener('timeupdate', onTimeUpdate);
-                elem.addEventListener('ended', onEnded);
-                elem.addEventListener('volumechange', onVolumeChange);
-                elem.addEventListener('pause', onPause);
-                elem.addEventListener('playing', onPlaying);
-                elem.addEventListener('error', onError);
-            }
-
-            mediaElement = elem;
-
-            return elem;
-        }
-
         function onDocumentClick() {
             document.removeEventListener('click', onDocumentClick);
 
@@ -493,5 +381,127 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
         if (!appHost.supports('htmlaudioautoplay')) {
             document.addEventListener('click', onDocumentClick);
         }
+    }
+
+    HtmlAudioPlayer.prototype.canPlayMediaType = function (mediaType) {
+
+        return (mediaType || '').toLowerCase() === 'audio';
     };
+
+    HtmlAudioPlayer.prototype.getDeviceProfile = function (item) {
+
+        if (appHost.getDeviceProfile) {
+            return appHost.getDeviceProfile(item);
+        }
+
+        return getDefaultProfile();
+    };
+
+    // Save this for when playback stops, because querying the time at that point might return 0
+    HtmlAudioPlayer.prototype.currentTime = function (val) {
+
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            if (val != null) {
+                mediaElement.currentTime = val / 1000;
+                return;
+            }
+
+            var currentTime = this._currentTime;
+            if (currentTime) {
+                return currentTime * 1000;
+            }
+
+            return (mediaElement.currentTime || 0) * 1000;
+        }
+    };
+
+    HtmlAudioPlayer.prototype.duration = function (val) {
+
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            var duration = mediaElement.duration;
+            if (duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY) {
+                return duration * 1000;
+            }
+        }
+
+        return null;
+    };
+
+    HtmlAudioPlayer.prototype.pause = function () {
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            mediaElement.pause();
+        }
+    };
+
+    // This is a retry after error
+    HtmlAudioPlayer.prototype.resume = function () {
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            mediaElement.play();
+        }
+    };
+
+    HtmlAudioPlayer.prototype.unpause = function () {
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            mediaElement.play();
+        }
+    };
+
+    HtmlAudioPlayer.prototype.paused = function () {
+
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            return mediaElement.paused;
+        }
+
+        return false;
+    };
+
+    HtmlAudioPlayer.prototype.setVolume = function (val) {
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            mediaElement.volume = val / 100;
+        }
+    };
+
+    HtmlAudioPlayer.prototype.getVolume = function () {
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            return mediaElement.volume * 100;
+        }
+    };
+
+    HtmlAudioPlayer.prototype.volumeUp = function () {
+        this.setVolume(Math.min(this.getVolume() + 2, 100));
+    };
+
+    HtmlAudioPlayer.prototype.volumeDown = function () {
+        this.setVolume(Math.max(this.getVolume() - 2, 0));
+    };
+
+    HtmlAudioPlayer.prototype.setMute = function (mute) {
+
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            mediaElement.muted = mute;
+        }
+    };
+
+    HtmlAudioPlayer.prototype.isMuted = function () {
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+            return mediaElement.muted;
+        }
+        return false;
+    };
+
+    HtmlAudioPlayer.prototype.destroy = function () {
+
+    };
+
+    return HtmlAudioPlayer;
 });

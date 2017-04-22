@@ -265,6 +265,17 @@ define(['browser'], function (browser) {
             return 11000000;
         }
 
+        var isTizenFhd = false;
+        if (browser.tizen) {
+            try {
+                var isTizenUhd = webapis.productinfo.isUdPanelSupported();
+                isTizenFhd = !isTizenUhd;
+                console.log("isTizenFhd = " + isTizenFhd);
+            } catch (error) {
+                console.log("isUdPanelSupported() error code = " + error.code);
+            }
+        }
+
         return browser.ps4 ? 8000000 :
             (browser.xboxOne ? 10000000 :
             (browser.edgeUwp ? 40000000 :
@@ -621,17 +632,6 @@ define(['browser'], function (browser) {
                 Value: 'false',
                 IsRequired: false
             });
-        }
-
-        var isTizenFhd = false;
-        if (browser.tizen) {
-            try {
-                var isTizenUhd = webapis.productinfo.isUdPanelSupported();
-                isTizenFhd = !isTizenUhd;
-                console.log("isTizenFhd = " + isTizenFhd);
-            } catch (error) {
-                console.log("isUdPanelSupported() error code = " + error.code);
-            }
         }
 
         var globalMaxVideoBitrate = (getGlobalMaxVideoBitrate() || '').toString();

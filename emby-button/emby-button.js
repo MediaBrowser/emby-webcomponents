@@ -107,7 +107,10 @@
             dom.addEventListener(this, 'keydown', onKeyDown, {
                 passive: true
             });
-            if (browser.safari) {
+
+            // Adding this event to mousedown for A elements in firefox makes them unclickable,
+            // if the click is on the animated element
+            if (browser.safari || (browser.firefox && this.tagName === 'A')) {
                 dom.addEventListener(this, 'click', onClick, {
                     passive: true
                 });

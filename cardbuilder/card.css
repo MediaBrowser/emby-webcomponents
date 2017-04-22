@@ -636,10 +636,6 @@ button {
 
 @media all and (min-width: 1800px) {
 
-    .smallBackdropCard-scalable {
-        width: 10%;
-    }
-
     .overflowBackdropCard-scalable {
         width: 23.5vw;
     }
