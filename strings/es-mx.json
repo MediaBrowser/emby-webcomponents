@@ -430,5 +430,7 @@
     "HeaderLibraryFolders": "Carpetas de Biblioteca",
     "HeaderLandingScreens": "Pantallas de Llegada",
     "LandingScreensHelp": "Seleccione la pantalla de llegada por defecto al dar clic sobre una biblioteca.",
-    "HeaderTermsOfPurchase": "T\u00e9rminos de Compra"
+    "HeaderTermsOfPurchase": "T\u00e9rminos de Compra",
+    "PrivacyPolicy": "Privacy policy",
+    "TermsOfUse": "Terms of use"
 }

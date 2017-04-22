@@ -40,6 +40,14 @@
     box-shadow: none;
 }
 
+.button-link {
+    background: transparent;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    color: #52B54B;
+}
+
 .button-flat-accent {
     color: #52B54B;
 }

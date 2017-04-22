@@ -430,5 +430,7 @@
     "HeaderLibraryFolders": "Pastas da Biblioteca",
     "HeaderLandingScreens": "Telas de Entrada",
     "LandingScreensHelp": "Selecione a tela de entrada padr\u00e3o quando clicar em uma biblioteca.",
-    "HeaderTermsOfPurchase": "Terms of Purchase"
+    "HeaderTermsOfPurchase": "Terms of Purchase",
+    "PrivacyPolicy": "Privacy policy",
+    "TermsOfUse": "Terms of use"
 }

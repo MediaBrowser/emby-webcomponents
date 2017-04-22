@@ -430,5 +430,7 @@
     "HeaderLibraryFolders": "Bibliotheksverzeichnisse",
     "HeaderLandingScreens": "Einstiegsbildschirme",
     "LandingScreensHelp": "W\u00e4hle den Standard-Einstiegsbildschirm bei Klick auf eine Bibliothek.",
-    "HeaderTermsOfPurchase": "Terms of Purchase"
+    "HeaderTermsOfPurchase": "Terms of Purchase",
+    "PrivacyPolicy": "Privacy policy",
+    "TermsOfUse": "Terms of use"
 }

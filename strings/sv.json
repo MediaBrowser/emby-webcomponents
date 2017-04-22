@@ -430,5 +430,7 @@
     "HeaderLibraryFolders": "Library Folders",
     "HeaderLandingScreens": "Landing Screens",
     "LandingScreensHelp": "Select the default landing screen when clicking on a library.",
-    "HeaderTermsOfPurchase": "Terms of Purchase"
+    "HeaderTermsOfPurchase": "Terms of Purchase",
+    "PrivacyPolicy": "Privacy policy",
+    "TermsOfUse": "Terms of use"
 }

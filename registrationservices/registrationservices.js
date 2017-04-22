@@ -1,4 +1,4 @@
-﻿define(['appSettings', 'loading', 'apphost', 'iapManager', 'events', 'shell', 'globalize', 'dialogHelper', 'connectionManager', 'layoutManager', 'emby-button'], function (appSettings, loading, appHost, iapManager, events, shell, globalize, dialogHelper, connectionManager, layoutManager) {
+﻿define(['appSettings', 'loading', 'apphost', 'iapManager', 'events', 'shell', 'globalize', 'dialogHelper', 'connectionManager', 'layoutManager', 'emby-button', 'emby-linkbutton'], function (appSettings, loading, appHost, iapManager, events, shell, globalize, dialogHelper, connectionManager, layoutManager) {
     'use strict';
 
     var currentDisplayingProductInfos = [];
@@ -279,6 +279,29 @@
         return '<li>' + term + '</li>';
     }
 
+    function getTermsOfPurchaseHtml() {
+
+        var html = '';
+
+        var termsOfPurchase = iapManager.getTermsOfPurchase ? iapManager.getTermsOfPurchase() : [];
+
+        if (!termsOfPurchase.length) {
+
+            return html;
+        }
+
+        html += '<h1>' + globalize.translate('sharedcomponents#HeaderTermsOfPurchase') + '</h1>';
+
+        termsOfPurchase.push('<a is="emby-linkbutton" class="button-link" href="https://emby.media/privacy" target="_blank">' + globalize.translate('sharedcomponents#PrivacyPolicy') + '</a>');
+        termsOfPurchase.push('<a is="emby-linkbutton" class="button-link" href="https://emby.media/terms" target="_blank">' + globalize.translate('sharedcomponents#TermsOfUse') + '</a>');
+
+        html += '<ul>';
+        html += termsOfPurchase.map(getPurchaseTermHtml).join('');
+        html += '</ul>';
+
+        return html;
+    }
+
     function showInAppPurchaseElement(subscriptionOptions, unlockableProductInfo, dialogOptions, resolve, reject) {
 
         cancelInAppPurchase();
@@ -367,15 +390,7 @@
             html += '</p>';
         }
 
-        var termsOfPurchase = iapManager.getTermsOfPurchase ? iapManager.getTermsOfPurchase() : [];
-        if (termsOfPurchase.length) {
-
-            html += '<h1>' + globalize.translate('sharedcomponents#HeaderTermsOfPurchase') + '</h1>';
-
-            html += '<ul>';
-            html += termsOfPurchase.map(getPurchaseTermHtml).join('');
-            html += '</ul>';
-        }
+        html += getTermsOfPurchaseHtml();
 
         html += '</form>';
         html += '</div>';
