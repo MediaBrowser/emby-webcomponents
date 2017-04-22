@@ -425,10 +425,10 @@
     "Suggestions": "Empfehlungen",
     "Favorites": "Favoriten",
     "Collections": "Sammlungen",
-    "LabelSelectFolderGroups": "Automatically group content from the following folders into views such as Movies, Music and TV:",
-    "LabelSelectFolderGroupsHelp": "Folders that are unchecked will be displayed by themselves in their own view.",
+    "LabelSelectFolderGroups": "Gruppiere Inhalte von folgenden Verzeichnissen automatisch zu Ansichten wie beispielsweise Filme, Musik und TV:",
+    "LabelSelectFolderGroupsHelp": "Verzeichnisse die nicht markiert sind werden alleine mit ihren eigenen Ansichten angezeigt.",
     "Shows": "Serien",
-    "HeaderLibraryFolders": "Library Folders",
+    "HeaderLibraryFolders": "Bibliotheksverzeichnisse",
     "HeaderLandingScreens": "Einstiegsbildschirme",
     "LandingScreensHelp": "W\u00e4hle den Standard-Einstiegsbildschirm bei Klick auf eine Bibliothek."
 }

@@ -428,7 +428,7 @@
     "LabelSelectFolderGroups": "Agrupar autom\u00e1ticamente el contenido de las siguientes carpetas en vistas tales como Pel\u00edculas, M\u00fasica y TV:",
     "LabelSelectFolderGroupsHelp": "Las carpetas sin marcar ser\u00e1n mostradas individualmente en su propia vista.",
     "Shows": "Programas",
-    "HeaderLibraryFolders": "Library Folders",
+    "HeaderLibraryFolders": "Carpetas de Biblioteca",
     "HeaderLandingScreens": "Pantallas de Llegada",
     "LandingScreensHelp": "Seleccione la pantalla de llegada por defecto al dar clic sobre una biblioteca."
 }
