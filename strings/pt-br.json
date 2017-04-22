@@ -48,8 +48,7 @@
     "HeaderOfflineDownloads": "M\u00eddia Offline",
     "HeaderOfflineDownloadsDescription": "Download sua m\u00eddia para seus dispositivos para uso offline f\u00e1cil.",
     "CloudSyncFeatureDescription": "Sincronize sua m\u00eddia para a nuvem para backup, arquivamento e convers\u00e3o f\u00e1ceis.",
-    "CoverArtFeatureDescription": "Arta da Capa cria capas divertidas e d\u00e1 outros tratamentos para ajudar na personaliza\u00e7\u00e3o das imagens da sua m\u00eddia.",
-    "CoverArt": "Arta da Capa",
+    "DvrFeatureDescription": "Schedule individual Live TV recordings, series recordings, and more with Emby DVR.",
     "ButtonCancelSyncJob": "Cancelar download",
     "CancelSyncJobConfirmation": "Cancelar a tarefa de sincroniza\u00e7\u00e3o remover\u00e1 as m\u00eddias transferidas do dispositivo durante o pr\u00f3ximo processo de sincroniza\u00e7\u00e3o. Deseja realmente continuar?",
     "CinemaModeFeatureDescription": "Modo Cinema oferece a voc\u00ea uma verdadeira experi\u00eancia de cinema com trailers e intros customizados antes da funcionalidade.",
@@ -430,5 +429,6 @@
     "Shows": "S\u00e9ries",
     "HeaderLibraryFolders": "Pastas da Biblioteca",
     "HeaderLandingScreens": "Telas de Entrada",
-    "LandingScreensHelp": "Selecione a tela de entrada padr\u00e3o quando clicar em uma biblioteca."
+    "LandingScreensHelp": "Selecione a tela de entrada padr\u00e3o quando clicar em uma biblioteca.",
+    "HeaderTermsOfPurchase": "Terms of Purchase"
 }
