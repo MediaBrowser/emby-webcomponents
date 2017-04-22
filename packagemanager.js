@@ -81,7 +81,12 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
     PackageManager.prototype.init = function () {
         var manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
 
-        return Promise.all(manifestUrls.map(loadPackage)).then(function () {
+        var self = this;
+        return Promise.all(manifestUrls.map(function (u) {
+
+            return loadPackage(self, u);
+
+        })).then(function () {
             return Promise.resolve();
         }, function () {
             return Promise.resolve();
@@ -94,7 +99,7 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
 
     PackageManager.prototype.install = function (url) {
 
-        return loadPackage(url, true).then(function (pkg) {
+        return loadPackage(this, url, true).then(function (pkg) {
 
             var manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
 

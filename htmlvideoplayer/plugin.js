@@ -1,6 +1,19 @@
 define(['browser', 'require', 'events', 'apphost', 'loading', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager'], function (browser, require, events, appHost, loading, playbackManager, embyRouter, appSettings, connectionManager) {
     "use strict";
 
+    function tryRemoveElement(elem) {
+        var parentNode = elem.parentNode;
+        if (parentNode) {
+
+            // Seeing crashes in edge webview
+            try {
+                parentNode.removeChild(elem);
+            } catch (err) {
+                console.log('Error removing dialog element: ' + err);
+            }
+        }
+    }
+
     return function () {
 
         var self = this;
@@ -1052,7 +1065,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'playbackManager',
 
             if (videoSubtitlesElem) {
                 var subtitlesContainer = videoSubtitlesElem.parentNode;
-                subtitlesContainer.parentNode.removeChild(subtitlesContainer);
+                if (subtitlesContainer) {
+                    tryRemoveElement(subtitlesContainer);
+                }
                 videoSubtitlesElem = null;
             }
 
@@ -1142,7 +1157,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'playbackManager',
                         } catch (ex) {
                         }
                     });
-                }, function() {
+                }, function () {
                     onErrorInternal('mediadecodeerror');
                 });
             });

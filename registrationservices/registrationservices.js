@@ -274,6 +274,11 @@
         });
     }
 
+    function getPurchaseTermHtml(term) {
+
+        return '<li>' + term + '</li>';
+    }
+
     function showInAppPurchaseElement(subscriptionOptions, unlockableProductInfo, dialogOptions, resolve, reject) {
 
         cancelInAppPurchase();
@@ -362,6 +367,16 @@
             html += '</p>';
         }
 
+        var termsOfPurchase = iapManager.getTermsOfPurchase ? iapManager.getTermsOfPurchase() : [];
+        if (termsOfPurchase.length) {
+
+            html += '<h1>' + globalize.translate('sharedcomponents#HeaderTermsOfPurchase') + '</h1>';
+
+            html += '<ul>';
+            html += termsOfPurchase.map(getPurchaseTermHtml).join('');
+            html += '</ul>';
+        }
+
         html += '</form>';
         html += '</div>';
         html += '</div>';
@@ -436,33 +451,33 @@
 
         list.push({
             name: globalize.translate('sharedcomponents#HeaderFreeApps'),
-            icon: 'check',
+            icon: '&#xE5CA;',
             text: globalize.translate('sharedcomponents#FreeAppsFeatureDescription')
         });
 
         if (appHost.supports('sync')) {
             list.push({
                 name: globalize.translate('sharedcomponents#HeaderOfflineDownloads'),
-                icon: 'file_download',
+                icon: '&#xE2C4;',
                 text: globalize.translate('sharedcomponents#HeaderOfflineDownloadsDescription')
             });
         }
 
         list.push({
-            name: globalize.translate('sharedcomponents#CoverArt'),
-            icon: 'photo',
-            text: globalize.translate('sharedcomponents#CoverArtFeatureDescription')
+            name: 'Emby DVR',
+            icon: '&#xE1B2;',
+            text: globalize.translate('sharedcomponents#DvrFeatureDescription')
         });
 
         list.push({
             name: globalize.translate('sharedcomponents#HeaderCinemaMode'),
-            icon: 'movie',
+            icon: '&#xE02C;',
             text: globalize.translate('sharedcomponents#CinemaModeFeatureDescription')
         });
 
         list.push({
             name: globalize.translate('sharedcomponents#HeaderCloudSync'),
-            icon: 'sync',
+            icon: '&#xE627;',
             text: globalize.translate('sharedcomponents#CloudSyncFeatureDescription')
         });
 
