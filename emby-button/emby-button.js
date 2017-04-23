@@ -66,10 +66,6 @@
         return true;
     }
 
-    function onClickOpenTarget(e) {
-        shell.openUrl(this.getAttribute('data-target'));
-    }
-
     function onAnchorClick(e) {
 
         var href = this.getAttribute('href');
@@ -77,8 +73,10 @@
         if (href !== '#') {
 
             if (this.getAttribute('target')) {
-                e.preventDefault();
-                shell.openUrl(href);
+                if (!appHost.supports('targetblank')) {
+                    e.preventDefault();
+                    shell.openUrl(href);
+                }
             } else {
                 embyRouter.handleAnchorClick(e);
             }
@@ -132,17 +130,8 @@
 
             dom.addEventListener(this, 'click', onAnchorClick, {
             });
-        }
-        else if (this.getAttribute('data-target')) {
-            dom.removeEventListener(this, 'click', onClickOpenTarget, {
-                passive: true
-            });
 
-            dom.addEventListener(this, 'click', onClickOpenTarget, {
-                passive: true
-            });
-
-            if (this.getAttribute('data-autohide') !== 'false') {
+            if (this.getAttribute('data-autohide') === 'true') {
                 if (appHost.supports('externallinks')) {
                     this.classList.remove('hide');
                 } else {

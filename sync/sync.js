@@ -1,4 +1,4 @@
-﻿define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'shell', 'focusManager', 'scrollHelper', 'appSettings', 'registrationServices', 'dialogHelper', 'paper-icon-button-light', 'formDialogStyle'], function (appHost, globalize, connectionManager, layoutManager, shell, focusManager, scrollHelper, appSettings, registrationServices, dialogHelper) {
+﻿define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusManager', 'scrollHelper', 'appSettings', 'registrationServices', 'dialogHelper', 'paper-icon-button-light', 'formDialogStyle'], function (appHost, globalize, connectionManager, layoutManager, focusManager, scrollHelper, appSettings, registrationServices, dialogHelper) {
     'use strict';
 
     var currentDialogOptions;
@@ -168,14 +168,6 @@
         });
     }
 
-    function onHelpLinkClick(e) {
-
-        shell.openUrl(this.href);
-
-        e.preventDefault();
-        return false;
-    }
-
     function renderFormInternal(options, appInfo, resolve) {
 
         var elem = options.elem;
@@ -212,7 +204,7 @@
             html += '</select>';
             if (!targets.length) {
                 html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#LabelSyncNoTargetsHelp') + '</div>';
-                html += '<div class="fieldDescription"><a class="lnkLearnMore" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('sharedcomponents#LearnMore') + '</a></div>';
+                html += '<div class="fieldDescription"><a is="emby-linkbutton" class="button-link lnkLearnMore" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('sharedcomponents#LearnMore') + '</a></div>';
             }
             html += '</div>';
         }
@@ -296,11 +288,6 @@
             selectQuality.dispatchEvent(new CustomEvent('change', {
                 bubbles: true
             }));
-        }
-
-        var lnkLearnMore = elem.querySelector('.lnkLearnMore');
-        if (lnkLearnMore) {
-            lnkLearnMore.addEventListener('click', onHelpLinkClick);
         }
 
         // This isn't ideal, but allow time for the change handlers above to run
@@ -399,7 +386,7 @@
             html += syncButtonLabel;
             html += '</h3>';
 
-            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="clearLink lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><button is="emby-button" type="button" class="button-accent-flat button-flat"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></button></a>';
+            html += '<a is="emby-linkbutton" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></a>';
 
             html += '</div>';
 

@@ -1,4 +1,4 @@
-define(['globalize', 'loading', 'alert'], function (globalize, loading, alert) {
+define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize, loading, alert) {
     'use strict';
 
     function showNewUserInviteMessage(result) {
@@ -67,7 +67,7 @@ define(['globalize', 'loading', 'alert'], function (globalize, loading, alert) {
 
     function showGuestGeneralErrorMessage() {
 
-        var html = globalize.translate('ErrorAddingGuestAccount1', '<a href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
+        var html = globalize.translate('ErrorAddingGuestAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
         html += '<br/><br/>' + globalize.translate('ErrorAddingGuestAccount2', 'apps@emby.media');
 
         var text = globalize.translate('ErrorAddingGuestAccount1', 'https://emby.media/connect');
@@ -86,7 +86,7 @@ define(['globalize', 'loading', 'alert'], function (globalize, loading, alert) {
 
         if (username) {
 
-            html = globalize.translate('ErrorAddingEmbyConnectAccount1', '<a href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
+            html = globalize.translate('ErrorAddingEmbyConnectAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
             html += '<br/><br/>' + globalize.translate('ErrorAddingEmbyConnectAccount2', 'apps@emby.media');
 
             text = globalize.translate('ErrorAddingEmbyConnectAccount1', 'https://emby.media/connect');

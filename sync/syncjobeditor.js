@@ -1,4 +1,4 @@
-﻿define(['connectionManager', 'serverNotifications', 'events', 'datetime', 'dom', 'imageLoader', 'loading', 'globalize', 'apphost', 'layoutManager', 'scrollHelper', 'dialogHelper', 'shell', 'listViewStyle', 'paper-icon-button-light', 'emby-button', 'formDialogStyle'], function (connectionManager, serverNotifications, events, datetime, dom, imageLoader, loading, globalize, appHost, layoutManager, scrollHelper, dialogHelper, shell) {
+﻿define(['connectionManager', 'serverNotifications', 'events', 'datetime', 'dom', 'imageLoader', 'loading', 'globalize', 'apphost', 'layoutManager', 'scrollHelper', 'dialogHelper', 'listViewStyle', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'emby-linkbutton'], function (connectionManager, serverNotifications, events, datetime, dom, imageLoader, loading, globalize, appHost, layoutManager, scrollHelper, dialogHelper) {
     'use strict';
 
     function renderJob(context, job, dialogOptions) {
@@ -376,14 +376,6 @@
 
     }
 
-    function onHelpLinkClick(e) {
-
-        shell.openUrl(this.href);
-
-        e.preventDefault();
-        return false;
-    }
-
     function startListening(apiClient, jobId) {
 
         var startParams = "0,1500";
@@ -440,7 +432,7 @@
         html += globalize.translate('sharedcomponents#Sync');
         html += '</h3>';
 
-        html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="clearLink lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><button is="emby-button" type="button" class="button-accent-flat button-flat"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></button></a>';
+        html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" is="emby-linkbutton" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></a>';
 
         html += '</div>';
 
@@ -463,8 +455,6 @@
         html += '</div>';
 
         dlg.innerHTML = html;
-
-        dlg.querySelector('.lnkHelp').addEventListener('click', onHelpLinkClick);
 
         var submitted = false;
 
