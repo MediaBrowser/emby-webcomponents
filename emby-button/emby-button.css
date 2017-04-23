@@ -71,6 +71,10 @@
     height: 1em;
 }
 
+.button-link > i {
+    font-size: 1em;
+}
+
 .fab {
     display: inline-flex;
     border-radius: 50%;

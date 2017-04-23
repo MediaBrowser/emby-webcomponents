@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'cardBuilder', 'connectionManager', 'require', 'globalize', 'scrollHelper', 'layoutManager', 'focusManager', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'cardStyle'], function (dialogHelper, loading, cardBuilder, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager) {
+﻿define(['dialogHelper', 'loading', 'cardBuilder', 'connectionManager', 'require', 'globalize', 'scrollHelper', 'layoutManager', 'focusManager', 'browser', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'cardStyle'], function (dialogHelper, loading, cardBuilder, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager, browser) {
     'use strict';
 
     var currentItem;
@@ -192,8 +192,7 @@
             padderClass = 'cardPadder-portrait';
         }
 
-        if (layoutManager.tv) {
-            cssClass += ' card-focusscale';
+        if (layoutManager.tv && !browser.slow) {
             cardBoxCssClass += ' cardBox-focustransform';
         }
 

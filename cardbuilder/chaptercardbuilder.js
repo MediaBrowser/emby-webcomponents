@@ -92,7 +92,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
         var cardBoxCssClass = 'cardBox';
 
-        if (layoutManager.tv) {
+        if (layoutManager.tv && !browser.slow) {
             cardBoxCssClass += ' cardBox-focustransform card-focuscontent';
         }
 

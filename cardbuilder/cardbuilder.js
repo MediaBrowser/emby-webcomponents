@@ -1137,7 +1137,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
 
             if (layoutManager.tv) {
-                cardBoxClass += ' cardBox-focustransform';
+
+                if (!browser.slow) {
+                    cardBoxClass += ' cardBox-focustransform';
+                }
 
                 if (options.cardLayout || !separateCardBox) {
                     cardBoxClass += ' card-focuscontent';

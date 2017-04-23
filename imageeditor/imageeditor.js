@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light', 'css!./imageeditor'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require) {
+﻿define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'browser', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light', 'css!./imageeditor'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require, browser) {
     'use strict';
 
     var currentItem;
@@ -105,8 +105,7 @@
         if (tagName === 'button') {
             cssClass += ' btnImageCard';
 
-            if (layoutManager.tv) {
-                cssClass += ' card-focusscale';
+            if (layoutManager.tv && !browser.slow) {
                 cardBoxCssClass += ' cardBox-focustransform';
             }
 
