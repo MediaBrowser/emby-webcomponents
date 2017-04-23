@@ -46,6 +46,8 @@
     margin: 0;
     padding: 0;
     color: #52B54B;
+    display: inline;
+    vertical-align: initial;
 }
 
 .button-flat-accent {
