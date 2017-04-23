@@ -409,8 +409,6 @@
 
             dlg.innerHTML = html;
 
-            dlg.querySelector('.lnkHelp').addEventListener('click', onHelpLinkClick);
-
             var submitted = false;
 
             dlg.querySelector('form').addEventListener('submit', function (e) {
