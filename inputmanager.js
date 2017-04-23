@@ -183,9 +183,10 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 playbackManager.toggleAspectRatio();
                 break;
             case 'changeaudiotrack':
-                // TODO
+                playbackManager.changeAudioStream();
                 break;
             case 'changesubtitletrack':
+                playbackManager.changeSubtitleStream();
                 break;
             case 'search':
                 embyRouter.showSearch();

@@ -92,6 +92,15 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
             });
         }
 
+        if (options.sync !== false) {
+            if (itemHelper.canSync(user, item)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#DownloadToOtherDevice'),
+                    id: 'sync'
+                });
+            }
+        }
+
         if (itemHelper.canEdit(user, item)) {
 
             if (options.edit !== false && item.Type !== 'SeriesTimer') {
@@ -216,15 +225,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                 commands.push({
                     name: globalize.translate('sharedcomponents#Shuffle'),
                     id: 'shuffle'
-                });
-            }
-        }
-
-        if (options.sync !== false) {
-            if (itemHelper.canSync(user, item)) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#SyncToOtherDevice'),
-                    id: 'sync'
                 });
             }
         }

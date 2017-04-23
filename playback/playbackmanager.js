@@ -792,6 +792,22 @@
             }
         };
 
+        self.changeAudioStreamIndex = function (player) {
+
+            player = player || currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                return player.changeAudioStreamIndex();
+            }
+        };
+
+        self.changeSubtitleStreamIndex = function (player) {
+
+            player = player || currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                return player.changeSubtitleStreamIndex();
+            }
+        };
+
         self.getAudioStreamIndex = function (player) {
 
             player = player || currentPlayer;
