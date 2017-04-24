@@ -210,7 +210,7 @@
                 ironIcon: 'call-merge'
             });
 
-            if (user.Policy.EnableSync && appHost.supports('sync')) {
+            if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
                 menuItems.push({
                     name: globalize.translate('sharedcomponents#MakeAvailableOffline'),
                     id: 'synclocal'
@@ -232,7 +232,7 @@
                 id: 'refresh'
             });
 
-            if (user.Policy.EnableSync) {
+            if (user.Policy.EnableContentDownloading) {
                 menuItems.push({
                     name: globalize.translate('sharedcomponents#SyncToOtherDevice'),
                     id: 'sync'

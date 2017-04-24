@@ -174,7 +174,7 @@ define(['apphost'], function (appHost) {
 
         canSync: function (user, item) {
 
-            if (user && !user.Policy.EnableSync) {
+            if (user && !user.Policy.EnableContentDownloading) {
                 return false;
             }
 
