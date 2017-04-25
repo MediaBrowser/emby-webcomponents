@@ -322,12 +322,12 @@
             playOptions.startPositionTicks = options.startPositionTicks;
         }
 
-        return sendPlayCommand(getCurrentApiClient(), playOptions, 'PlayNow');
+        return sendPlayCommand(getCurrentApiClient(this), playOptions, 'PlayNow');
     };
 
     SessionPlayer.prototype.shuffle = function (item) {
 
-        sendPlayCommand(getCurrentApiClient(), { ids: [item.Id] }, 'PlayShuffle');
+        sendPlayCommand(getCurrentApiClient(this), { ids: [item.Id] }, 'PlayShuffle');
     };
 
     SessionPlayer.prototype.instantMix = function (item) {
@@ -409,6 +409,14 @@
 
     SessionPlayer.prototype.unpause = function () {
         sendPlayStateCommand(getCurrentApiClient(this), 'Unpause');
+    };
+
+    SessionPlayer.prototype.playPause = function () {
+        if (this.paused()) {
+            this.unpause();
+        } else {
+            this.pause();
+        }
     };
 
     SessionPlayer.prototype.setMute = function (isMuted) {
