@@ -1,4 +1,4 @@
-define(['focusManager', 'layoutManager', 'css!./style.css', 'paper-icon-button-light', 'material-icons'], function (focusManager, layoutManager) {
+define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-button-light', 'material-icons'], function (focusManager, layoutManager, dom) {
     'use strict';
 
     var selectedButtonClass = 'alphaPickerButton-selected';
@@ -85,6 +85,7 @@ define(['focusManager', 'layoutManager', 'css!./style.css', 'paper-icon-button-l
     function AlphaPicker(options) {
 
         var self = this;
+        this.options = options;
 
         var element = options.element;
         var itemsContainer = options.itemsContainer;
@@ -111,22 +112,9 @@ define(['focusManager', 'layoutManager', 'css!./style.css', 'paper-icon-button-l
             }
         }
 
-        function parentWithClass(elem, className) {
-
-            while (!elem.classList || !elem.classList.contains(className)) {
-                elem = elem.parentNode;
-
-                if (!elem) {
-                    return null;
-                }
-            }
-
-            return elem;
-        }
-
         function onAlphaPickerInKeyboardModeClick(e) {
 
-            var alphaPickerButton = parentWithClass(e.target, 'alphaPickerButton');
+            var alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
 
             if (alphaPickerButton) {
                 var value = alphaPickerButton.getAttribute('data-value');
@@ -142,12 +130,12 @@ define(['focusManager', 'layoutManager', 'css!./style.css', 'paper-icon-button-l
 
         function onAlphaPickerClick(e) {
 
-            var alphaPickerButton = parentWithClass(e.target, 'alphaPickerButton');
+            var alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
 
             if (alphaPickerButton) {
                 var value = alphaPickerButton.getAttribute('data-value');
 
-                if (currentValue === value.toUpperCase()) {
+                if (this._currentValue === value.toUpperCase()) {
                     self.value(null, true);
                 } else {
                     self.value(value, true);
@@ -162,7 +150,7 @@ define(['focusManager', 'layoutManager', 'css!./style.css', 'paper-icon-button-l
                 alphaFocusTimeout = null;
             }
 
-            var alphaPickerButton = parentWithClass(e.target, 'alphaPickerButton');
+            var alphaPickerButton = dom.parentWithClass(e.target, 'alphaPickerButton');
 
             if (alphaPickerButton) {
                 alphaFocusedElement = alphaPickerButton;
@@ -172,7 +160,7 @@ define(['focusManager', 'layoutManager', 'css!./style.css', 'paper-icon-button-l
 
         function onItemsFocusIn(e) {
 
-            var item = parentWithClass(e.target, itemClass);
+            var item = dom.parentWithClass(e.target, itemClass);
 
             if (item) {
                 var prefix = item.getAttribute('data-prefix');
@@ -217,91 +205,99 @@ define(['focusManager', 'layoutManager', 'css!./style.css', 'paper-icon-button-l
             }
         };
 
-        self.on = function (name, fn) {
-            element.addEventListener(name, fn);
-        };
+        render(element, options);
 
-        self.off = function (name, fn) {
-            element.removeEventListener(name, fn);
-        };
+        this.enabled(true);
+        this.visible(true);
+    }
 
-        self.destroy = function () {
+    AlphaPicker.prototype.value = function (value, applyValue) {
 
-            self.enabled(false);
-            element.classList.remove('focuscontainer-x');
-        };
+        var element = this.options.element;
+        var btn, selected;
 
-        self.visible = function (visible) {
+        if (value !== undefined) {
+            if (value != null) {
 
-            element.style.visibility = visible ? 'visible' : 'hidden';
-        };
+                value = value.toUpperCase();
+                this._currentValue = value;
 
-        var currentValue;
-        self.value = function (value, applyValue) {
-
-            var btn, selected;
-
-            if (value !== undefined) {
-                if (value != null) {
-
-                    value = value.toUpperCase();
-                    currentValue = value;
-
-                    if (options.mode !== 'keyboard') {
-                        selected = element.querySelector('.' + selectedButtonClass);
-                        btn = element.querySelector('.alphaPickerButton[data-value=\'' + value + '\']');
-
-                        if (btn && btn !== selected) {
-                            btn.classList.add(selectedButtonClass);
-                        }
-                        if (selected && selected !== btn) {
-                            selected.classList.remove(selectedButtonClass);
-                        }
-                    }
-                } else {
-                    currentValue = value;
-
+                if (this.options.mode !== 'keyboard') {
                     selected = element.querySelector('.' + selectedButtonClass);
-                    if (selected) {
+                    btn = element.querySelector('.alphaPickerButton[data-value=\'' + value + '\']');
+
+                    if (btn && btn !== selected) {
+                        btn.classList.add(selectedButtonClass);
+                    }
+                    if (selected && selected !== btn) {
                         selected.classList.remove(selectedButtonClass);
                     }
                 }
+            } else {
+                this._currentValue = value;
+
+                selected = element.querySelector('.' + selectedButtonClass);
+                if (selected) {
+                    selected.classList.remove(selectedButtonClass);
+                }
             }
+        }
 
-            if (applyValue) {
-                element.dispatchEvent(new CustomEvent("alphavaluechanged", {
-                    cancelable: false,
-                    detail: {
-                        value: value
-                    }
-                }));
-            }
+        if (applyValue) {
+            element.dispatchEvent(new CustomEvent("alphavaluechanged", {
+                cancelable: false,
+                detail: {
+                    value: value
+                }
+            }));
+        }
 
-            return currentValue;
-        };
+        return this._currentValue;
+    };
 
-        self.values = function () {
+    AlphaPicker.prototype.on = function (name, fn) {
+        var element = this.options.element;
+        element.addEventListener(name, fn);
+    };
 
-            var elems = element.querySelectorAll('.alphaPickerButton');
-            var values = [];
-            for (var i = 0, length = elems.length; i < length; i++) {
+    AlphaPicker.prototype.off = function (name, fn) {
+        var element = this.options.element;
+        element.removeEventListener(name, fn);
+    };
 
-                values.push(elems[i].getAttribute('data-value'));
+    AlphaPicker.prototype.visible = function (visible) {
 
-            }
+        var element = this.options.element;
+        element.style.visibility = visible ? 'visible' : 'hidden';
+    };
 
-            return values;
-        };
+    AlphaPicker.prototype.values = function () {
 
-        self.focus = function () {
-            focusManager.autoFocus(element, true);
-        };
+        var element = this.options.element;
+        var elems = element.querySelectorAll('.alphaPickerButton');
+        var values = [];
+        for (var i = 0, length = elems.length; i < length; i++) {
 
-        render(element, options);
+            values.push(elems[i].getAttribute('data-value'));
 
-        self.enabled(true);
-        self.visible(true);
-    }
+        }
+
+        return values;
+    };
+
+    AlphaPicker.prototype.focus = function () {
+
+        var element = this.options.element;
+        focusManager.autoFocus(element, true);
+    };
+
+    AlphaPicker.prototype.destroy = function () {
+
+        var element = this.options.element;
+        this.enabled(false);
+        element.classList.remove('focuscontainer-x');
+        this.options = null;
+    };
 
     return AlphaPicker;
 });
