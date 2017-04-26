@@ -242,9 +242,7 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
 
         if (listInstance.options.isLocalSync) {
             options.TargetId = apiClient.deviceId();
-        } else {
-            options.ExcludeTargetIds = apiClient.deviceId();
-        }
+        } 
 
         return apiClient.getJSON(apiClient.getUrl('Sync/Jobs', options)).then(function (response) {
 

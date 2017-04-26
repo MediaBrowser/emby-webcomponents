@@ -1,4 +1,4 @@
-define(['pluginManager', 'events', 'browser', 'embyRouter'], function (pluginManager, Events, browser, embyRouter) {
+define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (require, events, browser, embyRouter, loading) {
     "use strict";
 
     return function () {
@@ -284,7 +284,7 @@ define(['pluginManager', 'events', 'browser', 'embyRouter'], function (pluginMan
                     src: currentSrc
                 };
 
-                Events.trigger(self, 'stopped', [stopInfo]);
+                events.trigger(self, 'stopped', [stopInfo]);
             }
 
             currentSrc = null;
@@ -296,12 +296,12 @@ define(['pluginManager', 'events', 'browser', 'embyRouter'], function (pluginMan
 
         function onTimeUpdate(e) {
 
-            Events.trigger(self, 'timeupdate');
+            events.trigger(self, 'timeupdate');
         }
 
         function onVolumeChange() {
 
-            Events.trigger(self, 'volumechange');
+            events.trigger(self, 'volumechange');
         }
 
         function onPlaying(playOptions, resolve) {
@@ -329,19 +329,19 @@ define(['pluginManager', 'events', 'browser', 'embyRouter'], function (pluginMan
                     loading.hide();
                 });
             }
-            Events.trigger(self, 'playing');
+            events.trigger(self, 'playing');
         }
 
         function onClick() {
-            Events.trigger(self, 'click');
+            events.trigger(self, 'click');
         }
 
         function onDblClick() {
-            Events.trigger(self, 'dblclick');
+            events.trigger(self, 'dblclick');
         }
 
         function onPause() {
-            Events.trigger(self, 'pause');
+            events.trigger(self, 'pause');
         }
 
         function onError() {
@@ -349,7 +349,7 @@ define(['pluginManager', 'events', 'browser', 'embyRouter'], function (pluginMan
             var errorCode = this.error ? this.error.code : '';
             console.log('Media element error code: ' + errorCode);
 
-            Events.trigger(self, 'error');
+            events.trigger(self, 'error');
         }
 
         function zoomIn(elem, iterations) {
@@ -370,7 +370,7 @@ define(['pluginManager', 'events', 'browser', 'embyRouter'], function (pluginMan
 
                 if (!dlg) {
 
-                    require(['loading', 'css!' + pluginManager.mapPath(self, 'style.css')], function (loading) {
+                    require(['css!./style'], function () {
 
                         loading.show();
 

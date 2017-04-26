@@ -2,7 +2,7 @@
     position: relative;
     z-index: 1;
     vertical-align: middle;
-        display: inline-flex;
+    display: inline-flex;
     box-sizing: border-box;
     width: 100%;
     margin: 0;
@@ -18,7 +18,11 @@
 
 .checkboxContainer {
     margin-bottom: 1.8em;
-        display: flex;
+    display: flex;
+}
+
+.checkboxListContainer {
+    margin-bottom: 1.8em;
 }
 
 .checkboxContainer-withDescription {
