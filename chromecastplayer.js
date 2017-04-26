@@ -358,6 +358,7 @@
             deviceId: apiClient.deviceId(),
             accessToken: apiClient.accessToken(),
             serverAddress: apiClient.serverAddress(),
+            serverId: apiClient.serverId(),
             receiverName: receiverName
         });
 
