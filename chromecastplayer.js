@@ -326,6 +326,7 @@
 
             return {
                 Id: i.Id,
+                ServerId: i.ServerId,
                 Name: i.Name,
                 Type: i.Type,
                 MediaType: i.MediaType,
