@@ -224,7 +224,12 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
                 if (this.options.mode !== 'keyboard') {
                     selected = element.querySelector('.' + selectedButtonClass);
-                    btn = element.querySelector('.alphaPickerButton[data-value=\'' + value + '\']');
+
+                    try {
+                        btn = element.querySelector('.alphaPickerButton[data-value=\'' + value + '\']');
+                    } catch (err) {
+                        console.log('Error in querySelector: ' + err);
+                    }
 
                     if (btn && btn !== selected) {
                         btn.classList.add(selectedButtonClass);
