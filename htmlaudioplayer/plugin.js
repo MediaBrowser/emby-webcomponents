@@ -66,13 +66,8 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
         // Let any players created by plugins take priority
         self.priority = 1;
 
-        var currentSrc;
         var currentPlayOptions;
         var started;
-
-        self.currentSrc = function () {
-            return currentSrc;
-        };
 
         function playUwp(options, elem) {
 
@@ -84,7 +79,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
                 var winJsPlaybackItem = new Windows.Media.Playback.MediaPlaybackItem(source1, startTime);
                 playlist.items.append(winJsPlaybackItem);
                 elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
-                currentSrc = elem.src;
+                self._currentSrc = elem.src;
                 currentPlayOptions = options;
                 return playWithPromise(elem);
             });
@@ -157,7 +152,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
                 }
             }
 
-            currentSrc = val;
+            self._currentSrc = val;
             currentPlayOptions = options;
 
             return playWithPromise(elem);
@@ -214,7 +209,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
             cancelFadeTimeout();
 
             var elem = self.mediaElement;
-            var src = currentSrc;
+            var src = self._currentSrc;
 
             if (elem && src) {
 
@@ -250,13 +245,13 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
         function onEnded() {
 
             var stopInfo = {
-                src: currentSrc
+                src: self._currentSrc
             };
 
             events.trigger(self, 'stopped', [stopInfo]);
 
             self._currentTime = null;
-            currentSrc = null;
+            self._currentSrc = null;
             currentPlayOptions = null;
         }
 
@@ -382,6 +377,10 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
             document.addEventListener('click', onDocumentClick);
         }
     }
+
+    HtmlAudioPlayer.prototype.currentSrc = function () {
+        return this._currentSrc;
+    };
 
     HtmlAudioPlayer.prototype.canPlayMediaType = function (mediaType) {
 

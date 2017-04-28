@@ -1,7 +1,138 @@
 define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (require, events, browser, embyRouter, loading) {
     "use strict";
 
-    return function () {
+    function zoomIn(elem, iterations) {
+        var keyframes = [
+            { transform: 'scale3d(.2, .2, .2)  ', opacity: '.6', offset: 0 },
+            { transform: 'none', opacity: '1', offset: 1 }
+        ];
+
+        var timing = { duration: 240, iterations: iterations };
+        return elem.animate(keyframes, timing);
+    }
+
+    function createMediaElement(instance, options) {
+
+        return new Promise(function (resolve, reject) {
+
+            var dlg = document.querySelector('.youtubePlayerContainer');
+
+            if (!dlg) {
+
+                require(['css!./style'], function () {
+
+                    loading.show();
+
+                    var dlg = document.createElement('div');
+
+                    dlg.classList.add('youtubePlayerContainer');
+
+                    if (options.fullscreen) {
+                        dlg.classList.add('onTop');
+                    }
+
+                    dlg.innerHTML = '<div id="player"></div>';
+                    var videoElement = dlg.querySelector('#player');
+
+                    document.body.insertBefore(dlg, document.body.firstChild);
+                    instance.videoDialog = dlg;
+
+                    if (options.fullscreen && dlg.animate && !browser.slow) {
+                        zoomIn(dlg, 1).onfinish = function () {
+                            resolve(videoElement);
+                        };
+                    } else {
+                        resolve(videoElement);
+                    }
+
+                });
+
+            } else {
+                resolve(dlg.querySelector('#player'));
+            }
+        });
+    }
+
+    function onVideoResize() {
+        var instance = this;
+        var player = instance.currentYoutubePlayer;
+        var dlg = instance.videoDialog;
+        if (player && dlg) {
+            player.setSize(dlg.offsetWidth, dlg.offsetHeight);
+        }
+    }
+
+    function clearTimeUpdateInterval(instance) {
+        if (instance.timeUpdateInterval) {
+            clearInterval(instance.timeUpdateInterval);
+        }
+        instance.timeUpdateInterval = null;
+    }
+
+    function onEndedInternal(instance, triggerEnded) {
+
+        clearTimeUpdateInterval(instance);
+        var resizeListener = instance.resizeListener;
+        if (resizeListener) {
+            window.removeEventListener('resize', resizeListener);
+            window.removeEventListener('orientationChange', resizeListener);
+            instance.resizeListener = null;
+        }
+
+        if (triggerEnded) {
+            var stopInfo = {
+                src: instance._currentSrc
+            };
+
+            events.trigger(instance, 'stopped', [stopInfo]);
+        }
+
+        instance._currentSrc = null;
+        if (instance.currentYoutubePlayer) {
+            instance.currentYoutubePlayer.destroy();
+        }
+        instance.currentYoutubePlayer = null;
+    }
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+        event.target.playVideo();
+    }
+
+    function onTimeUpdate(e) {
+
+        events.trigger(this, 'timeupdate');
+    }
+
+    function onPlaying(instance, playOptions, resolve) {
+
+        if (!instance.started) {
+
+            instance.started = true;
+            resolve();
+            clearTimeUpdateInterval(instance);
+            instance.timeUpdateInterval = setInterval(onTimeUpdate.bind(instance), 500);
+
+            if (playOptions.fullscreen) {
+
+                embyRouter.showVideoOsd().then(function () {
+                    instance.videoDialog.classList.remove('onTop');
+                });
+
+            } else {
+                embyRouter.setTransparency('backdrop');
+                instance.videoDialog.classList.remove('onTop');
+            }
+
+            require(['loading'], function (loading) {
+
+                loading.hide();
+            });
+        }
+        events.trigger(instance, 'playing');
+    }
+
+    function YoutubePlayer() {
 
         var self = this;
 
@@ -12,45 +143,11 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
         // Let any players created by plugins take priority
         self.priority = 1;
 
-        var videoDialog;
-        var currentSrc;
-        var started = false;
-
-        var currentYoutubePlayer;
-        var timeUpdateInterval;
-
-        self.canPlayMediaType = function (mediaType) {
-
-            mediaType = (mediaType || '').toLowerCase();
-
-            return mediaType === 'audio' || mediaType === 'video';
-        };
-
-        self.canPlayItem = function (item) {
-
-            // Does not play server items
-            return false;
-        };
-
-        self.canPlayUrl = function (url) {
-
-            return url.toLowerCase().indexOf('youtube.com') !== -1;
-        };
-
-        self.getDeviceProfile = function () {
-
-            return Promise.resolve({});
-        };
-
-        self.currentSrc = function () {
-            return currentSrc;
-        };
-
         self.play = function (options) {
 
-            started = false;
+            this.started = false;
 
-            return createMediaElement(options).then(function (elem) {
+            return createMediaElement(this, options).then(function (elem) {
 
                 return setCurrentSrc(elem, options);
             });
@@ -63,24 +160,24 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
                 require(['queryString'], function (queryString) {
 
 
-                    currentSrc = options.url;
+                    self._currentSrc = options.url;
                     var params = queryString.parse(options.url.split('?')[1]);
                     // 3. This function creates an <iframe> (and YouTube player)
                     //    after the API code downloads.
                     window.onYouTubeIframeAPIReady = function () {
-                        currentYoutubePlayer = new YT.Player('player', {
-                            height: videoDialog.offsetHeight,
-                            width: videoDialog.offsetWidth,
+                        self.currentYoutubePlayer = new YT.Player('player', {
+                            height: self.videoDialog.offsetHeight,
+                            width: self.videoDialog.offsetWidth,
                             videoId: params.v,
                             events: {
                                 'onReady': onPlayerReady,
                                 'onStateChange': function (event) {
                                     if (event.data === YT.PlayerState.PLAYING) {
-                                        onPlaying(options, resolve);
+                                        onPlaying(self, options, resolve);
                                     } else if (event.data === YT.PlayerState.ENDED) {
                                         onEnded();
                                     } else if (event.data === YT.PlayerState.PAUSED) {
-                                        onPause();
+                                        events.trigger(self, 'pause');
                                     }
                                 }
                             },
@@ -95,10 +192,15 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
                             }
                         });
 
-                        window.removeEventListener('resize', onVideoResize);
-                        window.addEventListener('resize', onVideoResize);
-                        window.removeEventListener('orientationChange', onVideoResize);
-                        window.addEventListener('orientationChange', onVideoResize);
+                        var resizeListener = self.resizeListener;
+                        if (resizeListener) {
+                            window.removeEventListener('resize', resizeListener);
+                            window.addEventListener('resize', resizeListener);
+                        } else {
+                            resizeListener = self.resizeListener = onVideoResize.bind(self);
+                        }
+                        window.removeEventListener('orientationChange', resizeListener);
+                        window.addEventListener('orientationChange', resizeListener);
                     };
 
                     if (!window.YT) {
@@ -114,294 +216,203 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
             });
         }
 
-        function onVideoResize() {
-            var player = currentYoutubePlayer;
-            var dlg = videoDialog;
-            if (player && dlg) {
-                player.setSize(dlg.offsetWidth, dlg.offsetHeight);
-            }
-        }
-
-        // 4. The API will call this function when the video player is ready.
-        function onPlayerReady(event) {
-            event.target.playVideo();
-        }
-
-        self.setSubtitleStreamIndex = function (index) {
-        };
-
-        self.canSetAudioStreamIndex = function () {
-            return false;
-        };
-
-        self.setAudioStreamIndex = function (index) {
-
-        };
-
-        // Save this for when playback stops, because querying the time at that point might return 0
-        self.currentTime = function (val) {
-
-            if (currentYoutubePlayer) {
-                if (val != null) {
-                    currentYoutubePlayer.seekTo(val / 1000, true);
-                    return;
-                }
-
-                return currentYoutubePlayer.getCurrentTime() * 1000;
-            }
-        };
-
-        self.duration = function (val) {
-
-            if (currentYoutubePlayer) {
-                return currentYoutubePlayer.getDuration() * 1000;
-            }
-            return null;
-        };
-
-        self.stop = function (destroyPlayer, reportEnded) {
-
-            var src = currentSrc;
-
-            if (src) {
-
-                if (currentYoutubePlayer) {
-                    currentYoutubePlayer.stopVideo();
-                }
-                onEndedInternal(reportEnded);
-
-                if (destroyPlayer) {
-                    self.destroy();
-                }
-            }
-
-            return Promise.resolve();
-        };
-
-        self.destroy = function () {
-
-            embyRouter.setTransparency('none');
-
-            var dlg = videoDialog;
-            if (dlg) {
-
-                videoDialog = null;
-
-                dlg.parentNode.removeChild(dlg);
-            }
-        };
-
-        self.pause = function () {
-            if (currentYoutubePlayer) {
-                currentYoutubePlayer.pauseVideo();
-
-                // This needs a delay before the youtube player will report the correct player state
-                setTimeout(onPause, 200);
-            }
-        };
-
-        self.unpause = function () {
-            if (currentYoutubePlayer) {
-                currentYoutubePlayer.playVideo();
-
-                // This needs a delay before the youtube player will report the correct player state
-                setTimeout(onPlaying, 200);
-            }
-        };
-
-        self.paused = function () {
-
-            if (currentYoutubePlayer) {
-                console.log(currentYoutubePlayer.getPlayerState());
-                return currentYoutubePlayer.getPlayerState() === 2;
-            }
-
-            return false;
-        };
-
-        self.volume = function (val) {
-            if (val != null) {
-                return self.setVolume(val);
-            }
-
-            return self.getVolume();
-        };
-
-        self.setVolume = function (val) {
-            if (currentYoutubePlayer) {
-                if (val != null) {
-                    currentYoutubePlayer.setVolume(val);
-                }
-            }
-        };
-
-        self.getVolume = function () {
-            if (currentYoutubePlayer) {
-                return currentYoutubePlayer.getVolume();
-            }
-        };
-
-        self.setMute = function (mute) {
-
-            if (mute) {
-                if (currentYoutubePlayer) {
-                    currentYoutubePlayer.mute();
-                }
-            } else {
-
-                if (currentYoutubePlayer) {
-                    currentYoutubePlayer.unMute();
-                }
-            }
-        };
-
-        self.isMuted = function () {
-            if (currentYoutubePlayer) {
-                currentYoutubePlayer.isMuted();
-            }
-        };
-
         function onEnded() {
 
-            onEndedInternal(true);
+            onEndedInternal(self, true);
         }
+    }
 
-        function clearTimeUpdateInterval() {
-            if (timeUpdateInterval) {
-                clearInterval(timeUpdateInterval);
+    YoutubePlayer.prototype.stop = function (destroyPlayer, reportEnded) {
+
+        var src = this._currentSrc;
+
+        if (src) {
+
+            if (this.currentYoutubePlayer) {
+                this.currentYoutubePlayer.stopVideo();
             }
-            timeUpdateInterval = null;
-        }
+            onEndedInternal(this, reportEnded);
 
-        function onEndedInternal(triggerEnded) {
-
-            clearTimeUpdateInterval();
-            window.removeEventListener('resize', onVideoResize);
-            window.removeEventListener('orientationChange', onVideoResize);
-
-            if (triggerEnded) {
-                var stopInfo = {
-                    src: currentSrc
-                };
-
-                events.trigger(self, 'stopped', [stopInfo]);
+            if (destroyPlayer) {
+                this.destroy();
             }
-
-            currentSrc = null;
-            if (currentYoutubePlayer) {
-                currentYoutubePlayer.destroy();
-            }
-            currentYoutubePlayer = null;
         }
 
-        function onTimeUpdate(e) {
+        return Promise.resolve();
+    };
 
-            events.trigger(self, 'timeupdate');
-        }
+    YoutubePlayer.prototype.destroy = function () {
 
-        function onVolumeChange() {
+        embyRouter.setTransparency('none');
 
-            events.trigger(self, 'volumechange');
-        }
+        var dlg = this.videoDialog;
+        if (dlg) {
 
-        function onPlaying(playOptions, resolve) {
+            this.videoDialog = null;
 
-            if (!started) {
-
-                started = true;
-                resolve();
-                clearTimeUpdateInterval();
-                timeUpdateInterval = setInterval(onTimeUpdate, 500);
-
-                if (playOptions.fullscreen) {
-
-                    embyRouter.showVideoOsd().then(function () {
-                        videoDialog.classList.remove('onTop');
-                    });
-
-                } else {
-                    embyRouter.setTransparency('backdrop');
-                    videoDialog.classList.remove('onTop');
-                }
-
-                require(['loading'], function (loading) {
-
-                    loading.hide();
-                });
-            }
-            events.trigger(self, 'playing');
-        }
-
-        function onClick() {
-            events.trigger(self, 'click');
-        }
-
-        function onDblClick() {
-            events.trigger(self, 'dblclick');
-        }
-
-        function onPause() {
-            events.trigger(self, 'pause');
-        }
-
-        function onError() {
-
-            var errorCode = this.error ? this.error.code : '';
-            console.log('Media element error code: ' + errorCode);
-
-            events.trigger(self, 'error');
-        }
-
-        function zoomIn(elem, iterations) {
-            var keyframes = [
-                { transform: 'scale3d(.2, .2, .2)  ', opacity: '.6', offset: 0 },
-                { transform: 'none', opacity: '1', offset: 1 }
-            ];
-
-            var timing = { duration: 240, iterations: iterations };
-            return elem.animate(keyframes, timing);
-        }
-
-        function createMediaElement(options) {
-
-            return new Promise(function (resolve, reject) {
-
-                var dlg = document.querySelector('.youtubePlayerContainer');
-
-                if (!dlg) {
-
-                    require(['css!./style'], function () {
-
-                        loading.show();
-
-                        var dlg = document.createElement('div');
-
-                        dlg.classList.add('youtubePlayerContainer');
-
-                        if (options.fullscreen) {
-                            dlg.classList.add('onTop');
-                        }
-
-                        dlg.innerHTML = '<div id="player"></div>';
-                        var videoElement = dlg.querySelector('#player');
-
-                        document.body.insertBefore(dlg, document.body.firstChild);
-                        videoDialog = dlg;
-
-                        if (options.fullscreen && dlg.animate && !browser.slow) {
-                            zoomIn(dlg, 1).onfinish = function () {
-                                resolve(videoElement);
-                            };
-                        } else {
-                            resolve(videoElement);
-                        }
-
-                    });
-
-                } else {
-                    resolve(dlg.querySelector('#player'));
-                }
-            });
+            dlg.parentNode.removeChild(dlg);
         }
     };
+
+    YoutubePlayer.prototype.canPlayMediaType = function (mediaType) {
+
+        mediaType = (mediaType || '').toLowerCase();
+
+        return mediaType === 'audio' || mediaType === 'video';
+    };
+
+    YoutubePlayer.prototype.canPlayItem = function (item) {
+
+        // Does not play server items
+        return false;
+    };
+
+    YoutubePlayer.prototype.canPlayUrl = function (url) {
+
+        return url.toLowerCase().indexOf('youtube.com') !== -1;
+    };
+
+    YoutubePlayer.prototype.getDeviceProfile = function () {
+
+        return Promise.resolve({});
+    };
+
+    YoutubePlayer.prototype.currentSrc = function () {
+        return this._currentSrc;
+    };
+
+    YoutubePlayer.prototype.setSubtitleStreamIndex = function (index) {
+    };
+
+    YoutubePlayer.prototype.canSetAudioStreamIndex = function () {
+        return false;
+    };
+
+    YoutubePlayer.prototype.setAudioStreamIndex = function (index) {
+
+    };
+
+    // Save this for when playback stops, because querying the time at that point might return 0
+    YoutubePlayer.prototype.currentTime = function (val) {
+
+        var currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            if (val != null) {
+                currentYoutubePlayer.seekTo(val / 1000, true);
+                return;
+            }
+
+            return currentYoutubePlayer.getCurrentTime() * 1000;
+        }
+    };
+
+    YoutubePlayer.prototype.duration = function (val) {
+
+        var currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            return currentYoutubePlayer.getDuration() * 1000;
+        }
+        return null;
+    };
+
+    YoutubePlayer.prototype.pause = function () {
+
+        var currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            currentYoutubePlayer.pauseVideo();
+
+            var instance = this;
+
+            // This needs a delay before the youtube player will report the correct player state
+            setTimeout(function() {
+                events.trigger(instance, 'pause');
+            }, 200);
+        }
+    };
+
+    YoutubePlayer.prototype.unpause = function () {
+
+        var currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            currentYoutubePlayer.playVideo();
+
+            var instance = this;
+
+            // This needs a delay before the youtube player will report the correct player state
+            setTimeout(function () {
+                onPlaying(instance);
+            }, 200);
+        }
+    };
+
+    YoutubePlayer.prototype.paused = function () {
+
+        var currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            console.log(currentYoutubePlayer.getPlayerState());
+            return currentYoutubePlayer.getPlayerState() === 2;
+        }
+
+        return false;
+    };
+
+    YoutubePlayer.prototype.volume = function (val) {
+        if (val != null) {
+            return this.setVolume(val);
+        }
+
+        return this.getVolume();
+    };
+
+    YoutubePlayer.prototype.setVolume = function (val) {
+
+        var currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            if (val != null) {
+                currentYoutubePlayer.setVolume(val);
+            }
+        }
+    };
+
+    YoutubePlayer.prototype.getVolume = function () {
+
+        var currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            return currentYoutubePlayer.getVolume();
+        }
+    };
+
+    YoutubePlayer.prototype.setMute = function (mute) {
+
+        var currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (mute) {
+            if (currentYoutubePlayer) {
+                currentYoutubePlayer.mute();
+            }
+        } else {
+
+            if (currentYoutubePlayer) {
+                currentYoutubePlayer.unMute();
+            }
+        }
+    };
+
+    YoutubePlayer.prototype.isMuted = function () {
+
+        var currentYoutubePlayer = this.currentYoutubePlayer;
+
+        if (currentYoutubePlayer) {
+            currentYoutubePlayer.isMuted();
+        }
+    };
+
+    return YoutubePlayer;
 });

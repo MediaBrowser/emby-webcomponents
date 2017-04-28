@@ -192,7 +192,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 ensureSizeInfo();
 
                 // Fix possible overflowing
-                slideTo(within(pos.dest, pos.start, pos.end));
+                self.slideTo(within(pos.dest, pos.start, pos.end));
             }
         }
 
@@ -232,7 +232,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 		 *
 		 * @return {Void}
 		 */
-        function slideTo(newPos, immediate, fullItemPos) {
+        self.slideTo = function(newPos, immediate, fullItemPos) {
 
             ensureSizeInfo();
 
@@ -269,7 +269,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
                 animation.lastAnimate = now;
             }
-        }
+        };
 
         function setStyleProperty(elem, name, value, speed, resetTransition) {
 
@@ -377,103 +377,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             return within(pos.center, pos.start, pos.end);
         };
 
-        /**
-		 * Slide SLIDEE by amount of pixels.
-		 *
-		 * @param {Int}  delta     Pixels/Items. Positive means forward, negative means backward.
-		 * @param {Bool} immediate Reposition immediately without an animation.
-		 *
-		 * @return {Void}
-		 */
-        self.slideBy = function (delta, immediate) {
-            if (!delta) {
-                return;
-            }
-            slideTo(pos.dest + delta, immediate);
-        };
-
-        /**
-		 * Animate SLIDEE to a specific position.
-		 *
-		 * @param {Int}  pos       New position.
-		 * @param {Bool} immediate Reposition immediately without an animation.
-		 *
-		 * @return {Void}
-		 */
-        self.slideTo = function (pos, immediate) {
-            slideTo(pos, immediate);
-        };
-
-        /**
-		 * Core method for handling `toLocation` methods.
-		 *
-		 * @param  {String} location
-		 * @param  {Mixed}  item
-		 * @param  {Bool}   immediate
-		 *
-		 * @return {Void}
-		 */
-        function to(location, item, immediate) {
-            // Optional arguments logic
-            if (type(item) === 'boolean') {
-                immediate = item;
-                item = undefined;
-            }
-
-            if (item === undefined) {
-                slideTo(pos[location], immediate);
-            } else {
-
-                //if (!transform) {
-
-                //    item.scrollIntoView();
-                //    return;
-                //}
-
-                var itemPos = self.getPos(item);
-
-                if (itemPos) {
-                    slideTo(itemPos[location], immediate, itemPos);
-                }
-            }
-        }
-
-        /**
-		 * Animate element or the whole SLIDEE to the start of the frame.
-		 *
-		 * @param {Mixed} item      Item DOM element, or index starting at 0. Omitting will animate SLIDEE.
-		 * @param {Bool}  immediate Reposition immediately without an animation.
-		 *
-		 * @return {Void}
-		 */
-        self.toStart = function (item, immediate) {
-            to('start', item, immediate);
-        };
-
-        /**
-		 * Animate element or the whole SLIDEE to the end of the frame.
-		 *
-		 * @param {Mixed} item      Item DOM element, or index starting at 0. Omitting will animate SLIDEE.
-		 * @param {Bool}  immediate Reposition immediately without an animation.
-		 *
-		 * @return {Void}
-		 */
-        self.toEnd = function (item, immediate) {
-            to('end', item, immediate);
-        };
-
-        /**
-		 * Animate element or the whole SLIDEE to the center of the frame.
-		 *
-		 * @param {Mixed} item      Item DOM element, or index starting at 0. Omitting will animate SLIDEE.
-		 * @param {Bool}  immediate Reposition immediately without an animation.
-		 *
-		 * @return {Void}
-		 */
-        self.toCenter = function (item, immediate) {
-            to('center', item, immediate);
-        };
-
         function dragInitSlidee(event) {
             var isTouch = event.type === 'touchstart';
 
@@ -579,7 +482,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 dragEnd();
             }
 
-            slideTo(round(dragging.initPos - dragging.delta));
+            self.slideTo(round(dragging.initPos - dragging.delta));
         }
 
         /**
@@ -858,6 +761,91 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             // Return instance
             return self;
         };
+    };
+
+    /**
+     * Slide SLIDEE by amount of pixels.
+     *
+     * @param {Int}  delta     Pixels/Items. Positive means forward, negative means backward.
+     * @param {Bool} immediate Reposition immediately without an animation.
+     *
+     * @return {Void}
+     */
+    scrollerFactory.prototype.slideBy = function (delta, immediate) {
+        if (!delta) {
+            return;
+        }
+        this.slideTo(pos.dest + delta, immediate);
+    };
+
+    /**
+     * Core method for handling `toLocation` methods.
+     *
+     * @param  {String} location
+     * @param  {Mixed}  item
+     * @param  {Bool}   immediate
+     *
+     * @return {Void}
+     */
+    scrollerFactory.prototype.to = function (location, item, immediate) {
+        // Optional arguments logic
+        if (type(item) === 'boolean') {
+            immediate = item;
+            item = undefined;
+        }
+
+        if (item === undefined) {
+            this.slideTo(pos[location], immediate);
+        } else {
+
+            //if (!transform) {
+
+            //    item.scrollIntoView();
+            //    return;
+            //}
+
+            var itemPos = this.getPos(item);
+
+            if (itemPos) {
+                this.slideTo(itemPos[location], immediate, itemPos);
+            }
+        }
+    };
+
+    /**
+     * Animate element or the whole SLIDEE to the start of the frame.
+     *
+     * @param {Mixed} item      Item DOM element, or index starting at 0. Omitting will animate SLIDEE.
+     * @param {Bool}  immediate Reposition immediately without an animation.
+     *
+     * @return {Void}
+     */
+    scrollerFactory.prototype.toStart = function (item, immediate) {
+        this.to('start', item, immediate);
+    };
+
+    /**
+     * Animate element or the whole SLIDEE to the end of the frame.
+     *
+     * @param {Mixed} item      Item DOM element, or index starting at 0. Omitting will animate SLIDEE.
+     * @param {Bool}  immediate Reposition immediately without an animation.
+     *
+     * @return {Void}
+     */
+    scrollerFactory.prototype.toEnd = function (item, immediate) {
+        this.to('end', item, immediate);
+    };
+
+    /**
+     * Animate element or the whole SLIDEE to the center of the frame.
+     *
+     * @param {Mixed} item      Item DOM element, or index starting at 0. Omitting will animate SLIDEE.
+     * @param {Bool}  immediate Reposition immediately without an animation.
+     *
+     * @return {Void}
+     */
+    scrollerFactory.prototype.toCenter = function (item, immediate) {
+        this.to('center', item, immediate);
     };
 
     scrollerFactory.create = function (frame, options) {
