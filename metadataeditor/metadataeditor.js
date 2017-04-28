@@ -133,7 +133,6 @@
                 VoteCount: form.querySelector('#txtCommunityVoteCount').value,
                 HomePageUrl: form.querySelector('#txtHomePageUrl').value,
                 CriticRating: form.querySelector('#txtCriticRating').value,
-                CriticRatingSummary: form.querySelector('#txtCriticRatingSummary').value,
                 IndexNumber: form.querySelector('#txtIndexNumber').value || null,
                 AbsoluteEpisodeNumber: form.querySelector('#txtAbsoluteEpisodeNumber').value,
                 DvdEpisodeNumber: form.querySelector('#txtDvdEpisodeNumber').value,
@@ -606,10 +605,8 @@
 
         if (item.Type === "Movie" || item.Type === "Trailer") {
             showElement('#fldCriticRating', context);
-            showElement('#fldCriticRatingSummary', context);
         } else {
             hideElement('#fldCriticRating', context);
-            hideElement('#fldCriticRatingSummary', context);
         }
 
         if (item.Type === "Movie") {
@@ -835,7 +832,6 @@
         context.querySelector('#txtAwardSummary').value = item.AwardSummary || "";
 
         context.querySelector('#txtCriticRating').value = item.CriticRating || "";
-        context.querySelector('#txtCriticRatingSummary').value = item.CriticRatingSummary || "";
 
         context.querySelector('#txtIndexNumber').value = ('IndexNumber' in item) ? item.IndexNumber : "";
         context.querySelector('#txtParentIndexNumber').value = ('ParentIndexNumber' in item) ? item.ParentIndexNumber : "";
