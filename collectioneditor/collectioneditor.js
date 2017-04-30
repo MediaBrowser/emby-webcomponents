@@ -55,6 +55,7 @@
 
             var id = result.Id;
 
+            dlg.submitted = true;
             dialogHelper.close(dlg);
             redirectToCollection(apiClient, id);
 
@@ -84,6 +85,7 @@
 
             loading.hide();
 
+            dlg.submitted = true;
             dialogHelper.close(dlg);
 
             require(['toast'], function (toast) {
@@ -267,15 +269,17 @@
                 centerFocus(dlg.querySelector('.formDialogContent'), false, true);
             }
 
-            return new Promise(function (resolve, reject) {
+            return dialogHelper.open(dlg).then(function () {
 
                 if (layoutManager.tv) {
                     centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }
 
-                dlg.addEventListener('close', resolve);
+                if (dlg.submitted) {
+                    return Promise.resolve();
+                }
 
-                dialogHelper.open(dlg);
+                return Promise.reject();
             });
         };
     }

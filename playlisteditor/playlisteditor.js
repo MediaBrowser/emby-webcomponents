@@ -56,7 +56,7 @@
             loading.hide();
 
             var id = result.Id;
-
+            dlg.submitted = true;
             dialogHelper.close(dlg);
             redirectToPlaylist(apiClient, id);
         });
@@ -80,6 +80,7 @@
                 serverId: apiClient.serverId(),
                 ids: itemIds.split(',')
             });
+            dlg.submitted = true;
             dialogHelper.close(dlg);
             return;
         }
@@ -100,6 +101,7 @@
 
             loading.hide();
 
+            dlg.submitted = true;
             dialogHelper.close(dlg);
         });
     }
@@ -278,14 +280,17 @@
                 centerFocus(dlg.querySelector('.formDialogContent'), false, true);
             }
 
-            return new Promise(function (resolve, reject) {
+            return dialogHelper.open(dlg).then(function () {
 
                 if (layoutManager.tv) {
                     centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }
 
-                dlg.addEventListener('close', resolve);
-                dialogHelper.open(dlg);
+                if (dlg.submitted) {
+                    return Promise.resolve();
+                }
+
+                return Promise.reject();
             });
         };
     }

@@ -45,11 +45,3 @@
 .withHoverMenu {
     overflow: hidden;
 }
-
-@media all and (max-width: 1200px) {
-
-    .cardOverlayInner {
-        padding-left: 7px;
-        padding-right: 7px;
-    }
-}

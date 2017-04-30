@@ -78,7 +78,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          */
         init: function () {
 
-            if (browser.supportsCssAnimation()) {
+            if (browser.supportsCssAnimation() && !browser.firefox) {
                 for (var i = 0, length = this.elems.length; i < length; i++) {
                     this.elems[i].classList.add(this.initialClass);
                 }
@@ -91,7 +91,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         add: function (elem) {
 
-            if (browser.supportsCssAnimation()) {
+            if (browser.supportsCssAnimation() && !browser.firefox) {
                 elem.classList.add(this.initialClass);
                 this.elems.push(elem);
             }
