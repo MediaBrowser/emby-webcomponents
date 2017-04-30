@@ -108,7 +108,7 @@
     }
 }
 
-@media all and (max-width: 1280px), all and (max-height: 720px) {
+@media all and (max-width: 80em), all and (max-height: 45em) {
 
     .dialog-fixedSize, .dialog-fullscreen-lowres {
         position: fixed !important;
@@ -121,7 +121,7 @@
     }
 }
 
-@media all and (min-width: 1280px) and (min-height: 720px) {
+@media all and (min-width: 80em) and (min-height: 45em) {
 
     .dialog-medium {
         width: 80%;

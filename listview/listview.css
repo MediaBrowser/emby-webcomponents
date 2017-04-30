@@ -179,7 +179,7 @@
     contain: layout style;
 }
 
-@media all and (max-width: 800px) {
+@media all and (max-width: 50em) {
 
     .listItem .endsAt, .listItem .criticRating {
         display: none !important;
