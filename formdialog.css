@@ -81,7 +81,7 @@
     padding-right: 2em;
 }
 
-@media all and (min-width: 56em) {
+@media all and (min-width: 800px) {
 
     .formDialogFooterItem {
         max-width: 80%;
@@ -93,7 +93,7 @@
     }
 }
 
-@media all and (min-width: 90em) {
+@media all and (min-width: 1280px) {
 
     .formDialogFooterItem {
         max-width: 70%;

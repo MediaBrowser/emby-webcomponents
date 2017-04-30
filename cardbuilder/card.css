@@ -437,14 +437,14 @@ button {
     width: 42vw;
 }
 
-@media all and (min-width: 28.4em) {
+@media all and (min-width: 400px) {
 
     .backdropCard-scalable {
         width: 50%;
     }
 }
 
-@media all and (min-width: 35.4em) {
+@media all and (min-width: 500px) {
 
     .smallBackdropCard-scalable {
         width: 33.333333333333333333333333333333%;
@@ -455,7 +455,7 @@ button {
     }
 }
 
-@media all and (min-width: 38.2em) {
+@media all and (min-width: 540px) {
 
     .overflowPortraitCard-scalable {
         width: 30vw;
@@ -474,7 +474,7 @@ button {
     }
 }
 
-@media all and (min-width: 45.4em) {
+@media all and (min-width: 640px) {
 
     .portraitCard-scalable {
         width: 25%;
@@ -489,13 +489,13 @@ button {
     }
 }
 
-@media all and (min-width: 49.6em) {
+@media all and (min-width: 700px) {
     .squareCard-scalable {
         width: 25%;
     }
 }
 
-@media all and (min-width: 54.6em) {
+@media all and (min-width: 770px) {
     .backdropCard-scalable {
         width: 33.333333333333333333333333333333%;
     }
@@ -505,7 +505,7 @@ button {
     }
 }
 
-@media all and (min-width: 56.6em) {
+@media all and (min-width: 800px) {
 
     .bannerCard-scalable {
         width: 50%;
@@ -521,14 +521,14 @@ button {
 }
 
 
-@media all and (min-width: 63.9em) {
+@media all and (min-width: 900px) {
 
     .squareCard-scalable {
         width: 20%;
     }
 }
 
-@media all and (min-width: 71em) {
+@media all and (min-width: 1000px) {
 
 
     .smallBackdropCard-scalable {
@@ -552,7 +552,7 @@ button {
     }
 }
 
-@media all and (min-width: 85.2em) {
+@media all and (min-width: 1200px) {
 
     .backdropCard-scalable {
         width: 25%;
@@ -588,7 +588,7 @@ button {
 }
 
 
-@media all and (min-width: 99.3em) {
+@media all and (min-width: 1400px) {
 
     .squareCard-scalable {
         width: 14.285714285714285714285714285714%;
@@ -615,7 +615,7 @@ button {
     }
 }
 
-@media all and (min-width: 113.6em) {
+@media all and (min-width: 1600px) {
 
     .portraitCard-scalable {
         width: 12.5%;
@@ -634,14 +634,14 @@ button {
     }
 }
 
-@media all and (min-width: 127.8em) {
+@media all and (min-width: 1800px) {
 
     .overflowBackdropCard-scalable {
         width: 23.5vw;
     }
 }
 
-@media all and (min-width: 136.2em) {
+@media all and (min-width: 1920px) {
 
     .squareCard-scalable {
         width: 11.111111111111111111111111111111%;
@@ -652,7 +652,7 @@ button {
     }
 }
 
-@media all and (min-width: 149.1em) {
+@media all and (min-width: 2100px) {
 
     .backdropCard-scalable {
         width: 20%;
@@ -663,7 +663,7 @@ button {
     }
 }
 
-@media all and (min-width: 156.2em) {
+@media all and (min-width: 2200px) {
 
     .bannerCard-scalable {
         width: 25%;
@@ -674,7 +674,7 @@ button {
     }
 }
 
-@media all and (min-width: 177.5em) {
+@media all and (min-width: 2500px) {
 
     .backdropCard-scalable {
         width: 16.666666666666666666666666666667%;

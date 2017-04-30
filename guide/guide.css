@@ -111,21 +111,21 @@
     width: 1800vw;
 }
 
-@media all and (min-width: 42em) {
+@media all and (min-width: 600px) {
 
     .channelPrograms, .timeslotHeadersInner {
         width: 1400vw;
     }
 }
 
-@media all and (min-width: 56.6em) {
+@media all and (min-width: 800px) {
 
     .channelPrograms, .timeslotHeadersInner {
         width: 1200vw;
     }
 }
 
-@media all and (min-width: 90.8em) {
+@media all and (min-width: 1280px) {
 
     .channelPrograms, .timeslotHeadersInner {
         width: 660vw;
@@ -163,25 +163,25 @@
     width: 100%;
 }
 
-@media all and (min-width:35em) {
+@media all and (min-width:500px) {
     .channelsContainer, .channelTimeslotHeader {
         width: 16vw;
     }
 }
 
-@media all and (min-width:42em) {
+@media all and (min-width:600px) {
     .channelsContainer, .channelTimeslotHeader {
         width: 16vw;
     }
 }
 
-@media all and (min-width:56.6em) {
+@media all and (min-width:800px) {
     .channelsContainer, .channelTimeslotHeader {
         width: 14vw;
     }
 }
 
-@media all and (min-width:90.8em) {
+@media all and (min-width:1280px) {
     .channelsContainer, .channelTimeslotHeader {
         width: 12vw;
     }
@@ -207,7 +207,7 @@
     background-repeat: no-repeat;
 }
 
-@media all and (max-width: 56.6em) {
+@media all and (max-width: 800px) {
 
     .newTvProgram, .liveTvProgram, .premiereTvProgram, .guideHdIcon {
         display: none;
@@ -364,14 +364,14 @@
     max-width: 70%;
 }
 
-@media all and (min-width: 71em) {
+@media all and (min-width: 1000px) {
 
     .guideChannelName {
         max-width: 40%;
     }
 }
 
-@media all and (max-width: 71em) {
+@media all and (max-width: 1000px) {
 
     .guideChannelNumber {
         display: none;
@@ -412,7 +412,7 @@
     align-items: center;
 }
 
-@media all and (max-width: 56.6em), all and (max-height: 42em) {
+@media all and (max-width: 800px), all and (max-height: 600px) {
 
     .tvGuideHeader {
         padding-left: 0;
