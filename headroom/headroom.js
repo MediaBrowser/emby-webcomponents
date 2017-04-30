@@ -78,7 +78,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          */
         init: function () {
 
-            if (browser.supportsCssAnimation() && !browser.firefox) {
+            if (browser.supportsCssAnimation()) {
                 for (var i = 0, length = this.elems.length; i < length; i++) {
                     this.elems[i].classList.add(this.initialClass);
                 }
@@ -91,7 +91,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         add: function (elem) {
 
-            if (browser.supportsCssAnimation() && !browser.firefox) {
+            if (browser.supportsCssAnimation()) {
                 elem.classList.add(this.initialClass);
                 this.elems.push(elem);
             }
@@ -259,7 +259,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             }
             else if (this.shouldPin(currentScrollY, toleranceExceeded)) {
                 this.pin(currentScrollY);
-            } else {
+            } else if (layoutManager.tv) {
                 this.clear();
             }
 

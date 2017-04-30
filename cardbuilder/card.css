@@ -127,8 +127,8 @@ button {
     left: .3em;
     text-align: center;
     vertical-align: middle;
-    width: 24px;
-    height: 24px;
+    width: 1.6em;
+    height: 1.6em;
     border-radius: 50%;
     color: #fff;
     background: rgb(51, 136, 204);
@@ -373,7 +373,7 @@ button {
     right: 0;
     margin: 0 .35em .5em 0;
     z-index: 1;
-    padding: 6px;
+    padding: .427em;
 }
 
     .cardOverlayButton:hover {

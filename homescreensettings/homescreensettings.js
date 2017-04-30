@@ -76,18 +76,19 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
 
         var list = [];
 
-        list.push({
-            name: globalize.translate('sharedcomponents#Suggestions'),
-            value: 'suggestions',
-            isDefault: true
-        });
-
         if (type === 'movies') {
 
             list.push({
                 name: globalize.translate('sharedcomponents#Movies'),
-                value: 'movies'
+                value: 'movies',
+                isDefault: true
             });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Suggestions'),
+                value: 'suggestions'
+            });
+
             list.push({
                 name: globalize.translate('sharedcomponents#Favorites'),
                 value: 'favorites'
@@ -98,6 +99,12 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
             });
         }
         else if (type === 'tvshows') {
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Suggestions'),
+                value: 'suggestions',
+                isDefault: true
+            });
 
             list.push({
                 name: globalize.translate('sharedcomponents#Latest'),
