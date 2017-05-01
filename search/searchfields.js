@@ -1,9 +1,23 @@
-﻿define(['layoutManager', 'globalize', 'require', 'events', 'alphaPicker', 'emby-input', 'flexStyles', 'material-icons', 'css!./searchfields'], function (layoutManager, globalize, require, events, AlphaPicker) {
+﻿define(['layoutManager', 'globalize', 'require', 'events', 'browser', 'alphaPicker', 'emby-input', 'flexStyles', 'material-icons', 'css!./searchfields'], function (layoutManager, globalize, require, events, browser, AlphaPicker) {
     'use strict';
+
+    function onSearchTimeout() {
+
+        var instance = this;
+        var value = instance.nextSearchValue;
+
+        value = (value || '').trim();
+        events.trigger(instance, 'search', [value]);
+    }
 
     function triggerSearch(instance, value) {
 
-        events.trigger(instance, 'search', [value]);
+        if (instance.searchTimeout) {
+            clearTimeout(instance.searchTimeout);
+        }
+
+        instance.nextSearchValue = value;
+        instance.searchTimeout = setTimeout(onSearchTimeout.bind(instance), 300);
     }
 
     function onAlphaValueClicked(e) {
@@ -63,6 +77,10 @@
                 initAlphaPicker(alphaPickerElement, instance);
             }
 
+            if (browser.tizen || browser.orsay) {
+                txtSearch.readOnly = true;
+            }
+
             txtSearch.addEventListener('input', onSearchInput.bind(instance));
         });
     }
@@ -91,6 +109,13 @@
             alphaPicker.destroy();
         }
         this.alphaPicker = null;
+
+        var searchTimeout = this.searchTimeout;
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+        this.searchTimeout = null;
+        this.nextSearchValue = null;
     };
 
     return SearchFields;
