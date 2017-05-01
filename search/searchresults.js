@@ -14,7 +14,7 @@
             ParentId: instance.options.parentId
         };
 
-        apiClient.getItems(Dashboard.getCurrentUserId(), options).then(function (result) {
+        apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
 
             var html = result.Items.map(function (i) {
 
