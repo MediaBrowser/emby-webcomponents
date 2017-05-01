@@ -1,26 +1,58 @@
-﻿define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder) {
+﻿define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'embyRouter', 'emby-scroller'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, embyRouter) {
     'use strict';
 
-    function search(apiClient, context, value) {
+    function loadSuggestions(instance, context, apiClient) {
 
-        if (!value) {
-            var emptyResult = {
+        var options = {
+
+            SortBy: "IsFavoriteOrLiked,Random",
+            IncludeItemTypes: "Movie,Series,MusicArtist",
+            Limit: 20,
+            Recursive: true,
+            ImageTypeLimit: 0,
+            EnableImages: false,
+            ParentId: instance.options.parentId
+        };
+
+        apiClient.getItems(Dashboard.getCurrentUserId(), options).then(function (result) {
+
+            var html = result.Items.map(function (i) {
+
+                var href = embyRouter.getRouteUrl(i);
+
+                var itemHtml = '<div><a style="display:inline-block;padding:.55em 1em;" href="' + href + '">';
+                itemHtml += i.Name;
+                itemHtml += '</a></div>';
+                return itemHtml;
+
+            }).join('');
+
+            var searchSuggestions = context.querySelector('.searchSuggestions');
+            searchSuggestions.querySelector('.searchSuggestionsList').innerHTML = html;
+            searchSuggestions.classList.remove('hide');
+        });
+    }
+
+    function getSearchHints(apiClient, query) {
+
+        if (!query.searchTerm) {
+            return Promise.resolve({
                 SearchHints: []
-            };
-            populateResults(emptyResult, '.peopleResults');
-            populateResults(emptyResult, '.programResults');
-            populateResults(emptyResult, '.seriesResults');
-            populateResults(emptyResult, '.episodeResults');
-            populateResults(emptyResult, '.movieResults');
-            populateResults(emptyResult, '.artistResults');
-            populateResults(emptyResult, '.albumResults');
-            populateResults(emptyResult, '.songResults');
-            populateResults(emptyResult, '.bookResults');
-            populateResults(emptyResult, '.audioBookResults');
-            return;
+            });
         }
 
-        searchType(apiClient, value, {
+        return apiClient.getSearchHints(query);
+    }
+
+    function search(instance, apiClient, context, value) {
+
+        if (value) {
+            context.querySelector('.searchSuggestions').classList.add('hide');
+        } else {
+            loadSuggestions(instance, context, apiClient);
+        }
+
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -31,7 +63,7 @@
 
         }, context, '.movieResults');
 
-        searchType(apiClient, value, {
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -49,7 +81,7 @@
 
         });
 
-        searchType(apiClient, value, {
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -60,7 +92,7 @@
 
         }, context, '.seriesResults');
 
-        searchType(apiClient, value, {
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -76,7 +108,7 @@
             showParentTitle: true
         });
 
-        searchType(apiClient, value, {
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: true,
             IncludeMedia: false,
@@ -90,7 +122,7 @@
             showTitle: true
         });
 
-        searchType(apiClient, value, {
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: false,
@@ -103,7 +135,7 @@
             showTitle: true
         });
 
-        searchType(apiClient, value, {
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -114,7 +146,7 @@
 
         }, context, '.albumResults');
 
-        searchType(apiClient, value, {
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -127,7 +159,7 @@
             action: 'play'
         });
 
-        searchType(apiClient, value, {
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -138,7 +170,7 @@
 
         }, context, '.bookResults');
 
-        searchType(apiClient, value, {
+        searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -150,15 +182,15 @@
         }, context, '.audioBookResults');
     }
 
-    function searchType(apiClient, value, query, context, section, cardOptions) {
+    function searchType(instance, apiClient, query, context, section, cardOptions) {
 
         query.UserId = apiClient.getCurrentUserId();
         query.Limit = 24;
+        query.ParentId = instance.options.parentId;
 
-        apiClient.getSearchHints(query).then(function (result) {
+        getSearchHints(apiClient, query).then(function (result) {
 
             populateResults(result, context, section, cardOptions);
-
         });
     }
 
@@ -197,6 +229,7 @@
             elem.innerHTML = html;
 
             elem.classList.add('searchResults');
+            instance.search('');
         });
     }
 
@@ -210,7 +243,7 @@
 
         var apiClient = connectionManager.getApiClient(this.options.serverId);
 
-        search(apiClient, this.options.element, value);
+        search(this, apiClient, this.options.element, value);
     };
 
     SearchResults.prototype.destroy = function () {
