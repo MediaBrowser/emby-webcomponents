@@ -95,7 +95,7 @@
         return parts.join(':');
     }
 
-    var toLocaleTimeStringSupportsLocales = function toLocaleTimeStringSupportsLocales() {
+    var toLocaleTimeStringSupportsLocales = function () {
         try {
             new Date().toLocaleTimeString('i');
         } catch (e) {
