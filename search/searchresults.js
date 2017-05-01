@@ -46,7 +46,7 @@
 
     function search(instance, apiClient, context, value) {
 
-        if (value) {
+        if (value || layoutManager.tv) {
             context.querySelector('.searchSuggestions').classList.add('hide');
         } else {
             loadSuggestions(instance, context, apiClient);
