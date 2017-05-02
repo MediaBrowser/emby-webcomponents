@@ -233,11 +233,7 @@
             shape: 'autooverflow',
             scalable: true,
             overlayText: true,
-            widths: {
-                portrait: 340,
-                thumb: 500,
-                square: 340
-            }
+            allowBottomPadding: false
 
         }, cardOptions || {}));
 
