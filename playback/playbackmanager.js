@@ -1269,7 +1269,7 @@
                 playerData.streamInfo = streamInfo;
 
                 startProgressInterval(player);
-                sendProgressUpdate(player);
+                sendProgressUpdate(player, 'timeupdate');
             }, function (e) {
                 onPlaybackError.call(player, e, {
                     type: 'mediadecodeerror'
@@ -3075,12 +3075,17 @@
 
         function onPlaybackPause(e) {
             var player = this;
-            sendProgressUpdate(player);
+            sendProgressUpdate(player, 'pause');
         }
 
         function onPlaybackUnpause(e) {
             var player = this;
-            sendProgressUpdate(player);
+            sendProgressUpdate(player, 'unpause');
+        }
+
+        function onPlaybackVolumeChange(e) {
+            var player = this;
+            sendProgressUpdate(player, 'volumechange');
         }
 
         function unbindStopped(player) {
@@ -3119,6 +3124,7 @@
                 events.on(player, 'error', onPlaybackError);
                 events.on(player, 'pause', onPlaybackPause);
                 events.on(player, 'unpause', onPlaybackUnpause);
+                events.on(player, 'volumechange', onPlaybackVolumeChange);
             }
 
             if (player.isLocalPlayer) {
@@ -3145,33 +3151,26 @@
 
             clearProgressInterval(player);
 
-            player.lastProgressReport = 0;
-
             getPlayerData(player).currentProgressInterval = setInterval(function () {
 
-                if ((new Date().getTime() - player.lastProgressReport) > 10000) {
-
-                    sendProgressUpdate(player);
-                }
+                sendProgressUpdate(player, 'timeupdate');
 
             }, 500);
         }
 
-        function sendProgressUpdate(player) {
+        function sendProgressUpdate(player, progressEventName) {
 
             if (!player) {
                 throw new Error('player cannot be null');
             }
 
-            player.lastProgressReport = new Date().getTime();
-
             self.getPlayerState(player).then(function (state) {
                 var currentItem = getPlayerData(player).streamInfo.item;
-                reportPlayback(state, currentItem.ServerId, 'reportPlaybackProgress');
+                reportPlayback(state, currentItem.ServerId, 'reportPlaybackProgress', progressEventName);
             });
         }
 
-        function reportPlayback(state, serverId, method) {
+        function reportPlayback(state, serverId, method, progressEventName) {
 
             if (!serverId) {
                 // Not a server item
@@ -3181,6 +3180,10 @@
 
             var info = Object.assign({}, state.PlayState);
             info.ItemId = state.NowPlayingItem.Id;
+
+            if (progressEventName) {
+                info.EventName = progressEventName;
+            }
 
             //console.log(method + '-' + JSON.stringify(info));
             var apiClient = connectionManager.getApiClient(serverId);
