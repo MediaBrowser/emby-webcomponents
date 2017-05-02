@@ -61,7 +61,13 @@
             IncludeArtists: false,
             IncludeItemTypes: "Movie"
 
-        }, context, '.movieResults');
+        }, context, '.movieResults', {
+
+            showTitle: true,
+            overlayText: false,
+            centerText: true,
+            showYear: true
+        });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -90,7 +96,13 @@
             IncludeArtists: false,
             IncludeItemTypes: "Series"
 
-        }, context, '.seriesResults');
+        }, context, '.seriesResults', {
+
+            showTitle: true,
+            overlayText: false,
+            centerText: true,
+            showYear: true
+        });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -144,7 +156,13 @@
             IncludeArtists: false,
             IncludeItemTypes: "MusicAlbum"
 
-        }, context, '.albumResults');
+        }, context, '.albumResults', {
+
+            showParentTitle: true,
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -156,7 +174,13 @@
             IncludeItemTypes: "Audio"
 
         }, context, '.songResults', {
+
+            showParentTitle: true,
+            showTitle: true,
+            overlayText: false,
+            centerText: true,
             action: 'play'
+
         });
 
         searchType(instance, apiClient, {
