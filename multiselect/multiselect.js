@@ -234,7 +234,7 @@
 
             if (user.Policy.EnableContentDownloading) {
                 menuItems.push({
-                    name: globalize.translate('sharedcomponents#SyncToOtherDevice'),
+                    name: globalize.translate('sharedcomponents#DownloadToOtherDevice'),
                     id: 'sync'
                 });
             }

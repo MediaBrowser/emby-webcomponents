@@ -192,7 +192,13 @@
             IncludeArtists: false,
             IncludeItemTypes: "Book"
 
-        }, context, '.bookResults');
+        }, context, '.bookResults', {
+
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+
+        });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -203,7 +209,12 @@
             IncludeArtists: false,
             IncludeItemTypes: "AudioBook"
 
-        }, context, '.audioBookResults');
+        }, context, '.audioBookResults', {
+
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        });
     }
 
     function searchType(instance, apiClient, query, context, section, cardOptions) {
@@ -232,7 +243,8 @@
             parentContainer: section,
             shape: 'autooverflow',
             scalable: true,
-            overlayText: true,
+            overlayText: false,
+            centerText: true,
             allowBottomPadding: false
 
         }, cardOptions || {}));

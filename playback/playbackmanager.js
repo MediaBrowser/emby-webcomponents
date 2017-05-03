@@ -3165,8 +3165,10 @@
             }
 
             self.getPlayerState(player).then(function (state) {
-                var serverId = state.NowPlayingItem.ServerId;
-                reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
+                if (state.NowPlayingItem) {
+                    var serverId = state.NowPlayingItem.ServerId;
+                    reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
+                }
             });
         }
 
