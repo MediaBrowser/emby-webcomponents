@@ -1134,6 +1134,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'playbackManager',
 
             var rendererSettings = {};
 
+            // Text outlines are not rendering very well
+            if (browser.ps4) {
+                rendererSettings.enableSvg = false;
+            }
+
             require(['libjass'], function (libjass) {
 
                 libjass.ASS.fromUrl(getTextTrackUrl(track, serverId)).then(function (ass) {
