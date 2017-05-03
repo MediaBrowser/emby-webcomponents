@@ -3165,8 +3165,8 @@
             }
 
             self.getPlayerState(player).then(function (state) {
-                var currentItem = getPlayerData(player).streamInfo.item;
-                reportPlayback(state, currentItem.ServerId, 'reportPlaybackProgress', progressEventName);
+                var serverId = state.NowPlayingItem.ServerId;
+                reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
             });
         }
 
