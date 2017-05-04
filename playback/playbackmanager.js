@@ -17,6 +17,42 @@
         });
     }
 
+    function triggerPlayerChange(playbackManagerInstance, newPlayer, newTarget, previousPlayer, previousTargetInfo) {
+
+        if (!newPlayer && !previousPlayer) {
+            return;
+        }
+
+        if (newTarget && previousTargetInfo) {
+
+            if (newTarget.id === previousTargetInfo.id) {
+                return;
+            }
+        }
+
+        events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
+    }
+
+    function reportPlayback(state, serverId, method, progressEventName) {
+
+        if (!serverId) {
+            // Not a server item
+            // We can expand on this later and possibly report them
+            return;
+        }
+
+        var info = Object.assign({}, state.PlayState);
+        info.ItemId = state.NowPlayingItem.Id;
+
+        if (progressEventName) {
+            info.EventName = progressEventName;
+        }
+
+        //console.log(method + '-' + JSON.stringify(info));
+        var apiClient = connectionManager.getApiClient(serverId);
+        apiClient[method](info);
+    }
+
     function PlaybackManager() {
 
         var self = this;
@@ -54,22 +90,6 @@
             var data = getPlayerData(player);
             return data.streamInfo ? data.streamInfo.mediaSource : null;
         };
-
-        function triggerPlayerChange(newPlayer, newTarget, previousPlayer, previousTargetInfo) {
-
-            if (!newPlayer && !previousPlayer) {
-                return;
-            }
-
-            if (newTarget && previousTargetInfo) {
-
-                if (newTarget.id === previousTargetInfo.id) {
-                    return;
-                }
-            }
-
-            events.trigger(self, 'playerchange', [newPlayer, newTarget, previousPlayer]);
-        }
 
         self.beginPlayerUpdates = function (player) {
             if (player.beginPlayerUpdates) {
@@ -388,63 +408,6 @@
             }
         };
 
-        self.sendCommand = function (cmd, player) {
-
-            // Full list
-            // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs#L23
-            console.log('MediaController received command: ' + cmd.Name);
-            switch (cmd.Name) {
-
-                case 'SetRepeatMode':
-                    self.setRepeatMode(cmd.Arguments.RepeatMode, player);
-                    break;
-                case 'VolumeUp':
-                    self.volumeUp(player);
-                    break;
-                case 'VolumeDown':
-                    self.volumeDown(player);
-                    break;
-                case 'Mute':
-                    self.setMute(true, player);
-                    break;
-                case 'Unmute':
-                    self.setMute(false, player);
-                    break;
-                case 'ToggleMute':
-                    self.toggleMute(player);
-                    break;
-                case 'SetVolume':
-                    self.setVolume(cmd.Arguments.Volume, player);
-                    break;
-                case 'SetAspectRatio':
-                    self.setAspectRatio(cmd.Arguments.AspectRatio, player);
-                    break;
-                case 'SetBrightness':
-                    self.setBrightness(cmd.Arguments.Brightness, player);
-                    break;
-                case 'SetAudioStreamIndex':
-                    self.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
-                    break;
-                case 'SetSubtitleStreamIndex':
-                    self.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
-                    break;
-                case 'SetMaxStreamingBitrate':
-                    // todo
-                    //self.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
-                    break;
-                case 'ToggleFullscreen':
-                    self.toggleFullscreen(player);
-                    break;
-                default:
-                    {
-                        if (player.sendCommand) {
-                            player.sendCommand(cmd);
-                        }
-                        break;
-                    }
-            }
-        };
-
         function getCurrentSubtitleStream(player) {
 
             if (!player) {
@@ -531,7 +494,7 @@
                 self.beginPlayerUpdates(player);
             }
 
-            triggerPlayerChange(player, targetInfo, previousPlayer, previousTargetInfo);
+            triggerPlayerChange(self, player, targetInfo, previousPlayer, previousTargetInfo);
         }
 
         self.isPlaying = function (player) {
@@ -1196,7 +1159,7 @@
             var currentItem = playerData.streamInfo.item;
 
             player.getDeviceProfile(currentItem, {
-                
+
                 isRetry: params.EnableDirectPlay === false
 
             }).then(function (deviceProfile) {
@@ -1241,8 +1204,6 @@
 
         function changeStreamToUrl(apiClient, player, playSessionId, streamInfo, newPositionTicks) {
 
-            clearProgressInterval(player);
-
             var playerData = getPlayerData(player);
 
             playerData.isChangingStream = true;
@@ -1268,7 +1229,6 @@
                 playerData.isChangingStream = false;
                 playerData.streamInfo = streamInfo;
 
-                startProgressInterval(player);
                 sendProgressUpdate(player, 'timeupdate');
             }, function (e) {
                 onPlaybackError.call(player, e, {
@@ -2827,8 +2787,6 @@
 
                 reportPlayback(state, getPlayerData(player).streamInfo.item.ServerId, 'reportPlaybackStart');
 
-                startProgressInterval(player);
-
                 state.IsFirstItem = isFirstItem;
                 state.IsFullscreen = fullscreen;
                 events.trigger(player, 'playbackstart', [state]);
@@ -3006,8 +2964,6 @@
                     currentPlaylistItemId = null;
                 }
 
-                clearProgressInterval(player);
-
                 events.trigger(player, 'playbackstop', [state]);
                 events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
@@ -3053,8 +3009,6 @@
 
                     reportPlayback(state, serverId, 'reportPlaybackStopped');
 
-                    clearProgressInterval(activePlayer);
-
                     events.trigger(self, 'playbackstop', [{
                         player: activePlayer,
                         state: state,
@@ -3086,6 +3040,11 @@
         function onPlaybackVolumeChange(e) {
             var player = this;
             sendProgressUpdate(player, 'volumechange');
+        }
+
+        function onRepeatModeChange(e) {
+            var player = this;
+            sendProgressUpdate(player, 'repeatmodechange');
         }
 
         function unbindStopped(player) {
@@ -3125,6 +3084,7 @@
                 events.on(player, 'pause', onPlaybackPause);
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);
+                events.on(player, 'repeatmodechange', onRepeatModeChange);
             }
 
             if (player.isLocalPlayer) {
@@ -3143,21 +3103,6 @@
 
         pluginManager.ofType('mediaplayer').map(initMediaPlayer);
 
-        function startProgressInterval(player) {
-
-            if (!player) {
-                throw new Error('player cannot be null');
-            }
-
-            clearProgressInterval(player);
-
-            getPlayerData(player).currentProgressInterval = setInterval(function () {
-
-                sendProgressUpdate(player, 'timeupdate');
-
-            }, 500);
-        }
-
         function sendProgressUpdate(player, progressEventName) {
 
             if (!player) {
@@ -3172,46 +3117,12 @@
             });
         }
 
-        function reportPlayback(state, serverId, method, progressEventName) {
-
-            if (!serverId) {
-                // Not a server item
-                // We can expand on this later and possibly report them
-                return;
-            }
-
-            var info = Object.assign({}, state.PlayState);
-            info.ItemId = state.NowPlayingItem.Id;
-
-            if (progressEventName) {
-                info.EventName = progressEventName;
-            }
-
-            //console.log(method + '-' + JSON.stringify(info));
-            var apiClient = connectionManager.getApiClient(serverId);
-            apiClient[method](info);
-        }
-
-        function clearProgressInterval(player) {
-
-            if (!player) {
-                throw new Error('player cannot be null');
-            }
-
-            var playerData = getPlayerData(player);
-
-            if (playerData.currentProgressInterval) {
-                clearTimeout(playerData.currentProgressInterval);
-                playerData.currentProgressInterval = null;
-            }
-        }
-
         window.addEventListener("beforeunload", function (e) {
 
             var player = currentPlayer;
 
             // Try to report playback stopped before the browser closes
-            if (player && getPlayerData(player).currentProgressInterval) {
+            if (player && self.isPlaying(player)) {
                 playNextAfterEnded = false;
                 onPlaybackStopped.call(player);
             }
@@ -3225,6 +3136,63 @@
             self.setDefaultPlayerActive();
         });
     }
+
+    PlaybackManager.prototype.sendCommand = function (cmd, player) {
+
+        // Full list
+        // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs#L23
+        console.log('MediaController received command: ' + cmd.Name);
+        switch (cmd.Name) {
+
+            case 'SetRepeatMode':
+                this.setRepeatMode(cmd.Arguments.RepeatMode, player);
+                break;
+            case 'VolumeUp':
+                this.volumeUp(player);
+                break;
+            case 'VolumeDown':
+                this.volumeDown(player);
+                break;
+            case 'Mute':
+                this.setMute(true, player);
+                break;
+            case 'Unmute':
+                this.setMute(false, player);
+                break;
+            case 'ToggleMute':
+                this.toggleMute(player);
+                break;
+            case 'SetVolume':
+                this.setVolume(cmd.Arguments.Volume, player);
+                break;
+            case 'SetAspectRatio':
+                this.setAspectRatio(cmd.Arguments.AspectRatio, player);
+                break;
+            case 'SetBrightness':
+                this.setBrightness(cmd.Arguments.Brightness, player);
+                break;
+            case 'SetAudioStreamIndex':
+                this.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
+                break;
+            case 'SetSubtitleStreamIndex':
+                this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
+                break;
+            case 'SetMaxStreamingBitrate':
+                // todo
+                //this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
+                break;
+            case 'ToggleFullscreen':
+                this.toggleFullscreen(player);
+                break;
+            default:
+                {
+                    if (player.sendCommand) {
+                        player.sendCommand(cmd);
+                    }
+                    break;
+                }
+        }
+    };
 
     return new PlaybackManager();
 });
