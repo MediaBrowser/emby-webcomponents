@@ -246,7 +246,12 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
     function enableHistory() {
 
-        if (browser.xboxOne || browser.edgeUwp) {
+        //if (browser.edgeUwp) {
+        //    return false;
+        //}
+
+        // shows status bar on navigation
+        if (browser.xboxOne) {
             return false;
         }
 
