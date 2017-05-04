@@ -204,6 +204,13 @@
                 //});
             }
 
+            if (user.Policy.EnableContentDownloading) {
+                menuItems.push({
+                    name: globalize.translate('sharedcomponents#DownloadToOtherDevice'),
+                    id: 'sync'
+                });
+            }
+
             menuItems.push({
                 name: globalize.translate('sharedcomponents#GroupVersions'),
                 id: 'groupvideos',
@@ -231,13 +238,6 @@
                 name: globalize.translate('sharedcomponents#Refresh'),
                 id: 'refresh'
             });
-
-            if (user.Policy.EnableContentDownloading) {
-                menuItems.push({
-                    name: globalize.translate('sharedcomponents#DownloadToOtherDevice'),
-                    id: 'sync'
-                });
-            }
 
             require(['actionsheet'], function (actionsheet) {
 

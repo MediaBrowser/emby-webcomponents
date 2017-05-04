@@ -282,6 +282,15 @@ define(['browser'], function (browser) {
             (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
+    function supportsAc3(videoTestElement) {
+        return (videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '') && !browser.osx && !browser.iOS) || browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
+    }
+
+    function supportsEac3(videoTestElement) {
+
+        return videoTestElement.canPlayType('audio/mp4; codecs="ec-3"').replace(/no/, '');
+    }
+
     return function (options) {
 
         options = options || {};
@@ -312,19 +321,23 @@ define(['browser'], function (browser) {
         // Only put mp3 first if mkv support is there
         // Otherwise with HLS and mp3 audio we're seeing some browsers
         // safari is lying
-        if ((videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '') && !browser.osx && !browser.iOS) || browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s) {
+        if (supportsAc3(videoTestElement)) {
+
             videoAudioCodecs.push('ac3');
+
+            var eAc3 = supportsEac3(videoTestElement);
+            if (eAc3) {
+                videoAudioCodecs.push('eac3');
+            }
 
             // This works in edge desktop, but not mobile
             // TODO: Retest this on mobile
             if (!browser.edge || !browser.touch || browser.edgeUwp) {
                 hlsVideoAudioCodecs.push('ac3');
+                if (eAc3) {
+                    hlsVideoAudioCodecs.push('eac3');
+                }
             }
-        }
-
-        if (browser.tizen || browser.orsay) {
-            videoAudioCodecs.push('eac3');
-            hlsVideoAudioCodecs.push('eac3');
         }
 
         var mp3Added = false;
