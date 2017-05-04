@@ -283,10 +283,19 @@ define(['browser'], function (browser) {
     }
 
     function supportsAc3(videoTestElement) {
-        return (videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '') && !browser.osx && !browser.iOS) || browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
+
+        if (browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s) {
+            return true;
+        }
+
+        return (videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '') && !browser.osx && !browser.iOS);
     }
 
     function supportsEac3(videoTestElement) {
+
+        if (browser.tizen || browser.orsay || browser.web0s) {
+            return true;
+        }
 
         return videoTestElement.canPlayType('audio/mp4; codecs="ec-3"').replace(/no/, '');
     }
