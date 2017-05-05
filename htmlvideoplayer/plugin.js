@@ -1,4 +1,4 @@
-define(['browser', 'require', 'events', 'apphost', 'loading', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager'], function (browser, require, events, appHost, loading, playbackManager, embyRouter, appSettings, connectionManager) {
+define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager'], function (browser, require, events, appHost, loading, dom, playbackManager, embyRouter, appSettings, connectionManager) {
     "use strict";
 
     function tryRemoveElement(elem) {
@@ -1390,12 +1390,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'playbackManager',
 
         function zoomIn(elem) {
 
-            var duration = 240;
-
-            elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
-
             return new Promise(function (resolve, reject) {
-                setTimeout(resolve, duration);
+
+                var duration = 240;
+                elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
+                dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
+                    once: true
+                });
             });
         }
 
