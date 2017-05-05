@@ -28,7 +28,7 @@ define(['events'], function (events) {
     PluginManager.prototype.loadPlugin = function (url) {
 
         console.log('Loading plugin: ' + url);
-        var self = this;
+        var instance = this;
 
         return new Promise(function (resolve, reject) {
 
@@ -37,7 +37,7 @@ define(['events'], function (events) {
                 var plugin = new pluginFactory();
 
                 // See if it's already installed
-                var existing = self.pluginsList.filter(function (p) {
+                var existing = instance.pluginsList.filter(function (p) {
                     return p.id === plugin.id;
                 })[0];
 
@@ -67,11 +67,11 @@ define(['events'], function (events) {
                     paths: paths
                 });
 
-                self.register(plugin);
+                instance.register(plugin);
 
                 if (plugin.getRoutes) {
                     plugin.getRoutes().forEach(function (route) {
-                        definePluginRoute(self, route, plugin);
+                        definePluginRoute(instance, route, plugin);
                     });
                 }
 

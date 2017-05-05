@@ -1,13 +1,13 @@
 define(['browser', 'appSettings', 'events'], function (browser, appSettings, events) {
     'use strict';
 
-    function setLayout(self, layout, selectedLayout) {
+    function setLayout(instance, layout, selectedLayout) {
 
         if (layout === selectedLayout) {
-            self[layout] = true;
+            instance[layout] = true;
             document.documentElement.classList.add('layout-' + layout);
         } else {
-            self[layout] = false;
+            instance[layout] = false;
             document.documentElement.classList.remove('layout-' + layout);
         }
     }

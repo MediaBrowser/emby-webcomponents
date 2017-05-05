@@ -230,70 +230,69 @@
         });
     }
 
-    function playlisteditor() {
+    function PlaylistEditor() {
 
-        var self = this;
-
-        self.show = function (options) {
-
-            var items = options.items || {};
-            currentServerId = options.serverId;
-
-            var dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
-
-            if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
-            }
-
-            var dlg = dialogHelper.createDialog(dialogOptions);
-
-            dlg.classList.add('formDialog');
-
-            var html = '';
-            var title = globalize.translate('sharedcomponents#HeaderAddToPlaylist');
-
-            html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
-            html += '<h3 class="formDialogHeaderTitle">';
-            html += title;
-            html += '</h3>';
-
-            html += '</div>';
-
-            html += getEditorHtml();
-
-            dlg.innerHTML = html;
-
-            initEditor(dlg, options, items);
-
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
-                dialogHelper.close(dlg);
-            });
-
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-            }
-
-            return dialogHelper.open(dlg).then(function () {
-
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                }
-
-                if (dlg.submitted) {
-                    return Promise.resolve();
-                }
-
-                return Promise.reject();
-            });
-        };
     }
 
-    return playlisteditor;
+    PlaylistEditor.prototype.show = function (options) {
+
+        var items = options.items || {};
+        currentServerId = options.serverId;
+
+        var dialogOptions = {
+            removeOnClose: true,
+            scrollY: false
+        };
+
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
+
+        var dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+
+        var html = '';
+        var title = globalize.translate('sharedcomponents#HeaderAddToPlaylist');
+
+        html += '<div class="formDialogHeader">';
+        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+        html += '<h3 class="formDialogHeaderTitle">';
+        html += title;
+        html += '</h3>';
+
+        html += '</div>';
+
+        html += getEditorHtml();
+
+        dlg.innerHTML = html;
+
+        initEditor(dlg, options, items);
+
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+
+            dialogHelper.close(dlg);
+        });
+
+        if (layoutManager.tv) {
+            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+        }
+
+        return dialogHelper.open(dlg).then(function () {
+
+            if (layoutManager.tv) {
+                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+            }
+
+            if (dlg.submitted) {
+                return Promise.resolve();
+            }
+
+            return Promise.reject();
+        });
+    };
+
+    return PlaylistEditor;
 });

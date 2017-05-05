@@ -132,95 +132,89 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
         events.trigger(instance, 'playing');
     }
 
+    function setCurrentSrc(instance, elem, options) {
+
+        return new Promise(function (resolve, reject) {
+
+            require(['queryString'], function (queryString) {
+
+
+                instance._currentSrc = options.url;
+                var params = queryString.parse(options.url.split('?')[1]);
+                // 3. This function creates an <iframe> (and YouTube player)
+                //    after the API code downloads.
+                window.onYouTubeIframeAPIReady = function () {
+                    instance.currentYoutubePlayer = new YT.Player('player', {
+                        height: instance.videoDialog.offsetHeight,
+                        width: instance.videoDialog.offsetWidth,
+                        videoId: params.v,
+                        events: {
+                            'onReady': onPlayerReady,
+                            'onStateChange': function (event) {
+                                if (event.data === YT.PlayerState.PLAYING) {
+                                    onPlaying(instance, options, resolve);
+                                } else if (event.data === YT.PlayerState.ENDED) {
+                                    onEndedInternal(instance);
+                                } else if (event.data === YT.PlayerState.PAUSED) {
+                                    events.trigger(instance, 'pause');
+                                }
+                            }
+                        },
+                        playerVars: {
+                            controls: 0,
+                            enablejsapi: 1,
+                            modestbranding: 1,
+                            rel: 0,
+                            showinfo: 0,
+                            fs: 0,
+                            playsinline: 1
+                        }
+                    });
+
+                    var resizeListener = instance.resizeListener;
+                    if (resizeListener) {
+                        window.removeEventListener('resize', resizeListener);
+                        window.addEventListener('resize', resizeListener);
+                    } else {
+                        resizeListener = instance.resizeListener = onVideoResize.bind(instance);
+                    }
+                    window.removeEventListener('orientationChange', resizeListener);
+                    window.addEventListener('orientationChange', resizeListener);
+                };
+
+                if (!window.YT) {
+                    var tag = document.createElement('script');
+                    tag.src = "https://www.youtube.com/iframe_api";
+                    var firstScriptTag = document.getElementsByTagName('script')[0];
+                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                } else {
+                    window.onYouTubeIframeAPIReady();
+                }
+            });
+
+        });
+    }
+
     function YoutubePlayer() {
 
-        var self = this;
-
-        self.name = 'Youtube Player';
-        self.type = 'mediaplayer';
-        self.id = 'youtubeplayer';
+        this.name = 'Youtube Player';
+        this.type = 'mediaplayer';
+        this.id = 'youtubeplayer';
 
         // Let any players created by plugins take priority
-        self.priority = 1;
-
-        self.play = function (options) {
-
-            this.started = false;
-
-            return createMediaElement(this, options).then(function (elem) {
-
-                return setCurrentSrc(elem, options);
-            });
-        };
-
-        function setCurrentSrc(elem, options) {
-
-            return new Promise(function (resolve, reject) {
-
-                require(['queryString'], function (queryString) {
-
-
-                    self._currentSrc = options.url;
-                    var params = queryString.parse(options.url.split('?')[1]);
-                    // 3. This function creates an <iframe> (and YouTube player)
-                    //    after the API code downloads.
-                    window.onYouTubeIframeAPIReady = function () {
-                        self.currentYoutubePlayer = new YT.Player('player', {
-                            height: self.videoDialog.offsetHeight,
-                            width: self.videoDialog.offsetWidth,
-                            videoId: params.v,
-                            events: {
-                                'onReady': onPlayerReady,
-                                'onStateChange': function (event) {
-                                    if (event.data === YT.PlayerState.PLAYING) {
-                                        onPlaying(self, options, resolve);
-                                    } else if (event.data === YT.PlayerState.ENDED) {
-                                        onEnded();
-                                    } else if (event.data === YT.PlayerState.PAUSED) {
-                                        events.trigger(self, 'pause');
-                                    }
-                                }
-                            },
-                            playerVars: {
-                                controls: 0,
-                                enablejsapi: 1,
-                                modestbranding: 1,
-                                rel: 0,
-                                showinfo: 0,
-                                fs: 0,
-                                playsinline: 1
-                            }
-                        });
-
-                        var resizeListener = self.resizeListener;
-                        if (resizeListener) {
-                            window.removeEventListener('resize', resizeListener);
-                            window.addEventListener('resize', resizeListener);
-                        } else {
-                            resizeListener = self.resizeListener = onVideoResize.bind(self);
-                        }
-                        window.removeEventListener('orientationChange', resizeListener);
-                        window.addEventListener('orientationChange', resizeListener);
-                    };
-
-                    if (!window.YT) {
-                        var tag = document.createElement('script');
-                        tag.src = "https://www.youtube.com/iframe_api";
-                        var firstScriptTag = document.getElementsByTagName('script')[0];
-                        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                    } else {
-                        window.onYouTubeIframeAPIReady();
-                    }
-                });
-
-            });
-        }
-
-        function onEnded() {
-
-            onEndedInternal(self, true);
-        }
+        this.priority = 1;
     }
+
+    YoutubePlayer.prototype.play = function (options) {
+
+        this.started = false;
+        var instance = this;
+
+        return createMediaElement(this, options).then(function (elem) {
+
+            return setCurrentSrc(instance, elem, options);
+        });
+    };
 
     YoutubePlayer.prototype.stop = function (destroyPlayer, reportEnded) {
 

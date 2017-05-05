@@ -217,72 +217,71 @@
         });
     }
 
-    function collectioneditor() {
+    function CollectionEditor() {
 
-        var self = this;
-
-        self.show = function (options) {
-
-            var items = options.items || {};
-            currentServerId = options.serverId;
-
-            var dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
-
-            if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
-            }
-
-            var dlg = dialogHelper.createDialog(dialogOptions);
-
-            dlg.classList.add('formDialog');
-
-            var html = '';
-            var title = items.length ? globalize.translate('sharedcomponents#HeaderAddToCollection') : globalize.translate('sharedcomponents#NewCollection');
-
-            html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
-            html += '<h3 class="formDialogHeaderTitle">';
-            html += title;
-            html += '</h3>';
-
-            html += '<a is="emby-linkbutton" class="button-link btnHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('sharedcomponents#Help') + '"><i class="md-icon">&#xE88E;</i><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
-
-            html += '</div>';
-
-            html += getEditorHtml();
-
-            dlg.innerHTML = html;
-
-            initEditor(dlg, items);
-
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
-                dialogHelper.close(dlg);
-            });
-
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-            }
-
-            return dialogHelper.open(dlg).then(function () {
-
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                }
-
-                if (dlg.submitted) {
-                    return Promise.resolve();
-                }
-
-                return Promise.reject();
-            });
-        };
     }
 
-    return collectioneditor;
+    CollectionEditor.prototype.show = function (options) {
+
+        var items = options.items || {};
+        currentServerId = options.serverId;
+
+        var dialogOptions = {
+            removeOnClose: true,
+            scrollY: false
+        };
+
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
+
+        var dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+
+        var html = '';
+        var title = items.length ? globalize.translate('sharedcomponents#HeaderAddToCollection') : globalize.translate('sharedcomponents#NewCollection');
+
+        html += '<div class="formDialogHeader">';
+        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+        html += '<h3 class="formDialogHeaderTitle">';
+        html += title;
+        html += '</h3>';
+
+        html += '<a is="emby-linkbutton" class="button-link btnHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('sharedcomponents#Help') + '"><i class="md-icon">&#xE88E;</i><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+
+        html += '</div>';
+
+        html += getEditorHtml();
+
+        dlg.innerHTML = html;
+
+        initEditor(dlg, items);
+
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+
+            dialogHelper.close(dlg);
+        });
+
+        if (layoutManager.tv) {
+            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+        }
+
+        return dialogHelper.open(dlg).then(function () {
+
+            if (layoutManager.tv) {
+                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+            }
+
+            if (dlg.submitted) {
+                return Promise.resolve();
+            }
+
+            return Promise.reject();
+        });
+    };
+
+    return CollectionEditor;
 });

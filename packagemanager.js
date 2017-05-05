@@ -81,10 +81,10 @@ define(['appSettings', 'pluginManager'], function (appSettings, pluginManager) {
     PackageManager.prototype.init = function () {
         var manifestUrls = JSON.parse(appSettings.get(settingsKey) || '[]');
 
-        var self = this;
+        var instance = this;
         return Promise.all(manifestUrls.map(function (u) {
 
-            return loadPackage(self, u);
+            return loadPackage(instance, u);
 
         })).then(function () {
             return Promise.resolve();

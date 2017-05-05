@@ -59,101 +59,99 @@
         });
     }
 
-    return function (options) {
+    function onSubmit(e) {
 
-        var self = this;
+        loading.show();
 
-        function onSubmit(e) {
+        var instance = this;
+        var dlg = parentWithClass(e.target, 'dialog');
+        var options = instance.options;
 
-            loading.show();
+        var apiClient = connectionManager.getApiClient(options.serverId);
 
-            var dlg = parentWithClass(this, 'dialog');
+        var replaceAllImages = dlg.querySelector('.chkReplaceImages').checked;
+        var replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
 
-            var apiClient = connectionManager.getApiClient(options.serverId);
+        options.itemIds.forEach(function (itemId) {
+            apiClient.refreshItem(itemId, {
 
-            var replaceAllImages = dlg.querySelector('.chkReplaceImages').checked;
-            var replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
-
-            options.itemIds.forEach(function (itemId) {
-                apiClient.refreshItem(itemId, {
-
-                    Recursive: true,
-                    ImageRefreshMode: 'FullRefresh',
-                    MetadataRefreshMode: 'FullRefresh',
-                    ReplaceAllImages: replaceAllImages,
-                    ReplaceAllMetadata: replaceAllMetadata
-                });
+                Recursive: true,
+                ImageRefreshMode: 'FullRefresh',
+                MetadataRefreshMode: 'FullRefresh',
+                ReplaceAllImages: replaceAllImages,
+                ReplaceAllMetadata: replaceAllMetadata
             });
+        });
+
+        dialogHelper.close(dlg);
+
+        require(['toast'], function (toast) {
+            toast(globalize.translate('sharedcomponents#RefreshQueued'));
+        });
+
+        loading.hide();
+
+        e.preventDefault();
+        return false;
+    }
+
+    function RefreshDialog(options) {
+        this.options = options;
+    }
+
+    RefreshDialog.prototype.show = function () {
+
+        var dialogOptions = {
+            removeOnClose: true,
+            scrollY: false
+        };
+
+        if (layoutManager.tv) {
+            dialogOptions.size = 'fullscreen';
+        } else {
+            dialogOptions.size = 'small';
+        }
+
+        var dlg = dialogHelper.createDialog(dialogOptions);
+
+        dlg.classList.add('formDialog');
+
+        var html = '';
+        var title = globalize.translate('sharedcomponents#RefreshMetadata');
+
+        html += '<div class="formDialogHeader">';
+        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+        html += '<h3 class="formDialogHeaderTitle">';
+        html += title;
+        html += '</h3>';
+
+        html += '</div>';
+
+        html += getEditorHtml();
+
+        dlg.innerHTML = html;
+
+        dlg.querySelector('form').addEventListener('submit', onSubmit.bind(this));
+
+        dlg.querySelector('.btnCancel').addEventListener('click', function () {
 
             dialogHelper.close(dlg);
+        });
 
-            require(['toast'], function (toast) {
-                toast(globalize.translate('sharedcomponents#RefreshQueued'));
-            });
-
-            loading.hide();
-
-            e.preventDefault();
-            return false;
+        if (layoutManager.tv) {
+            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
         }
 
-        function initEditor(content, items) {
-
-            content.querySelector('form').addEventListener('submit', onSubmit);
-        }
-
-        self.show = function () {
-
-            var dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
+        return new Promise(function (resolve, reject) {
 
             if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
+                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }
 
-            var dlg = dialogHelper.createDialog(dialogOptions);
-
-            dlg.classList.add('formDialog');
-
-            var html = '';
-            var title = globalize.translate('sharedcomponents#RefreshMetadata');
-
-            html += '<div class="formDialogHeader">';
-            html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
-            html += '<h3 class="formDialogHeaderTitle">';
-            html += title;
-            html += '</h3>';
-
-            html += '</div>';
-
-            html += getEditorHtml();
-
-            dlg.innerHTML = html;
-
-            initEditor(dlg);
-
-            dlg.querySelector('.btnCancel').addEventListener('click', function () {
-
-                dialogHelper.close(dlg);
-            });
-
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-            }
-
-            return new Promise(function (resolve, reject) {
-
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                }
-
-                dlg.addEventListener('close', resolve);
-                dialogHelper.open(dlg);
-            });
-        };
+            dlg.addEventListener('close', resolve);
+            dialogHelper.open(dlg);
+        });
     };
+
+    return RefreshDialog;
 });
