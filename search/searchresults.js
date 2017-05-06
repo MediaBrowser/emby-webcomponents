@@ -54,7 +54,8 @@
                 queryIncludeItemTypes === 'MusicAlbum' ||
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
-                queryIncludeItemTypes === 'AudioBook') {
+                queryIncludeItemTypes === 'AudioBook' ||
+                query.MediaTypes === 'Video') {
                 allowSearch = false;
             }
         }
@@ -68,7 +69,8 @@
                 queryIncludeItemTypes === 'MusicAlbum' ||
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
-                queryIncludeItemTypes === 'AudioBook') {
+                queryIncludeItemTypes === 'AudioBook' ||
+                query.MediaTypes === 'Video') {
                 allowSearch = false;
             }
         }
@@ -93,7 +95,8 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
-                queryIncludeItemTypes === 'Movie') {
+                queryIncludeItemTypes === 'Movie' ||
+                query.MediaTypes === 'Video') {
                 allowSearch = false;
             }
         }
@@ -317,6 +320,24 @@
             showAirDateTime: true,
             showChannelName: true
 
+        });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            MediaTypes: "Video",
+            ExcludeItemTypes: "Movie,Episode"
+
+        }, context, '.videoResults', {
+
+            showParentTitle: true,
+            showTitle: true,
+            overlayText: false,
+            centerText: true
         });
 
         searchType(instance, apiClient, {
