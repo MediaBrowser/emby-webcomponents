@@ -33,9 +33,75 @@
         });
     }
 
-    function getSearchHints(apiClient, query) {
+    function getSearchHints(instance, apiClient, query) {
 
         if (!query.searchTerm) {
+            return Promise.resolve({
+                SearchHints: []
+            });
+        }
+
+        var allowSearch = true;
+
+        var queryIncludeItemTypes = query.IncludeItemTypes;
+
+        if (instance.options.collectionType === 'tvshows') {
+            if (query.IncludeArtists) {
+                allowSearch = false;
+            }
+            else if (queryIncludeItemTypes === 'Movie' ||
+                queryIncludeItemTypes === 'LiveTvProgram' ||
+                queryIncludeItemTypes === 'MusicAlbum' ||
+                queryIncludeItemTypes === 'Audio' ||
+                queryIncludeItemTypes === 'Book' ||
+                queryIncludeItemTypes === 'AudioBook') {
+                allowSearch = false;
+            }
+        }
+        else if (instance.options.collectionType === 'movies') {
+            if (query.IncludeArtists) {
+                allowSearch = false;
+            }
+            else if (queryIncludeItemTypes === 'Series' ||
+                queryIncludeItemTypes === 'Episode' ||
+                queryIncludeItemTypes === 'LiveTvProgram' ||
+                queryIncludeItemTypes === 'MusicAlbum' ||
+                queryIncludeItemTypes === 'Audio' ||
+                queryIncludeItemTypes === 'Book' ||
+                queryIncludeItemTypes === 'AudioBook') {
+                allowSearch = false;
+            }
+        }
+        else if (instance.options.collectionType === 'music') {
+            if (query.People) {
+                allowSearch = false;
+            }
+            else if (queryIncludeItemTypes === 'Series' ||
+                queryIncludeItemTypes === 'Episode' ||
+                queryIncludeItemTypes === 'LiveTvProgram' ||
+                queryIncludeItemTypes === 'Movie') {
+                allowSearch = false;
+            }
+        }
+        else if (instance.options.collectionType === 'livetv') {
+            if (query.IncludeArtists || query.IncludePeople) {
+                allowSearch = false;
+            }
+            else if (queryIncludeItemTypes === 'Series' ||
+                queryIncludeItemTypes === 'Episode' ||
+                queryIncludeItemTypes === 'MusicAlbum' ||
+                queryIncludeItemTypes === 'Audio' ||
+                queryIncludeItemTypes === 'Book' ||
+                queryIncludeItemTypes === 'AudioBook' ||
+                queryIncludeItemTypes === 'Movie') {
+                allowSearch = false;
+            }
+        }
+        if (queryIncludeItemTypes === 'NullType') {
+            allowSearch = false;
+        }
+
+        if (!allowSearch) {
             return Promise.resolve({
                 SearchHints: []
             });
@@ -52,40 +118,53 @@
             loadSuggestions(instance, context, apiClient);
         }
 
-        searchType(instance, apiClient, {
-            searchTerm: value,
-            IncludePeople: false,
-            IncludeMedia: true,
-            IncludeGenres: false,
-            IncludeStudios: false,
-            IncludeArtists: false,
-            IncludeItemTypes: "Movie"
+        if (instance.options.collectionType === 'livetv') {
 
-        }, context, '.movieResults', {
+            searchType(instance, apiClient, {
+                searchTerm: value,
+                IncludePeople: false,
+                IncludeMedia: true,
+                IncludeGenres: false,
+                IncludeStudios: false,
+                IncludeArtists: false,
+                IncludeItemTypes: "LiveTvProgram",
+                IsMovie: true,
+                IsKids: false
 
-            showTitle: true,
-            overlayText: false,
-            centerText: true,
-            showYear: true
-        });
+            }, context, '.movieResults', {
 
-        searchType(instance, apiClient, {
-            searchTerm: value,
-            IncludePeople: false,
-            IncludeMedia: true,
-            IncludeGenres: false,
-            IncludeStudios: false,
-            IncludeArtists: false,
-            IncludeItemTypes: "LiveTvProgram"
+                preferThumb: true,
+                inheritThumb: false,
+                shape: (enableScrollX() ? 'overflowPortrait' : 'portrait'),
+                showParentTitleOrTitle: true,
+                showTitle: false,
+                centerText: true,
+                coverImage: true,
+                overlayText: false,
+                overlayMoreButton: true,
+                showAirTime: true,
+                showAirDateTime: true,
+                showChannelName: true
+            });
+        } else {
 
-        }, context, '.programResults', {
+            searchType(instance, apiClient, {
+                searchTerm: value,
+                IncludePeople: false,
+                IncludeMedia: true,
+                IncludeGenres: false,
+                IncludeStudios: false,
+                IncludeArtists: false,
+                IncludeItemTypes: "Movie"
 
-            showTitle: true,
-            showParentTitle: true,
-            overlayText: false,
-            centerText: true
+            }, context, '.movieResults', {
 
-        });
+                showTitle: true,
+                overlayText: false,
+                centerText: true,
+                showYear: true
+            });
+        }
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -104,6 +183,57 @@
             showYear: true
         });
 
+        if (instance.options.collectionType === 'livetv') {
+
+            searchType(instance, apiClient, {
+                searchTerm: value,
+                IncludePeople: false,
+                IncludeMedia: true,
+                IncludeGenres: false,
+                IncludeStudios: false,
+                IncludeArtists: false,
+                IncludeItemTypes: "LiveTvProgram",
+                IsSeries: true,
+                IsSports: false,
+                IsKids: false,
+                IsNews: false
+
+            }, context, '.episodeResults', {
+
+                preferThumb: true,
+                inheritThumb: false,
+                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+                preferThumb: true,
+                showParentTitleOrTitle: true,
+                showTitle: false,
+                centerText: true,
+                coverImage: true,
+                overlayText: false,
+                overlayMoreButton: true,
+                showAirTime: true,
+                showAirDateTime: true,
+                showChannelName: true
+            });
+
+        } else {
+
+            searchType(instance, apiClient, {
+                searchTerm: value,
+                IncludePeople: false,
+                IncludeMedia: true,
+                IncludeGenres: false,
+                IncludeStudios: false,
+                IncludeArtists: false,
+                IncludeItemTypes: "Episode"
+
+            }, context, '.episodeResults', {
+
+                coverImage: true,
+                showTitle: true,
+                showParentTitle: true
+            });
+        }
+
         searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
@@ -111,13 +241,86 @@
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            IncludeItemTypes: "Episode"
+            // NullType to hide
+            IncludeItemTypes: instance.options.collectionType === 'livetv' ? 'LiveTvProgram' : 'NullType',
+            IsSports: true
 
-        }, context, '.episodeResults', {
+        }, context, '.sportsResults', {
 
+            preferThumb: true,
+            inheritThumb: false,
+            shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+            preferThumb: true,
+            showParentTitleOrTitle: true,
+            showTitle: false,
+            centerText: true,
             coverImage: true,
-            showTitle: true,
-            showParentTitle: true
+            overlayText: false,
+            overlayMoreButton: true,
+            showAirTime: true,
+            showAirDateTime: true,
+            showChannelName: true
+
+        });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            // NullType to hide
+            IncludeItemTypes: instance.options.collectionType === 'livetv' ? 'LiveTvProgram' : 'NullType',
+            IsKids: true
+
+        }, context, '.kidsResults', {
+
+            preferThumb: true,
+            inheritThumb: false,
+            shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+            preferThumb: true,
+            showParentTitleOrTitle: true,
+            showTitle: false,
+            centerText: true,
+            coverImage: true,
+            overlayText: false,
+            overlayMoreButton: true,
+            showAirTime: true,
+            showAirDateTime: true,
+            showChannelName: true
+
+        });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            IncludeItemTypes: "LiveTvProgram",
+            IsMovie: instance.options.collectionType === 'livetv' ? false : null,
+            IsSeries: instance.options.collectionType === 'livetv' ? false : null,
+            IsSports: instance.options.collectionType === 'livetv' ? false : null,
+            IsKids: instance.options.collectionType === 'livetv' ? false : null
+
+        }, context, '.programResults', {
+
+            preferThumb: true,
+            inheritThumb: false,
+            shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+            preferThumb: true,
+            showParentTitleOrTitle: true,
+            showTitle: false,
+            centerText: true,
+            coverImage: true,
+            overlayText: false,
+            overlayMoreButton: true,
+            showAirTime: true,
+            showAirDateTime: true,
+            showChannelName: true
+
         });
 
         searchType(instance, apiClient, {
@@ -220,10 +423,10 @@
     function searchType(instance, apiClient, query, context, section, cardOptions) {
 
         query.UserId = apiClient.getCurrentUserId();
-        query.Limit = 24;
+        query.Limit = enableScrollX() ? 24 : 16;
         query.ParentId = instance.options.parentId;
 
-        getSearchHints(apiClient, query).then(function (result) {
+        getSearchHints(instance, apiClient, query).then(function (result) {
 
             populateResults(result, context, section, cardOptions);
         });
@@ -241,20 +444,34 @@
 
             itemsContainer: itemsContainer,
             parentContainer: section,
-            shape: 'autooverflow',
+            shape: enableScrollX() ? 'autooverflow' : 'auto',
             scalable: true,
             overlayText: false,
             centerText: true,
-            allowBottomPadding: false
+            allowBottomPadding: !enableScrollX()
 
         }, cardOptions || {}));
 
         section.querySelector('.emby-scroller').scrollToBeginning(true);
     }
 
+    function enableScrollX() {
+        return !layoutManager.desktop;
+    }
+
+    function replaceAll(originalString, strReplace, strWith) {
+        var reg = new RegExp(strReplace, 'ig');
+        return originalString.replace(reg, strWith);
+    }
+
     function embed(elem, instance, options) {
 
         require(['text!./searchresults.template.html'], function (template) {
+
+            if (!enableScrollX()) {
+                template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');
+                template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
+            }
 
             var html = globalize.translateDocument(template, 'sharedcomponents');
 
