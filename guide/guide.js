@@ -36,21 +36,49 @@
             cell.guideProgramName = guideProgramName;
         }
 
+        var caret = cell.caret;
+        if (!caret) {
+            caret = cell.querySelector('.guideProgramNameCaret');
+            cell.caret = caret;
+        }
+
         if (guideProgramName) {
-            guideProgramName.style.marginLeft = pctOfWidth + '%';
+            if (pctOfWidth > 1) {
+                //guideProgramName.style.marginLeft = pctOfWidth + '%';
+                guideProgramName.style.transform = 'translateX(' + pctOfWidth + '%)';
+                guideProgramName.classList.add('guideProgramName-withCaret');
+                caret.classList.remove('hide');
+            } else {
+                //guideProgramName.style.marginLeft = '0';
+                guideProgramName.style.transform = 'none';
+                guideProgramName.classList.remove('guideProgramName-withCaret');
+                caret.classList.add('hide');
+            }
         }
     }
 
+    var isUpdatingProgramCellScroll = false;
     function updateProgramCellsOnScroll(programGrid, programCells) {
 
-        var scrollLeft = programGrid.scrollLeft;
-
-        var scrollPct = scrollLeft ? (scrollLeft / programGrid.scrollWidth) * 100 : 0;
-
-        for (var i = 0, length = programCells.length; i < length; i++) {
-
-            updateProgramCellOnScroll(programCells[i], scrollPct);
+        if (isUpdatingProgramCellScroll) {
+            return;
         }
+
+        isUpdatingProgramCellScroll = true;
+
+        requestAnimationFrame(function () {
+
+            var scrollLeft = programGrid.scrollLeft;
+
+            var scrollPct = scrollLeft ? (scrollLeft / programGrid.scrollWidth) * 100 : 0;
+
+            for (var i = 0, length = programCells.length; i < length; i++) {
+
+                updateProgramCellOnScroll(programCells[i], scrollPct);
+            }
+
+            isUpdatingProgramCellScroll = false;
+        });
     }
 
     function Guide(options) {
@@ -568,6 +596,8 @@
                     var guideProgramNameClass = "guideProgramName";
 
                     html += '<div class="' + guideProgramNameClass + '">';
+
+                    html += '<div class="guideProgramNameCaret hide"><i class="guideProgramNameCaretIcon md-icon">&#xE314;</i></div>';
 
                     html += '<div class="guideProgramNameText">' + program.Name + '</div>';
 
