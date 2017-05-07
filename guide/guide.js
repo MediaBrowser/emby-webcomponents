@@ -1,4 +1,4 @@
-﻿define(['require', 'browser', 'globalize', 'connectionManager', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationServices', 'dom', 'clearButtonStyle', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles'], function (require, browser, globalize, connectionManager, serverNotifications, loading, datetime, focusManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, registrationServices, dom) {
+﻿define(['require', 'browser', 'globalize', 'connectionManager', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationServices', 'dom', 'clearButtonStyle', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, browser, globalize, connectionManager, serverNotifications, loading, datetime, focusManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, registrationServices, dom) {
     'use strict';
 
     function showViewSettings(instance) {
@@ -8,6 +8,49 @@
                 instance.refresh();
             });
         });
+    }
+
+    function updateProgramCellOnScroll(cell, scrollPct) {
+
+        var left = cell.posLeft;
+        if (!left) {
+            left = parseFloat(cell.style.left.replace('%', ''));
+            cell.posLeft = left;
+        }
+        var width = cell.posWidth;
+        if (!width) {
+            width = parseFloat(cell.style.width.replace('%', ''));
+            cell.posWidth = width;
+        }
+
+        var right = left + width;
+        var newPct = Math.max(Math.min(scrollPct, right), left);
+
+        var offset = newPct - left;
+        var pctOfWidth = (offset / width) * 100;
+
+        //console.log(pctOfWidth);
+        var guideProgramName = cell.guideProgramName;
+        if (!guideProgramName) {
+            guideProgramName = cell.querySelector('.guideProgramName');
+            cell.guideProgramName = guideProgramName;
+        }
+
+        if (guideProgramName) {
+            guideProgramName.style.marginLeft = pctOfWidth + '%';
+        }
+    }
+
+    function updateProgramCellsOnScroll(programGrid, programCells) {
+
+        var scrollLeft = programGrid.scrollLeft;
+
+        var scrollPct = scrollLeft ? (scrollLeft / programGrid.scrollWidth) * 100 : 0;
+
+        for (var i = 0, length = programCells.length; i < length; i++) {
+
+            updateProgramCellOnScroll(programCells[i], scrollPct);
+        }
     }
 
     function Guide(options) {
@@ -28,6 +71,7 @@
         var currentStartIndex = 0;
         var currentChannelLimit = 0;
         var autoRefreshInterval;
+        var programCells;
 
         self.refresh = function () {
 
@@ -154,7 +198,8 @@
                 //pct = 100 - pct;
                 //currentTimeIndicatorElement.style.width = (pct * 100) + '%';
                 currentTimeIndicatorBar.style.transform = 'scaleX(' + pct + ')';
-                currentTimeIndicatorArrow.style.transform = 'translateX(' + (pct * 100) + '%)';
+                //currentTimeIndicatorArrow.style.transform = 'translateX(' + (pct * 100) + '%)';
+                currentTimeIndicatorArrow.style.left = (pct * 100) + '%';
             }
         }
 
@@ -515,7 +560,9 @@
                     timerAttributes += ' data-seriestimerid="' + program.SeriesTimerId + '"';
                 }
 
-                html += '<button data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
+                var isAttribute = endPercent >= 2.1 ? ' is="emby-programcell"' : '';
+
+                html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
                 if (displayInnerContent) {
                     var guideProgramNameClass = "guideProgramName";
@@ -649,6 +696,8 @@
 
             var programGrid = context.querySelector('.programGrid');
             programGrid.innerHTML = html.join('');
+
+            programCells = programGrid.querySelectorAll('[is=emby-programcell]');
         }
 
         function getProgramSortOrder(program, channels) {
@@ -783,6 +832,8 @@
                 lastGridScroll = new Date().getTime();
                 nativeScrollTo(timeslotHeaders, elem.scrollLeft, true);
             }
+
+            updateProgramCellsOnScroll(elem, programCells);
         }
 
         function onTimeslotHeadersScroll(context, elem, programGrid) {
@@ -1065,6 +1116,19 @@
             self.refresh();
         });
     }
+
+    var ProgramCellPrototype = Object.create(HTMLButtonElement.prototype);
+
+    ProgramCellPrototype.detachedCallback = function () {
+        this.posLeft = null;
+        this.posWidth = null;
+        this.guideProgramName = null;
+    };
+
+    document.registerElement('emby-programcell', {
+        prototype: ProgramCellPrototype,
+        extends: 'button'
+    });
 
     return Guide;
 });

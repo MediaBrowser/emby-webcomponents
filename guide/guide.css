@@ -92,7 +92,6 @@
 .currentTimeIndicatorArrowContainer {
     position: absolute;
     bottom: -.4em;
-    width: 100%;
     color: #52B54B;
     margin-left: .25em;
     transform-origin: left;
