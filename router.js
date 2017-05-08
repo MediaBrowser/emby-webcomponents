@@ -545,7 +545,11 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
             if (arguments.length === 2) {
                 options = arguments[1];
             }
-            skinManager.getCurrentSkin().showItem(item, options);
+
+            var url = embyRouter.getRouteUrl(item, options);
+            embyRouter.show(url, {
+                item: item
+            });
         }
     }
 
