@@ -1,4 +1,4 @@
-define(['css!./indicators.css', 'material-icons'], function () {
+define(['datetime', 'css!./indicators.css', 'material-icons'], function (datetime) {
     'use strict';
 
     function enableProgressIndicator(item) {
@@ -29,7 +29,22 @@ define(['css!./indicators.css', 'material-icons'], function () {
         return '<div class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
     }
 
+    function getAutoTimeProgressHtml(pct, options, start, end) {
+
+        var containerClass = 'itemProgressBar';
+
+        if (options) {
+            if (options.containerClass) {
+                containerClass += ' ' + options.containerClass;
+            }
+        }
+
+        return '<div is="emby-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
+    }
+
     function getProgressBarHtml(item, options) {
+
+        var pct;
 
         if (enableProgressIndicator(item)) {
             if (item.Type === "Recording" && item.CompletionPercentage) {
@@ -39,12 +54,41 @@ define(['css!./indicators.css', 'material-icons'], function () {
 
             var userData = options ? (options.userData || item.UserData) : item.UserData;
             if (userData) {
-                var pct = userData.PlayedPercentage;
+                pct = userData.PlayedPercentage;
 
                 if (pct && pct < 100) {
 
                     return getProgressHtml(pct, options);
                 }
+            }
+        }
+
+        if (item.Type === 'Program' && item.StartDate && item.EndDate) {
+
+            var startDate = 0;
+            var endDate = 1;
+
+            try {
+
+                startDate = datetime.parseISO8601Date(item.StartDate).getTime();
+
+            } catch (err) {
+            }
+
+            try {
+
+                endDate = datetime.parseISO8601Date(item.EndDate).getTime();
+
+            } catch (err) {
+            }
+
+            var now = new Date().getTime();
+            var total = endDate - startDate;
+            pct = 100 * ((now - startDate) / total);
+
+            if (pct > 0 && pct < 100) {
+
+                return getAutoTimeProgressHtml(pct, options, startDate, endDate);
             }
         }
 
@@ -159,6 +203,48 @@ define(['css!./indicators.css', 'material-icons'], function () {
 
         return '';
     }
+
+    var ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
+
+    function onAutoTimeProgress() {
+
+        var start = parseInt(this.getAttribute('data-starttime'));
+        var end = parseInt(this.getAttribute('data-endtime'));
+
+        var now = new Date().getTime();
+        var total = end - start;
+        var pct = 100 * ((now - start) / total);
+
+        pct = Math.min(100, pct);
+        pct = Math.max(0, pct);
+
+        var itemProgressBarForeground = this.querySelector('.itemProgressBarForeground');
+        itemProgressBarForeground.style.width = pct + '%';
+    }
+
+    ProgressBarPrototype.attachedCallback = function () {
+
+        if (this.timeInterval) {
+            clearInterval(this.timeInterval);
+        }
+
+        if (this.getAttribute('data-automode') === 'time') {
+            this.timeInterval = setInterval(onAutoTimeProgress.bind(this), 60000);
+        }
+    };
+
+    ProgressBarPrototype.detachedCallback = function () {
+
+        if (this.timeInterval) {
+            clearInterval(this.timeInterval);
+            this.timeInterval = null;
+        }
+    };
+
+    document.registerElement('emby-progressbar', {
+        prototype: ProgressBarPrototype,
+        extends: 'div'
+    });
 
     return {
         getProgressBarHtml: getProgressBarHtml,

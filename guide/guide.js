@@ -588,7 +588,7 @@
                     timerAttributes += ' data-seriestimerid="' + program.SeriesTimerId + '"';
                 }
 
-                var isAttribute = endPercent >= 2.1 ? ' is="emby-programcell"' : '';
+                var isAttribute = endPercent >= 2 ? ' is="emby-programcell"' : '';
 
                 html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
@@ -728,6 +728,8 @@
             programGrid.innerHTML = html.join('');
 
             programCells = programGrid.querySelectorAll('[is=emby-programcell]');
+
+            updateProgramCellsOnScroll(programGrid, programCells);
         }
 
         function getProgramSortOrder(program, channels) {
