@@ -234,7 +234,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         updateHomeSectionValues(context, userSettings);
 
         var promise1 = apiClient.getUserViews({}, user.Id);
-        var promise2 = apiClientv.getJSON(apiClient.getUrl("Users/" + user.Id + "/GroupingOptions"));
+        var promise2 = apiClient.getJSON(apiClient.getUrl("Users/" + user.Id + "/GroupingOptions"));
 
         Promise.all([promise1, promise2]).then(function (responses) {
 
