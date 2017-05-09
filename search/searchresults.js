@@ -132,7 +132,8 @@
                 IncludeArtists: false,
                 IncludeItemTypes: "LiveTvProgram",
                 IsMovie: true,
-                IsKids: false
+                IsKids: false,
+                IsNews: false
 
             }, context, '.movieResults', {
 
@@ -299,11 +300,40 @@
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
+            // NullType to hide
+            IncludeItemTypes: instance.options.collectionType === 'livetv' ? 'LiveTvProgram' : 'NullType',
+            IsNews: true
+
+        }, context, '.newsResults', {
+
+            preferThumb: true,
+            inheritThumb: false,
+            shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+            showParentTitleOrTitle: true,
+            showTitle: false,
+            centerText: true,
+            coverImage: true,
+            overlayText: false,
+            overlayMoreButton: true,
+            showAirTime: true,
+            showAirDateTime: true,
+            showChannelName: true
+
+        });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
             IncludeItemTypes: "LiveTvProgram",
             IsMovie: instance.options.collectionType === 'livetv' ? false : null,
             IsSeries: instance.options.collectionType === 'livetv' ? false : null,
             IsSports: instance.options.collectionType === 'livetv' ? false : null,
-            IsKids: instance.options.collectionType === 'livetv' ? false : null
+            IsKids: instance.options.collectionType === 'livetv' ? false : null,
+            IsNews: instance.options.collectionType === 'livetv' ? false : null
 
         }, context, '.programResults', {
 
