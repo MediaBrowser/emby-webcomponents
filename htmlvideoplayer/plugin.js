@@ -50,6 +50,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var videoDialog;
         var currentSrc;
         var started = false;
+        var timeUpdated = false;
         var hlsPlayer;
 
         var winJsPlaybackItem;
@@ -124,6 +125,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             started = false;
+            timeUpdated = false;
 
             _currentTime = null;
 
@@ -740,6 +742,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             // Get the player position + the transcoding offset
             var time = this.currentTime;
 
+            if (time && !timeUpdated) {
+                timeUpdated = true;
+                ensureValidVideo(this);
+            }
+
             _currentTime = time;
             var timeMs = time * 1000;
             timeMs += ((currentPlayOptions.transcodingOffsetTicks || 0) / 10000);
@@ -789,7 +796,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 loading.hide();
 
-                ensureValidVideo(this);
             } else {
                 events.trigger(self, 'unpause');
             }
@@ -797,22 +803,18 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function ensureValidVideo(elem) {
-            setTimeout(function () {
+            if (elem !== mediaElement) {
+                return;
+            }
 
-                if (elem !== mediaElement) {
-                    return;
-                }
+            if (elem.videoWidth === 0 && elem.videoHeight === 0) {
+                onErrorInternal('mediadecodeerror');
+                return;
+            }
 
-                if (elem.videoWidth === 0 && elem.videoHeight === 0) {
-                    onErrorInternal('mediadecodeerror');
-                    return;
-                }
-
-                //if (elem.audioTracks && !elem.audioTracks.length) {
-                //    onErrorInternal('mediadecodeerror');
-                //}
-
-            }, 100);
+            //if (elem.audioTracks && !elem.audioTracks.length) {
+            //    onErrorInternal('mediadecodeerror');
+            //}
         }
 
         function seekOnPlaybackStart(element) {
