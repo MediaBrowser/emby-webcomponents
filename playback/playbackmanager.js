@@ -2345,7 +2345,10 @@
 
         function supportsDirectPlay(apiClient, item, mediaSource) {
 
-            if (mediaSource.SupportsDirectPlay) {
+            // folder rip hacks due to not yet being supported by the stream building engine
+            var isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
+
+            if (mediaSource.SupportsDirectPlay || isFolderRip) {
 
                 if (mediaSource.IsRemote && (item.Type === 'TvChannel' || item.Type === 'Trailer') && !apphost.supports('remotemedia')) {
                     return Promise.resolve(false);
@@ -2369,7 +2372,7 @@
                         // Determine if the file can be accessed directly
                         require(['filesystem'], function (filesystem) {
 
-                            var method = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd' ?
+                            var method = isFolderRip ?
                                 'directoryExists' :
                                 'fileExists';
 
