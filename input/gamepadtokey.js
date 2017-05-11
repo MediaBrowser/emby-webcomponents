@@ -182,9 +182,9 @@ require(['apphost'], function (appHost) {
     
     function allowInput() {
         
-        if (document.hidden) {
-            return false;
-        }
+        //if (document.hidden) {
+        //    return false;
+        //}
 
         return true;
     }
