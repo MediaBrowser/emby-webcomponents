@@ -127,7 +127,7 @@
 @media all and (min-width: 80em) {
 
     .channelPrograms, .timeslotHeadersInner {
-        width: 660vw;
+        width: 810vw;
     }
 }
 
@@ -168,9 +168,21 @@
     }
 }
 
+@media all and (min-width:37.5em) {
+    .channelsContainer, .channelTimeslotHeader {
+        width: 16vw;
+    }
+}
+
 @media all and (min-width:50em) {
     .channelsContainer, .channelTimeslotHeader {
-        width: 15vw;
+        width: 14vw;
+    }
+}
+
+@media all and (min-width:80em) {
+    .channelsContainer, .channelTimeslotHeader {
+        width: 12vw;
     }
 }
 
