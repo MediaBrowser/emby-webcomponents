@@ -168,21 +168,9 @@
     }
 }
 
-@media all and (min-width:37.5em) {
-    .channelsContainer, .channelTimeslotHeader {
-        width: 16vw;
-    }
-}
-
 @media all and (min-width:50em) {
     .channelsContainer, .channelTimeslotHeader {
-        width: 14vw;
-    }
-}
-
-@media all and (min-width:80em) {
-    .channelsContainer, .channelTimeslotHeader {
-        width: 12vw;
+        width: 15vw;
     }
 }
 

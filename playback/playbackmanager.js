@@ -1062,7 +1062,7 @@
 
                 var maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
 
-                getPlaybackInfo(apiClient, currentItem.Id, deviceProfile, maxBitrate, ticks, currentMediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
+                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, currentMediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
 
                     if (validatePlaybackInfoResult(result)) {
 
@@ -1744,7 +1744,7 @@
                 var deviceProfile = responses[1];
 
                 var apiClient = connectionManager.getApiClient(item.ServerId);
-                return getPlaybackMediaSource(apiClient, deviceProfile, maxBitrate, item, startPosition).then(function (mediaSource) {
+                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition).then(function (mediaSource) {
 
                     return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition).then(function (streamInfo) {
 
@@ -2046,14 +2046,14 @@
             return tracks;
         }
 
-        function getPlaybackMediaSource(apiClient, deviceProfile, maxBitrate, item, startPosition, callback) {
+        function getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, callback) {
 
             if (item.MediaType === "Video") {
 
                 //Dashboard.showModalLoadingMsg();
             }
 
-            return getPlaybackInfo(apiClient, item.Id, deviceProfile, maxBitrate, startPosition).then(function (playbackInfoResult) {
+            return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition).then(function (playbackInfoResult) {
 
                 if (validatePlaybackInfoResult(playbackInfoResult)) {
 
@@ -2087,8 +2087,9 @@
             });
         }
 
-        function getPlaybackInfo(apiClient,
-            itemId,
+        function getPlaybackInfo(player,
+            apiClient,
+            item,
             deviceProfile,
             maxBitrate,
             startPosition,
@@ -2100,6 +2101,8 @@
             enableDirectStream,
             allowVideoStreamCopy,
             allowAudioStreamCopy) {
+
+            var itemId = item.Id;
 
             var query = {
                 UserId: apiClient.getCurrentUserId(),
@@ -2136,6 +2139,13 @@
             }
             if (maxBitrate) {
                 query.MaxStreamingBitrate = maxBitrate;
+            }
+
+            // lastly, enforce player overrides for special situations
+            if (query.EnableDirectStream !== false) {
+                if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
+                    query.EnableDirectStream = false;
+                }
             }
 
             return apiClient.getPlaybackInfo(itemId, query, deviceProfile);

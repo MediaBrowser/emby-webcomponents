@@ -1494,6 +1494,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         return (mediaType || '').toLowerCase() === 'video';
     };
 
+    HtmlVideoPlayer.prototype.supportsPlayMethod = function (playMethod, item) {
+
+        if (appHost.supportsPlayMethod) {
+            return appHost.supportsPlayMethod(playMethod, item);
+        }
+
+        return true;
+    };
+
     HtmlVideoPlayer.prototype.getDeviceProfile = function (item, options) {
 
         if (appHost.getDeviceProfile) {
