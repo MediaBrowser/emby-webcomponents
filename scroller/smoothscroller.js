@@ -1,4 +1,4 @@
-define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], function (browser, layoutManager, dom, focusManager) {
+define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'scrollStyles'], function (browser, layoutManager, dom, focusManager, ResizeObserver) {
     'use strict';
 
     /**
@@ -595,10 +595,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 		 */
         self.destroy = function () {
 
-            dom.removeEventListener(window, 'resize', onResize, {
-                passive: true
-            });
-
             if (self.frameResizeObserver) {
                 self.frameResizeObserver.disconnect();
                 self.frameResizeObserver = null;
@@ -708,21 +704,13 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 });
             }
 
+            initFrameResizeObserver();
+
             if (transform) {
 
                 dom.addEventListener(dragSourceElement, 'touchstart', dragInitSlidee, {
                     passive: true
                 });
-
-                if (window.ResizeObserver) {
-                    initFrameResizeObserver();
-                }
-
-                else if (!o.scrollWidth) {
-                    dom.addEventListener(window, 'resize', onResize, {
-                        passive: true
-                    });
-                }
 
                 if (!o.horizontal) {
                     dom.addEventListener(frame, 'scroll', resetScroll, {

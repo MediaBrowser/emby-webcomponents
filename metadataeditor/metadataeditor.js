@@ -146,7 +146,6 @@
                 Album: form.querySelector('#txtAlbum').value,
                 AlbumArtists: getAlbumArtists(form),
                 ArtistItems: getArtists(form),
-                AwardSummary: form.querySelector('#txtAwardSummary').value,
                 Overview: form.querySelector('#txtOverview').value,
                 Status: form.querySelector('#selectStatus').value,
                 AirDays: getSelectedAirDays(form),
@@ -609,12 +608,6 @@
             hideElement('#fldCriticRating', context);
         }
 
-        if (item.Type === "Movie") {
-            showElement('#fldAwardSummary', context);
-        } else {
-            hideElement('#fldAwardSummary', context);
-        }
-
         if (item.Type === "Series") {
             showElement('#fldStatus', context);
             showElement('#fldAirDays', context);
@@ -828,8 +821,6 @@
         context.querySelector('#txtCommunityRating').value = item.CommunityRating || "";
         context.querySelector('#txtCommunityVoteCount').value = item.VoteCount || "";
         context.querySelector('#txtHomePageUrl').value = item.HomePageUrl || "";
-
-        context.querySelector('#txtAwardSummary').value = item.AwardSummary || "";
 
         context.querySelector('#txtCriticRating').value = item.CriticRating || "";
 
