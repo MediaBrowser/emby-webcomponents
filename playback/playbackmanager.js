@@ -2926,6 +2926,11 @@
             }
         }
 
+        function onPlaybackTimeUpdate(e) {
+            var player = this;
+            sendProgressUpdate(player, 'timeupdate');
+        }
+
         function onPlaybackPause(e) {
             var player = this;
             sendProgressUpdate(player, 'pause');
@@ -2981,6 +2986,7 @@
             if (enableLocalPlaylistManagement(player)) {
                 events.on(player, 'error', onPlaybackError);
                 events.on(player, 'pause', onPlaybackPause);
+                events.on(player, 'timeupdate', onPlaybackTimeUpdate);
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);
                 events.on(player, 'repeatmodechange', onRepeatModeChange);

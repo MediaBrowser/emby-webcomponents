@@ -98,6 +98,8 @@
         var currentChannelLimit = 0;
         var autoRefreshInterval;
         var programCells;
+        var lastFocusDirection;
+        var programGrid;
 
         self.refresh = function () {
 
@@ -715,7 +717,6 @@
                 html.push(getChannelProgramsHtml(context, date, channels[i], programs, options, listInfo));
             }
 
-            var programGrid = context.querySelector('.programGrid');
             programGrid.innerHTML = html.join('');
 
             programCells = programGrid.querySelectorAll('[is=emby-programcell]');
@@ -774,7 +775,6 @@
         function scrollProgramGridToTimeMs(context, scrollToTimeMs) {
 
             var pct = scrollToTimeMs / msPerDay;
-            var programGrid = context.querySelector('.programGrid');
 
             programGrid.scrollTop = 0;
 
@@ -795,7 +795,6 @@
             } else {
 
                 var autoFocusParent;
-                var programGrid = context.querySelector('.programGrid');
 
                 if (channelRowId) {
                     autoFocusParent = context.querySelector('[data-channelid="' + channelRowId + '"]');
@@ -859,7 +858,7 @@
             updateProgramCellsOnScroll(elem, programCells);
         }
 
-        function onTimeslotHeadersScroll(context, elem, programGrid) {
+        function onTimeslotHeadersScroll(context, elem) {
 
             if ((new Date().getTime() - lastGridScroll) >= 1000) {
                 lastHeaderScroll = new Date().getTime();
@@ -961,7 +960,7 @@
         }
 
         function getChildren(element) {
-            
+
             var nativeResult = element.children;
             if (nativeResult) {
                 return nativeResult;
@@ -989,7 +988,6 @@
             return children.length > 0 && element === children[children.length - 1];
         }
 
-        var lastFocusDirection;
         function onInputCommand(e) {
 
             var target = e.target;
@@ -1001,19 +999,23 @@
             switch (e.detail.command) {
 
                 case 'up':
-                    container = programCell ? dom.parentWithClass(programCell, 'programGrid') : null;
+                    container = programCell ? programGrid : null;
                     if (container && isFirstChild(dom.parentWithClass(programCell, 'channelPrograms'))) {
                         container = null;
                     }
+                    lastFocusDirection = e.detail.command;
+
                     focusManager.moveUp(target, {
                         container: container
                     });
                     break;
                 case 'down':
-                    container = programCell ? dom.parentWithClass(programCell, 'programGrid') : null;
+                    container = programCell ? programGrid : null;
                     if (container && isLastChild(dom.parentWithClass(programCell, 'channelPrograms'))) {
                         container = null;
                     }
+                    lastFocusDirection = e.detail.command;
+
                     focusManager.moveDown(target, {
                         container: container
                     });
@@ -1024,6 +1026,8 @@
                     if (container && isFirstChild(programCell)) {
                         container = null;
                     }
+                    lastFocusDirection = e.detail.command;
+
                     focusManager.moveLeft(target, {
                         container: container
                     });
@@ -1031,6 +1035,8 @@
                     break;
                 case 'right':
                     container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
+                    lastFocusDirection = e.detail.command;
+
                     focusManager.moveRight(target, {
                         container: container
                     });
@@ -1039,8 +1045,6 @@
                 default:
                     return;
             }
-
-            lastFocusDirection = e.detail.command;
 
             e.preventDefault();
             e.stopPropagation();
@@ -1068,7 +1072,7 @@
             if (lastFocusDirection === 'left' || lastFocusDirection === 'right') {
 
                 if (programCell) {
-                    scrollHelper.toCenter(dom.parentWithClass(target, 'programGrid'), programCell, true);
+                    scrollHelper.toCenter(programGrid, programCell, true);
                 }
             }
 
@@ -1164,7 +1168,7 @@
                 }
             }
 
-            var programGrid = context.querySelector('.programGrid');
+            programGrid = context.querySelector('.programGrid');
             var timeslotHeaders = context.querySelector('.timeslotHeaders');
 
             if (layoutManager.tv) {
@@ -1187,7 +1191,7 @@
             });
 
             dom.addEventListener(timeslotHeaders, 'scroll', function () {
-                onTimeslotHeadersScroll(context, this, programGrid);
+                onTimeslotHeadersScroll(context, this);
             }, {
                 passive: true
             });
@@ -1221,7 +1225,6 @@
                 if (tabButton) {
                     var date = new Date();
                     date.setTime(parseInt(tabButton.getAttribute('data-date')));
-                    var programGrid = context.querySelector('.programGrid');
 
                     var scrollWidth = programGrid.scrollWidth;
                     var scrollToTimeMs;

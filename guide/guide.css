@@ -22,6 +22,7 @@
 
 .guideHeaderTimeslots {
     display: flex;
+    color: #ccc;
 }
 
 .tvProgramSectionHeader {
@@ -234,12 +235,8 @@
     flex-direction: column;
 }
 
-.channelPrograms-tv {
-    height: 3em;
-}
-
-.channelHeaderCell-tv {
-    height: 3em;
+.channelPrograms-tv, .channelHeaderCell-tv {
+    height: 3.4em;
 }
 
 .channelTimeslotHeader {
@@ -378,7 +375,7 @@
 }
 
 .programTextIcon-tv {
-    font-size: .6em;
+    font-size: .74em;
 }
 
 .guideChannelNumber {
