@@ -46,6 +46,12 @@
         }
     };
 
+    ScrollerProtoType.getScrollSize = function () {
+        if (this.scroller) {
+            return this.scroller.getScrollSize();
+        }
+    };
+
     function onInputCommand(e) {
 
         var cmd = e.detail.command;
@@ -112,7 +118,7 @@
             //immediateSpeed: pageOptions.immediateSpeed,
             elasticBounds: 1,
             dragHandle: 1,
-            scrollWidth: 5000000,
+            scrollWidth: this.getAttribute('data-scrollsize') === 'auto' ? null : 5000000,
             autoImmediate: true,
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
             dispatchScrollEvent: bindHeader || this.getAttribute('data-scrollevent') === 'true'

@@ -159,6 +159,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         var requiresReflow = true;
 
         var frameSize = 0;
+        var slideeSize = 0;
         function ensureSizeInfo() {
 
             if (requiresReflow) {
@@ -168,7 +169,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
                 // Reset global variables
                 frameSize = o.horizontal ? (frame).offsetWidth : (frame).offsetHeight;
 
-                var slideeSize = o.scrollWidth || Math.max(slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']);
+                slideeSize = o.scrollWidth || Math.max(slideeElement[o.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[o.horizontal ? 'scrollWidth' : 'scrollHeight']);
 
                 // Set position limits & relativess
                 self._pos.end = max(slideeSize - frameSize, 0);
@@ -233,7 +234,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 		 *
 		 * @return {Void}
 		 */
-        self.slideTo = function(newPos, immediate, fullItemPos) {
+        self.slideTo = function (newPos, immediate, fullItemPos) {
 
             ensureSizeInfo();
             var pos = self._pos;
@@ -658,6 +659,19 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
                 return nativeScrollElement.scrollLeft;
             } else {
                 return nativeScrollElement.scrollTop;
+            }
+        };
+
+        self.getScrollSize = function () {
+
+            if (transform) {
+                return slideeSize;
+            }
+
+            if (o.horizontal) {
+                return nativeScrollElement.scrollWidth;
+            } else {
+                return nativeScrollElement.scrollHeight;
             }
         };
 

@@ -37,10 +37,10 @@
 
 .guideProgramIndicator {
     text-transform: uppercase;
-    border-radius: 2px;
+    border-radius: .25em;
     margin-right: .5em;
     font-size: 74%;
-    padding: .2em .25em;
+    padding: .08em .25em;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -68,7 +68,7 @@
     position: relative;
     contain: strict;
     box-sizing: border-box;
-    border-bottom: .2em solid #101010;
+    margin-bottom: .3em;
 }
 
 .timeslotHeadersInner {
@@ -106,6 +106,11 @@
     margin-left: -.52em;
 }
 
+.guideSpacer {
+    width: .3em;
+    flex-shrink: 0;
+}
+
 .channelPrograms, .timeslotHeadersInner {
     width: 1800vw;
 }
@@ -140,8 +145,8 @@
 .channelHeaderCell, .channelTimeslotHeader {
     overflow: hidden;
     text-overflow: ellipsis;
-    border-right: 1px solid #101010;
-    background: rgb(38,38,38);
+    margin-right: 1px;
+    background: #2e2e2e;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -149,6 +154,7 @@
     text-align: left;
     contain: strict;
     flex-shrink: 0;
+    border-radius: .3em;
 }
 
 /* Important - have to put the fixed width on channelsContainer, not the individual channelHeaderCell
@@ -200,10 +206,10 @@
 }
 
 .channelHeaderCell {
-    border-bottom: .2em solid #101010 !important;
     background-size: auto 70%;
     background-position: 92% center;
     background-repeat: no-repeat;
+    margin-bottom: .3em;
 }
 
 @media all and (max-width: 50em) {
@@ -213,8 +219,13 @@
     }
 }
 
-.channelPrograms, .channelHeaderCell {
-    height: 4.4em;
+.channelPrograms {
+    height: 4.2em;
+    contain: strict;
+}
+
+.channelHeaderCell {
+    height: 4.2em;
     contain: strict;
 }
 
@@ -223,8 +234,12 @@
     flex-direction: column;
 }
 
-.channelPrograms-tv, .channelHeaderCell-tv {
-    height: 3.2em;
+.channelPrograms-tv {
+    height: 3em;
+}
+
+.channelHeaderCell-tv {
+    height: 3em;
 }
 
 .channelTimeslotHeader {
@@ -249,8 +264,6 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    border-left: .2em solid #101010 !important;
-    background-color: rgb(28,28,28);
     display: flex;
     text-decoration: none;
     overflow: hidden;
@@ -261,7 +274,21 @@
     flex-grow: 1;
     margin: 0 !important;
     padding: 0 !important;
-    justify-content: flex-end;
+}
+
+.programCellInner {
+    margin-right: .3em;
+    background-color: #202020;
+    display: flex;
+    flex-grow: 1;
+    border-radius: .3em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    overflow: hidden;
 }
 
 .programAccent {
@@ -297,22 +324,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     align-items: center;
-    /* Need block here or the ellipsis overflow is lost */
-    display: block;
-    flex-grow: 1;
+    display: flex;
     position: relative;
+    flex-grow: 1;
     /*transition: transform 60ms ease-out;*/
 }
 
-.guideProgramName-withCaret {
-    padding-left: 1.85em;
-}
-
 .guideProgramNameCaret {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -323,6 +341,8 @@
 .guideProgramNameText {
     margin: 0;
     font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .guideProgramSecondaryInfo {
@@ -336,7 +356,7 @@
 }
 
 .programIcon {
-    margin-right: .25em;
+    margin-left: .5em;
     height: 1em;
     width: 1em;
     font-size: 1.6em;
@@ -344,10 +364,6 @@
     flex-shrink: 0;
     flex-grow: 0;
 }
-
-    .programIcon + .programIcon {
-        margin-left: .25em;
-    }
 
 .programTextIcon {
     font-weight: bold;
@@ -410,7 +426,7 @@
     outline: none !important;
 }
 
-    .programCell:focus, .channelHeaderCell:focus {
+    .programCell:focus > .programCellInner, .channelHeaderCell:focus {
         background-color: #555;
     }
 

@@ -43,15 +43,13 @@
         }
 
         if (guideProgramName) {
-            if (pctOfWidth > 1) {
+            if (pctOfWidth > 0) {
                 //guideProgramName.style.marginLeft = pctOfWidth + '%';
                 guideProgramName.style.transform = 'translateX(' + pctOfWidth + '%)';
-                guideProgramName.classList.add('guideProgramName-withCaret');
                 caret.classList.remove('hide');
             } else {
                 //guideProgramName.style.marginLeft = '0';
                 guideProgramName.style.transform = 'none';
-                guideProgramName.classList.remove('guideProgramName-withCaret');
                 caret.classList.add('hide');
             }
         }
@@ -568,18 +566,6 @@
                     displayInnerContent = displayMovieContent && displayNewsContent && displaySportsContent && displayKidsContent && displaySeriesContent;
                 }
 
-                if (!displayInnerContent) {
-                    accentCssClass = null;
-                }
-
-                if (enableColorCodedBackgrounds && accentCssClass) {
-                    cssClass += ' ' + accentCssClass;
-
-                    accentCssClass = null;
-                } else {
-                    accentCssClass = null;
-                }
-
                 var timerAttributes = '';
                 if (program.TimerId) {
                     timerAttributes += ' data-timerid="' + program.TimerId + '"';
@@ -592,6 +578,12 @@
 
                 html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
+                if (displayInnerContent && enableColorCodedBackgrounds && accentCssClass) {
+                    html += '<div class="programCellInner ' + accentCssClass + '">';
+                } else {
+                    html += '<div class="programCellInner">';
+                }
+
                 if (displayInnerContent) {
                     var guideProgramNameClass = "guideProgramName";
 
@@ -599,7 +591,7 @@
 
                     html += '<div class="guideProgramNameCaret hide"><i class="guideProgramNameCaretIcon md-icon">&#xE314;</i></div>';
 
-                    html += '<div class="guideProgramNameText">' + program.Name + '</div>';
+                    html += '<div class="guideProgramNameText">' + program.Name;
 
                     var indicatorHtml = null;
                     if (program.IsLive && options.showLiveIndicator) {
@@ -638,11 +630,10 @@
 
                     html += getTimerIndicator(program);
 
-                    if (accentCssClass) {
-                        html += '<div class="programAccent ' + accentCssClass + '"></div>';
-                    }
+                    html += '</div>';
                 }
 
+                html += '</div>';
                 html += '</button>';
             }
 
