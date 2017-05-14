@@ -48,7 +48,8 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
                 MediaTypes: 'Photo',
                 Filters: 'IsNotFolder',
                 ParentId: item.ParentId,
-                SortBy: 'SortName'
+                SortBy: 'SortName',
+                EnableTotalRecordCount: false
 
             }).then(function (result) {
 

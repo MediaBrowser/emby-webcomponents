@@ -2362,6 +2362,7 @@
                 query.Limit = query.Limit || 100;
                 query.Fields = "MediaSources,Chapters";
                 query.ExcludeLocationTypes = "Virtual";
+                query.EnableTotalRecordCount = false;
 
                 return apiClient.getItems(apiClient.getCurrentUserId(), query);
             }

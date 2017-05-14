@@ -110,7 +110,8 @@
 
             Recursive: true,
             IncludeItemTypes: "BoxSet",
-            SortBy: "SortName"
+            SortBy: "SortName",
+            EnableTotalRecordCount: false
         };
 
         var apiClient = connectionManager.getApiClient(currentServerId);

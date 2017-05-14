@@ -122,7 +122,8 @@
 
             Recursive: true,
             IncludeItemTypes: "Playlist",
-            SortBy: 'SortName'
+            SortBy: 'SortName',
+            EnableTotalRecordCount: false
         };
 
         var apiClient = connectionManager.getApiClient(currentServerId);

@@ -140,7 +140,8 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             SortBy: "DateCreated",
             SortOrder: "Descending",
             Ids: newItems.join(','),
-            MediaTypes: "Audio,Video"
+            MediaTypes: "Audio,Video",
+            EnableTotalRecordCount: false
 
         }).then(function (result) {
 

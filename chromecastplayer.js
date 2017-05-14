@@ -493,6 +493,7 @@
 
                 query.Limit = query.Limit || 100;
                 query.ExcludeLocationTypes = "Virtual";
+                query.EnableTotalRecordCount = false;
 
                 return apiClient.getItems(userId, query);
             }
