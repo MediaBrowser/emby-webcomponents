@@ -33,6 +33,11 @@
             this.scroller.toStart(elem, immediate);
         }
     };
+    ScrollerProtoType.toCenter = function (elem, immediate) {
+        if (this.scroller) {
+            this.scroller.toCenter(elem, immediate);
+        }
+    };
 
     ScrollerProtoType.scrollToPosition = function (pos, immediate) {
         if (this.scroller) {

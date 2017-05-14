@@ -235,7 +235,7 @@ define(['dom'], function (dom) {
         return box;
     }
 
-    function nav(activeElement, direction) {
+    function nav(activeElement, direction, container) {
 
         activeElement = activeElement || document.activeElement;
 
@@ -243,7 +243,7 @@ define(['dom'], function (dom) {
             activeElement = focusableParent(activeElement);
         }
 
-        var container = activeElement ? getFocusContainer(activeElement, direction) : getDefaultScope();
+        container = container || (activeElement ? getFocusContainer(activeElement, direction) : getDefaultScope());
 
         if (!activeElement) {
             autoFocus(container, true, false);
@@ -493,17 +493,29 @@ define(['dom'], function (dom) {
         focus: focus,
         focusableParent: focusableParent,
         getFocusableElements: getFocusableElements,
-        moveLeft: function (sourceElement) {
-            nav(sourceElement, 0);
+        moveLeft: function (sourceElement, options) {
+
+            var container = options ? options.container : null;
+            nav(sourceElement, 0, container);
+
         },
-        moveRight: function (sourceElement) {
-            nav(sourceElement, 1);
+        moveRight: function (sourceElement, options) {
+
+            var container = options ? options.container : null;
+            nav(sourceElement, 1, container);
+
         },
-        moveUp: function (sourceElement) {
-            nav(sourceElement, 2);
+        moveUp: function (sourceElement, options) {
+
+            var container = options ? options.container : null;
+            nav(sourceElement, 2, container);
+
         },
-        moveDown: function (sourceElement) {
-            nav(sourceElement, 3);
+        moveDown: function (sourceElement, options) {
+
+            var container = options ? options.container : null;
+            nav(sourceElement, 3, container);
+
         },
         sendText: sendText,
         isCurrentlyFocusable: isCurrentlyFocusable,

@@ -1,4 +1,4 @@
-﻿define(['require', 'browser', 'globalize', 'connectionManager', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationServices', 'dom', 'clearButtonStyle', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, browser, globalize, connectionManager, serverNotifications, loading, datetime, focusManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, registrationServices, dom) {
+﻿define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationServices', 'dom', 'clearButtonStyle', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, registrationServices, dom) {
     'use strict';
 
     function showViewSettings(instance) {
@@ -766,9 +766,9 @@
 
             if (focusProgramOnRender) {
                 focusProgram(context, itemId, channelRowId, focusToTimeMs);
-            } else {
-                scrollProgramGridToTimeMs(context, scrollToTimeMs);
             }
+
+            scrollProgramGridToTimeMs(context, scrollToTimeMs);
         }
 
         function scrollProgramGridToTimeMs(context, scrollToTimeMs) {
@@ -936,14 +936,15 @@
             page.querySelector('.guideDateTabs').refresh();
 
             var newDate = new Date();
-            var scrollToTimeMs = newDate.getHours() * 60 * 60 * 1000;
+            var newDateHours = newDate.getHours();
+            var scrollToTimeMs = newDateHours * 60 * 60 * 1000;
 
             var minutes = newDate.getMinutes();
             if (minutes >= 30) {
                 scrollToTimeMs += 30 * 60 * 1000;
             }
 
-            var focusToTimeMs = ((newDate.getHours() * 60) + minutes) * 60 * 1000;
+            var focusToTimeMs = ((newDateHours * 60) + minutes) * 60 * 1000;
             changeDate(page, date, scrollToTimeMs, focusToTimeMs, layoutManager.tv);
         }
 
@@ -959,34 +960,139 @@
             });
         }
 
-        function setScrollEvents(view, enabled) {
+        function getChildren(element) {
+            
+            var nativeResult = element.children;
+            if (nativeResult) {
+                return nativeResult;
+            }
 
-            if (layoutManager.tv) {
-                require(['scrollHelper'], function (scrollHelper) {
+            var i = 0, node, nodes = element.childNodes, children = [];
+            while ((node = nodes[i++]) != null) {
+                if (node.nodeType === 1) {
+                    children.push(node);
+                }
+            }
+            return children;
+        }
 
-                    var fn = enabled ? 'on' : 'off';
-                    scrollHelper.centerFocus[fn](view.querySelector('.programGrid'), true);
-                });
+        function isFirstChild(element) {
+            var children = getChildren(element.parentNode);
+
+            return element === children[0];
+        }
+
+        function isLastChild(element) {
+
+            var children = getChildren(element.parentNode);
+
+            return children.length > 0 && element === children[children.length - 1];
+        }
+
+        var lastFocusDirection;
+        function onInputCommand(e) {
+
+            var target = e.target;
+            var programCell = dom.parentWithClass(target, 'programCell');
+            var container;
+
+            var scrollX = false;
+
+            switch (e.detail.command) {
+
+                case 'up':
+                    container = programCell ? dom.parentWithClass(programCell, 'programGrid') : null;
+                    if (container && isFirstChild(dom.parentWithClass(programCell, 'channelPrograms'))) {
+                        container = null;
+                    }
+                    focusManager.moveUp(target, {
+                        container: container
+                    });
+                    break;
+                case 'down':
+                    container = programCell ? dom.parentWithClass(programCell, 'programGrid') : null;
+                    if (container && isLastChild(dom.parentWithClass(programCell, 'channelPrograms'))) {
+                        container = null;
+                    }
+                    focusManager.moveDown(target, {
+                        container: container
+                    });
+                    break;
+                case 'left':
+                    container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
+                    // allow left outside the channelProgramsContainer when the first child is currently focused
+                    if (container && isFirstChild(programCell)) {
+                        container = null;
+                    }
+                    focusManager.moveLeft(target, {
+                        container: container
+                    });
+                    scrollX = true;
+                    break;
+                case 'right':
+                    container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
+                    focusManager.moveRight(target, {
+                        container: container
+                    });
+                    scrollX = true;
+                    break;
+                default:
+                    return;
+            }
+
+            lastFocusDirection = e.detail.command;
+
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function onScrollerFocus(e) {
+
+            var target = e.target;
+            var programCell = dom.parentWithClass(target, 'programCell');
+
+            if (programCell) {
+                var focused = target;
+
+                var id = focused.getAttribute('data-id');
+                var item = items[id];
+
+                if (item) {
+                    events.trigger(self, 'focus', [
+                    {
+                        item: item
+                    }]);
+                }
+            }
+
+            if (lastFocusDirection === 'left' || lastFocusDirection === 'right') {
+
+                if (programCell) {
+                    scrollHelper.toCenter(dom.parentWithClass(target, 'programGrid'), programCell, true);
+                }
+            }
+
+            else if (lastFocusDirection === 'up' || lastFocusDirection === 'down') {
+
+                var verticalScroller = dom.parentWithClass(target, 'guideVerticalScroller');
+                if (verticalScroller) {
+
+                    var focusedElement = programCell || dom.parentWithTag(target, 'BUTTON');
+                    verticalScroller.toCenter(focusedElement, true);
+                }
             }
         }
 
-        function onProgramGridFocus(e) {
+        function setScrollEvents(view, enabled) {
 
-            var programCell = dom.parentWithClass(e.target, 'programCell');
+            if (layoutManager.tv) {
+                var guideVerticalScroller = view.querySelector('.guideVerticalScroller');
 
-            if (!programCell) {
-                return;
-            }
-
-            var focused = e.target;
-            var id = focused.getAttribute('data-id');
-            var item = items[id];
-
-            if (item) {
-                events.trigger(self, 'focus', [
-                {
-                    item: item
-                }]);
+                if (enabled) {
+                    inputManager.on(guideVerticalScroller, onInputCommand);
+                } else {
+                    inputManager.off(guideVerticalScroller, onInputCommand);
+                }
             }
         }
 
@@ -1062,7 +1168,10 @@
             var timeslotHeaders = context.querySelector('.timeslotHeaders');
 
             if (layoutManager.tv) {
-                programGrid.addEventListener('focus', onProgramGridFocus, true);
+                dom.addEventListener(context.querySelector('.guideVerticalScroller'), 'focus', onScrollerFocus, {
+                    capture: true,
+                    passive: true
+                });
             }
 
             if (browser.iOS || browser.osx) {
