@@ -331,7 +331,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #777;
+    color: #666;
     font-size: 200%;
 }
 
@@ -413,6 +413,7 @@
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
+    color: #ddd;
 }
 
 .channelsContainer, .programGrid {

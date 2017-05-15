@@ -252,7 +252,7 @@
             });
         }
 
-        function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, focusProgramOnRender) {
+        function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
 
             var apiClient = connectionManager.currentApiClient();
 
@@ -322,7 +322,6 @@
                 // Subtract to avoid getting programs that are starting when the grid ends
                 var nextDay = new Date(date.getTime() + msPerDay - 2000);
 
-                console.log(nextDay);
                 apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
 
                     var btnPreviousPage = context.querySelector('.btnPreviousPage');
@@ -367,7 +366,7 @@
 
                     }).then(function (programsResult) {
 
-                        renderGuide(context, date, channelsResult.Items, programsResult.Items, apiClient, scrollToTimeMs, focusToTimeMs, focusProgramOnRender);
+                        renderGuide(context, date, channelsResult.Items, programsResult.Items, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
 
                         hideLoading();
 
@@ -741,7 +740,7 @@
             return (channelIndex * 10000000) + (start.getTime() / 60000);
         }
 
-        function renderGuide(context, date, channels, programs, apiClient, scrollToTimeMs, focusToTimeMs, focusProgramOnRender) {
+        function renderGuide(context, date, channels, programs, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
 
             programs.sort(function (a, b) {
                 return getProgramSortOrder(a, channels) - getProgramSortOrder(b, channels);
@@ -766,13 +765,15 @@
             renderPrograms(context, date, channels, programs);
 
             if (focusProgramOnRender) {
-                focusProgram(context, itemId, channelRowId, focusToTimeMs);
+                focusProgram(context, itemId, channelRowId, focusToTimeMs, startTimeOfDayMs);
             }
 
-            scrollProgramGridToTimeMs(context, scrollToTimeMs);
+            scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs);
         }
 
-        function scrollProgramGridToTimeMs(context, scrollToTimeMs) {
+        function scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs) {
+
+            scrollToTimeMs -= startTimeOfDayMs;
 
             var pct = scrollToTimeMs / msPerDay;
 
@@ -783,7 +784,7 @@
             nativeScrollTo(programGrid, scrollPos, true);
         }
 
-        function focusProgram(context, itemId, channelRowId, focusToTimeMs) {
+        function focusProgram(context, itemId, channelRowId, focusToTimeMs, startTimeOfDayMs) {
 
             var focusElem;
             if (itemId) {
@@ -803,6 +804,8 @@
                 if (!autoFocusParent) {
                     autoFocusParent = programGrid;
                 }
+
+                focusToTimeMs -= startTimeOfDayMs;
 
                 var pct = (focusToTimeMs / msPerDay) * 100;
 
@@ -866,14 +869,14 @@
             }
         }
 
-        function changeDate(page, date, scrollToTimeMs, focusToTimeMs, focusProgramOnRender) {
+        function changeDate(page, date, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
 
             clearCurrentTimeUpdateInterval();
 
             var newStartDate = normalizeDateToTimeslot(date);
             currentDate = newStartDate;
 
-            reloadGuide(page, newStartDate, scrollToTimeMs, focusToTimeMs, focusProgramOnRender);
+            reloadGuide(page, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
         }
 
         function getDateTabText(date, isActive, tabIndex) {
@@ -894,12 +897,13 @@
         function setDateRange(page, guideInfo) {
 
             var today = new Date();
-            today.setHours(today.getHours(), 0, 0, 0);
+            var nowHours = today.getHours();
+            today.setHours(nowHours, 0, 0, 0);
 
             var start = datetime.parseISO8601Date(guideInfo.StartDate, { toLocal: true });
             var end = datetime.parseISO8601Date(guideInfo.EndDate, { toLocal: true });
 
-            start.setHours(0, 0, 0, 0);
+            start.setHours(nowHours, 0, 0, 0);
             end.setHours(0, 0, 0, 0);
 
             if (start.getTime() >= end.getTime()) {
@@ -917,8 +921,11 @@
                 date.setTime(currentDate.getTime());
             }
 
-            date.setHours(0, 0, 0, 0);
-            start.setHours(0, 0, 0, 0);
+            date.setHours(nowHours, 0, 0, 0);
+            //start.setHours(0, 0, 0, 0);
+
+            var startTimeOfDayMs = (start.getHours() * 60 * 60 * 1000);
+            startTimeOfDayMs += start.getMinutes() * 60 * 1000;
 
             while (start <= end) {
 
@@ -944,7 +951,7 @@
             }
 
             var focusToTimeMs = ((newDateHours * 60) + minutes) * 60 * 1000;
-            changeDate(page, date, scrollToTimeMs, focusToTimeMs, layoutManager.tv);
+            changeDate(page, date, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, layoutManager.tv);
         }
 
         function reloadPage(page) {
@@ -1221,8 +1228,13 @@
 
             context.querySelector('.guideDateTabs').addEventListener('tabchange', function (e) {
 
-                var tabButton = e.target.querySelectorAll('.guide-date-tab-button')[parseInt(e.detail.selectedTabIndex)];
+                var allTabButtons = e.target.querySelectorAll('.guide-date-tab-button');
+
+                var tabButton = allTabButtons[parseInt(e.detail.selectedTabIndex)];
                 if (tabButton) {
+
+                    var previousButton = e.detail.previousIndex == null ? null : allTabButtons[parseInt(e.detail.previousIndex)];
+
                     var date = new Date();
                     date.setTime(parseInt(tabButton.getAttribute('data-date')));
 
@@ -1234,7 +1246,19 @@
                         scrollToTimeMs = 0;
                     }
 
-                    changeDate(context, date, scrollToTimeMs, scrollToTimeMs, false);
+                    if (previousButton) {
+                        
+                        var previousDate = new Date();
+                        previousDate.setTime(parseInt(previousButton.getAttribute('data-date')));
+
+                        scrollToTimeMs += (previousDate.getHours() * 60 * 60 * 1000);
+                        scrollToTimeMs += (previousDate.getMinutes() * 60 * 1000);
+                    }
+
+                    var startTimeOfDayMs = (date.getHours() * 60 * 60 * 1000);
+                    startTimeOfDayMs += (date.getMinutes() * 60 * 1000);
+
+                    changeDate(context, date, scrollToTimeMs, scrollToTimeMs, startTimeOfDayMs, false);
                 }
             });
 

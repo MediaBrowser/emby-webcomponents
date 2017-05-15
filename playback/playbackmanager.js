@@ -1231,7 +1231,7 @@
 
         self.shuffle = function (shuffleItem, player) {
 
-            player = player || currentPlayer;
+            player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.shuffle(shuffleItem);
             }
