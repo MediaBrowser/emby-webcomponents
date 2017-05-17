@@ -43,7 +43,7 @@
         }
 
         if (guideProgramName) {
-            if (pctOfWidth > 0) {
+            if (pctOfWidth > 0 && pctOfWidth <= 100) {
                 //guideProgramName.style.marginLeft = pctOfWidth + '%';
                 guideProgramName.style.transform = 'translateX(' + pctOfWidth + '%)';
                 caret.classList.remove('hide');
