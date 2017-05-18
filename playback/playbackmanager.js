@@ -57,6 +57,473 @@
         return t.toLowerCase().replace(' ', '');
     }
 
+    function getItemsForPlayback(serverId, query) {
+
+        var apiClient = connectionManager.getApiClient(serverId);
+
+        if (query.Ids && query.Ids.split(',').length === 1) {
+
+            var itemId = query.Ids.split(',');
+
+            return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+
+                return {
+                    Items: [item],
+                    TotalRecordCount: 1
+                };
+            });
+        }
+        else {
+
+            query.Limit = query.Limit || 100;
+            query.Fields = "MediaSources,Chapters";
+            query.ExcludeLocationTypes = "Virtual";
+            query.EnableTotalRecordCount = false;
+
+            return apiClient.getItems(apiClient.getCurrentUserId(), query);
+        }
+    }
+
+    function createStreamInfoFromUrlItem(item) {
+
+        // Check item.Path for games
+        return {
+            url: item.Url || item.Path,
+            playMethod: 'DirectPlay',
+            item: item,
+            textTracks: [],
+            mediaType: item.MediaType
+        };
+    }
+
+    function backdropImageUrl(apiClient, item, options) {
+
+        options = options || {};
+        options.type = options.type || "Backdrop";
+
+        // If not resizing, get the original image
+        if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
+            options.quality = 100;
+        }
+
+        if (item.BackdropImageTags && item.BackdropImageTags.length) {
+
+            options.tag = item.BackdropImageTags[0];
+            return apiClient.getScaledImageUrl(item.Id, options);
+        }
+
+        if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+            options.tag = item.ParentBackdropImageTags[0];
+            return apiClient.getScaledImageUrl(item.ParentBackdropItemId, options);
+        }
+
+        return null;
+    }
+
+    function getMimeType(type, container) {
+
+        container = (container || '').toLowerCase();
+
+        if (type === 'audio') {
+            if (container === 'opus') {
+                return 'audio/ogg';
+            }
+            if (container === 'webma') {
+                return 'audio/webm';
+            }
+            if (container === 'm4a') {
+                return 'audio/mp4';
+            }
+        }
+        else if (type === 'video') {
+            if (container === 'mkv') {
+                return 'video/x-matroska';
+            }
+            if (container === 'm4v') {
+                return 'video/mp4';
+            }
+            if (container === 'mov') {
+                return 'video/quicktime';
+            }
+            if (container === 'mpg') {
+                return 'video/mpeg';
+            }
+            if (container === 'flv') {
+                return 'video/x-flv';
+            }
+        }
+
+        return type + '/' + container;
+    }
+
+    function getParam(name, url) {
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regexS = "[\\?&]" + name + "=([^&#]*)";
+        var regex = new RegExp(regexS, "i");
+
+        var results = regex.exec(url);
+        if (results == null) {
+            return "";
+        }
+        else {
+            return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+    }
+
+    function isAutomaticPlayer(player) {
+
+        if (player.isLocalPlayer) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function getAutomaticPlayers(instance) {
+
+        var player = instance._currentPlayer;
+        if (player && !isAutomaticPlayer(player)) {
+            return [player];
+        }
+
+        return instance.getPlayers().filter(isAutomaticPlayer);
+    }
+
+    function isServerItem(item) {
+        if (!item.Id) {
+            return false;
+        }
+        return true;
+    }
+
+    function enableIntros(item) {
+
+        if (item.MediaType !== 'Video') {
+            return false;
+        }
+        if (item.Type === 'TvChannel') {
+            return false;
+        }
+        // disable for in-progress recordings
+        if (item.Status === 'InProgress') {
+            return false;
+        }
+
+        return isServerItem(item);
+    }
+
+    function getIntros(firstItem, apiClient, options) {
+
+        if (options.startPositionTicks || options.fullscreen === false || !enableIntros(firstItem) || !userSettings.enableCinemaMode()) {
+            return Promise.resolve({
+                Items: []
+            });
+        }
+
+        return apiClient.getIntros(firstItem.Id);
+    }
+
+    var startingPlaySession = new Date().getTime();
+    function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient) {
+
+        var url = 'Audio/' + item.Id + '/universal';
+
+        startingPlaySession++;
+
+        return apiClient.getUrl(url, {
+            UserId: apiClient.getCurrentUserId(),
+            DeviceId: apiClient.deviceId(),
+            MaxStreamingBitrate: maxBitrate || appSettings.maxStreamingBitrate(),
+            Container: directPlayContainers,
+            TranscodingContainer: transcodingProfile.Container || null,
+            TranscodingProtocol: transcodingProfile.Protocol || null,
+            // TODO grab from CodecProfiles
+            MaxSampleRate: 48000,
+            api_key: apiClient.accessToken(),
+            PlaySessionId: startingPlaySession
+        });
+    }
+
+    function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient) {
+
+        var url = 'Audio/' + item.Id + '/universal';
+
+        var transcodingProfile = deviceProfile.TranscodingProfiles.filter(function (p) {
+            return p.Type === 'Audio' && p.Context === 'Streaming';
+        })[0];
+
+        var directPlayContainers = '';
+
+        deviceProfile.DirectPlayProfiles.map(function (p) {
+
+            if (p.Type === 'Audio') {
+                if (directPlayContainers) {
+                    directPlayContainers += ',' + p.Container;
+                } else {
+                    directPlayContainers = p.Container;
+                }
+            }
+
+        });
+
+        return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient);
+    }
+
+    function getPlaybackInfo(player,
+        apiClient,
+        item,
+        deviceProfile,
+        maxBitrate,
+        startPosition,
+        mediaSource,
+        audioStreamIndex,
+        subtitleStreamIndex,
+        liveStreamId,
+        enableDirectPlay,
+        enableDirectStream,
+        allowVideoStreamCopy,
+        allowAudioStreamCopy) {
+
+        if (item.MediaType === 'Audio' && apiClient.isMinServerVersion('3.2.17.5')) {
+
+            return Promise.resolve({
+                MediaSources: [
+                {
+                    StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient),
+                    Id: item.Id,
+                    MediaStreams: [],
+                    RunTimeTicks: item.RunTimeTicks
+                }]
+            });
+        }
+
+        var itemId = item.Id;
+
+        var query = {
+            UserId: apiClient.getCurrentUserId(),
+            StartTimeTicks: startPosition || 0
+        };
+
+        if (audioStreamIndex != null) {
+            query.AudioStreamIndex = audioStreamIndex;
+        }
+        if (subtitleStreamIndex != null) {
+            query.SubtitleStreamIndex = subtitleStreamIndex;
+        }
+        if (enableDirectPlay != null) {
+            query.EnableDirectPlay = enableDirectPlay;
+        }
+
+        if (enableDirectPlay !== false) {
+            query.ForceDirectPlayRemoteMediaSource = true;
+        }
+        if (enableDirectStream != null) {
+            query.EnableDirectStream = enableDirectStream;
+        }
+        if (allowVideoStreamCopy != null) {
+            query.AllowVideoStreamCopy = allowVideoStreamCopy;
+        }
+        if (allowAudioStreamCopy != null) {
+            query.AllowAudioStreamCopy = allowAudioStreamCopy;
+        }
+        if (mediaSource) {
+            query.MediaSourceId = mediaSource.Id;
+        }
+        if (liveStreamId) {
+            query.LiveStreamId = liveStreamId;
+        }
+        if (maxBitrate) {
+            query.MaxStreamingBitrate = maxBitrate;
+        }
+
+        // lastly, enforce player overrides for special situations
+        if (query.EnableDirectStream !== false) {
+            if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
+                query.EnableDirectStream = false;
+            }
+        }
+
+        return apiClient.getPlaybackInfo(itemId, query, deviceProfile);
+    }
+
+    function getOptimalMediaSource(apiClient, item, versions) {
+
+        var promises = versions.map(function (v) {
+            return supportsDirectPlay(apiClient, item, v);
+        });
+
+        if (!promises.length) {
+            return Promise.reject();
+        }
+
+        return Promise.all(promises).then(function (results) {
+
+            for (var i = 0, length = versions.length; i < length; i++) {
+                versions[i].enableDirectPlay = results[i] || false;
+            }
+            var optimalVersion = versions.filter(function (v) {
+
+                return v.enableDirectPlay;
+
+            })[0];
+
+            if (!optimalVersion) {
+                optimalVersion = versions.filter(function (v) {
+
+                    return v.SupportsDirectStream;
+
+                })[0];
+            }
+
+            optimalVersion = optimalVersion || versions.filter(function (s) {
+                return s.SupportsTranscoding;
+            })[0];
+
+            return optimalVersion || versions[0];
+        });
+    }
+
+    function getLiveStream(apiClient, itemId, playSessionId, deviceProfile, maxBitrate, startPosition, mediaSource, audioStreamIndex, subtitleStreamIndex) {
+
+        var postData = {
+            DeviceProfile: deviceProfile,
+            OpenToken: mediaSource.OpenToken
+        };
+
+        var query = {
+            UserId: apiClient.getCurrentUserId(),
+            StartTimeTicks: startPosition || 0,
+            ItemId: itemId,
+            PlaySessionId: playSessionId
+        };
+
+        if (maxBitrate) {
+            query.MaxStreamingBitrate = maxBitrate;
+        }
+        if (audioStreamIndex != null) {
+            query.AudioStreamIndex = audioStreamIndex;
+        }
+        if (subtitleStreamIndex != null) {
+            query.SubtitleStreamIndex = subtitleStreamIndex;
+        }
+
+        return apiClient.ajax({
+            url: apiClient.getUrl('LiveStreams/Open', query),
+            type: 'POST',
+            data: JSON.stringify(postData),
+            contentType: "application/json",
+            dataType: "json"
+
+        });
+    }
+
+    function isHostReachable(mediaSource, apiClient) {
+
+        var url = mediaSource.Path;
+
+        var isServerAddress = url.toLowerCase().replace('https:', 'http').indexOf(apiClient.serverAddress().toLowerCase().replace('https:', 'http').substring(0, 14)) === 0;
+
+        if (isServerAddress) {
+            return Promise.resolve(true);
+        }
+
+        if (mediaSource.IsRemote) {
+            return Promise.resolve(true);
+        }
+
+        return Promise.resolve(false);
+    }
+
+    function supportsDirectPlay(apiClient, item, mediaSource) {
+
+        // folder rip hacks due to not yet being supported by the stream building engine
+        var isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
+
+        if (mediaSource.SupportsDirectPlay || isFolderRip) {
+
+            if (mediaSource.IsRemote && (item.Type === 'TvChannel' || item.Type === 'Trailer') && !apphost.supports('remotemedia')) {
+                return Promise.resolve(false);
+            }
+
+            if (mediaSource.Protocol === 'Http' && !mediaSource.RequiredHttpHeaders.length) {
+
+                // If this is the only way it can be played, then allow it
+                if (!mediaSource.SupportsDirectStream && !mediaSource.SupportsTranscoding) {
+                    return Promise.resolve(true);
+                }
+                else {
+                    return isHostReachable(mediaSource, apiClient);
+                }
+            }
+
+            else if (mediaSource.Protocol === 'File') {
+
+                return new Promise(function (resolve, reject) {
+
+                    // Determine if the file can be accessed directly
+                    require(['filesystem'], function (filesystem) {
+
+                        var method = isFolderRip ?
+                            'directoryExists' :
+                            'fileExists';
+
+                        filesystem[method](mediaSource.Path).then(function () {
+                            resolve(true);
+                        }, function () {
+                            resolve(false);
+                        });
+
+                    });
+                });
+            }
+        }
+
+        return Promise.resolve(false);
+    }
+
+    function validatePlaybackInfoResult(instance, result) {
+
+        if (result.ErrorCode) {
+
+            showPlaybackInfoErrorMessage(instance, result.ErrorCode);
+            return false;
+        }
+
+        return true;
+    }
+
+    function showPlaybackInfoErrorMessage(instance, errorCode, playNextTrack) {
+
+        require(['alert'], function (alert) {
+            alert({
+                text: globalize.translate('sharedcomponents#PlaybackError' + errorCode),
+                title: globalize.translate('sharedcomponents#HeaderPlaybackError')
+            }).then(function () {
+
+                if (playNextTrack) {
+                    instance.nextTrack();
+                }
+            });
+        });
+    }
+
+    function normalizePlayOptions(playOptions) {
+        playOptions.fullscreen = playOptions.fullscreen !== false;
+    }
+
+    function getNowPlayingItemForReporting(player, item, mediaSource) {
+
+        var nowPlayingItem = Object.assign({}, item);
+
+        if (mediaSource) {
+            nowPlayingItem.RunTimeTicks = mediaSource.RunTimeTicks;
+        }
+
+        nowPlayingItem.RunTimeTicks = nowPlayingItem.RunTimeTicks || player.duration() * 10000;
+
+        return nowPlayingItem;
+    }
+
     function PlaybackManager() {
 
         var self = this;
@@ -66,13 +533,14 @@
         var lastLocalPlayer;
         var currentPairingId = null;
 
-        var repeatMode = 'RepeatNone';
         var playlist = [];
         var currentPlaylistIndex;
         var currentPlaylistItemId;
         var currentPlayOptions;
-        var playNextAfterEnded = true;
+        this._playNextAfterEnded = true;
         var playerStates = {};
+
+        this._repeatMode = 'RepeatNone';
 
         self.currentItem = function (player) {
 
@@ -315,24 +783,6 @@
             })[0];
         }
 
-        self.audioTracks = function (player) {
-            var mediaSource = self.currentMediaSource(player);
-
-            var mediaStreams = (mediaSource || {}).MediaStreams || [];
-            return mediaStreams.filter(function (s) {
-                return s.Type === 'Audio';
-            });
-        };
-
-        self.subtitleTracks = function (player) {
-            var mediaSource = self.currentMediaSource(player);
-
-            var mediaStreams = (mediaSource || {}).MediaStreams || [];
-            return mediaStreams.filter(function (s) {
-                return s.Type === 'Subtitle';
-            });
-        };
-
         self.getPlaylist = function (player) {
 
             player = player || self._currentPlayer;
@@ -341,10 +791,6 @@
             }
 
             return Promise.resolve(playlist.slice(0));
-        };
-
-        self.getCurrentPlayer = function () {
-            return self._currentPlayer;
         };
 
         function setCurrentPlayerInternal(player, targetInfo) {
@@ -439,16 +885,6 @@
 
             return players;
         };
-
-        function getAutomaticPlayers() {
-
-            var player = self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return [player];
-            }
-
-            return self.getPlayers().filter(enableLocalPlaylistManagement);
-        }
 
         self.canPlay = function (item) {
 
@@ -688,7 +1124,7 @@
         self.getMaxStreamingBitrate = function (player) {
 
             player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
+            if (player && player.getMaxStreamingBitrate) {
                 return player.getMaxStreamingBitrate();
             }
 
@@ -698,7 +1134,7 @@
         self.enableAutomaticBitrateDetection = function (player) {
 
             player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
+            if (player && player.enableAutomaticBitrateDetection) {
                 return player.enableAutomaticBitrateDetection();
             }
 
@@ -708,7 +1144,7 @@
         self.setMaxStreamingBitrate = function (options, player) {
 
             player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
+            if (player && player.setMaxStreamingBitrate) {
                 return player.setMaxStreamingBitrate(options);
             }
 
@@ -837,78 +1273,6 @@
             getPlayerData(player).subtitleStreamIndex = index;
         };
 
-        self.toggleDisplayMirroring = function () {
-            self.enableDisplayMirroring(!self.enableDisplayMirroring());
-        };
-
-        self.enableDisplayMirroring = function (enabled) {
-
-            if (enabled != null) {
-
-                var val = enabled ? '1' : '0';
-                appSettings.set('displaymirror', val);
-                return;
-            }
-
-            return (appSettings.get('displaymirror') || '') !== '0';
-        };
-
-        self.stop = function (player) {
-
-            player = player || self._currentPlayer;
-
-            if (player) {
-                playNextAfterEnded = false;
-                // TODO: remove second param
-                return player.stop(true, true);
-            }
-
-            return Promise.resolve();
-        };
-
-        self.playPause = function (player) {
-
-            player = player || self._currentPlayer;
-
-            if (player) {
-
-                if (player.playPause) {
-                    return player.playPause();
-                }
-
-                if (player.paused()) {
-                    return self.unpause(player);
-                } else {
-                    return self.pause(player);
-                }
-            }
-        };
-
-        self.paused = function (player) {
-
-            player = player || self._currentPlayer;
-
-            if (player) {
-                return player.paused();
-            }
-        };
-
-        self.pause = function (player) {
-            player = player || self._currentPlayer;
-
-            if (player) {
-                player.pause();
-            }
-        };
-
-        self.unpause = function (player) {
-            player = player || self._currentPlayer;
-
-            if (player) {
-                player.unpause();
-            }
-        };
-
         self.seek = function (ticks, player) {
 
             ticks = Math.max(0, ticks);
@@ -919,91 +1283,6 @@
             }
 
             changeStream(player, ticks);
-        };
-
-        self.nextChapter = function (player) {
-
-            player = player || self._currentPlayer;
-            var item = self.currentItem(player);
-
-            var ticks = getCurrentTicks(player);
-
-            var nextChapter = (item.Chapters || []).filter(function (i) {
-
-                return i.StartPositionTicks > ticks;
-
-            })[0];
-
-            if (nextChapter) {
-                self.seek(nextChapter.StartPositionTicks, player);
-            } else {
-                self.nextTrack(player);
-            }
-        };
-
-        self.previousChapter = function (player) {
-
-            player = player || self._currentPlayer;
-            var item = self.currentItem(player);
-
-            var ticks = getCurrentTicks(player);
-
-            // Go back 10 seconds
-            ticks -= 100000000;
-
-            // If there's no previous track, then at least rewind to beginning
-            if (self.getCurrentPlaylistIndex(player) === 0) {
-                ticks = Math.max(ticks, 0);
-            }
-
-            var previousChapters = (item.Chapters || []).filter(function (i) {
-
-                return i.StartPositionTicks <= ticks;
-            });
-
-            if (previousChapters.length) {
-                self.seek(previousChapters[previousChapters.length - 1].StartPositionTicks, player);
-            } else {
-                self.previousTrack(player);
-            }
-        };
-
-        self.fastForward = function (player) {
-
-            player = player || self._currentPlayer;
-
-            if (player.fastForward != null) {
-                player.fastForward(userSettings.skipForwardLength());
-                return;
-            }
-
-            var ticks = getCurrentTicks(player);
-
-            // Go back 15 seconds
-            ticks += userSettings.skipForwardLength() * 10000;
-
-            var runTimeTicks = self.duration(player) || 0;
-
-            if (ticks < runTimeTicks) {
-                self.seek(ticks);
-            }
-        };
-
-        self.rewind = function (player) {
-
-            player = player || self._currentPlayer;
-
-            if (player.rewind != null) {
-                player.rewind(userSettings.skipBackLength());
-                return;
-            }
-
-            var ticks = getCurrentTicks(player);
-
-            // Go back 15 seconds
-            ticks -= userSettings.skipBackLength() * 10000;
-
-            self.seek(Math.max(0, ticks));
         };
 
         // Returns true if the player can seek using native client-side seeking functions
@@ -1064,7 +1343,7 @@
 
                 getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, currentMediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
 
-                    if (validatePlaybackInfoResult(result)) {
+                    if (validatePlaybackInfoResult(self, result)) {
 
                         currentMediaSource = result.MediaSources[0];
                         createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks).then(function (streamInfo) {
@@ -1072,7 +1351,7 @@
                             streamInfo.fullscreen = currentPlayOptions.fullscreen;
 
                             if (!streamInfo.url) {
-                                showPlaybackInfoErrorMessage('NoCompatibleStream');
+                                showPlaybackInfoErrorMessage(self, 'NoCompatibleStream');
                                 self.nextTrack();
                                 return;
                             }
@@ -1123,45 +1402,105 @@
             });
         }
 
-        self.seekPercent = function (percent, player) {
+        function translateItemsForPlayback(items, options) {
 
-            var ticks = self.duration(player) || 0;
+            var firstItem = items[0];
+            var promise;
 
-            percent /= 100;
-            ticks *= percent;
-            self.seek(parseInt(ticks), player);
-        };
+            var serverId = firstItem.ServerId;
 
-        self.playTrailers = function (item) {
+            if (firstItem.Type === "Program") {
 
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-
-            if (item.LocalTrailerCount) {
-                return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (result) {
-                    return self.play({
-                        items: result
-                    });
-                });
-            } else {
-                var remoteTrailers = item.RemoteTrailers || [];
-
-                if (!remoteTrailers.length) {
-                    return Promise.reject();
-                }
-
-                return self.play({
-                    items: remoteTrailers.map(function (t) {
-                        return {
-                            Name: t.Name || (item.Name + ' Trailer'),
-                            Url: t.Url,
-                            MediaType: 'Video',
-                            Type: 'Trailer',
-                            ServerId: apiClient.serverId()
-                        };
-                    })
+                promise = getItemsForPlayback(serverId, {
+                    Ids: firstItem.ChannelId,
                 });
             }
-        };
+            else if (firstItem.Type === "Playlist") {
+
+                promise = getItemsForPlayback(serverId, {
+                    ParentId: firstItem.Id,
+                });
+            }
+            else if (firstItem.Type === "MusicArtist") {
+
+                promise = getItemsForPlayback(serverId, {
+                    ArtistIds: firstItem.Id,
+                    Filters: "IsNotFolder",
+                    Recursive: true,
+                    SortBy: "SortName",
+                    MediaTypes: "Audio"
+                });
+
+            }
+            else if (firstItem.Type === "MusicGenre") {
+
+                promise = getItemsForPlayback(serverId, {
+                    Genres: firstItem.Name,
+                    Filters: "IsNotFolder",
+                    Recursive: true,
+                    SortBy: "SortName",
+                    MediaTypes: "Audio"
+                });
+            }
+            else if (firstItem.IsFolder) {
+
+                promise = getItemsForPlayback(serverId, {
+                    ParentId: firstItem.Id,
+                    Filters: "IsNotFolder",
+                    Recursive: true,
+                    SortBy: "SortName",
+                    MediaTypes: "Audio,Video"
+                });
+            }
+            else if (firstItem.Type === "Episode" && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
+
+                promise = new Promise(function (resolve, reject) {
+                    var apiClient = connectionManager.getApiClient(firstItem.ServerId);
+
+                    apiClient.getCurrentUser().then(function (user) {
+
+                        if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
+                            resolve(null);
+                            return;
+                        }
+
+                        apiClient.getEpisodes(firstItem.SeriesId, {
+                            IsVirtualUnaired: false,
+                            IsMissing: false,
+                            UserId: apiClient.getCurrentUserId(),
+                            Fields: "MediaSources,Chapters"
+
+                        }).then(function (episodesResult) {
+
+                            var foundItem = false;
+                            episodesResult.Items = episodesResult.Items.filter(function (e) {
+
+                                if (foundItem) {
+                                    return true;
+                                }
+                                if (e.Id === firstItem.Id) {
+                                    foundItem = true;
+                                    return true;
+                                }
+
+                                return false;
+                            });
+                            episodesResult.TotalRecordCount = episodesResult.Items.length;
+                            resolve(episodesResult);
+                        }, reject);
+                    });
+                });
+            }
+
+            if (promise) {
+                return promise.then(function (result) {
+
+                    return result ? result.Items : items;
+                });
+            } else {
+                return Promise.resolve(items);
+            }
+        }
 
         self.play = function (options) {
 
@@ -1172,7 +1511,7 @@
                     return Promise.reject();
                 }
 
-                if (!enableLocalPlaylistManagement(self._currentPlayer)) {
+                if (!self._currentPlayer.isLocalPlayer) {
                     return self._currentPlayer.play(options);
                 }
             }
@@ -1207,73 +1546,6 @@
 
                 });
             }
-        };
-
-        self.instantMix = function (item, player) {
-
-            player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.instantMix(item);
-            }
-
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-
-            var options = {};
-            options.UserId = apiClient.getCurrentUserId();
-            options.Fields = 'MediaSources';
-
-            apiClient.getInstantMixFromItem(item.Id, options).then(function (result) {
-                self.play({
-                    items: result.Items
-                });
-            });
-        };
-
-        self.shuffle = function (shuffleItem, player) {
-
-            player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.shuffle(shuffleItem);
-            }
-
-            var apiClient = connectionManager.getApiClient(shuffleItem.ServerId);
-
-            apiClient.getItem(apiClient.getCurrentUserId(), shuffleItem.Id).then(function (item) {
-
-                var query = {
-                    Fields: "MediaSources,Chapters",
-                    Limit: 100,
-                    Filters: "IsNotFolder",
-                    Recursive: true,
-                    SortBy: "Random"
-                };
-
-                if (item.Type === "MusicArtist") {
-
-                    query.MediaTypes = "Audio";
-                    query.ArtistIds = item.Id;
-
-                }
-                else if (item.Type === "MusicGenre") {
-
-                    query.MediaTypes = "Audio";
-                    query.Genres = item.Name;
-
-                }
-                else if (item.IsFolder) {
-                    query.ParentId = item.Id;
-
-                }
-                else {
-                    return;
-                }
-
-                getItemsForPlayback(item.ServerId, query).then(function (result) {
-
-                    self.play({ items: result.Items });
-
-                });
-            });
         };
 
         function getPlayerData(player) {
@@ -1408,134 +1680,8 @@
             return playerTime;
         }
 
-        function getNowPlayingItemForReporting(player, item, mediaSource) {
-
-            var nowPlayingItem = Object.assign({}, item);
-
-            if (mediaSource) {
-                nowPlayingItem.RunTimeTicks = mediaSource.RunTimeTicks;
-            }
-
-            nowPlayingItem.RunTimeTicks = nowPlayingItem.RunTimeTicks || player.duration() * 10000;
-
-            return nowPlayingItem;
-        }
-
-        function translateItemsForPlayback(items, options) {
-
-            var firstItem = items[0];
-            var promise;
-
-            var serverId = firstItem.ServerId;
-
-            if (firstItem.Type === "Program") {
-
-                promise = getItemsForPlayback(serverId, {
-                    Ids: firstItem.ChannelId,
-                });
-            }
-            else if (firstItem.Type === "Playlist") {
-
-                promise = getItemsForPlayback(serverId, {
-                    ParentId: firstItem.Id,
-                });
-            }
-            else if (firstItem.Type === "MusicArtist") {
-
-                promise = getItemsForPlayback(serverId, {
-                    ArtistIds: firstItem.Id,
-                    Filters: "IsNotFolder",
-                    Recursive: true,
-                    SortBy: "SortName",
-                    MediaTypes: "Audio"
-                });
-
-            }
-            else if (firstItem.Type === "MusicGenre") {
-
-                promise = getItemsForPlayback(serverId, {
-                    Genres: firstItem.Name,
-                    Filters: "IsNotFolder",
-                    Recursive: true,
-                    SortBy: "SortName",
-                    MediaTypes: "Audio"
-                });
-            }
-            else if (firstItem.IsFolder) {
-
-                promise = getItemsForPlayback(serverId, {
-                    ParentId: firstItem.Id,
-                    Filters: "IsNotFolder",
-                    Recursive: true,
-                    SortBy: "SortName",
-                    MediaTypes: "Audio,Video"
-                });
-            }
-            else if (firstItem.Type === "Episode" && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
-
-                promise = new Promise(function (resolve, reject) {
-                    var apiClient = connectionManager.getApiClient(firstItem.ServerId);
-
-                    apiClient.getCurrentUser().then(function (user) {
-
-                        if (!user.Configuration.EnableNextEpisodeAutoPlay || !firstItem.SeriesId) {
-                            resolve(null);
-                            return;
-                        }
-
-                        apiClient.getEpisodes(firstItem.SeriesId, {
-                            IsVirtualUnaired: false,
-                            IsMissing: false,
-                            UserId: apiClient.getCurrentUserId(),
-                            Fields: "MediaSources,Chapters"
-
-                        }).then(function (episodesResult) {
-
-                            var foundItem = false;
-                            episodesResult.Items = episodesResult.Items.filter(function (e) {
-
-                                if (foundItem) {
-                                    return true;
-                                }
-                                if (e.Id === firstItem.Id) {
-                                    foundItem = true;
-                                    return true;
-                                }
-
-                                return false;
-                            });
-                            episodesResult.TotalRecordCount = episodesResult.Items.length;
-                            resolve(episodesResult);
-                        }, reject);
-                    });
-                });
-            }
-
-            if (promise) {
-                return promise.then(function (result) {
-
-                    return result ? result.Items : items;
-                });
-            } else {
-                return Promise.resolve(items);
-            }
-        }
-
-        function enableIntros(item) {
-
-            if (item.MediaType !== 'Video') {
-                return false;
-            }
-            if (item.Type === 'TvChannel') {
-                return false;
-            }
-            // disable for in-progress recordings
-            if (item.Status === 'InProgress') {
-                return false;
-            }
-
-            return isServerItem(item);
-        }
+        // Only used internally
+        self.getCurrentTicks = getCurrentTicks;
 
         function playWithIntros(items, options, user) {
 
@@ -1546,40 +1692,25 @@
                 //Dashboard.showModalLoadingMsg();
             }
 
-            var afterPlayInternal = function () {
-
-                for (var i = 0, length = items.length; i < length; i++) {
-                    addUniquePlaylistItemId(items[i]);
-                }
-                playlist = items.slice(0);
-
-                var playIndex = 0;
-
-                setPlaylistState(items[playIndex].PlaylistItemId, playIndex);
-                loading.hide();
-            };
-
-            if (options.startPositionTicks || options.fullscreen === false || !enableIntros(firstItem) || !userSettings.enableCinemaMode()) {
-
-                currentPlayOptions = options;
-                return playInternal(firstItem, options, afterPlayInternal);
-            }
-
             var apiClient = connectionManager.getApiClient(firstItem.ServerId);
 
-            return apiClient.getIntros(firstItem.Id).then(function (intros) {
+            return getIntros(firstItem, apiClient, options).then(function (intros) {
 
                 items = intros.Items.concat(items);
                 currentPlayOptions = options;
-                return playInternal(items[0], options, afterPlayInternal);
-            });
-        }
+                return playInternal(items[0], options, function () {
 
-        function isServerItem(item) {
-            if (!item.Id) {
-                return false;
-            }
-            return true;
+                    for (var i = 0, length = items.length; i < length; i++) {
+                        addUniquePlaylistItemId(items[i]);
+                    }
+                    playlist = items.slice(0);
+
+                    var playIndex = 0;
+
+                    setPlaylistState(items[playIndex].PlaylistItemId, playIndex);
+                    loading.hide();
+                });
+            });
         }
 
         var currentId = 0;
@@ -1605,7 +1736,7 @@
 
             if (item.IsPlaceHolder) {
                 loading.hide();
-                showPlaybackInfoErrorMessage('PlaceHolder', true);
+                showPlaybackInfoErrorMessage(self, 'PlaceHolder', true);
                 return Promise.reject();
             }
 
@@ -1717,7 +1848,7 @@
             if (activePlayer) {
 
                 // TODO: if changing players within the same playlist, this will cause nextItem to be null
-                playNextAfterEnded = false;
+                self._playNextAfterEnded = false;
                 promise = onPlaybackChanging(activePlayer, player, item);
             } else {
                 promise = Promise.resolve();
@@ -1737,6 +1868,11 @@
                         self.stop(player);
                     });
                 });
+            }
+
+            if (player && !enableLocalPlaylistManagement(player)) {
+
+                // TODO
             }
 
             return Promise.all([promise, player.getDeviceProfile(item)]).then(function (responses) {
@@ -1771,78 +1907,6 @@
                     });
                 });
             });
-        }
-
-        function createStreamInfoFromUrlItem(item) {
-
-            // Check item.Path for games
-            return {
-                url: item.Url || item.Path,
-                playMethod: 'DirectPlay',
-                item: item,
-                textTracks: [],
-                mediaType: item.MediaType
-            };
-        }
-
-        function backdropImageUrl(apiClient, item, options) {
-
-            options = options || {};
-            options.type = options.type || "Backdrop";
-
-            // If not resizing, get the original image
-            if (!options.maxWidth && !options.width && !options.maxHeight && !options.height) {
-                options.quality = 100;
-            }
-
-            if (item.BackdropImageTags && item.BackdropImageTags.length) {
-
-                options.tag = item.BackdropImageTags[0];
-                return apiClient.getScaledImageUrl(item.Id, options);
-            }
-
-            if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
-                options.tag = item.ParentBackdropImageTags[0];
-                return apiClient.getScaledImageUrl(item.ParentBackdropItemId, options);
-            }
-
-            return null;
-        }
-
-        function getMimeType(type, container) {
-
-            container = (container || '').toLowerCase();
-
-            if (type === 'audio') {
-                if (container === 'opus') {
-                    return 'audio/ogg';
-                }
-                if (container === 'webma') {
-                    return 'audio/webm';
-                }
-                if (container === 'm4a') {
-                    return 'audio/mp4';
-                }
-            }
-            else if (type === 'video') {
-                if (container === 'mkv') {
-                    return 'video/x-matroska';
-                }
-                if (container === 'm4v') {
-                    return 'video/mp4';
-                }
-                if (container === 'mov') {
-                    return 'video/quicktime';
-                }
-                if (container === 'mpg') {
-                    return 'video/mpeg';
-                }
-                if (container === 'flv') {
-                    return 'video/x-flv';
-                }
-            }
-
-            return type + '/' + container;
         }
 
         function createStreamInfo(apiClient, type, item, mediaSource, startPosition, forceTranscoding) {
@@ -1921,9 +1985,13 @@
 
                 } else {
 
-                    var isDirectStream = mediaSource.SupportsDirectStream;
+                    if (mediaSource.StreamUrl) {
 
-                    if (isDirectStream && !forceTranscoding) {
+                        playMethod = 'Transcode';
+                        mediaUrl = mediaSource.StreamUrl;
+                    }
+
+                    else if (mediaSource.SupportsDirectStream && !forceTranscoding) {
 
                         directOptions = {
                             Static: true,
@@ -1959,6 +2027,7 @@
                         }
                     }
                 }
+
             } else if (type === 'Game') {
 
                 mediaUrl = mediaSource.Path;
@@ -1995,27 +2064,6 @@
 
             return Promise.resolve(resultInfo);
         }
-
-        function getParam(name, url) {
-            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-            var regexS = "[\\?&]" + name + "=([^&#]*)";
-            var regex = new RegExp(regexS, "i");
-
-            var results = regex.exec(url);
-            if (results == null) {
-                return "";
-            }
-            else {
-                return decodeURIComponent(results[1].replace(/\+/g, " "));
-            }
-        }
-
-        self.getSubtitleUrl = function (textStream, serverId) {
-
-            var apiClient = connectionManager.getApiClient(serverId);
-            var textStreamUrl = !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
-            return textStreamUrl;
-        };
 
         function getTextTracks(apiClient, mediaSource) {
 
@@ -2055,7 +2103,7 @@
 
             return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition).then(function (playbackInfoResult) {
 
-                if (validatePlaybackInfoResult(playbackInfoResult)) {
+                if (validatePlaybackInfoResult(self, playbackInfoResult)) {
 
                     return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
                         if (mediaSource) {
@@ -2077,7 +2125,7 @@
                             }
                         } else {
                             //Dashboard.hideModalLoadingMsg();
-                            showPlaybackInfoErrorMessage('NoCompatibleStream');
+                            showPlaybackInfoErrorMessage(self, 'NoCompatibleStream');
                             return Promise.reject();
                         }
                     });
@@ -2087,240 +2135,11 @@
             });
         }
 
-        function getPlaybackInfo(player,
-            apiClient,
-            item,
-            deviceProfile,
-            maxBitrate,
-            startPosition,
-            mediaSource,
-            audioStreamIndex,
-            subtitleStreamIndex,
-            liveStreamId,
-            enableDirectPlay,
-            enableDirectStream,
-            allowVideoStreamCopy,
-            allowAudioStreamCopy) {
-
-            var itemId = item.Id;
-
-            var query = {
-                UserId: apiClient.getCurrentUserId(),
-                StartTimeTicks: startPosition || 0
-            };
-
-            if (audioStreamIndex != null) {
-                query.AudioStreamIndex = audioStreamIndex;
-            }
-            if (subtitleStreamIndex != null) {
-                query.SubtitleStreamIndex = subtitleStreamIndex;
-            }
-            if (enableDirectPlay != null) {
-                query.EnableDirectPlay = enableDirectPlay;
-            }
-
-            if (enableDirectPlay !== false) {
-                query.ForceDirectPlayRemoteMediaSource = true;
-            }
-            if (enableDirectStream != null) {
-                query.EnableDirectStream = enableDirectStream;
-            }
-            if (allowVideoStreamCopy != null) {
-                query.AllowVideoStreamCopy = allowVideoStreamCopy;
-            }
-            if (allowAudioStreamCopy != null) {
-                query.AllowAudioStreamCopy = allowAudioStreamCopy;
-            }
-            if (mediaSource) {
-                query.MediaSourceId = mediaSource.Id;
-            }
-            if (liveStreamId) {
-                query.LiveStreamId = liveStreamId;
-            }
-            if (maxBitrate) {
-                query.MaxStreamingBitrate = maxBitrate;
-            }
-
-            // lastly, enforce player overrides for special situations
-            if (query.EnableDirectStream !== false) {
-                if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
-                    query.EnableDirectStream = false;
-                }
-            }
-
-            return apiClient.getPlaybackInfo(itemId, query, deviceProfile);
-        }
-
-        function getOptimalMediaSource(apiClient, item, versions) {
-
-            var promises = versions.map(function (v) {
-                return supportsDirectPlay(apiClient, item, v);
-            });
-
-            if (!promises.length) {
-                return Promise.reject();
-            }
-
-            return Promise.all(promises).then(function (results) {
-
-                for (var i = 0, length = versions.length; i < length; i++) {
-                    versions[i].enableDirectPlay = results[i] || false;
-                }
-                var optimalVersion = versions.filter(function (v) {
-
-                    return v.enableDirectPlay;
-
-                })[0];
-
-                if (!optimalVersion) {
-                    optimalVersion = versions.filter(function (v) {
-
-                        return v.SupportsDirectStream;
-
-                    })[0];
-                }
-
-                optimalVersion = optimalVersion || versions.filter(function (s) {
-                    return s.SupportsTranscoding;
-                })[0];
-
-                return optimalVersion || versions[0];
-            });
-        }
-
-        function getLiveStream(apiClient, itemId, playSessionId, deviceProfile, maxBitrate, startPosition, mediaSource, audioStreamIndex, subtitleStreamIndex) {
-
-            var postData = {
-                DeviceProfile: deviceProfile,
-                OpenToken: mediaSource.OpenToken
-            };
-
-            var query = {
-                UserId: apiClient.getCurrentUserId(),
-                StartTimeTicks: startPosition || 0,
-                ItemId: itemId,
-                PlaySessionId: playSessionId
-            };
-
-            if (maxBitrate) {
-                query.MaxStreamingBitrate = maxBitrate;
-            }
-            if (audioStreamIndex != null) {
-                query.AudioStreamIndex = audioStreamIndex;
-            }
-            if (subtitleStreamIndex != null) {
-                query.SubtitleStreamIndex = subtitleStreamIndex;
-            }
-
-            return apiClient.ajax({
-                url: apiClient.getUrl('LiveStreams/Open', query),
-                type: 'POST',
-                data: JSON.stringify(postData),
-                contentType: "application/json",
-                dataType: "json"
-
-            });
-        }
-
-        function isHostReachable(mediaSource, apiClient) {
-
-            var url = mediaSource.Path;
-
-            var isServerAddress = url.toLowerCase().replace('https:', 'http').indexOf(apiClient.serverAddress().toLowerCase().replace('https:', 'http').substring(0, 14)) === 0;
-
-            if (isServerAddress) {
-                return Promise.resolve(true);
-            }
-
-            if (mediaSource.IsRemote) {
-                return Promise.resolve(true);
-            }
-
-            return Promise.resolve(false);
-        }
-
-        function supportsDirectPlay(apiClient, item, mediaSource) {
-
-            // folder rip hacks due to not yet being supported by the stream building engine
-            var isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
-
-            if (mediaSource.SupportsDirectPlay || isFolderRip) {
-
-                if (mediaSource.IsRemote && (item.Type === 'TvChannel' || item.Type === 'Trailer') && !apphost.supports('remotemedia')) {
-                    return Promise.resolve(false);
-                }
-
-                if (mediaSource.Protocol === 'Http' && !mediaSource.RequiredHttpHeaders.length) {
-
-                    // If this is the only way it can be played, then allow it
-                    if (!mediaSource.SupportsDirectStream && !mediaSource.SupportsTranscoding) {
-                        return Promise.resolve(true);
-                    }
-                    else {
-                        return isHostReachable(mediaSource, apiClient);
-                    }
-                }
-
-                else if (mediaSource.Protocol === 'File') {
-
-                    return new Promise(function (resolve, reject) {
-
-                        // Determine if the file can be accessed directly
-                        require(['filesystem'], function (filesystem) {
-
-                            var method = isFolderRip ?
-                                'directoryExists' :
-                                'fileExists';
-
-                            filesystem[method](mediaSource.Path).then(function () {
-                                resolve(true);
-                            }, function () {
-                                resolve(false);
-                            });
-
-                        });
-                    });
-                }
-            }
-
-            return Promise.resolve(false);
-        }
-
-        function validatePlaybackInfoResult(result) {
-
-            if (result.ErrorCode) {
-
-                showPlaybackInfoErrorMessage(result.ErrorCode);
-                return false;
-            }
-
-            return true;
-        }
-
-        function showPlaybackInfoErrorMessage(errorCode, playNextTrack) {
-
-            require(['alert'], function (alert) {
-                alert({
-                    text: globalize.translate('sharedcomponents#PlaybackError' + errorCode),
-                    title: globalize.translate('sharedcomponents#HeaderPlaybackError')
-                }).then(function () {
-
-                    if (playNextTrack) {
-                        self.nextTrack();
-                    }
-                });
-            });
-        }
-
-        function normalizePlayOptions(playOptions) {
-            playOptions.fullscreen = playOptions.fullscreen !== false;
-        }
-
         function getPlayer(item, playOptions) {
 
             var serverItem = isServerItem(item);
 
-            return getAutomaticPlayers().filter(function (p) {
+            return getAutomaticPlayers(self).filter(function (p) {
 
                 if (p.canPlayMediaType(item.MediaType)) {
 
@@ -2339,33 +2158,6 @@
                 return false;
 
             })[0];
-        }
-
-        function getItemsForPlayback(serverId, query) {
-
-            var apiClient = connectionManager.getApiClient(serverId);
-
-            if (query.Ids && query.Ids.split(',').length === 1) {
-
-                var itemId = query.Ids.split(',');
-
-                return apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
-
-                    return {
-                        Items: [item],
-                        TotalRecordCount: 1
-                    };
-                });
-            }
-            else {
-
-                query.Limit = query.Limit || 100;
-                query.Fields = "MediaSources,Chapters";
-                query.ExcludeLocationTypes = "Virtual";
-                query.EnableTotalRecordCount = false;
-
-                return apiClient.getItems(apiClient.getCurrentUserId(), query);
-            }
         }
 
         function findPlaylistIndex(playlistItemId, list) {
@@ -2496,27 +2288,6 @@
             return currentPlaylistItemId;
         };
 
-        self.setRepeatMode = function (value, player) {
-
-            player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.setRepeatMode(value);
-            }
-
-            repeatMode = value;
-            events.trigger(player, 'repeatmodechange');
-        };
-
-        self.getRepeatMode = function (player) {
-
-            player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.getRepeatMode();
-            }
-
-            return repeatMode;
-        };
-
         function getNextItemInfo(player) {
 
             var newIndex;
@@ -2617,19 +2388,11 @@
                 return self.play(options);
             }
 
-            if (!enableLocalPlaylistManagement(player)) {
-
-                if (mode === 'next') {
-                    return player.queueNext(item);
-                }
-                return player.queue(item);
-            }
-
             if (options.items) {
 
                 return translateItemsForPlayback(options.items, options).then(function (items) {
 
-                    queueAll(items, mode);
+                    queueAll(items, mode, player);
                 });
 
             } else {
@@ -2645,17 +2408,33 @@
                 }).then(function (result) {
 
                     return translateItemsForPlayback(result.Items, options).then(function (items) {
-                        queueAll(items, mode);
+                        queueAll(items, mode, player);
                     });
                 });
             }
         }
 
-        function queueAll(items, mode) {
+        function queueAll(items, mode, player) {
+
+            var queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
+
             for (var i = 0, length = items.length; i < length; i++) {
 
                 addUniquePlaylistItemId(items[i]);
-                playlist.push(items[i]);
+
+                if (!queueDirectToPlayer) {
+                    playlist.push(items[i]);
+                }
+            }
+
+            if (queueDirectToPlayer) {
+
+                if (mode === 'next') {
+                    player.queueNext(items);
+                } else {
+                    player.queue(items);
+                }
+                return;
             }
         }
 
@@ -2679,7 +2458,7 @@
                 playerData.subtitleStreamIndex = null;
             }
 
-            playNextAfterEnded = true;
+            self._playNextAfterEnded = true;
             var isFirstItem = playOptions.isFirstItem;
             var fullscreen = playOptions.fullscreen;
 
@@ -2834,7 +2613,7 @@
 
                 var streamInfo = getPlayerData(player).streamInfo;
 
-                var nextItem = playNextAfterEnded ? getNextItemInfo(player) : null;
+                var nextItem = self._playNextAfterEnded ? getNextItemInfo(player) : null;
 
                 var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3029,7 +2808,7 @@
 
             // Try to report playback stopped before the browser closes
             if (player && self.isPlaying(player)) {
-                playNextAfterEnded = false;
+                self._playNextAfterEnded = false;
                 onPlaybackStopped.call(player);
             }
         });
@@ -3042,6 +2821,328 @@
             self.setDefaultPlayerActive();
         });
     }
+
+    PlaybackManager.prototype.getCurrentPlayer = function () {
+        return this._currentPlayer;
+    };
+
+    PlaybackManager.prototype.toggleDisplayMirroring = function () {
+        this.enableDisplayMirroring(!this.enableDisplayMirroring());
+    };
+
+    PlaybackManager.prototype.enableDisplayMirroring = function (enabled) {
+
+        if (enabled != null) {
+
+            var val = enabled ? '1' : '0';
+            appSettings.set('displaymirror', val);
+            return;
+        }
+
+        return (appSettings.get('displaymirror') || '') !== '0';
+    };
+
+    PlaybackManager.prototype.nextChapter = function (player) {
+
+        player = player || this._currentPlayer;
+        var item = this.currentItem(player);
+
+        var ticks = getCurrentTicks(player);
+
+        var nextChapter = (item.Chapters || []).filter(function (i) {
+
+            return i.StartPositionTicks > ticks;
+
+        })[0];
+
+        if (nextChapter) {
+            this.seek(nextChapter.StartPositionTicks, player);
+        } else {
+            this.nextTrack(player);
+        }
+    };
+
+    PlaybackManager.prototype.previousChapter = function (player) {
+
+        player = player || this._currentPlayer;
+        var item = this.currentItem(player);
+
+        var ticks = getCurrentTicks(player);
+
+        // Go back 10 seconds
+        ticks -= 100000000;
+
+        // If there's no previous track, then at least rewind to beginning
+        if (this.getCurrentPlaylistIndex(player) === 0) {
+            ticks = Math.max(ticks, 0);
+        }
+
+        var previousChapters = (item.Chapters || []).filter(function (i) {
+
+            return i.StartPositionTicks <= ticks;
+        });
+
+        if (previousChapters.length) {
+            this.seek(previousChapters[previousChapters.length - 1].StartPositionTicks, player);
+        } else {
+            this.previousTrack(player);
+        }
+    };
+
+    PlaybackManager.prototype.fastForward = function (player) {
+
+        player = player || self._currentPlayer;
+
+        if (player.fastForward != null) {
+            player.fastForward(userSettings.skipForwardLength());
+            return;
+        }
+
+        var ticks = getCurrentTicks(player);
+
+        // Go back 15 seconds
+        ticks += userSettings.skipForwardLength() * 10000;
+
+        var runTimeTicks = this.duration(player) || 0;
+
+        if (ticks < runTimeTicks) {
+            this.seek(ticks);
+        }
+    };
+
+    PlaybackManager.prototype.rewind = function (player) {
+
+        player = player || this._currentPlayer;
+
+        if (player.rewind != null) {
+            player.rewind(userSettings.skipBackLength());
+            return;
+        }
+
+        var ticks = getCurrentTicks(player);
+
+        // Go back 15 seconds
+        ticks -= userSettings.skipBackLength() * 10000;
+
+        this.seek(Math.max(0, ticks));
+    };
+
+    PlaybackManager.prototype.seekPercent = function (percent, player) {
+
+        player = player || this._currentPlayer;
+
+        var ticks = this.duration(player) || 0;
+
+        percent /= 100;
+        ticks *= percent;
+        this.seek(parseInt(ticks), player);
+    };
+
+    PlaybackManager.prototype.playTrailers = function (item) {
+
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+
+        var instance = this;
+
+        if (item.LocalTrailerCount) {
+            return apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (result) {
+                return instance.play({
+                    items: result
+                });
+            });
+        } else {
+            var remoteTrailers = item.RemoteTrailers || [];
+
+            if (!remoteTrailers.length) {
+                return Promise.reject();
+            }
+
+            return this.play({
+                items: remoteTrailers.map(function (t) {
+                    return {
+                        Name: t.Name || (item.Name + ' Trailer'),
+                        Url: t.Url,
+                        MediaType: 'Video',
+                        Type: 'Trailer',
+                        ServerId: apiClient.serverId()
+                    };
+                })
+            });
+        }
+    };
+
+    PlaybackManager.prototype.getSubtitleUrl = function (textStream, serverId) {
+
+        var apiClient = connectionManager.getApiClient(serverId);
+        var textStreamUrl = !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
+        return textStreamUrl;
+    };
+
+    PlaybackManager.prototype.stop = function (player) {
+
+        player = player || this._currentPlayer;
+
+        if (player) {
+            this._playNextAfterEnded = false;
+            // TODO: remove second param
+            return player.stop(true, true);
+        }
+
+        return Promise.resolve();
+    };
+
+    PlaybackManager.prototype.playPause = function (player) {
+
+        player = player || this._currentPlayer;
+
+        if (player) {
+
+            if (player.playPause) {
+                return player.playPause();
+            }
+
+            if (player.paused()) {
+                return this.unpause(player);
+            } else {
+                return this.pause(player);
+            }
+        }
+    };
+
+    PlaybackManager.prototype.paused = function (player) {
+
+        player = player || this._currentPlayer;
+
+        if (player) {
+            return player.paused();
+        }
+    };
+
+    PlaybackManager.prototype.pause = function (player) {
+        player = player || this._currentPlayer;
+
+        if (player) {
+            player.pause();
+        }
+    };
+
+    PlaybackManager.prototype.unpause = function (player) {
+        player = player || this._currentPlayer;
+
+        if (player) {
+            player.unpause();
+        }
+    };
+
+    PlaybackManager.prototype.instantMix = function (item, player) {
+
+        player = player || this._currentPlayer;
+        if (player && player.instantMix) {
+            return player.instantMix(item);
+        }
+
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+
+        var options = {};
+        options.UserId = apiClient.getCurrentUserId();
+        options.Fields = 'MediaSources';
+
+        var instance = this;
+
+        apiClient.getInstantMixFromItem(item.Id, options).then(function (result) {
+            instance.play({
+                items: result.Items
+            });
+        });
+    };
+
+    PlaybackManager.prototype.shuffle = function (shuffleItem, player) {
+
+        player = player || this._currentPlayer;
+        if (player && player.shuffle) {
+            return player.shuffle(shuffleItem);
+        }
+
+        var apiClient = connectionManager.getApiClient(shuffleItem.ServerId);
+
+        var instance = this;
+
+        apiClient.getItem(apiClient.getCurrentUserId(), shuffleItem.Id).then(function (item) {
+
+            var query = {
+                Fields: "MediaSources,Chapters",
+                Limit: 100,
+                Filters: "IsNotFolder",
+                Recursive: true,
+                SortBy: "Random"
+            };
+
+            if (item.Type === "MusicArtist") {
+
+                query.MediaTypes = "Audio";
+                query.ArtistIds = item.Id;
+
+            }
+            else if (item.Type === "MusicGenre") {
+
+                query.MediaTypes = "Audio";
+                query.Genres = item.Name;
+
+            }
+            else if (item.IsFolder) {
+                query.ParentId = item.Id;
+
+            }
+            else {
+                return;
+            }
+
+            getItemsForPlayback(item.ServerId, query).then(function (result) {
+
+                instance.play({ items: result.Items });
+
+            });
+        });
+    };
+
+    PlaybackManager.prototype.audioTracks = function (player) {
+        var mediaSource = this.currentMediaSource(player);
+
+        var mediaStreams = (mediaSource || {}).MediaStreams || [];
+        return mediaStreams.filter(function (s) {
+            return s.Type === 'Audio';
+        });
+    };
+
+    PlaybackManager.prototype.subtitleTracks = function (player) {
+        var mediaSource = this.currentMediaSource(player);
+
+        var mediaStreams = (mediaSource || {}).MediaStreams || [];
+        return mediaStreams.filter(function (s) {
+            return s.Type === 'Subtitle';
+        });
+    };
+
+    PlaybackManager.prototype.setRepeatMode = function (value, player) {
+
+        player = player || this._currentPlayer;
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.setRepeatMode(value);
+        }
+
+        this._repeatMode = value;
+        events.trigger(player, 'repeatmodechange');
+    };
+
+    PlaybackManager.prototype.getRepeatMode = function (player) {
+
+        player = player || this._currentPlayer;
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.getRepeatMode();
+        }
+
+        return this._repeatMode;
+    };
 
     PlaybackManager.prototype.trySetActiveDeviceName = function (name) {
 
