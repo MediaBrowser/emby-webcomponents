@@ -352,7 +352,12 @@
             receiverName = session.receiver.friendlyName;
         }
 
-        var apiClient = ApiClient;
+        var apiClient;
+        if (message.options && message.options.ServerId) {
+            apiClient = connectionManager.getApiClient(message.options.ServerId);
+        } else {
+            apiClient = connectionManager.currentApiClient();
+        }
 
         message = Object.assign(message, {
             userId: apiClient.getCurrentUserId(),
@@ -464,608 +469,623 @@
         console.log(info);
     };
 
-    function chromecastPlayer() {
+    function normalizeImages(state) {
 
-        var self = this;
-        // Create Cast Player
-        var castPlayer;
+        if (state && state.NowPlayingItem) {
 
-        // playbackManager needs this
-        self.name = PlayerName;
-        self.type = 'mediaplayer';
-        self.id = 'chromecast';
-        self.isLocalPlayer = false;
+            var item = state.NowPlayingItem;
 
-        self.getItemsForPlayback = function (query) {
-
-            var apiClient = ApiClient;
-            var userId = apiClient.getCurrentUserId();
-
-            if (query.Ids && query.Ids.split(',').length === 1) {
-                return apiClient.getItem(userId, query.Ids.split(',')).then(function (item) {
-                    return {
-                        Items: [item],
-                        TotalRecordCount: 1
-                    };
-                });
-            }
-            else {
-
-                query.Limit = query.Limit || 100;
-                query.ExcludeLocationTypes = "Virtual";
-                query.EnableTotalRecordCount = false;
-
-                return apiClient.getItems(userId, query);
-            }
-        };
-
-        function initializeChromecast() {
-
-            castPlayer = new CastPlayer();
-
-            // To allow the native android app to override
-            document.dispatchEvent(new CustomEvent("chromecastloaded", {
-                detail: {
-                    player: self
+            if (!item.ImageTags || !item.ImageTags.Primary) {
+                if (item.PrimaryImageTag) {
+                    item.ImageTags = item.ImageTags || {};
+                    item.ImageTags.Primary = item.PrimaryImageTag;
                 }
-            }));
-
-            events.on(castPlayer, "connect", function (e) {
-
-                if (currentResolve) {
-                    sendConnectionResult(true);
-                } else {
-                    playbackManager.setActivePlayer(PlayerName, self.getCurrentTargetInfo());
-                }
-
-                console.log('cc: connect');
-                // Reset this so that statechange will fire
-                self.lastPlayerData = null;
-            });
-
-            events.on(castPlayer, "playbackstart", function (e, data) {
-
-                console.log('cc: playbackstart');
-
-                castPlayer.initializeCastPlayer();
-
-                var state = self.getPlayerStateInternal(data);
-                events.trigger(self, "playbackstart", [state]);
-            });
-
-            events.on(castPlayer, "playbackstop", function (e, data) {
-
-                console.log('cc: playbackstop');
-                var state = self.getPlayerStateInternal(data);
-
-                events.trigger(self, "playbackstop", [state]);
-
-                // Reset this so the next query doesn't make it appear like content is playing.
-                self.lastPlayerData = {};
-            });
-
-            events.on(castPlayer, "playbackprogress", function (e, data) {
-
-                console.log('cc: positionchange');
-                var state = self.getPlayerStateInternal(data);
-
-                events.trigger(self, "timeupdate", [state]);
-            });
-
-            events.on(castPlayer, "volumechange", function (e, data) {
-
-                console.log('cc: volumechange');
-                var state = self.getPlayerStateInternal(data);
-                events.trigger(self, "volumechange", [state]);
-            });
-
-            events.on(castPlayer, "repeatmodechange", function (e, data) {
-
-                console.log('cc: repeatmodechange');
-                var state = self.getPlayerStateInternal(data);
-                events.trigger(self, "repeatmodechange", [state]);
-            });
-
-            events.on(castPlayer, "playstatechange", function (e, data) {
-
-                console.log('cc: playstatechange');
-                var state = self.getPlayerStateInternal(data);
-
-                events.trigger(self, "pause", [state]);
-            });
-        }
-
-        self.play = function (options) {
-
-            if (options.items) {
-
-                return self.playWithCommand(options, 'PlayNow');
-
-            } else {
-
-                return self.getItemsForPlayback({
-
-                    Ids: options.ids.join(',')
-
-                }).then(function (result) {
-
-                    options.items = result.Items;
-                    return self.playWithCommand(options, 'PlayNow');
-
-                });
             }
-        };
-
-        self.playWithCommand = function (options, command) {
-
-            if (!options.items) {
-                var apiClient = connectionManager.getApiClient(options.serverId);
-                return apiClient.getItem(apiClient.getCurrentUserId(), options.ids[0]).then(function (item) {
-
-                    options.items = [item];
-                    return self.playWithCommand(options, command);
-                });
+            if (item.BackdropImageTag && item.BackdropItemId === item.Id) {
+                item.BackdropImageTags = [item.BackdropImageTag];
             }
-
-            return castPlayer.loadMedia(options, command);
-        };
-
-        self.unpause = function () {
-            castPlayer.sendMessage({
-                options: {},
-                command: 'Unpause'
-            });
-        };
-
-        self.playPause = function () {
-            castPlayer.sendMessage({
-                options: {},
-                command: 'PlayPause'
-            });
-        };
-
-        self.pause = function () {
-            castPlayer.sendMessage({
-                options: {},
-                command: 'Pause'
-            });
-        };
-
-        self.shuffle = function (item) {
-
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-            var userId = apiClient.getCurrentUserId();
-
-            apiClient.getItem(userId, item.Id).then(function (item) {
-
-                self.playWithCommand({
-
-                    items: [item]
-
-                }, 'Shuffle');
-
-            });
-
-        };
-
-        self.instantMix = function (item) {
-
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-            var userId = apiClient.getCurrentUserId();
-
-            apiClient.getItem(userId, item.Id).then(function (item) {
-
-                self.playWithCommand({
-
-                    items: [item]
-
-                }, 'InstantMix');
-
-            });
-
-        };
-
-        self.canPlayMediaType = function (mediaType) {
-
-            mediaType = (mediaType || '').toLowerCase();
-            return mediaType === 'audio' || mediaType === 'video';
-        };
-
-        self.canQueueMediaType = function (mediaType) {
-            return self.canPlayMediaType(mediaType);
-        };
-
-        self.queue = function (options) {
-            self.playWithCommand(options, 'PlayLast');
-        };
-
-        self.queueNext = function (options) {
-            self.playWithCommand(options, 'PlayNext');
-        };
-
-        self.stop = function () {
-            return castPlayer.sendMessage({
-                options: {},
-                command: 'Stop'
-            });
-        };
-
-        self.displayContent = function (options) {
-
-            castPlayer.sendMessage({
-                options: options,
-                command: 'DisplayContent'
-            });
-        };
-
-        self.isPlaying = function () {
-            var state = self.lastPlayerData || {};
-            return state.NowPlayingItem != null;
-        };
-
-        self.isPlayingVideo = function () {
-            var state = self.lastPlayerData || {};
-            state = state.NowPlayingItem || {};
-            return state.MediaType === 'Video';
-        };
-
-        self.isPlayingAudio = function () {
-            var state = self.lastPlayerData || {};
-            state = state.NowPlayingItem || {};
-            return state.MediaType === 'Audio';
-        };
-
-        self.currentTime = function (val) {
-
-            if (val != null) {
-                return self.seek(val);
-            }
-
-            var state = self.lastPlayerData || {};
-            state = state.PlayState || {};
-            return state.PositionTicks;
-        };
-
-        self.duration = function () {
-            var state = self.lastPlayerData || {};
-            state = state.NowPlayingItem || {};
-            return state.RunTimeTicks;
-        };
-
-        self.paused = function () {
-            var state = self.lastPlayerData || {};
-            state = state.PlayState || {};
-
-            return state.IsPaused;
-        };
-
-        self.isMuted = function () {
-            var state = self.lastPlayerData || {};
-            state = state.PlayState || {};
-
-            return state.IsMuted;
-        };
-
-        self.setMute = function (isMuted) {
-
-            if (isMuted) {
-                castPlayer.sendMessage({
-                    options: {},
-                    command: 'Mute'
-                });
-            } else {
-                castPlayer.sendMessage({
-                    options: {},
-                    command: 'Unmute'
-                });
-            }
-        };
-
-        self.getRepeatMode = function () {
-            var state = self.lastPlayerData || {};
-            state = state.PlayState || {};
-            return state.RepeatMode;
-        };
-
-        self.setRepeatMode = function (mode) {
-            castPlayer.sendMessage({
-                options: {
-                    RepeatMode: mode
-                },
-                command: 'SetRepeatMode'
-            });
-        };
-
-        self.toggleMute = function () {
-
-            castPlayer.sendMessage({
-                options: {},
-                command: 'ToggleMute'
-            });
-        };
-
-        self.getTargets = function () {
-
-            var targets = [];
-
-            if (castPlayer.hasReceivers) {
-                targets.push(self.getCurrentTargetInfo());
-            }
-
-            return Promise.resolve(targets);
-        };
-
-        self.getCurrentTargetInfo = function () {
-
-            var appName = null;
-
-            if (castPlayer.session && castPlayer.session.receiver && castPlayer.session.receiver.friendlyName) {
-                appName = castPlayer.session.receiver.friendlyName;
-            }
-
-            return {
-                name: PlayerName,
-                id: PlayerName,
-                playerName: PlayerName,
-                playableMediaTypes: ["Audio", "Video"],
-                isLocalPlayer: false,
-                appName: PlayerName,
-                deviceName: appName,
-                supportedCommands: ["VolumeUp",
-                                    "VolumeDown",
-                                    "Mute",
-                                    "Unmute",
-                                    "ToggleMute",
-                                    "SetVolume",
-                                    "SetAudioStreamIndex",
-                                    "SetSubtitleStreamIndex",
-                                    "DisplayContent",
-                                    "SetRepeatMode",
-                                    "EndSession"]
-            };
-        };
-
-        self.seek = function (position) {
-
-            position = parseInt(position);
-
-            position = position / 10000000;
-
-            castPlayer.sendMessage({
-                options: {
-                    position: position
-                },
-                command: 'Seek'
-            });
-        };
-
-        self.audioTracks = function () {
-            var state = self.lastPlayerData || {};
-            state = state.NowPlayingItem || {};
-            var streams = state.MediaStreams || [];
-            return streams.filter(function (s) {
-                return s.Type === 'Audio';
-            });
-        };
-
-        self.setAudioStreamIndex = function (index) {
-            castPlayer.sendMessage({
-                options: {
-                    index: index
-                },
-                command: 'SetAudioStreamIndex'
-            });
-        };
-
-        self.getAudioStreamIndex = function () {
-            var state = self.lastPlayerData || {};
-            state = state.PlayState || {};
-            return state.AudioStreamIndex;
-        };
-
-        self.subtitleTracks = function () {
-            var state = self.lastPlayerData || {};
-            state = state.NowPlayingItem || {};
-            var streams = state.MediaStreams || [];
-            return streams.filter(function (s) {
-                return s.Type === 'Subtitle';
-            });
-        };
-
-        self.getSubtitleStreamIndex = function () {
-            var state = self.lastPlayerData || {};
-            state = state.PlayState || {};
-            return state.SubtitleStreamIndex;
-        };
-
-        self.setSubtitleStreamIndex = function (index) {
-            castPlayer.sendMessage({
-                options: {
-                    index: index
-                },
-                command: 'SetSubtitleStreamIndex'
-            });
-        };
-
-        self.getMaxStreamingBitrate = function () {
-            var state = self.lastPlayerData || {};
-            state = state.PlayState || {};
-            return state.MaxStreamingBitrate;
-        };
-
-        self.setMaxStreamingBitrate = function (options) {
-
-            castPlayer.sendMessage({
-                options: options,
-                command: 'SetMaxStreamingBitrate'
-            });
-        };
-
-        self.isFullscreen = function () {
-            var state = self.lastPlayerData || {};
-            state = state.PlayState || {};
-            return state.IsFullscreen;
-        };
-
-        self.toggleFullscreen = function () {
-            // not supported
-        };
-
-        self.nextTrack = function () {
-            castPlayer.sendMessage({
-                options: {},
-                command: 'NextTrack'
-            });
-        };
-
-        self.previousTrack = function () {
-            castPlayer.sendMessage({
-                options: {},
-                command: 'PreviousTrack'
-            });
-        };
-
-        self.beginPlayerUpdates = function () {
-            // Setup polling here
-        };
-
-        self.endPlayerUpdates = function () {
-            // Stop polling here
-        };
-
-        self.getVolume = function () {
-
-            var state = self.lastPlayerData || {};
-            state = state.PlayState || {};
-
-            return state.VolumeLevel == null ? 100 : state.VolumeLevel;
-        };
-
-        self.volumeDown = function () {
-
-            castPlayer.sendMessage({
-                options: {},
-                command: 'VolumeDown'
-            });
-        };
-
-        self.endSession = function () {
-
-            self.stop().then(function () {
-                setTimeout(function () {
-                    castPlayer.stopApp();
-                }, 1000);
-            });
-        };
-
-        self.volumeUp = function () {
-
-            castPlayer.sendMessage({
-                options: {},
-                command: 'VolumeUp'
-            });
-        };
-
-        self.setVolume = function (vol) {
-
-            vol = Math.min(vol, 100);
-            vol = Math.max(vol, 0);
-
-            //castPlayer.setReceiverVolume(false, (vol / 100));
-            castPlayer.sendMessage({
-                options: {
-                    volume: vol
-                },
-                command: 'SetVolume'
-            });
-        };
-
-        self.getPlaylist = function () {
-            return Promise.resolve([]);
-        };
-
-        self.getCurrentPlaylistItemId = function () {
-        };
-
-        self.setCurrentPlaylistItem = function (playlistItemId) {
-            return Promise.resolve();
-        };
-
-        self.removeFromPlaylist = function (playlistItemIds) {
-            return Promise.resolve();
-        };
-
-        self.getPlayerState = function () {
-
-            return Promise.resolve(self.getPlayerStateInternal() || {});
-        };
-
-        function normalizeImages(state) {
-
-            if (state && state.NowPlayingItem) {
-
-                var item = state.NowPlayingItem;
-
-                if (!item.ImageTags || !item.ImageTags.Primary) {
-                    if (item.PrimaryImageTag) {
-                        item.ImageTags = item.ImageTags || {};
-                        item.ImageTags.Primary = item.PrimaryImageTag;
-                    }
-                }
-                if (item.BackdropImageTag && item.BackdropItemId === item.Id) {
-                    item.BackdropImageTags = [item.BackdropImageTag];
-                }
-                if (item.BackdropImageTag && item.BackdropItemId !== item.Id) {
-                    item.ParentBackdropImageTags = [item.BackdropImageTag];
-                    item.ParentBackdropItemId = item.BackdropItemId;
-                }
+            if (item.BackdropImageTag && item.BackdropItemId !== item.Id) {
+                item.ParentBackdropImageTags = [item.BackdropImageTag];
+                item.ParentBackdropItemId = item.BackdropItemId;
             }
         }
-
-        self.lastPlayerData = {};
-
-        self.getPlayerStateInternal = function (data) {
-
-            var triggerStateChange = false;
-            if (data && !self.lastPlayerData) {
-                triggerStateChange = true;
-            }
-
-            data = data || self.lastPlayerData;
-            self.lastPlayerData = data;
-
-            normalizeImages(data);
-
-            //console.log(JSON.stringify(data));
-
-            if (triggerStateChange) {
-                events.trigger(self, "statechange", [data]);
-            }
-
-            return data;
-        };
-
-        self.tryPair = function (target) {
-
-            if (castPlayer.deviceState !== DEVICE_STATE.ACTIVE && castPlayer.isInitialized) {
-
-                return new Promise(function (resolve, reject) {
-                    currentResolve = resolve;
-                    currentReject = reject;
-
-                    castPlayer.launchApp();
-                });
-            } else {
-
-                currentResolve = null;
-                currentReject = null;
-
-                return Promise.reject();
-            }
-        };
-
-        castSenderApiLoader.load().then(initializeChromecast);
     }
 
-    return chromecastPlayer;
+    function getItemsForPlayback(apiClient, query) {
+
+        var userId = apiClient.getCurrentUserId();
+
+        if (query.Ids && query.Ids.split(',').length === 1) {
+            return apiClient.getItem(userId, query.Ids.split(',')).then(function (item) {
+                return {
+                    Items: [item],
+                    TotalRecordCount: 1
+                };
+            });
+        }
+        else {
+
+            query.Limit = query.Limit || 100;
+            query.ExcludeLocationTypes = "Virtual";
+            query.EnableTotalRecordCount = false;
+
+            return apiClient.getItems(userId, query);
+        }
+    };
+
+    function initializeChromecast() {
+
+        var instance = this;
+        instance._castPlayer = new CastPlayer();
+
+        // To allow the native android app to override
+        document.dispatchEvent(new CustomEvent("chromecastloaded", {
+            detail: {
+                player: instance
+            }
+        }));
+
+        events.on(instance._castPlayer, "connect", function (e) {
+
+            if (currentResolve) {
+                sendConnectionResult(true);
+            } else {
+                playbackManager.setActivePlayer(PlayerName, instance.getCurrentTargetInfo());
+            }
+
+            console.log('cc: connect');
+            // Reset this so that statechange will fire
+            instance.lastPlayerData = null;
+        });
+
+        events.on(instance._castPlayer, "playbackstart", function (e, data) {
+
+            console.log('cc: playbackstart');
+
+            instance._castPlayer.initializeCastPlayer();
+
+            var state = instance.getPlayerStateInternal(data);
+            events.trigger(instance, "playbackstart", [state]);
+        });
+
+        events.on(instance._castPlayer, "playbackstop", function (e, data) {
+
+            console.log('cc: playbackstop');
+            var state = instance.getPlayerStateInternal(data);
+
+            events.trigger(instance, "playbackstop", [state]);
+
+            // Reset this so the next query doesn't make it appear like content is playing.
+            instance.lastPlayerData = {};
+        });
+
+        events.on(instance._castPlayer, "playbackprogress", function (e, data) {
+
+            console.log('cc: positionchange');
+            var state = instance.getPlayerStateInternal(data);
+
+            events.trigger(instance, "timeupdate", [state]);
+        });
+
+        events.on(instance._castPlayer, "volumechange", function (e, data) {
+
+            console.log('cc: volumechange');
+            var state = instance.getPlayerStateInternal(data);
+            events.trigger(instance, "volumechange", [state]);
+        });
+
+        events.on(instance._castPlayer, "repeatmodechange", function (e, data) {
+
+            console.log('cc: repeatmodechange');
+            var state = instance.getPlayerStateInternal(data);
+            events.trigger(instance, "repeatmodechange", [state]);
+        });
+
+        events.on(instance._castPlayer, "playstatechange", function (e, data) {
+
+            console.log('cc: playstatechange');
+            var state = instance.getPlayerStateInternal(data);
+
+            events.trigger(instance, "pause", [state]);
+        });
+    }
+
+    function ChromecastPlayer() {
+
+        // playbackManager needs this
+        this.name = PlayerName;
+        this.type = 'mediaplayer';
+        this.id = 'chromecast';
+        this.isLocalPlayer = false;
+        this.lastPlayerData = {};
+
+        castSenderApiLoader.load().then(initializeChromecast.bind(this));
+    }
+
+    ChromecastPlayer.prototype.tryPair = function (target) {
+
+        var castPlayer = this._castPlayer;
+
+        if (castPlayer.deviceState !== DEVICE_STATE.ACTIVE && castPlayer.isInitialized) {
+
+            return new Promise(function (resolve, reject) {
+                currentResolve = resolve;
+                currentReject = reject;
+
+                castPlayer.launchApp();
+            });
+        } else {
+
+            currentResolve = null;
+            currentReject = null;
+
+            return Promise.reject();
+        }
+    };
+
+    ChromecastPlayer.prototype.getTargets = function () {
+
+        var targets = [];
+
+        if (this._castPlayer.hasReceivers) {
+            targets.push(this.getCurrentTargetInfo());
+        }
+
+        return Promise.resolve(targets);
+    };
+
+    ChromecastPlayer.prototype.getCurrentTargetInfo = function () {
+
+        var appName = null;
+
+        var castPlayer = this._castPlayer;
+
+        if (castPlayer.session && castPlayer.session.receiver && castPlayer.session.receiver.friendlyName) {
+            appName = castPlayer.session.receiver.friendlyName;
+        }
+
+        return {
+            name: PlayerName,
+            id: PlayerName,
+            playerName: PlayerName,
+            playableMediaTypes: ["Audio", "Video"],
+            isLocalPlayer: false,
+            appName: PlayerName,
+            deviceName: appName,
+            supportedCommands: ["VolumeUp",
+                                "VolumeDown",
+                                "Mute",
+                                "Unmute",
+                                "ToggleMute",
+                                "SetVolume",
+                                "SetAudioStreamIndex",
+                                "SetSubtitleStreamIndex",
+                                "DisplayContent",
+                                "SetRepeatMode",
+                                "EndSession"]
+        };
+    };
+
+    ChromecastPlayer.prototype.getPlayerStateInternal = function (data) {
+
+        var triggerStateChange = false;
+        if (data && !this.lastPlayerData) {
+            triggerStateChange = true;
+        }
+
+        data = data || this.lastPlayerData;
+        this.lastPlayerData = data;
+
+        normalizeImages(data);
+
+        //console.log(JSON.stringify(data));
+
+        if (triggerStateChange) {
+            events.trigger(this, "statechange", [data]);
+        }
+
+        return data;
+    };
+
+    ChromecastPlayer.prototype.playWithCommand = function (options, command) {
+
+        if (!options.items) {
+            var apiClient = connectionManager.getApiClient(options.serverId);
+            var instance = this;
+
+            return apiClient.getItem(apiClient.getCurrentUserId(), options.ids[0]).then(function (item) {
+
+                options.items = [item];
+                return instance.playWithCommand(options, command);
+            });
+        }
+
+        return this._castPlayer.loadMedia(options, command);
+    };
+
+    ChromecastPlayer.prototype.seek = function (position) {
+
+        position = parseInt(position);
+
+        position = position / 10000000;
+
+        this._castPlayer.sendMessage({
+            options: {
+                position: position
+            },
+            command: 'Seek'
+        });
+    };
+
+    ChromecastPlayer.prototype.setAudioStreamIndex = function (index) {
+        this._castPlayer.sendMessage({
+            options: {
+                index: index
+            },
+            command: 'SetAudioStreamIndex'
+        });
+    };
+
+    ChromecastPlayer.prototype.setSubtitleStreamIndex = function (index) {
+        this._castPlayer.sendMessage({
+            options: {
+                index: index
+            },
+            command: 'SetSubtitleStreamIndex'
+        });
+    };
+
+    ChromecastPlayer.prototype.setMaxStreamingBitrate = function (options) {
+
+        this._castPlayer.sendMessage({
+            options: options,
+            command: 'SetMaxStreamingBitrate'
+        });
+    };
+
+    ChromecastPlayer.prototype.isFullscreen = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.IsFullscreen;
+    };
+
+    ChromecastPlayer.prototype.nextTrack = function () {
+        this._castPlayer.sendMessage({
+            options: {},
+            command: 'NextTrack'
+        });
+    };
+
+    ChromecastPlayer.prototype.previousTrack = function () {
+        this._castPlayer.sendMessage({
+            options: {},
+            command: 'PreviousTrack'
+        });
+    };
+
+    ChromecastPlayer.prototype.volumeDown = function () {
+
+        this._castPlayer.sendMessage({
+            options: {},
+            command: 'VolumeDown'
+        });
+    };
+
+    ChromecastPlayer.prototype.endSession = function () {
+
+        var instance = this;
+
+        this.stop().then(function () {
+            setTimeout(function () {
+                instance._castPlayer.stopApp();
+            }, 1000);
+        });
+    };
+
+    ChromecastPlayer.prototype.volumeUp = function () {
+
+        this._castPlayer.sendMessage({
+            options: {},
+            command: 'VolumeUp'
+        });
+    };
+
+    ChromecastPlayer.prototype.setVolume = function (vol) {
+
+        vol = Math.min(vol, 100);
+        vol = Math.max(vol, 0);
+
+        this._castPlayer.sendMessage({
+            options: {
+                volume: vol
+            },
+            command: 'SetVolume'
+        });
+    };
+
+    ChromecastPlayer.prototype.unpause = function () {
+        this._castPlayer.sendMessage({
+            options: {},
+            command: 'Unpause'
+        });
+    };
+
+    ChromecastPlayer.prototype.playPause = function () {
+        this._castPlayer.sendMessage({
+            options: {},
+            command: 'PlayPause'
+        });
+    };
+
+    ChromecastPlayer.prototype.pause = function () {
+        this._castPlayer.sendMessage({
+            options: {},
+            command: 'Pause'
+        });
+    };
+
+    ChromecastPlayer.prototype.stop = function () {
+        return this._castPlayer.sendMessage({
+            options: {},
+            command: 'Stop'
+        });
+    };
+
+    ChromecastPlayer.prototype.displayContent = function (options) {
+
+        this._castPlayer.sendMessage({
+            options: options,
+            command: 'DisplayContent'
+        });
+    };
+
+    ChromecastPlayer.prototype.setMute = function (isMuted) {
+
+        var castPlayer = this._castPlayer;
+
+        if (isMuted) {
+            castPlayer.sendMessage({
+                options: {},
+                command: 'Mute'
+            });
+        } else {
+            castPlayer.sendMessage({
+                options: {},
+                command: 'Unmute'
+            });
+        }
+    };
+
+    ChromecastPlayer.prototype.getRepeatMode = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.RepeatMode;
+    };
+
+    ChromecastPlayer.prototype.setRepeatMode = function (mode) {
+        this._castPlayer.sendMessage({
+            options: {
+                RepeatMode: mode
+            },
+            command: 'SetRepeatMode'
+        });
+    };
+
+    ChromecastPlayer.prototype.toggleMute = function () {
+
+        this._castPlayer.sendMessage({
+            options: {},
+            command: 'ToggleMute'
+        });
+    };
+
+    ChromecastPlayer.prototype.audioTracks = function () {
+        var state = this.lastPlayerData || {};
+        state = state.NowPlayingItem || {};
+        var streams = state.MediaStreams || [];
+        return streams.filter(function (s) {
+            return s.Type === 'Audio';
+        });
+    };
+
+    ChromecastPlayer.prototype.getAudioStreamIndex = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.AudioStreamIndex;
+    };
+
+    ChromecastPlayer.prototype.subtitleTracks = function () {
+        var state = this.lastPlayerData || {};
+        state = state.NowPlayingItem || {};
+        var streams = state.MediaStreams || [];
+        return streams.filter(function (s) {
+            return s.Type === 'Subtitle';
+        });
+    };
+
+    ChromecastPlayer.prototype.getSubtitleStreamIndex = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.SubtitleStreamIndex;
+    };
+
+    ChromecastPlayer.prototype.getMaxStreamingBitrate = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.MaxStreamingBitrate;
+    };
+
+    ChromecastPlayer.prototype.getVolume = function () {
+
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+
+        return state.VolumeLevel == null ? 100 : state.VolumeLevel;
+    };
+
+    ChromecastPlayer.prototype.isPlaying = function () {
+        var state = this.lastPlayerData || {};
+        return state.NowPlayingItem != null;
+    };
+
+    ChromecastPlayer.prototype.isPlayingVideo = function () {
+        var state = this.lastPlayerData || {};
+        state = state.NowPlayingItem || {};
+        return state.MediaType === 'Video';
+    };
+
+    ChromecastPlayer.prototype.isPlayingAudio = function () {
+        var state = this.lastPlayerData || {};
+        state = state.NowPlayingItem || {};
+        return state.MediaType === 'Audio';
+    };
+
+    ChromecastPlayer.prototype.currentTime = function (val) {
+
+        if (val != null) {
+            return this.seek(val);
+        }
+
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.PositionTicks;
+    };
+
+    ChromecastPlayer.prototype.duration = function () {
+        var state = this.lastPlayerData || {};
+        state = state.NowPlayingItem || {};
+        return state.RunTimeTicks;
+    };
+
+    ChromecastPlayer.prototype.paused = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+
+        return state.IsPaused;
+    };
+
+    ChromecastPlayer.prototype.isMuted = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+
+        return state.IsMuted;
+    };
+
+    ChromecastPlayer.prototype.shuffle = function (item) {
+
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var userId = apiClient.getCurrentUserId();
+
+        var instance = this;
+
+        apiClient.getItem(userId, item.Id).then(function (item) {
+
+            instance.playWithCommand({
+
+                items: [item]
+
+            }, 'Shuffle');
+
+        });
+
+    };
+
+    ChromecastPlayer.prototype.instantMix = function (item) {
+
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var userId = apiClient.getCurrentUserId();
+
+        var instance = this;
+
+        apiClient.getItem(userId, item.Id).then(function (item) {
+
+            instance.playWithCommand({
+
+                items: [item]
+
+            }, 'InstantMix');
+
+        });
+
+    };
+
+    ChromecastPlayer.prototype.canPlayMediaType = function (mediaType) {
+
+        mediaType = (mediaType || '').toLowerCase();
+        return mediaType === 'audio' || mediaType === 'video';
+    };
+
+    ChromecastPlayer.prototype.canQueueMediaType = function (mediaType) {
+        return this.canPlayMediaType(mediaType);
+    };
+
+    ChromecastPlayer.prototype.queue = function (options) {
+        this.playWithCommand(options, 'PlayLast');
+    };
+
+    ChromecastPlayer.prototype.queueNext = function (options) {
+        this.playWithCommand(options, 'PlayNext');
+    };
+
+    ChromecastPlayer.prototype.play = function (options) {
+
+        if (options.items) {
+
+            return this.playWithCommand(options, 'PlayNow');
+
+        } else {
+
+            if (!options.serverId) {
+                throw new Error('serverId required!');
+            }
+
+            var instance = this;
+            var apiClient = connectionManager.getApiClient(options.serverId);
+
+            return getItemsForPlayback(apiClient, {
+
+                Ids: options.ids.join(',')
+
+            }).then(function (result) {
+
+                options.items = result.Items;
+                return instance.playWithCommand(options, 'PlayNow');
+
+            });
+        }
+    };
+
+    ChromecastPlayer.prototype.toggleFullscreen = function () {
+        // not supported
+    };
+
+    ChromecastPlayer.prototype.beginPlayerUpdates = function () {
+        // Setup polling here
+    };
+
+    ChromecastPlayer.prototype.endPlayerUpdates = function () {
+        // Stop polling here
+    };
+
+    ChromecastPlayer.prototype.getPlaylist = function () {
+        return Promise.resolve([]);
+    };
+
+    ChromecastPlayer.prototype.getCurrentPlaylistItemId = function () {
+    };
+
+    ChromecastPlayer.prototype.setCurrentPlaylistItem = function (playlistItemId) {
+        return Promise.resolve();
+    };
+
+    ChromecastPlayer.prototype.removeFromPlaylist = function (playlistItemIds) {
+        return Promise.resolve();
+    };
+
+    ChromecastPlayer.prototype.getPlayerState = function () {
+
+        return Promise.resolve(this.getPlayerStateInternal() || {});
+    };
+
+    return ChromecastPlayer;
 });
