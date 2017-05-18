@@ -1099,8 +1099,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             var rendererSettings = {};
 
-            // Text outlines are not rendering very well
             if (browser.ps4) {
+                // Text outlines are not rendering very well
+                rendererSettings.enableSvg = false;
+            }
+            else if (browser.edge || browser.msie) {
+                // svg not rendering at all
                 rendererSettings.enableSvg = false;
             }
 
