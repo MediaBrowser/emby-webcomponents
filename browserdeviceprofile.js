@@ -465,9 +465,9 @@ define(['browser'], function (browser) {
 
         profile.TranscodingProfiles = [];
 
-        if (canPlayNativeHls() && options.enableHlsAudio) {
+        if (canPlayNativeHls() && !browser.android && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
-                Container: 'ts',
+                Container: 'aac',
                 Type: 'Audio',
                 AudioCodec: 'aac',
                 Context: 'Streaming',

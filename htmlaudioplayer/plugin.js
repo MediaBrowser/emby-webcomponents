@@ -415,17 +415,49 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
         }
     };
 
+    function isValidDuration(duration) {
+        if (duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY) {
+            return true;
+        }
+
+        return false;
+    }
+
     HtmlAudioPlayer.prototype.duration = function (val) {
 
         var mediaElement = this.mediaElement;
         if (mediaElement) {
             var duration = mediaElement.duration;
-            if (duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY) {
+            if (isValidDuration(duration)) {
                 return duration * 1000;
             }
         }
 
         return null;
+    };
+
+    HtmlAudioPlayer.prototype.seekable = function () {
+        var mediaElement = this.mediaElement;
+        if (mediaElement) {
+
+            var seekable = mediaElement.seekable;
+            if (seekable && seekable.length) {
+
+                var start = seekable.start(0);
+                var end = seekable.end(0);
+                
+                if (!isValidDuration(start)) {
+                    start = 0;
+                }
+                if (!isValidDuration(end)) {
+                    end = 0;
+                }
+
+                return (end - start) > 0;
+            }
+
+            return false;
+        }
     };
 
     HtmlAudioPlayer.prototype.pause = function () {
