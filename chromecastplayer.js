@@ -511,7 +511,7 @@
 
             return apiClient.getItems(userId, query);
         }
-    };
+    }
 
     function initializeChromecast() {
 
