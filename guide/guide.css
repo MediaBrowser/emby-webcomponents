@@ -69,7 +69,7 @@
     position: relative;
     contain: strict;
     box-sizing: border-box;
-    margin-bottom: .4em;
+    margin-bottom: .34em;
 }
 
 .timeslotHeadersInner {
@@ -108,7 +108,7 @@
 }
 
 .guideSpacer {
-    width: .4em;
+    width: .34em;
     flex-shrink: 0;
 }
 
@@ -210,7 +210,7 @@
     background-size: auto 70%;
     background-position: 92% center;
     background-repeat: no-repeat;
-    margin-bottom: .4em;
+    margin-bottom: .34em;
 }
 
 @media all and (max-width: 50em) {
@@ -274,7 +274,7 @@
 }
 
 .programCellInner {
-    margin-right: .4em;
+    margin-right: .34em;
     background-color: #202020;
     display: flex;
     flex-grow: 1;
