@@ -535,7 +535,7 @@ define(['browser'], function (browser) {
                 Context: 'Streaming',
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
-                MinSegments: browser.iOS || browser.osx ? '2' : '2',
+                MinSegments: browser.iOS || browser.osx ? '2' : '1',
                 BreakOnNonKeyFrames: browser.iOS || browser.osx ? true : false
             });
         }

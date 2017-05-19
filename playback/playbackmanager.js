@@ -525,6 +525,79 @@
         return nowPlayingItem;
     }
 
+    function moveInArray(array, from, to) {
+        array.splice(to, 0, array.splice(from, 1)[0]);
+    }
+
+    function displayPlayerInLocalGroup(player) {
+
+        return player.isLocalPlayer;
+    }
+
+    function getSupportedCommands(player) {
+
+        if (player.isLocalPlayer) {
+            // Full list
+            // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs
+            var list = [
+                "GoHome",
+                "GoToSettings",
+                "VolumeUp",
+                "VolumeDown",
+                "Mute",
+                "Unmute",
+                "ToggleMute",
+                "SetVolume",
+                "SetAudioStreamIndex",
+                "SetSubtitleStreamIndex",
+                "SetMaxStreamingBitrate",
+                "DisplayContent",
+                "GoToSearch",
+                "DisplayMessage",
+                "SetRepeatMode"
+            ];
+
+            if (apphost.supports('fullscreenchange') && !layoutManager.tv) {
+                list.push('ToggleFullscreen');
+            }
+
+            if (player.supports) {
+                if (player.supports('PictureInPicture')) {
+                    list.push('PictureInPicture');
+                }
+                if (player.supports('SetBrightness')) {
+                    list.push('SetBrightness');
+                }
+                if (player.supports('SetAspectRatio')) {
+                    list.push('SetAspectRatio');
+                }
+            }
+
+            return list;
+        }
+
+        throw new Error('player must define supported commands');
+    }
+
+    function createTarget(player) {
+        return {
+            name: player.name,
+            id: player.id,
+            playerName: player.name,
+            playableMediaTypes: ['Audio', 'Video', 'Game'].map(player.canPlayMediaType),
+            isLocalPlayer: player.isLocalPlayer,
+            supportedCommands: getSupportedCommands(player)
+        };
+    }
+
+    function getPlayerTargets(player) {
+        if (player.getTargets) {
+            return player.getTargets();
+        }
+
+        return Promise.resolve([createTarget(player)]);
+    }
+
     function PlaybackManager() {
 
         var self = this;
@@ -607,11 +680,6 @@
             setCurrentPlayerInternal(player, targetInfo);
         };
 
-        function displayPlayerInLocalGroup(player) {
-
-            return player.isLocalPlayer;
-        }
-
         self.trySetActivePlayer = function (player, targetInfo) {
 
             if (player === 'localplayer' || player.name === 'localplayer') {
@@ -651,70 +719,6 @@
                 }
             });
         };
-
-        function getSupportedCommands(player) {
-
-            if (player.isLocalPlayer) {
-                // Full list
-                // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs
-                var list = [
-                    "GoHome",
-                    "GoToSettings",
-                    "VolumeUp",
-                    "VolumeDown",
-                    "Mute",
-                    "Unmute",
-                    "ToggleMute",
-                    "SetVolume",
-                    "SetAudioStreamIndex",
-                    "SetSubtitleStreamIndex",
-                    "SetMaxStreamingBitrate",
-                    "DisplayContent",
-                    "GoToSearch",
-                    "DisplayMessage",
-                    "SetRepeatMode"
-                ];
-
-                if (apphost.supports('fullscreenchange') && !layoutManager.tv) {
-                    list.push('ToggleFullscreen');
-                }
-
-                if (player.supports) {
-                    if (player.supports('PictureInPicture')) {
-                        list.push('PictureInPicture');
-                    }
-                    if (player.supports('SetBrightness')) {
-                        list.push('SetBrightness');
-                    }
-                    if (player.supports('SetAspectRatio')) {
-                        list.push('SetAspectRatio');
-                    }
-                }
-
-                return list;
-            }
-
-            throw new Error('player must define supported commands');
-        }
-
-        function createTarget(player) {
-            return {
-                name: player.name,
-                id: player.id,
-                playerName: player.name,
-                playableMediaTypes: ['Audio', 'Video', 'Game'].map(player.canPlayMediaType),
-                isLocalPlayer: player.isLocalPlayer,
-                supportedCommands: getSupportedCommands(player)
-            };
-        }
-
-        function getPlayerTargets(player) {
-            if (player.getTargets) {
-                return player.getTargets();
-            }
-
-            return Promise.resolve([createTarget(player)]);
-        }
 
         self.getTargets = function () {
 
@@ -910,56 +914,6 @@
 
             //var mediaType = item.MediaType;
             return getPlayer(item, {}) != null;
-        };
-
-        self.canQueue = function (item) {
-
-            if (item.Type === 'MusicAlbum' || item.Type === 'MusicArtist' || item.Type === 'MusicGenre') {
-                return self.canQueueMediaType('Audio');
-            }
-            return self.canQueueMediaType(item.MediaType);
-        };
-
-        self.canQueueMediaType = function (mediaType) {
-
-            if (self._currentPlayer) {
-                return self._currentPlayer.canPlayMediaType(mediaType);
-            }
-
-            return false;
-        };
-
-        self.isMuted = function (player) {
-
-            player = player || self._currentPlayer;
-
-            if (player) {
-                return player.isMuted();
-            }
-
-            return false;
-        };
-
-        self.setMute = function (mute, player) {
-
-            player = player || self._currentPlayer;
-
-            if (player) {
-                player.setMute(mute);
-            }
-        };
-
-        self.toggleMute = function (mute, player) {
-
-            player = player || self._currentPlayer;
-            if (player) {
-
-                if (player.toggleMute) {
-                    player.toggleMute();
-                } else {
-                    player.setMute(!player.isMuted());
-                }
-            }
         };
 
         self.toggleAspectRatio = function (player) {
@@ -1635,16 +1589,6 @@
             return Promise.resolve(state);
         };
 
-        self.currentTime = function (player) {
-
-            player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.currentTime();
-            }
-
-            return getCurrentTicks(player);
-        };
-
         self.duration = function (player) {
 
             player = player || self._currentPlayer;
@@ -2234,10 +2178,6 @@
 
             return Promise.resolve();
         };
-
-        function moveInArray(array, from, to) {
-            array.splice(to, 0, array.splice(from, 1)[0]);
-        }
 
         self.movePlaylistItem = function (playlistItemId, newIndex, player) {
 
@@ -2829,6 +2769,66 @@
         return this._currentPlayer;
     };
 
+    PlaybackManager.prototype.currentTime = function (player) {
+
+        player = player || this._currentPlayer;
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.currentTime();
+        }
+
+        return this.getCurrentTicks(player);
+    };
+
+    PlaybackManager.prototype.canQueue = function (item) {
+
+        if (item.Type === 'MusicAlbum' || item.Type === 'MusicArtist' || item.Type === 'MusicGenre') {
+            return this.canQueueMediaType('Audio');
+        }
+        return this.canQueueMediaType(item.MediaType);
+    };
+
+    PlaybackManager.prototype.canQueueMediaType = function (mediaType) {
+
+        if (this._currentPlayer) {
+            return this._currentPlayer.canPlayMediaType(mediaType);
+        }
+
+        return false;
+    };
+
+    PlaybackManager.prototype.isMuted = function (player) {
+
+        player = player || this._currentPlayer;
+
+        if (player) {
+            return player.isMuted();
+        }
+
+        return false;
+    };
+
+    PlaybackManager.prototype.setMute = function (mute, player) {
+
+        player = player || this._currentPlayer;
+
+        if (player) {
+            player.setMute(mute);
+        }
+    };
+
+    PlaybackManager.prototype.toggleMute = function (mute, player) {
+
+        player = player || this._currentPlayer;
+        if (player) {
+
+            if (player.toggleMute) {
+                player.toggleMute();
+            } else {
+                player.setMute(!player.isMuted());
+            }
+        }
+    };
+
     PlaybackManager.prototype.toggleDisplayMirroring = function () {
         this.enableDisplayMirroring(!this.enableDisplayMirroring());
     };
@@ -2850,7 +2850,7 @@
         player = player || this._currentPlayer;
         var item = this.currentItem(player);
 
-        var ticks = getCurrentTicks(player);
+        var ticks = this.getCurrentTicks(player);
 
         var nextChapter = (item.Chapters || []).filter(function (i) {
 
@@ -2870,7 +2870,7 @@
         player = player || this._currentPlayer;
         var item = this.currentItem(player);
 
-        var ticks = getCurrentTicks(player);
+        var ticks = this.getCurrentTicks(player);
 
         // Go back 10 seconds
         ticks -= 100000000;
@@ -2901,7 +2901,7 @@
             return;
         }
 
-        var ticks = getCurrentTicks(player);
+        var ticks = this.getCurrentTicks(player);
 
         // Go back 15 seconds
         ticks += userSettings.skipForwardLength() * 10000;
@@ -2922,7 +2922,7 @@
             return;
         }
 
-        var ticks = getCurrentTicks(player);
+        var ticks = this.getCurrentTicks(player);
 
         // Go back 15 seconds
         ticks -= userSettings.skipBackLength() * 10000;
