@@ -122,7 +122,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 this.elems[i].classList.remove(this.unPinnedClass, this.initialClass);
             }
 
-            dom.removeEventListener(this.scroller, this.scroller.getScrollEventName(), this.debouncer, {
+            var scrollEventName = this.scroller.getScrollEventName ? this.scroller.getScrollEventName() : 'scroll';
+
+            dom.removeEventListener(this.scroller, scrollEventName, this.debouncer, {
                 capture: false,
                 passive: true
             });
@@ -136,7 +138,10 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             if (!this.initialised) {
                 this.lastKnownScrollY = this.getScrollY();
                 this.initialised = true;
-                dom.addEventListener(this.scroller, this.scroller.getScrollEventName(), this.debouncer, {
+
+                var scrollEventName = this.scroller.getScrollEventName ? this.scroller.getScrollEventName() : 'scroll';
+
+                dom.addEventListener(this.scroller, scrollEventName, this.debouncer, {
                     capture: false,
                     passive: true
                 });
