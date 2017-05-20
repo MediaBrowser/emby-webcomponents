@@ -209,6 +209,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
         self.reload = function () { load(); };
 
+        self.getScrollEventName = function () {
+            return transform ? 'scrollanimate' : 'scroll';
+        };
+
         function nativeScrollTo(container, pos, immediate) {
 
             if (!immediate && container.scrollTo) {
@@ -268,7 +272,12 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             // Start animation rendering
             if (newPos !== pos.dest) {
                 pos.dest = newPos;
-                renderAnimate(animation);
+
+                if (browser.animate) {
+                    renderAnimateWithTransform();
+                } else {
+                    renderAnimateWithTransform();
+                }
 
                 animation.lastAnimate = now;
             }
@@ -276,18 +285,28 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
         function setStyleProperty(elem, name, value, speed, resetTransition) {
 
+            var style = elem.style;
+
             if (resetTransition || browser.edge) {
-                elem.style.transition = 'none';
+                style.transition = 'none';
                 void elem.offsetWidth;
             }
 
-            elem.style.transition = 'transform ' + speed + 'ms ease-out';
-            elem.style[name] = value;
+            style.transition = 'transform ' + speed + 'ms ease-out';
+            style[name] = value;
+        }
+
+        function dispatchScrollEventIfNeeded() {
+            if (o.dispatchScrollEvent) {
+                frame.dispatchEvent(new CustomEvent(self.getScrollEventName(), {
+                    bubbles: true,
+                    cancelable: false
+                }));
+            }
         }
 
         var currentAnimation;
-
-        function renderAnimate() {
+        function renderAnimateWithTransform() {
 
             var speed = o.speed;
 
@@ -302,12 +321,56 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             }
             self._pos.cur = animation.to;
 
-            if (o.dispatchScrollEvent) {
-                frame.dispatchEvent(new CustomEvent('scroll', {
-                    bubbles: true,
-                    cancelable: false
-                }));
+            dispatchScrollEventIfNeeded();
+        }
+
+        function renderAnimate() {
+
+            var pos = self._pos;
+
+            var obj = getComputedStyle(slideeElement, null).getPropertyValue('transform').match(/([-+]?(?:\d*\.)?\d+)\D*, ([-+]?(?:\d*\.)?\d+)\D*\)/);
+            if (obj) {
+                // [1] = x, [2] = y
+                pos.cur = parseInt(o.horizontal ? obj[1] : obj[2]) * -1;
             }
+
+            var keyframes;
+
+            animation.to = round(animation.to);
+
+            if (o.horizontal) {
+                keyframes = [
+                    { transform: 'translateX(' + (-round(pos.cur || animation.from)) + 'px)', offset: 0 },
+                    { transform: 'translateX(' + (-round(animation.to)) + 'px)', offset: 1 }
+                ];
+            } else {
+                keyframes = [
+                    { transform: 'translateY(' + (-round(pos.cur || animation.from)) + 'px)', offset: 0 },
+                    { transform: 'translateY(' + (-round(animation.to)) + 'px)', offset: 1 }
+                ];
+            }
+
+            var speed = o.speed;
+
+            if (animation.immediate) {
+                speed = o.immediateSpeed || 50;
+            }
+
+            var animationConfig = {
+                duration: speed,
+                iterations: 1,
+                fill: 'both'
+            };
+
+            animationConfig.easing = 'ease-out';
+
+            var animationInstance = slideeElement.animate(keyframes, animationConfig);
+
+            animationInstance.onfinish = function () {
+                pos.cur = animation.to;
+            };
+
+            dispatchScrollEventIfNeeded();
         }
 
         function getBoundingClientRect(elem) {

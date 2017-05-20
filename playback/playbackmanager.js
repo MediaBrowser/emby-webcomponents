@@ -384,7 +384,7 @@
         });
     }
 
-    function getLiveStream(apiClient, itemId, playSessionId, deviceProfile, maxBitrate, startPosition, mediaSource, audioStreamIndex, subtitleStreamIndex) {
+    function getLiveStream(player, apiClient, item, playSessionId, deviceProfile, maxBitrate, startPosition, mediaSource, audioStreamIndex, subtitleStreamIndex) {
 
         var postData = {
             DeviceProfile: deviceProfile,
@@ -394,7 +394,7 @@
         var query = {
             UserId: apiClient.getCurrentUserId(),
             StartTimeTicks: startPosition || 0,
-            ItemId: itemId,
+            ItemId: item.Id,
             PlaySessionId: playSessionId
         };
 
@@ -406,6 +406,13 @@
         }
         if (subtitleStreamIndex != null) {
             query.SubtitleStreamIndex = subtitleStreamIndex;
+        }
+
+        // lastly, enforce player overrides for special situations
+        if (query.EnableDirectStream !== false) {
+            if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
+                query.EnableDirectStream = false;
+            }
         }
 
         return apiClient.ajax({
@@ -2057,7 +2064,7 @@
 
                             if (mediaSource.RequiresOpening) {
 
-                                return getLiveStream(apiClient, item.Id, playbackInfoResult.PlaySessionId, deviceProfile, maxBitrate, startPosition, mediaSource, null, null).then(function (openLiveStreamResult) {
+                                return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, maxBitrate, startPosition, mediaSource, null, null).then(function (openLiveStreamResult) {
 
                                     return supportsDirectPlay(apiClient, item, openLiveStreamResult.MediaSource).then(function (result) {
 

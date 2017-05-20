@@ -59,16 +59,21 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         this.lastKnownScrollY = 0;
         this.elems = elems;
-        this.debouncer = new Debouncer(this.update.bind(this));
-        this.offset = options.offset;
+
         this.scroller = options.scroller;
+
+        if (this.scroller.getScrollPosition) {
+            this.debouncer = this.update.bind(this);
+        } else {
+            this.debouncer = new Debouncer(this.update.bind(this));
+        }
+        this.offset = options.offset;
         this.initialised = false;
 
         this.initialClass = options.initialClass;
         this.unPinnedClass = options.unPinnedClass;
 
-        this.upTolerance = options.upTolerance;
-        this.downTolerance = options.downTolerance;
+        this.state = 'clear';
     }
     Headroom.prototype = {
         constructor: Headroom,
@@ -117,7 +122,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 this.elems[i].classList.remove(this.unPinnedClass, this.initialClass);
             }
 
-            dom.removeEventListener(this.scroller, 'scroll', this.debouncer, {
+            dom.removeEventListener(this.scroller, this.scroller.getScrollEventName(), this.debouncer, {
                 capture: false,
                 passive: true
             });
@@ -131,12 +136,12 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             if (!this.initialised) {
                 this.lastKnownScrollY = this.getScrollY();
                 this.initialised = true;
-                dom.addEventListener(this.scroller, 'scroll', this.debouncer, {
+                dom.addEventListener(this.scroller, this.scroller.getScrollEventName(), this.debouncer, {
                     capture: false,
                     passive: true
                 });
 
-                this.debouncer.handleEvent();
+                this.update();
             }
         },
 
@@ -144,6 +149,12 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * Unpins the header if it's currently pinned
          */
         clear: function () {
+
+            if (this.state === 'clear') {
+                return;
+            }
+
+            this.state = 'clear';
 
             for (var i = 0, length = this.elems.length; i < length; i++) {
                 var classList = this.elems[i].classList;
@@ -157,28 +168,17 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          */
         unpin: function () {
 
+            if (this.state === 'unpin') {
+                return;
+            }
+
+            this.state = 'unpin';
+
             for (var i = 0, length = this.elems.length; i < length; i++) {
                 var classList = this.elems[i].classList;
 
                 classList.add(this.unPinnedClass);
             }
-        },
-
-        /**
-         * Pins the header if it's currently unpinned
-         */
-        pin: function (scrollY) {
-
-            for (var i = 0, length = this.elems.length; i < length; i++) {
-                var classList = this.elems[i].classList;
-
-                if (scrollY && layoutManager.tv) {
-                    classList.add(this.unPinnedClass);
-                } else {
-                    classList.remove(this.unPinnedClass);
-                }
-            }
-
         },
 
         /**
@@ -208,57 +208,48 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         },
 
         /**
-         * determines if the tolerance has been exceeded
-         * @param  {int} currentScrollY the current scroll y position
-         * @return {bool} true if tolerance exceeded, false otherwise
-         */
-        toleranceExceeded: function (currentScrollY, direction) {
-            return Math.abs(currentScrollY - this.lastKnownScrollY) >= this[direction + 'Tolerance'];
-        },
-
-        /**
          * determine if it is appropriate to unpin
          * @param  {int} currentScrollY the current y scroll position
-         * @param  {bool} toleranceExceeded has the tolerance been exceeded?
          * @return {bool} true if should unpin, false otherwise
          */
-        shouldUnpin: function (currentScrollY, toleranceExceeded) {
+        shouldUnpin: function (currentScrollY) {
             var scrollingDown = currentScrollY > this.lastKnownScrollY,
               pastOffset = currentScrollY >= this.offset;
 
-            return scrollingDown && pastOffset && toleranceExceeded;
+            return scrollingDown && pastOffset;
         },
 
         /**
          * determine if it is appropriate to pin
          * @param  {int} currentScrollY the current y scroll position
-         * @param  {bool} toleranceExceeded has the tolerance been exceeded?
          * @return {bool} true if should pin, false otherwise
          */
-        shouldPin: function (currentScrollY, toleranceExceeded) {
+        shouldPin: function (currentScrollY) {
             var scrollingUp = currentScrollY < this.lastKnownScrollY,
               pastOffset = currentScrollY <= this.offset;
 
-            return (scrollingUp && toleranceExceeded) || pastOffset;
+            return scrollingUp || pastOffset;
         },
 
         /**
          * Handles updating the state of the widget
          */
         update: function () {
-            var currentScrollY = this.getScrollY(),
-              scrollDirection = currentScrollY > this.lastKnownScrollY ? 'down' : 'up',
-              toleranceExceeded = this.toleranceExceeded(currentScrollY, scrollDirection);
 
-            if (currentScrollY < 0) { // Ignore bouncy scrolling in OSX
-                return;
+            var currentScrollY = this.getScrollY();
+
+            if (currentScrollY <= 0) {
+                this.clear();
             }
-
-            if (this.shouldUnpin(currentScrollY, toleranceExceeded)) {
+            else if (this.shouldUnpin(currentScrollY)) {
                 this.unpin();
             }
-            else if (this.shouldPin(currentScrollY, toleranceExceeded)) {
-                this.pin(currentScrollY);
+            else if (this.shouldPin(currentScrollY)) {
+                if (currentScrollY && layoutManager.tv) {
+                    this.unpin();
+                } else {
+                    this.clear();
+                }
             } else if (layoutManager.tv) {
                 this.clear();
             }
@@ -271,8 +262,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
      * @type {Object}
      */
     Headroom.options = {
-        upTolerance: 0,
-        downTolerance: 0,
         offset: 0,
         scroller: window,
         initialClass: 'headroom',

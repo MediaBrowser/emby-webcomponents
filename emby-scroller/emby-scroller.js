@@ -57,6 +57,12 @@
         }
     };
 
+    ScrollerProtoType.getScrollEventName = function () {
+        if (this.scroller) {
+            return this.scroller.getScrollEventName();
+        }
+    };
+
     function onInputCommand(e) {
 
         var cmd = e.detail.command;
