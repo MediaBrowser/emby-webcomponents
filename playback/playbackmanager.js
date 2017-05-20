@@ -2901,7 +2901,7 @@
 
     PlaybackManager.prototype.fastForward = function (player) {
 
-        player = player || self._currentPlayer;
+        player = player || this._currentPlayer;
 
         if (player.fastForward != null) {
             player.fastForward(userSettings.skipForwardLength());
