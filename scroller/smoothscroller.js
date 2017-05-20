@@ -273,11 +273,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             if (newPos !== pos.dest) {
                 pos.dest = newPos;
 
-                if (browser.animate) {
-                    renderAnimateWithTransform();
-                } else {
-                    renderAnimateWithTransform();
-                }
+                renderAnimateWithTransform();
 
                 animation.lastAnimate = now;
             }
@@ -305,7 +301,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             }
         }
 
-        var currentAnimation;
         function renderAnimateWithTransform() {
 
             var speed = o.speed;
@@ -320,55 +315,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
                 setStyleProperty(slideeElement, 'transform', 'translateY(' + (-round(animation.to)) + 'px)', speed);
             }
             self._pos.cur = animation.to;
-
-            dispatchScrollEventIfNeeded();
-        }
-
-        function renderAnimate() {
-
-            var pos = self._pos;
-
-            var obj = getComputedStyle(slideeElement, null).getPropertyValue('transform').match(/([-+]?(?:\d*\.)?\d+)\D*, ([-+]?(?:\d*\.)?\d+)\D*\)/);
-            if (obj) {
-                // [1] = x, [2] = y
-                pos.cur = parseInt(o.horizontal ? obj[1] : obj[2]) * -1;
-            }
-
-            var keyframes;
-
-            animation.to = round(animation.to);
-
-            if (o.horizontal) {
-                keyframes = [
-                    { transform: 'translateX(' + (-round(pos.cur || animation.from)) + 'px)', offset: 0 },
-                    { transform: 'translateX(' + (-round(animation.to)) + 'px)', offset: 1 }
-                ];
-            } else {
-                keyframes = [
-                    { transform: 'translateY(' + (-round(pos.cur || animation.from)) + 'px)', offset: 0 },
-                    { transform: 'translateY(' + (-round(animation.to)) + 'px)', offset: 1 }
-                ];
-            }
-
-            var speed = o.speed;
-
-            if (animation.immediate) {
-                speed = o.immediateSpeed || 50;
-            }
-
-            var animationConfig = {
-                duration: speed,
-                iterations: 1,
-                fill: 'both'
-            };
-
-            animationConfig.easing = 'ease-out';
-
-            var animationInstance = slideeElement.animate(keyframes, animationConfig);
-
-            animationInstance.onfinish = function () {
-                pos.cur = animation.to;
-            };
 
             dispatchScrollEventIfNeeded();
         }
