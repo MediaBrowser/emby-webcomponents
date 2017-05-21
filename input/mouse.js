@@ -82,7 +82,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     function onMouseInterval() {
 
-        if (mouseIdleTime() >= 5000) {
+        if (!isMouseIdle && mouseIdleTime() >= 5000) {
             isMouseIdle = true;
             document.body.classList.add('mouseIdle');
             events.trigger(self, 'mouseidle');

@@ -5,9 +5,9 @@ define(['browser'], function (browser) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
     }
 
-    function canPlayH265(videoTestElement) {
+    function canPlayH265(videoTestElement, options) {
 
-        if (browser.tizen || browser.orsay) {
+        if (browser.tizen || browser.orsay || browser.xboxOne || options.supportsHevc) {
             return true;
         }
 
@@ -167,7 +167,7 @@ define(['browser'], function (browser) {
         return browser.orsay || browser.tizen || browser.edgeUwp;
     }
 
-    function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement) {
+    function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
 
         var supported = false;
         var profileContainer = container;
@@ -395,7 +395,7 @@ define(['browser'], function (browser) {
         if (canPlayH264(videoTestElement)) {
             mp4VideoCodecs.push('h264');
         }
-        if (canPlayH265(videoTestElement)) {
+        if (canPlayH265(videoTestElement, options)) {
             mp4VideoCodecs.push('h265');
             mp4VideoCodecs.push('hevc');
         }
@@ -432,7 +432,7 @@ define(['browser'], function (browser) {
 
         // These are formats we can't test for but some devices will support
         ['m2ts', 'mov', 'wmv', 'ts', 'asf', 'avi', 'mpg', 'mpeg'].map(function (container) {
-            return getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement);
+            return getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options);
         }).filter(function (i) {
             return i != null;
         }).forEach(function (i) {
