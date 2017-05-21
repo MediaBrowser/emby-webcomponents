@@ -101,18 +101,18 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         else if (type === 'tvshows') {
 
             list.push({
-                name: globalize.translate('sharedcomponents#Suggestions'),
-                value: 'suggestions',
+                name: globalize.translate('sharedcomponents#Shows'),
+                value: 'shows',
                 isDefault: true
+            });
+            list.push({
+                name: globalize.translate('sharedcomponents#Suggestions'),
+                value: 'suggestions'
             });
 
             list.push({
                 name: globalize.translate('sharedcomponents#Latest'),
                 value: 'latest'
-            });
-            list.push({
-                name: globalize.translate('sharedcomponents#Shows'),
-                value: 'shows'
             });
             list.push({
                 name: globalize.translate('sharedcomponents#Favorites'),
