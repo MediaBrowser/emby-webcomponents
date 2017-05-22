@@ -447,7 +447,7 @@ define(['browser'], function (browser) {
             });
 
             // aac also appears in the m4a container
-            if (audioFormat === 'aac') {
+            if (audioFormat === 'aac' || audioFormat === 'alac') {
                 profile.DirectPlayProfiles.push({
                     Container: 'm4a',
                     AudioCodec: audioFormat,
