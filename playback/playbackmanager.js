@@ -869,7 +869,7 @@
                 return player.isPlayingVideo();
             }
 
-            if (self.isPlaying()) {
+            if (self.isPlaying(player)) {
                 var playerData = getPlayerData(player);
 
                 return playerData.streamInfo.mediaType === 'Video';
@@ -884,7 +884,7 @@
                 return player.isPlayingAudio();
             }
 
-            if (self.isPlaying()) {
+            if (self.isPlaying(player)) {
                 var playerData = getPlayerData(player);
 
                 return playerData.streamInfo.mediaType === 'Audio';
