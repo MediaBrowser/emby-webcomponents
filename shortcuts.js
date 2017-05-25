@@ -45,7 +45,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
 
             return apiClient.getItems(userId, {
 
-                MediaTypes: 'Photo',
+                MediaTypes: 'Photo,Video',
                 Filters: 'IsNotFolder',
                 ParentId: item.ParentId,
                 SortBy: 'SortName',
