@@ -85,6 +85,38 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', './../ht
             return setCurrentSrc(elem, options);
         };
 
+        function enableHlsPlayer(url, item, mediaSource, mediaType) {
+
+            if (!htmlMediaHelper.enableHlsPlayer(item, mediaSource, mediaType)) {
+
+                return Promise.reject();
+            }
+
+            if (url.indexOf('.m3u8') !== -1) {
+                return Promise.resolve();
+            }
+
+            // issue head request to get content type
+            return new Promise(function (resolve, reject) {
+
+                require(['fetchHelper'], function (fetchHelper) {
+                    fetchHelper.ajax({
+                        url: url,
+                        type: 'HEAD'
+                    }).then(function (response) {
+
+                        var contentType = (response.headers.get('Content-Type') || '').toLowerCase();
+                        if (contentType === 'application/x-mpegurl') {
+                            resolve();
+                        } else {
+                            reject();
+                        }
+
+                    }, reject);
+                });
+            });
+        }
+
         function setCurrentSrc(elem, options) {
 
             elem.removeEventListener('error', onError);
@@ -111,7 +143,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', './../ht
                 elem.crossOrigin = crossOrigin;
             }
 
-            if (htmlMediaHelper.enableHlsPlayer(val, options.item, options.mediaSource, 'Audio')) {
+            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
 
                 return new Promise(function (resolve, reject) {
 
@@ -132,7 +164,8 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', './../ht
                     });
                 });
 
-            } else {
+
+            }, function () {
 
                 elem.autoplay = true;
                 var mimeType = options.mimeType;
@@ -143,7 +176,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', './../ht
 
                     return htmlMediaHelper.playWithPromise(elem, onError);
                 });
-            }
+            });
         }
 
         self.stop = function (destroyPlayer) {

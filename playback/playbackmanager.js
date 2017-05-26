@@ -285,18 +285,18 @@
         allowVideoStreamCopy,
         allowAudioStreamCopy) {
 
-        //if (item.MediaType === 'Audio' && apiClient.isMinServerVersion('3.2.17.5')) {
+        if (item.MediaType === 'Audio' && apiClient.isMinServerVersion('3.2.17.5')) {
 
-        //    return Promise.resolve({
-        //        MediaSources: [
-        //        {
-        //            StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition),
-        //            Id: item.Id,
-        //            MediaStreams: [],
-        //            RunTimeTicks: item.RunTimeTicks
-        //        }]
-        //    });
-        //}
+            return Promise.resolve({
+                MediaSources: [
+                {
+                    StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition),
+                    Id: item.Id,
+                    MediaStreams: [],
+                    RunTimeTicks: item.RunTimeTicks
+                }]
+            });
+        }
 
         var itemId = item.Id;
 

@@ -255,7 +255,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 elem.crossOrigin = crossOrigin;
             }
 
-            if (htmlMediaHelper.enableHlsPlayer(val, options.item, options.mediaSource, 'Video')) {
+            if (htmlMediaHelper.enableHlsPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
 
                 setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
 

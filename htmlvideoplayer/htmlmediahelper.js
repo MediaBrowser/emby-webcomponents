@@ -31,13 +31,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return false;
     }
 
-    function enableHlsPlayer(src, item, mediaSource, mediaType) {
-
-        if (src) {
-            if (src.indexOf('.m3u8') === -1) {
-                return false;
-            }
-        }
+    function enableHlsPlayer(item, mediaSource, mediaType) {
 
         if (window.MediaSource == null) {
             return false;
