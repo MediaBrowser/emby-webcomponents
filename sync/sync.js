@@ -379,9 +379,7 @@
             html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
             html += '<h3 class="formDialogHeaderTitle">';
 
-            var syncButtonLabel = options.isLocalSync ?
-                globalize.translate('sharedcomponents#Download') :
-                globalize.translate('sharedcomponents#Sync');
+            var syncButtonLabel = globalize.translate('sharedcomponents#Download');
 
             html += syncButtonLabel;
             html += '</h3>';
