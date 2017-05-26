@@ -1,15 +1,5 @@
-define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], function (events, browser, pluginManager, appHost, appSettings) {
+define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', './../htmlvideoplayer/htmlmediahelper'], function (events, browser, pluginManager, appHost, appSettings, htmlMediaHelper) {
     "use strict";
-
-    function getSavedVolume() {
-        return appSettings.get("volume") || 1;
-    }
-
-    function saveVolume(value) {
-        if (value) {
-            appSettings.set("volume", value);
-        }
-    }
 
     function getDefaultProfile() {
 
@@ -23,7 +13,6 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
     }
 
     var fadeTimeout;
-
     function fade(elem, startingVolume) {
 
         // Need to record the starting volume on each pass rather than querying elem.volume
@@ -55,6 +44,24 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
         }
     }
 
+    function supportsFade() {
+
+        if (browser.tv) {
+            // Not working on tizen. 
+            // We could possibly enable on other tv's, but all smart tv browsers tend to be pretty primitive
+            return false;
+        }
+
+        return true;
+    }
+
+    function requireHlsPlayer(callback) {
+        require(['hlsjs'], function (hls) {
+            window.Hls = hls;
+            callback();
+        });
+    }
+
     function HtmlAudioPlayer() {
 
         var self = this;
@@ -66,149 +73,84 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
         // Let any players created by plugins take priority
         self.priority = 1;
 
-        var currentPlayOptions;
-        var started;
-
-        function playUwp(options, elem) {
-
-            return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
-
-                var playlist = new Windows.Media.Playback.MediaPlaybackList();
-                var source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
-                var startTime = (options.playerStartPositionTicks || 0) / 10000;
-                var winJsPlaybackItem = new Windows.Media.Playback.MediaPlaybackItem(source1, startTime);
-                playlist.items.append(winJsPlaybackItem);
-                elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
-                self._currentSrc = elem.src;
-                currentPlayOptions = options;
-                return playWithPromise(elem);
-            });
-        }
-
-        function createMediaElement() {
-
-            var elem = document.querySelector('.mediaPlayerAudio');
-
-            if (!elem) {
-                elem = document.createElement('audio');
-                elem.classList.add('mediaPlayerAudio');
-                elem.classList.add('hide');
-
-                document.body.appendChild(elem);
-
-                elem.volume = getSavedVolume();
-
-                elem.addEventListener('timeupdate', onTimeUpdate);
-                elem.addEventListener('ended', onEnded);
-                elem.addEventListener('volumechange', onVolumeChange);
-                elem.addEventListener('pause', onPause);
-                elem.addEventListener('playing', onPlaying);
-                elem.addEventListener('error', onError);
-            }
-
-            return elem;
-        }
-
         self.play = function (options) {
+
+            self._started = false;
+            self._timeUpdated = false;
 
             self._currentTime = null;
 
-            started = false;
-            var elem = createMediaElement();
-            self.mediaElement = elem;
+            var elem = createMediaElement(options);
+
+            return setCurrentSrc(elem, options);
+        };
+
+        function setCurrentSrc(elem, options) {
+
+            elem.removeEventListener('error', onError);
 
             var val = options.url;
+            console.log('playing url: ' + val);
 
+            //if (AppInfo.isNativeApp && $.browser.safari) {
+            //    val = val.replace('file://', '');
+            //}
+
+            // Convert to seconds
             var seconds = (options.playerStartPositionTicks || 0) / 10000000;
             if (seconds) {
                 val += '#t=' + seconds;
             }
 
-            var crossOrigin = getCrossOriginValue(options.mediaSource);
+            htmlMediaHelper.destroyHlsPlayer(self);
+
+            self._currentPlayOptions = options;
+
+            var crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
             if (crossOrigin) {
                 elem.crossOrigin = crossOrigin;
             }
 
-            elem.title = options.title;
+            if (htmlMediaHelper.enableHlsPlayer(val, options.item, options.mediaSource, 'Audio')) {
 
-            // Opera TV guidelines suggest using source elements, so let's do that if we have a valid mimeType
-            if (options.mimeType && browser.operaTv) {
+                return new Promise(function (resolve, reject) {
 
-                // Need to do this or we won't be able to restart a new stream
-                if (elem.currentSrc) {
-                    elem.src = '';
-                    elem.removeAttribute('src');
-                }
+                    requireHlsPlayer(function () {
+                        var hls = new Hls({
+                            manifestLoadingTimeOut: 20000
+                            //appendErrorMaxRetry: 6,
+                            //debug: true
+                        });
+                        hls.loadSource(val);
+                        hls.attachMedia(elem);
 
-                elem.innerHTML = '<source src="' + val + '" type="' + options.mimeType + '">';
+                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
+
+                        self._hlsPlayer = hls;
+
+                        self._currentSrc = val;
+                    });
+                });
+
             } else {
 
-                if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
+                elem.autoplay = true;
+                var mimeType = options.mimeType;
 
-                    return playUwp(options, elem);
-                } else {
+                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
 
-                    elem.src = val;
-                }
+                    self._currentSrc = val;
+
+                    return htmlMediaHelper.playWithPromise(elem, onError);
+                });
             }
-
-            self._currentSrc = val;
-            currentPlayOptions = options;
-
-            return playWithPromise(elem);
-        };
-
-        function playWithPromise(elem) {
-
-            try {
-                var promise = elem.play();
-                if (promise && promise.then) {
-                    // Chrome now returns a promise
-                    return promise.catch(function (e) {
-
-                        var errorName = (e.name || '').toLowerCase();
-                        // safari uses aborterror
-                        if (errorName === 'notallowederror' ||
-                            errorName === 'aborterror') {
-                            // swallow this error because the user can still click the play button on the audio element
-                            return Promise.resolve();
-                        }
-                        return Promise.reject();
-                    });
-                } else {
-                    return Promise.resolve();
-                }
-            } catch (err) {
-                console.log('error calling audio.play: ' + err);
-                return Promise.reject();
-            }
-        }
-
-        function getCrossOriginValue(mediaSource) {
-
-            if (mediaSource.IsRemote) {
-                return null;
-            }
-
-            return 'anonymous';
-        }
-
-        function supportsFade() {
-
-            if (browser.tv) {
-                // Not working on tizen. 
-                // We could possibly enable on other tv's, but all smart tv browsers tend to be pretty primitive
-                return false;
-            }
-
-            return true;
         }
 
         self.stop = function (destroyPlayer) {
 
             cancelFadeTimeout();
 
-            var elem = self.mediaElement;
+            var elem = self._mediaElement;
             var src = self._currentSrc;
 
             if (elem && src) {
@@ -221,7 +163,11 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
                     elem.src = '';
                     elem.innerHTML = '';
                     elem.removeAttribute("src");
-                    onEnded();
+                    htmlMediaHelper.onEndedInternal(self, elem, onError);
+
+                    if (destroyPlayer) {
+                        self.destroy();
+                    }
                     return Promise.resolve();
                 }
 
@@ -236,23 +182,49 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
                     elem.removeAttribute("src");
 
                     elem.volume = originalVolume;
-                    onEnded();
+                    htmlMediaHelper.onEndedInternal(self, elem, onError);
+
+                    if (destroyPlayer) {
+                        self.destroy();
+                    }
                 });
             }
             return Promise.resolve();
         };
 
+        self.destroy = function () {
+
+            htmlMediaHelper.destroyHlsPlayer(self);
+        };
+
+        function createMediaElement() {
+
+            var elem = document.querySelector('.mediaPlayerAudio');
+
+            if (!elem) {
+                elem = document.createElement('audio');
+                elem.classList.add('mediaPlayerAudio');
+                elem.classList.add('hide');
+
+                document.body.appendChild(elem);
+
+                elem.volume = htmlMediaHelper.getSavedVolume();
+
+                elem.addEventListener('timeupdate', onTimeUpdate);
+                elem.addEventListener('ended', onEnded);
+                elem.addEventListener('volumechange', onVolumeChange);
+                elem.addEventListener('pause', onPause);
+                elem.addEventListener('playing', onPlaying);
+
+                self._mediaElement = elem;
+            }
+
+            return elem;
+        }
+
         function onEnded() {
 
-            var stopInfo = {
-                src: self._currentSrc
-            };
-
-            events.trigger(self, 'stopped', [stopInfo]);
-
-            self._currentTime = null;
-            self._currentSrc = null;
-            currentPlayOptions = null;
+            htmlMediaHelper.onEndedInternal(self, this, onError);
         }
 
         function onTimeUpdate() {
@@ -267,45 +239,22 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
         function onVolumeChange() {
 
             if (!fadeTimeout) {
-                saveVolume(this.volume);
+                htmlMediaHelper.saveVolume(this.volume);
                 events.trigger(self, 'volumechange');
             }
         }
 
         function onPlaying(e) {
 
-            if (!started) {
-                started = true;
+            if (!self._started) {
+                self._started = true;
                 this.removeAttribute('controls');
 
-                seekOnPlaybackStart(e.target);
+                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
             } else {
                 events.trigger(self, 'unpause');
             }
             events.trigger(self, 'playing');
-        }
-
-        function seekOnPlaybackStart(element) {
-
-            var seconds = (currentPlayOptions.playerStartPositionTicks || 0) / 10000000;
-
-            if (seconds) {
-                var src = (self.currentSrc() || '').toLowerCase();
-
-                // Appending #t=xxx to the query string doesn't seem to work with HLS
-                // For plain video files, not all browsers support it either
-                if (!browser.chrome || src.indexOf('.m3u8') !== -1) {
-
-                    var delay = browser.safari ? 2500 : 0;
-                    if (delay) {
-                        setTimeout(function () {
-                            element.currentTime = seconds;
-                        }, delay);
-                    } else {
-                        element.currentTime = seconds;
-                    }
-                }
-            }
         }
 
         function onPause() {
@@ -314,9 +263,8 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
 
         function onError() {
 
-            var errorCode = this.error ? this.error.code : '';
-            errorCode = (errorCode || '').toString();
-            console.log('Media element error code: ' + errorCode);
+            var errorCode = this.error ? (this.error.code || 0) : 0;
+            console.log('Media element error code: ' + errorCode.toString());
 
             var type;
 
@@ -331,7 +279,12 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
                     break;
                 case 3:
                     // MEDIA_ERR_DECODE
-                    type = 'mediadecodeerror';
+                    if (self._hlsPlayer) {
+                        htmlMediaHelper.handleMediaError(self);
+                        return;
+                    } else {
+                        type = 'mediadecodeerror';
+                    }
                     break;
                 case 4:
                     // MEDIA_ERR_SRC_NOT_SUPPORTED
@@ -343,15 +296,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
                     return;
             }
 
-            onErrorInternal(type);
-        }
-
-        function onErrorInternal(type) {
-
-            events.trigger(self, 'error', [
-            {
-                type: type
-            }]);
+            htmlMediaHelper.onErrorInternal(self, type);
         }
 
         function onDocumentClick() {
@@ -399,7 +344,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
     // Save this for when playback stops, because querying the time at that point might return 0
     HtmlAudioPlayer.prototype.currentTime = function (val) {
 
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             if (val != null) {
                 mediaElement.currentTime = val / 1000;
@@ -415,20 +360,12 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
         }
     };
 
-    function isValidDuration(duration) {
-        if (duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY) {
-            return true;
-        }
-
-        return false;
-    }
-
     HtmlAudioPlayer.prototype.duration = function (val) {
 
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             var duration = mediaElement.duration;
-            if (isValidDuration(duration)) {
+            if (htmlMediaHelper.isValidDuration(duration)) {
                 return duration * 1000;
             }
         }
@@ -437,7 +374,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
     };
 
     HtmlAudioPlayer.prototype.seekable = function () {
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
 
             var seekable = mediaElement.seekable;
@@ -445,11 +382,11 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
 
                 var start = seekable.start(0);
                 var end = seekable.end(0);
-                
-                if (!isValidDuration(start)) {
+
+                if (!htmlMediaHelper.isValidDuration(start)) {
                     start = 0;
                 }
-                if (!isValidDuration(end)) {
+                if (!htmlMediaHelper.isValidDuration(end)) {
                     end = 0;
                 }
 
@@ -461,7 +398,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
     };
 
     HtmlAudioPlayer.prototype.pause = function () {
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.pause();
         }
@@ -469,14 +406,14 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
 
     // This is a retry after error
     HtmlAudioPlayer.prototype.resume = function () {
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.play();
         }
     };
 
     HtmlAudioPlayer.prototype.unpause = function () {
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.play();
         }
@@ -484,7 +421,7 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
 
     HtmlAudioPlayer.prototype.paused = function () {
 
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.paused;
         }
@@ -493,14 +430,14 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
     };
 
     HtmlAudioPlayer.prototype.setVolume = function (val) {
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.volume = val / 100;
         }
     };
 
     HtmlAudioPlayer.prototype.getVolume = function () {
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.volume * 100;
         }
@@ -516,14 +453,14 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings'], functio
 
     HtmlAudioPlayer.prototype.setMute = function (mute) {
 
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             mediaElement.muted = mute;
         }
     };
 
     HtmlAudioPlayer.prototype.isMuted = function () {
-        var mediaElement = this.mediaElement;
+        var mediaElement = this._mediaElement;
         if (mediaElement) {
             return mediaElement.muted;
         }

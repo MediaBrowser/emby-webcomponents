@@ -1,4 +1,4 @@
-define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager'], function (browser, require, events, appHost, loading, dom, playbackManager, embyRouter, appSettings, connectionManager) {
+define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager', './htmlmediahelper'], function (browser, require, events, appHost, loading, dom, playbackManager, embyRouter, appSettings, connectionManager, htmlMediaHelper) {
     "use strict";
 
     function tryRemoveElement(elem) {
@@ -14,16 +14,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
     }
 
-    function getSavedVolume() {
-        return appSettings.get("volume") || 1;
-    }
-
-    function saveVolume(value) {
-        if (value) {
-            appSettings.set("volume", value);
-        }
-    }
-
     function getDefaultProfile() {
 
         return new Promise(function (resolve, reject) {
@@ -35,26 +25,115 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         });
     }
 
+    var _supportsTextTracks;
+    function supportsTextTracks() {
+
+        if (_supportsTextTracks == null) {
+            _supportsTextTracks = document.createElement('video').textTracks != null;
+        }
+
+        // For now, until ready
+        return _supportsTextTracks;
+    }
+
+    function enableNativeTrackSupport(currentSrc, track) {
+
+        if (browser.firefox) {
+            if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
+                return false;
+            }
+        }
+
+        if (browser.ps4) {
+            return false;
+        }
+
+        // Edge is randomly not rendering subtitles
+        if (browser.edge) {
+            return false;
+        }
+
+        if (track) {
+            var format = (track.Codec || '').toLowerCase();
+            if (format === 'ssa' || format === 'ass') {
+                // libjass is needed here
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function requireHlsPlayer(callback) {
+        require(['hlsjs'], function (hls) {
+            window.Hls = hls;
+            callback();
+        });
+    }
+
+    function getMediaStreamAudioTracks(mediaSource) {
+
+        return mediaSource.MediaStreams.filter(function (s) {
+            return s.Type === 'Audio';
+        });
+    }
+
+    function getMediaStreamTextTracks(mediaSource) {
+
+        return mediaSource.MediaStreams.filter(function (s) {
+            return s.Type === 'Subtitle' && s.DeliveryMethod === 'External';
+        });
+    }
+
+    function zoomIn(elem) {
+
+        return new Promise(function (resolve, reject) {
+
+            var duration = 240;
+            elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
+            dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
+                once: true
+            });
+        });
+    }
+
+    function normalizeTrackEventText(text) {
+        return text.replace(/\\N/gi, '\n');
+    }
+
+    function setTracks(elem, tracks, mediaSource, serverId) {
+
+        elem.innerHTML = getTracksHtml(tracks, mediaSource, serverId);
+    }
+
+    function getTextTrackUrl(track, serverId) {
+        return playbackManager.getSubtitleUrl(track, serverId);
+    }
+
+    function getTracksHtml(tracks, mediaSource, serverId) {
+        return tracks.map(function (t) {
+
+            var defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
+
+            var language = t.Language || 'und';
+            var label = t.Language || 'und';
+            return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, serverId) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
+
+        }).join('');
+    }
+
     function HtmlVideoPlayer() {
 
-        var self = this;
-
-        self.name = 'Html Video Player';
-        self.type = 'mediaplayer';
-        self.id = 'htmlvideoplayer';
+        this.name = 'Html Video Player';
+        this.type = 'mediaplayer';
+        this.id = 'htmlvideoplayer';
 
         // Let any players created by plugins take priority
-        self.priority = 1;
+        this.priority = 1;
 
-        var mediaElement;
         var videoDialog;
-        var currentSrc;
-        var started = false;
-        var timeUpdated = false;
-        var hlsPlayer;
 
         var winJsPlaybackItem;
-        var currentPlayOptions;
 
         var subtitleTrackIndexToSetOnPlaying;
 
@@ -66,8 +145,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var videoSubtitlesElem;
         var currentTrackEvents;
 
+        var self = this;
+
         self.currentSrc = function () {
-            return currentSrc;
+            return self._currentSrc;
         };
 
         function updateVideoUrl(streamInfo) {
@@ -124,10 +205,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
             }
 
-            started = false;
-            timeUpdated = false;
+            self._started = false;
+            self._timeUpdated = false;
 
-            _currentTime = null;
+            self._currentTime = null;
 
             return createMediaElement(options).then(function (elem) {
 
@@ -136,135 +217,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 });
             });
         };
-
-        var supportedFeatures;
-        function getSupportedFeatures() {
-
-            var list = [];
-
-            var video = document.createElement('video');
-            //if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === "function") {
-            //    list.push('PictureInPicture');
-            //}
-            if (browser.ipad) {
-
-                // Unfortunately this creates a false positive on devices where its' not actually supported
-                if (navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
-                    if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
-                        list.push('PictureInPicture');
-                    }
-                }
-            }
-
-            list.push('SetBrightness');
-            return list;
-        }
-
-        self.supports = function (feature) {
-
-            if (!supportedFeatures) {
-                supportedFeatures = getSupportedFeatures();
-            }
-
-            return supportedFeatures.indexOf(feature) !== -1;
-        };
-
-        self.setPictureInPictureEnabled = function (isEnabled) {
-
-            var video = mediaElement;
-            if (video) {
-                if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
-                    video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
-                }
-            }
-        };
-
-        self.isPictureInPictureEnabled = function (isEnabled) {
-
-            var video = mediaElement;
-            if (video) {
-                return video.webkitPresentationMode === "picture-in-picture";
-            }
-
-            return false;
-        };
-
-        function getCrossOriginValue(mediaSource) {
-
-            if (mediaSource.IsRemote) {
-                return null;
-            }
-
-            return 'anonymous';
-        }
-
-        function requireHlsPlayer(callback) {
-            require(['hlsjs'], function (hls) {
-                window.Hls = hls;
-                callback();
-            });
-        }
-
-        function bindEventsToHlsPlayer(hls, elem, resolve, reject) {
-
-            hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                playWithPromise(elem).then(resolve, function () {
-
-                    if (reject) {
-                        reject();
-                        reject = null;
-                    }
-                });
-            });
-
-            hls.on(Hls.Events.ERROR, function (event, data) {
-
-                console.log('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
-
-                if (data.fatal) {
-                    switch (data.type) {
-                        case Hls.ErrorTypes.NETWORK_ERROR:
-                            // try to recover network error
-                            if (data.response && data.response.code && data.response.code >= 400 && data.response.code < 500) {
-
-                                console.log('hls.js response error code: ' + data.response.code);
-
-                                // Trigger failure differently depending on whether this is prior to start of playback, or after
-                                if (reject) {
-                                    reject();
-                                    reject = null;
-                                } else {
-                                    onErrorInternal('network');
-                                }
-
-                            } else {
-                                console.log("fatal network error encountered, try to recover");
-                                hls.startLoad();
-                            }
-
-                            break;
-                        case Hls.ErrorTypes.MEDIA_ERROR:
-                            console.log("fatal media error encountered, try to recover");
-                            var currentReject = reject;
-                            reject = null;
-                            handleMediaError(currentReject);
-                            break;
-                        default:
-                            // cannot recover
-                            // Trigger failure differently depending on whether this is prior to start of playback, or after
-                            hls.destroy();
-
-                            if (reject) {
-                                reject();
-                                reject = null;
-                            } else {
-                                onErrorInternal('mediadecodeerror');
-                            }
-                            break;
-                    }
-                }
-            });
-        }
 
         function setCurrentSrc(elem, options) {
 
@@ -283,7 +235,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 val += '#t=' + seconds;
             }
 
-            destroyHlsPlayer();
+            htmlMediaHelper.destroyHlsPlayer(self);
 
             var tracks = getMediaStreamTextTracks(options.mediaSource);
 
@@ -296,14 +248,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
             subtitleTrackIndexToSetOnPlaying = currentTrackIndex;
 
-            currentPlayOptions = options;
+            self._currentPlayOptions = options;
 
-            var crossOrigin = getCrossOriginValue(options.mediaSource);
+            var crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
             if (crossOrigin) {
                 elem.crossOrigin = crossOrigin;
             }
 
-            if (enableHlsPlayer(val, options.item, options.mediaSource)) {
+            if (htmlMediaHelper.enableHlsPlayer(val, options.item, options.mediaSource, 'Video')) {
 
                 setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
 
@@ -318,12 +270,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         hls.loadSource(val);
                         hls.attachMedia(elem);
 
-                        bindEventsToHlsPlayer(hls, elem, resolve, reject);
+                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
 
-                        hlsPlayer = hls;
+                        self._hlsPlayer = hls;
 
                         // This is needed in setCurrentTrackElement
-                        currentSrc = val;
+                        self._currentSrc = val;
 
                         setCurrentTrackElement(currentTrackIndex);
                     });
@@ -352,114 +304,22 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     elem.addEventListener('loadedmetadata', onLoadedMetadata);
                 } else {
 
-                    return applySrc(elem, val, options).then(function () {
+                    return htmlMediaHelper.applySrc(elem, val, options).then(function () {
 
                         setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
 
-                        currentSrc = val;
+                        self._currentSrc = val;
 
                         setCurrentTrackElement(currentTrackIndex);
-                        return playWithPromise(elem);
+                        return htmlMediaHelper.playWithPromise(elem, onError);
                     });
                 }
 
                 // This is needed in setCurrentTrackElement
-                currentSrc = val;
+                self._currentSrc = val;
 
                 setCurrentTrackElement(currentTrackIndex);
-                return playWithPromise(elem);
-            }
-        }
-
-        var recoverDecodingErrorDate, recoverSwapAudioCodecDate;
-
-        function handleMediaError(reject) {
-
-            if (!hlsPlayer) {
-                return;
-            }
-
-            var now = Date.now();
-
-            if (window.performance && window.performance.now) {
-                now = performance.now();
-            }
-
-            if (!recoverDecodingErrorDate || (now - recoverDecodingErrorDate) > 3000) {
-                recoverDecodingErrorDate = now;
-                console.log('try to recover media Error ...');
-                hlsPlayer.recoverMediaError();
-            } else {
-                if (!recoverSwapAudioCodecDate || (now - recoverSwapAudioCodecDate) > 3000) {
-                    recoverSwapAudioCodecDate = now;
-                    console.log('try to swap Audio Codec and recover media Error ...');
-                    hlsPlayer.swapAudioCodec();
-                    hlsPlayer.recoverMediaError();
-                } else {
-                    console.error('cannot recover, last media error recovery failed ...');
-
-                    if (reject) {
-                        reject();
-                    } else {
-                        onErrorInternal('mediadecodeerror');
-                    }
-                }
-            }
-        }
-
-        function applySrc(elem, src, options) {
-
-            if (window.Windows && options.mediaSource && options.mediaSource.IsLocal) {
-
-                return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
-
-                    var playlist = new Windows.Media.Playback.MediaPlaybackList();
-
-                    var source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
-                    var startTime = (options.playerStartPositionTicks || 0) / 10000;
-                    playlist.items.append(new Windows.Media.Playback.MediaPlaybackItem(source1, startTime));
-                    elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
-                    return Promise.resolve();
-                });
-
-            } else {
-
-                elem.src = src;
-            }
-
-            return Promise.resolve();
-        }
-
-        function onSuccessfulPlay(elem) {
-
-            elem.addEventListener('error', onError);
-        }
-
-        function playWithPromise(elem) {
-
-            try {
-                var promise = elem.play();
-                if (promise && promise.then) {
-                    // Chrome now returns a promise
-                    return promise.catch(function (e) {
-
-                        var errorName = (e.name || '').toLowerCase();
-                        // safari uses aborterror
-                        if (errorName === 'notallowederror' ||
-                            errorName === 'aborterror') {
-                            // swallow this error because the user can still click the play button on the video element
-                            onSuccessfulPlay(elem);
-                            return Promise.resolve();
-                        }
-                        return Promise.reject();
-                    });
-                } else {
-                    onSuccessfulPlay(elem);
-                    return Promise.resolve();
-                }
-            } catch (err) {
-                console.log('error calling video.play: ' + err);
-                return Promise.reject();
+                return htmlMediaHelper.playWithPromise(elem, onError);
             }
         }
 
@@ -468,18 +328,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             setCurrentTrackElement(index);
         };
 
-        self.canSetAudioStreamIndex = function () {
-
-            if (browser.edge || browser.msie) {
-                return true;
-            }
-
-            return false;
-        };
-
         self.setAudioStreamIndex = function (index) {
 
-            var audioStreams = getMediaStreamAudioTracks(currentPlayOptions.mediaSource);
+            var audioStreams = getMediaStreamAudioTracks(self._currentPlayOptions.mediaSource);
 
             var audioTrackOffset = -1;
             var i, length;
@@ -496,7 +347,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return;
             }
 
-            var elem = mediaElement;
+            var elem = self._mediaElement;
             if (!elem) {
                 return;
             }
@@ -513,40 +364,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         };
 
-        // Save this for when playback stops, because querying the time at that point might return 0
-        var _currentTime;
-        self.currentTime = function (val) {
+        self.stop = function (destroyPlayer) {
 
-            if (mediaElement) {
-                if (val != null) {
-                    mediaElement.currentTime = val / 1000;
-                    return;
-                }
-
-                if (_currentTime) {
-                    return _currentTime * 1000;
-                }
-
-                return (mediaElement.currentTime || 0) * 1000;
-            }
-        };
-
-        self.duration = function (val) {
-
-            if (mediaElement) {
-                var duration = mediaElement.duration;
-                if (duration && !isNaN(duration) && duration !== Number.POSITIVE_INFINITY && duration !== Number.NEGATIVE_INFINITY) {
-                    return duration * 1000;
-                }
-            }
-
-            return null;
-        };
-
-        self.stop = function (destroyPlayer, reportEnded) {
-
-            var elem = mediaElement;
-            var src = currentSrc;
+            var elem = self._mediaElement;
+            var src = self._currentSrc;
 
             if (elem) {
 
@@ -554,7 +375,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     elem.pause();
                 }
 
-                onEndedInternal(reportEnded, elem);
+                htmlMediaHelper.onEndedInternal(self, elem, onError);
 
                 if (destroyPlayer) {
                     self.destroy();
@@ -568,14 +389,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         self.destroy = function () {
 
-            destroyHlsPlayer();
+            htmlMediaHelper.destroyHlsPlayer(self);
             embyRouter.setTransparency('none');
 
-            var videoElement = mediaElement;
+            var videoElement = self._mediaElement;
 
             if (videoElement) {
 
-                mediaElement = null;
+                self._mediaElement = null;
 
                 destroyCustomTrack(videoElement);
 
@@ -600,141 +421,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         };
 
-        function destroyHlsPlayer() {
-            var player = hlsPlayer;
-            if (player) {
-                try {
-                    player.destroy();
-                } catch (err) {
-                    console.log(err);
-                }
-
-                hlsPlayer = null;
-            }
-        }
-
-        self.pause = function () {
-            if (mediaElement) {
-                mediaElement.pause();
-            }
-        };
-
-        // This is a retry after error
-        self.resume = function () {
-            if (mediaElement) {
-                mediaElement.play();
-            }
-        };
-
-        self.unpause = function () {
-            if (mediaElement) {
-                mediaElement.play();
-            }
-        };
-
-        self.paused = function () {
-
-            if (mediaElement) {
-                return mediaElement.paused;
-            }
-
-            return false;
-        };
-
-        self.setBrightness = function (val) {
-
-            var elem = mediaElement;
-
-            if (elem) {
-
-                val = Math.max(0, val);
-                val = Math.min(100, val);
-
-                var rawValue = val;
-                rawValue = Math.max(20, rawValue);
-
-                var cssValue = rawValue >= 100 ? 'none' : (rawValue / 100);
-                elem.style['-webkit-filter'] = 'brightness(' + cssValue + ');';
-                elem.style.filter = 'brightness(' + cssValue + ')';
-                elem.brightnessValue = val;
-                events.trigger(self, 'brightnesschange');
-            }
-        };
-
-        self.getBrightness = function () {
-            if (mediaElement) {
-                var val = mediaElement.brightnessValue;
-                return val == null ? 100 : val;
-            }
-        };
-
-        self.setVolume = function (val) {
-            if (mediaElement) {
-                mediaElement.volume = val / 100;
-            }
-        };
-
-        self.getVolume = function () {
-            if (mediaElement) {
-                return mediaElement.volume * 100;
-            }
-        };
-
-        self.volumeUp = function () {
-            self.setVolume(Math.min(self.getVolume() + 2, 100));
-        };
-
-        self.volumeDown = function () {
-            self.setVolume(Math.max(self.getVolume() - 2, 0));
-        };
-
-        self.setMute = function (mute) {
-
-            if (mediaElement) {
-                mediaElement.muted = mute;
-            }
-        };
-
-        self.isMuted = function () {
-            if (mediaElement) {
-                return mediaElement.muted;
-            }
-            return false;
-        };
-
         function onEnded() {
 
             destroyCustomTrack(this);
-            onEndedInternal(true, this);
-        }
-
-        function onEndedInternal(triggerEnded, elem) {
-
-            elem.removeEventListener('error', onError);
-
-            elem.src = '';
-            elem.innerHTML = '';
-            elem.removeAttribute("src");
-
-            destroyHlsPlayer();
-
-            if (self.originalDocumentTitle) {
-                document.title = self.originalDocumentTitle;
-                self.originalDocumentTitle = null;
-            }
-
-            if (triggerEnded) {
-
-                var stopInfo = {
-                    src: currentSrc
-                };
-
-                events.trigger(self, 'stopped', [stopInfo]);
-
-                _currentTime = null;
-            }
-
-            currentSrc = null;
+            htmlMediaHelper.onEndedInternal(self, this, onError);
         }
 
         function onTimeUpdate(e) {
@@ -742,14 +432,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             // Get the player position + the transcoding offset
             var time = this.currentTime;
 
-            if (time && !timeUpdated) {
-                timeUpdated = true;
+            if (time && !self._timeUpdated) {
+                self._timeUpdated = true;
                 ensureValidVideo(this);
             }
 
-            _currentTime = time;
+            self._currentTime = time;
             var timeMs = time * 1000;
-            timeMs += ((currentPlayOptions.transcodingOffsetTicks || 0) / 10000);
+            timeMs += ((self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000);
             updateSubtitleText(timeMs);
 
             events.trigger(self, 'timeupdate');
@@ -757,7 +447,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function onVolumeChange() {
 
-            saveVolume(this.volume);
+            htmlMediaHelper.saveVolume(this.volume);
             events.trigger(self, 'volumechange');
         }
 
@@ -769,22 +459,22 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function onPlaying(e) {
 
-            if (!started) {
-                started = true;
+            if (!self._started) {
+                self._started = true;
                 this.removeAttribute('controls');
 
-                if (currentPlayOptions.title) {
+                if (self._currentPlayOptions.title) {
                     self.originalDocumentTitle = document.title;
-                    document.title = currentPlayOptions.title;
+                    document.title = self._currentPlayOptions.title;
                 } else {
                     self.originalDocumentTitle = null;
                 }
 
                 setCurrentTrackElement(subtitleTrackIndexToSetOnPlaying);
 
-                seekOnPlaybackStart(e.target);
+                htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
 
-                if (currentPlayOptions.fullscreen) {
+                if (self._currentPlayOptions.fullscreen) {
 
                     embyRouter.showVideoOsd().then(onNavigatedToOsd);
 
@@ -803,41 +493,18 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         function ensureValidVideo(elem) {
-            if (elem !== mediaElement) {
+            if (elem !== self._mediaElement) {
                 return;
             }
 
             if (elem.videoWidth === 0 && elem.videoHeight === 0) {
-                onErrorInternal('mediadecodeerror');
+                htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
                 return;
             }
 
             //if (elem.audioTracks && !elem.audioTracks.length) {
-            //    onErrorInternal('mediadecodeerror');
+            //    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
             //}
-        }
-
-        function seekOnPlaybackStart(element) {
-
-            var seconds = (currentPlayOptions.playerStartPositionTicks || 0) / 10000000;
-
-            if (seconds) {
-                var src = (self.currentSrc() || '').toLowerCase();
-
-                // Appending #t=xxx to the query string doesn't seem to work with HLS
-                // For plain video files, not all browsers support it either
-                if (!browser.chrome || src.indexOf('.m3u8') !== -1) {
-
-                    var delay = browser.safari ? 2500 : 0;
-                    if (delay) {
-                        setTimeout(function () {
-                            element.currentTime = seconds;
-                        }, delay);
-                    } else {
-                        element.currentTime = seconds;
-                    }
-                }
-            }
         }
 
         function onClick() {
@@ -870,8 +537,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     break;
                 case 3:
                     // MEDIA_ERR_DECODE
-                    if (hlsPlayer) {
-                        handleMediaError();
+                    if (self._hlsPlayer) {
+                        htmlMediaHelper.handleMediaError(self);
                         return;
                     } else {
                         type = 'mediadecodeerror';
@@ -887,17 +554,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     return;
             }
 
-            onErrorInternal(type);
-        }
-
-        function onErrorInternal(type) {
-
-            destroyCustomTrack(mediaElement);
-
-            events.trigger(self, 'error', [
-            {
-                type: type
-            }]);
+            htmlMediaHelper.onErrorInternal(self, type);
         }
 
         function onLoadedMetadata(e) {
@@ -905,7 +562,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var mediaElem = e.target;
             mediaElem.removeEventListener('loadedmetadata', onLoadedMetadata);
 
-            if (!hlsPlayer) {
+            if (!self._hlsPlayer) {
 
                 try {
                     mediaElem.play();
@@ -913,114 +570,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     console.log('error calling mediaElement.play: ' + err);
                 }
             }
-        }
-
-        function enableHlsPlayer(src, item, mediaSource) {
-
-            if (src) {
-                if (src.indexOf('.m3u8') === -1) {
-                    return false;
-                }
-            }
-
-            if (window.MediaSource == null) {
-                return false;
-            }
-
-            if (canPlayNativeHls()) {
-
-                if (browser.edge) {
-                    return true;
-                }
-
-                // simple playback should use the native support
-                if (mediaSource.RunTimeTicks) {
-                    //if (!browser.edge) {
-                    return false;
-                    //}
-                }
-
-                //return false;
-            }
-
-            // hls.js is only in beta. needs more testing.
-            if (browser.safari && !browser.osx) {
-                return false;
-            }
-
-            return true;
-        }
-
-        function canPlayNativeHls() {
-            var media = document.createElement('video');
-
-            if (media.canPlayType('application/x-mpegURL').replace(/no/, '') ||
-                media.canPlayType('application/vnd.apple.mpegURL').replace(/no/, '')) {
-                return true;
-            }
-
-            return false;
-        }
-
-        function setTracks(elem, tracks, mediaSource, serverId) {
-
-            elem.innerHTML = getTracksHtml(tracks, mediaSource, serverId);
-        }
-
-        function getTextTrackUrl(track, serverId) {
-            return playbackManager.getSubtitleUrl(track, serverId);
-        }
-
-        function getTracksHtml(tracks, mediaSource, serverId) {
-            return tracks.map(function (t) {
-
-                var defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
-
-                var language = t.Language || 'und';
-                var label = t.Language || 'und';
-                return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, serverId) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
-
-            }).join('');
-        }
-
-        var _supportsTextTracks;
-
-        function supportsTextTracks() {
-
-            if (_supportsTextTracks == null) {
-                _supportsTextTracks = document.createElement('video').textTracks != null;
-            }
-
-            // For now, until ready
-            return _supportsTextTracks;
-        }
-
-        function enableNativeTrackSupport(track) {
-
-            if (browser.firefox) {
-                if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
-                    return false;
-                }
-            }
-
-            if (browser.ps4) {
-                return false;
-            }
-
-            // Edge is randomly not rendering subtitles
-            if (browser.edge) {
-                return false;
-            }
-
-            if (track) {
-                var format = (track.Codec || '').toLowerCase();
-                if (format === 'ssa' || format === 'ass') {
-                    // libjass is needed here
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         function destroyCustomTrack(videoElement) {
@@ -1061,6 +610,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             currentAssRenderer = null;
         }
 
+        self.destroyCustomTrack = destroyCustomTrack;
+
         function fetchSubtitles(track, serverId) {
 
             return new Promise(function (resolve, reject) {
@@ -1087,7 +638,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return;
             }
 
-            var serverId = currentPlayOptions.item.ServerId;
+            var serverId = self._currentPlayOptions.item.ServerId;
 
             destroyCustomTrack(videoElement);
             customTrackIndex = track.Index;
@@ -1132,7 +683,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         }
                     });
                 }, function () {
-                    onErrorInternal('mediadecodeerror');
+                    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
                 });
             });
         }
@@ -1140,7 +691,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function onVideoResize() {
             var renderer = currentAssRenderer;
             if (renderer) {
-                var videoElement = mediaElement;
+                var videoElement = self._mediaElement;
                 var width = videoElement.offsetWidth;
                 var height = videoElement.offsetHeight;
                 console.log('videoElement resized: ' + width + 'x' + height);
@@ -1231,10 +782,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        function normalizeTrackEventText(text) {
-            return text.replace(/\\N/gi, '\n');
-        }
-
         function updateSubtitleText(timeMs) {
 
             var clock = currentClock;
@@ -1272,35 +819,21 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
         }
 
-        function getMediaStreamAudioTracks(mediaSource) {
-
-            return mediaSource.MediaStreams.filter(function (s) {
-                return s.Type === 'Audio';
-            });
-        }
-
-        function getMediaStreamTextTracks(mediaSource) {
-
-            return mediaSource.MediaStreams.filter(function (s) {
-                return s.Type === 'Subtitle' && s.DeliveryMethod === 'External';
-            });
-        }
-
         function setCurrentTrackElement(streamIndex) {
 
             console.log('Setting new text track index to: ' + streamIndex);
 
-            var mediaStreamTextTracks = getMediaStreamTextTracks(currentPlayOptions.mediaSource);
+            var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
 
             var track = streamIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
                 return t.Index === streamIndex;
             })[0];
 
-            if (enableNativeTrackSupport(track)) {
+            if (enableNativeTrackSupport(self._currentSrc, track)) {
 
-                setTrackForCustomDisplay(mediaElement, null);
+                setTrackForCustomDisplay(self._mediaElement, null);
             } else {
-                setTrackForCustomDisplay(mediaElement, track);
+                setTrackForCustomDisplay(self._mediaElement, track);
 
                 // null these out to disable the player's native display (handled below)
                 streamIndex = -1;
@@ -1311,7 +844,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var trackIndex = streamIndex === -1 || !track ? -1 : mediaStreamTextTracks.indexOf(track);
             var modes = ['disabled', 'showing', 'hidden'];
 
-            var allTracks = mediaElement.textTracks; // get list of tracks
+            var allTracks = self._mediaElement.textTracks; // get list of tracks
             for (var i = 0; i < allTracks.length; i++) {
 
                 var currentTrack = allTracks[i];
@@ -1366,7 +899,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return;
             }
 
-            var allTracks = mediaElement.textTracks; // get list of tracks
+            var allTracks = self._mediaElement.textTracks; // get list of tracks
             var i;
             var track;
 
@@ -1385,25 +918,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 }
             }
 
-            var tracks = mediaElement.querySelectorAll('track');
+            var tracks = self._mediaElement.querySelectorAll('track');
             for (i = 0; i < tracks.length; i++) {
 
                 track = tracks[i];
 
                 track.src = replaceQueryString(track.src, 'startPositionTicks', startPositionTicks);
             }
-        }
-
-        function zoomIn(elem) {
-
-            return new Promise(function (resolve, reject) {
-
-                var duration = 240;
-                elem.style.animation = 'htmlvideoplayer-zoomin ' + duration + 'ms ease-in normal';
-                dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
-                    once: true
-                });
-            });
         }
 
         function createMediaElement(options) {
@@ -1455,7 +976,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         dlg.innerHTML = html;
                         var videoElement = dlg.querySelector('video');
 
-                        videoElement.volume = getSavedVolume();
+                        videoElement.volume = htmlMediaHelper.getSavedVolume();
                         videoElement.addEventListener('timeupdate', onTimeUpdate);
                         videoElement.addEventListener('ended', onEnded);
                         videoElement.addEventListener('volumechange', onVolumeChange);
@@ -1466,7 +987,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                         document.body.insertBefore(dlg, document.body.firstChild);
                         videoDialog = dlg;
-                        mediaElement = videoElement;
+                        self._mediaElement = videoElement;
 
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
@@ -1514,6 +1035,223 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         return getDefaultProfile();
+    };
+
+    var supportedFeatures;
+    function getSupportedFeatures() {
+
+        var list = [];
+
+        var video = document.createElement('video');
+        //if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === "function") {
+        //    list.push('PictureInPicture');
+        //}
+        if (browser.ipad) {
+
+            // Unfortunately this creates a false positive on devices where its' not actually supported
+            if (navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
+                if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
+                    list.push('PictureInPicture');
+                }
+            }
+        }
+
+        list.push('SetBrightness');
+        return list;
+    }
+
+    HtmlVideoPlayer.prototype.supports = function (feature) {
+
+        if (!supportedFeatures) {
+            supportedFeatures = getSupportedFeatures();
+        }
+
+        return supportedFeatures.indexOf(feature) !== -1;
+    };
+
+    // Save this for when playback stops, because querying the time at that point might return 0
+    HtmlVideoPlayer.prototype.currentTime = function (val) {
+
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            if (val != null) {
+                mediaElement.currentTime = val / 1000;
+                return;
+            }
+
+            var currentTime = this._currentTime;
+            if (currentTime) {
+                return currentTime * 1000;
+            }
+
+            return (mediaElement.currentTime || 0) * 1000;
+        }
+    };
+
+    HtmlVideoPlayer.prototype.duration = function (val) {
+
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            var duration = mediaElement.duration;
+            if (htmlMediaHelper.isValidDuration(duration)) {
+                return duration * 1000;
+            }
+        }
+
+        return null;
+    };
+
+    HtmlVideoPlayer.prototype.canSetAudioStreamIndex = function () {
+
+        if (browser.edge || browser.msie) {
+            return true;
+        }
+
+        return false;
+    };
+
+    HtmlVideoPlayer.prototype.setPictureInPictureEnabled = function (isEnabled) {
+
+        var video = this._mediaElement;
+        if (video) {
+            if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
+                video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
+            }
+        }
+    };
+
+    HtmlVideoPlayer.prototype.isPictureInPictureEnabled = function (isEnabled) {
+
+        var video = this._mediaElement;
+        if (video) {
+            return video.webkitPresentationMode === "picture-in-picture";
+        }
+
+        return false;
+    };
+
+    HtmlVideoPlayer.prototype.setBrightness = function (val) {
+
+        var elem = this._mediaElement;
+
+        if (elem) {
+
+            val = Math.max(0, val);
+            val = Math.min(100, val);
+
+            var rawValue = val;
+            rawValue = Math.max(20, rawValue);
+
+            var cssValue = rawValue >= 100 ? 'none' : (rawValue / 100);
+            elem.style['-webkit-filter'] = 'brightness(' + cssValue + ');';
+            elem.style.filter = 'brightness(' + cssValue + ')';
+            elem.brightnessValue = val;
+            events.trigger(this, 'brightnesschange');
+        }
+    };
+
+    HtmlVideoPlayer.prototype.getBrightness = function () {
+
+        var elem = this._mediaElement;
+
+        if (elem) {
+            var val = elem.brightnessValue;
+            return val == null ? 100 : val;
+        }
+    };
+
+    HtmlVideoPlayer.prototype.seekable = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+
+            var seekable = mediaElement.seekable;
+            if (seekable && seekable.length) {
+
+                var start = seekable.start(0);
+                var end = seekable.end(0);
+
+                if (!htmlMediaHelper.isValidDuration(start)) {
+                    start = 0;
+                }
+                if (!htmlMediaHelper.isValidDuration(end)) {
+                    end = 0;
+                }
+
+                return (end - start) > 0;
+            }
+
+            return false;
+        }
+    };
+
+    HtmlVideoPlayer.prototype.pause = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            mediaElement.pause();
+        }
+    };
+
+    // This is a retry after error
+    HtmlVideoPlayer.prototype.resume = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            mediaElement.play();
+        }
+    };
+
+    HtmlVideoPlayer.prototype.unpause = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            mediaElement.play();
+        }
+    };
+
+    HtmlVideoPlayer.prototype.paused = function () {
+
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            return mediaElement.paused;
+        }
+
+        return false;
+    };
+
+    HtmlVideoPlayer.prototype.setVolume = function (val) {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            mediaElement.volume = val / 100;
+        }
+    };
+
+    HtmlVideoPlayer.prototype.getVolume = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            return mediaElement.volume * 100;
+        }
+    };
+
+    HtmlVideoPlayer.prototype.volumeUp = function () {
+        this.setVolume(Math.min(this.getVolume() + 2, 100));
+    };
+
+    HtmlVideoPlayer.prototype.volumeDown = function () {
+        this.setVolume(Math.max(this.getVolume() - 2, 0));
+    };
+
+    HtmlVideoPlayer.prototype.setMute = function (mute) {
+
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            mediaElement.muted = mute;
+        }
+    };
+
+    HtmlVideoPlayer.prototype.isMuted = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+            return mediaElement.muted;
+        }
+        return false;
     };
 
     HtmlVideoPlayer.prototype.setAspectRatio = function (val) {

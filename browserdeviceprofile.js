@@ -465,13 +465,18 @@ define(['browser'], function (browser) {
 
         profile.TranscodingProfiles = [];
 
-        if (canPlayNativeHls() && !browser.android && browser.enableHlsAudio !== false) {
+        if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
-                Container: 'aac',
+
+                // hlsjs, edge, and android all seem to require ts container
+                Container: !canPlayNativeHls() || browser.edge || browser.android ? 'ts' : 'aac',
                 Type: 'Audio',
                 AudioCodec: 'aac',
                 Context: 'Streaming',
-                Protocol: 'hls'
+                Protocol: 'hls',
+                MaxAudioChannels: physicalAudioChannels.toString(),
+                MinSegments: browser.iOS || browser.osx ? '2' : '1',
+                BreakOnNonKeyFrames: browser.iOS || browser.osx ? true : false
             });
         }
 
