@@ -163,7 +163,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
             }
         }
 
-        if (canPlay) {
+        if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
                 commands.push({
                     name: globalize.translate('sharedcomponents#Play'),

@@ -36,63 +36,6 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
         }
     }
 
-    function showSlideshow(startItemId, serverId) {
-
-        var apiClient = connectionManager.getApiClient(serverId);
-        var userId = apiClient.getCurrentUserId();
-
-        return apiClient.getItem(userId, startItemId).then(function (item) {
-
-            return apiClient.getItems(userId, {
-
-                MediaTypes: 'Photo,Video',
-                Filters: 'IsNotFolder',
-                ParentId: item.ParentId,
-                SortBy: 'SortName',
-                EnableTotalRecordCount: false
-
-            }).then(function (result) {
-
-                var items = result.Items;
-
-                var index = items.map(function (i) {
-                    return i.Id;
-
-                }).indexOf(startItemId);
-
-                if (index === -1) {
-                    index = 0;
-                }
-
-                require(['slideshow'], function (slideshow) {
-
-                    var newSlideShow = new slideshow({
-                        showTitle: false,
-                        cover: false,
-                        items: items,
-                        startIndex: index,
-                        interval: 8000,
-                        interactive: true
-                    });
-
-                    newSlideShow.show();
-                });
-
-            });
-        });
-    }
-
-    function showItem(item, options) {
-
-        if (item.Type === 'Photo') {
-
-            showSlideshow(item.Id, item.ServerId);
-            return;
-        }
-
-        embyRouter.showItem(item, options);
-    }
-
     function showProgramDialog(item) {
 
         require(['recordingCreator'], function (recordingCreator) {
@@ -237,9 +180,13 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
 
         var playableItemId = type === 'Program' ? item.ChannelId : item.Id;
 
+        if (item.MediaType === 'Photo' && action === 'link') {
+            action = 'play';
+        }
+
         if (action === 'link') {
 
-            showItem(item, {
+            embyRouter.showItem(item, {
                 context: card.getAttribute('data-context'),
                 parentId: card.getAttribute('data-parentid')
             });

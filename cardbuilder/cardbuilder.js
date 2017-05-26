@@ -1289,6 +1289,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             indicatorsHtml += indicators.getSyncIndicator(item);
             indicatorsHtml += indicators.getTimerIndicator(item);
 
+            if (options.showVideoIndicator) {
+                indicatorsHtml += indicators.getVideoIndicator(item);
+            }
+
             if (options.showGroupCount) {
 
                 indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {

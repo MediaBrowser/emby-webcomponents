@@ -196,9 +196,19 @@ define(['datetime', 'css!./indicators.css', 'material-icons'], function (datetim
     function getSyncIndicator(item) {
 
         if (item.SyncPercent === 100) {
-            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="md-icon indicatorIcon">file_download</i></div>';
+            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="md-icon indicatorIcon">&#xE2C4;</i></div>';
         } else if (item.SyncPercent != null) {
-            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="md-icon indicatorIcon">file_download</i></div>';
+            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="md-icon indicatorIcon">&#xE2C4;</i></div>';
+        }
+
+        return '';
+    }
+
+    function getVideoIndicator(item) {
+        
+        if (item.MediaType === 'Video') {
+            
+            return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE04B;</i></div>';
         }
 
         return '';
@@ -253,6 +263,7 @@ define(['datetime', 'css!./indicators.css', 'material-icons'], function (datetim
         enableProgressIndicator: enableProgressIndicator,
         getTimerIndicator: getTimerIndicator,
         enablePlayedIndicator: enablePlayedIndicator,
-        getSyncIndicator: getSyncIndicator
+        getSyncIndicator: getSyncIndicator,
+        getVideoIndicator: getVideoIndicator
     };
 });

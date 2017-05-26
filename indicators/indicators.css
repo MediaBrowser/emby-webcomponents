@@ -62,6 +62,16 @@
     color: #fff;
 }
 
+.videoIndicator {
+    background: #444;
+    border-radius: 500px;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
 .syncIndicator {
     color: #fff;
     border-radius: 500px;

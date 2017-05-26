@@ -81,6 +81,9 @@ define(['apphost'], function (appHost) {
         if (item.Type === 'SeriesTimer') {
             return false;
         }
+        if (item.MediaType === 'Photo') {
+            return false;
+        }
 
         if (item.Type === 'Recording') {
             if (item.Status !== 'Completed') {
@@ -153,6 +156,10 @@ define(['apphost'], function (appHost) {
         canEditImages: function (user, item) {
 
             var itemType = item.Type;
+
+            if (item.MediaType === 'Photo') {
+                return false;
+            }
 
             if (itemType === 'UserView') {
                 if (user.Policy.IsAdministrator) {

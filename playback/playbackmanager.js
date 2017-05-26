@@ -591,7 +591,7 @@
             name: player.name,
             id: player.id,
             playerName: player.name,
-            playableMediaTypes: ['Audio', 'Video', 'Game'].map(player.canPlayMediaType),
+            playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'].map(player.canPlayMediaType),
             isLocalPlayer: player.isLocalPlayer,
             supportedCommands: getSupportedCommands(player)
         };
@@ -1397,6 +1397,33 @@
                 });
 
             }
+            else if (firstItem.MediaType === "Photo") {
+
+                promise = getItemsForPlayback(serverId, {
+                    ParentId: firstItem.ParentId,
+                    Filters: "IsNotFolder",
+                    Recursive: true,
+                    SortBy: "SortName",
+                    MediaTypes: "Photo,Video"
+                }).then(function (result) {
+
+                    var items = result.Items;
+
+                    var index = items.map(function (i) {
+                        return i.Id;
+
+                    }).indexOf(firstItem.Id);
+
+                    if (index === -1) {
+                        index = 0;
+                    }
+
+                    options.playStartIndex = index;
+
+                    return Promise.resolve(result);
+
+                });
+            }
             else if (firstItem.Type === "MusicGenre") {
 
                 promise = getItemsForPlayback(serverId, {
@@ -1638,13 +1665,24 @@
         // Only used internally
         self.getCurrentTicks = getCurrentTicks;
 
+        function playPhotos(items, options, user) {
+
+            var player = getPlayer(items[0], options);
+
+            loading.hide();
+
+            options.items = items;
+
+            return player.play(options);
+        }
+
         function playWithIntros(items, options, user) {
 
             var firstItem = items[0];
 
-            if (firstItem.MediaType === "Video") {
+            if (firstItem.MediaType === "Photo") {
 
-                //Dashboard.showModalLoadingMsg();
+                return playPhotos(items, options, user);
             }
 
             var apiClient = connectionManager.getApiClient(firstItem.ServerId);
@@ -2342,7 +2380,9 @@
 
                 return translateItemsForPlayback(options.items, options).then(function (items) {
 
+                    // TODO: Handle options.playStartIndex for photos
                     queueAll(items, mode, player);
+
                 });
 
             } else {
@@ -2358,7 +2398,10 @@
                 }).then(function (result) {
 
                     return translateItemsForPlayback(result.Items, options).then(function (items) {
+
+                        // TODO: Handle options.playStartIndex for photos
                         queueAll(items, mode, player);
+
                     });
                 });
             }
