@@ -62,6 +62,38 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
         });
     }
 
+    function enableHlsPlayer(url, item, mediaSource, mediaType) {
+
+        if (!htmlMediaHelper.enableHlsPlayer(item, mediaSource, mediaType)) {
+
+            return Promise.reject();
+        }
+
+        if (url.indexOf('.m3u8') !== -1) {
+            return Promise.resolve();
+        }
+
+        // issue head request to get content type
+        return new Promise(function (resolve, reject) {
+
+            require(['fetchHelper'], function (fetchHelper) {
+                fetchHelper.ajax({
+                    url: url,
+                    type: 'HEAD'
+                }).then(function (response) {
+
+                    var contentType = (response.headers.get('Content-Type') || '').toLowerCase();
+                    if (contentType === 'application/x-mpegurl') {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+
+                }, reject);
+            });
+        });
+    }
+
     function HtmlAudioPlayer() {
 
         var self = this;
@@ -84,38 +116,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
 
             return setCurrentSrc(elem, options);
         };
-
-        function enableHlsPlayer(url, item, mediaSource, mediaType) {
-
-            if (!htmlMediaHelper.enableHlsPlayer(item, mediaSource, mediaType)) {
-
-                return Promise.reject();
-            }
-
-            if (url.indexOf('.m3u8') !== -1) {
-                return Promise.resolve();
-            }
-
-            // issue head request to get content type
-            return new Promise(function (resolve, reject) {
-
-                require(['fetchHelper'], function (fetchHelper) {
-                    fetchHelper.ajax({
-                        url: url,
-                        type: 'HEAD'
-                    }).then(function (response) {
-
-                        var contentType = (response.headers.get('Content-Type') || '').toLowerCase();
-                        if (contentType === 'application/x-mpegurl') {
-                            resolve();
-                        } else {
-                            reject();
-                        }
-
-                    }, reject);
-                });
-            });
-        }
 
         function setCurrentSrc(elem, options) {
 

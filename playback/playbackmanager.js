@@ -1,7 +1,12 @@
-﻿define(['events', 'datetime', 'appSettings', 'pluginManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'serverNotifications', 'apphost', 'fullscreenManager', 'layoutManager'], function (events, datetime, appSettings, pluginManager, userSettings, globalize, connectionManager, loading, serverNotifications, apphost, fullscreenManager, layoutManager) {
+﻿define(['events', 'datetime', 'appSettings', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'serverNotifications', 'apphost', 'fullscreenManager', 'layoutManager'], function (events, datetime, appSettings, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, serverNotifications, apphost, fullscreenManager, layoutManager) {
     'use strict';
 
     function enableLocalPlaylistManagement(player) {
+
+        if (player.getPlaylist) {
+
+            return false;
+        }
 
         if (player.isLocalPlayer) {
 
@@ -289,12 +294,12 @@
 
             return Promise.resolve({
                 MediaSources: [
-                {
-                    StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition),
-                    Id: item.Id,
-                    MediaStreams: [],
-                    RunTimeTicks: item.RunTimeTicks
-                }]
+                    {
+                        StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition),
+                        Id: item.Id,
+                        MediaStreams: [],
+                        RunTimeTicks: item.RunTimeTicks
+                    }]
             });
         }
 
@@ -532,10 +537,6 @@
         return nowPlayingItem;
     }
 
-    function moveInArray(array, from, to) {
-        array.splice(to, 0, array.splice(from, 1)[0]);
-    }
-
     function displayPlayerInLocalGroup(player) {
 
         return player.isLocalPlayer;
@@ -614,14 +615,12 @@
         var lastLocalPlayer;
         var currentPairingId = null;
 
-        var playlist = [];
-        var currentPlaylistIndex;
-        var currentPlaylistItemId;
         var currentPlayOptions;
         this._playNextAfterEnded = true;
         var playerStates = {};
 
         this._repeatMode = 'RepeatNone';
+        this._playQueueManager = new PlayQueueManager();
 
         self.currentItem = function (player) {
 
@@ -802,7 +801,7 @@
                 return player.getPlaylist();
             }
 
-            return Promise.resolve(playlist.slice(0));
+            return Promise.resolve(self._playQueueManager.getPlaylist());
         };
 
         function setCurrentPlayerInternal(player, targetInfo) {
@@ -1690,38 +1689,28 @@
             return getIntros(firstItem, apiClient, options).then(function (intros) {
 
                 items = intros.Items.concat(items);
+
                 currentPlayOptions = options;
+
+                // Needed by players that manage their own playlist
+                options.items = items;
+
                 return playInternal(items[0], options, function () {
 
-                    for (var i = 0, length = items.length; i < length; i++) {
-                        addUniquePlaylistItemId(items[i]);
-                    }
-                    playlist = items.slice(0);
+                    self._playQueueManager.setPlaylist(items);
 
                     var playIndex = 0;
-
                     setPlaylistState(items[playIndex].PlaylistItemId, playIndex);
                     loading.hide();
                 });
             });
         }
 
-        var currentId = 0;
-        function addUniquePlaylistItemId(item) {
-
-            if (!item.PlaylistItemId) {
-
-                item.PlaylistItemId = "playlistItem" + currentId;
-                currentId++;
-            }
-        }
-
         // Set playlist state. Using a method allows for overloading in derived player implementations
         function setPlaylistState(playlistItemId, index) {
 
             if (!isNaN(index)) {
-                currentPlaylistIndex = index;
-                currentPlaylistItemId = playlistItemId;
+                self._playQueueManager.setPlaylistState(playlistItemId, index);
             }
         }
 
@@ -1865,7 +1854,7 @@
 
             if (player && !enableLocalPlaylistManagement(player)) {
 
-                // TODO
+                return player.play(playOptions);
             }
 
             return Promise.all([promise, player.getDeviceProfile(item)]).then(function (responses) {
@@ -2152,17 +2141,6 @@
             })[0];
         }
 
-        function findPlaylistIndex(playlistItemId, list) {
-
-            for (var i = 0, length = playlist.length; i < length; i++) {
-                if (list[i].PlaylistItemId === playlistItemId) {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         self.setCurrentPlaylistItem = function (playlistItemId, player) {
 
             player = player || self._currentPlayer;
@@ -2172,6 +2150,8 @@
 
             var newItem;
             var newItemIndex;
+            var playlist = self._playQueueManager.getPlaylist();
+
             for (var i = 0, length = playlist.length; i < length; i++) {
                 if (playlist[i].PlaylistItemId === playlistItemId) {
                     newItem = playlist[i];
@@ -2202,23 +2182,22 @@
                 return player.removeFromPlaylist(playlistItemIds);
             }
 
-            if (playlist.length <= playlistItemIds.length) {
+            var removeResult = self._playQueueManager.removeFromPlaylist(playlistItemIds);
+
+            if (removeResult.result === 'empty') {
                 return self.stop();
             }
 
-            var currentPlaylistItemId = self.currentItem(player).PlaylistItemId;
-            var isCurrentIndex = playlistItemIds.indexOf(currentPlaylistItemId) !== -1;
+            var isCurrentIndex = removeResult.isCurrentIndex;
 
-            playlist = playlist.filter(function (item) {
-                return playlistItemIds.indexOf(item.PlaylistItemId) === -1;
-            });
             events.trigger(player, 'playlistitemremove', [
-            {
-                playlistItemIds: playlistItemIds
-            }]);
+                {
+                    playlistItemIds: playlistItemIds
+                }]);
 
             if (isCurrentIndex) {
-                return self.setCurrentPlaylistItem(0, player);
+
+                return self.setCurrentPlaylistItem(self._playQueueManager.getPlaylist()[0].PlaylistItemId, player);
             }
 
             return Promise.resolve();
@@ -2231,54 +2210,43 @@
                 return player.movePlaylistItem(playlistItemId, newIndex);
             }
 
-            var oldIndex;
-            for (var i = 0, length = playlist.length; i < length; i++) {
-                if (playlist[i].PlaylistItemId === playlistItemId) {
-                    oldIndex = i;
-                    break;
-                }
-            }
+            var moveResult = self._playQueueManager.movePlaylistItem(playlistItemId, newIndex);
 
-            if (oldIndex === -1 || oldIndex === newIndex) {
+            if (moveResult.result === 'noop') {
                 return;
             }
 
-            if (newIndex >= playlist.length) {
-                throw new Error('newIndex out of bounds');
-            }
-
-            moveInArray(playlist, oldIndex, newIndex);
-
             events.trigger(player, 'playlistitemmove', [
-            {
-                playlistItemId: playlistItemId,
-                newIndex: newIndex
-            }]);
+                {
+                    playlistItemId: moveResult.playlistItemId,
+                    newIndex: moveResult.newIndex
+                }]);
         };
 
-        self.getCurrentPlaylistIndex = function (i, player) {
+        self.getCurrentPlaylistIndex = function (player) {
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.getCurrentPlaylistIndex();
             }
 
-            return findPlaylistIndex(currentPlaylistItemId, playlist);
+            return self._playQueueManager.getCurrentPlaylistIndex();
         };
 
-        self.getCurrentPlaylistItemId = function (i, player) {
+        self.getCurrentPlaylistItemId = function (player) {
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
                 return player.getCurrentPlaylistItemId();
             }
 
-            return currentPlaylistItemId;
+            return self._playQueueManager.getCurrentPlaylistItemId();
         };
 
         function getNextItemInfo(player) {
 
             var newIndex;
+            var playlist = self._playQueueManager.getPlaylist();
             var playlistLength = playlist.length;
 
             switch (self.getRepeatMode()) {
@@ -2345,6 +2313,8 @@
 
             var newIndex = self.getCurrentPlaylistIndex(player) - 1;
             if (newIndex >= 0) {
+
+                var playlist = self._playQueueManager.getPlaylist();
                 var newItem = playlist[newIndex];
 
                 if (newItem) {
@@ -2411,15 +2381,6 @@
 
             var queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
 
-            for (var i = 0, length = items.length; i < length; i++) {
-
-                addUniquePlaylistItemId(items[i]);
-
-                if (!queueDirectToPlayer) {
-                    playlist.push(items[i]);
-                }
-            }
-
             if (queueDirectToPlayer) {
 
                 if (mode === 'next') {
@@ -2427,7 +2388,13 @@
                 } else {
                     player.queue(items);
                 }
-                return;
+            }
+            else {
+                if (mode === 'next') {
+                    self._playQueueManager.queueNext(items);
+                } else {
+                    self._playQueueManager.queue(items);
+                }
             }
         }
 
@@ -2631,9 +2598,7 @@
                 state.NextItem = playbackStopInfo.nextItem;
 
                 if (!nextItem) {
-                    playlist = [];
-                    currentPlaylistIndex = -1;
-                    currentPlaylistItemId = null;
+                    self._playQueueManager.reset();
                 }
 
                 events.trigger(player, 'playbackstop', [state]);
