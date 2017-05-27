@@ -619,7 +619,6 @@
         this._playNextAfterEnded = true;
         var playerStates = {};
 
-        this._repeatMode = 'RepeatNone';
         this._playQueueManager = new PlayQueueManager();
 
         self.currentItem = function (player) {
@@ -2185,7 +2184,7 @@
             var removeResult = self._playQueueManager.removeFromPlaylist(playlistItemIds);
 
             if (removeResult.result === 'empty') {
-                return self.stop();
+                return self.stop(player);
             }
 
             var isCurrentIndex = removeResult.isCurrentIndex;
@@ -2243,44 +2242,6 @@
             return self._playQueueManager.getCurrentPlaylistItemId();
         };
 
-        function getNextItemInfo(player) {
-
-            var newIndex;
-            var playlist = self._playQueueManager.getPlaylist();
-            var playlistLength = playlist.length;
-
-            switch (self.getRepeatMode()) {
-
-                case 'RepeatOne':
-                    newIndex = self.getCurrentPlaylistIndex(player);
-                    break;
-                case 'RepeatAll':
-                    newIndex = self.getCurrentPlaylistIndex(player) + 1;
-                    if (newIndex >= playlistLength) {
-                        newIndex = 0;
-                    }
-                    break;
-                default:
-                    newIndex = self.getCurrentPlaylistIndex(player) + 1;
-                    break;
-            }
-
-            if (newIndex < 0 || newIndex >= playlistLength) {
-                return null;
-            }
-
-            var item = playlist[newIndex];
-
-            if (!item) {
-                return null;
-            }
-
-            return {
-                item: item,
-                index: newIndex
-            };
-        }
-
         self.nextTrack = function (player) {
 
             player = player || self._currentPlayer;
@@ -2288,7 +2249,7 @@
                 return player.nextTrack();
             }
 
-            var newItemInfo = getNextItemInfo(player);
+            var newItemInfo = self._playQueueManager.getNextItemInfo();
 
             if (newItemInfo) {
 
@@ -2573,7 +2534,7 @@
 
                 var streamInfo = getPlayerData(player).streamInfo;
 
-                var nextItem = self._playNextAfterEnded ? getNextItemInfo(player) : null;
+                var nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
 
                 var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3149,7 +3110,7 @@
             return player.setRepeatMode(value);
         }
 
-        this._repeatMode = value;
+        this._playQueueManager.setRepeatMode(value);
         events.trigger(player, 'repeatmodechange');
     };
 
@@ -3160,7 +3121,7 @@
             return player.getRepeatMode();
         }
 
-        return this._repeatMode;
+        return this._playQueueManager.getRepeatMode();
     };
 
     PlaybackManager.prototype.trySetActiveDeviceName = function (name) {

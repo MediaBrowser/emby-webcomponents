@@ -25,6 +25,7 @@
     function PlayQueueManager() {
 
         this._playlist = [];
+        this._repeatMode = 'RepeatNone';
     }
 
     PlayQueueManager.prototype.getPlaylist = function () {
@@ -40,8 +41,9 @@
             addUniquePlaylistItemId(items[i]);
         }
 
+        this._currentPlaylistItemId = null;
         this._playlist = items;
-   };
+    };
 
     PlayQueueManager.prototype.queue = function (items) {
 
@@ -135,6 +137,55 @@
 
         this._playlist = [];
         this._currentPlaylistItemId = null;
+        this._repeatMode = 'RepeatNone';
+    };
+
+    PlayQueueManager.prototype.setRepeatMode = function (value) {
+
+        this._repeatMode = value;
+    };
+
+    PlayQueueManager.prototype.getRepeatMode = function () {
+
+        return this._repeatMode;
+    };
+
+    PlayQueueManager.prototype.getNextItemInfo = function () {
+
+        var newIndex;
+        var playlist = this.getPlaylist();
+        var playlistLength = playlist.length;
+
+        switch (this.getRepeatMode()) {
+
+            case 'RepeatOne':
+                newIndex = this.getCurrentPlaylistIndex();
+                break;
+            case 'RepeatAll':
+                newIndex = this.getCurrentPlaylistIndex() + 1;
+                if (newIndex >= playlistLength) {
+                    newIndex = 0;
+                }
+                break;
+            default:
+                newIndex = this.getCurrentPlaylistIndex() + 1;
+                break;
+        }
+
+        if (newIndex < 0 || newIndex >= playlistLength) {
+            return null;
+        }
+
+        var item = playlist[newIndex];
+
+        if (!item) {
+            return null;
+        }
+
+        return {
+            item: item,
+            index: newIndex
+        };
     };
 
     return PlayQueueManager;
