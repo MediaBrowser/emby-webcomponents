@@ -399,7 +399,9 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                         year: false,
                         container: false,
-                        episodeTitle: false
+                        episodeTitle: false,
+                        criticRating: false,
+                        endsAt: false
 
                     }) + '</div>';
                 }

@@ -10,7 +10,7 @@
     display: block;
     align-items: center;
     text-align: left;
-    padding: .25em 1.15em;
+    padding: .25em 1em;
     cursor: pointer;
     overflow: hidden;
 }
@@ -47,6 +47,7 @@
 
 .listItemBody {
     flex-grow: 1;
+    flex-shrink: 0;
     padding: .8em 1em;
     overflow: hidden;
     text-overflow: ellipsis;
