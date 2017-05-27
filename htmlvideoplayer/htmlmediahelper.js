@@ -316,5 +316,5 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         bindEventsToHlsPlayer: bindEventsToHlsPlayer,
         onEndedInternal: onEndedInternal,
         getCrossOriginValue: getCrossOriginValue
-    }
+    };
 });

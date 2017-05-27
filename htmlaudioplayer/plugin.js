@@ -238,7 +238,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
                 return elem;
             }
 
-            var elem = document.querySelector('.mediaPlayerAudio');
+            elem = document.querySelector('.mediaPlayerAudio');
 
             if (!elem) {
                 elem = document.createElement('audio');
