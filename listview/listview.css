@@ -10,7 +10,7 @@
     display: block;
     align-items: center;
     text-align: left;
-    padding: .25em 1em;
+    padding: .25em 1.15em;
     cursor: pointer;
     overflow: hidden;
 }
