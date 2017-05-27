@@ -1,4 +1,4 @@
-define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', './../htmlvideoplayer/htmlmediahelper'], function (events, browser, pluginManager, appHost, appSettings, htmlMediaHelper) {
+define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvideoplayer/htmlmediahelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
     "use strict";
 
     function getDefaultProfile() {
@@ -232,6 +232,12 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', './../ht
 
         function createMediaElement() {
 
+            var elem = self._mediaElement;
+
+            if (elem) {
+                return elem;
+            }
+
             var elem = document.querySelector('.mediaPlayerAudio');
 
             if (!elem) {
@@ -240,17 +246,17 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', './../ht
                 elem.classList.add('hide');
 
                 document.body.appendChild(elem);
-
-                elem.volume = htmlMediaHelper.getSavedVolume();
-
-                elem.addEventListener('timeupdate', onTimeUpdate);
-                elem.addEventListener('ended', onEnded);
-                elem.addEventListener('volumechange', onVolumeChange);
-                elem.addEventListener('pause', onPause);
-                elem.addEventListener('playing', onPlaying);
-
-                self._mediaElement = elem;
             }
+
+            elem.volume = htmlMediaHelper.getSavedVolume();
+
+            elem.addEventListener('timeupdate', onTimeUpdate);
+            elem.addEventListener('ended', onEnded);
+            elem.addEventListener('volumechange', onVolumeChange);
+            elem.addEventListener('pause', onPause);
+            elem.addEventListener('playing', onPlaying);
+
+            self._mediaElement = elem;
 
             return elem;
         }
@@ -341,12 +347,14 @@ define(['events', 'browser', 'pluginManager', 'apphost', 'appSettings', './../ht
 
             document.body.appendChild(elem);
 
-            elem.src = pluginManager.mapPath(self, 'blank.mp3');
+            elem.src = require.toUrl('.').split('?')[0] + '/blank.mp3';
             elem.play();
 
             setTimeout(function () {
+                elem.pause();
                 elem.src = '';
                 elem.removeAttribute("src");
+                elem.innerHTML = '';
             }, 1000);
         }
 
