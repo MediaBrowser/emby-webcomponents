@@ -75,7 +75,7 @@
         }
         else {
 
-            query.Limit = query.Limit || 100;
+            query.Limit = query.Limit || 200;
             query.Fields = "MediaSources,Chapters";
             query.ExcludeLocationTypes = "Virtual";
             query.EnableTotalRecordCount = false;
@@ -1427,7 +1427,7 @@
             else if (firstItem.Type === "MusicGenre") {
 
                 promise = getItemsForPlayback(serverId, {
-                    Genres: firstItem.Name,
+                    GenreIds: firstItem.Id,
                     Filters: "IsNotFolder",
                     Recursive: true,
                     SortBy: "SortName",
@@ -3099,6 +3099,7 @@
         var options = {};
         options.UserId = apiClient.getCurrentUserId();
         options.Fields = 'MediaSources';
+        options.Limit = 200;
 
         var instance = this;
 
@@ -3124,7 +3125,7 @@
 
             var query = {
                 Fields: "MediaSources,Chapters",
-                Limit: 100,
+                Limit: 200,
                 Filters: "IsNotFolder",
                 Recursive: true,
                 SortBy: "Random"
