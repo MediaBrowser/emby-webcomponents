@@ -252,8 +252,6 @@
 
     function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition) {
 
-        var url = 'Audio/' + item.Id + '/universal';
-
         var transcodingProfile = deviceProfile.TranscodingProfiles.filter(function (p) {
             return p.Type === 'Audio' && p.Context === 'Streaming';
         })[0];
@@ -273,6 +271,60 @@
         });
 
         return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, startPosition);
+    }
+
+    function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
+
+        var audioTranscodingProfile = deviceProfile.TranscodingProfiles.filter(function (p) {
+            return p.Type === 'Audio' && p.Context === 'Streaming';
+        })[0];
+
+        var audioDirectPlayContainers = '';
+
+        deviceProfile.DirectPlayProfiles.map(function (p) {
+
+            if (p.Type === 'Audio') {
+                if (audioDirectPlayContainers) {
+                    audioDirectPlayContainers += ',' + p.Container;
+                } else {
+                    audioDirectPlayContainers = p.Container;
+                }
+            }
+        });
+
+        var supportsUniversalAudio = apiClient.isMinServerVersion('3.2.17.5');
+        var streamUrls = [];
+
+        for (var i = 0, length = items.length; i < length; i++) {
+
+            var item = items[i];
+            var streamUrl;
+
+            if (supportsUniversalAudio && item.MediaType === 'Audio') {
+                streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, startPosition);
+            }
+
+            streamUrls.push(streamUrl || '');
+
+            if (i === 0) {
+                startPosition = 0;
+            }
+        }
+
+        return Promise.resolve(streamUrls);
+    }
+
+    function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
+
+        return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(function (streamUrls) {
+
+            for (var i = 0, length = items.length; i < length; i++) {
+
+                var item = items[i];
+
+                item.StreamUrl = streamUrls[i] || null;
+            }
+        });
     }
 
     function getPlaybackInfo(player,
@@ -1817,6 +1869,15 @@
             }, reject);
         }
 
+        function sendPlaybackListToPLayer(player, items, deviceProfile, maxBitrate, apiClient, startPosition) {
+
+            return setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(function () {
+                return player.play({
+                    items: items
+                });
+            });
+        }
+
         function playAfterBitrateDetect(connectionManager, maxBitrate, item, playOptions, onPlaybackStartedFn) {
 
             var startPosition = playOptions.startPositionTicks;
@@ -1851,16 +1912,17 @@
                 });
             }
 
-            if (player && !enableLocalPlaylistManagement(player)) {
-
-                return player.play(playOptions);
-            }
-
             return Promise.all([promise, player.getDeviceProfile(item)]).then(function (responses) {
 
                 var deviceProfile = responses[1];
 
                 var apiClient = connectionManager.getApiClient(item.ServerId);
+
+                if (player && !enableLocalPlaylistManagement(player)) {
+
+                    return sendPlaybackListToPLayer(player, playOptions.items, deviceProfile, maxBitrate, apiClient, startPosition);
+                }
+
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition).then(function (mediaSource) {
 
                     var streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
@@ -2340,22 +2402,35 @@
 
         function queueAll(items, mode, player) {
 
+            if (!items.length) {
+                return;
+            }
+
             var queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
 
             if (queueDirectToPlayer) {
 
-                if (mode === 'next') {
-                    player.queueNext(items);
-                } else {
-                    player.queue(items);
-                }
+                var apiClient = connectionManager.getApiClient(items[0].ServerId);
+
+                player.getDeviceProfile(items[0]).then(function (profile) {
+
+                    setStreamUrls(items, profile, self.getMaxStreamingBitrate(player), apiClient, 0).then(function () {
+
+                        if (mode === 'next') {
+                            player.queueNext(items);
+                        } else {
+                            player.queue(items);
+                        }
+                    });
+                });
+
+                return;
             }
-            else {
-                if (mode === 'next') {
-                    self._playQueueManager.queueNext(items);
-                } else {
-                    self._playQueueManager.queue(items);
-                }
+
+            if (mode === 'next') {
+                self._playQueueManager.queueNext(items);
+            } else {
+                self._playQueueManager.queue(items);
             }
         }
 
