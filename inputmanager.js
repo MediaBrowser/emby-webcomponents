@@ -114,17 +114,13 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 select(sourceElement);
                 break;
             case 'pageup':
-                // TODO
                 break;
             case 'pagedown':
-                // TODO
                 break;
             case 'end':
-                // TODO
                 break;
             case 'menu':
             case 'info':
-                // TODO
                 break;
             case 'next':
                 playbackManager.nextChapter();
@@ -231,6 +227,36 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 // TODO
                 break;
             case 'nextup':
+                // TODO
+                break;
+            case 'save':
+                // TODO
+                break;
+            case 'screensaver':
+                // TODO
+                break;
+            case 'refresh':
+                // TODO
+                break;
+            case 'changebrightness':
+                // TODO
+                break;
+            case 'red':
+                // TODO
+                break;
+            case 'green':
+                // TODO
+                break;
+            case 'yellow':
+                // TODO
+                break;
+            case 'blue':
+                // TODO
+                break;
+            case 'grey':
+                // TODO
+                break;
+            case 'brown':
                 // TODO
                 break;
             default:

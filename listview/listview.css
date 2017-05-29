@@ -47,7 +47,6 @@
 
 .listItemBody {
     flex-grow: 1;
-    flex-shrink: 0;
     padding: .8em 1em;
     overflow: hidden;
     text-overflow: ellipsis;
