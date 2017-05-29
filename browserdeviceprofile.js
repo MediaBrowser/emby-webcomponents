@@ -661,7 +661,7 @@ define(['browser'], function (browser) {
             profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
                 Condition: 'NotEquals',
                 Property: 'IsInterlaced',
-                Value: 'false',
+                Value: 'true',
                 IsRequired: false
             });
         }
