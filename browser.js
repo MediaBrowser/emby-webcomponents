@@ -294,5 +294,7 @@
     browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
     browser.iOS = browser.ipad || browser.iphone || browser.ipod;
 
+    browser.chromecast = browser.chrome && userAgent.toLowerCase().indexOf('crkey') !== -1;
+
     return browser;
 });

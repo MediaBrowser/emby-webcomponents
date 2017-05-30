@@ -248,17 +248,11 @@ define(['browser'], function (browser) {
         return 120000000;
     }
 
-    function isChromecast() {
-        var userAgent = navigator.userAgent.toLowerCase();
-
-        return userAgent.indexOf('crkey') !== -1;
-    }
-
     function getGlobalMaxVideoBitrate() {
 
         var userAgent = navigator.userAgent.toLowerCase();
 
-        if (isChromecast()) {
+        if (browser.chromecast) {
 
             var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
             if (isChromecastUltra) {
@@ -480,7 +474,7 @@ define(['browser'], function (browser) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: browser.iOS || browser.osx || isChromecast() ? true : false
+                BreakOnNonKeyFrames: browser.iOS || browser.osx ? true : false
             });
         }
 
@@ -545,7 +539,7 @@ define(['browser'], function (browser) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: browser.iOS || browser.osx || isChromecast() ? true : false
+                BreakOnNonKeyFrames: browser.iOS || browser.osx ? true : false
             });
         }
 
