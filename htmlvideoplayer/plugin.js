@@ -405,6 +405,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 videoElement.removeEventListener('volumechange', onVolumeChange);
                 videoElement.removeEventListener('pause', onPause);
                 videoElement.removeEventListener('playing', onPlaying);
+                videoElement.removeEventListener('play', onPlay);
                 videoElement.removeEventListener('loadedmetadata', onLoadedMetadata);
                 videoElement.removeEventListener('click', onClick);
                 videoElement.removeEventListener('dblclick', onDblClick);
@@ -486,10 +487,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 loading.hide();
 
-            } else {
-                events.trigger(self, 'unpause');
             }
             events.trigger(self, 'playing');
+        }
+
+        function onPlay(e) {
+
+            events.trigger(self, 'unpause');
         }
 
         function ensureValidVideo(elem) {
@@ -982,6 +986,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         videoElement.addEventListener('volumechange', onVolumeChange);
                         videoElement.addEventListener('pause', onPause);
                         videoElement.addEventListener('playing', onPlaying);
+                        videoElement.addEventListener('play', onPlay);
                         videoElement.addEventListener('click', onClick);
                         videoElement.addEventListener('dblclick', onDblClick);
 

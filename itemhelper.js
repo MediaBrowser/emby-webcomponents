@@ -52,11 +52,7 @@ define(['apphost'], function (appHost) {
 
     function supportsAddingToCollection(item) {
 
-        if (item.Type === 'Timer' || item.Type === 'SeriesTimer') {
-            return false;
-        }
-
-        var invalidTypes = ['Person', 'Genre', 'MusicGenre', 'Studio', 'GameGenre', 'BoxSet', 'Playlist', 'UserView', 'CollectionFolder', 'Audio', 'TvChannel', 'Program', 'MusicAlbum', 'Timer'];
+        var invalidTypes = ['Person', 'Genre', 'MusicGenre', 'Studio', 'GameGenre', 'BoxSet', 'Playlist', 'UserView', 'CollectionFolder', 'Audio', 'TvChannel', 'Channel', 'Program', 'MusicAlbum', 'Timer', 'SeriesTimer'];
 
         if (item.Type === 'Recording') {
             if (item.Status !== 'Completed') {

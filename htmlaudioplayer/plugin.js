@@ -255,6 +255,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
             elem.addEventListener('volumechange', onVolumeChange);
             elem.addEventListener('pause', onPause);
             elem.addEventListener('playing', onPlaying);
+            elem.addEventListener('play', onPlay);
 
             self._mediaElement = elem;
 
@@ -290,10 +291,13 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
                 this.removeAttribute('controls');
 
                 htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
-            } else {
-                events.trigger(self, 'unpause');
             }
             events.trigger(self, 'playing');
+        }
+
+        function onPlay(e) {
+
+            events.trigger(self, 'unpause');
         }
 
         function onPause() {
