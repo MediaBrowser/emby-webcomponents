@@ -18,6 +18,8 @@
     function updateValues(range, backgroundLower, backgroundUpper) {
 
         var value = range.value;
+
+        // put this on a callback. Doing it within the event sometimes causes the slider to get hung up and not respond
         requestAnimationFrame(function () {
 
             if (backgroundLower) {
@@ -38,20 +40,23 @@
 
     function updateBubble(range, value, bubble, bubbleText) {
 
-        bubble.style.left = value + '%';
+        requestAnimationFrame(function () {
 
-        if (range.getBubbleHtml) {
-            value = range.getBubbleHtml(value);
-        } else {
-            if (range.getBubbleText) {
-                value = range.getBubbleText(value);
+            bubble.style.left = value + '%';
+
+            if (range.getBubbleHtml) {
+                value = range.getBubbleHtml(value);
             } else {
-                value = Math.round(value);
+                if (range.getBubbleText) {
+                    value = range.getBubbleText(value);
+                } else {
+                    value = Math.round(value);
+                }
+                value = '<h1 class="sliderBubbleText">' + value + '</h1>';
             }
-            value = '<h1 class="sliderBubbleText">' + value + '</h1>';
-        }
 
-        bubble.innerHTML = value;
+            bubble.innerHTML = value;
+        });
     }
 
     EmbySliderPrototype.attachedCallback = function () {
@@ -98,8 +103,8 @@
                 hasHideClass = false;
             }
         }, {
-            passive: true
-        });
+                passive: true
+            });
 
         dom.addEventListener(this, 'change', function () {
             this.dragging = false;
@@ -109,8 +114,8 @@
             hasHideClass = true;
 
         }, {
-            passive: true
-        });
+                passive: true
+            });
 
         // In firefox this feature disrupts the ability to move the slider
         if (!browser.firefox) {
@@ -130,15 +135,15 @@
                 }
 
             }, {
-                passive: true
-            });
+                    passive: true
+                });
 
             dom.addEventListener(this, 'mouseleave', function () {
                 sliderBubble.classList.add('hide');
                 hasHideClass = true;
             }, {
-                passive: true
-            });
+                    passive: true
+                });
         }
 
         if (!supportsNativeProgressStyle) {

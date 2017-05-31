@@ -526,7 +526,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         function onError() {
 
             var errorCode = this.error ? (this.error.code || 0) : 0;
-            console.log('Media element error code: ' + errorCode.toString());
+            var errorMessage = this.error ? (this.error.message || '') : '';
+            console.log('Media element error: ' + errorCode.toString() + ' ' + errorMessage);
 
             var type;
 
