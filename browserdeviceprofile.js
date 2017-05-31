@@ -259,7 +259,7 @@ define(['browser'], function (browser) {
                 return 40000000;
             }
 
-            return 11000000;
+            return 10000000;
         }
 
         var isTizenFhd = false;
@@ -275,8 +275,8 @@ define(['browser'], function (browser) {
 
         return browser.ps4 ? 8000000 :
             (browser.xboxOne ? 12000000 :
-            (browser.edgeUwp ? 40000000 :
-            (browser.tizen && isTizenFhd ? 20000000 : null)));
+                (browser.edgeUwp ? 40000000 :
+                    (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
     function supportsAc3(videoTestElement) {
@@ -586,6 +586,7 @@ define(['browser'], function (browser) {
 
         // Handle he-aac not supported
         if (!videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.5"').replace(/no/, '')) {
+            // TODO: This needs to become part of the stream url in order to prevent stream copy
             profile.CodecProfiles.push({
                 Type: 'VideoAudio',
                 Codec: 'aac',
@@ -594,11 +595,6 @@ define(['browser'], function (browser) {
                         Condition: 'NotEquals',
                         Property: 'AudioProfile',
                         Value: 'HE-AAC'
-                    },
-                    {
-                        Condition: 'LessThanEqual',
-                        Property: 'AudioBitrate',
-                        Value: '128000'
                     }
                 ]
             });
@@ -631,22 +627,22 @@ define(['browser'], function (browser) {
             Type: 'Video',
             Codec: 'h264',
             Conditions: [
-            {
-                Condition: 'NotEquals',
-                Property: 'IsAnamorphic',
-                Value: 'true',
-                IsRequired: false
-            },
-            {
-                Condition: 'EqualsAny',
-                Property: 'VideoProfile',
-                Value: 'high|main|baseline|constrained baseline'
-            },
-            {
-                Condition: 'LessThanEqual',
-                Property: 'VideoLevel',
-                Value: '51'
-            }]
+                {
+                    Condition: 'NotEquals',
+                    Property: 'IsAnamorphic',
+                    Value: 'true',
+                    IsRequired: false
+                },
+                {
+                    Condition: 'EqualsAny',
+                    Property: 'VideoProfile',
+                    Value: 'high|main|baseline|constrained baseline'
+                },
+                {
+                    Condition: 'LessThanEqual',
+                    Property: 'VideoLevel',
+                    Value: '51'
+                }]
         });
 
         if (!browser.edgeUwp && !browser.tizen && !browser.orsay && !browser.web0s) {
@@ -681,11 +677,11 @@ define(['browser'], function (browser) {
             profile.CodecProfiles.push({
                 Type: 'Video',
                 Conditions: [
-                {
-                    Condition: 'LessThanEqual',
-                    Property: 'VideoBitrate',
-                    Value: globalMaxVideoBitrate
-                }]
+                    {
+                        Condition: 'LessThanEqual',
+                        Property: 'VideoBitrate',
+                        Value: globalMaxVideoBitrate
+                    }]
             });
         }
 

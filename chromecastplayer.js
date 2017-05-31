@@ -107,8 +107,8 @@
         // request session
         var sessionRequest = new chrome.cast.SessionRequest(applicationID);
         var apiConfig = new chrome.cast.ApiConfig(sessionRequest,
-          this.sessionListener.bind(this),
-          this.receiverListener.bind(this),
+            this.sessionListener.bind(this),
+            this.receiverListener.bind(this),
             "origin_scoped");
 
         console.log('chromecast.initialize');
@@ -445,13 +445,13 @@
         if (!mute) {
 
             this.session.setReceiverVolumeLevel((vol || 1),
-              this.mediaCommandSuccessCallback.bind(this),
-              this.errorHandler);
+                this.mediaCommandSuccessCallback.bind(this),
+                this.errorHandler);
         }
         else {
             this.session.setReceiverMuted(true,
-              this.mediaCommandSuccessCallback.bind(this),
-              this.errorHandler);
+                this.mediaCommandSuccessCallback.bind(this),
+                this.errorHandler);
         }
     };
 
@@ -513,6 +513,15 @@
         }
     }
 
+    function bindEventForRelay(instance, eventName) {
+
+        events.on(instance._castPlayer, eventName, function (e, data) {
+
+            console.log('cc: ' + eventName);
+            events.trigger(instance, eventName);
+        });
+    }
+
     function initializeChromecast() {
 
         var instance = this;
@@ -567,19 +576,11 @@
             events.trigger(instance, "timeupdate", [state]);
         });
 
-        events.on(instance._castPlayer, "volumechange", function (e, data) {
-
-            console.log('cc: volumechange');
-            var state = instance.getPlayerStateInternal(data);
-            events.trigger(instance, "volumechange", [state]);
-        });
-
-        events.on(instance._castPlayer, "repeatmodechange", function (e, data) {
-
-            console.log('cc: repeatmodechange');
-            var state = instance.getPlayerStateInternal(data);
-            events.trigger(instance, "repeatmodechange", [state]);
-        });
+        bindEventForRelay(instance, 'timeupdate');
+        bindEventForRelay(instance, 'pause');
+        bindEventForRelay(instance, 'unpause');
+        bindEventForRelay(instance, 'volumechange');
+        bindEventForRelay(instance, 'repeatmodechange');
 
         events.on(instance._castPlayer, "playstatechange", function (e, data) {
 
@@ -653,16 +654,16 @@
             appName: PlayerName,
             deviceName: appName,
             supportedCommands: ["VolumeUp",
-                                "VolumeDown",
-                                "Mute",
-                                "Unmute",
-                                "ToggleMute",
-                                "SetVolume",
-                                "SetAudioStreamIndex",
-                                "SetSubtitleStreamIndex",
-                                "DisplayContent",
-                                "SetRepeatMode",
-                                "EndSession"]
+                "VolumeDown",
+                "Mute",
+                "Unmute",
+                "ToggleMute",
+                "SetVolume",
+                "SetAudioStreamIndex",
+                "SetSubtitleStreamIndex",
+                "DisplayContent",
+                "SetRepeatMode",
+                "EndSession"]
         };
     };
 

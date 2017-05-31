@@ -246,7 +246,9 @@
             MaxSampleRate: 48000,
             api_key: apiClient.accessToken(),
             PlaySessionId: startingPlaySession,
-            StartTimeTicks: startPosition || 0
+            StartTimeTicks: startPosition || 0,
+            EnableRedirection: true,
+            EnableRemoteMedia: apphost.supports('remotemedia')
         });
     }
 
