@@ -183,7 +183,7 @@
 
             events.off(currentPlayer, 'playbackstart', onPlaybackStart);
             events.off(currentPlayer, 'playbackstop', onPlaybackStopped);
-            events.off(currentPlayer, 'play', onGeneralEvent);
+            events.off(currentPlayer, 'unpause', onGeneralEvent);
             events.off(currentPlayer, 'pause', onGeneralEvent);
             events.off(currentPlayer, 'statechange', onStateChanged);
             events.off(currentPlayer, 'timeupdate', onGeneralEvent);
@@ -217,7 +217,7 @@
 
         events.on(currentPlayer, 'playbackstart', onPlaybackStart);
         events.on(currentPlayer, 'playbackstop', onPlaybackStopped);
-        events.on(currentPlayer, 'play', onGeneralEvent);
+        events.on(currentPlayer, 'unpause', onGeneralEvent);
         events.on(currentPlayer, 'pause', onGeneralEvent);
         events.on(currentPlayer, 'statechange', onStateChanged);
         events.on(currentPlayer, 'timeupdate', onGeneralEvent);
