@@ -129,7 +129,6 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
                 loading.hide();
             });
         }
-        events.trigger(instance, 'playing');
     }
 
     function setCurrentSrc(instance, elem, options) {
@@ -321,7 +320,7 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
             var instance = this;
 
             // This needs a delay before the youtube player will report the correct player state
-            setTimeout(function() {
+            setTimeout(function () {
                 events.trigger(instance, 'pause');
             }, 200);
         }
@@ -338,7 +337,7 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
 
             // This needs a delay before the youtube player will report the correct player state
             setTimeout(function () {
-                onPlaying(instance);
+                events.trigger(instance, 'unpause');
             }, 200);
         }
     };

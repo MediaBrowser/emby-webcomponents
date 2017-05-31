@@ -518,7 +518,9 @@
         events.on(instance._castPlayer, eventName, function (e, data) {
 
             console.log('cc: ' + eventName);
-            events.trigger(instance, eventName);
+            var state = instance.getPlayerStateInternal(data);
+
+            events.trigger(instance, eventName, [state]);
         });
     }
 
