@@ -718,6 +718,7 @@ define([], function () {
 
         if (base && orig === path) {
             // This is causing navigation to be canceled in edge uwp
+            // If needed this can be changed to only be skipped when called via handleAnchorClick
             //return;
         }
 
