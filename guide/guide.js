@@ -607,10 +607,10 @@
                     else if (program.IsSeries && program.IsRepeat && options.showRepeatIndicator) {
                         indicatorHtml = '<span class="repeatTvProgram guideProgramIndicator">' + globalize.translate('sharedcomponents#Repeat') + '</span>';
                     }
-                    if (indicatorHtml || (program.EpisodeTitle && options.showEpisodeTitle)) {
-                        html += '<div class="guideProgramSecondaryInfo">';
+                    html += indicatorHtml || '';
 
-                        html += indicatorHtml || '';
+                    if ((program.EpisodeTitle && options.showEpisodeTitle)) {
+                        html += '<div class="guideProgramSecondaryInfo">';
 
                         if (program.EpisodeTitle && options.showEpisodeTitle) {
                             html += '<span class="programSecondaryTitle">' + program.EpisodeTitle + '</span>';

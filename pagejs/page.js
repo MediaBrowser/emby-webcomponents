@@ -717,7 +717,8 @@ define([], function () {
         }
 
         if (base && orig === path) {
-            return;
+            // This is causing navigation to be canceled in edge uwp
+            //return;
         }
 
         e.preventDefault();
