@@ -29,9 +29,15 @@
 
         btn.appendChild(div);
 
-        div.addEventListener(dom.whichAnimationEvent(), function () {
-            div.parentNode.removeChild(div);
-        }, false);
+        var callback = function () {
+            var parentNode = div.parentNode;
+            if (parentNode) {
+                parentNode.removeChild(div);
+            }
+        };
+
+        div.addEventListener(dom.whichAnimationEvent(), callback, false);
+        div.addEventListener(dom.whichAnimationCancelEvent(), callback, false);
     }
 
     function animateButton(e, btn) {

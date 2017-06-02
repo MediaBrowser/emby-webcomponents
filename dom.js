@@ -135,6 +135,11 @@ define([], function () {
         return _animationEvent;
     }
 
+    function whichAnimationCancelEvent() {
+
+        return whichAnimationEvent().replace('animationend', 'animationcancel').replace('AnimationEnd', 'AnimationCancel');
+    }
+
     var _transitionEvent;
     function whichTransitionEvent() {
         if (_transitionEvent) {
@@ -168,6 +173,7 @@ define([], function () {
         removeEventListener: removeEventListenerWithOptions,
         getWindowSize: getWindowSize,
         whichTransitionEvent: whichTransitionEvent,
-        whichAnimationEvent: whichAnimationEvent
+        whichAnimationEvent: whichAnimationEvent,
+        whichAnimationCancelEvent: whichAnimationCancelEvent
     };
 });
