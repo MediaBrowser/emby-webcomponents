@@ -13,7 +13,9 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
     }
 
     var fadeTimeout;
-    function fade(elem, startingVolume) {
+    function fade(instance, elem, startingVolume) {
+
+        instance._isFadingOut = true;
 
         // Need to record the starting volume on each pass rather than querying elem.volume
         // This is due to iOS safari not allowing volume changes and always returning the system volume value
@@ -23,6 +25,8 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
         elem.volume = newVolume;
 
         if (newVolume <= 0) {
+
+            instance._isFadingOut = false;
             return Promise.resolve();
         }
 
@@ -31,7 +35,8 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
             cancelFadeTimeout();
 
             fadeTimeout = setTimeout(function () {
-                fade(elem, newVolume).then(resolve, reject);
+
+                fade(instance, elem, newVolume).then(resolve, reject);
             }, 100);
         });
     }
@@ -121,6 +126,9 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
 
             elem.removeEventListener('error', onError);
 
+            unBindEvents(elem);
+            bindEvents(elem);
+
             var val = options.url;
             console.log('playing url: ' + val);
 
@@ -179,6 +187,24 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
             });
         }
 
+        function bindEvents(elem) {
+            elem.addEventListener('timeupdate', onTimeUpdate);
+            elem.addEventListener('ended', onEnded);
+            elem.addEventListener('volumechange', onVolumeChange);
+            elem.addEventListener('pause', onPause);
+            elem.addEventListener('playing', onPlaying);
+            elem.addEventListener('play', onPlay);
+        }
+
+        function unBindEvents(elem) {
+            elem.removeEventListener('timeupdate', onTimeUpdate);
+            elem.removeEventListener('ended', onEnded);
+            elem.removeEventListener('volumechange', onVolumeChange);
+            elem.removeEventListener('pause', onPause);
+            elem.removeEventListener('playing', onPlaying);
+            elem.removeEventListener('play', onPlay);
+        }
+
         self.stop = function (destroyPlayer) {
 
             cancelFadeTimeout();
@@ -190,12 +216,8 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
 
                 if (!destroyPlayer || !supportsFade()) {
 
-                    if (!elem.paused) {
-                        elem.pause();
-                    }
-                    elem.src = '';
-                    elem.innerHTML = '';
-                    elem.removeAttribute("src");
+                    elem.pause();
+
                     htmlMediaHelper.onEndedInternal(self, elem, onError);
 
                     if (destroyPlayer) {
@@ -206,15 +228,11 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
 
                 var originalVolume = elem.volume;
 
-                return fade(elem, elem.volume).then(function () {
-                    if (!elem.paused) {
-                        elem.pause();
-                    }
-                    elem.src = '';
-                    elem.innerHTML = '';
-                    elem.removeAttribute("src");
+                return fade(self, elem, elem.volume).then(function () {
 
+                    elem.pause();
                     elem.volume = originalVolume;
+
                     htmlMediaHelper.onEndedInternal(self, elem, onError);
 
                     if (destroyPlayer) {
@@ -226,8 +244,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
         };
 
         self.destroy = function () {
-
-            htmlMediaHelper.destroyHlsPlayer(self);
+            unBindEvents(self._mediaElement);
         };
 
         function createMediaElement() {
@@ -250,13 +267,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
 
             elem.volume = htmlMediaHelper.getSavedVolume();
 
-            elem.addEventListener('timeupdate', onTimeUpdate);
-            elem.addEventListener('ended', onEnded);
-            elem.addEventListener('volumechange', onVolumeChange);
-            elem.addEventListener('pause', onPause);
-            elem.addEventListener('playing', onPlaying);
-            elem.addEventListener('play', onPlay);
-
             self._mediaElement = elem;
 
             return elem;
@@ -272,13 +282,16 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
             // Get the player position + the transcoding offset
             var time = this.currentTime;
 
-            self._currentTime = time;
-            events.trigger(self, 'timeupdate');
+            // Don't trigger events after user stop
+            if (!self._isFadingOut) {
+                self._currentTime = time;
+                events.trigger(self, 'timeupdate');
+            }
         }
 
         function onVolumeChange() {
 
-            if (!fadeTimeout) {
+            if (!self._isFadingOut) {
                 htmlMediaHelper.saveVolume(this.volume);
                 events.trigger(self, 'volumechange');
             }
