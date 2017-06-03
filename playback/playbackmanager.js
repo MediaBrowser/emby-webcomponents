@@ -361,7 +361,8 @@
 
         var query = {
             UserId: apiClient.getCurrentUserId(),
-            StartTimeTicks: startPosition || 0
+            StartTimeTicks: startPosition || 0,
+            AutoOpenLiveStream: true
         };
 
         if (audioStreamIndex != null) {
@@ -2156,7 +2157,7 @@
                     return getOptimalMediaSource(apiClient, item, playbackInfoResult.MediaSources).then(function (mediaSource) {
                         if (mediaSource) {
 
-                            if (mediaSource.RequiresOpening) {
+                            if (mediaSource.RequiresOpening && !mediaSource.LiveStreamId) {
 
                                 return getLiveStream(player, apiClient, item, playbackInfoResult.PlaySessionId, deviceProfile, maxBitrate, startPosition, mediaSource, null, null).then(function (openLiveStreamResult) {
 
