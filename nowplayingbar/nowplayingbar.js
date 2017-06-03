@@ -319,7 +319,7 @@
         var supportedCommands = playerInfo.supportedCommands;
         currentPlayerSupportedCommands = supportedCommands;
 
-        if (supportedCommands.indexOf('SetRepeatMode') == -1) {
+        if (supportedCommands.indexOf('SetRepeatMode') === -1) {
             toggleRepeatButton.classList.add('hide');
         } else {
             toggleRepeatButton.classList.remove('hide');
@@ -341,11 +341,11 @@
 
     function updateRepeatModeDisplay(repeatMode) {
 
-        if (repeatMode == 'RepeatAll') {
+        if (repeatMode === 'RepeatAll') {
             toggleRepeatButtonIcon.innerHTML = "&#xE040;";
             toggleRepeatButton.classList.add('repeatActive');
         }
-        else if (repeatMode == 'RepeatOne') {
+        else if (repeatMode === 'RepeatOne') {
             toggleRepeatButtonIcon.innerHTML = "&#xE041;";
             toggleRepeatButton.classList.add('repeatActive');
         } else {
@@ -390,7 +390,7 @@
         var showMuteButton = true;
         var showVolumeSlider = true;
 
-        if (supportedCommands.indexOf('ToggleMute') == -1) {
+        if (supportedCommands.indexOf('ToggleMute') === -1) {
             showMuteButton = false;
         }
 
@@ -400,7 +400,7 @@
             muteButton.querySelector('i').innerHTML = '&#xE050;';
         }
 
-        if (supportedCommands.indexOf('SetVolume') == -1) {
+        if (supportedCommands.indexOf('SetVolume') === -1) {
             showVolumeSlider = false;
         }
 
@@ -643,7 +643,7 @@
             return;
         }
 
-        if (player.isLocalPlayer && state.NowPlayingItem && state.NowPlayingItem.MediaType == 'Video') {
+        if (player.isLocalPlayer && state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
             hideNowPlayingBar();
             return;
         }

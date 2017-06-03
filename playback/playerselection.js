@@ -165,7 +165,7 @@
         var btnRemoteControl = dlg.querySelector('.btnRemoteControl');
         if (btnRemoteControl) {
             btnRemoteControl.addEventListener('click', function () {
-                destination = 'nowplaying.html';
+                destination = 'nowplaying';
                 dialogHelper.close(dlg);
             });
         }
@@ -180,8 +180,8 @@
         });
 
         dialogHelper.open(dlg).then(function () {
-            if (destination) {
-                embyRouter.show(destination);
+            if (destination === 'nowplaying') {
+                embyRouter.showNowPlaying();
             }
         }, emptyCallback);
     }
