@@ -1,0 +1,203 @@
+﻿.mediaButton.active {
+    color: #52B54B;
+}
+
+.nowPlayingBarInfoContainer {
+    display: flex;
+    align-items: center;
+}
+
+/* Now playing bar */
+.nowPlayingBar {
+    /* Above everything, except for the video player and popup overlays */
+    color: #ddd;
+    text-align: center;
+    will-change: transform;
+    contain: layout style;
+    transition: transform 200ms ease-out;
+}
+
+.nowPlayingBar-hidden {
+    transform: translate3d(0,100%,0);
+}
+
+.hiddenNowPlayingBar .nowPlayingBar {
+    display: none !important;
+}
+
+.nowPlayingBarTop {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.mediaButton, .nowPlayingBarUserDataButtons .btnUserItemRating {
+    vertical-align: middle;
+    margin: 0;
+    text-align: center;
+}
+
+    .mediaButton i {
+        height: 1em;
+        width: 1em;
+        font-size: 200%;
+    }
+
+.nowPlayingImage {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1em;
+}
+
+    .nowPlayingImage img {
+        vertical-align: bottom;
+    }
+
+    .nowPlayingImage img {
+        height: 4em;
+    }
+
+.nowPlayingBar .nowPlayingImage {
+    width: 4em;
+    height: 4em;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.nowPlayingBarText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    text-align: left;
+    max-width: 10em;
+    flex-grow: 1;
+    font-size: 88%;
+    margin-right: 2.4em;
+}
+
+.repeatActive {
+    color: #52B54B;
+}
+
+@media (min-width: 31.25em) {
+    .nowPlayingBarText {
+        max-width: 15.3em;
+    }
+}
+
+@media (min-width: 37.5em) {
+    .nowPlayingBarText {
+        max-width: 17em;
+    }
+}
+
+@media (min-width: 43.75em) {
+    .nowPlayingBarText {
+        max-width: 20.4em;
+    }
+}
+
+@media (min-width: 50em) {
+    .nowPlayingBarText {
+        max-width: 25.5em;
+    }
+}
+
+@media (min-width: 56.25em) {
+    .nowPlayingBarText {
+        max-width: 34em;
+    }
+}
+
+.nowPlayingBarCenter {
+    vertical-align: middle;
+    text-align: center;
+    /* Need this to make sure it's on top of nowPlayingBarPositionContainer so that buttons are fully clickable */
+    z-index: 2;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nowPlayingBarPositionContainer {
+    position: absolute !important;
+    left: 4em;
+    top: -8px;
+    right: 0;
+    z-index: 1;
+}
+
+    .nowPlayingBarPositionContainer .mdl-slider__background-upper {
+        background: #222;
+    }
+
+.headroom--unpinned .nowPlayingBarPositionContainer {
+    display: none;
+}
+
+.noMediaProgress .nowPlayingBarPositionContainer {
+    display: none;
+}
+
+.nowPlayingBarRight {
+    position: relative;
+    margin: 0 .5em 0 auto;
+    /* Need this to make sure it's on top of nowPlayingBarPositionContainer so that buttons are fully clickable */
+    z-index: 2;
+    display: flex;
+    align-items: center;
+}
+
+.nowPlayingBarCurrentTime {
+    vertical-align: middle;
+    font-weight: normal;
+    text-align: center;
+    display: inline-block;
+    padding-left: 1.5em;
+}
+
+.nowPlayingBarVolumeSliderContainer {
+    margin-right: 2em;
+}
+
+.nowPlayingBarUserDataButtons {
+    display: inline-block;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+
+@media all and (max-width: 87.5em) {
+
+    .nowPlayingBarUserDataButtons {
+        display: none;
+    }
+}
+
+@media all and (max-width: 68.75em) {
+
+    .nowPlayingBarVolumeSliderContainer, .nowPlayingBar .muteButton, .nowPlayingBar .unmuteButton {
+        display: none !important;
+    }
+}
+
+@media all and (max-width: 50em) {
+
+    .nowPlayingBarCenter > * {
+        display: none !important;
+    }
+
+    .toggleRepeatButton {
+        display: none;
+    }
+}
+
+@media all and (min-width: 50em) {
+
+    .nowPlayingBarRight .playPauseButton {
+        display: none;
+    }
+}
