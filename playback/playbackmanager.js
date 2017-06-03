@@ -584,6 +584,10 @@
 
         if (mediaSource) {
             nowPlayingItem.RunTimeTicks = mediaSource.RunTimeTicks;
+            nowPlayingItem.MediaStreams = mediaSource.MediaStreams;
+
+            // not needed
+            nowPlayingItem.MediaSources = null;
         }
 
         nowPlayingItem.RunTimeTicks = nowPlayingItem.RunTimeTicks || player.duration() * 10000;
@@ -3163,6 +3167,15 @@
     };
 
     PlaybackManager.prototype.audioTracks = function (player) {
+
+        player = player || this._currentPlayer;
+        if (player.audioTracks) {
+            var result = player.audioTracks();
+            if (result) {
+                return result;
+            }
+        }
+
         var mediaSource = this.currentMediaSource(player);
 
         var mediaStreams = (mediaSource || {}).MediaStreams || [];
@@ -3172,6 +3185,15 @@
     };
 
     PlaybackManager.prototype.subtitleTracks = function (player) {
+
+        player = player || this._currentPlayer;
+        if (player.subtitleTracks) {
+            var result = player.subtitleTracks();
+            if (result) {
+                return result;
+            }
+        }
+
         var mediaSource = this.currentMediaSource(player);
 
         var mediaStreams = (mediaSource || {}).MediaStreams || [];
