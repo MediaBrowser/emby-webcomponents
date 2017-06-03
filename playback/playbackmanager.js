@@ -798,7 +798,7 @@
                     name: globalize.translate('sharedcomponents#HeaderMyDevice'),
                     id: 'localplayer',
                     playerName: 'localplayer',
-                    playableMediaTypes: ['Audio', 'Video', 'Game'],
+                    playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'],
                     isLocalPlayer: true,
                     supportedCommands: getSupportedCommands({
                         isLocalPlayer: true
@@ -1459,9 +1459,11 @@
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.ParentId,
                     Filters: "IsNotFolder",
-                    Recursive: true,
+                    // Setting this to true may cause some incorrect sorting
+                    Recursive: false,
                     SortBy: "SortName",
                     MediaTypes: "Photo,Video"
+
                 }).then(function (result) {
 
                     var items = result.Items;

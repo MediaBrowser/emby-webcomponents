@@ -800,7 +800,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             var trackEvents = currentTrackEvents;
-            if (trackEvents && videoSubtitlesElem) {
+            var subtitleTextElement = videoSubtitlesElem;
+
+            if (trackEvents && subtitleTextElement) {
                 var ticks = timeMs * 10000;
                 var selectedTrackEvent;
                 for (var i = 0; i < trackEvents.length; i++) {
@@ -812,14 +814,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     }
                 }
 
-                if (selectedTrackEvent) {
+                if (selectedTrackEvent && selectedTrackEvent.Text) {
 
-                    videoSubtitlesElem.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text);
-                    videoSubtitlesElem.classList.remove('hide');
+                    subtitleTextElement.innerHTML = normalizeTrackEventText(selectedTrackEvent.Text);
+                    subtitleTextElement.classList.remove('hide');
 
                 } else {
-                    videoSubtitlesElem.innerHTML = '';
-                    videoSubtitlesElem.classList.add('hide');
+                    subtitleTextElement.classList.add('hide');
                 }
             }
         }

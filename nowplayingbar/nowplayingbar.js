@@ -1,4 +1,4 @@
-﻿define(['datetime', 'userdataButtons', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'paper-icon-button-light'], function (datetime, userdataButtons, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager) {
+﻿define(['require', 'datetime', 'userdataButtons', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'paper-icon-button-light'], function (require, datetime, userdataButtons, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager) {
     'use strict';
 
     var currentPlayer;
@@ -96,7 +96,7 @@
     function slideUp(elem) {
 
         // This setTimeout is a hack but resolves the issue of the bar not showing if calling slideDown then slideUp rapidly
-        setTimeout(function() {
+        setTimeout(function () {
             dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
                 once: true
             });
@@ -234,9 +234,11 @@
         });
     }
 
-    function showRemoteControl(tabIndex) {
+    function showRemoteControl() {
 
-        Dashboard.navigate('nowplaying.html');
+        require(['embyRouter'], function (embyRouter) {
+            embyRouter.showNowPlaying();
+        });
     }
 
     var nowPlayingBarElement;
@@ -248,7 +250,7 @@
 
         return new Promise(function (resolve, reject) {
 
-            require(['appFooter-shared', 'itemShortcuts', 'css!css/nowplayingbar.css', 'emby-slider'], function (appfooter, itemShortcuts) {
+            require(['appFooter-shared', 'itemShortcuts', 'css!./nowplayingbar.css', 'emby-slider'], function (appfooter, itemShortcuts) {
 
                 var parentContainer = appfooter.element;
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');

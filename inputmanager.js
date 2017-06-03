@@ -26,7 +26,7 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
     function on(scope, fn) {
         eventListenerCount++;
         dom.addEventListener(scope, 'command', fn, {
-            
+
         });
     }
 
@@ -108,7 +108,6 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 embyRouter.back();
                 break;
             case 'forward':
-                // TODO
                 break;
             case 'select':
                 select(sourceElement);
@@ -135,7 +134,6 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 embyRouter.showRecordedTV();
                 break;
             case 'record':
-                // TODO
                 break;
             case 'livetv':
                 embyRouter.showLiveTV();
@@ -210,27 +208,20 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 break;
             case 'movies':
                 // TODO
+                embyRouter.goHome();
                 break;
             case 'music':
                 // TODO
+                embyRouter.goHome();
                 break;
             case 'tv':
                 // TODO
-                break;
-            case 'latestepisodes':
-                // TODO
+                embyRouter.goHome();
                 break;
             case 'nowplaying':
-                // TODO
-                break;
-            case 'upcomingtv':
-                // TODO
-                break;
-            case 'nextup':
-                // TODO
+                embyRouter.showNowPlaying();
                 break;
             case 'save':
-                // TODO
                 break;
             case 'screensaver':
                 // TODO

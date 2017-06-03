@@ -34,6 +34,9 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
         },
         showFavorites: function () {
             skinManager.getCurrentSkin().showFavorites();
+        },
+        showNowPlaying: function () {
+            skinManager.getCurrentSkin().showNowPlaying();
         }
     };
 
