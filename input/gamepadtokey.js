@@ -181,10 +181,15 @@ require(['apphost'], function (appHost) {
     }
     
     function allowInput() {
-        
+
+        // This would be nice but always seems to return true with electron
         //if (document.hidden) {
         //    return false;
         //}
+
+        if (appHost.getWindowState() === 'Minimized') {
+            return false;
+        }
 
         return true;
     }
