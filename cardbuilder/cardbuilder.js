@@ -487,6 +487,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 forceName = true;
 
+            } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+
+                imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
+                    type: "Backdrop",
+                    maxWidth: width,
+                    tag: item.ParentBackdropImageTags[0]
+                });
+
             } else if (item.ImageTags && item.ImageTags.Primary) {
 
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
@@ -596,6 +604,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     type: "Thumb",
                     maxWidth: width,
                     tag: item.ParentThumbImageTag
+                });
+
+            } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+
+                imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
+                    type: "Backdrop",
+                    maxWidth: width,
+                    tag: item.ParentBackdropImageTags[0]
                 });
 
             }
@@ -783,8 +799,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (item.SongCount) {
                         songLine = item.SongCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneSong') :
-                        globalize.translate('sharedcomponents#ValueSongCount', item.SongCount);
+                            globalize.translate('sharedcomponents#ValueOneSong') :
+                            globalize.translate('sharedcomponents#ValueSongCount', item.SongCount);
                     }
 
                     lines.push(songLine);
@@ -1014,8 +1030,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (item.MovieCount) {
 
                     childText = item.MovieCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneMovie') :
-                    globalize.translate('sharedcomponents#ValueMovieCount', item.MovieCount);
+                        globalize.translate('sharedcomponents#ValueOneMovie') :
+                        globalize.translate('sharedcomponents#ValueMovieCount', item.MovieCount);
 
                     counts.push(childText);
                 }
@@ -1023,24 +1039,24 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (item.SeriesCount) {
 
                     childText = item.SeriesCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneSeries') :
-                    globalize.translate('sharedcomponents#ValueSeriesCount', item.SeriesCount);
+                        globalize.translate('sharedcomponents#ValueOneSeries') :
+                        globalize.translate('sharedcomponents#ValueSeriesCount', item.SeriesCount);
 
                     counts.push(childText);
                 }
                 if (item.EpisodeCount) {
 
                     childText = item.EpisodeCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneEpisode') :
-                    globalize.translate('sharedcomponents#ValueEpisodeCount', item.EpisodeCount);
+                        globalize.translate('sharedcomponents#ValueOneEpisode') :
+                        globalize.translate('sharedcomponents#ValueEpisodeCount', item.EpisodeCount);
 
                     counts.push(childText);
                 }
                 if (item.GameCount) {
 
                     childText = item.GameCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneGame') :
-                    globalize.translate('sharedcomponents#ValueGameCount', item.GameCount);
+                        globalize.translate('sharedcomponents#ValueOneGame') :
+                        globalize.translate('sharedcomponents#ValueGameCount', item.GameCount);
 
                     counts.push(childText);
                 }
@@ -1050,8 +1066,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (item.GameCount) {
 
                     childText = item.GameCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneGame') :
-                    globalize.translate('sharedcomponents#ValueGameCount', item.GameCount);
+                        globalize.translate('sharedcomponents#ValueOneGame') :
+                        globalize.translate('sharedcomponents#ValueGameCount', item.GameCount);
 
                     counts.push(childText);
                 }
@@ -1060,24 +1076,24 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (item.AlbumCount) {
 
                     childText = item.AlbumCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneAlbum') :
-                    globalize.translate('sharedcomponents#ValueAlbumCount', item.AlbumCount);
+                        globalize.translate('sharedcomponents#ValueOneAlbum') :
+                        globalize.translate('sharedcomponents#ValueAlbumCount', item.AlbumCount);
 
                     counts.push(childText);
                 }
                 if (item.SongCount) {
 
                     childText = item.SongCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneSong') :
-                    globalize.translate('sharedcomponents#ValueSongCount', item.SongCount);
+                        globalize.translate('sharedcomponents#ValueOneSong') :
+                        globalize.translate('sharedcomponents#ValueSongCount', item.SongCount);
 
                     counts.push(childText);
                 }
                 if (item.MusicVideoCount) {
 
                     childText = item.MusicVideoCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneMusicVideo') :
-                    globalize.translate('sharedcomponents#ValueMusicVideoCount', item.MusicVideoCount);
+                        globalize.translate('sharedcomponents#ValueOneMusicVideo') :
+                        globalize.translate('sharedcomponents#ValueMusicVideoCount', item.MusicVideoCount);
 
                     counts.push(childText);
                 }
@@ -1085,8 +1101,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else if (item.Type === 'Series') {
 
                 childText = item.RecursiveItemCount === 1 ?
-                globalize.translate('sharedcomponents#ValueOneEpisode') :
-                globalize.translate('sharedcomponents#ValueEpisodeCount', item.RecursiveItemCount);
+                    globalize.translate('sharedcomponents#ValueOneEpisode') :
+                    globalize.translate('sharedcomponents#ValueEpisodeCount', item.RecursiveItemCount);
 
                 counts.push(childText);
             }
