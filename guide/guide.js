@@ -1120,7 +1120,7 @@
 
                 var icon = cell.querySelector('.timerIcon');
                 if (!icon) {
-                    cell.insertAdjacentHTML('beforeend', '<i class="timerIcon md-icon programIcon">&#xE061;</i>');
+                    cell.querySelector('.guideProgramName').insertAdjacentHTML('beforeend', '<i class="timerIcon md-icon programIcon">&#xE061;</i>');
                 }
 
                 if (newTimerId) {
