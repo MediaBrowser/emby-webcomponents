@@ -487,7 +487,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 forceName = true;
 
-            } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+            } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.MediaType !== 'Photo') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: "Backdrop",
@@ -606,7 +606,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     tag: item.ParentThumbImageTag
                 });
 
-            } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length) {
+            } else if (item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: "Backdrop",
