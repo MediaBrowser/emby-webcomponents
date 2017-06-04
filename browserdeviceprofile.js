@@ -105,8 +105,16 @@ define(['browser'], function (browser) {
             return false;
         }
 
+        else if (format === 'mp2') {
+
+            // For now
+            return false;
+        }
+
         if (format === 'webma') {
             typeString = 'audio/webm';
+        } else if (format === 'mp2') {
+            typeString = 'audio/mpeg';
         } else {
             typeString = 'audio/' + format;
         }
@@ -324,6 +332,9 @@ define(['browser'], function (browser) {
         var supportsMp3VideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.69"').replace(/no/, '') ||
             videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '');
 
+        // Not sure how to test for this
+        var supportsMp2VideoAudio = browser.edgeUwp;
+
         // Only put mp3 first if mkv support is there
         // Otherwise with HLS and mp3 audio we're seeing some browsers
         // safari is lying
@@ -365,6 +376,10 @@ define(['browser'], function (browser) {
                 // PS4 fails to load HLS with mp3 audio
                 hlsVideoAudioCodecs.push('mp3');
             }
+        }
+
+        if (supportsMp2VideoAudio) {
+            videoAudioCodecs.push('mp2');
         }
 
         if (browser.tizen || browser.orsay || options.supportsDts) {
@@ -437,7 +452,7 @@ define(['browser'], function (browser) {
             profile.DirectPlayProfiles.push(i);
         });
 
-        ['opus', 'mp3', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+        ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
 
             profile.DirectPlayProfiles.push({
                 Container: audioFormat === 'webma' ? 'webma,webm' : audioFormat,
