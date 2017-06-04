@@ -21,6 +21,8 @@
     var isEnabled;
     var currentRuntimeTicks = 0;
 
+    var isVisibilityAllowed = true;
+
     function getNowPlayingBarHtml() {
 
         var html = '';
@@ -578,6 +580,11 @@
 
     function showNowPlayingBar() {
 
+        if (!isVisibilityAllowed) {
+            hideNowPlayingBar();
+            return;
+        }
+
         getNowPlayingBar().then(slideUp);
     }
 
@@ -594,16 +601,11 @@
 
             // If it's not currently visible, don't bother with the animation
             // transitionend events not firing in mobile chrome/safari when hidden
-            if (document.body.classList.contains('hiddenNowPlayingBar')) {
-                dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-                    once: true
-                });
-                elem.classList.add('hide');
-                elem.classList.add('nowPlayingBar-hidden');
-
-            } else {
-                slideDown(elem);
-            }
+            dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
+                once: true
+            });
+            elem.classList.add('hide');
+            elem.classList.add('nowPlayingBar-hidden');
         }
     }
 
@@ -709,6 +711,14 @@
         updatePlayerVolumeState(player.isMuted(), player.getVolume());
     }
 
+    function refreshFromPlayer(player) {
+
+        playbackManager.getPlayerState(player).then(function (state) {
+
+            onStateChanged.call(player, { type: 'init' }, state);
+        });
+    }
+
     function bindToPlayer(player) {
 
         if (player === currentPlayer) {
@@ -723,10 +733,7 @@
             return;
         }
 
-        playbackManager.getPlayerState(player).then(function (state) {
-
-            onStateChanged.call(player, { type: 'init' }, state);
-        });
+        refreshFromPlayer(player);
 
         events.on(player, 'playbackstart', onPlaybackStart);
         events.on(player, 'statechange', onPlaybackStart);
@@ -744,4 +751,23 @@
 
     bindToPlayer(playbackManager.getCurrentPlayer());
 
+    document.addEventListener('viewbeforeshow', function (e) {
+
+        if (!e.detail.options.enableMediaControl) {
+
+            if (isVisibilityAllowed) {
+                isVisibilityAllowed = false;
+                hideNowPlayingBar();
+            }
+
+        } else if (!isVisibilityAllowed) {
+
+            isVisibilityAllowed = true;
+            if (currentPlayer) {
+                refreshFromPlayer(currentPlayer);
+            } else {
+                hideNowPlayingBar();
+            }
+        }
+    });
 });

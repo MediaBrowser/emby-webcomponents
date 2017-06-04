@@ -21,10 +21,6 @@
     transform: translate3d(0,100%,0);
 }
 
-.hiddenNowPlayingBar .nowPlayingBar {
-    display: none !important;
-}
-
 .nowPlayingBarTop {
     display: flex;
     flex-direction: row;
@@ -54,12 +50,12 @@
     }
 
     .nowPlayingImage img {
-        height: 4em;
+        height: 4.1em;
     }
 
 .nowPlayingBar .nowPlayingImage {
-    width: 4em;
-    height: 4em;
+    width: 4.1em;
+    height: 4.1em;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -124,7 +120,7 @@
 
 .nowPlayingBarPositionContainer {
     position: absolute !important;
-    left: 4em;
+    left: 4.1em;
     top: -8px;
     right: 0;
     z-index: 1;

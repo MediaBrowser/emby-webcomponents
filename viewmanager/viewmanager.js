@@ -8,17 +8,18 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
 
         var lastView = currentView;
         if (lastView) {
-            var beforeHideResult = dispatchViewEvent(lastView, 'viewbeforehide', null, true);
+
+            var beforeHideResult = dispatchViewEvent(lastView, null, 'viewbeforehide', true);
 
             if (!beforeHideResult) {
                 // todo: cancel
             }
         }
 
+        var eventDetail = getViewEventDetail(newView, options, false);
+
         if (!newView.initComplete) {
             newView.initComplete = true;
-
-            var eventDetail = getViewEventDetail(newView, options, false);
 
             if (options.controllerFactory) {
 
@@ -27,18 +28,18 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
             }
 
             if (!options.controllerFactory || dispatchPageEvents) {
-                dispatchViewEvent(newView, 'viewinit');
+                dispatchViewEvent(newView, eventDetail, 'viewinit');
             }
         }
 
-        dispatchViewEvent(newView, 'viewbeforeshow', isRestored);
+        dispatchViewEvent(newView, eventDetail, 'viewbeforeshow');
     });
 
     function onViewChange(view, options, isRestore) {
 
         var lastView = currentView;
         if (lastView) {
-            dispatchViewEvent(lastView, 'viewhide');
+            dispatchViewEvent(lastView, null, 'viewhide');
         }
 
         currentView = view;
@@ -75,26 +76,26 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
         return [];
     }
 
-    function dispatchViewEvent(view, eventName, isRestored, isCancellable) {
+    function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
 
-        var eventDetail = {
-            type: view.getAttribute('data-type'),
-            isRestored: isRestored,
-            properties: getProperties(view)
-        };
+        if (!eventInfo) {
+            eventInfo = {
+                detail: {
+                    type: view.getAttribute('data-type'),
+                    properties: getProperties(view)
+                },
+                bubbles: true,
+                cancelable: isCancellable
+            };
+        }
 
-        var eventResult = view.dispatchEvent(new CustomEvent(eventName, {
-            detail: eventDetail,
-            bubbles: true,
-            cancelable: isCancellable || false
-        }));
+        eventInfo.cancelable = isCancellable || false;
+
+        var eventResult = view.dispatchEvent(new CustomEvent(eventName, eventInfo));
 
         if (dispatchPageEvents) {
-            view.dispatchEvent(new CustomEvent(eventName.replace('view', 'page'), {
-                detail: eventDetail,
-                bubbles: true,
-                cancelable: false
-            }));
+            eventInfo.cancelable = false;
+            view.dispatchEvent(new CustomEvent(eventName.replace('view', 'page'), eventInfo));
         }
 
         return eventResult;

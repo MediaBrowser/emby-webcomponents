@@ -182,7 +182,8 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
             fullscreen: route.fullscreen,
             controllerFactory: controllerFactory,
             options: {
-                supportsThemeMedia: route.supportsThemeMedia || false
+                supportsThemeMedia: route.supportsThemeMedia || false,
+                enableMediaControl: route.enableMediaControl !== false
             },
             autoFocus: route.autoFocus
         };
@@ -532,7 +533,7 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
     }
 
     function getRouteUrl(item, options) {
-        
+
         return skinManager.getCurrentSkin().getRouteUrl(item, options);
     }
 
