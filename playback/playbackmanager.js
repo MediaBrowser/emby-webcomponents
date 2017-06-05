@@ -979,6 +979,11 @@
             }
 
             if (itemType === "Program") {
+
+                if (!item.EndDate || !item.StartDate) {
+                    return false;
+                }
+
                 if (new Date().getTime() > datetime.parseISO8601Date(item.EndDate).getTime() || new Date().getTime() < datetime.parseISO8601Date(item.StartDate).getTime()) {
                     return false;
                 }
