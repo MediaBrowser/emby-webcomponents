@@ -97,21 +97,18 @@
 
     function slideUp(elem) {
 
-        // This setTimeout is a hack but resolves the issue of the bar not showing if calling slideDown then slideUp rapidly
-        setTimeout(function () {
-            dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-                once: true
-            });
+        dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
+            once: true
+        });
 
-            elem.classList.remove('hide');
+        elem.classList.remove('hide');
 
-            // trigger reflow
-            void elem.offsetWidth;
+        // trigger reflow
+        void elem.offsetWidth;
 
-            requestAnimationFrame(function () {
-                elem.classList.remove('nowPlayingBar-hidden');
-            });
-        }, 10);
+        requestAnimationFrame(function () {
+            elem.classList.remove('nowPlayingBar-hidden');
+        });
     }
 
     function onPlayPauseClick() {
@@ -599,13 +596,7 @@
         var elem = document.getElementsByClassName('nowPlayingBar')[0];
         if (elem) {
 
-            // If it's not currently visible, don't bother with the animation
-            // transitionend events not firing in mobile chrome/safari when hidden
-            dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-                once: true
-            });
-            elem.classList.add('hide');
-            elem.classList.add('nowPlayingBar-hidden');
+            slideDown(elem);
         }
     }
 
