@@ -51,7 +51,25 @@
         elem.classList.add('cardOverlayTarget-open');
     }
 
-    function getOverlayHtml(apiClient, item, card) {
+    function getItemInfoFromCard(card) {
+
+        return {
+            Type: card.getAttribute('data-type'),
+            Id: card.getAttribute('data-id'),
+            TimerId: card.getAttribute('data-timerid'),
+            CollectionType: card.getAttribute('data-collectiontype'),
+            ChannelId: card.getAttribute('data-channelid'),
+            SeriesId: card.getAttribute('data-seriesid'),
+            ServerId: card.getAttribute('data-serverid'),
+            MediaType: card.getAttribute('data-mediatype'),
+            IsFolder: card.getAttribute('data-isfolder') === 'true',
+            UserData: {
+                PlaybackPositionTicks: parseInt(card.getAttribute('data-positionticks') || '0')
+            }
+        };
+    }
+
+    function getOverlayHtml(card) {
 
         var html = '';
 
@@ -63,63 +81,13 @@
         var isSmallItem = isMiniItem || className.indexOf('small') !== -1;
         var isPortrait = className.indexOf('portrait') !== -1;
 
-        var parentName = isSmallItem || isMiniItem || isPortrait ? null : item.SeriesName;
-        var name = item.EpisodeTitle ? item.Name : itemHelper.getDisplayName(item);
-
-        html += '<div>';
-        var logoHeight = 26;
-        var imgUrl;
-
-        if (parentName && item.ParentLogoItemId) {
-
-            imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
-                maxHeight: logoHeight,
-                type: 'logo',
-                tag: item.ParentLogoImageTag
-            });
-
-            html += '<img src="' + imgUrl + '" style="max-height:' + logoHeight + 'px;max-width:100%;" />';
-
-        }
-        else if (item.ImageTags.Logo) {
-
-            imgUrl = apiClient.getScaledImageUrl(item.Id, {
-                maxHeight: logoHeight,
-                type: 'logo',
-                tag: item.ImageTags.Logo
-            });
-
-            html += '<img src="' + imgUrl + '" style="max-height:' + logoHeight + 'px;max-width:100%;" />';
-        }
-        else {
-            html += parentName || name;
-        }
-        html += '</div>';
-
-        if (parentName) {
-            html += '<p>';
-            html += name;
-            html += '</p>';
-        } else if (!isSmallItem && !isMiniItem) {
-            html += '<div class="cardOverlayMediaInfo">';
-            html += mediaInfo.getPrimaryMediaInfoHtml(item, {
-                endsAt: false
-            });
-            html += '</div>';
-        }
-
         html += '<div class="cardOverlayButtons">';
 
         var buttonCount = 0;
 
-        if (playbackManager.canPlay(item)) {
+        if (playbackManager.canPlay(getItemInfoFromCard(card))) {
 
             html += '<button is="emby-button" class="itemAction autoSize fab cardOverlayFab mini" data-action="resume"><i class="md-icon cardOverlayFab-md-icon">&#xE037;</i></button>';
-            buttonCount++;
-        }
-
-        if (item.LocalTrailerCount) {
-            html += '<button title="' + globalize.translate('sharedcomponents#Trailer') + '" is="emby-button" class="itemAction autoSize fab cardOverlayFab mini" data-action="playtrailer"><i class="md-icon cardOverlayFab-md-icon">&#xE04B;</i></button>';
             buttonCount++;
         }
 
@@ -182,26 +150,19 @@
             return;
         }
 
-        var serverId = dataElement.getAttribute('data-serverid');
+        innerElem.innerHTML = getOverlayHtml(dataElement);
 
-        var apiClient = connectionManager.getApiClient(serverId);
+        //userdataButtons.fill({
+        //    item: item,
+        //    style: 'fab-mini',
+        //    cssClass: 'cardOverlayFab',
+        //    iconCssClass: 'cardOverlayFab-md-icon',
+        //    element: innerElem.querySelector('.cardOverlayButtons'),
+        //    fillMode: 'insertAdjacent',
+        //    insertLocation: 'beforeend'
+        //});
 
-        apiClient.getItem(apiClient.getCurrentUserId(), id).then(function (item) {
-
-            innerElem.innerHTML = getOverlayHtml(apiClient, item, dataElement);
-
-            userdataButtons.fill({
-                item: item,
-                style: 'fab-mini',
-                cssClass: 'cardOverlayFab',
-                iconCssClass: 'cardOverlayFab-md-icon',
-                element: innerElem.querySelector('.cardOverlayButtons'),
-                fillMode: 'insertAdjacent',
-                insertLocation: 'beforeend'
-            });
-
-            innerElem.querySelector('.cardOverlayButtons').addEventListener('click', onCardOverlayButtonsClick);
-        });
+        innerElem.querySelector('.cardOverlayButtons').addEventListener('click', onCardOverlayButtonsClick);
 
         slideUpToShow(innerElem);
     }
@@ -228,7 +189,7 @@
         showOverlayTimeout = setTimeout(function () {
             onShowTimerExpired(card);
 
-        }, 1400);
+        }, 600);
     }
 
     function preventTouchHover() {

@@ -1209,7 +1209,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var overlayButtons = '';
-            if (!layoutManager.tv) {
+            if (layoutManager.mobile) {
 
                 var overlayPlayButton = options.overlayPlayButton;
 

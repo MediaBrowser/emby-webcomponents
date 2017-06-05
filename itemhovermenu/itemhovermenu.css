@@ -10,7 +10,8 @@
     line-height: initial;
     font-size: initial;
     transition: transform 200ms ease-out;
-    transform: translateY(100%);
+    transform-origin: center center;
+    transform: scale(0, 0);
 }
 
 .cardOverlayTarget-open {
@@ -36,6 +37,9 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    position: absolute;
+    bottom: 5%;
+    right: 4%;
 }
 
 .cardOverlayFab {

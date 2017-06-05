@@ -54,8 +54,8 @@
         var pct = browser.mobile ? '4%' : '0.5%';
 
         var keyframes = [
-          { opacity: '0', transform: 'translate3d(' + pct + ', 0, 0)', offset: 0 },
-          { opacity: '1', transform: 'none', offset: 1 }];
+            { opacity: '0', transform: 'translate3d(' + pct + ', 0, 0)', offset: 0 },
+            { opacity: '1', transform: 'none', offset: 1 }];
 
         elem.animate(keyframes, {
             duration: 160,
@@ -243,6 +243,11 @@
         });
     };
 
+    function getSelectedTabButton(elem) {
+
+        return elem.querySelector('.' + activeButtonClass);
+    }
+
     EmbyTabs.selectedIndex = function (selected, triggerEvent) {
 
         var tabs = this;
@@ -281,6 +286,50 @@
                 target: tabButtons[selected]
             });
             //tabButtons[selected].click();
+        }
+    };
+
+    function getSibling(elem, method) {
+
+        var sibling = elem[method];
+
+        while (sibling) {
+            if (sibling.classList.contains(buttonClass)) {
+
+                if (!sibling.classList.contains('hide')) {
+                    return sibling;
+                }
+            }
+
+            sibling = sibling[method];
+        }
+
+        return null;
+    }
+
+    EmbyTabs.selectNext = function () {
+
+        var current = getSelectedTabButton(this);
+
+        var sibling = getSibling(current, 'nextSibling');
+
+        if (sibling) {
+            onClick.call(this, {
+                target: sibling
+            });
+        }
+    };
+
+    EmbyTabs.selectPrevious = function () {
+
+        var current = getSelectedTabButton(this);
+
+        var sibling = getSibling(current, 'previousSibling');
+
+        if (sibling) {
+            onClick.call(this, {
+                target: sibling
+            });
         }
     };
 
