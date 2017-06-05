@@ -259,7 +259,7 @@
                     session = getPlayerState(session);
                 }
 
-                return session;
+                return session || {};
             });
         } else {
             return Promise.resolve({});
@@ -369,9 +369,9 @@
 
     SessionPlayer.prototype.seek = function (positionTicks) {
         sendPlayStateCommand(getCurrentApiClient(this), 'seek',
-        {
-            SeekPositionTicks: positionTicks
-        });
+            {
+                SeekPositionTicks: positionTicks
+            });
     };
 
     SessionPlayer.prototype.currentTime = function (val) {

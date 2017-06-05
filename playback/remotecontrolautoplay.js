@@ -13,15 +13,17 @@
 
             var playState = state.PlayState || {};
 
-            playbackManager.stop(oldPlayer);
+            playbackManager.stop(oldPlayer).then(function () {
 
-            var itemId = item.Id;
-            var resumePositionTicks = playState.PositionTicks || 0;
+                var resumePositionTicks = playState.PositionTicks || 0;
 
-            playbackManager.play({
-                ids: [itemId],
-                startPositionTicks: resumePositionTicks
-            }, newPlayer);
+                playbackManager.play({
+                    ids: [item.Id],
+                    serverId: item.ServerId,
+                    startPositionTicks: resumePositionTicks
+
+                }, newPlayer);
+            });
 
         });
     }

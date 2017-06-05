@@ -862,6 +862,14 @@
             return Promise.resolve(self._playQueueManager.getPlaylist());
         };
 
+        function removeCurrentPlayer(player) {
+            var previousPlayer = self._currentPlayer;
+
+            if (player.id === previousPlayer.id) {
+                setCurrentPlayerInternal(null);
+            }
+        }
+
         function setCurrentPlayerInternal(player, targetInfo) {
 
             var previousPlayer = self._currentPlayer;
@@ -1822,8 +1830,8 @@
 
                 if (player) {
                     destroyPlayer(player);
+                    removeCurrentPlayer(player);
                 }
-                setCurrentPlayerInternal(null);
 
                 events.trigger(self, 'playbackcancelled');
 
@@ -2653,7 +2661,7 @@
 
                 if (newPlayer !== player) {
                     destroyPlayer(player);
-                    setCurrentPlayerInternal(null);
+                    removeCurrentPlayer(player);
                 }
 
                 if (nextItem) {
@@ -3046,7 +3054,11 @@
         player = player || this._currentPlayer;
 
         if (player) {
-            this._playNextAfterEnded = false;
+
+            if (enableLocalPlaylistManagement(player)) {
+                this._playNextAfterEnded = false;
+            }
+
             // TODO: remove second param
             return player.stop(true, true);
         }
