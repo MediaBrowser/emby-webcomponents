@@ -865,7 +865,7 @@
         function removeCurrentPlayer(player) {
             var previousPlayer = self._currentPlayer;
 
-            if (player.id === previousPlayer.id) {
+            if (!previousPlayer || player.id === previousPlayer.id) {
                 setCurrentPlayerInternal(null);
             }
         }
