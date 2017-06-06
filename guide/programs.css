@@ -1,9 +1,10 @@
 .newTvProgram {
-    background: #64A239;
+    background: #E4B70F;
+    color: #000!important;
 }
 
 .liveTvProgram {
-    background: #EC407A;
+    background: #cc3333;
 }
 
 .premiereTvProgram {

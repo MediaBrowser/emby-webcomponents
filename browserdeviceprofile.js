@@ -12,9 +12,8 @@ define(['browser'], function (browser) {
         }
 
         var userAgent = navigator.userAgent.toLowerCase();
-        var isChromecast = userAgent.indexOf('crkey') !== -1;
 
-        if (isChromecast) {
+        if (browser.chromecast) {
 
             var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
             if (isChromecastUltra) {
@@ -299,6 +298,10 @@ define(['browser'], function (browser) {
     function supportsEac3(videoTestElement) {
 
         if (browser.tizen || browser.orsay || browser.web0s) {
+            return true;
+        }
+
+        if (browser.chromecast) {
             return true;
         }
 

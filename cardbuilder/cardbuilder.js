@@ -1,4 +1,4 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'clearButtonStyle'],
+define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'clearButtonStyle', 'programStyles'],
     function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, itemShortcuts) {
         'use strict';
 
@@ -1110,6 +1110,33 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return counts.join(', ');
         }
 
+        function getProgramIndicators(item) {
+
+            item = item.ProgramInfo || item;
+
+            var html = '';
+
+            if (item.IsLive) {
+                html += '<div class="liveTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#Live') + '</div>';
+            }
+
+            if (item.IsPremiere) {
+                html += '<div class="premiereTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#Premiere') + '</div>';
+            }
+            else if (item.IsSeries && !item.IsRepeat) {
+                html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#AttributeNew') + '</div>';
+            }
+            //else if (item.IsRepeat) {
+            //    html += '<div class="repeatTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#Repeat') + '</div>';
+            //}
+
+            if (html) {
+                html = '<div class="cardProgramAttributeIndicators">' + html;
+                html += '</div>';
+            }
+
+            return html;
+        }
         function buildCard(index, item, apiClient, options, className) {
 
             var action = options.action || 'link';
@@ -1321,6 +1348,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (indicatorsHtml) {
                 cardImageContainerOpen += '<div class="cardIndicators ' + options.shape + 'CardIndicators">' + indicatorsHtml + '</div>';
+            }
+
+            if (item.Type === 'Program' || item.Type === 'Timer') {
+                cardImageContainerOpen += getProgramIndicators(item);
             }
 
             if (!imgUrl) {
