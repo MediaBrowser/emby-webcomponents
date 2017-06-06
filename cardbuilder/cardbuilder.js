@@ -1350,9 +1350,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerOpen += '<div class="cardIndicators ' + options.shape + 'CardIndicators">' + indicatorsHtml + '</div>';
             }
 
-            if (item.Type === 'Program' || item.Type === 'Timer') {
-                cardImageContainerOpen += getProgramIndicators(item);
-            }
+            //if (item.Type === 'Program' || item.Type === 'Timer') {
+            //    cardImageContainerOpen += getProgramIndicators(item);
+            //}
 
             if (!imgUrl) {
                 var defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
