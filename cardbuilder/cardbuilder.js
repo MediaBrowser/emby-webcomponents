@@ -1236,7 +1236,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var overlayButtons = '';
-            if (layoutManager.mobile) {
+            if (!layoutManager.tv) {
 
                 var overlayPlayButton = options.overlayPlayButton;
 
@@ -1244,14 +1244,29 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     overlayPlayButton = item.MediaType === 'Video';
                 }
 
-                if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="cardOverlayButton itemAction autoSize" data-action="play" onclick="return false;"><i class="md-icon">play_arrow</i></button>';
+                var multipleButtons = false;
+
+                if (multipleButtons) {
+                    overlayButtons += '<div class="cardOverlayButtonsContainer">';
                 }
-                if (options.overlayMoreButton) {
+
+                var btnCssClass = layoutManager.desktop ? 'cardOverlayButton cardOverlayButton-mini itemAction' : 'cardOverlayButton itemAction';
+                if (multipleButtons) {
+                    btnCssClass += ' cardOverlayButton-static';
+                }
+
+                if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play" onclick="return false;"><i class="md-icon">play_arrow</i></button>';
+                }
+                if (options.overlayMoreButton || multipleButtons) {
 
                     var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
 
-                    overlayButtons += '<button is="paper-icon-button-light" class="cardOverlayButton itemAction autoSize" data-action="menu" onclick="return false;"><i class="md-icon">' + moreIcon + '</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu" onclick="return false;"><i class="md-icon">' + moreIcon + '</i></button>';
+                }
+
+                if (multipleButtons) {
+                    overlayButtons += '</div>';
                 }
             }
 

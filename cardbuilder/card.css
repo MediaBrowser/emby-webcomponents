@@ -387,6 +387,21 @@ button {
     padding: .427em;
 }
 
+.cardOverlayButton-static {
+    position: static;
+}
+
+.cardOverlayButton-mini {
+    font-size: 80%;
+}
+
+.cardOverlayButtonsContainer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+}
+
 .defaultCardColor1 {
     background-color: #009688;
 }
