@@ -134,8 +134,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
             if (alphaPickerButton) {
                 var value = alphaPickerButton.getAttribute('data-value');
-
-                if (this._currentValue === value.toUpperCase()) {
+                if ((this._currentValue || '').toUpperCase() === value.toUpperCase()) {
                     self.value(null, true);
                 } else {
                     self.value(value, true);
@@ -190,7 +189,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
                 if (options.valueChangeEvent !== 'click') {
                     element.addEventListener('focus', onAlphaPickerFocusIn, true);
                 } else {
-                    element.addEventListener('click', onAlphaPickerClick);
+                    element.addEventListener('click', onAlphaPickerClick.bind(this));
                 }
 
             } else {
@@ -201,7 +200,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
                 element.removeEventListener('click', onAlphaPickerInKeyboardModeClick);
                 element.removeEventListener('focus', onAlphaPickerFocusIn, true);
-                element.removeEventListener('click', onAlphaPickerClick);
+                element.removeEventListener('click', onAlphaPickerClick.bind(this));
             }
         };
 

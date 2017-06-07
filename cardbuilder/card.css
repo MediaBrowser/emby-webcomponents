@@ -455,13 +455,13 @@ button {
         width: 33.333333333333333333333333333333%;
     }
 
-    .squareCard-scalable {
+    .squareCard-scalable, .portraitCard-scalable {
         width: 33.333333333333333333333333333333%;
     }
 }
 
 @media all and (min-width: 700px) {
-    .squareCard-scalable {
+    .squareCard-scalable, .portraitCard-scalable {
         width: 25%;
     }
 }

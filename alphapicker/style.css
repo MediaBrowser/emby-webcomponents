@@ -53,7 +53,8 @@
 }
 
 .alphaPickerButton-selected {
-    color: inherit;
+    background-color: #52B54B;
+    color: #fff;
 }
 
 .alphaPickerButton-tv:focus {
