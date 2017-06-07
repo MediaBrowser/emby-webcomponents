@@ -641,6 +641,8 @@ define(['browser'], function (browser) {
             });
         }
 
+        var maxH264Level = browser.chromecast ? '50' : '51';
+
         profile.CodecProfiles.push({
             Type: 'Video',
             Codec: 'h264',
@@ -659,7 +661,7 @@ define(['browser'], function (browser) {
                 {
                     Condition: 'LessThanEqual',
                     Property: 'VideoLevel',
-                    Value: '51'
+                    Value: maxH264Level
                 }]
         });
 
