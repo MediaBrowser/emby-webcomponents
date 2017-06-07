@@ -16,7 +16,7 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
             }
         }
 
-        var eventDetail = getViewEventDetail(newView, options, false);
+        var eventDetail = getViewEventDetail(newView, options, isRestored);
 
         if (!newView.initComplete) {
             newView.initComplete = true;

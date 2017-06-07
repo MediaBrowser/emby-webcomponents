@@ -130,7 +130,6 @@
                 ForcedSortName: form.querySelector('#txtSortName').value,
                 DisplayMediaType: form.querySelector('#txtDisplayMediaType').value,
                 CommunityRating: form.querySelector('#txtCommunityRating').value,
-                VoteCount: form.querySelector('#txtCommunityVoteCount').value,
                 HomePageUrl: form.querySelector('#txtHomePageUrl').value,
                 CriticRating: form.querySelector('#txtCriticRating').value,
                 IndexNumber: form.querySelector('#txtIndexNumber').value || null,
@@ -652,7 +651,6 @@
 
         if (item.Type === "Person" || item.Type === "Genre" || item.Type === "Studio" || item.Type === "GameGenre" || item.Type === "MusicGenre" || item.Type === "TvChannel") {
             hideElement('#fldCommunityRating', context);
-            hideElement('#fldCommunityVoteCount', context);
             hideElement('#genresCollapsible', context);
             hideElement('#peopleCollapsible', context);
             hideElement('#studiosCollapsible', context);
@@ -665,7 +663,6 @@
             hideElement('#fldCustomRating', context);
         } else {
             showElement('#fldCommunityRating', context);
-            showElement('#fldCommunityVoteCount', context);
             showElement('#genresCollapsible', context);
             showElement('#peopleCollapsible', context);
             showElement('#studiosCollapsible', context);
@@ -819,7 +816,6 @@
         context.querySelector('#txtSortName').value = item.ForcedSortName || "";
         context.querySelector('#txtDisplayMediaType').value = item.DisplayMediaType || "";
         context.querySelector('#txtCommunityRating').value = item.CommunityRating || "";
-        context.querySelector('#txtCommunityVoteCount').value = item.VoteCount || "";
         context.querySelector('#txtHomePageUrl').value = item.HomePageUrl || "";
 
         context.querySelector('#txtCriticRating').value = item.CriticRating || "";
