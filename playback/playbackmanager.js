@@ -686,6 +686,10 @@
                 throw new Error('player cannot be null');
             }
 
+            if (player.currentItem) {
+                return player.currentItem();
+            }
+
             var data = getPlayerData(player);
             return data.streamInfo ? data.streamInfo.item : null;
         };
@@ -694,6 +698,10 @@
 
             if (!player) {
                 throw new Error('player cannot be null');
+            }
+
+            if (player.currentMediaSource) {
+                return player.currentMediaSource();
             }
 
             var data = getPlayerData(player);
@@ -907,11 +915,34 @@
         }
 
         self.isPlaying = function (player) {
+
             player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.isPlaying();
+
+            if (player) {
+                if (player.isPlaying) {
+                    return player.isPlaying();
+                }
             }
+
             return player != null && player.currentSrc() != null;
+        };
+
+        self.isPlayingMediaType = function (mediaType, player) {
+            player = player || self._currentPlayer;
+
+            if (player) {
+                if (player.isPlaying) {
+                    return player.isPlaying(mediaType);
+                }
+            }
+
+            if (self.isPlaying(player)) {
+                var playerData = getPlayerData(player);
+
+                return playerData.streamInfo.mediaType === mediaType;
+            }
+
+            return false;
         };
 
         self.isPlayingLocally = function (mediaTypes, player) {
@@ -922,40 +953,19 @@
                 return false;
             }
 
-            var playerData = getPlayerData(player) || {};
+            return mediaTypes.filter(function (mediaType) {
 
-            return mediaTypes.indexOf((playerData.streamInfo || {}).mediaType || '') !== -1;
+                return self.isPlayingMediaType(mediaType, player);
+
+            }).length > 0;
         };
 
         self.isPlayingVideo = function (player) {
-
-            player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.isPlayingVideo();
-            }
-
-            if (self.isPlaying(player)) {
-                var playerData = getPlayerData(player);
-
-                return playerData.streamInfo.mediaType === 'Video';
-            }
-
-            return false;
+            return self.isPlayingMediaType('Video', player);
         };
 
         self.isPlayingAudio = function (player) {
-            player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.isPlayingAudio();
-            }
-
-            if (self.isPlaying(player)) {
-                var playerData = getPlayerData(player);
-
-                return playerData.streamInfo.mediaType === 'Audio';
-            }
-
-            return false;
+            return self.isPlayingMediaType('Audio', player);
         };
 
         self.getPlayers = function () {
