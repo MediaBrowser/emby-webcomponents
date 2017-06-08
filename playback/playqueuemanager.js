@@ -64,6 +64,13 @@
         return findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
     };
 
+    PlayQueueManager.prototype.getCurrentItem = function () {
+
+        var index = findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
+
+        return index === -1 ? null : this._playlist[index];
+    };
+
     PlayQueueManager.prototype.getCurrentPlaylistItemId = function () {
         return this._currentPlaylistItemId;
     };
@@ -71,6 +78,15 @@
     PlayQueueManager.prototype.setPlaylistState = function (playlistItemId, playlistIndex) {
 
         this._currentPlaylistItemId = playlistItemId;
+    };
+
+    PlayQueueManager.prototype.setPlaylistIndex = function (playlistIndex) {
+
+        if (playlistIndex < 0) {
+            this.setPlaylistState(null);
+        } else {
+            this.setPlaylistState(this._playlist[playlistIndex].PlaylistItemId);
+        }
     };
 
     PlayQueueManager.prototype.removeFromPlaylist = function (playlistItemIds) {
