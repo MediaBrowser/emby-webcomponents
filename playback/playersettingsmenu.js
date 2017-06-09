@@ -58,18 +58,23 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
         var menuItems = [];
 
-        menuItems.push({
-            name: globalize.translate('sharedcomponents#RepeatOne'),
-            id: 'RepeatOne'
-        });
+        var currentValue = playbackManager.getRepeatMode(player);
 
         menuItems.push({
             name: globalize.translate('sharedcomponents#RepeatAll'),
-            id: 'RepeatAll'
+            id: 'RepeatAll',
+            selected: currentValue === 'RepeatAll'
         });
         menuItems.push({
+            name: globalize.translate('sharedcomponents#RepeatOne'),
+            id: 'RepeatOne',
+            selected: currentValue === 'RepeatOne'
+        });
+
+        menuItems.push({
             name: globalize.translate('sharedcomponents#None'),
-            id: 'RepeatNone'
+            id: 'RepeatNone',
+            selected: currentValue === 'RepeatNone'
         });
 
         return actionsheet.show({
