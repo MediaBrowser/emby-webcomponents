@@ -145,8 +145,5 @@ define(['events'], function (events) {
         return url;
     };
 
-    var instance = new PluginManager();
-    window.Emby = window.Emby || {};
-    window.Emby.PluginManager = instance;
-    return instance;
+    return new PluginManager();
 });

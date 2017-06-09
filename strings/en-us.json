@@ -429,5 +429,8 @@
   "LandingScreensHelp": "Select the default landing screen when clicking on a library.",
   "HeaderTermsOfPurchase": "Terms of Purchase",
   "PrivacyPolicy": "Privacy policy",
-  "TermsOfUse": "Terms of use"
+  "TermsOfUse": "Terms of use",
+  "RepeatMode": "Repeat mode",
+  "RepeatOne": "Repeat one",
+  "RepeatAll": "Repeat all"
 }

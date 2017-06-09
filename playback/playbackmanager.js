@@ -609,59 +609,14 @@
         return player.isLocalPlayer;
     }
 
-    function getSupportedCommands(player) {
-
-        if (player.isLocalPlayer) {
-            // Full list
-            // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs
-            var list = [
-                "GoHome",
-                "GoToSettings",
-                "VolumeUp",
-                "VolumeDown",
-                "Mute",
-                "Unmute",
-                "ToggleMute",
-                "SetVolume",
-                "SetAudioStreamIndex",
-                "SetSubtitleStreamIndex",
-                "SetMaxStreamingBitrate",
-                "DisplayContent",
-                "GoToSearch",
-                "DisplayMessage",
-                "SetRepeatMode"
-            ];
-
-            if (apphost.supports('fullscreenchange') && !layoutManager.tv) {
-                list.push('ToggleFullscreen');
-            }
-
-            if (player.supports) {
-                if (player.supports('PictureInPicture')) {
-                    list.push('PictureInPicture');
-                }
-                if (player.supports('SetBrightness')) {
-                    list.push('SetBrightness');
-                }
-                if (player.supports('SetAspectRatio')) {
-                    list.push('SetAspectRatio');
-                }
-            }
-
-            return list;
-        }
-
-        throw new Error('player must define supported commands');
-    }
-
-    function createTarget(player) {
+    function createTarget(instance, player) {
         return {
             name: player.name,
             id: player.id,
             playerName: player.name,
             playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'].map(player.canPlayMediaType),
             isLocalPlayer: player.isLocalPlayer,
-            supportedCommands: getSupportedCommands(player)
+            supportedCommands: instance.getSupportedCommands(player)
         };
     }
 
@@ -844,7 +799,7 @@
                     playerName: 'localplayer',
                     playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'],
                     isLocalPlayer: true,
-                    supportedCommands: getSupportedCommands({
+                    supportedCommands: self.getSupportedCommands({
                         isLocalPlayer: true
                     })
                 });
@@ -920,7 +875,7 @@
             var previousTargetInfo = currentTargetInfo;
 
             if (player && !targetInfo && player.isLocalPlayer) {
-                targetInfo = createTarget(player);
+                targetInfo = createTarget(self, player);
             }
 
             if (player && !targetInfo) {
@@ -3361,6 +3316,53 @@
         return mediaStreams.filter(function (s) {
             return s.Type === 'Subtitle';
         });
+    };
+
+    PlaybackManager.prototype.getSupportedCommands = function (player) {
+
+        player = player || this._currentPlayer;
+
+        if (player.isLocalPlayer) {
+            // Full list
+            // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs
+            var list = [
+                "GoHome",
+                "GoToSettings",
+                "VolumeUp",
+                "VolumeDown",
+                "Mute",
+                "Unmute",
+                "ToggleMute",
+                "SetVolume",
+                "SetAudioStreamIndex",
+                "SetSubtitleStreamIndex",
+                "SetMaxStreamingBitrate",
+                "DisplayContent",
+                "GoToSearch",
+                "DisplayMessage",
+                "SetRepeatMode"
+            ];
+
+            if (apphost.supports('fullscreenchange') && !layoutManager.tv) {
+                list.push('ToggleFullscreen');
+            }
+
+            if (player.supports) {
+                if (player.supports('PictureInPicture')) {
+                    list.push('PictureInPicture');
+                }
+                if (player.supports('SetBrightness')) {
+                    list.push('SetBrightness');
+                }
+                if (player.supports('SetAspectRatio')) {
+                    list.push('SetAspectRatio');
+                }
+            }
+
+            return list;
+        }
+
+        throw new Error('player must define supported commands');
     };
 
     PlaybackManager.prototype.setRepeatMode = function (value, player) {

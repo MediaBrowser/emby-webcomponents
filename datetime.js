@@ -277,6 +277,7 @@
         toLocaleDateString: toLocaleDateString,
         toLocaleString: toLocaleString,
         getDisplayTime: getDisplayTime,
-        isRelativeDay: isRelativeDay
+        isRelativeDay: isRelativeDay,
+        toLocaleTimeString: toLocaleTimeString
     };
 });

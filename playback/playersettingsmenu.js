@@ -54,6 +54,36 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         });
     }
 
+    function showRepeatModeMenu(player, btn) {
+
+        var menuItems = [];
+
+        menuItems.push({
+            name: globalize.translate('sharedcomponents#RepeatOne'),
+            id: 'RepeatOne'
+        });
+
+        menuItems.push({
+            name: globalize.translate('sharedcomponents#RepeatAll'),
+            id: 'RepeatAll'
+        });
+        menuItems.push({
+            name: globalize.translate('sharedcomponents#None'),
+            id: 'RepeatNone'
+        });
+
+        return actionsheet.show({
+            items: menuItems,
+            positionTo: btn
+
+        }).then(function (mode) {
+
+            if (mode) {
+                playbackManager.setRepeatMode(mode, player);
+            }
+        });
+    }
+
     function getQualitySecondaryText(player) {
 
         return playbackManager.getPlayerState(player).then(function (state) {
@@ -143,12 +173,14 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
         var player = options.player;
 
+        var supportedCommands = playbackManager.getSupportedCommands(player);
+
         return getQualitySecondaryText(player).then(function (secondaryQualityText) {
             var mediaType = options.mediaType;
 
             var menuItems = [];
 
-            if (player.supports && player.supports('SetAspectRatio')) {
+            if (supportedCommands.indexOf('SetAspectRatio') !== -1) {
 
                 var currentAspectRatioId = playbackManager.getAspectRatio(player);
                 var currentAspectRatio = playbackManager.getSupportedAspectRatios(player).filter(function (i) {
@@ -168,6 +200,17 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
                 secondaryText: secondaryQualityText
             });
 
+            var repeatMode = playbackManager.getRepeatMode(player);
+
+            if (supportedCommands.indexOf('SetRepeatMode') !== -1) {
+
+                menuItems.push({
+                    name: globalize.translate('sharedcomponents#RepeatMode'),
+                    id: 'repeatmode',
+                    secondaryText: repeatMode === 'RepeatNone' ? globalize.translate('sharedcomponents#None') : globalize.translate('sharedcomponents#' + repeatMode)
+                });
+            }
+
             //menuItems.push({
             //    name: globalize.translate('sharedcomponents#Settings'),
             //    id: 'settings'
@@ -186,6 +229,8 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
                         return showQualityMenu(player, options.positionTo);
                     case 'aspectratio':
                         return showAspectRatioMenu(player, options.positionTo);
+                    case 'repeatmode':
+                        return showRepeatModeMenu(player, options.positionTo);
                     default:
                         break;
                 }
