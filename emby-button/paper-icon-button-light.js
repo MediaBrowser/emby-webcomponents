@@ -11,6 +11,18 @@
         return true;
     }
 
+    function onTransitionEnd() {
+        var div = this;
+        var parentNode = div.parentNode;
+        if (parentNode) {
+            try {
+                parentNode.removeChild(div);
+            }
+            catch (err) {
+            }
+        }
+    }
+
     function animateButtonInternal(e, btn) {
 
         var div = document.createElement('div');
@@ -29,15 +41,9 @@
 
         btn.appendChild(div);
 
-        var callback = function () {
-            var parentNode = div.parentNode;
-            if (parentNode) {
-                parentNode.removeChild(div);
-            }
-        };
-
-        div.addEventListener(dom.whichAnimationEvent(), callback, false);
-        div.addEventListener(dom.whichAnimationCancelEvent(), callback, false);
+        div.addEventListener(dom.whichAnimationEvent(), onTransitionEnd, false);
+        div.addEventListener(dom.whichAnimationCancelEvent(), onTransitionEnd, false);
+        setTimeout(onTransitionEnd.bind(div), 200);
     }
 
     function animateButton(e, btn) {

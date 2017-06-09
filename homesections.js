@@ -14,9 +14,9 @@
             case 3:
                 return 'resumeaudio';
             case 4:
-                return 'nextup';
-            case 5:
                 return 'onnow';
+            case 5:
+                return 'nextup';
             case 6:
                 return 'latestmedia';
             case 7:
