@@ -148,7 +148,6 @@
     "LabelAlbum": "Albumas:",
     "Artists": "Artists",
     "LabelCommunityRating": "Bendruomen\u0117s vertinimas:",
-    "LabelVoteCount": "Bals\u0173 skai\u010dius:",
     "LabelCriticRating": "Kritik\u0173 vertinimas:",
     "LabelWebsite": "Tinklapis:",
     "LabelTagline": "\u0160\u016bkis:",
@@ -430,5 +429,8 @@
     "LandingScreensHelp": "Select the default landing screen when clicking on a library.",
     "HeaderTermsOfPurchase": "Terms of Purchase",
     "PrivacyPolicy": "Privacy policy",
-    "TermsOfUse": "Terms of use"
+    "TermsOfUse": "Terms of use",
+    "RepeatMode": "Repeat mode",
+    "RepeatOne": "Repeat one",
+    "RepeatAll": "Repeat all"
 }

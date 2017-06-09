@@ -148,7 +148,6 @@
     "LabelAlbum": "Album:",
     "Artists": "Artists",
     "LabelCommunityRating": "Beoordeling gemeenschap:",
-    "LabelVoteCount": "Aantal stemmen:",
     "LabelCriticRating": "Beoordeling critici:",
     "LabelWebsite": "Website:",
     "LabelTagline": "Tagline:",
@@ -430,5 +429,8 @@
     "LandingScreensHelp": "Selecteer de standaard sectie wanneer op een bibliotheek wordt geklikt.",
     "HeaderTermsOfPurchase": "Aankoop Voorwaarden",
     "PrivacyPolicy": "Privacy beleid",
-    "TermsOfUse": "Gebruiksvoorwaarden"
+    "TermsOfUse": "Gebruiksvoorwaarden",
+    "RepeatMode": "Repeat mode",
+    "RepeatOne": "Repeat one",
+    "RepeatAll": "Repeat all"
 }

@@ -148,7 +148,6 @@
     "LabelAlbum": "\u00c1lbum:",
     "Artists": "Artistas",
     "LabelCommunityRating": "Avalia\u00e7\u00e3o da comunidade:",
-    "LabelVoteCount": "Contagem de votos:",
     "LabelCriticRating": "Avalia\u00e7\u00e3o da cr\u00edtica:",
     "LabelWebsite": "Website:",
     "LabelTagline": "Slogan:",
@@ -430,5 +429,8 @@
     "LandingScreensHelp": "Selecione a tela de entrada padr\u00e3o quando clicar em uma biblioteca.",
     "HeaderTermsOfPurchase": "Termos de Compra",
     "PrivacyPolicy": "Pol\u00edtica de privacidade",
-    "TermsOfUse": "Termos de uso"
+    "TermsOfUse": "Termos de uso",
+    "RepeatMode": "Repeat mode",
+    "RepeatOne": "Repeat one",
+    "RepeatAll": "Repeat all"
 }

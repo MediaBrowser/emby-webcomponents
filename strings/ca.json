@@ -148,7 +148,6 @@
     "LabelAlbum": "\u00c0lbum:",
     "Artists": "Artists",
     "LabelCommunityRating": "Valoraci\u00f3 de la comunitat:",
-    "LabelVoteCount": "Recompte de vots:",
     "LabelCriticRating": "Valoraci\u00f3 cr\u00edtica:",
     "LabelWebsite": "Website:",
     "LabelTagline": "Tagline:",
@@ -430,5 +429,8 @@
     "LandingScreensHelp": "Select the default landing screen when clicking on a library.",
     "HeaderTermsOfPurchase": "Terms of Purchase",
     "PrivacyPolicy": "Privacy policy",
-    "TermsOfUse": "Terms of use"
+    "TermsOfUse": "Terms of use",
+    "RepeatMode": "Repeat mode",
+    "RepeatOne": "Repeat one",
+    "RepeatAll": "Repeat all"
 }
