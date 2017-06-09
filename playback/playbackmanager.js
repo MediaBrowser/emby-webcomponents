@@ -1708,6 +1708,7 @@
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
+                state.PlayState.PlaybackStartTimeTicks = self.playbackStartTime(player);
 
                 state.PlayState.SubtitleStreamIndex = self.getSubtitleStreamIndex(player);
                 state.PlayState.AudioStreamIndex = self.getAudioStreamIndex(player);
@@ -2521,6 +2522,8 @@
 
             playerData.streamInfo = streamInfo;
 
+            streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
+
             if (mediaSource) {
                 playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
                 playerData.subtitleStreamIndex = mediaSource.DefaultSubtitleStreamIndex;
@@ -2556,6 +2559,10 @@
             var fullscreen = playOptions.fullscreen;
 
             playOptions.isFirstItem = false;
+
+            var playerData = getPlayerData(player);
+            playerData.streamInfo = {};
+            streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
 
             self.getPlayerState(player).then(function (state) {
 
@@ -2959,6 +2966,17 @@
         events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
             self.setDefaultPlayerActive();
         });
+
+        self.playbackStartTime = function (player) {
+
+            player = player || this._currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player) && !player.isLocalPlayer) {
+                return player.playbackStartTime();
+            }
+
+            var streamInfo = getPlayerData(player).streamInfo;
+            return streamInfo ? streamInfo.playbackStartTimeTicks : null;
+        };
     }
 
     PlaybackManager.prototype.getCurrentPlayer = function () {

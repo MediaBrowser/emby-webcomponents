@@ -38,7 +38,7 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
         var miscInfo = [];
         var text, date;
 
-        if (item.StartDate) {
+        if (item.StartDate && options.programTime !== false) {
 
             try {
 
