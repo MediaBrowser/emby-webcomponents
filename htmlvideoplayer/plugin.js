@@ -439,9 +439,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             self._currentTime = time;
-            var timeMs = time * 1000;
-            timeMs += ((self._currentPlayOptions.transcodingOffsetTicks || 0) / 10000);
-            updateSubtitleText(timeMs);
+
+            var currentPlayOptions = self._currentPlayOptions;
+            // Not sure yet how this is coming up null since we never null it out, but it is causing app crashes
+            if (currentPlayOptions) {
+                var timeMs = time * 1000;
+                timeMs += ((currentPlayOptions.transcodingOffsetTicks || 0) / 10000);
+                updateSubtitleText(timeMs);
+            }
 
             events.trigger(self, 'timeupdate');
         }
