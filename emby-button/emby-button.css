@@ -31,14 +31,26 @@
     text-decoration: none;
 }
 
+    .emby-button:focus {
+        outline: none !important;
+    }
+
     .emby-button::-moz-focus-inner {
         border: 0;
     }
+
+a.emby-button {
+    color: inherit;
+}
 
 .button-flat {
     background: transparent;
     box-shadow: none;
 }
+
+    .button-flat:hover {
+        opacity: .5;
+    }
 
 .button-link {
     background: transparent;

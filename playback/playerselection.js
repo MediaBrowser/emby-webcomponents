@@ -74,7 +74,7 @@
                 loading.hide();
 
                 var menuOptions = {
-                    title: globalize.translate('sharedcomponents#HeaderSelectPlayer'),
+                    title: globalize.translate('sharedcomponents#HeaderPlayOn'),
                     items: menuItems,
                     positionTo: button,
 

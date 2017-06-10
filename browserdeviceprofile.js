@@ -263,7 +263,7 @@ define(['browser'], function (browser) {
 
             var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
             if (isChromecastUltra) {
-                return 40000000;
+                return 80000000;
             }
 
             return 10000000;

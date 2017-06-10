@@ -207,7 +207,7 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
             var repeatMode = playbackManager.getRepeatMode(player);
 
-            if (supportedCommands.indexOf('SetRepeatMode') !== -1) {
+            if (supportedCommands.indexOf('SetRepeatMode') !== -1 && playbackManager.currentMediaSource(player).RunTimeTicks) {
 
                 menuItems.push({
                     name: globalize.translate('sharedcomponents#RepeatMode'),

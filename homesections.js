@@ -367,14 +367,22 @@
 
             if (items.length) {
 
-                html += '<div class="sectionTitleContainer">';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name) + '</h2>';
+                html += '<div class="sectionTitleContainer padded-left">';
                 if (!layoutManager.tv) {
+
                     html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl(parent, {
 
                         section: 'latest'
 
-                    }) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
+                    }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                    html += '<h2 class="sectionTitle sectionTitle-cards">';
+                    html += globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name);
+                    html += '</h2>';
+                    html += '<i class="md-icon">&#xE5CC;</i>';
+                    html += '</a>';
+
+                } else {
+                    html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name) + '</h2>';
                 }
                 html += '</div>';
 
@@ -389,8 +397,8 @@
                 var shape = viewType === 'movies' ?
                     getPortraitShape() :
                     viewType === 'music' ?
-                    getSquareShape() :
-                    getThumbShape();
+                        getSquareShape() :
+                        getThumbShape();
 
                 var supportsImageAnalysis = appHost.supports('imageanalysis');
                 supportsImageAnalysis = false;
@@ -845,21 +853,31 @@
 
             if (result.Items.length) {
 
-                html += '<div class="sectionTitleContainer">';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderOnNow') + '</h2>';
+                html += '<div class="sectionTitleContainer padded-left">';
+
                 if (!layoutManager.tv) {
+
                     html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
 
                         serverId: apiClient.serverId(),
                         section: 'onnow'
 
-                    }) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
+                    }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                    html += '<h2 class="sectionTitle sectionTitle-cards">';
+                    html += globalize.translate('sharedcomponents#HeaderOnNow');
+                    html += '</h2>';
+                    html += '<i class="md-icon">&#xE5CC;</i>';
+                    html += '</a>';
+
                     html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
 
                         serverId: apiClient.serverId(),
                         section: 'guide'
 
                     }) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#Guide') + '</a>';
+
+                } else {
+                    html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#HeaderOnNow') + '</h2>';
                 }
                 html += '</div>';
 
@@ -918,14 +936,22 @@
 
             if (result.Items.length) {
 
-                html += '<div class="sectionTitleContainer">';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderNextUp') + '</h2>';
+                html += '<div class="sectionTitleContainer padded-left">';
                 if (!layoutManager.tv) {
+
                     html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('nextup', {
 
                         serverId: apiClient.serverId()
 
-                    }) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
+                    }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
+                    html += '<h2 class="sectionTitle sectionTitle-cards">';
+                    html += globalize.translate('sharedcomponents#HeaderNextUp');
+                    html += '</h2>';
+                    html += '<i class="md-icon">&#xE5CC;</i>';
+                    html += '</a>';
+
+                } else {
+                    html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#HeaderNextUp') + '</h2>';
                 }
                 html += '</div>';
 
