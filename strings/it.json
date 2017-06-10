@@ -1,4 +1,5 @@
 {
+    "HeaderPlayOn": "Play On",
     "MessageUnlockAppWithPurchaseOrSupporter": "Sblocca questa funzionalit\u00e0 con un piccolo acquisto singolo, o con un abbonamento Emby Premiere.",
     "MessageUnlockAppWithSupporter": "Sblocca questa funzionalit\u00e0 con un abbonamento Emby Premiere",
     "MessageToValidateSupporter": "Se hai un abbonamento Emby Premiere, assicurati di averlo configurato nel Pannello di Controllo del Server, a cui puoi accedere cliccando su Emby Premiere dal menu principale.",
@@ -430,7 +431,7 @@
     "HeaderTermsOfPurchase": "Termini di pagamento",
     "PrivacyPolicy": "Informativa sulla privacy",
     "TermsOfUse": "Termini di utilizzo",
-    "RepeatMode": "Repeat mode",
-    "RepeatOne": "Repeat one",
-    "RepeatAll": "Repeat all"
+    "RepeatMode": "Modalit\u00e0 Ripeti",
+    "RepeatOne": "Ripeti uno",
+    "RepeatAll": "Ripeti tutti"
 }
