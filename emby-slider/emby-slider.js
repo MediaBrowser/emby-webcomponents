@@ -1,4 +1,4 @@
-﻿define(['browser', 'dom', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser, dom) {
+﻿define(['browser', 'dom', 'layoutManager', 'css!./emby-slider', 'registerElement', 'emby-input'], function (browser, dom, layoutManager) {
     'use strict';
 
     var EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
@@ -69,6 +69,15 @@
 
         this.classList.add('mdl-slider');
         this.classList.add('mdl-js-slider');
+
+        if (!this.classList.contains('slider-medium-thumb')) {
+            if (layoutManager.mobile) {
+                this.classList.add('slider-large-thumb');
+            }
+            else if (layoutManager.tv) {
+                this.classList.add('slider-small-thumb');
+            }
+        }
 
         if (browser.noFlex) {
             this.classList.add('slider-no-webkit-thumb');

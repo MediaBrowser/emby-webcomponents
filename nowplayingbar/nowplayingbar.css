@@ -5,12 +5,13 @@
 .nowPlayingBarInfoContainer {
     display: flex;
     align-items: center;
+    height: 100%;
 }
 
 /* Now playing bar */
 .nowPlayingBar {
     /* Above everything, except for the video player and popup overlays */
-    color: #ddd;
+    color: #ccc;
     text-align: center;
     will-change: transform;
     contain: layout style;
@@ -25,6 +26,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    height: 4.2em;
 }
 
 .mediaButton, .nowPlayingBarUserDataButtons .btnUserItemRating {
@@ -39,26 +41,13 @@
         font-size: 200%;
     }
 
-.nowPlayingImage {
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 1em;
-}
-
-    .nowPlayingImage img {
-        vertical-align: bottom;
-    }
-
-    .nowPlayingImage img {
-        height: 4.2em;
-    }
-
 .nowPlayingBar .nowPlayingImage {
-    width: 4.2em;
-    height: 4.2em;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
+    height: 70%;
+    width: 4.2em;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
 .nowPlayingBarText {
@@ -71,6 +60,10 @@
     flex-grow: 1;
     font-size: 92%;
     margin-right: 2.4em;
+}
+
+.nowPlayingBarSecondaryText {
+    color: #999;
 }
 
 .repeatActive {
@@ -120,7 +113,7 @@
 
 .nowPlayingBarPositionContainer {
     position: absolute !important;
-    left: 4.2em;
+    left: 0;
     top: -8px;
     right: 0;
     z-index: 1;

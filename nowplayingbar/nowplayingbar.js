@@ -42,31 +42,31 @@
         // The onclicks are needed due to the return false above
         html += '<div class="nowPlayingBarCenter">';
 
-        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton autoSize"><i class="md-icon">&#xE045;</i></button>';
+        html += '<button is="paper-icon-button-light" class="previousTrackButton mediaButton"><i class="md-icon">&#xE045;</i></button>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton autoSize"><i class="md-icon">&#xE034;</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">&#xE034;</i></button>';
 
-        html += '<button is="paper-icon-button-light" class="stopButton mediaButton autoSize"><i class="md-icon">stop</i></button>';
-        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton autoSize"><i class="md-icon">&#xE044;</i></button>';
+        html += '<button is="paper-icon-button-light" class="stopButton mediaButton"><i class="md-icon">stop</i></button>';
+        html += '<button is="paper-icon-button-light" class="nextTrackButton mediaButton"><i class="md-icon">&#xE044;</i></button>';
 
         html += '<div class="nowPlayingBarCurrentTime"></div>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarRight">';
 
-        html += '<button is="paper-icon-button-light" class="muteButton mediaButton autoSize"><i class="md-icon">&#xE050;</i></button>';
+        html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="md-icon">&#xE050;</i></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:100px;vertical-align:middle;display:inline-flex;">';
         html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton autoSize"><i class="md-icon">&#xE040;</i></button>';
+        html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="md-icon">&#xE040;</i></button>';
 
         html += '<div class="nowPlayingBarUserDataButtons">';
         html += '</div>';
 
-        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton autoSize"><i class="md-icon">&#xE034;</i></button>';
-        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton autoSize"><i class="md-icon">&#xE05F;</i></button>';
+        html += '<button is="paper-icon-button-light" class="playPauseButton mediaButton"><i class="md-icon">&#xE034;</i></button>';
+        html += '<button is="paper-icon-button-light" class="remoteControlButton mediaButton"><i class="md-icon">&#xE05F;</i></button>';
 
         html += '</div>';
         html += '</div>';
@@ -513,15 +513,21 @@
 
         var nowPlayingItem = state.NowPlayingItem;
 
-        nowPlayingTextElement.innerHTML = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem).map(function (nowPlayingName) {
+        var textLines = nowPlayingItem ? nowPlayingHelper.getNowPlayingNames(nowPlayingItem) : [];
+        if (textLines.length > 1) {
+            textLines[1].secondary = true;
+        }
+        nowPlayingTextElement.innerHTML = textLines.map(function (nowPlayingName) {
+
+            var cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
 
             if (nowPlayingName.item) {
-                return '<div>' + getTextActionButton(nowPlayingName.item, nowPlayingName.text) + '</div>';
+                return '<div' + cssClass + '>' + getTextActionButton(nowPlayingName.item, nowPlayingName.text) + '</div>';
             }
 
-            return '<div>' + nowPlayingName.text + '</div>';
+            return '<div' + cssClass + '>' + nowPlayingName.text + '</div>';
 
-        }).join('') : '';
+        }).join('');
 
         var imgHeight = 70;
 

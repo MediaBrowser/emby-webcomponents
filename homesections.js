@@ -1061,7 +1061,6 @@
                 html += cardBuilder.getCardsHtml({
                     items: result.Items,
                     shape: enableScrollX() ? 'autooverflow' : 'auto',
-                    defaultShape: 'square',
                     showTitle: true,
                     centerText: true,
                     lazy: true,

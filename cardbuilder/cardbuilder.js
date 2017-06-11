@@ -547,6 +547,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     tag: item.ParentPrimaryImageTag
                 });
             }
+            else if (item.SeriesPrimaryImageTag) {
+
+                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
+                    type: "Primary",
+                    maxWidth: width,
+                    tag: item.SeriesPrimaryImageTag
+                });
+            }
             else if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
                 width = primaryImageAspectRatio ? Math.round(height * primaryImageAspectRatio) : null;
