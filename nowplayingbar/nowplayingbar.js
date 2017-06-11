@@ -31,7 +31,7 @@
 
         html += '<div class="nowPlayingBarTop">';
         html += '<div class="nowPlayingBarPositionContainer sliderContainer">';
-        html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="nowPlayingBarPositionSlider"/>';
+        html += '<input type="range" is="emby-slider" pin step=".01" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarPositionSlider"/>';
         html += '</div>';
 
         html += '<div class="nowPlayingBarInfoContainer">';
@@ -57,7 +57,7 @@
         html += '<button is="paper-icon-button-light" class="muteButton mediaButton"><i class="md-icon">&#xE050;</i></button>';
 
         html += '<div class="sliderContainer nowPlayingBarVolumeSliderContainer hide" style="width:100px;vertical-align:middle;display:inline-flex;">';
-        html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="nowPlayingBarVolumeSlider"/>';
+        html += '<input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="slider-medium-thumb nowPlayingBarVolumeSlider"/>';
         html += '</div>';
 
         html += '<button is="paper-icon-button-light" class="toggleRepeatButton mediaButton"><i class="md-icon">&#xE040;</i></button>';
