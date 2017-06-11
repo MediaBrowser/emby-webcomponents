@@ -108,6 +108,11 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             options.enableNativeScroll = true;
         }
 
+        // Need this for the magic wheel. With the animated scroll the magic wheel will run off of the screen
+        if (browser.web0s) {
+            options.enableNativeScroll = true;
+        }
+
         // Private variables
         var self = this;
         self.options = o;
