@@ -341,7 +341,13 @@
 
         var limit = 12;
 
-        if (!enableScrollX()) {
+        if (enableScrollX()) {
+
+            if (parent.CollectionType === 'music') {
+                limit = 30;
+            }
+        }
+        else {
 
             if (parent.CollectionType === 'tvshows') {
                 limit = 5;

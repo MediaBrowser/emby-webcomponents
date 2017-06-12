@@ -69,6 +69,10 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
             return false;
         }
 
+        if (browser.web0s) {
+            return false;
+        }
+
         if (browser.xboxOne) {
             return true;
         }
