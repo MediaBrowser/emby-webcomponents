@@ -3464,18 +3464,18 @@
                 var menuItems = [];
 
                 menuItems.push({
-                    name: globalize.translate('ButtonYes'),
+                    name: globalize.translate('sharedcomponents#Yes'),
                     id: 'yes'
                 });
                 menuItems.push({
-                    name: globalize.translate('ButtonNo'),
+                    name: globalize.translate('sharedcomponents#No'),
                     id: 'no'
                 });
 
                 dialog({
                     buttons: menuItems,
                     //positionTo: positionTo,
-                    text: globalize.translate('ConfirmEndPlayerSession')
+                    text: globalize.translate('sharedcomponents#ConfirmEndPlayerSession')
 
                 }).then(function (id) {
                     switch (id) {
