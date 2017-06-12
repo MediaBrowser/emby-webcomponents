@@ -893,14 +893,14 @@
                     inheritThumb: false,
                     shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
                     showParentTitleOrTitle: true,
-                    showTitle: false,
+                    showTitle: true,
                     centerText: true,
                     coverImage: true,
                     overlayText: false,
                     overlayPlayButton: true,
                     allowBottomPadding: !enableScrollX(),
                     showAirTime: true,
-                    showChannelName: true,
+                    showChannelName: false,
                     showAirDateTime: false,
                     showAirEndTime: true
                 });

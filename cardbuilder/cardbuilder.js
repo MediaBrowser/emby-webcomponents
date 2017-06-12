@@ -746,7 +746,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                             lines.push(item.Name);
 
-                            if (!item.IsSeries) {
+                            if (!item.EpisodeTitle) {
                                 titleAdded = true;
                             }
 
