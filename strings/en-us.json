@@ -436,5 +436,6 @@
   "ConfirmEndPlayerSession": "Would you like to close Emby on the device?",
   "Yes": "Yes",
   "No": "No",
-  "LiveTV": "Live TV"
+  "LiveTV": "Live TV",
+  "Schedule": "Schedule"
 }

@@ -858,22 +858,7 @@
                 html += '<div class="verticalSection">';
                 html += '<div class="sectionTitleContainer padded-left">';
 
-                if (layoutManager.tv) {
-
-                    html += '<h2 class="sectionTitle">' + globalize.translate('sharedcomponents#LiveTV') + '</h2>';
-
-                } else {
-                    html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
-
-                        serverId: apiClient.serverId()
-
-                    }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
-                    html += '<h2 class="sectionTitle sectionTitle-cards">';
-                    html += globalize.translate('sharedcomponents#LiveTV');
-                    html += '</h2>';
-                    html += '<i class="md-icon">&#xE5CC;</i>';
-                    html += '</a>';
-                }
+                html += '<h2 class="sectionTitle">' + globalize.translate('sharedcomponents#LiveTV') + '</h2>';
 
                 html += '</div>';
 
@@ -887,6 +872,12 @@
 
                 html += '<a style="margin:0;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
 
+                    serverId: apiClient.serverId()
+
+                }) + '" class="raised"><i class="md-icon">&#xE639;</i><span>' + globalize.translate('sharedcomponents#Programs') + '</span></a>';
+
+                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
+
                     serverId: apiClient.serverId(),
                     section: 'guide'
 
@@ -895,37 +886,9 @@
                 html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
-                    section: 'shows'
+                    section: 'dvrschedule'
 
-                }) + '" class="raised"><i class="md-icon">&#xE333;</i><span>' + globalize.translate('sharedcomponents#Shows') + '</span></a>';
-
-                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
-
-                    serverId: apiClient.serverId(),
-                    section: 'movies'
-
-                }) + '" class="raised"><i class="md-icon">&#xE04B;</i><span>' + globalize.translate('sharedcomponents#Movies') + '</span></a>';
-
-                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
-
-                    serverId: apiClient.serverId(),
-                    section: 'sports'
-
-                }) + '" class="raised"><i class="md-icon">&#xE566;</i><span>' + globalize.translate('sharedcomponents#Sports') + '</span></a>';
-
-                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
-
-                    serverId: apiClient.serverId(),
-                    section: 'kids'
-
-                }) + '" class="raised"><i class="md-icon">&#xEB41;</i><span>' + globalize.translate('sharedcomponents#Kids') + '</span></a>';
-
-                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
-
-                    serverId: apiClient.serverId(),
-                    section: 'news'
-
-                }) + '" class="raised"><i class="md-icon">&#xE88E;</i><span>' + globalize.translate('sharedcomponents#News') + '</span></a>';
+                }) + '" class="raised"><i class="md-icon">&#xE916;</i><span>' + globalize.translate('sharedcomponents#Schedule') + '</span></a>';
 
                 html += '</div>';
 
