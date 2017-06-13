@@ -28,29 +28,32 @@
 
     function loadSections(elem, apiClient, user, userSettings) {
 
-        var i, length;
-        var sectionCount = 7;
+        return getUserViews(apiClient, user.Id).then(function (userViews) {
 
-        var html = '';
-        for (i = 0, length = sectionCount; i < length; i++) {
+            var i, length;
+            var sectionCount = 7;
 
-            html += '<div class="verticalSection section' + i + '"></div>';
-        }
+            var html = '';
+            for (i = 0, length = sectionCount; i < length; i++) {
 
-        elem.innerHTML = html;
-        elem.classList.add('homeSectionsContainer');
+                html += '<div class="verticalSection section' + i + '"></div>';
+            }
 
-        var promises = [];
+            elem.innerHTML = html;
+            elem.classList.add('homeSectionsContainer');
 
-        for (i = 0, length = sectionCount; i < length; i++) {
+            var promises = [];
 
-            promises.push(loadSection(elem, apiClient, user, userSettings, i));
-        }
+            for (i = 0, length = sectionCount; i < length; i++) {
 
-        return Promise.all(promises);
+                promises.push(loadSection(elem, apiClient, user, userSettings, userViews, i));
+            }
+
+            return Promise.all(promises);
+        });
     }
 
-    function loadSection(page, apiClient, user, userSettings, index) {
+    function loadSection(page, apiClient, user, userSettings, userViews, index) {
 
         var userId = user.Id;
 
@@ -63,13 +66,13 @@
         var elem = page.querySelector('.section' + index);
 
         if (section === 'latestmedia') {
-            return loadRecentlyAdded(elem, apiClient, user);
+            return loadRecentlyAdded(elem, apiClient, user, userViews);
         }
         else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
-            return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop');
+            return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews);
         }
         else if (section === 'librarybuttons') {
-            return loadlibraryButtons(elem, apiClient, userId, userSettings);
+            return loadlibraryButtons(elem, apiClient, userId, userSettings, userViews);
         }
         else if (section === 'resume') {
             return loadResumeVideo(elem, apiClient, userId);
@@ -196,22 +199,19 @@
         return html;
     }
 
-    function loadlibraryButtons(elem, apiClient, userId, userSettings) {
+    function loadlibraryButtons(elem, apiClient, userId, userSettings, userViews) {
 
-        return getUserViews(apiClient, userId).then(function (items) {
+        var html = getLibraryButtonsHtml(userViews);
 
-            var html = getLibraryButtonsHtml(items);
+        return getAppInfo(apiClient).then(function (infoHtml) {
 
-            return getAppInfo(apiClient).then(function (infoHtml) {
+            elem.innerHTML = html + infoHtml;
 
-                elem.innerHTML = html + infoHtml;
+            bindHomeScreenSettingsIcon(elem, apiClient, userId, userSettings);
 
-                bindHomeScreenSettingsIcon(elem, apiClient, userId, userSettings);
-
-                if (infoHtml) {
-                    bindAppInfoEvents(elem);
-                }
-            });
+            if (infoHtml) {
+                bindAppInfoEvents(elem);
+            }
         });
     }
 
@@ -440,39 +440,36 @@
         });
     }
 
-    function loadRecentlyAdded(elem, apiClient, user) {
+    function loadRecentlyAdded(elem, apiClient, user, userViews) {
 
         elem.classList.remove('verticalSection');
 
-        return getUserViews(apiClient, user.Id).then(function (items) {
+        var excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
+        var excludeItemTypes = ['Channel'];
 
-            var excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
-            var excludeItemTypes = ['Channel'];
+        for (var i = 0, length = userViews.length; i < length; i++) {
 
-            for (var i = 0, length = items.length; i < length; i++) {
+            var item = userViews[i];
 
-                var item = items[i];
-
-                if (user.Configuration.LatestItemsExcludes.indexOf(item.Id) !== -1) {
-                    continue;
-                }
-
-                if (excludeViewTypes.indexOf(item.CollectionType || []) !== -1) {
-                    continue;
-                }
-
-                // not implemented yet
-                if (excludeItemTypes.indexOf(item.Type) !== -1) {
-                    continue;
-                }
-
-                var frag = document.createElement('div');
-                frag.classList.add('verticalSection');
-                elem.appendChild(frag);
-
-                renderLatestSection(frag, apiClient, user, item);
+            if (user.Configuration.LatestItemsExcludes.indexOf(item.Id) !== -1) {
+                continue;
             }
-        });
+
+            if (excludeViewTypes.indexOf(item.CollectionType || []) !== -1) {
+                continue;
+            }
+
+            // not implemented yet
+            if (excludeItemTypes.indexOf(item.Type) !== -1) {
+                continue;
+            }
+
+            var frag = document.createElement('div');
+            frag.classList.add('verticalSection');
+            elem.appendChild(frag);
+
+            renderLatestSection(frag, apiClient, user, item);
+        }
     }
 
     function loadLatestChannelMedia(elem, apiClient, userId) {
@@ -557,63 +554,60 @@
         });
     }
 
-    function loadLibraryTiles(elem, apiClient, user, userSettings, shape) {
+    function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews) {
 
-        return getUserViews(apiClient, user.Id).then(function (items) {
+        var html = '';
 
-            var html = '';
+        html += '<div>';
 
-            html += '<div>';
+        if (userViews.length) {
 
-            if (items.length) {
+            html += '<div class="sectionTitleContainer">';
+            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
 
-                html += '<div class="sectionTitleContainer">';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
-
-                if (!layoutManager.tv) {
-                    html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE8B8;</i></button>';
-                }
-
-                html += '</div>';
-
-                var scrollX = enableScrollX();
-
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-                }
-
-                html += cardBuilder.getCardsHtml({
-                    items: items,
-                    shape: scrollX ? 'overflowSmallBackdrop' : shape,
-                    showTitle: true,
-                    centerText: true,
-                    overlayText: false,
-                    lazy: true,
-                    transition: false,
-                    allowBottomPadding: !scrollX
-                });
-
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
-                html += '</div>';
+            if (!layoutManager.tv) {
+                html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE8B8;</i></button>';
             }
 
             html += '</div>';
 
-            return getAppInfo(apiClient).then(function (infoHtml) {
+            var scrollX = enableScrollX();
 
-                elem.innerHTML = html + infoHtml;
-                bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
+            if (enableScrollX()) {
+                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+            } else {
+                html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+            }
 
-                if (infoHtml) {
-                    bindAppInfoEvents(elem);
-                }
-
-                imageLoader.lazyChildren(elem);
+            html += cardBuilder.getCardsHtml({
+                items: userViews,
+                shape: scrollX ? 'overflowSmallBackdrop' : shape,
+                showTitle: true,
+                centerText: true,
+                overlayText: false,
+                lazy: true,
+                transition: false,
+                allowBottomPadding: !scrollX
             });
+
+            if (enableScrollX()) {
+                html += '</div>';
+            }
+            html += '</div>';
+        }
+
+        html += '</div>';
+
+        return getAppInfo(apiClient).then(function (infoHtml) {
+
+            elem.innerHTML = html + infoHtml;
+            bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
+
+            if (infoHtml) {
+                bindAppInfoEvents(elem);
+            }
+
+            imageLoader.lazyChildren(elem);
         });
     }
 
@@ -1230,7 +1224,6 @@
     }
 
     return {
-        loadRecentlyAdded: loadRecentlyAdded,
         loadLatestChannelMedia: loadLatestChannelMedia,
         loadLibraryTiles: loadLibraryTiles,
         loadResumeVideo: loadResumeVideo,
@@ -1239,8 +1232,6 @@
         loadNextUp: loadNextUp,
         loadLatestChannelItems: loadLatestChannelItems,
         loadLatestLiveTvRecordings: loadLatestLiveTvRecordings,
-        loadlibraryButtons: loadlibraryButtons,
-        loadSection: loadSection,
         getDefaultSection: getDefaultSection,
         loadSections: loadSections
     };
