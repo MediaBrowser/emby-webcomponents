@@ -90,7 +90,7 @@ a.emby-button {
 .fab {
     display: inline-flex;
     border-radius: 50%;
-    background-color: rgba(170,170,190, .5);
+    background-color: #555660;
     padding: .6em;
     box-sizing: border-box;
     align-items: center;
