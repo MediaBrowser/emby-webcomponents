@@ -435,5 +435,6 @@
   "RepeatAll": "Repeat all",
   "ConfirmEndPlayerSession": "Would you like to close Emby on the device?",
   "Yes": "Yes",
-  "No": "No"
+  "No": "No",
+  "LiveTV": "Live TV"
 }
