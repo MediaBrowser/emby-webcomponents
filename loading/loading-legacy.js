@@ -1,4 +1,4 @@
-define(['css!./loading-legacy'], function () {
+define(['require', 'css!./loading-legacy'], function (require) {
     'use strict';
 
     var loadingElem;
@@ -9,28 +9,24 @@ define(['css!./loading-legacy'], function () {
 
             if (!elem) {
 
-                elem = document.createElement("div");
+                elem = document.createElement("img");
+                elem.src = require.toUrl('.').split('?')[0] + '/loader2.gif';
+
                 loadingElem = elem;
 
-                elem.classList.add('docspinner');
-                elem.classList.add('mdl-spinner');
-                elem.classList.add('mdl-js-spinner');
-
-                elem.innerHTML = '<div class="mdl-spinner__layer mdl-spinner__layer-1"><div class="mdl-spinner__circle-clipper mdl-spinner__left"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__gap-patch"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__circle-clipper mdl-spinner__right"><div class="mdl-spinner__circle"></div></div></div><div class="mdl-spinner__layer mdl-spinner__layer-2"><div class="mdl-spinner__circle-clipper mdl-spinner__left"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__gap-patch"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__circle-clipper mdl-spinner__right"><div class="mdl-spinner__circle"></div></div></div><div class="mdl-spinner__layer mdl-spinner__layer-3"><div class="mdl-spinner__circle-clipper mdl-spinner__left"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__gap-patch"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__circle-clipper mdl-spinner__right"><div class="mdl-spinner__circle"></div></div></div><div class="mdl-spinner__layer mdl-spinner__layer-4"><div class="mdl-spinner__circle-clipper mdl-spinner__left"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__gap-patch"><div class="mdl-spinner__circle"></div></div><div class="mdl-spinner__circle-clipper mdl-spinner__right"><div class="mdl-spinner__circle"></div></div></div>';
+                elem.classList.add('loading-spinner');
 
                 document.body.appendChild(elem);
             }
 
-            elem.classList.add('is-active');
-            elem.classList.remove('loadingHide');
+            elem.classList.remove('hide');
         },
         hide: function () {
             var elem = loadingElem;
 
             if (elem) {
 
-                elem.classList.remove('is-active');
-                elem.classList.add('loadingHide');
+                elem.classList.add('hide');
             }
         }
     };
