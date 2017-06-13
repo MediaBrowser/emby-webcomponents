@@ -351,6 +351,18 @@
         }));
     };
 
+    EmbyTabs.setTabEnabled = function (index, enabled) {
+
+        var tabs = this;
+        var btn = this.querySelector('.emby-tab-button[data-index="' + index + '"]');
+
+        if (enabled) {
+            btn.classList.remove('hide');
+        } else {
+            btn.classList.remove('add');
+        }
+    };
+
     document.registerElement('emby-tabs', {
         prototype: EmbyTabs,
         extends: 'div'

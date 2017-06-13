@@ -3362,7 +3362,8 @@
             return list;
         }
 
-        throw new Error('player must define supported commands');
+        var info = this.getPlayerInfo();
+        return info ? info.supportedCommands : [];
     };
 
     PlaybackManager.prototype.setRepeatMode = function (value, player) {
@@ -3445,59 +3446,6 @@
             if (playerInfo.id === id) {
                 this.setDefaultPlayerActive();
             }
-        }
-    };
-
-    PlaybackManager.prototype.disconnectFromPlayer = function () {
-
-        var playerInfo = this.getPlayerInfo();
-
-        if (!playerInfo) {
-            return;
-        }
-
-        var instance = this;
-        if (playerInfo.supportedCommands.indexOf('EndSession') !== -1) {
-
-            require(['dialog'], function (dialog) {
-
-                var menuItems = [];
-
-                menuItems.push({
-                    name: globalize.translate('sharedcomponents#Yes'),
-                    id: 'yes'
-                });
-                menuItems.push({
-                    name: globalize.translate('sharedcomponents#No'),
-                    id: 'no'
-                });
-
-                dialog({
-                    buttons: menuItems,
-                    //positionTo: positionTo,
-                    text: globalize.translate('sharedcomponents#ConfirmEndPlayerSession')
-
-                }).then(function (id) {
-                    switch (id) {
-
-                        case 'yes':
-                            instance.getCurrentPlayer().endSession();
-                            instance.setDefaultPlayerActive();
-                            break;
-                        case 'no':
-                            instance.setDefaultPlayerActive();
-                            break;
-                        default:
-                            break;
-                    }
-                });
-
-            });
-
-
-        } else {
-
-            this.setDefaultPlayerActive();
         }
     };
 

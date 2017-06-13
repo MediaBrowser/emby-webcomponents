@@ -148,7 +148,7 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
             }
         }
 
-        html += '<div class="secondary listItemBodyText jobStatus" style="color:green;">';
+        html += '<div class="secondary listItemBodyText jobStatus">';
         html += getProgressText(job);
         html += '</div>';
 
@@ -196,9 +196,10 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
 
                     lastTargetName = targetName;
 
-                    html += '<div class="detailSectionHeader">';
+                    html += '<div class="verticalSection">';
+                    html += '<div class="sectionTitleContainer">';
 
-                    html += '<h1>' + targetName + '</h1>';
+                    html += '<h1 class="sectionTitle">' + targetName + '</h1>';
 
                     html += '</div>';
                     html += '<div class="itemsContainer vertical-list paperList">';
@@ -210,6 +211,7 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
         }
 
         if (hasOpenSection) {
+            html += '</div>';
             html += '</div>';
         }
 

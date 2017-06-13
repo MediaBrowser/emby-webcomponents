@@ -109,6 +109,53 @@
         });
     }
 
+
+    function disconnectFromPlayer() {
+
+        if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
+
+            require(['dialog'], function (dialog) {
+
+                var menuItems = [];
+
+                menuItems.push({
+                    name: globalize.translate('sharedcomponents#Yes'),
+                    id: 'yes'
+                });
+                menuItems.push({
+                    name: globalize.translate('sharedcomponents#No'),
+                    id: 'no'
+                });
+
+                dialog({
+                    buttons: menuItems,
+                    //positionTo: positionTo,
+                    text: globalize.translate('sharedcomponents#ConfirmEndPlayerSession')
+
+                }).then(function (id) {
+                    switch (id) {
+
+                        case 'yes':
+                            playbackManager.getCurrentPlayer().endSession();
+                            playbackManager.setDefaultPlayerActive();
+                            break;
+                        case 'no':
+                            playbackManager.setDefaultPlayerActive();
+                            break;
+                        default:
+                            break;
+                    }
+                });
+
+            });
+
+
+        } else {
+
+            playbackManager.setDefaultPlayerActive();
+        }
+    }
+
     function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
 
         var html = '';
@@ -171,7 +218,7 @@
         }
 
         dlg.querySelector('.btnDisconnect').addEventListener('click', function () {
-            playbackManager.disconnectFromPlayer();
+            disconnectFromPlayer();
             dialogHelper.close(dlg);
         });
 
