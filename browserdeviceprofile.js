@@ -301,10 +301,6 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        if (browser.chromecast) {
-            return true;
-        }
-
         return videoTestElement.canPlayType('audio/mp4; codecs="ec-3"').replace(/no/, '');
     }
 
