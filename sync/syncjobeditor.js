@@ -165,7 +165,7 @@
         }
         else if (status === 'Synced') {
             menuItems.push({
-                name: globalize.translate('sharedcomponents#RemoveFromDevice'),
+                name: globalize.translate('sharedcomponents#RemoveDownload'),
                 id: 'markforremoval'
             });
         }
