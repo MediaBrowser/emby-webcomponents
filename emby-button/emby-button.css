@@ -39,10 +39,6 @@
         border: 0;
     }
 
-a.emby-button {
-    color: inherit;
-}
-
 .button-flat {
     background: transparent;
     box-shadow: none;
@@ -90,7 +86,7 @@ a.emby-button {
 .fab {
     display: inline-flex;
     border-radius: 50%;
-    background-color: #383838;
+    background-color: #404040;
     padding: .6em;
     box-sizing: border-box;
     align-items: center;
