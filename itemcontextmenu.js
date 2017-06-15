@@ -527,7 +527,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
         if (item.Type === 'Program') {
             playbackManager[method]({
                 ids: [item.ChannelId],
-                startPositionTicks: startPosition
+                startPositionTicks: startPosition,
+                serverId: item.ServerId
             });
         } else {
             playbackManager[method]({
