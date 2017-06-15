@@ -26,7 +26,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     cover: false,
                     items: options.items,
                     startIndex: index,
-                    interval: 8000,
+                    interval: 11000,
                     interactive: true
                 });
 

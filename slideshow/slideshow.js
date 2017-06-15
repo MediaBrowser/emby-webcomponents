@@ -380,7 +380,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             createElements(options);
 
             if (!options.interactive) {
-                currentIntervalMs = options.interval || 8000;
+                currentIntervalMs = options.interval || 11000;
                 showNextImage(options.startIndex || 0, true);
             }
         }
