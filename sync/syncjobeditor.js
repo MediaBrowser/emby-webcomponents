@@ -27,11 +27,22 @@
     function getJobItemHtml(jobItem, apiClient, index) {
 
         var html = '';
+        var status = jobItem.Status;
 
-        var hasActions = ['Queued', 'Cancelled', 'Failed', 'ReadyToTransfer', 'Transferring', 'Converting', 'Synced'].indexOf(jobItem.Status) !== -1;
+        var nextAction;
+
+        if (status === 'Failed' || status === 'Cancelled') {
+            nextAction = 'retry';
+        }
+        else if (status === 'Queued' || status === 'Transferring' || status === 'Converting' || status === 'ReadyToTransfer') {
+            nextAction = 'cancel';
+        }
+        else if (status === 'Synced' && !jobItem.IsMarkedForRemoval) {
+            nextAction = 'remove';
+        }
 
         var listItemClass = 'listItem listItem-shaded';
-        if (layoutManager.tv && hasActions) {
+        if (layoutManager.tv && nextAction) {
             listItemClass += ' btnJobItemMenu';
         }
 
@@ -40,7 +51,7 @@
         }
 
         var tagName = layoutManager.tv ? 'button' : 'div';
-        html += '<' + tagName + ' type="button" class="' + listItemClass + '" data-itemid="' + jobItem.Id + '" data-status="' + jobItem.Status + '" data-remove="' + jobItem.IsMarkedForRemoval + '">';
+        html += '<' + tagName + ' type="button" class="' + listItemClass + '" data-itemid="' + jobItem.Id + '" data-status="' + jobItem.Status + '" data-action="' + nextAction + '">';
 
         var imgUrl;
 
@@ -88,11 +99,15 @@
         var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
 
         if (!layoutManager.tv) {
-            if (hasActions) {
 
-                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu autoSize"><i class="md-icon">' + moreIcon + '</i></button>';
-            } else {
-                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu autoSize" disabled><i class="md-icon">' + moreIcon + '</i></button>';
+            if (nextAction === 'retry') {
+                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu" data-action="' + nextAction + '"><i class="md-icon">&#xE001;</i></button>';
+            }
+            else if (nextAction === 'cancel') {
+                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu" data-action="' + nextAction + '"><i class="md-icon">&#xE15D;</i></button>';
+            }
+            else if (nextAction === 'remove') {
+                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu" data-action="' + nextAction + '"><i class="md-icon">&#xE15D;</i></button>';
             }
         }
 
@@ -137,72 +152,25 @@
 
     function showJobItemMenu(elem, jobId, apiClient) {
 
+        var action = elem.getAttribute('data-action');
         var context = parentWithClass(elem, 'formDialog');
         var listItem = parentWithClass(elem, 'listItem');
         var jobItemId = listItem.getAttribute('data-itemid');
-        var status = listItem.getAttribute('data-status');
-        var remove = listItem.getAttribute('data-remove').toLowerCase() === 'true';
 
         var menuItems = [];
 
-        if (status === 'Failed' || status === 'Cancelled') {
-            menuItems.push({
-                name: globalize.translate('sharedcomponents#Retry'),
-                id: 'retry'
-            });
+        if (action === 'retry') {
+            retryJobItem(context, jobId, jobItemId, apiClient);
         }
-        else if (status === 'Queued' || status === 'Transferring' || status === 'Converting' || status === 'ReadyToTransfer') {
-            menuItems.push({
-                name: globalize.translate('sharedcomponents#CancelDownload'),
-                id: 'cancel'
-            });
+        else if (action === 'cancel') {
+            cancelJobItem(context, jobId, jobItemId, apiClient);
         }
-        else if (status === 'Synced' && remove) {
-            menuItems.push({
-                name: globalize.translate('sharedcomponents#KeepOnDevice'),
-                id: 'unmarkforremoval'
-            });
+        else if (action === 'remove') {
+            markForRemoval(context, jobId, jobItemId, apiClient);
         }
-        else if (status === 'Synced') {
-            menuItems.push({
-                name: globalize.translate('sharedcomponents#RemoveDownload'),
-                id: 'markforremoval'
-            });
-        }
-
-        require(['actionsheet'], function (actionsheet) {
-
-            actionsheet.show({
-                items: menuItems,
-                positionTo: elem,
-                callback: function (id) {
-
-                    switch (id) {
-
-                        case 'cancel':
-                            cancelJobItem(context, jobId, jobItemId, apiClient);
-                            break;
-                        case 'retry':
-                            retryJobItem(context, jobId, jobItemId, apiClient);
-                            break;
-                        case 'markforremoval':
-                            markForRemoval(context, jobId, jobItemId, apiClient);
-                            break;
-                        case 'unmarkforremoval':
-                            unMarkForRemoval(context, jobId, jobItemId, apiClient);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            });
-
-        });
     }
 
     function cancelJobItem(context, jobId, jobItemId, apiClient) {
-
-        // Need a timeout because jquery mobile will not show a popup while another is in the act of closing
 
         loading.show();
 
@@ -215,45 +183,51 @@
 
             loadJob(context, jobId, apiClient);
         });
-
     }
 
     function markForRemoval(context, jobId, jobItemId, apiClient) {
 
-        apiClient.ajax({
+        showRemoveConfirm(function () {
+            apiClient.ajax({
 
-            type: "POST",
-            url: apiClient.getUrl('Sync/JobItems/' + jobItemId + '/MarkForRemoval')
+                type: "POST",
+                url: apiClient.getUrl('Sync/JobItems/' + jobItemId + '/MarkForRemoval')
 
-        }).then(function () {
+            }).then(function () {
 
-            loadJob(context, jobId, apiClient);
-        });
-    }
-
-    function unMarkForRemoval(context, jobId, jobItemId, apiClient) {
-
-        apiClient.ajax({
-
-            type: "POST",
-            url: apiClient.getUrl('Sync/JobItems/' + jobItemId + '/UnmarkForRemoval')
-
-        }).then(function () {
-
-            loadJob(context, jobId, apiClient);
+                loadJob(context, jobId, apiClient);
+            });
         });
     }
 
     function retryJobItem(context, jobId, jobItemId, apiClient) {
 
-        apiClient.ajax({
+        showRemoveConfirm(function () {
+            apiClient.ajax({
 
-            type: "POST",
-            url: apiClient.getUrl('Sync/JobItems/' + jobItemId + '/Enable')
+                type: "POST",
+                url: apiClient.getUrl('Sync/JobItems/' + jobItemId + '/Enable')
 
-        }).then(function () {
+            }).then(function () {
 
-            loadJob(context, jobId, apiClient);
+                loadJob(context, jobId, apiClient);
+            });
+        });
+    }
+
+    function showRemoveConfirm(callback) {
+
+        require(['confirm'], function (confirm) {
+
+            confirm('sharedcomponents#ConfirmRemoveDownload').then(callback);
+        });
+    }
+
+    function showConfirm(text, callback) {
+
+        require(['confirm'], function (confirm) {
+
+            confirm(text).then(callback);
         });
     }
 
@@ -405,7 +379,7 @@
     }
 
     function showEditor(options) {
-        
+
         var apiClient = connectionManager.getApiClient(options.serverId);
         var id = options.jobId;
 

@@ -1342,7 +1342,9 @@
                 return player.seekable();
             }
 
-            if (self.playMethod(player) === 'Transcode') {
+            var isPlayMethodTranscode = self.playMethod(player) === 'Transcode';
+
+            if (isPlayMethodTranscode) {
                 return false;
             }
 

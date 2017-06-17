@@ -1,9 +1,20 @@
-﻿define(['itemHelper', 'globalize', 'apphost', 'connectionManager', 'events', 'emby-checkbox'], function (itemHelper, globalize, appHost, connectionManager, events) {
+﻿define(['itemHelper', 'globalize', 'apphost', 'connectionManager', 'events', 'emby-button'], function (itemHelper, globalize, appHost, connectionManager, events) {
     'use strict';
 
     function updateSyncStatus(container, item) {
 
-        container.querySelector('.chkOffline').checked = item.SyncPercent != null;
+        var btnSyncToggle = container.querySelector('.btnSyncToggle');
+
+        if (btnSyncToggle) {
+
+            if (item.SyncPercent != null) {
+                btnSyncToggle.classList.add('sync-on');
+                btnSyncToggle.querySelector('i').innerHTML = '#4285F4';
+            } else {
+                btnSyncToggle.classList.remove('sync-on');
+                btnSyncToggle.querySelector('i').style.color = 'inherit';
+            }
+        }
     }
 
     function syncToggle(options) {
@@ -19,7 +30,7 @@
 
         function onSyncLocalClick() {
 
-            if (this.checked) {
+            if (!this.classList.contains('sync-on')) {
                 require(['syncDialog'], function (syncDialog) {
                     syncDialog.showMenu({
                         items: [options.item],
@@ -46,10 +57,9 @@
         var item = options.item;
 
         var html = '';
-        html += '<label class="checkboxContainer" style="margin: 0;">';
-        html += '<input type="checkbox" is="emby-checkbox" class="chkOffline" />';
-        html += '<span>' + globalize.translate('sharedcomponents#MakeAvailableOffline') + '</span>';
-        html += '</label>';
+        html += '<button type="button" is="emby-button" class="button-flat btnSyncToggle" style="margin:0;padding:.25em .5em;"><i class="md-icon">&#xE2C4;</i>';
+        html += '<div style="margin: 0 0 0 .5em;font-weight:normal;">' + globalize.translate('sharedcomponents#Download') + '</div>';
+        html += '</button>';
 
         if (itemHelper.canSync(user, item)) {
             if (appHost.supports('sync')) {
@@ -60,7 +70,7 @@
 
             container.innerHTML = html;
 
-            container.querySelector('.chkOffline').addEventListener('change', onSyncLocalClick);
+            container.querySelector('.btnSyncToggle').addEventListener('click', onSyncLocalClick);
             updateSyncStatus(container, item);
 
         } else {
