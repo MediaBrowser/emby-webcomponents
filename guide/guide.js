@@ -1,4 +1,4 @@
-﻿define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationServices', 'dom', 'clearButtonStyle', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, registrationServices, dom) {
+﻿define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationServices', 'dom', 'clearButtonStyle', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, registrationServices, dom) {
     'use strict';
 
     function showViewSettings(instance) {
@@ -77,6 +77,33 @@
 
             isUpdatingProgramCellScroll = false;
         });
+    }
+
+    function onProgramGridClick(e) {
+
+        var programCell = dom.parentWithClass(e.target, 'programCell');
+        if (programCell) {
+
+            var startDate = programCell.getAttribute('data-startdate');
+            var endDate = programCell.getAttribute('data-enddate');
+            startDate = datetime.parseISO8601Date(startDate, { toLocal: true }).getTime();
+            endDate = datetime.parseISO8601Date(endDate, { toLocal: true }).getTime();
+
+            var now = new Date().getTime();
+            if (now >= startDate && now < endDate) {
+
+                var channelId = programCell.getAttribute('data-channelid');
+                var serverId = programCell.getAttribute('data-serverid');
+
+                e.preventDefault();
+                e.stopPropagation();
+
+                playbackManager.play({
+                    ids: [channelId],
+                    serverId: serverId
+                });
+            }
+        }
     }
 
     function Guide(options) {
@@ -577,7 +604,7 @@
 
                 var isAttribute = endPercent >= 2 ? ' is="emby-programcell"' : '';
 
-                html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
+                html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-startdate="' + program.StartDate + '" data-enddate="' + program.EndDate + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
                 if (displayInnerContent && enableColorCodedBackgrounds && accentCssClass) {
                     html += '<div class="programCellInner ' + accentCssClass + '">';
@@ -1070,9 +1097,9 @@
 
                 if (item) {
                     events.trigger(self, 'focus', [
-                    {
-                        item: item
-                    }]);
+                        {
+                            item: item
+                        }]);
                 }
             }
 
@@ -1194,14 +1221,16 @@
             dom.addEventListener(programGrid, 'scroll', function (e) {
                 onProgramGridScroll(context, this, timeslotHeaders);
             }, {
-                passive: true
-            });
+                    passive: true
+                });
 
             dom.addEventListener(timeslotHeaders, 'scroll', function () {
                 onTimeslotHeadersScroll(context, this);
             }, {
-                passive: true
-            });
+                    passive: true
+                });
+
+            programGrid.addEventListener('click', onProgramGridClick);
 
             context.querySelector('.btnUnlockGuide').addEventListener('click', function () {
                 currentStartIndex = 0;
@@ -1247,7 +1276,7 @@
                     }
 
                     if (previousButton) {
-                        
+
                         var previousDate = new Date();
                         previousDate.setTime(parseInt(previousButton.getAttribute('data-date')));
 

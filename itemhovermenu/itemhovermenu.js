@@ -178,7 +178,7 @@
         var id = dataElement.getAttribute('data-id');
         var type = dataElement.getAttribute('data-type');
 
-        if (type === 'Timer' || type === 'SeriesTimer') {
+        if (type === 'Timer' || type === 'SeriesTimer' || type === 'Program') {
             return;
         }
 
