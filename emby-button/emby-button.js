@@ -91,11 +91,6 @@
 
         this.classList.add('emby-button');
 
-        // Even though they support flex, it doesn't quite work with button elements
-        if (browser.safari && browser.tv) {
-            this.classList.add('emby-button-noflex');
-        }
-
         if (layoutManager.tv) {
             this.classList.add('emby-button-focusscale');
             this.classList.add('emby-button-tv');

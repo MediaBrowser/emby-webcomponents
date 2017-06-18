@@ -1,4 +1,4 @@
-_:-ms-input-placeholder, :root .mdl-slider {
+_:-ms-input-placeholder {
     -ms-appearance: none;
     height: 32px;
     margin: 0;
@@ -8,6 +8,7 @@ _:-ms-input-placeholder, :root .mdl-slider {
     width: 100%;
     -webkit-appearance: none;
     -moz-appearance: none;
+    -ms-appearance: none;
     appearance: none;
     height: .13em;
     background: transparent;

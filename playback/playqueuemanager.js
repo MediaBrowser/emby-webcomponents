@@ -43,6 +43,7 @@
 
         this._currentPlaylistItemId = null;
         this._playlist = items;
+        this._repeatMode = 'RepeatNone';
     };
 
     PlayQueueManager.prototype.queue = function (items) {

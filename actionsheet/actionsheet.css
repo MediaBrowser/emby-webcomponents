@@ -81,10 +81,6 @@
     margin-left: 5em;
 }
 
-.emby-button-noflex .actionSheetItemText {
-    display: inline-block;
-}
-
 .actionSheetItemIcon {
     margin-right: 1.5em !important;
 }

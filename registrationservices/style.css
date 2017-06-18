@@ -12,10 +12,6 @@
     align-items: center;
 }
 
-    .registrationDialogContent h1 {
-        margin-top: 0;
-    }
-
 .btnRegistrationBack {
     z-index: 1002;
     position: absolute;

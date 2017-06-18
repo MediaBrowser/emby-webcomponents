@@ -12,7 +12,7 @@
     border: .15em solid transparent;
 }
 
-.cardImageContainer-round, .card-round:focus .cardImageContainer {
+.cardImageContainer-round {
     border-color: #fff;
 }
 
@@ -24,6 +24,6 @@
     overflow: visible;
 }
 
-.cardImageContainer-round, .card-round .cardImage {
+.cardImageContainer-round, .cardImage-round {
     border-radius: 1000px;
 }
