@@ -174,7 +174,6 @@
 
         html += '</div>';
         html += '</div>';
-        html += '</div>';
         html += '</' + tagName + '>';
 
         return html;
@@ -199,7 +198,7 @@
         require(['confirm'], function (confirm) {
 
             confirm({
-                
+
                 text: globalize.translate('sharedcomponents#ConfirmDeleteImage'),
                 confirmText: globalize.translate('sharedcomponents#Delete'),
                 primary: 'cancel'
@@ -214,7 +213,7 @@
 
             hasChanges = true;
             reload(context, null, focusContext);
-        }, function() {
+        }, function () {
 
             require(['alert'], function (alert) {
                 alert(globalize.translate('sharedcomponents#DefaultErrorMessage'));
@@ -290,13 +289,15 @@
     }
 
     function showImageDownloader(page, imageType) {
-        require(['components/imagedownloader/imagedownloader'], function (ImageDownloader) {
 
-            ImageDownloader.show(currentItem.Id, currentItem.Type, imageType).then(function () {
+        require(['imageDownloader'], function (ImageDownloader) {
+
+            ImageDownloader.show(currentItem.Id, currentItem.ServerId, currentItem.Type, imageType).then(function () {
 
                 hasChanges = true;
                 reload(page);
             });
+
         }, function () {
             require(['alert'], function (alert) {
                 alert('This feature is coming soon to Emby Theater.');
