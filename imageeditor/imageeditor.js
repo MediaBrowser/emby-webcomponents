@@ -298,10 +298,6 @@
                 reload(page);
             });
 
-        }, function () {
-            require(['alert'], function (alert) {
-                alert('This feature is coming soon to Emby Theater.');
-            });
         });
     }
 
