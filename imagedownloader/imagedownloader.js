@@ -1,4 +1,4 @@
-﻿define(['loading', 'dialogHelper', 'connectionManager', 'imageLoader', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'paper-icon-button-light', 'emby-linkbutton', 'formDialogStyle', 'cardStyle'], function (loading, dialogHelper, connectionManager, imageLoader, layoutManager, scrollHelper, globalize, require) {
+﻿define(['loading', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'paper-icon-button-light', 'emby-linkbutton', 'formDialogStyle', 'cardStyle'], function (loading, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
     var currentItemId;
@@ -8,7 +8,7 @@
     var hasChanges = false;
 
     // These images can be large and we're seeing memory problems in safari
-    var browsableImagePageSize = browserInfo.slow ? 6 : 30;
+    var browsableImagePageSize = browser.slow ? 6 : 30;
 
     var browsableImageStartIndex = 0;
     var browsableImageType = 'Primary';
