@@ -212,6 +212,10 @@ define(['apphost'], function (appHost) {
 
         canMarkPlayed: function (item) {
 
+            if (item.Type === 'Program') {
+                return false;
+            }
+
             if (item.MediaType === 'Video') {
                 if (item.Type !== 'TvChannel') {
                     return true;
@@ -240,6 +244,10 @@ define(['apphost'], function (appHost) {
         },
 
         canRate: function (item) {
+
+            if (item.Type === 'Program') {
+                return false;
+            }
 
             return true;
         }
