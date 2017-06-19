@@ -1,4 +1,4 @@
-﻿define(['connectionManager', 'itemHelper', 'mediaInfo', 'userdataButtons', 'playbackManager', 'globalize', 'dom', 'apphost', 'css!./itemhovermenu', 'emby-button'], function (connectionManager, itemHelper, mediaInfo, userdataButtons, playbackManager, globalize, dom, appHost) {
+﻿define(['connectionManager', 'itemHelper', 'mediaInfo', 'playbackManager', 'globalize', 'dom', 'apphost', 'css!./itemhovermenu', 'emby-button', 'emby-playstatebutton', 'emby-ratingbutton'], function (connectionManager, itemHelper, mediaInfo, playbackManager, globalize, dom, appHost) {
     'use strict';
 
     var preventHover = false;
@@ -110,22 +110,31 @@
 
         html += '<div class="cardOverlayButtons">';
 
-        var buttonCount = 0;
-
         if (playbackManager.canPlay(item)) {
 
             html += '<button is="emby-button" class="itemAction autoSize fab cardOverlayFab mini" data-action="resume"><i class="md-icon cardOverlayFab-md-icon">&#xE037;</i></button>';
-            buttonCount++;
         }
 
         if (item.LocalTrailerCount) {
             html += '<button title="' + globalize.translate('sharedcomponents#Trailer') + '" is="emby-button" class="itemAction autoSize fab cardOverlayFab mini" data-action="playtrailer"><i class="md-icon cardOverlayFab-md-icon">&#xE04B;</i></button>';
-            buttonCount++;
         }
 
         var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
         html += '<button is="emby-button" class="itemAction autoSize fab cardOverlayFab mini" data-action="menu" data-playoptions="false"><i class="md-icon cardOverlayFab-md-icon">' + moreIcon + '</i></button>';
-        buttonCount++;
+
+        var userData = item.UserData || {};
+
+        if (itemHelper.canMarkPlayed(item)) {
+
+            html += '<button is="emby-playstatebutton" type="button" data-action="none" class="itemAction fab cardOverlayFab mini" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayFab-md-icon">&#xE5CA;</i></button>';
+        }
+
+        if (itemHelper.canRate(item)) {
+
+            var likes = userData.Likes == null ? '' : userData.Likes;
+
+            html += '<button is="emby-ratingbutton" type="button" data-action="none" class="itemAction fab cardOverlayFab mini" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayFab-md-icon">&#xE87D;</i></button>';
+        }
 
         html += '</div>';
 
@@ -189,16 +198,6 @@
         apiClient.getItem(apiClient.getCurrentUserId(), id).then(function (item) {
 
             innerElem.innerHTML = getOverlayHtml(apiClient, item, dataElement);
-
-            userdataButtons.fill({
-                item: item,
-                style: 'fab-mini',
-                cssClass: 'cardOverlayFab',
-                iconCssClass: 'cardOverlayFab-md-icon',
-                element: innerElem.querySelector('.cardOverlayButtons'),
-                fillMode: 'insertAdjacent',
-                insertLocation: 'beforeend'
-            });
 
             innerElem.querySelector('.cardOverlayButtons').addEventListener('click', onCardOverlayButtonsClick);
         });

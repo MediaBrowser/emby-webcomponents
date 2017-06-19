@@ -1,4 +1,4 @@
-define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'userdataButtons', 'apphost', 'css!./listview'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, userdataButtons, appHost) {
+define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'css!./listview', 'emby-ratingbutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost) {
     'use strict';
 
     function getIndex(item, options) {
@@ -426,12 +426,14 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
 
                 if (options.enableUserDataButtons !== false) {
+
                     html += '<span class="listViewUserDataButtons">';
-                    html += userdataButtons.getIconsHtml({
-                        item: item,
-                        includePlayed: false,
-                        cssClass: 'listItemButton'
-                    });
+
+                    var userData = item.UserData || {};
+                    var likes = userData.Likes == null ? '' : userData.Likes;
+
+                    html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon">&#xE87D;</i></button>';
+
                     html += '</span>';
                 }
             }
