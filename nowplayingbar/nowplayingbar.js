@@ -1,4 +1,4 @@
-﻿define(['require', 'datetime', 'userdataButtons', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'paper-icon-button-light'], function (require, datetime, userdataButtons, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager) {
+﻿define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager) {
     'use strict';
 
     var currentPlayer;
@@ -551,17 +551,16 @@
                 var apiClient = connectionManager.getApiClient(nowPlayingItem.ServerId);
 
                 apiClient.getItem(apiClient.getCurrentUserId(), nowPlayingItem.Id).then(function (item) {
-                    userdataButtons.fill({
-                        item: item,
-                        includePlayed: false,
-                        element: nowPlayingUserData
-                    });
+
+                    var userData = item.UserData || {};
+                    var likes = userData.Likes == null ? '' : userData.Likes;
+
+                    nowPlayingUserData.innerHTML = '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon">&#xE87D;</i></button>';
                 });
+
             }
         } else {
-            userdataButtons.destroy({
-                element: nowPlayingUserData
-            });
+            nowPlayingUserData.innerHTML = '';
         }
     }
 

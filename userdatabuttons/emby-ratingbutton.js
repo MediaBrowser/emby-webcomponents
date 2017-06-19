@@ -17,6 +17,11 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
     }
 
+    function showPicker(button, apiClient, itemId, likes, isFavorite) {
+
+        return apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), itemId, !isFavorite);
+    }
+
     function onClick(e) {
 
         var button = this;
@@ -35,16 +40,10 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             likes = null;
         }
 
-        if (isFavorite) {
+        showPicker(button, apiClient, id, likes, isFavorite).then(function (userData) {
 
-            apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), id, false);
-            setState(button, likes, false);
-
-        } else {
-
-            apiClient.updateFavoriteStatus(apiClient.getCurrentUserId(), id, true);
-            setState(button, true, true);
-        }
+            setState(button, userData.Likes, userData.IsFavorite);
+        });
     }
 
     function onUserDataChanged(e, apiClient, userData) {
@@ -59,14 +58,45 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
     function setState(button, likes, isFavorite, updateAttribute) {
 
+        var icon = button.querySelector('i');
+
         if (isFavorite) {
+
+            if (icon) {
+                icon.innerHTML = '&#xE87D;';
+            }
+
+            button.classList.add('ratingbutton-withrating');
 
         } else if (likes) {
 
+            if (icon) {
+                icon.innerHTML = '&#xE87D;';
+                //icon.innerHTML = '&#xE8DC;';
+            }
+            button.classList.remove('ratingbutton-withrating');
+
         } else if (likes === false) {
+
+            if (icon) {
+                icon.innerHTML = '&#xE87D;';
+                //icon.innerHTML = '&#xE8DB;';
+            }
+            button.classList.remove('ratingbutton-withrating');
 
         } else {
 
+            if (icon) {
+                icon.innerHTML = '&#xE87D;';
+                //icon.innerHTML = '&#xE8DD;';
+            }
+            button.classList.remove('ratingbutton-withrating');
+        }
+
+        if (updateAttribute !== false) {
+            button.setAttribute('data-isfavorite', isFavorite);
+
+            button.setAttribute('data-likes', (likes === null ? '' : likes));
         }
     }
 
