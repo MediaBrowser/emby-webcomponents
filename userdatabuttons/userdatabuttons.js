@@ -103,13 +103,11 @@ define(['connectionManager', 'globalize', 'dom', 'itemHelper', 'paper-icon-butto
         if (includePlayed !== false) {
             var tooltipPlayed = globalize.translate('sharedcomponents#MarkPlayed');
 
-            if (item.MediaType === 'Video' || item.Type === 'Series' || item.Type === 'Season' || item.Type === 'BoxSet' || item.Type === 'Playlist') {
-                if (item.Type !== 'TvChannel') {
-                    if (userData.Played) {
-                        html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass + ' btnUserDataOn', iconCssClass, '&#xE5CA;', tooltipPlayed, style);
-                    } else {
-                        html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass, iconCssClass, '&#xE5CA;', tooltipPlayed, style);
-                    }
+            if (itemHelper.canMarkPlayed(item)) {
+                if (userData.Played) {
+                    html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass + ' btnUserDataOn', iconCssClass, '&#xE5CA;', tooltipPlayed, style);
+                } else {
+                    html += getUserDataButtonHtml('markPlayed', itemId, serverId, btnCssClass, iconCssClass, '&#xE5CA;', tooltipPlayed, style);
                 }
             }
         }
