@@ -31,9 +31,9 @@
     height: 100%;
 }
 
-    .htmlvideoplayer::-webkit-media-text-track-display {
+    .htmlvideoplayer-moveupsubtitles::-webkit-media-text-track-display {
         /*Style the text itself*/
-        margin-top: -2.5em;
+        margin-top: -2em;
     }
 
     .htmlvideoplayer::cue {

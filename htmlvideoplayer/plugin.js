@@ -973,13 +973,20 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         // https://developer.apple.com/library/content/releasenotes/General/WhatsNewInSafari/Articles/Safari_10_0.html
 
                         var html = '';
+
+                        var cssClass = 'htmlvideoplayer';
+
+                        if (!browser.chromecast) {
+                            cssClass += ' htmlvideoplayer-moveupsubtitles';
+                        }
+
                         // Can't autoplay in these browsers so we need to use the full controls, at least until playback starts
                         if (!appHost.supports('htmlvideoautoplay')) {
-                            html += '<video class="htmlvideoplayer" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
+                            html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" controls="controls" webkit-playsinline playsinline>';
                         } else {
 
                             // Chrome 35 won't play with preload none
-                            html += '<video class="htmlvideoplayer" preload="metadata" autoplay="autoplay" webkit-playsinline playsinline>';
+                            html += '<video class="' + cssClass + '" preload="metadata" autoplay="autoplay" webkit-playsinline playsinline>';
                         }
 
                         html += '</video>';
