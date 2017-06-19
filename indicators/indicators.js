@@ -1,4 +1,4 @@
-define(['datetime', 'css!./indicators.css', 'material-icons'], function (datetime) {
+define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], function (datetime, itemHelper) {
     'use strict';
 
     function enableProgressIndicator(item) {
@@ -97,31 +97,7 @@ define(['datetime', 'css!./indicators.css', 'material-icons'], function (datetim
 
     function enablePlayedIndicator(item) {
 
-        if (item.MediaType === 'Video') {
-            if (item.Type !== 'TvChannel') {
-                return true;
-            }
-        }
-
-        if (item.MediaType === 'Audio') {
-            if (item.Type === 'AudioPodcast') {
-                return true;
-            }
-            if (item.Type === 'AudioBook') {
-                return true;
-            }
-        }
-
-        if (item.Type === "Series" ||
-            item.Type === "Season" ||
-            item.Type === "BoxSet" ||
-            item.MediaType === "Game" ||
-            item.MediaType === "Book" ||
-            item.MediaType === "Recording") {
-            return true;
-        }
-
-        return false;
+        return itemHelper.canMarkPlayed(item);
     }
 
     function getPlayedIndicator(item) {

@@ -206,8 +206,42 @@ define(['apphost'], function (appHost) {
             return user.Policy.EnablePublicSharing && appHost.supports('sharing');
         },
 
-        enableDateAddedDisplay: function(item) {
+        enableDateAddedDisplay: function (item) {
             return !item.IsFolder && item.MediaType && item.Type !== 'Program' && item.Type !== 'TvChannel' && item.Type !== 'Trailer';
+        },
+
+        canMarkPlayed: function (item) {
+
+            if (item.MediaType === 'Video') {
+                if (item.Type !== 'TvChannel') {
+                    return true;
+                }
+            }
+
+            if (item.MediaType === 'Audio') {
+                if (item.Type === 'AudioPodcast') {
+                    return true;
+                }
+                if (item.Type === 'AudioBook') {
+                    return true;
+                }
+            }
+
+            if (item.Type === "Series" ||
+                item.Type === "Season" ||
+                item.Type === "BoxSet" ||
+                item.MediaType === "Game" ||
+                item.MediaType === "Book" ||
+                item.MediaType === "Recording") {
+                return true;
+            }
+
+            return false;
+        },
+
+        canRate: function (item) {
+
+            return true;
         }
     };
 });
