@@ -136,6 +136,12 @@
         }
     };
 
+    EmbyButtonPrototype.detachedCallback = function () {
+
+        dom.removeEventListener(this, 'click', onAnchorClick, {
+        });
+    };
+
     EmbyLinkButtonPrototype.createdCallback = EmbyButtonPrototype.createdCallback;
     EmbyLinkButtonPrototype.attachedCallback = EmbyButtonPrototype.attachedCallback;
 
@@ -148,4 +154,7 @@
         prototype: EmbyLinkButtonPrototype,
         extends: 'a'
     });
+
+    // For extension purposes
+    return EmbyButtonPrototype;
 });

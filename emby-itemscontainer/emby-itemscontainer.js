@@ -247,7 +247,7 @@
 
         var handler = instance[name];
         if (handler) {
-            events.off(serverNotifications, 'UserDataChanged', handler);
+            events.off(serverNotifications, name, handler);
             instance[name] = null;
         }
     }
