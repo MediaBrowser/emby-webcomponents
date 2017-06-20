@@ -45,7 +45,14 @@
 
                 require(['confirm'], function (confirm) {
 
-                    confirm(globalize.translate('sharedcomponents#ConfirmRemoveDownload')).then(function () {
+                    confirm({
+
+                        text: globalize.translate('sharedcomponents#ConfirmRemoveDownload'),
+                        confirmText: globalize.translate('sharedcomponents#RemoveDownload'),
+                        cancelText: globalize.translate('sharedcomponents#KeepDownload'),
+                        primary: 'cancel'
+
+                    }).then(function () {
                         connectionManager.getApiClient(options.item.ServerId).cancelSyncItems([options.item.Id]);
                     }, resetSyncStatus);
                 });

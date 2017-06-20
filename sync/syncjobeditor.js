@@ -219,7 +219,14 @@
 
         require(['confirm'], function (confirm) {
 
-            confirm('sharedcomponents#ConfirmRemoveDownload').then(callback);
+            confirm({
+
+                text: globalize.translate('sharedcomponents#ConfirmRemoveDownload'),
+                confirmText: globalize.translate('sharedcomponents#RemoveDownload'),
+                cancelText: globalize.translate('sharedcomponents#KeepDownload'),
+                primary: 'cancel'
+
+            }).then(callback);
         });
     }
 
