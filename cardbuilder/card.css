@@ -378,21 +378,21 @@ button {
 }
 
 .cardIndicators {
-    right: 2.5%;
-    top: 2.5%;
+    right: 1.25%;
+    top: 1.25%;
     position: absolute;
     display: flex;
     align-items: center;
 }
 
 .portraitCardIndicators {
-    right: 3%;
-    top: 2%;
+    right: 1.5%;
+    top: 1%;
 }
 
 .backdropCardIndicators {
-    right: 1.5%;
-    top: 2.8%;
+    right: .75%;
+    top: 1.4%;
 }
 
 .cardProgramAttributeIndicators {

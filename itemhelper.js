@@ -245,7 +245,7 @@ define(['apphost'], function (appHost) {
 
         canRate: function (item) {
 
-            if (item.Type === 'Program') {
+            if (item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'SeriesTimer') {
                 return false;
             }
 
