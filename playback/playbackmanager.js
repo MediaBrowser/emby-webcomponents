@@ -2919,7 +2919,7 @@
 
                     var streamInfo = getPlayerData(player).streamInfo;
 
-                    if (streamInfo.started && !streamInfo.ended) {
+                    if (streamInfo && streamInfo.started && !streamInfo.ended) {
                         reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
                     }
                 }
