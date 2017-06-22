@@ -114,10 +114,6 @@ button {
     outline: none !important;
 }
 
-.layout-tv .cardBox {
-    margin: .5em;
-}
-
 .layout-mobile .cardBox {
     margin: .28em;
 }

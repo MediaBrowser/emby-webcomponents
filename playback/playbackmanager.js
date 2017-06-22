@@ -2502,6 +2502,9 @@
                 events.trigger(player, 'playbackstart', [state]);
                 events.trigger(self, 'playbackstart', [player, state]);
 
+                // only used internally as a safeguard to avoid reporting other events to the server before playback start
+                streamInfo.started = true;
+
                 acquireResourceLocks(player, streamInfo.mediaType);
             });
         }
@@ -2519,6 +2522,8 @@
 
             var playerData = getPlayerData(player);
             playerData.streamInfo = {};
+
+            var streamInfo = playerData.streamInfo;
             streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
 
             self.getPlayerState(player).then(function (state) {
@@ -2529,6 +2534,9 @@
                 state.IsFullscreen = fullscreen;
                 events.trigger(player, 'playbackstart', [state]);
                 events.trigger(self, 'playbackstart', [player, state]);
+
+                // only used internally as a safeguard to avoid reporting other events to the server before playback start
+                streamInfo.started = true;
             });
         }
 
@@ -2549,6 +2557,11 @@
                 };
 
                 state.NextMediaType = nextMediaType;
+
+                var streamInfo = getPlayerData(player).streamInfo;
+
+                // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
+                streamInfo.ended = true;
 
                 if (isServerItem(playerStopInfo.item)) {
 
@@ -2728,6 +2741,9 @@
                         state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
                     }
 
+                    // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
+                    streamInfo.ended = true;
+
                     reportPlayback(state, streamInfo.item.ServerId, 'reportPlaybackStopped');
                 }
 
@@ -2900,7 +2916,12 @@
             self.getPlayerState(player).then(function (state) {
                 if (state.NowPlayingItem) {
                     var serverId = state.NowPlayingItem.ServerId;
-                    reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
+
+                    var streamInfo = getPlayerData(player).streamInfo;
+
+                    if (streamInfo.started && !streamInfo.ended) {
+                        reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
+                    }
                 }
             });
         }
