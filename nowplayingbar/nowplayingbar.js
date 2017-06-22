@@ -86,12 +86,10 @@
         // trigger reflow
         void elem.offsetWidth;
 
-        requestAnimationFrame(function () {
-            elem.classList.add('nowPlayingBar-hidden');
+        elem.classList.add('nowPlayingBar-hidden');
 
-            dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-                once: true
-            });
+        dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
+            once: true
         });
     }
 
@@ -106,9 +104,7 @@
         // trigger reflow
         void elem.offsetWidth;
 
-        requestAnimationFrame(function () {
-            elem.classList.remove('nowPlayingBar-hidden');
-        });
+        elem.classList.remove('nowPlayingBar-hidden');
     }
 
     function onPlayPauseClick() {
