@@ -717,6 +717,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return true;
             }
 
+            // This is unfortunate, but we're unable to remove the textTrack that gets added via addTextTrack
+            if (browser.firefox) {
+                return true;
+            }
+
             if (browser.edge) {
                 return true;
             }
