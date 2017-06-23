@@ -37,32 +37,42 @@
 
         progress = Math.floor(progress);
 
+        var angle;
+
         if (progress < 25) {
-            var angle = -90 + (progress / 100) * 360;
+            angle = -90 + (progress / 100) * 360;
 
             this.querySelector('.animate-0-25-b').style.transform = 'rotate(' + angle + 'deg)';
+
+            this.querySelector('.animate-25-50-b').style.transform = 'rotate(-90deg)';
+            this.querySelector('.animate-50-75-b').style.transform = 'rotate(-90deg)';
+            this.querySelector('.animate-75-100-b').style.transform = 'rotate(-90deg)';
         }
         else if (progress >= 25 && progress < 50) {
 
-            var angle = -90 + ((progress - 25) / 100) * 360;
+            angle = -90 + ((progress - 25) / 100) * 360;
 
-            this.querySelector('.animate-0-25-b').style.transform = 'rotate(0deg)';
+            this.querySelector('.animate-0-25-b').style.transform = 'none';
             this.querySelector('.animate-25-50-b').style.transform = 'rotate(' + angle + 'deg)';
+
+            this.querySelector('.animate-50-75-b').style.transform = 'rotate(-90deg)';
+            this.querySelector('.animate-75-100-b').style.transform = 'rotate(-90deg)';
         }
         else if (progress >= 50 && progress < 75) {
-            var angle = -90 + ((progress - 50) / 100) * 360;
+            angle = -90 + ((progress - 50) / 100) * 360;
 
-            this.querySelector('.animate-0-25-b').style.transform = 'rotate(0deg)';
-            this.querySelector('.animate-25-50-b').style.transform = 'rotate(0deg)';
+            this.querySelector('.animate-0-25-b').style.transform = 'none';
+            this.querySelector('.animate-25-50-b').style.transform = 'none';
             this.querySelector('.animate-50-75-b').style.transform = 'rotate(' + angle + 'deg)';
+
+            this.querySelector('.animate-75-100-b').style.transform = 'rotate(-90deg)';
         }
         else if (progress >= 75 && progress <= 100) {
-            var angle = -90 + ((progress - 75) / 100) * 360;
+            angle = -90 + ((progress - 75) / 100) * 360;
 
-            this.querySelector('.animate-50-75-b').style.transform = 'rotate(0deg)';
-            this.querySelector('.animate-25-50-b').style.transform = 'rotate(0deg)';
-            this.querySelector('.animate-0-25-b').style.transform = 'rotate(0deg)';
-
+            this.querySelector('.animate-0-25-b').style.transform = 'none';
+            this.querySelector('.animate-25-50-b').style.transform = 'none';
+            this.querySelector('.animate-50-75-b').style.transform = 'none';
             this.querySelector('.animate-75-100-b').style.transform = 'rotate(' + angle + 'deg)';
         }
 

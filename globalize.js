@@ -34,7 +34,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
         var culture;
         try {
-            culture = userSettings.get('language');
+            culture = userSettings.language();
         } catch (err) {
 
         }
