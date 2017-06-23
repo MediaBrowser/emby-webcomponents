@@ -52,7 +52,7 @@
     color: #fff;
 }
 
-.playedIndicator {
+.iconIndicator {
     background: rgba(82,181,75,1);
     border-radius: 500px;
     display: -webkit-flex;

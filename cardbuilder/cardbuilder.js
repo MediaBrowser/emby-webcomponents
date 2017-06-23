@@ -1145,6 +1145,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             return html;
         }
+
+        var refreshIndicatorLoaded;
+        function requireRefreshIndicator() {
+
+            if (!refreshIndicatorLoaded) {
+                refreshIndicatorLoaded = true;
+                require(['emby-itemrefreshindicator']);
+            }
+        }
+
         function buildCard(index, item, apiClient, options, className) {
 
             var action = options.action || 'link';
@@ -1369,6 +1379,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
             }
 
+            if (item.Type === 'CollectionFolder' || item.CollectionType) {
+                var refreshClass = item.RefreshProgress || (item.RefreshStatus && virtualFolder.item !== 'Idle') ? '' : ' class="hide"';
+                indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
+                requireRefreshIndicator();
+            }
+
             if (indicatorsHtml) {
                 cardImageContainerOpen += '<div class="cardIndicators ' + options.shape + 'CardIndicators">' + indicatorsHtml + '</div>';
             }
@@ -1503,6 +1519,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     playedIndicator = document.createElement('div');
                     playedIndicator.classList.add('playedIndicator');
                     playedIndicator.classList.add('indicator');
+                    playedIndicator.classList.add('iconIndicator');
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
