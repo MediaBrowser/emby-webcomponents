@@ -206,6 +206,9 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
             case 'toggledisplaymirror':
                 playbackManager.toggleDisplayMirroring();
                 break;
+            case 'togglestats':
+                playbackManager.toggleStats();
+                break;
             case 'movies':
                 // TODO
                 embyRouter.goHome();

@@ -1144,7 +1144,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
     };
 
-    HtmlVideoPlayer.prototype.isPictureInPictureEnabled = function (isEnabled) {
+    HtmlVideoPlayer.prototype.isPictureInPictureEnabled = function () {
 
         var video = this._mediaElement;
         if (video) {

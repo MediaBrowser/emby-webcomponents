@@ -29,7 +29,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '<div class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
     }
 
-    function getAutoTimeProgressHtml(pct, options, start, end) {
+    function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
 
         var containerClass = 'itemProgressBar';
 
@@ -39,18 +39,20 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
             }
         }
 
-        return '<div is="emby-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
+        var foregroundClass = 'itemProgressBarForeground';
+
+        if (isRecording) {
+            foregroundClass += ' itemProgressBarForeground-recording';
+        }
+
+        return '<div is="emby-progressbar" data-automode="time" data-starttime="' + start + '" data-endtime="' + end + '" class="' + containerClass + '"><div class="' + foregroundClass + '" style="width:' + pct + '%;"></div></div>';
     }
 
     function getProgressBarHtml(item, options) {
 
         var pct;
 
-        if (enableProgressIndicator(item)) {
-            if (item.Type === "Recording" && item.CompletionPercentage) {
-
-                return getProgressHtml(item.CompletionPercentage, options);
-            }
+        if (enableProgressIndicator(item) && item.Type !== "Recording") {
 
             var userData = options ? (options.userData || item.UserData) : item.UserData;
             if (userData) {
@@ -63,7 +65,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
             }
         }
 
-        if (item.Type === 'Program' && item.StartDate && item.EndDate) {
+        if ((item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording') && item.StartDate && item.EndDate) {
 
             var startDate = 0;
             var endDate = 1;
@@ -88,7 +90,9 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
             if (pct > 0 && pct < 100) {
 
-                return getAutoTimeProgressHtml(pct, options, startDate, endDate);
+                var isRecording = item.Type === 'Timer' || item.Type === 'Recording' || item.TimerId;
+
+                return getAutoTimeProgressHtml(pct, options, isRecording, startDate, endDate);
             }
         }
 
@@ -181,9 +185,9 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
     }
 
     function getVideoIndicator(item) {
-        
+
         if (item.MediaType === 'Video') {
-            
+
             return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE04B;</i></div>';
         }
 

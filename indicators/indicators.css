@@ -12,6 +12,10 @@
     background-color: #52B54B;
 }
 
+.itemProgressBarForeground-recording {
+    background-color: #CB272A;
+}
+
 .indicator {
     border-radius: 500px;
     display: -webkit-flex;
@@ -50,6 +54,7 @@
     justify-content: center;
     font-weight: 500;
     color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
 .iconIndicator {
@@ -60,6 +65,7 @@
     align-items: center;
     justify-content: center;
     color: #fff;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
 .videoIndicator {
