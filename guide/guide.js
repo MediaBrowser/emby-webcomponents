@@ -697,7 +697,17 @@
                     cssClass += ' channelHeaderCell-tv';
                 }
 
-                html += '<button type="button" class="' + cssClass + '"' + dataSrc + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
+                var title = [];
+                if (channel.Number) {
+
+                    title.push(channel.Number);
+                }
+                if (channel.Name) {
+
+                    title.push(channel.Name);
+                }
+
+                html += '<button title="' + title.join(' ') + '" type="button" class="' + cssClass + '"' + dataSrc + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
 
                 if (channel.Number) {
 
@@ -1221,14 +1231,14 @@
             dom.addEventListener(programGrid, 'scroll', function (e) {
                 onProgramGridScroll(context, this, timeslotHeaders);
             }, {
-                    passive: true
-                });
+                passive: true
+            });
 
             dom.addEventListener(timeslotHeaders, 'scroll', function () {
                 onTimeslotHeadersScroll(context, this);
             }, {
-                    passive: true
-                });
+                passive: true
+            });
 
             programGrid.addEventListener('click', onProgramGridClick);
 
