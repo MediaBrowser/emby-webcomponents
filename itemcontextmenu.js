@@ -92,6 +92,15 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
             });
         }
 
+        if (appHost.supports('sync') && options.syncLocal !== false) {
+            if (itemHelper.canSync(user, item)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Download'),
+                    id: 'synclocal'
+                });
+            }
+        }
+
         if (options.sync !== false) {
             if (itemHelper.canSync(user, item)) {
                 commands.push({
@@ -150,15 +159,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                 commands.push({
                     name: globalize.translate('sharedcomponents#InstantMix'),
                     id: 'instantmix'
-                });
-            }
-        }
-
-        if (appHost.supports('sync') && options.syncLocal !== false) {
-            if (itemHelper.canSync(user, item)) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#MakeAvailableOffline'),
-                    id: 'synclocal'
                 });
             }
         }

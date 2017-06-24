@@ -513,15 +513,28 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
                     return '4K';
                 }
                 if (i.Width >= 2500) {
+                    if (i.IsInterlaced) {
+                        return '1440I';
+                    }
                     return '1440P';
                 }
                 if (i.Width >= 1900) {
+                    if (i.IsInterlaced) {
+                        return '1080I';
+                    }
                     return '1080P';
                 }
                 if (i.Width >= 1260) {
+                    if (i.IsInterlaced) {
+                        return '720I';
+                    }
                     return '720P';
                 }
                 if (i.Width >= 700) {
+
+                    if (i.IsInterlaced) {
+                        return '480I';
+                    }
                     return '480P';
                 }
 
