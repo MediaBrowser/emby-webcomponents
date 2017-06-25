@@ -1519,7 +1519,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     playedIndicator = document.createElement('div');
                     playedIndicator.classList.add('playedIndicator');
                     playedIndicator.classList.add('indicator');
-                    playedIndicator.classList.add('iconIndicator');
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }

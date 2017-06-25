@@ -124,7 +124,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
     function HtmlVideoPlayer() {
 
-        this.name = 'Html Video Player';
+        if (browser.edgeUwp) {
+            this.name = 'Windows Video Player';
+        } else {
+            this.name = 'Html Video Player';
+        }
+
         this.type = 'mediaplayer';
         this.id = 'htmlvideoplayer';
 
@@ -1081,6 +1086,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         list.push('SetBrightness');
+
         return list;
     }
 
@@ -1294,6 +1300,108 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
     HtmlVideoPlayer.prototype.togglePictureInPicture = function () {
         return this.setPictureInPictureEnabled(!this.isPictureInPictureEnabled());
+    };
+
+    HtmlVideoPlayer.prototype.getStats = function () {
+
+        var mediaElement = this._mediaElement;
+        var playOptions = this._currentPlayOptions || [];
+
+        var stats = [];
+
+        if (mediaElement) {
+
+            if (playOptions.url) {
+                //  create an anchor element (note: no need to append this element to the document)
+                var link = document.createElement('a');
+                //  set href to any path
+                link.setAttribute('href', playOptions.url);
+                var protocol = (link.protocol || '').replace(':', '');
+
+                if (protocol) {
+                    stats.push({
+                        label: 'Protocol:',
+                        value: protocol
+                    });
+                }
+
+                link = null;
+            }
+
+            if (this._hlsPlayer) {
+                stats.push({
+                    label: 'Stream type:',
+                    value: 'HLS'
+                });
+            } else {
+                stats.push({
+                    label: 'Stream type:',
+                    value: 'Video'
+                });
+            }
+
+            if (playOptions.mimeType) {
+                stats.push({
+                    label: 'Mime type:',
+                    value: playOptions.mimeType
+                });
+            }
+
+            var rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
+            var height = rect.height;
+            var width = rect.width;
+
+            if (width && height) {
+                stats.push({
+                    label: 'Player dimensions:',
+                    value: width + 'x' + height
+                });
+            }
+
+            height = mediaElement.videoHeight;
+            width = mediaElement.videoWidth;
+
+            if (width && height) {
+                stats.push({
+                    label: 'Video resolution:',
+                    value: width + 'x' + height
+                });
+            }
+
+            var sinkId = mediaElement.sinkId;
+            if (sinkId) {
+                stats.push({
+                    label: 'Sink Id:',
+                    value: sinkId
+                });
+            }
+
+            if (mediaElement.getVideoPlaybackQuality) {
+                var playbackQuality = mediaElement.getVideoPlaybackQuality();
+
+                var totalVideoFrames = playbackQuality.totalVideoFrames;
+                if (totalVideoFrames) {
+                    stats.push({
+                        label: 'Total video frames:',
+                        value: totalVideoFrames
+                    });
+                }
+
+                var droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
+                stats.push({
+                    label: 'Dropped video frames:',
+                    value: droppedVideoFrames
+                });
+
+                var corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
+                stats.push({
+                    label: 'Corrupted video frames:',
+                    value: corruptedVideoFrames
+                });
+            }
+        }
+
+        return Promise.resolve(stats);
     };
 
     return HtmlVideoPlayer;

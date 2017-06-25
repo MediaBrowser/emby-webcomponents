@@ -1,0 +1,43 @@
+.playerStats {
+    background: rgba(28,28,28,0.8);
+    border-radius: .3em;
+    color: #fff;
+    left: 1.5em;
+    position: absolute;
+    top: 6em;
+    color: #fff;
+}
+
+.playerStats-content {
+    position: relative;
+}
+
+.playerStats-closeButton {
+    position: absolute;
+    top: .25em;
+    right: .25em;
+    color: #ccc;
+}
+
+.playerStats-stats {
+    display: flex;
+    flex-direction: column;
+    padding: 1em 2em 1em 1em;
+    max-width: 50em;
+}
+
+.playerStats-stat {
+    display: flex;
+    align-items: center;
+}
+
+.playerStats-stat-label {
+    font-weight: 500;
+    margin-right: 1em;
+    width: 12em;
+    text-align: right;
+}
+
+.playerStats-stat-header {
+    margin-top: 1em;
+}

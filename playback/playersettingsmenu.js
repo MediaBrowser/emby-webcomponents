@@ -216,10 +216,14 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
                 });
             }
 
-            //menuItems.push({
-            //    name: globalize.translate('sharedcomponents#Settings'),
-            //    id: 'settings'
-            //});
+            if (options.stats) {
+
+                menuItems.push({
+                    name: globalize.translate('sharedcomponents#StatsForNerds'),
+                    id: 'stats',
+                    secondaryText: null
+                });
+            }
 
             return actionsheet.show({
 
@@ -228,21 +232,31 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
             }).then(function (id) {
 
-                switch (id) {
-
-                    case 'quality':
-                        return showQualityMenu(player, options.positionTo);
-                    case 'aspectratio':
-                        return showAspectRatioMenu(player, options.positionTo);
-                    case 'repeatmode':
-                        return showRepeatModeMenu(player, options.positionTo);
-                    default:
-                        break;
-                }
-
-                return Promise.reject();
+                return handleSelectedOption(id, options, player);
             });
         });
+    }
+
+    function handleSelectedOption(id, options, player) {
+
+        switch (id) {
+
+            case 'quality':
+                return showQualityMenu(player, options.positionTo);
+            case 'aspectratio':
+                return showAspectRatioMenu(player, options.positionTo);
+            case 'repeatmode':
+                return showRepeatModeMenu(player, options.positionTo);
+            case 'stats':
+                if (options.onOption) {
+                    options.onOption('stats');
+                }
+                return Promise.resolve();
+            default:
+                break;
+        }
+
+        return Promise.reject();
     }
 
     return {

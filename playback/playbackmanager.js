@@ -1229,18 +1229,6 @@
             return player.togglePictureInPicture();
         };
 
-        self.toggleStats = function (player) {
-            player = player || self._currentPlayer;
-
-            if (player.toggleStats) {
-                return player.toggleStats();
-            }
-
-            if (player.isLocalPlayer) {
-                // 
-            }
-        };
-
         self.getSubtitleStreamIndex = function (player) {
 
             player = player || self._currentPlayer;
@@ -3375,8 +3363,7 @@
                 "DisplayContent",
                 "GoToSearch",
                 "DisplayMessage",
-                "SetRepeatMode",
-                "ToggleStats"
+                "SetRepeatMode"
             ];
 
             if (apphost.supports('fullscreenchange') && !layoutManager.tv) {
