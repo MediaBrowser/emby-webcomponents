@@ -1,4 +1,4 @@
-define(['events', 'playbackManager', 'connectionManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, playbackManager, connectionManager, playMethodHelper, layoutManager, serverNotifications) {
+define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMethodHelper', 'layoutManager', 'serverNotifications', 'paper-icon-button-light', 'css!./playerstats'], function (events, globalize, playbackManager, connectionManager, playMethodHelper, layoutManager, serverNotifications) {
     'use strict';
 
     function init(instance) {
@@ -93,6 +93,11 @@ define(['events', 'playbackManager', 'connectionManager', 'playMethodHelper', 'l
         }, function () {
             return Promise.resolve({});
         });
+    }
+
+    function translateReason(reason) {
+
+        return globalize.translate('sharedcomponents#' + reason);
     }
 
     function getSessionStats(session, player, displayPlayMethod) {
@@ -192,7 +197,7 @@ define(['events', 'playbackManager', 'connectionManager', 'playMethodHelper', 'l
 
                 sessionStats.push({
                     label: 'Reason for transcoding:',
-                    value: session.TranscodingInfo.TranscodeReasons.join(',')
+                    value: session.TranscodingInfo.TranscodeReasons.map(translateReason).join('<br/>')
                 });
             }
         }

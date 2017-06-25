@@ -28,7 +28,6 @@
 
 .playerStats-stat {
     display: flex;
-    align-items: center;
 }
 
 .playerStats-stat-label {
