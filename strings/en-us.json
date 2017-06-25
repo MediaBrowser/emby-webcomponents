@@ -446,7 +446,7 @@
   "DirectStreamHelp2": "Direct Streaming a file uses very little processing power without any loss in video quality.",
   "MediaIsBeingConverted": "The media is being converted into a format that is compatible with the device that is playing the media.",
   "StatsForNerds": "Stats for nerds",
-  "LabelReasonForTranscoding": "Reasons for transcoding:",
+  "LabelReasonForTranscoding": "Reason for transcoding:",
   "DirectPlaying": "Direct playing",
   "DirectStreaming": "Direct streaming",
   "Transcoding": "Transcoding"
