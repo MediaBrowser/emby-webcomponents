@@ -701,6 +701,19 @@ define(['browser'], function (browser) {
             });
         }
 
+        if (browser.chromecast) {
+            profile.CodecProfiles.push({
+                Type: 'Audio',
+                Codec: 'flac',
+                Conditions: [
+                    {
+                        Condition: 'LessThanEqual',
+                        Property: 'AudioBitDepth',
+                        Value: '16'
+                    }]
+            });
+        }
+
         // Subtitle profiles
         // External vtt or burn in
         profile.SubtitleProfiles = [];

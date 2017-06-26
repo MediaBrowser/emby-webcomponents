@@ -1,4 +1,8 @@
 {
+    "DirectStreamHelp2": "Direct Streaming a file uses very little processing power without any loss in video quality.",
+    "MediaIsBeingConverted": "The media is being converted into a format that is compatible with the device that is playing the media.",
+    "DirectStreamHelp1": "The media is compatible with the device regarding resolution and media type (H.264, AC3, etc.), but is in an incompatible file container (.mkv, .avi, .wmv, etc.). The video will be re-packaged on the fly before streaming it to the device.",
+    "StatsForNerds": "Stats for nerds",
     "MessageUnlockAppWithPurchaseOrSupporter": "L\u00e5s op for dette feature med en lille enkeltst\u00e5ende betaling, eller med et aktivt Emby Premiere abonnement.",
     "MessageUnlockAppWithSupporter": "L\u00e5s op for dette feature med et aktivt Emby Premiere abonnement.",
     "MessageToValidateSupporter": "Hvis du har et aktivt Emby Premiere abonnement, skal du v\u00e6re sikker p\u00e5 at Emby Premiere er konfigureret i dit Emby Server-kontrolpanel, som kan tilg\u00e5es ved at klikke p\u00e5 Emby Premiere i hovedmenuen.",

@@ -228,8 +228,34 @@
         return apiClient.getIntros(firstItem.Id);
     }
 
+    function getAudioMaxValues(deviceProfile) {
+
+        // TODO - this could vary per codec and should be done on the server using the entire profile
+        var maxAudioSampleRate = null;
+        var maxAudioBitDepth = null;
+
+        deviceProfile.CodecProfiles.map(function (codecProfile) {
+
+            if (codecProfile.Type === 'Audio') {
+                (codecProfile.Conditions || []).map(function (condition) {
+                    if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitDepth') {
+                        maxAudioBitDepth = condition.Value;
+                    }
+                    if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
+                        maxAudioSampleRate = condition.Value;
+                    }
+                });
+            }
+        });
+
+        return {
+            maxAudioSampleRate: maxAudioSampleRate,
+            maxAudioBitDepth: maxAudioBitDepth
+        };
+    }
+
     var startingPlaySession = new Date().getTime();
-    function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, startPosition) {
+    function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxAudioSampleRate, maxAudioBitDepth, startPosition) {
 
         var url = 'Audio/' + item.Id + '/universal';
 
@@ -242,8 +268,8 @@
             TranscodingContainer: transcodingProfile.Container || null,
             TranscodingProtocol: transcodingProfile.Protocol || null,
             AudioCodec: transcodingProfile.AudioCodec,
-            // TODO grab from CodecProfiles
-            MaxSampleRate: 48000,
+            MaxAudioSampleRate: maxAudioSampleRate,
+            MaxAudioBitDepth: maxAudioBitDepth,
             api_key: apiClient.accessToken(),
             PlaySessionId: startingPlaySession,
             StartTimeTicks: startPosition || 0,
@@ -272,7 +298,9 @@
 
         });
 
-        return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, startPosition);
+        var maxValues = getAudioMaxValues(deviceProfile);
+
+        return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
     }
 
     function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
@@ -294,6 +322,8 @@
             }
         });
 
+        var maxValues = getAudioMaxValues(deviceProfile);
+
         var supportsUniversalAudio = apiClient.isMinServerVersion('3.2.17.5');
         var streamUrls = [];
 
@@ -303,7 +333,7 @@
             var streamUrl;
 
             if (supportsUniversalAudio && item.MediaType === 'Audio') {
-                streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, startPosition);
+                streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
             }
 
             streamUrls.push(streamUrl || '');
