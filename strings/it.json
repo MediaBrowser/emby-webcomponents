@@ -1,8 +1,4 @@
 {
-    "DirectStreamHelp2": "Direct Streaming a file uses very little processing power without any loss in video quality.",
-    "MediaIsBeingConverted": "The media is being converted into a format that is compatible with the device that is playing the media.",
-    "DirectStreamHelp1": "The media is compatible with the device regarding resolution and media type (H.264, AC3, etc.), but is in an incompatible file container (.mkv, .avi, .wmv, etc.). The video will be re-packaged on the fly before streaming it to the device.",
-    "StatsForNerds": "Stats for nerds",
     "MessageUnlockAppWithPurchaseOrSupporter": "Sblocca questa funzionalit\u00e0 con un piccolo acquisto singolo, o con un abbonamento Emby Premiere.",
     "MessageUnlockAppWithSupporter": "Sblocca questa funzionalit\u00e0 con un abbonamento Emby Premiere",
     "MessageToValidateSupporter": "Se hai un abbonamento Emby Premiere, assicurati di averlo configurato nel Pannello di Controllo del Server, a cui puoi accedere cliccando su Emby Premiere dal menu principale.",
@@ -445,5 +441,19 @@
     "Schedule": "Programmazione",
     "Recordings": "Registrazioni",
     "MarkWatched": "Segna come visto",
-    "ScanForNewAndUpdatedFiles": "Scansiona per file nuovi e aggiornati"
+    "ScanForNewAndUpdatedFiles": "Scansiona per file nuovi e aggiornati",
+    "DirectStreamHelp1": "Il file multimediale \u00e8 compatibile con il dispositivo per quanto riguarda la risoluzione e il tipo di supporto (H. 264, AC3, etc.), ma \u00e8 in un contenitore file incompatibile (.mkv, .avi, .wmv, etc.). Il video sar\u00e0 ri-confezionato al volo prima di streammarlo sul dispositivo.",
+    "DirectStreamHelp2": "Lo Streaming in Diretta di un file utilizza poco il processore senza alcuna perdita di qualit\u00e0 video",
+    "MediaIsBeingConverted": "Il file multimediale viene convertito in un formato che \u00e8 compatibile con il dispositivo che sta riproducendo il file multimediale.",
+    "StatsForNerds": "Statistiche per nerds",
+    "LabelReasonForTranscoding": "Motivo per la transcodifica:",
+    "DirectPlaying": "Riproduzione Diretta",
+    "DirectStreaming": "Streaming Diretto",
+    "Transcoding": "Trascodifica",
+    "VideoCodecNotSupported": "Il codec video non \u00e8 supportato",
+    "AudioCodecNotSupported": "Il codec audio non \u00e8 supportato",
+    "ContainerNotSupported": "Container format not supported",
+    "AudioBitrateNotSupported": "Audio bitrate not supported",
+    "AudioChannelsNotSupported": "Audio channels not supported",
+    "VideoResolutionNotSupported": "Video resolution not supported"
 }
