@@ -4,8 +4,12 @@
     color: #fff;
     left: 1.5em;
     position: absolute;
-    top: 6em;
+    top: 5em;
     color: #fff;
+}
+
+.playerStats-tv {
+    top: 4em;
 }
 
 .playerStats-content {
@@ -13,11 +17,16 @@
     font-size: 84%;
 }
 
+.playerStats-content-tv {
+    font-size: 72%;
+}
+
 .playerStats-closeButton {
     position: absolute;
     top: .25em;
     right: .25em;
     color: #ccc;
+    z-index: 1;
 }
 
 .playerStats-stats {

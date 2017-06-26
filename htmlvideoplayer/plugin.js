@@ -1313,9 +1313,51 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         var categories = [];
 
+        var mediaCategory = {
+            stats: [],
+            type: 'media'
+        };
+        categories.push(mediaCategory);
+
+        if (playOptions.url) {
+            //  create an anchor element (note: no need to append this element to the document)
+            var link = document.createElement('a');
+            //  set href to any path
+            link.setAttribute('href', playOptions.url);
+            var protocol = (link.protocol || '').replace(':', '');
+
+            if (protocol) {
+                mediaCategory.stats.push({
+                    label: 'Protocol:',
+                    value: protocol
+                });
+            }
+
+            link = null;
+        }
+
+        if (this._hlsPlayer) {
+            mediaCategory.stats.push({
+                label: 'Stream type:',
+                value: 'HLS'
+            });
+        } else {
+            mediaCategory.stats.push({
+                label: 'Stream type:',
+                value: 'Video'
+            });
+        }
+
+        if (playOptions.mimeType) {
+            mediaCategory.stats.push({
+                label: 'Mime type:',
+                value: playOptions.mimeType
+            });
+        }
+
         var videoCategory = {
-            name: 'Video Info',
-            stats: []
+            stats: [],
+            type: 'video'
         };
         categories.push(videoCategory);
 
@@ -1357,8 +1399,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
 
         var audioCategory = {
-            name: 'Audio Info',
-            stats: []
+            stats: [],
+            type: 'audio'
         };
         categories.push(audioCategory);
 

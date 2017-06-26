@@ -6,6 +6,11 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         var parent = document.createElement('div');
 
         parent.classList.add('playerStats');
+
+        if (layoutManager.tv) {
+            parent.classList.add('playerStats-tv');
+        }
+
         parent.classList.add('hide');
 
         var button;
@@ -16,7 +21,9 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             button = '<button type="button" is="paper-icon-button-light" class="playerStats-closeButton"><i class="md-icon">close</i></button>';
         }
 
-        parent.innerHTML = '<div class="playerStats-content">' + button + '<div class="playerStats-stats"></div></div>';
+        var contentClass = layoutManager.tv ? 'playerStats-content playerStats-content-tv' : 'playerStats-content';
+
+        parent.innerHTML = '<div class="' + contentClass + '">' + button + '<div class="playerStats-stats"></div></div>';
 
         button = parent.querySelector('.playerStats-closeButton');
 
@@ -122,29 +129,29 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             audioChannels = session.TranscodingInfo.AudioChannels;
         }
 
-        if (videoCodec) {
+        //if (videoCodec) {
 
-            sessionStats.push({
-                label: 'Video codec:',
-                value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
-            });
-        }
+        //    sessionStats.push({
+        //        label: 'Video codec:',
+        //        value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
+        //    });
+        //}
 
-        if (audioCodec) {
+        //if (audioCodec) {
 
-            sessionStats.push({
-                label: 'Audio codec:',
-                value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
-            });
-        }
+        //    sessionStats.push({
+        //        label: 'Audio codec:',
+        //        value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
+        //    });
+        //}
 
-        if (audioChannels) {
+        //if (audioChannels) {
 
-            sessionStats.push({
-                label: 'Audio channels:',
-                value: audioChannels
-            });
-        }
+        //    sessionStats.push({
+        //        label: 'Audio channels:',
+        //        value: audioChannels
+        //    });
+        //}
 
         if (displayPlayMethod === 'Transcode') {
             if (totalBitrate) {
@@ -334,7 +341,15 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             categories.push(baseCategory);
 
             for (var i = 0, length = playerStats.length; i < length; i++) {
-                categories.push(playerStats[i]);
+
+                var category = playerStats[i];
+                if (category.type === 'audio') {
+                    category.name = 'Audio Info';
+                }
+                else if (category.type === 'video') {
+                    category.name = 'Video Info';
+                }
+                categories.push(category);
             }
 
             if (session.TranscodingInfo) {
@@ -345,10 +360,10 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
                 });
             }
 
-            categories.push({
-                stats: getMediaSourceStats(session, player),
-                name: 'Original Media Info'
-            });
+            //categories.push({
+            //    stats: getMediaSourceStats(session, player),
+            //    name: 'Original Media Info'
+            //});
 
             return Promise.resolve(categories);
         });
