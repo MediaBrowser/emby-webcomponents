@@ -1307,101 +1307,89 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var mediaElement = this._mediaElement;
         var playOptions = this._currentPlayOptions || [];
 
-        var stats = [];
+        if (!mediaElement) {
+            return Promise.resolve([]);
+        }
 
-        if (mediaElement) {
+        var categories = [];
 
-            if (playOptions.url) {
-                //  create an anchor element (note: no need to append this element to the document)
-                var link = document.createElement('a');
-                //  set href to any path
-                link.setAttribute('href', playOptions.url);
-                var protocol = (link.protocol || '').replace(':', '');
+        var videoCategory = {
+            name: 'Video Info',
+            stats: []
+        };
+        categories.push(videoCategory);
 
-                if (protocol) {
-                    stats.push({
-                        label: 'Protocol:',
-                        value: protocol
-                    });
-                }
+        var rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
+        var height = rect.height;
+        var width = rect.width;
 
-                link = null;
-            }
+        if (width && height) {
+            videoCategory.stats.push({
+                label: 'Player dimensions:',
+                value: width + 'x' + height
+            });
+        }
 
-            if (this._hlsPlayer) {
-                stats.push({
-                    label: 'Stream type:',
-                    value: 'HLS'
-                });
+        height = mediaElement.videoHeight;
+        width = mediaElement.videoWidth;
+
+        if (width && height) {
+            videoCategory.stats.push({
+                label: 'Video resolution:',
+                value: width + 'x' + height
+            });
+        }
+
+        if (mediaElement.getVideoPlaybackQuality) {
+            var playbackQuality = mediaElement.getVideoPlaybackQuality();
+
+            var droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
+            videoCategory.stats.push({
+                label: 'Dropped frames:',
+                value: droppedVideoFrames
+            });
+
+            var corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
+            videoCategory.stats.push({
+                label: 'Corrupted frames:',
+                value: corruptedVideoFrames
+            });
+        }
+
+        var audioCategory = {
+            name: 'Audio Info',
+            stats: []
+        };
+        categories.push(audioCategory);
+
+        var audioTrackList = mediaElement.audioTracks || [];
+        var audioTracks = [];
+        for (var i = 0, length = audioTrackList.length; i < length; i++) {
+
+            var audioTrack = audioTrackList[i];
+            if (audioTrack.enabled) {
+                audioTracks.push((audioTrack.language || 'und') + ' (enabled)');
             } else {
-                stats.push({
-                    label: 'Stream type:',
-                    value: 'Video'
-                });
-            }
-
-            if (playOptions.mimeType) {
-                stats.push({
-                    label: 'Mime type:',
-                    value: playOptions.mimeType
-                });
-            }
-
-            var rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
-            var height = rect.height;
-            var width = rect.width;
-
-            if (width && height) {
-                stats.push({
-                    label: 'Player dimensions:',
-                    value: width + 'x' + height
-                });
-            }
-
-            height = mediaElement.videoHeight;
-            width = mediaElement.videoWidth;
-
-            if (width && height) {
-                stats.push({
-                    label: 'Video resolution:',
-                    value: width + 'x' + height
-                });
-            }
-
-            var sinkId = mediaElement.sinkId;
-            if (sinkId) {
-                stats.push({
-                    label: 'Sink Id:',
-                    value: sinkId
-                });
-            }
-
-            if (mediaElement.getVideoPlaybackQuality) {
-                var playbackQuality = mediaElement.getVideoPlaybackQuality();
-
-                var totalVideoFrames = playbackQuality.totalVideoFrames;
-                if (totalVideoFrames) {
-                    stats.push({
-                        label: 'Total video frames:',
-                        value: totalVideoFrames
-                    });
-                }
-
-                var droppedVideoFrames = playbackQuality.droppedVideoFrames || 0;
-                stats.push({
-                    label: 'Dropped video frames:',
-                    value: droppedVideoFrames
-                });
-
-                var corruptedVideoFrames = playbackQuality.corruptedVideoFrames || 0;
-                stats.push({
-                    label: 'Corrupted video frames:',
-                    value: corruptedVideoFrames
-                });
+                audioTracks.push((audioTrack.language || 'und'));
             }
         }
 
-        return Promise.resolve(stats);
+        if (audioTracks.length) {
+            audioCategory.stats.push({
+                label: 'Audio tracks:',
+                value: audioTracks.join('<br/>')
+            });
+        }
+
+        var sinkId = mediaElement.sinkId;
+        if (sinkId) {
+            audioCategory.stats.push({
+                label: 'Sink Id:',
+                value: sinkId
+            });
+        }
+
+        return Promise.resolve(categories);
     };
 
     return HtmlVideoPlayer;

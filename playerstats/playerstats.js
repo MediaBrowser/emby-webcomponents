@@ -43,9 +43,15 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
             if (stats.length && category.name) {
                 categoryHtml += '<div class="playerStats-stat playerStats-stat-header">';
+
                 categoryHtml += '<div class="playerStats-stat-label">';
                 categoryHtml += category.name;
                 categoryHtml += '</div>';
+
+                categoryHtml += '<div class="playerStats-stat-value">';
+                categoryHtml += category.subText || '';
+                categoryHtml += '</div>';
+
                 categoryHtml += '</div>';
             }
 
@@ -100,8 +106,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         return globalize.translate('sharedcomponents#' + reason);
     }
 
-    function getSessionStats(session, player, displayPlayMethod) {
-
+    function getTranscodingStats(session, player, displayPlayMethod) {
         var sessionStats = [];
 
         var videoCodec;
@@ -115,46 +120,24 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             audioCodec = session.TranscodingInfo.AudioCodec;
             totalBitrate = session.TranscodingInfo.Bitrate;
             audioChannels = session.TranscodingInfo.AudioChannels;
-        } else {
-            var mediaSource = playbackManager.currentMediaSource(player);
-            if (mediaSource) {
-                totalBitrate = mediaSource.Bitrate;
-            }
-
-            var mediaStreams = mediaSource.MediaStreams || [];
-            var videoStream = mediaStreams.filter(function (s) {
-
-                return s.Type === 'Video';
-
-            })[0] || {};
-
-            videoCodec = videoStream.Codec;
-
-            var audioStreamIndex = playbackManager.getAudioStreamIndex(player);
-            var audioStream = playbackManager.audioTracks(player).filter(function (s) {
-
-                return s.Type === 'Audio' && s.Index === audioStreamIndex;
-
-            })[0] || {};
-
-            audioCodec = audioStream.Codec;
-            audioChannels = audioStream.Channels;
         }
 
         if (videoCodec) {
 
             sessionStats.push({
                 label: 'Video codec:',
-                value: videoCodec
+                value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
             });
         }
+
         if (audioCodec) {
 
             sessionStats.push({
                 label: 'Audio codec:',
-                value: audioCodec
+                value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
             });
         }
+
         if (audioChannels) {
 
             sessionStats.push({
@@ -162,23 +145,15 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
                 value: audioChannels
             });
         }
-        if (totalBitrate) {
 
-            if (totalBitrate > 1000000) {
+        if (displayPlayMethod === 'Transcode') {
+            if (totalBitrate) {
+
                 sessionStats.push({
                     label: 'Bitrate:',
-                    value: (totalBitrate / 1000000).toFixed(1) + ' Mbps'
-                });
-            } else {
-                sessionStats.push({
-                    label: 'Bitrate:',
-                    value: Math.floor(totalBitrate / 1000) + ' kbps'
+                    value: getDisplayBitrate(totalBitrate)
                 });
             }
-        }
-
-        if (session.TranscodingInfo && displayPlayMethod === 'Transcode') {
-
             if (session.TranscodingInfo.CompletionPercentage) {
 
                 sessionStats.push({
@@ -205,6 +180,128 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         return sessionStats;
     }
 
+    function getDisplayBitrate(bitrate) {
+
+        if (bitrate > 1000000) {
+            return (bitrate / 1000000).toFixed(1) + ' Mbps';
+        } else {
+            return Math.floor(bitrate / 1000) + ' kbps';
+        }
+    }
+
+    function getMediaSourceStats(session, player, displayPlayMethod) {
+
+        var sessionStats = [];
+
+        var mediaSource = playbackManager.currentMediaSource(player) || {};
+        var totalBitrate = mediaSource.Bitrate;
+
+        if (mediaSource.Container) {
+            sessionStats.push({
+                label: 'Container:',
+                value: mediaSource.Container
+            });
+        }
+
+        if (totalBitrate) {
+
+            sessionStats.push({
+                label: 'Bitrate:',
+                value: getDisplayBitrate(totalBitrate)
+            });
+        }
+
+        var mediaStreams = mediaSource.MediaStreams || [];
+        var videoStream = mediaStreams.filter(function (s) {
+
+            return s.Type === 'Video';
+
+        })[0] || {};
+
+        var videoCodec = videoStream.Codec;
+
+        var audioStreamIndex = playbackManager.getAudioStreamIndex(player);
+        var audioStream = playbackManager.audioTracks(player).filter(function (s) {
+
+            return s.Type === 'Audio' && s.Index === audioStreamIndex;
+
+        })[0] || {};
+
+        var audioCodec = audioStream.Codec;
+        var audioChannels = audioStream.Channels;
+
+        var videoInfos = [];
+
+        if (videoCodec) {
+            videoInfos.push(videoCodec.toUpperCase());
+        }
+
+        if (videoStream.Profile) {
+            videoInfos.push(videoStream.Profile);
+        }
+
+        if (videoInfos.length) {
+            sessionStats.push({
+                label: 'Video codec:',
+                value: videoInfos.join(' ')
+            });
+        }
+
+        if (videoStream.BitRate) {
+            sessionStats.push({
+                label: 'Video bitrate:',
+                value: getDisplayBitrate(videoStream.BitRate)
+            });
+        }
+
+        var audioInfos = [];
+
+        if (audioCodec) {
+            audioInfos.push(audioCodec.toUpperCase());
+        }
+
+        if (audioStream.Profile) {
+            audioInfos.push(audioStream.Profile);
+        }
+
+        if (audioInfos.length) {
+            sessionStats.push({
+                label: 'Audio codec:',
+                value: audioInfos.join(' ')
+            });
+        }
+
+        if (audioStream.BitRate) {
+            sessionStats.push({
+                label: 'Audio bitrate:',
+                value: getDisplayBitrate(audioStream.BitRate)
+            });
+        }
+
+        if (audioChannels) {
+            sessionStats.push({
+                label: 'Audio channels:',
+                value: audioChannels
+            });
+        }
+
+        if (audioStream.SampleRate) {
+            sessionStats.push({
+                label: 'Audio sample rate:',
+                value: audioStream.SampleRate + ' Hz'
+            });
+        }
+
+        if (audioStream.BitDepth) {
+            sessionStats.push({
+                label: 'Audio bit depth:',
+                value: audioStream.BitDepth
+            });
+        }
+
+        return sessionStats;
+    }
+
     function getStats(instance, player) {
 
         var statsPromise = player.getStats ? player.getStats() : Promise.resolve([]);
@@ -217,24 +314,40 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
             var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
 
-            playerStats.unshift({
+            var baseCategory = {
+                stats: [],
+                name: 'Playback Info'
+            };
+
+            baseCategory.stats.unshift({
                 label: 'Play method:',
                 value: displayPlayMethod
             });
 
-            playerStats.unshift({
+            baseCategory.stats.unshift({
                 label: 'Player:',
                 value: player.name
             });
 
             var categories = [];
 
-            categories.push({
-                stats: playerStats
-            });
+            categories.push(baseCategory);
+
+            for (var i = 0, length = playerStats.length; i < length; i++) {
+                categories.push(playerStats[i]);
+            }
+
+            if (session.TranscodingInfo) {
+
+                categories.push({
+                    stats: getTranscodingStats(session, player, displayPlayMethod),
+                    name: displayPlayMethod === 'Transcode' ? 'Transcoding Info' : 'Direct Stream Info'
+                });
+            }
 
             categories.push({
-                stats: getSessionStats(session, player, displayPlayMethod)
+                stats: getMediaSourceStats(session, player),
+                name: 'Original Media Info'
             });
 
             return Promise.resolve(categories);
