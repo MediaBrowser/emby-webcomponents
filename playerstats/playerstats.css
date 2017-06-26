@@ -22,8 +22,9 @@
 .playerStats-stats {
     display: flex;
     flex-direction: column;
-    padding: 1em 2em 1em 1em;
+    padding: 1em 3em 1em 1em;
     max-width: 50em;
+    font-size: 84%;
 }
 
 .playerStats-stat {
