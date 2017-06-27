@@ -129,21 +129,21 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             audioChannels = session.TranscodingInfo.AudioChannels;
         }
 
-        //if (videoCodec) {
+        if (videoCodec) {
 
-        //    sessionStats.push({
-        //        label: 'Video codec:',
-        //        value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
-        //    });
-        //}
+            sessionStats.push({
+                label: 'Video codec:',
+                value: session.TranscodingInfo.IsVideoDirect ? (videoCodec.toUpperCase() + ' (direct)') : videoCodec.toUpperCase()
+            });
+        }
 
-        //if (audioCodec) {
+        if (audioCodec) {
 
-        //    sessionStats.push({
-        //        label: 'Audio codec:',
-        //        value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
-        //    });
-        //}
+            sessionStats.push({
+                label: 'Audio codec:',
+                value: session.TranscodingInfo.IsAudioDirect ? (audioCodec.toUpperCase() + ' (direct)') : audioCodec.toUpperCase()
+            });
+        }
 
         //if (audioChannels) {
 
@@ -316,7 +316,8 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
         return Promise.all([statsPromise, sessionPromise]).then(function (responses) {
 
-            var playerStats = responses[0];
+            var playerStatsResult = responses[0];
+            var playerStats = playerStatsResult.categories;
             var session = responses[1];
 
             var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);

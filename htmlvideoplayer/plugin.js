@@ -1307,11 +1307,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         var mediaElement = this._mediaElement;
         var playOptions = this._currentPlayOptions || [];
 
-        if (!mediaElement) {
-            return Promise.resolve([]);
-        }
-
         var categories = [];
+
+        if (!mediaElement) {
+            return Promise.resolve({
+                categories: categories
+            });
+        }
 
         var mediaCategory = {
             stats: [],
@@ -1431,7 +1433,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        return Promise.resolve(categories);
+        return Promise.resolve({
+            categories: categories
+        });
     };
 
     return HtmlVideoPlayer;
