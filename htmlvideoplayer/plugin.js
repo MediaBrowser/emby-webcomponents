@@ -1350,13 +1350,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        if (playOptions.mimeType) {
-            mediaCategory.stats.push({
-                label: 'Mime type:',
-                value: playOptions.mimeType
-            });
-        }
-
         var videoCategory = {
             stats: [],
             type: 'video'
