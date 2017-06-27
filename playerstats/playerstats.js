@@ -361,10 +361,10 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
                 });
             }
 
-            //categories.push({
-            //    stats: getMediaSourceStats(session, player),
-            //    name: 'Original Media Info'
-            //});
+            categories.push({
+                stats: getMediaSourceStats(session, player),
+                name: 'Original Media Info'
+            });
 
             return Promise.resolve(categories);
         });

@@ -1406,25 +1406,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         };
         categories.push(audioCategory);
 
-        var audioTrackList = mediaElement.audioTracks || [];
-        var audioTracks = [];
-        for (var i = 0, length = audioTrackList.length; i < length; i++) {
-
-            var audioTrack = audioTrackList[i];
-            if (audioTrack.enabled) {
-                audioTracks.push((audioTrack.language || 'und') + ' (enabled)');
-            } else {
-                audioTracks.push((audioTrack.language || 'und'));
-            }
-        }
-
-        if (audioTracks.length) {
-            audioCategory.stats.push({
-                label: 'Audio tracks:',
-                value: audioTracks.join('<br/>')
-            });
-        }
-
         var sinkId = mediaElement.sinkId;
         if (sinkId) {
             audioCategory.stats.push({

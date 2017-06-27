@@ -18,7 +18,7 @@
 }
 
 .playerStats-content-tv {
-    font-size: 72%;
+    font-size: 60%;
 }
 
 .playerStats-closeButton {
@@ -34,6 +34,7 @@
     flex-direction: column;
     padding: 0 3em 1em 1em;
     max-width: 50em;
+    overflow: hidden;
 }
 
 .playerStats-stat {
