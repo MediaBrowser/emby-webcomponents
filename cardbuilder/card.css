@@ -408,7 +408,7 @@ button {
 
 .cardOverlayButton {
     color: #fff !important;
-    background-color: rgba(0,0,0,.8) !important;
+    background-color: rgba(0,0,0,.7) !important;
     border-radius: 500px;
     position: absolute;
     bottom: 0;

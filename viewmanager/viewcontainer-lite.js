@@ -134,7 +134,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
 
         return new Promise(function (resolve, reject) {
 
-            var duration = 450;
+            var duration = layoutManager.tv ? 450 : 160;
 
             var animations = [];
 
@@ -173,7 +173,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
 
         return new Promise(function (resolve, reject) {
 
-            var duration = layoutManager.tv ? 450 : 160;
+            var duration = layoutManager.tv ? 450 : 270;
             var animations = [];
 
             newAnimatedPage.style.opacity = 0;

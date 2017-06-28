@@ -61,10 +61,20 @@
                 var msg = target === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadScheduled') : globalize.translate('sharedcomponents#SyncJobCreated');
 
                 toast(msg);
+
+                if (syncOptions.isLocalSync) {
+                    syncNow();
+                }
             });
         });
 
         return true;
+    }
+
+    function syncNow() {
+        require(['localsync'], function (localSync) {
+            localSync.sync();
+        });
     }
 
     function submitQuickSyncJob(apiClient, userId, targetId, syncOptions) {
@@ -113,6 +123,10 @@
                 var msg = targetId === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadScheduled') : globalize.translate('sharedcomponents#SyncJobCreated');
 
                 toast(msg);
+
+                if (syncOptions.isLocalSync) {
+                    syncNow();
+                }
             });
         });
     }
@@ -272,7 +286,7 @@
             selectProfile.addEventListener('change', function () {
                 onProfileChange(elem, this.value);
             });
-            
+
             if (dialogOptions.ProfileOptions.length) {
                 selectProfile.dispatchEvent(new CustomEvent('change', {
                     bubbles: true

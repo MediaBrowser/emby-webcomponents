@@ -80,6 +80,8 @@
             } else {
                 embyRouter.handleAnchorClick(e);
             }
+        } else {
+            e.preventDefault();
         }
     }
 
@@ -96,7 +98,7 @@
             this.classList.add('emby-button-tv');
         }
 
-        if (enableAnimation()) {
+        if (enableAnimation() && this.getAttribute('data-ripple') !== 'false') {
             dom.addEventListener(this, 'keydown', onKeyDown, {
                 passive: true
             });
