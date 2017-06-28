@@ -332,7 +332,7 @@ define(['browser'], function (browser) {
             videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '');
 
         // Not sure how to test for this
-        var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen;
+        var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay;
 
         // Only put mp3 first if mkv support is there
         // Otherwise with HLS and mp3 audio we're seeing some browsers
@@ -708,8 +708,8 @@ define(['browser'], function (browser) {
                 Conditions: [
                     {
                         Condition: 'LessThanEqual',
-                        Property: 'AudioBitDepth',
-                        Value: '16'
+                        Property: 'AudioSampleRate',
+                        Value: '48000'
                     }]
             });
         }
