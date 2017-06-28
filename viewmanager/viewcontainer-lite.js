@@ -212,7 +212,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
 
         var animations = currentAnimations;
         for (var i = 0, length = animations.length; i < length; i++) {
-            animations[i].animation = 'none';
+            animations[i].style.animation = 'none';
         }
     }
 

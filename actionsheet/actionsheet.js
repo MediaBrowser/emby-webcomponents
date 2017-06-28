@@ -114,7 +114,7 @@
             dialogOptions.entryAnimation = options.entryAnimation;
             dialogOptions.exitAnimation = options.exitAnimation;
             dialogOptions.entryAnimationDuration = options.entryAnimationDuration || 140;
-            dialogOptions.exitAnimationDuration = options.exitAnimationDuration || 160;
+            dialogOptions.exitAnimationDuration = options.exitAnimationDuration || 100;
             dialogOptions.autoFocus = false;
         }
 
