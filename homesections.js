@@ -72,7 +72,7 @@
             return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews);
         }
         else if (section === 'librarybuttons') {
-            return loadlibraryButtons(elem, apiClient, userId, userSettings, userViews);
+            return loadlibraryButtons(elem, apiClient, user, userSettings, userViews);
         }
         else if (section === 'resume') {
             return loadResumeVideo(elem, apiClient, userId);
@@ -131,6 +131,7 @@
 
         var html = "";
 
+        html += '<div class="verticalSection">';
         html += '<div class="sectionTitleContainer">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
 
@@ -195,19 +196,25 @@
         }
 
         html += '</div>';
+        html += '</div>';
 
         return html;
     }
 
-    function loadlibraryButtons(elem, apiClient, userId, userSettings, userViews) {
+    function loadlibraryButtons(elem, apiClient, user, userSettings, userViews) {
 
-        var html = getLibraryButtonsHtml(userViews);
+        return Promise.all([getAppInfo(apiClient), getDownloadsSectionHtml(apiClient, user, userSettings)]).then(function (responses) {
 
-        return getAppInfo(apiClient).then(function (infoHtml) {
+            var infoHtml = responses[0];
+            var downloadsHtml = responses[1];
 
-            elem.innerHTML = html + infoHtml;
+            elem.classList.remove('verticalSection');
 
-            bindHomeScreenSettingsIcon(elem, apiClient, userId, userSettings);
+            var html = getLibraryButtonsHtml(userViews);
+
+            elem.innerHTML = html + downloadsHtml + infoHtml;
+
+            bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
 
             if (infoHtml) {
                 bindAppInfoEvents(elem);
@@ -554,13 +561,56 @@
         });
     }
 
-    function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews) {
+    function getDownloadsSectionHtml(apiClient, user, userSettings) {
 
         var html = '';
 
-        html += '<div>';
+        if (!appHost.supports('sync') || !user.Policy.EnableContentDownloading) {
+            return Promise.resolve(html);
+        }
+
+        html += '<div class="verticalSection">';
+        html += '<div class="sectionTitleContainer padded-left">';
+
+        html += '<h2 class="sectionTitle">' + globalize.translate('sharedcomponents#HeaderMyDownloads') + '</h2>';
+
+        html += '</div>';
+
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+            html += '<div class="scrollSlider padded-left padded-right padded-top focuscontainer-x">';
+        }
+        else {
+            html += '<div class="padded-left padded-right padded-top focuscontainer-x">';
+        }
+
+        html += '<a style="margin:0;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('downloads') + '" class="raised"><i class="md-icon">&#xE2C7;</i><span>' + globalize.translate('sharedcomponents#Browse') + '</span></a>';
+
+        if (user.Policy.EnableContentDownloading) {
+            html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('managedownloads') + '" class="raised"><i class="md-icon">&#xE8B8;</i><span>' + globalize.translate('sharedcomponents#Manage') + '</span></a>';
+        }
+
+        html += '</div>';
+
+        if (enableScrollX()) {
+            html += '</div>';
+        }
+
+        html += '</div>';
+        html += '</div>';
+
+        return Promise.resolve(html);
+    }
+
+    function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews) {
+
+        elem.classList.remove('verticalSection');
+
+        var html = '';
 
         if (userViews.length) {
+
+            html += '<div class="verticalSection">';
 
             html += '<div class="sectionTitleContainer">';
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
@@ -594,13 +644,16 @@
                 html += '</div>';
             }
             html += '</div>';
+            html += '</div>';
         }
 
-        html += '</div>';
+        return Promise.all([getAppInfo(apiClient), getDownloadsSectionHtml(apiClient, user, userSettings)]).then(function (responses) {
 
-        return getAppInfo(apiClient).then(function (infoHtml) {
+            var infoHtml = responses[0];
+            var downloadsHtml = responses[1];
 
-            elem.innerHTML = html + infoHtml;
+            elem.innerHTML = html + downloadsHtml + infoHtml;
+
             bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
 
             if (infoHtml) {

@@ -1510,7 +1510,7 @@
                     ParentId: firstItem.ParentId,
                     Filters: "IsNotFolder",
                     // Setting this to true may cause some incorrect sorting
-                    Recursive: false,
+                    Recursive: true,
                     SortBy: "SortName",
                     MediaTypes: "Photo,Video"
 
@@ -1777,7 +1777,8 @@
 
         function playPhotos(items, options, user) {
 
-            var player = getPlayer(items[0], options);
+            var playStartIndex = options.playStartIndex || 0;
+            var player = getPlayer(items[playStartIndex], options);
 
             loading.hide();
 
@@ -1788,7 +1789,8 @@
 
         function playWithIntros(items, options, user) {
 
-            var firstItem = items[0];
+            var playStartIndex = options.playStartIndex || 0;
+            var firstItem = items[playStartIndex];
 
             if (firstItem.MediaType === "Photo") {
 
@@ -1810,8 +1812,7 @@
 
                     self._playQueueManager.setPlaylist(items);
 
-                    var playIndex = 0;
-                    setPlaylistState(items[playIndex].PlaylistItemId, playIndex);
+                    setPlaylistState(items[playStartIndex].PlaylistItemId, playStartIndex);
                     loading.hide();
                 });
             });

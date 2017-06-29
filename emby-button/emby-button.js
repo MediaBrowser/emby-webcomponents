@@ -98,7 +98,7 @@
             this.classList.add('emby-button-tv');
         }
 
-        if (enableAnimation() && this.getAttribute('data-ripple') !== 'false') {
+        if (enableAnimation() && this.getAttribute('data-ripple') !== 'false' && !this.classList.contains('button-link')) {
             dom.addEventListener(this, 'keydown', onKeyDown, {
                 passive: true
             });
