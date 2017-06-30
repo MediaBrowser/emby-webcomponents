@@ -1,6 +1,16 @@
 define(['connectionManager', 'confirm', 'embyRouter', 'globalize'], function (connectionManager, confirm, embyRouter, globalize) {
     'use strict';
 
+    function alertText(options) {
+
+        return new Promise(function (resolve, reject) {
+
+            require(['alert'], function (alert) {
+                alert(options).then(resolve, resolve);
+            });
+        });
+    }
+
     function deleteItem(options) {
 
         var item = options.item;
@@ -30,6 +40,13 @@ define(['connectionManager', 'confirm', 'embyRouter', 'globalize'], function (co
                         embyRouter.goHome();
                     }
                 }
+            }, function (err) {
+
+                var result = function () {
+                    return Promise.reject(err);
+                };
+
+                return alertText(globalize.translate('sharedcomponents#ErrorDeletingItem')).then(result, result);
             });
         });
     }

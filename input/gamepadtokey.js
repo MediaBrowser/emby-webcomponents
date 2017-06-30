@@ -179,13 +179,14 @@ require(['apphost'], function (appHost) {
     function resetThrottle(key) {
         times[key] = new Date().getTime();
     }
-    
+
+    var isElectron = navigator.userAgent.toLowerCase().indexOf('electron') !== -1;
     function allowInput() {
 
         // This would be nice but always seems to return true with electron
-        //if (document.hidden) {
-        //    return false;
-        //}
+        if (!isElectron && document.hidden) {
+            return false;
+        }
 
         if (appHost.getWindowState() === 'Minimized') {
             return false;
@@ -208,7 +209,7 @@ require(['apphost'], function (appHost) {
     }
 
     function clickElement(elem) {
-        
+
         if (!allowInput()) {
             return;
         }

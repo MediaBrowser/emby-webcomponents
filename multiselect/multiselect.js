@@ -142,6 +142,16 @@
         }
     }
 
+    function alertText(options) {
+
+        return new Promise(function (resolve, reject) {
+
+            require(['alert'], function (alert) {
+                alert(options).then(resolve, resolve);
+            });
+        });
+    }
+
     function deleteItems(apiClient, itemIds) {
 
         return new Promise(function (resolve, reject) {
@@ -161,7 +171,10 @@
                         apiClient.deleteItem(itemId);
                     });
 
-                    Promise.all(promises).then(resolve);
+                    Promise.all(promises).then(resolve, function() {
+                        
+                        alertText(globalize.translate('sharedcomponents#ErrorDeletingItem')).then(reject, reject);
+                    });
                 }, reject);
 
             });
