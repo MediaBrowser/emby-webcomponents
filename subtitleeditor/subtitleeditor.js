@@ -264,10 +264,10 @@
             html += '<div class="secondary listItemBodyText">';
 
             if (result.Format) {
-                html += '<span style="margin-right:1em;">' + globalize.translate('FormatValue', result.Format) + '</span>';
+                html += '<span style="margin-right:1em;">' + globalize.translate('sharedcomponents#FormatValue', result.Format) + '</span>';
             }
 
-            html += '<span>' + globalize.translate('DownloadsValue', result.DownloadCount || 0) + '</span>';
+            html += '<span>' + globalize.translate('sharedcomponents#DownloadsValue', result.DownloadCount || 0) + '</span>';
             html += '</div>';
 
             if (result.Comment) {
@@ -275,7 +275,7 @@
             }
 
             if (result.IsHashMatch) {
-                html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .25em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
+                html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .25em 1em;border-radius:1000em;">' + globalize.translate('sharedcomponents#PerfectMatch') + '</div></div>';
             }
 
             //html += '</a>';
