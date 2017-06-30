@@ -276,7 +276,7 @@
             }
 
             if (result.IsHashMatch) {
-                html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .25em 1em;border-radius:1000em;">' + globalize.translate('sharedcomponents#PerfectMatch') + '</div></div>';
+                html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('sharedcomponents#PerfectMatch') + '</div></div>';
             }
 
             //html += '</a>';
