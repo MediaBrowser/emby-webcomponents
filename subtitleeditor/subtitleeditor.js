@@ -94,6 +94,7 @@
 
                     hasChanges = true;
                     reload(context, apiClient, itemId);
+
                 });
             });
         });
@@ -378,16 +379,19 @@
     function onSubtitleResultsClick(e) {
 
         var btnOptions = dom.parentWithClass(e.target, 'btnOptions');
+        var subtitleId;
+        var context;
+
         if (btnOptions) {
-            var subtitleId = btnOptions.getAttribute('data-subid');
-            var context = dom.parentWithClass(btnOptions, 'subtitleEditorDialog');
+            subtitleId = btnOptions.getAttribute('data-subid');
+            context = dom.parentWithClass(btnOptions, 'subtitleEditorDialog');
             showDownloadOptions(btnOptions, context, subtitleId);
         }
 
         var btnDownload = dom.parentWithClass(e.target, 'btnDownload');
         if (btnDownload) {
-            var subtitleId = btnDownload.getAttribute('data-subid');
-            var context = dom.parentWithClass(btnDownload, 'subtitleEditorDialog');
+            subtitleId = btnDownload.getAttribute('data-subid');
+            context = dom.parentWithClass(btnDownload, 'subtitleEditorDialog');
             downloadRemoteSubtitles(context, subtitleId);
         }
     }
