@@ -169,6 +169,9 @@
     "LabelOriginalAspectRatio": "Ratio d'aspect original",
     "LabelPlayers": "Lecteurs :",
     "Label3DFormat": "Format 3D",
+    "FormatValue": "Format: {0}",
+    "DownloadsValue": "Downloads: {0}",
+    "PerfectMatch": "Perfect match",
     "HeaderAlternateEpisodeNumbers": "Num\u00e9ros d'\u00e9pisode alternatif",
     "LabelDvdSeasonNumber": "Num\u00e9ro de saison DVD :",
     "LabelDvdEpisodeNumber": "Num\u00e9ro d'Episode DVD:",
@@ -476,5 +479,5 @@
     "MessageEmbyAccountAdded": "Le compte Emby a \u00e9t\u00e9 ajout\u00e9 \u00e0 cet utilisateur.",
     "MessagePendingEmbyAccountAdded": "Veuillez vous assurer que votre compte Emby a bien \u00e9t\u00e9 activ\u00e9 avec les instructions fournies dans le courriel envoy\u00e9 apr\u00e8s la cr\u00e9ation de votre compte. Si vous n'avez pas re\u00e7u ce courriel, veuillez envoyer un courriel \u00e0 {0} avec l'adresse utilis\u00e9e lors de la cr\u00e9ation de votre compte Emby.",
     "HeaderEmbyAccountAdded": "Compte Emby ajout\u00e9",
-    "ErrorDeletingItem": "There was an error deleting the item from Emby Server. Please check that Emby Server has write access to the media folder and try again."
+    "ErrorDeletingItem": "Une erreur s'est produite lors de la suppression de l'\u00e9l\u00e9ment du Serveur Emby. V\u00e9rifiez que le serveur Emby a un acc\u00e8s en \u00e9criture au dossier multim\u00e9dia et r\u00e9essayez."
 }
