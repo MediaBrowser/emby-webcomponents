@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'embyRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'emby-linkbutton'], function (dialogHelper, loading, layoutManager, connectionManager, embyRouter, globalize) {
+﻿define(['dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'embyRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'emby-linkbutton', 'flexStyles'], function (dialogHelper, loading, layoutManager, connectionManager, embyRouter, globalize) {
     'use strict';
 
     var currentServerId;
@@ -251,7 +251,7 @@
         html += title;
         html += '</h3>';
 
-        html += '<a is="emby-linkbutton" class="button-link btnHelp" href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;display:inline-block;padding:.25em;display:flex;align-items:center;" title="' + globalize.translate('sharedcomponents#Help') + '"><i class="md-icon">&#xE88E;</i><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+        html += '<a is="emby-linkbutton" class="button-link btnHelp flex align-items-center" href="https://github.com/MediaBrowser/Wiki/wiki/Collections" target="_blank" style="margin-left:auto;margin-right:.5em;padding:.25em;" title="' + globalize.translate('sharedcomponents#Help') + '"><i class="md-icon">&#xE88E;</i><span style="margin-left:.25em;">' + globalize.translate('sharedcomponents#Help') + '</span></a>';
 
         html += '</div>';
 

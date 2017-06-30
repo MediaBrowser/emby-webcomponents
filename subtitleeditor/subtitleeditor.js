@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings', 'connectionManager', 'loading', 'focusManager', 'dom', 'apphost', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'css!./subtitleeditor', 'emby-button'], function (dialogHelper, require, layoutManager, globalize, userSettings, connectionManager, loading, focusManager, dom, appHost) {
+﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings', 'connectionManager', 'loading', 'focusManager', 'dom', 'apphost', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'css!./subtitleeditor', 'emby-button', 'flexStyles'], function (dialogHelper, require, layoutManager, globalize, userSettings, connectionManager, loading, focusManager, dom, appHost) {
     'use strict';
 
     var currentItem;
@@ -224,8 +224,6 @@
 
         context.querySelector('.noSearchResults').classList.add('hide');
 
-        var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
-
         for (var i = 0, length = results.length; i < length; i++) {
 
             var result = results[i];
@@ -256,25 +254,36 @@
 
             html += '<i class="listItemIcon md-icon">closed_caption</i>';
 
-            html += '<div class="listItemBody two-line">';
+            var bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
+
+            html += '<div class="listItemBody ' + bodyClass + '">';
 
             //html += '<a class="btnViewSubtitle" href="#" data-subid="' + result.Id + '">';
 
             html += '<div>' + (result.Name) + '</div>';
-            html += '<div class="secondary listItemBodyText">' + (result.Format) + '</div>';
+            html += '<div class="secondary listItemBodyText">';
+
+            if (result.Format) {
+                html += '<span style="margin-right:1em;">' + globalize.translate('FormatValue', result.Format) + '</span>';
+            }
+
+            html += '<span>' + globalize.translate('DownloadsValue', result.DownloadCount || 0) + '</span>';
+            html += '</div>';
 
             if (result.Comment) {
                 html += '<div class="secondary listItemBodyText">' + (result.Comment) + '</div>';
+            }
+
+            if (result.IsHashMatch) {
+                html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .25em 1em;border-radius:1000em;">' + globalize.translate('PerfectMatch') + '</div></div>';
             }
 
             //html += '</a>';
 
             html += '</div>';
 
-            html += '<div class="secondary listItemAside">' + /*(result.CommunityRating || 0) + ' / ' +*/ (result.DownloadCount || 0) + '</div>';
-
             if (!layoutManager.tv) {
-                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnOptions listItemButton"><i class="md-icon">' + moreIcon + '</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" data-subid="' + result.Id + '" class="btnDownload listItemButton"><i class="md-icon">&#xE2C4;</i></button>';
             }
 
             html += '</' + tagName + '>';
@@ -373,6 +382,13 @@
             var subtitleId = btnOptions.getAttribute('data-subid');
             var context = dom.parentWithClass(btnOptions, 'subtitleEditorDialog');
             showDownloadOptions(btnOptions, context, subtitleId);
+        }
+
+        var btnDownload = dom.parentWithClass(e.target, 'btnDownload');
+        if (btnDownload) {
+            var subtitleId = btnDownload.getAttribute('data-subid');
+            var context = dom.parentWithClass(btnDownload, 'subtitleEditorDialog');
+            downloadRemoteSubtitles(context, subtitleId);
         }
     }
 
