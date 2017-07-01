@@ -487,7 +487,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 forceName = true;
 
-            } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.MediaType !== 'Photo') {
+            } else if (options.preferThumb && item.ParentBackdropImageTags && item.ParentBackdropImageTags.length && options.inheritThumb !== false && item.Type === 'Episode') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentBackdropItemId, {
                     type: "Backdrop",

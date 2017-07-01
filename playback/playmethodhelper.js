@@ -3,6 +3,10 @@
 
     function getDisplayPlayMethod(session) {
 
+        if (!session.NowPlayingItem) {
+            return null;
+        }
+
         if (session.TranscodingInfo && session.TranscodingInfo.IsVideoDirect) {
             return 'DirectStream';
         }

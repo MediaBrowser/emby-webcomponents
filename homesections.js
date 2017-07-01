@@ -420,7 +420,7 @@
                 html += cardBuilder.getCardsHtml({
                     items: items,
                     shape: shape,
-                    preferThumb: viewType !== 'movies' && viewType !== 'music',
+                    preferThumb: viewType !== 'movies' && viewType !== 'music' ? 'auto' : null,
                     showUnplayedIndicator: false,
                     showChildCountIndicator: true,
                     context: 'home',
@@ -429,7 +429,7 @@
                     overlayPlayButton: viewType !== 'photos',
                     allowBottomPadding: !enableScrollX() && !cardLayout,
                     cardLayout: cardLayout,
-                    showTitle: viewType === 'music' || viewType === 'tvshows' || viewType === 'movies' || !viewType || cardLayout,
+                    showTitle: viewType !== 'photos',
                     showYear: viewType === 'movies' || viewType === 'tvshows' || !viewType,
                     showParentTitle: viewType === 'music' || viewType === 'tvshows' || !viewType || (cardLayout && (viewType === 'tvshows')),
                     vibrant: supportsImageAnalysis && cardLayout,
