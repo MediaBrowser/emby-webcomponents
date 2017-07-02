@@ -33,7 +33,7 @@
 }
 
 .emby-scrollbuttons-scrollbutton {
-    margin: 0 -.275em;
+    margin: 0 -.2em;
     transition: transform 160ms ease-out;
 }
 

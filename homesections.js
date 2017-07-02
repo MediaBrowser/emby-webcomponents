@@ -8,18 +8,16 @@
             case 0:
                 return 'smalllibrarytiles';
             case 1:
-                return 'activerecordings';
-            case 2:
                 return 'resume';
-            case 3:
+            case 2:
                 return 'resumeaudio';
-            case 4:
+            case 3:
                 return 'livetv';
-            case 5:
+            case 4:
                 return 'nextup';
-            case 6:
+            case 5:
                 return 'latestmedia';
-            case 7:
+            case 6:
                 return 'none';
             default:
                 return '';
