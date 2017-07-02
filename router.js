@@ -469,7 +469,7 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
         I expect this is a bug in the platform, or they don't actually expect that you can return to the app after platformBack is called.  The fact is that you can, but the visible page is not actually on the stack, so you can never get back to it.
 
         */
-        var checkCanGoBack = browser.web0s;
+        var checkCanGoBack = browser.web0s || browser.orsay;
 
         if (checkCanGoBack) {
             if (canGoBack()) {
