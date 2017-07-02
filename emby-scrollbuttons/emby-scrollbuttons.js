@@ -31,16 +31,6 @@
             return parent.getScrollPosition();
         }
 
-        var pageXOffset = parent.pageXOffset;
-        if (pageXOffset !== undefined) {
-            return pageXOffset;
-        }
-
-        var scrollLeft = parent.scrollLeft;
-        if (scrollLeft !== undefined) {
-            return scrollLeft;
-        }
-
         return 0;
     }
 
@@ -51,7 +41,6 @@
         } else {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
         }
-        console.log(pos);
     }
 
     function onScroll(e) {
@@ -148,11 +137,8 @@
 
         this.innerHTML = getScrollButtonContainerHtml('left') + getScrollButtonContainerHtml('right');
 
-        var scrollEventName = parent.getScrollEventName ? parent.getScrollEventName() : 'scroll';
-
         var scrollHandler = onScroll.bind(this);
         this.scrollHandler = scrollHandler;
-        this.scrollEventName = scrollEventName;
 
         var buttons = this.querySelectorAll('.emby-scrollbuttons-scrollbutton');
         buttons[0].addEventListener('click', onScrollButtonClick);
@@ -162,7 +148,7 @@
         this.scrollButtonsLeft = buttons[0];
         this.scrollButtonsRight = buttons[1];
 
-        dom.addEventListener(parent, scrollEventName, scrollHandler, {
+        parent.addScrollEventListener(scrollHandler, {
             capture: false,
             passive: true
         });
@@ -174,17 +160,15 @@
         this.scroller = null;
 
         var scrollHandler = this.scrollHandler;
-        var scrollEventName = this.scrollEventName;
 
         if (parent && scrollHandler) {
-            dom.removeEventListener(parent, scrollEventName, scrollHandler, {
+            parent.removeScrollEventListener(scrollHandler, {
                 capture: false,
                 passive: true
             });
         }
 
         this.scrollHandler = null;
-        this.scrollEventName = null;
         this.scrollButtonsLeft = null;
         this.scrollButtonsRight = null;
     };

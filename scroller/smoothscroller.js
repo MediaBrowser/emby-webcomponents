@@ -222,6 +222,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             return slideeElement;
         };
 
+        self.getScrollFrame = function () {
+            return frame;
+        };
+
         function nativeScrollTo(container, pos, immediate) {
 
             if (!immediate && container.scrollTo) {
@@ -719,13 +723,13 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
             if (!transform) {
                 if (o.horizontal) {
-                    if (layoutManager.desktop) {
+                    if (layoutManager.desktop && !o.hideScrollbar) {
                         nativeScrollElement.classList.add('smoothScrollX');
                     } else {
                         nativeScrollElement.classList.add('hiddenScrollX');
                     }
                 } else {
-                    if (layoutManager.desktop) {
+                    if (layoutManager.desktop && !o.hideScrollbar) {
                         nativeScrollElement.classList.add('smoothScrollY');
                     } else {
                         nativeScrollElement.classList.add('hiddenScrollY');

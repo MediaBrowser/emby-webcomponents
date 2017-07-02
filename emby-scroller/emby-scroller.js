@@ -69,6 +69,18 @@
         }
     };
 
+    ScrollerProtoType.addScrollEventListener = function (fn, options) {
+        if (this.scroller) {
+            dom.addEventListener(this.scroller.getScrollFrame(), this.scroller.getScrollEventName(), fn, options);
+        }
+    };
+
+    ScrollerProtoType.removeScrollEventListener = function (fn, options) {
+        if (this.scroller) {
+            dom.removeEventListener(this.scroller.getScrollFrame(), this.scroller.getScrollEventName(), fn, options);
+        }
+    };
+
     function onInputCommand(e) {
 
         var cmd = e.detail.command;
@@ -124,7 +136,8 @@
 
         var bindHeader = this.getAttribute('data-bindheader') === 'true';
 
-        var enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
+        var scrollFrame = this.querySelector('.scrollerframe') || this;
+        var enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false' && scrollFrame !== this;
 
         var options = {
             horizontal: horizontal,
@@ -141,20 +154,19 @@
             autoImmediate: true,
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
             dispatchScrollEvent: enableScrollButtons || bindHeader || this.getAttribute('data-scrollevent') === 'true',
-            requireAnimation: enableScrollButtons
+            hideScrollbar: enableScrollButtons
         };
 
         // If just inserted it might not have any height yet - yes this is a hack
-        var self = this;
-        self.scroller = new scroller(self, options);
-        self.scroller.init();
+        this.scroller = new scroller(scrollFrame, options);
+        this.scroller.init();
 
-        if (layoutManager.tv && self.getAttribute('data-centerfocus')) {
-            initCenterFocus(self, self.scroller);
+        if (layoutManager.tv && this.getAttribute('data-centerfocus')) {
+            initCenterFocus(this, this.scroller);
         }
 
         if (bindHeader) {
-            initHeadroom(self);
+            initHeadroom(this);
         }
 
         if (enableScrollButtons) {
