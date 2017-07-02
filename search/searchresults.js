@@ -503,7 +503,7 @@
     }
 
     function enableScrollX() {
-        return !layoutManager.desktop;
+        return true;
     }
 
     function replaceAll(originalString, strReplace, strWith) {

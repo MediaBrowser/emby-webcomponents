@@ -218,6 +218,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             return transform ? 'scrollanimate' : 'scroll';
         };
 
+        self.getScrollSlider = function () {
+            return slideeElement;
+        };
+
         function nativeScrollTo(container, pos, immediate) {
 
             if (!immediate && container.scrollTo) {
@@ -642,8 +646,22 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             return self;
         };
 
-        function onResize() {
-            load(false);
+        var contentRect = {};
+
+        function onResize(entries) {
+
+            var entry = entries[0];
+
+            if (entry) {
+
+                var newRect = entry.contentRect;
+                if (newRect.width !== contentRect.width || newRect.height !== contentRect.height) {
+
+                    contentRect = newRect;
+
+                    load(false);
+                }
+            }
         }
 
         function resetScroll() {

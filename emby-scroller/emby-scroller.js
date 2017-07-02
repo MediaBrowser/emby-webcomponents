@@ -63,6 +63,12 @@
         }
     };
 
+    ScrollerProtoType.getScrollSlider = function () {
+        if (this.scroller) {
+            return this.scroller.getScrollSlider();
+        }
+    };
+
     function onInputCommand(e) {
 
         var cmd = e.detail.command;
@@ -118,6 +124,8 @@
 
         var bindHeader = this.getAttribute('data-bindheader') === 'true';
 
+        var enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
+
         var options = {
             horizontal: horizontal,
             mouseDragging: 1,
@@ -132,7 +140,8 @@
             scrollWidth: this.getAttribute('data-scrollsize') === 'auto' ? null : 5000000,
             autoImmediate: true,
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
-            dispatchScrollEvent: bindHeader || this.getAttribute('data-scrollevent') === 'true'
+            dispatchScrollEvent: enableScrollButtons || bindHeader || this.getAttribute('data-scrollevent') === 'true',
+            requireAnimation: enableScrollButtons
         };
 
         // If just inserted it might not have any height yet - yes this is a hack
@@ -147,7 +156,18 @@
         if (bindHeader) {
             initHeadroom(self);
         }
+
+        if (enableScrollButtons) {
+            loadScrollButtons(this);
+        }
     };
+
+    function loadScrollButtons(scroller) {
+
+        require(['emby-scrollbuttons'], function () {
+            scroller.insertAdjacentHTML('beforeend', '<div is="emby-scrollbuttons"></div>');
+        });
+    }
 
     ScrollerProtoType.detachedCallback = function () {
 

@@ -413,9 +413,6 @@
             query.EnableDirectPlay = enableDirectPlay;
         }
 
-        if (enableDirectPlay !== false) {
-            query.ForceDirectPlayRemoteMediaSource = true;
-        }
         if (enableDirectStream != null) {
             query.EnableDirectStream = enableDirectStream;
         }

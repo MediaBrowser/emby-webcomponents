@@ -77,7 +77,7 @@
             this.classList.add('icon-button-focusscale');
         }
 
-        if (enableAnimation()) {
+        if (enableAnimation() && this.getAttribute('data-ripple') !== 'false') {
             dom.addEventListener(this, 'keydown', onKeyDown, {
                 passive: true
             });

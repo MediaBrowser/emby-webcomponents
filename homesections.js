@@ -112,7 +112,7 @@
     }
 
     function enableScrollX() {
-        return !layoutManager.desktop;
+        return true;
     }
 
     function getSquareShape() {
@@ -346,7 +346,7 @@
 
     function renderLatestSection(elem, apiClient, user, parent) {
 
-        var limit = 12;
+        var limit = 16;
 
         if (enableScrollX()) {
 
@@ -608,6 +608,8 @@
 
         var html = '';
 
+        var scrollX = !layoutManager.desktop;
+
         if (userViews.length) {
 
             html += '<div class="verticalSection">';
@@ -621,9 +623,7 @@
 
             html += '</div>';
 
-            var scrollX = enableScrollX();
-
-            if (enableScrollX()) {
+            if (scrollX) {
                 html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
             } else {
                 html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
@@ -640,7 +640,7 @@
                 allowBottomPadding: !scrollX
             });
 
-            if (enableScrollX()) {
+            if (scrollX) {
                 html += '</div>';
             }
             html += '</div>';
@@ -897,7 +897,7 @@
 
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
-            limit: enableScrollX() ? 18 : 8,
+            limit: enableScrollX() ? 24 : 8,
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Thumb,Backdrop",
             EnableTotalRecordCount: false,
@@ -917,7 +917,7 @@
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true" data-scrollbuttons="false">';
                     html += '<div class="scrollSlider padded-left padded-right padded-top focuscontainer-x">';
                 }
                 else {

@@ -1,4 +1,4 @@
-﻿define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loading', 'focusManager', 'connectionManager', 'globalize', 'require', 'shell', 'emby-checkbox', 'emby-input', 'emby-select', 'listViewStyle', 'emby-textarea', 'emby-button', 'paper-icon-button-light', 'css!./../formdialog'], function (itemHelper, dom, layoutManager, dialogHelper, datetime, loading, focusManager, connectionManager, globalize, require, shell) {
+﻿define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loading', 'focusManager', 'connectionManager', 'globalize', 'require', 'shell', 'emby-checkbox', 'emby-input', 'emby-select', 'listViewStyle', 'emby-textarea', 'emby-button', 'paper-icon-button-light', 'css!./../formdialog', 'clearButtonStyle'], function (itemHelper, dom, layoutManager, dialogHelper, datetime, loading, focusManager, connectionManager, globalize, require, shell) {
     'use strict';
 
     var currentContext;
@@ -994,7 +994,7 @@
             html += '<i class="md-icon listItemIcon" style="background-color:#333;">person</i>';
 
             html += '<div class="listItemBody">';
-            html += '<a class="btnEditPerson clearLink" href="#" data-index="' + i + '">';
+            html += '<button style="text-align:left;" type="button" class="btnEditPerson clearButton" data-index="' + i + '">';
 
             html += '<div class="textValue">';
             html += (person.Name || '');
@@ -1004,7 +1004,7 @@
                 html += '<div class="secondary">' + (person.Role) + '</div>';
             }
 
-            html += '</a>';
+            html += '</button>';
             html += '</div>';
 
             html += '<button type="button" is="paper-icon-button-light" data-index="' + i + '" class="btnDeletePerson autoSize"><i class="md-icon">delete</i></button>';
