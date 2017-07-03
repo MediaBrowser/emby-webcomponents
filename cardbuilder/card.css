@@ -678,7 +678,7 @@ button {
     }
 }
 
-@media all and (orientation: landscape) and (min-width: 1800px) {
+@media all and (orientation: landscape) and (min-width: 1700px) {
 
     .overflowSmallBackdropCard {
         width: 18.5vw;

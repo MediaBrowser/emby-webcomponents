@@ -431,6 +431,9 @@
         if (maxBitrate) {
             query.MaxStreamingBitrate = maxBitrate;
         }
+        if (player.enableMediaProbe && !player.enableMediaProbe(item)) {
+            query.EnableMediaProbe = false;
+        }
 
         // lastly, enforce player overrides for special situations
         if (query.EnableDirectStream !== false) {
