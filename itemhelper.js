@@ -31,9 +31,12 @@ define(['apphost'], function (appHost) {
             var displayIndexNumber = item.IndexNumber;
 
             var number = displayIndexNumber;
+            var nameSeparator = " - ";
 
             if (options.includeParentInfo !== false) {
                 number = "S" + item.ParentIndexNumber + ", E" + number;
+            } else {
+                nameSeparator = ". ";
             }
 
             if (item.IndexNumberEnd) {
@@ -43,7 +46,7 @@ define(['apphost'], function (appHost) {
             }
 
             if (number) {
-                name = name ? (number + " - " + name) : number;
+                name = name ? (number + nameSeparator + name) : number;
             }
         }
 

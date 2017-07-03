@@ -114,13 +114,22 @@
     border: .15em solid currentColor;
     padding: 2px;
     background: rgba(0,0,0,.4);
+    transition: transform 200ms ease-out;
 }
+
+    .listItemImageButton:hover {
+        transform: scale(1.2, 1.2);
+    }
 
 @media all and (max-width: 50em) {
 
     .listItemImage-large {
         width: 36vw;
         height: 24vw;
+    }
+
+    .listItem-largeImage {
+        padding-right: 0 !important;
     }
 }
 

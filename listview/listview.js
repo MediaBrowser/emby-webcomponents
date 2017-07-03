@@ -313,7 +313,9 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
             }
 
-            var displayName = itemHelper.getDisplayName(item);
+            var displayName = itemHelper.getDisplayName(item, {
+                includeParentInfo: options.includeParentInfoInTitle
+            });
 
             if (options.showIndexNumber && item.IndexNumber != null) {
                 displayName = item.IndexNumber + ". " + displayName;
