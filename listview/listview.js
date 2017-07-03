@@ -106,6 +106,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
         var html = '';
 
+        var largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
+
         for (var i = 0, length = textlines.length; i < length; i++) {
 
             var text = textlines[i];
@@ -116,7 +118,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             if (i === 0) {
                 if (isLargeStyle) {
-                    html += '<h2 class="listItemBodyText">';
+                    html += '<' + largeTitleTagName + ' class="listItemBodyText">';
                 } else {
                     html += '<div class="listItemBodyText">';
                 }
@@ -125,7 +127,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
             html += (textlines[i] || '&nbsp;');
             if (i === 0 && isLargeStyle) {
-                html += '</h2>';
+                html += '</' + largeTitleTagName + '>';
             } else {
                 html += '</div>';
             }
@@ -241,12 +243,16 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                 var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
+                if (isLargeStyle && layoutManager.tv) {
+                    imageClass += ' listItemImage-large-tv';
+                }
+
                 if (!clickEntireItem) {
                     imageClass += ' itemAction';
                 }
 
                 if (imgUrl) {
-                    html += '<div data-action="link" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
+                    html += '<div data-action="' + action + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
                 } else {
                     html += '<div class="' + imageClass + '">';
                 }
@@ -256,6 +262,10 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                 if (indicatorsHtml) {
                     html += '<div class="indicators listItemIndicators">' + indicatorsHtml + '</div>';
+                }
+
+                if (options.imagePlayButton && !layoutManager.tv) {
+                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="play"><i class="md-icon">&#xE037;</i></button>';
                 }
 
                 var progressHtml = indicators.getProgressBarHtml(item, {
@@ -380,13 +390,15 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                     html += '<div class="' + mediaInfoClass + '">' + mediaInfo.getPrimaryMediaInfoHtml(item, {
                         episodeTitle: false,
-                        originalAirDate: false
+                        originalAirDate: false,
+                        subtitles: false
+
                     }) + '</div>';
                 }
             }
 
             if (enableOverview && item.Overview) {
-                html += '<div class="secondary overview listItemBodyText">';
+                html += '<div class="secondary listItem-overview listItemBodyText">';
                 html += item.Overview;
                 html += '</div>';
             }
@@ -419,6 +431,10 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
                 if (options.moreButton !== false) {
                     html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><i class="md-icon">' + moreIcon + '</i></button>';
+                }
+
+                if (options.infoButton) {
+                    html += '<button is="paper-icon-button-light" class="listItemButton itemAction" data-action="link"><i class="md-icon">&#xE88F;</i></button>';
                 }
 
                 if (options.rightButtons) {

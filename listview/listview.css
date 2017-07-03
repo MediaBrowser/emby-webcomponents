@@ -10,17 +10,21 @@
     display: block;
     align-items: center;
     text-align: left;
-    padding: .25em 1.15em;
+    padding: .25em 1em;
     cursor: pointer;
     overflow: hidden;
 }
+
+    .listItem[data-action=none] {
+        cursor: default;
+    }
 
 .listItem-button {
     width: 100%;
 }
 
 .listItem-largeImage {
-    padding: .5em !important;
+    padding: .5em .25em !important;
 }
 
 .listItemImage, .listItemIcon, .listItemAside {
@@ -91,14 +95,51 @@
     flex-shrink: 0;
     background-position: center center;
     position: relative;
+    display: flex;
 }
 
 .listItemImage-large {
-    width: 45vh;
-    height: 30vh;
+    width: 19.5vw;
+    height: 13vw;
     background-position: center center;
-    margin-right: 2%;
-    margin-left: 1%;
+    margin-right: .5em;
+}
+
+.listItemImageButton {
+    align-self: center;
+    justify-self: center;
+    margin: auto;
+    color: rgba(255, 255, 255, .6);
+    font-size: 1.6em;
+    border: .15em solid currentColor;
+    padding: 2px;
+    background: rgba(0,0,0,.4);
+}
+
+@media all and (max-width: 50em) {
+
+    .listItemImage-large {
+        width: 36vw;
+        height: 24vw;
+    }
+}
+
+@media all and (max-width: 64em) {
+
+    .listItemImage-large {
+        width: 30vw;
+        height: 20vw;
+        margin-right: 0;
+    }
+
+    .listItemImageButton {
+        font-size: 1.1em;
+    }
+}
+
+.listItemImage-large-tv {
+    width: 30vw !important;
+    height: 20vw !important;
 }
 
 .listItemIcon {
@@ -178,7 +219,7 @@
 
 @media all and (max-width: 50em) {
 
-    .listItem .endsAt, .listItem .criticRating {
+    .listItem .endsAt, .listItem .criticRating, .listItem-overview {
         display: none !important;
     }
 }
