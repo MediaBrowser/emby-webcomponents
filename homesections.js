@@ -563,43 +563,80 @@
 
     function getDownloadsSectionHtml(apiClient, user, userSettings) {
 
-        var html = '';
-
         if (!appHost.supports('sync') || !user.Policy.EnableContentDownloading) {
-            return Promise.resolve(html);
+            return Promise.resolve('');
         }
 
-        html += '<div class="verticalSection">';
-        html += '<div class="sectionTitleContainer padded-left">';
+        var promise = apiClient.getLatestOfflineItems ? apiClient.getLatestOfflineItems({
 
-        html += '<h2 class="sectionTitle">' + globalize.translate('sharedcomponents#HeaderMyDownloads') + '</h2>';
+            Filters: 'IsNotFolder'
 
-        html += '</div>';
+        }) : Promise.resolve([]);
 
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
-            html += '<div class="scrollSlider padded-left padded-right padded-top focuscontainer-x">';
-        }
-        else {
-            html += '<div class="padded-left padded-right padded-top focuscontainer-x">';
-        }
+        return promise.then(function (items) {
+            
+            var html = '';
 
-        html += '<a style="margin:0;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('downloads') + '" class="raised"><i class="md-icon">&#xE2C7;</i><span>' + globalize.translate('sharedcomponents#Browse') + '</span></a>';
+            html += '<div class="verticalSection">';
 
-        if (user.Policy.EnableContentDownloading) {
-            html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('managedownloads') + '" class="raised"><i class="md-icon">&#xE8B8;</i><span>' + globalize.translate('sharedcomponents#Manage') + '</span></a>';
-        }
+            html += '<div class="sectionTitleContainer padded-left">';
 
-        html += '</div>';
+            if (!layoutManager.tv) {
 
-        if (enableScrollX()) {
+                html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('downloads') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                html += '<h2 class="sectionTitle sectionTitle-cards">';
+                html += globalize.translate('sharedcomponents#HeaderMyDownloads');
+                html += '</h2>';
+                html += '<i class="md-icon">&#xE5CC;</i>';
+                html += '</a>';
+
+                html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('managedownloads') + '" class="sectionTitleIconButton"><i class="md-icon">&#xE8B8;</i></a>';
+
+            } else {
+                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#HeaderMyDownloads') + '</h2>';
+            }
             html += '</div>';
-        }
 
-        html += '</div>';
-        html += '</div>';
+            if (enableScrollX()) {
+                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
+                html += '<div class="scrollSlider padded-left padded-right padded-top focuscontainer-x">';
+            }
+            else {
+                html += '<div class="padded-left padded-right padded-top focuscontainer-x">';
+            }
 
-        return Promise.resolve(html);
+            var supportsImageAnalysis = appHost.supports('imageanalysis');
+            supportsImageAnalysis = false;
+            var cardLayout = supportsImageAnalysis;
+
+            html += cardBuilder.getCardsHtml({
+                items: items,
+                preferThumb: true,
+                shape: getThumbShape(),
+                overlayText: false,
+                showTitle: true,
+                showParentTitle: true,
+                lazy: true,
+                showDetailsMenu: true,
+                overlayPlayButton: true,
+                context: 'home',
+                centerText: !cardLayout,
+                allowBottomPadding: false,
+                cardLayout: cardLayout,
+                showYear: true,
+                lines: 2,
+                vibrant: cardLayout && supportsImageAnalysis
+            });
+            html += '</div>';
+
+            if (enableScrollX()) {
+                html += '</div>';
+            }
+
+            html += '</div>';
+
+            return html;
+        });
     }
 
     function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews) {
