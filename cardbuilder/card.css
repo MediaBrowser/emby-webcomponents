@@ -415,22 +415,11 @@ button {
     right: 0;
     margin: 0 .35em .35em 0;
     z-index: 1;
-    padding: .427em;
-}
-
-.cardOverlayButton-static {
-    position: static;
+    padding: .4em;
 }
 
 .cardOverlayButton-mini {
     font-size: 80%;
-}
-
-.cardOverlayButtonsContainer {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    overflow: hidden;
 }
 
 .defaultCardColor1 {

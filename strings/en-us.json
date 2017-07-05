@@ -501,7 +501,7 @@
   "AlwaysPlaySubtitlesHelp": "Subtitles matching the language preference will be loaded regardless of the audio language.",
   "NoSubtitlesHelp": "Subtitles will not be loaded by default. They can still be turned on manually during playback.",
   "LabelPreferredSubtitleLanguage": "Preferred subtitle language:",
-  "LabelTextSize": "Text Size:",
+  "LabelTextSize": "Text size:",
   "TheseSettingsAffectSubtitlesOnThisDevice": "These settings affect subtitles on this device",
   "LabelDropShadow": "Drop shadow:",
   "LabelTextBackgroundColor": "Text background color:",
