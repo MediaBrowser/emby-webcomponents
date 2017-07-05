@@ -785,7 +785,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 var styleElem = document.querySelector('#' + elementId);
                 if (!styleElem) {
-                    var styleElem = document.createElement('style');
+                    styleElem = document.createElement('style');
                     styleElem.id = elementId;
                     styleElem.type = 'text/css';
                     document.getElementsByTagName('head')[0].appendChild(styleElem);
@@ -901,7 +901,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 setTrackForCustomDisplay(self._mediaElement, null);
 
-                setCueAppearance();
+                if (streamIndex !== -1) {
+                    setCueAppearance();
+                }
 
             } else {
                 setTrackForCustomDisplay(self._mediaElement, track);

@@ -60,8 +60,8 @@ define([], function () {
             case 'none':
                 list.push({ name: 'text-shadow', value: 'none' });
                 break;
-            case 'dropshadow':
             default:
+            case 'dropshadow':
                 list.push({ name: 'text-shadow', value: '#000000 0px 0px 7px' });
                 break;
         }

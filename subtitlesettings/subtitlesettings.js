@@ -19,7 +19,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'subtitleAppeara
 
     function getSubtitleAppearanceObject(context) {
 
-        var appearanceSettings = {}
+        var appearanceSettings = {};
 
         appearanceSettings.textSize = context.querySelector('#selectTextSize').value;
         appearanceSettings.dropShadow = context.querySelector('#selectDropShadow').value;
