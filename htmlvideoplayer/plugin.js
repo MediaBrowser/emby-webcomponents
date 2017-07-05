@@ -742,9 +742,56 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     subtitlesContainer.classList.add('videoSubtitles');
                     subtitlesContainer.innerHTML = '<div class="videoSubtitlesInner"></div>';
                     videoSubtitlesElem = subtitlesContainer.querySelector('.videoSubtitlesInner');
+                    setSubtitleAppearance(subtitlesContainer, videoSubtitlesElem);
                     videoElement.parentNode.appendChild(subtitlesContainer);
                     currentTrackEvents = data.TrackEvents;
                 }
+            });
+        }
+
+        function setSubtitleAppearance(elem, innerElem) {
+
+            require(['userSettings', 'subtitleAppearanceHelper'], function (userSettings, subtitleAppearanceHelper) {
+
+                subtitleAppearanceHelper.applyStyles({
+
+                    text: innerElem,
+                    window: elem
+
+                }, userSettings.getSubtitleAppearanceSettings());
+            });
+        }
+
+        function getCueCss(appearance, selector) {
+
+            var html = selector + '::cue {';
+
+            html += appearance.text.map(function (s) {
+
+                return s.name + ':' + s.value + '!important;';
+
+            }).join('');
+
+            html += '}';
+
+            return html;
+        }
+
+        function setCueAppearance() {
+
+            require(['userSettings', 'subtitleAppearanceHelper'], function (userSettings, subtitleAppearanceHelper) {
+
+                var elementId = self.id + '-cuestyle';
+
+                var styleElem = document.querySelector('#' + elementId);
+                if (!styleElem) {
+                    var styleElem = document.createElement('style');
+                    styleElem.id = elementId;
+                    styleElem.type = 'text/css';
+                    document.getElementsByTagName('head')[0].appendChild(styleElem);
+                }
+
+                styleElem.innerHTML = getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings(), true), '.htmlvideoplayer');
             });
         }
 
@@ -853,6 +900,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             if (enableNativeTrackSupport(self._currentSrc, track)) {
 
                 setTrackForCustomDisplay(self._mediaElement, null);
+
+                setCueAppearance();
+
             } else {
                 setTrackForCustomDisplay(self._mediaElement, track);
 

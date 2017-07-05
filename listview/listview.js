@@ -265,7 +265,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 }
 
                 if (options.imagePlayButton && !layoutManager.tv) {
-                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="play"><i class="md-icon">&#xE037;</i></button>';
+                    html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><i class="md-icon">&#xE037;</i></button>';
                 }
 
                 var progressHtml = indicators.getProgressBarHtml(item, {

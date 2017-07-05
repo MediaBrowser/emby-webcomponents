@@ -205,5 +205,19 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
         this.set(key, JSON.stringify(values));
     };
 
+    UserSettings.prototype.getSubtitleAppearanceSettings = function (key) {
+
+        key = key || 'localplayersubtitleappearance3';
+
+        return JSON.parse(this.get(key, false) || '{}');
+    };
+
+    UserSettings.prototype.setSubtitleAppearanceSettings = function (key, value) {
+
+        key = key || 'localplayersubtitleappearance3';
+
+        this.set(key, JSON.stringify(value));
+    };
+
     return UserSettings;
 });
