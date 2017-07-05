@@ -91,11 +91,11 @@ define([], function () {
                 list.push({ name: 'font-variant', value: 'none' });
                 break;
             case 'cursive':
-                list.push({ name: 'font-family', value: 'Gabriola,Segoe Print,Comic Sans MS,Chalkboard,Arial,Helvetica,cursive' });
+                list.push({ name: 'font-family', value: 'Lucida Handwriting,Brush Script MT,Segoe Script,Arial,Helvetica' });
                 list.push({ name: 'font-variant', value: 'none' });
                 break;
             case 'casual':
-                list.push({ name: 'font-family', value: 'Lucida Handwriting,Brush Script MT,Segoe Script,Arial,Helvetica' });
+                list.push({ name: 'font-family', value: 'Gabriola,Segoe Print,Comic Sans MS,Chalkboard,Arial,Helvetica,cursive' });
                 list.push({ name: 'font-variant', value: 'none' });
                 break;
             case 'smallcaps':
