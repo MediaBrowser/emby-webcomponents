@@ -76,6 +76,9 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'loading', 'connection
             refreshGlobalUserSettings(userSettingsInstance);
         }
 
+        user.Configuration.SubtitleLanguagePreference = context.querySelector('#selectSubtitleLanguage').value;
+        user.Configuration.SubtitleMode = context.querySelector('#selectSubtitlePlaybackMode').value;
+
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
     }
 
