@@ -1,4 +1,4 @@
-define(['require', 'globalize', 'loading', 'connectionManager', 'subtitleAppearanceHelper', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-input', 'emby-checkbox', 'flexStyles'], function (require, globalize, loading, connectionManager, subtitleAppearanceHelper, dom, events) {
+define(['require', 'globalize', 'appSettings', 'apphost', 'loading', 'connectionManager', 'subtitleAppearanceHelper', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-input', 'emby-checkbox', 'flexStyles'], function (require, globalize, appSettings, appHost, loading, connectionManager, subtitleAppearanceHelper, dom, events) {
     "use strict";
 
     function populateLanguages(select, languages) {
@@ -49,6 +49,8 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'subtitleAppeara
             context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
             context.querySelector('#selectFont').value = appearanceSettings.font || '';
 
+            context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
+
             onAppearanceFieldChange({
                 target: context.querySelector('#selectTextSize')
             });
@@ -80,6 +82,8 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'subtitleAppeara
     function save(instance, context, userId, userSettings, apiClient, enableSaveConfirmation) {
 
         loading.show();
+
+        appSettings.set('subtitleburnin', context.querySelector('#selectSubtitleBurnIn').value);
 
         apiClient.getUser(userId).then(function (user) {
 
@@ -165,8 +169,12 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'subtitleAppeara
                 options.element.querySelector('.btnSave').classList.remove('hide');
             }
 
-            if (options.enableSubtitleAppearance) {
+            if (appHost.supports('subtitleappearancesettings')) {
                 options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
+            }
+
+            if (appHost.supports('subtitleburnsettings')) {
+                options.element.querySelector('.fldBurnIn').classList.remove('hide');
             }
 
             self.loadData();

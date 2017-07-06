@@ -8,7 +8,6 @@
     bottom: 0;
     align-items: center;
     justify-content: center;
-    background: rgba(20, 20, 20, .5);
     z-index: 1;
     font-size: 3em;
     color: #fff;
@@ -16,12 +15,22 @@
     overflow: hidden;
 }
 
-.emby-scrollbuttons-scroller:hover .scrollbuttoncontainer {
-    display: flex;
+.scrollbuttoncontainer-left {
+    background: rgba(20, 20, 20, .5);
+    background: -moz-linear-gradient(left,#000 0,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(left,#000 0,rgba(0,0,0,0) 100%);
+    background: linear,to right,#000 0,rgba(0,0,0,0) 100%;
 }
 
-.scrollbuttoncontainer:hover {
-    background: rgba(20, 20, 20, .7);
+.scrollbuttoncontainer-right {
+    background: rgba(20, 20, 20, .5);
+    background: -moz-linear-gradient(right,#000 0,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(right,#000 0,rgba(0,0,0,0) 100%);
+    background: linear,to left,#000 0,rgba(0,0,0,0) 100%;
+}
+
+.emby-scrollbuttons-scroller:hover .scrollbuttoncontainer {
+    display: flex;
 }
 
 .scrollbuttoncontainer-left {
