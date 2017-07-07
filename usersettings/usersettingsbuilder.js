@@ -216,7 +216,7 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
 
         key = key || 'localplayersubtitleappearance3';
 
-        this.set(key, JSON.stringify(value));
+        this.set(key, JSON.stringify(value), false);
     };
 
     return UserSettings;
