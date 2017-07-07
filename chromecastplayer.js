@@ -1,4 +1,4 @@
-﻿define(['appSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'castSenderApiLoader'], function (appSettings, playbackManager, connectionManager, globalize, events, castSenderApiLoader) {
+﻿define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'castSenderApiLoader'], function (appSettings, userSettings, playbackManager, connectionManager, globalize, events, castSenderApiLoader) {
     'use strict';
 
     // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
@@ -355,6 +355,8 @@
         var apiClient;
         if (message.options && message.options.ServerId) {
             apiClient = connectionManager.getApiClient(message.options.ServerId);
+        } else if (message.options && message.options.items && message.options.items.length) {
+            apiClient = connectionManager.getApiClient(message.options.items[0].ServerId);
         } else {
             apiClient = connectionManager.currentApiClient();
         }
@@ -371,6 +373,10 @@
         var bitrateSetting = appSettings.maxChromecastBitrate();
         if (bitrateSetting) {
             message.maxBitrate = bitrateSetting;
+        }
+
+        if (message.options && message.options.items) {
+            message.subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
         }
 
         return new Promise(function (resolve, reject) {

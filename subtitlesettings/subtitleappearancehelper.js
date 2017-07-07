@@ -68,7 +68,7 @@ define([], function () {
 
         var background = settings.textBackground || 'transparent';
         if (background) {
-            list.push({ name: 'background-color', value: settings.textBackground });
+            list.push({ name: 'background-color', value: background });
         }
 
         var textColor = settings.textColor || '#ffffff';
