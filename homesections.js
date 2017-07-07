@@ -411,9 +411,7 @@
                         getSquareShape() :
                         getThumbShape();
 
-                var supportsImageAnalysis = appHost.supports('imageanalysis');
-                supportsImageAnalysis = false;
-                var cardLayout = supportsImageAnalysis && (viewType === 'music' || viewType === 'movies' || viewType === 'tvshows' || viewType === 'musicvideos' || !viewType);
+                var cardLayout = false;
 
                 html += cardBuilder.getCardsHtml({
                     items: items,
@@ -430,7 +428,6 @@
                     showTitle: viewType !== 'photos',
                     showYear: viewType === 'movies' || viewType === 'tvshows' || !viewType,
                     showParentTitle: viewType === 'music' || viewType === 'tvshows' || !viewType || (cardLayout && (viewType === 'tvshows')),
-                    vibrant: supportsImageAnalysis && cardLayout,
                     lines: 2
                 });
 
@@ -569,6 +566,7 @@
 
         var promise = apiClient.getLatestOfflineItems ? apiClient.getLatestOfflineItems({
 
+            Limit: 20,
             Filters: 'IsNotFolder'
 
         }) : Promise.resolve([]);
@@ -597,22 +595,14 @@
             }
             html += '</div>';
 
-            if (enableScrollX()) {
-                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true">';
-                html += '<div class="scrollSlider padded-left padded-right padded-top focuscontainer-x">';
-            }
-            else {
-                html += '<div class="padded-left padded-right padded-top focuscontainer-x">';
-            }
+            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
 
-            var supportsImageAnalysis = appHost.supports('imageanalysis');
-            supportsImageAnalysis = false;
-            var cardLayout = supportsImageAnalysis;
+            var cardLayout = false;
 
             html += cardBuilder.getCardsHtml({
                 items: items,
-                preferThumb: true,
-                shape: getThumbShape(),
+                preferThumb: 'auto',
+                shape: 'autooverflow',
                 overlayText: false,
                 showTitle: true,
                 showParentTitle: true,
@@ -624,15 +614,11 @@
                 allowBottomPadding: false,
                 cardLayout: cardLayout,
                 showYear: true,
-                lines: 2,
-                vibrant: cardLayout && supportsImageAnalysis
+                lines: 2
             });
+
             html += '</div>';
-
-            if (enableScrollX()) {
-                html += '</div>';
-            }
-
+            html += '</div>';
             html += '</div>';
 
             return html;
@@ -746,9 +732,7 @@
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
 
-                var supportsImageAnalysis = appHost.supports('imageanalysis');
-                supportsImageAnalysis = false;
-                var cardLayout = supportsImageAnalysis;
+                var cardLayout = false;
 
                 html += cardBuilder.getCardsHtml({
                     items: result.Items,
@@ -765,8 +749,7 @@
                     allowBottomPadding: false,
                     cardLayout: cardLayout,
                     showYear: true,
-                    lines: 2,
-                    vibrant: cardLayout && supportsImageAnalysis
+                    lines: 2
                 });
 
                 if (enableScrollX()) {
@@ -885,8 +868,6 @@
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
 
-                var supportsImageAnalysis = appHost.supports('imageanalysis');
-                supportsImageAnalysis = false;
                 var cardLayout = false;
 
                 html += cardBuilder.getCardsHtml({
@@ -1104,8 +1085,7 @@
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
 
-                var supportsImageAnalysis = appHost.supports('imageanalysis');
-                supportsImageAnalysis = false;
+                var cardLayout = false;
 
                 html += cardBuilder.getCardsHtml({
                     items: result.Items,
@@ -1117,10 +1097,9 @@
                     lazy: true,
                     overlayPlayButton: true,
                     context: 'home',
-                    centerText: !supportsImageAnalysis,
+                    centerText: !cardLayout,
                     allowBottomPadding: !enableScrollX(),
-                    cardLayout: supportsImageAnalysis,
-                    vibrant: supportsImageAnalysis
+                    cardLayout: cardLayout
                 });
 
                 if (enableScrollX()) {

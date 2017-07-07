@@ -552,6 +552,13 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
     function getRouteUrl(item, options) {
 
+        if (item === 'downloads') {
+            return 'offline/offline.html';
+        }
+        if (item === 'managedownloads') {
+            return 'offline/managedownloads.html';
+        }
+
         return skinManager.getCurrentSkin().getRouteUrl(item, options);
     }
 

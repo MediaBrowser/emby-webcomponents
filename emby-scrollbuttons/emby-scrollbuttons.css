@@ -19,14 +19,14 @@
     background: rgba(20, 20, 20, .5);
     background: -moz-linear-gradient(left,#000 0,rgba(0,0,0,0) 100%);
     background: -webkit-linear-gradient(left,#000 0,rgba(0,0,0,0) 100%);
-    background: linear,to right,#000 0,rgba(0,0,0,0) 100%;
+    background: linear-gradient(to right,#000,rgba(0,0,0,0));
 }
 
 .scrollbuttoncontainer-right {
     background: rgba(20, 20, 20, .5);
     background: -moz-linear-gradient(right,#000 0,rgba(0,0,0,0) 100%);
     background: -webkit-linear-gradient(right,#000 0,rgba(0,0,0,0) 100%);
-    background: linear,to left,#000 0,rgba(0,0,0,0) 100%;
+    background: linear-gradient(to left,#000,rgba(0,0,0,0));
 }
 
 .emby-scrollbuttons-scroller:hover .scrollbuttoncontainer {
