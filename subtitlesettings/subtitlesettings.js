@@ -70,7 +70,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'loading', 'connection
         var appearanceSettings = userSettingsInstance.getSubtitleAppearanceSettings(appearanceKey);
         appearanceSettings = Object.assign(appearanceSettings, getSubtitleAppearanceObject(context));
 
-        userSettingsInstance.setSubtitleAppearanceSettings(appearanceKey, appearanceSettings);
+        userSettingsInstance.setSubtitleAppearanceSettings(appearanceSettings, appearanceKey);
 
         if (user.Id === apiClient.getCurrentUserId()) {
             refreshGlobalUserSettings(userSettingsInstance);
