@@ -122,15 +122,24 @@
     margin: auto;
     color: rgba(255, 255, 255, .6);
     font-size: 1.6em;
-    border: .15em solid currentColor;
-    padding: 2px;
-    background: rgba(0,0,0,.4);
+    background: transparent;
     transition: transform 200ms ease-out;
+    display: flex;
 }
 
     .listItemImageButton:hover {
         transform: scale(1.2, 1.2);
     }
+
+.listItemImageButton-icon {
+    background: rgba(0,0,0,.4);
+    border: .08em solid currentColor;
+    border-radius: 100em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3px;
+}
 
 @media all and (max-width: 64em) {
 
@@ -141,7 +150,7 @@
     }
 
     .listItemImageButton {
-        font-size: 1.1em;
+        font-size: 1.02em !important;
     }
 
     .listItem-largeImage {
@@ -151,6 +160,12 @@
 
     .listItemBody {
         padding-left: .75em !important;
+    }
+}
+
+@media all and (max-width: 50em) {
+
+    .listItemBody {
         padding-right: .5em !important;
     }
 }
@@ -238,7 +253,7 @@
 .listItem-bottomoverview {
     font-size: 88%;
     margin-bottom: 1em;
-    margin-top: .25em;
+    margin-top: .2em;
 }
 
 @media all and (max-width: 50em) {
