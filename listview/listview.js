@@ -166,6 +166,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
         var outerHtml = '';
 
+        var enableContentWrapper = options.enableOverview && !layoutManager.tv;
+
         for (var i = 0, length = items.length; i < length; i++) {
 
             var item = items[i];
@@ -230,7 +232,17 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             var collectionTypeData = item.CollectionType ? (' data-collectiontype="' + item.CollectionType + '"') : '';
             var channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
 
+            if (enableContentWrapper) {
+
+                cssClass += ' listItem-withContentWrapper';
+            }
+
             html += '<' + outerTagName + ' class="' + cssClass + '"' + playlistItemId + ' data-action="' + action + '" data-isfolder="' + item.IsFolder + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + '>';
+
+            if (enableContentWrapper) {
+
+                html += '<div class="listItem-content">';
+            }
 
             if (!clickEntireItem && options.dragHandle) {
                 //html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><i class="md-icon">&#xE25D;</i></button>';
@@ -453,6 +465,16 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     html += '<button is="emby-ratingbutton" type="button" class="listItemButton paper-icon-button-light" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon">&#xE87D;</i></button>';
 
                     html += '</span>';
+                }
+            }
+
+            if (enableContentWrapper) {
+                html += '</div>';
+
+                if (enableOverview && item.Overview) {
+                    html += '<div class="listItem-bottomoverview secondary">';
+                    html += item.Overview;
+                    html += '</div>';
                 }
             }
 
