@@ -311,13 +311,13 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
     function getStats(instance, player) {
 
-        var statsPromise = player.getStats ? player.getStats() : Promise.resolve([]);
+        var statsPromise = player.getStats ? player.getStats() : Promise.resolve({});
         var sessionPromise = getSession(instance, player);
 
         return Promise.all([statsPromise, sessionPromise]).then(function (responses) {
 
             var playerStatsResult = responses[0];
-            var playerStats = playerStatsResult.categories;
+            var playerStats = playerStatsResult.categories || [];
             var session = responses[1];
 
             var displayPlayMethod = playMethodHelper.getDisplayPlayMethod(session);
