@@ -238,6 +238,7 @@
 .listItem-bottomoverview {
     font-size: 88%;
     margin-bottom: 1em;
+    margin-top: .25em;
 }
 
 @media all and (max-width: 50em) {

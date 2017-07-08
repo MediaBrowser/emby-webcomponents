@@ -377,6 +377,7 @@
 
         if (message.options && message.options.items) {
             message.subtitleAppearance = userSettings.getSubtitleAppearanceSettings();
+            message.subtitleBurnIn = appSettings.get('subtitleburnin') || '';
         }
 
         return new Promise(function (resolve, reject) {
