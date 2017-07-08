@@ -499,7 +499,7 @@
     "HeaderSubtitleAppearance": "Visualizzazione Sottotitoli",
     "OnlyForcedSubtitlesHelp": "Solo i sottotitoli contrassegnati come forzati saranno caricati.",
     "AlwaysPlaySubtitlesHelp": "I sottotitoli corrispondenti alla lingua preferita saranno caricati a prescindere dalla lingua dell'audio.",
-    "NoSubtitlesHelp": "I sottotitoli non verranno caricati per impostazione predefinita.Possono ancora caricati manualmente durante la riproduzione.",
+    "NoSubtitlesHelp": "I sottotitoli non verranno caricati per impostazione predefinita.Possono essere ancora caricati manualmente durante la riproduzione.",
     "LabelPreferredSubtitleLanguage": "Lingua dei sottotitoli preferita:",
     "LabelTextSize": "Dimensione testo:",
     "TheseSettingsAffectSubtitlesOnThisDevice": "Queste impostazioni influenzano i sottotitoli di questo dispositivo",
@@ -518,5 +518,6 @@
     "OnlyImageFormats": "Solo formati immagine (VOBSUB, PGS, SUB \/ IDX, ecc.)",
     "Normal": "Normale",
     "BurnSubtitlesHelp": "Determina se il server deve applicare i sottotitoli quando si converte i video in base al formato dei sottotitoli. Evitando di applicare i sottotitoli migliorer\u00e0 le prestazioni del server. Selezionare Auto per applicare formati basati sull'immagine (ad esempio VOBSUB, PGS, SUB \/ IDX, ecc.) cos\u00ec come alcuni sottotitoli ASS \/ SSA",
-    "AllComplexFormats": "Tutti i formati complessi (ASS, SSA, VOBSUB, PGS, SUB \/ IDX, ecc.)"
+    "AllComplexFormats": "Tutti i formati complessi (ASS, SSA, VOBSUB, PGS, SUB \/ IDX, ecc.)",
+    "SubtitleAppearanceSettingsAlsoPassedToCastDevices": "These settings also apply to any Chromecast playback started by this device."
 }

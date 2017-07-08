@@ -14,13 +14,33 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
     }
 
-    function getDefaultProfile() {
+    function getDeviceProfile(item, options) {
+
+        options = options || {};
 
         return new Promise(function (resolve, reject) {
 
             require(['browserdeviceprofile'], function (profileBuilder) {
 
-                resolve(profileBuilder({}));
+                var profile = profileBuilder(getBaseProfileOptions(item));
+
+                // Streaming only, allow in-app ass decoding. Streaming only because there is no automatic retry to transcoding for offline media
+                // Don't use in-app ass decoding if it's a playback retry (automatic switch from direct play to transcoding)
+                if (item && !options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats') {
+                    if (!browser.orsay && !browser.tizen) {
+                        // libjass not working here
+                        profile.SubtitleProfiles.push({
+                            Format: 'ass',
+                            Method: 'External'
+                        });
+                        profile.SubtitleProfiles.push({
+                            Format: 'ssa',
+                            Method: 'External'
+                        });
+                    }
+                }
+
+                resolve(profile);
             });
         });
     }
@@ -589,7 +609,11 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function destroyCustomTrack(videoElement) {
 
-            window.removeEventListener('resize', onVideoResize);
+            if (self._resizeObserver) {
+                self._resizeObserver.disconnect();
+                self._resizeObserver = null;
+            }
+
             window.removeEventListener('orientationchange', onVideoResize);
 
             if (videoSubtitlesElem) {
@@ -674,7 +698,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 rendererSettings.enableSvg = false;
             }
 
-            require(['libjass'], function (libjass) {
+            // probably safer to just disable everywhere
+            rendererSettings.enableSvg = false;
+
+            require(['libjass', 'ResizeObserver'], function (libjass) {
 
                 libjass.ASS.fromUrl(getTextTrackUrl(track, serverId)).then(function (ass) {
 
@@ -689,8 +716,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     renderer.addEventListener("ready", function () {
                         try {
                             renderer.resize(videoElement.offsetWidth, videoElement.offsetHeight, 0, 0);
-                            window.removeEventListener('resize', onVideoResize);
-                            window.addEventListener('resize', onVideoResize);
+
+                            if (!self._resizeObserver) {
+                                self._resizeObserver = new ResizeObserver(onVideoResize, {});
+                                self._resizeObserver.observe(videoElement);
+                            }
+
                             window.removeEventListener('orientationchange', onVideoResize);
                             window.addEventListener('orientationchange', onVideoResize);
                             //clock.pause();
