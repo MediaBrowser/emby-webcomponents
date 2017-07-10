@@ -142,6 +142,17 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }).join('');
     }
 
+    function getDefaultProfile() {
+
+        return new Promise(function (resolve, reject) {
+
+            require(['browserdeviceprofile'], function (profileBuilder) {
+
+                resolve(profileBuilder({}));
+            });
+        });
+    }
+
     function HtmlVideoPlayer() {
 
         if (browser.edgeUwp) {
