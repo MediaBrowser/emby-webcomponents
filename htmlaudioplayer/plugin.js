@@ -456,6 +456,16 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
         }
     };
 
+    HtmlAudioPlayer.prototype.getBufferedRanges = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+
+            return htmlMediaHelper.getBufferedRanges(this, mediaElement);
+        }
+
+        return [];
+    };
+
     HtmlAudioPlayer.prototype.pause = function () {
         var mediaElement = this._mediaElement;
         if (mediaElement) {

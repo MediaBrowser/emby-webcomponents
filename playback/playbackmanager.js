@@ -1692,6 +1692,7 @@
                 state.PlayState.IsMuted = player.isMuted();
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
+                state.PlayState.BufferedRanges = self.getBufferedRanges(player);
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
@@ -3219,6 +3220,20 @@
         }
 
         return Promise.resolve();
+    };
+
+    PlaybackManager.prototype.getBufferedRanges = function (player) {
+
+        player = player || this._currentPlayer;
+
+        if (player) {
+
+            if (player.getBufferedRanges) {
+                return player.getBufferedRanges();
+            }
+        }
+
+        return [];
     };
 
     PlaybackManager.prototype.playPause = function (player) {

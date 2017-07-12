@@ -119,10 +119,6 @@
     z-index: 1;
 }
 
-    .nowPlayingBarPositionContainer .mdl-slider__background-upper {
-        background: #222;
-    }
-
 .headroom--unpinned .nowPlayingBarPositionContainer {
     display: none;
 }

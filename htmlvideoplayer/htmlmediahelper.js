@@ -302,6 +302,41 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         instance._currentPlayOptions = null;
     }
 
+    function getBufferedRanges(instance, elem) {
+
+        var ranges = [];
+        var seekable = elem.buffered || [];
+
+        var offset;
+        var currentPlayOptions = instance._currentPlayOptions;
+        if (currentPlayOptions) {
+            offset = currentPlayOptions.transcodingOffsetTicks;
+        }
+
+        offset = offset || 0;
+
+        for (var i = 0, length = seekable.length; i < length; i++) {
+
+            var start = seekable.start(i);
+            var end = seekable.end(i);
+
+            if (!isValidDuration(start)) {
+                start = 0;
+            }
+            if (!isValidDuration(end)) {
+                end = 0;
+                continue;
+            }
+
+            ranges.push({
+                start: (start * 10000000) + offset,
+                end: (end * 10000000) + offset
+            });
+        }
+
+        return ranges;
+    }
+
     return {
         getSavedVolume: getSavedVolume,
         saveVolume: saveVolume,
@@ -315,6 +350,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         destroyHlsPlayer: destroyHlsPlayer,
         bindEventsToHlsPlayer: bindEventsToHlsPlayer,
         onEndedInternal: onEndedInternal,
-        getCrossOriginValue: getCrossOriginValue
+        getCrossOriginValue: getCrossOriginValue,
+        getBufferedRanges: getBufferedRanges
     };
 });

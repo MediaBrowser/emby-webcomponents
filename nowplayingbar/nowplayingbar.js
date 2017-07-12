@@ -329,7 +329,7 @@
         }
 
         var nowPlayingItem = state.NowPlayingItem || {};
-        updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks);
+        updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.BufferedRanges);
 
         updateNowPlayingInfo(state);
     }
@@ -349,7 +349,7 @@
         }
     }
 
-    function updateTimeDisplay(positionTicks, runtimeTicks) {
+    function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
 
         // See bindEvents for why this is necessary
         if (positionSlider && !positionSlider.dragging) {
@@ -364,6 +364,10 @@
 
                 positionSlider.value = 0;
             }
+        }
+
+        if (positionSlider) {
+            positionSlider.setBufferedRanges(bufferedRanges, runtimeTicks, positionTicks);
         }
 
         if (currentTimeElement) {
@@ -670,7 +674,7 @@
 
         var player = this;
         currentRuntimeTicks = playbackManager.duration(player);
-        updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks);
+        updateTimeDisplay(playbackManager.currentTime(player), currentRuntimeTicks, playbackManager.getBufferedRanges(player));
     }
 
     function releaseCurrentPlayer() {

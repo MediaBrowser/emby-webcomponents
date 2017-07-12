@@ -6,6 +6,8 @@
     var supportsNativeProgressStyle = browser.firefox || browser.edge || browser.msie;
     var supportsValueSetOverride = false;
 
+    var enableWidthWithTransform;
+
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
 
         var descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
@@ -15,7 +17,7 @@
         }
     }
 
-    function updateValues(range, backgroundLower, backgroundUpper) {
+    function updateValues(range, backgroundLower) {
 
         var value = range.value;
 
@@ -25,15 +27,12 @@
             if (backgroundLower) {
                 var fraction = (value - range.min) / (range.max - range.min);
 
-                if (browser.noFlex) {
-                    backgroundLower.style['-webkit-flex'] = fraction;
-                    backgroundUpper.style['-webkit-flex'] = 1 - fraction;
-                    backgroundLower.style['-webkit-box-flex'] = fraction;
-                    backgroundUpper.style['-webkit-box-flex'] = 1 - fraction;
+                if (enableWidthWithTransform) {
+                    backgroundLower.style.transform = 'scaleX(' + (fraction) + ')';
+                } else {
+                    fraction *= 100;
+                    backgroundLower.style.width = fraction + '%';
                 }
-
-                backgroundLower.style.flex = fraction;
-                backgroundUpper.style.flex = 1 - fraction;
             }
         });
     }
@@ -65,6 +64,10 @@
             return;
         }
 
+        if (enableWidthWithTransform == null) {
+            enableWidthWithTransform = browser.supportsCssAnimation();
+        }
+
         this.setAttribute('data-embyslider', 'true');
 
         this.classList.add('mdl-slider');
@@ -82,6 +85,9 @@
         if (browser.noFlex) {
             this.classList.add('slider-no-webkit-thumb');
         }
+        if (!layoutManager.mobile) {
+            this.classList.add('mdl-slider-hoverthumb');
+        }
 
         var containerElement = this.parentNode;
         containerElement.classList.add('mdl-slider__container');
@@ -89,7 +95,18 @@
         var htmlToInsert = '';
 
         if (!supportsNativeProgressStyle) {
-            htmlToInsert += '<div class="mdl-slider__background-flex"><div class="mdl-slider__background-lower"></div><div class="mdl-slider__background-upper"></div></div>';
+            htmlToInsert += '<div class="mdl-slider__background-flex">';
+
+            // the more of these, the more ranges we can display
+            htmlToInsert += '<div class="mdl-slider__background-upper"></div>';
+
+            if (enableWidthWithTransform) {
+                htmlToInsert += '<div class="mdl-slider__background-lower mdl-slider__background-lower-withtransform"></div>';
+            } else {
+                htmlToInsert += '<div class="mdl-slider__background-lower"></div>';
+            }
+
+            htmlToInsert += '</div>';
         }
 
         htmlToInsert += '<div class="sliderBubble hide"></div>';
@@ -97,7 +114,7 @@
         containerElement.insertAdjacentHTML('beforeend', htmlToInsert);
 
         var backgroundLower = containerElement.querySelector('.mdl-slider__background-lower');
-        var backgroundUpper = containerElement.querySelector('.mdl-slider__background-upper');
+        this.backgroundUpper = containerElement.querySelector('.mdl-slider__background-upper');
         var sliderBubble = containerElement.querySelector('.sliderBubble');
 
         var hasHideClass = sliderBubble.classList.contains('hide');
@@ -112,19 +129,19 @@
                 hasHideClass = false;
             }
         }, {
-                passive: true
-            });
+            passive: true
+        });
 
         dom.addEventListener(this, 'change', function () {
             this.dragging = false;
-            updateValues(this, backgroundLower, backgroundUpper);
+            updateValues(this, backgroundLower);
 
             sliderBubble.classList.add('hide');
             hasHideClass = true;
 
         }, {
-                passive: true
-            });
+            passive: true
+        });
 
         // In firefox this feature disrupts the ability to move the slider
         if (!browser.firefox) {
@@ -144,36 +161,90 @@
                 }
 
             }, {
-                    passive: true
-                });
+                passive: true
+            });
 
             dom.addEventListener(this, 'mouseleave', function () {
                 sliderBubble.classList.add('hide');
                 hasHideClass = true;
             }, {
-                    passive: true
-                });
+                passive: true
+            });
         }
 
         if (!supportsNativeProgressStyle) {
 
             if (supportsValueSetOverride) {
                 this.addEventListener('valueset', function () {
-                    updateValues(this, backgroundLower, backgroundUpper);
+                    updateValues(this, backgroundLower);
                 });
             } else {
-                startInterval(this, backgroundLower, backgroundUpper);
+                startInterval(this, backgroundLower);
             }
         }
     };
 
-    function startInterval(range, backgroundLower, backgroundUpper) {
+    function setRange(elem, startPercent, endPercent) {
+
+        var style = elem.style;
+        style.left = Math.max(startPercent, 0) + '%';
+
+        var widthPercent = endPercent - startPercent;
+        style.width = Math.max(Math.min(widthPercent, 100), 0) + '%';
+    }
+
+    function mapRangesFromRuntimeToPercent(ranges, runtime) {
+
+        if (!runtime) {
+            return [];
+        }
+
+        return ranges.map(function (r) {
+
+            return {
+                start: (r.start / runtime) * 100,
+                end: (r.end / runtime) * 100
+            };
+        });
+    }
+
+    EmbySliderPrototype.setBufferedRanges = function (ranges, runtime, position) {
+
+        var elem = this.backgroundUpper;
+        if (!elem) {
+            return;
+        }
+
+        if (runtime != null) {
+            ranges = mapRangesFromRuntimeToPercent(ranges, runtime);
+
+            position = (position / runtime) * 100;
+        }
+
+        for (var i = 0, length = ranges.length; i < length; i++) {
+
+            var range = ranges[i];
+
+            if (position != null) {
+                if (position >= range.end) {
+                    continue;
+                }
+            }
+
+            setRange(elem, range.start, range.end);
+            return;
+        }
+
+        setRange(elem, 0, 0);
+    };
+
+    function startInterval(range, backgroundLower) {
         var interval = range.interval;
         if (interval) {
             clearInterval(interval);
         }
         range.interval = setInterval(function () {
-            updateValues(range, backgroundLower, backgroundUpper);
+            updateValues(range, backgroundLower);
         }, 100);
     }
 
@@ -184,6 +255,7 @@
             clearInterval(interval);
         }
         this.interval = null;
+        this.backgroundUpper = null;
     };
 
     document.registerElement('emby-slider', {

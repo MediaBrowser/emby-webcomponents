@@ -10,7 +10,7 @@ _:-ms-input-placeholder {
     -moz-appearance: none;
     -ms-appearance: none;
     appearance: none;
-    height: .13em;
+    height: .214em;
     background: transparent;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -58,7 +58,7 @@ _:-ms-input-placeholder {
     .mdl-slider::-ms-track {
         background: none;
         color: transparent;
-        height: .13em;
+        height: .214em;
         width: 100%;
         border: none;
     }
@@ -81,8 +81,17 @@ _:-ms-input-placeholder {
         border-radius: 50%;
         background: #52B54B;
         border: none;
-        transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), border 0.18s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.18s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+.mdl-slider-hoverthumb::-webkit-slider-thumb {
+    margin-left: -.4em;
+    transform: scale(0, 0);
+}
+
+.mdl-slider:hover::-webkit-slider-thumb {
+    transform: scale(1, 1);
+}
 
 .slider-large-thumb::-webkit-slider-thumb {
     width: 1.8em;
@@ -163,15 +172,6 @@ _:-ms-input-placeholder {
     background: rgba(0,0,0, 0.26);
 }
 
-.mdl-slider:disabled + .mdl-slider__background-flex > .mdl-slider__background-lower {
-    background-color: #444;
-    left: -6px;
-}
-
-.mdl-slider:disabled + .mdl-slider__background-flex > .mdl-slider__background-upper {
-    left: 6px;
-}
-
 .mdl-slider:disabled::-ms-fill-lower {
     margin-right: 6px;
     background: linear-gradient(to right, transparent, transparent 25px, rgba(30,30,30, 0.7) 25px, rgba(30,30,30, 0.7) 0);
@@ -202,9 +202,11 @@ _:-ms-input-placeholder {
 }
 
 .mdl-slider__background-flex {
-    background: transparent;
+    background: #333;
+    background: rgba(255, 255, 255, .2);
     position: absolute;
-    height: .13em;
+    height: .214em;
+    margin-top: -.1em;
     width: 100%;
     top: 50%;
     left: 0;
@@ -214,29 +216,32 @@ _:-ms-input-placeholder {
     overflow: hidden;
     border: 0;
     padding: 0;
-    -webkit-transform: translate(0, -1px);
-    transform: translate(0, -1px);
 }
 
 .mdl-slider__background-lower {
+    transition: width 0.18s cubic-bezier(0.4, 0, 0.2, 1);
     background: #52B54B;
-    -webkit-flex: 0;
-    -ms-flex: 0;
-    flex: 0;
-    position: relative;
-    border: 0;
-    padding: 0;
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 100%;
+}
+
+.mdl-slider__background-lower-withtransform {
+    width: 100%;
+    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: left center;
+    transform: scaleX(0);
 }
 
 .mdl-slider__background-upper {
-    background: #444;
-    -webkit-flex: 0;
-    -ms-flex: 0;
-    flex: 0;
-    position: relative;
-    border: 0;
-    padding: 0;
-    transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1), width 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #666;
+    background: rgba(255, 255, 255, .4);
+    position: absolute;
+    left: 0;
+    width: 0;
+    height: 100%;
 }
 
 .sliderBubble {

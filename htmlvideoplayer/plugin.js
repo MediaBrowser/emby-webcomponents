@@ -1396,6 +1396,16 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         return this.setPictureInPictureEnabled(!this.isPictureInPictureEnabled());
     };
 
+    HtmlVideoPlayer.prototype.getBufferedRanges = function () {
+        var mediaElement = this._mediaElement;
+        if (mediaElement) {
+
+            return htmlMediaHelper.getBufferedRanges(this, mediaElement);
+        }
+
+        return [];
+    };
+
     HtmlVideoPlayer.prototype.getStats = function () {
 
         var mediaElement = this._mediaElement;
