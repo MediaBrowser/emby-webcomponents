@@ -3,7 +3,7 @@
 
     var EmbySliderPrototype = Object.create(HTMLInputElement.prototype);
 
-    var supportsNativeProgressStyle = browser.firefox || browser.edge || browser.msie;
+    var supportsNativeProgressStyle = browser.firefox;
     var supportsValueSetOverride = false;
 
     var enableWidthWithTransform;
