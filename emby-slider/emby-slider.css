@@ -210,7 +210,6 @@ _:-ms-input-placeholder {
 
 .mdl-slider__background-flex {
     background: #333;
-    background: rgba(255, 255, 255, .2);
     position: absolute;
     height: .214em;
     margin-top: -.1em;
@@ -223,18 +222,24 @@ _:-ms-input-placeholder {
     padding: 0;
 }
 
+.mdl-slider__background-flex-inner {
+    position: relative;
+    width: 100%;
+}
+
 .mdl-slider__background-lower {
-    transition: width 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    /*transition: width 0.18s cubic-bezier(0.4, 0, 0.2, 1);*/
     background: #52B54B;
     position: absolute;
     left: 0;
     width: 0;
-    height: 100%;
+    top: 0;
+    bottom: 0;
 }
 
 .mdl-slider__background-lower-withtransform {
     width: 100%;
-    transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+    /*transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);*/
     transform-origin: left center;
     transform: scaleX(0);
 }
@@ -246,7 +251,8 @@ _:-ms-input-placeholder {
     position: absolute;
     left: 0;
     width: 0;
-    height: 100%;
+    top: 0;
+    bottom: 0;
 }
 
 .sliderBubble {

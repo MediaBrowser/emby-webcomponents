@@ -65,7 +65,7 @@
         }
 
         if (enableWidthWithTransform == null) {
-            enableWidthWithTransform = browser.supportsCssAnimation();
+            //enableWidthWithTransform = browser.supportsCssAnimation();
         }
 
         this.setAttribute('data-embyslider', 'true');
@@ -96,6 +96,7 @@
 
         if (!supportsNativeProgressStyle) {
             htmlToInsert += '<div class="mdl-slider__background-flex">';
+            htmlToInsert += '<div class="mdl-slider__background-flex-inner">';
 
             // the more of these, the more ranges we can display
             htmlToInsert += '<div class="mdl-slider__background-upper"></div>';
@@ -106,6 +107,7 @@
                 htmlToInsert += '<div class="mdl-slider__background-lower"></div>';
             }
 
+            htmlToInsert += '</div>';
             htmlToInsert += '</div>';
         }
 
