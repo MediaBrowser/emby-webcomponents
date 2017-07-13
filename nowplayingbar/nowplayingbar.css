@@ -154,6 +154,10 @@
     margin-right: 1em;
 }
 
+.nowPlayingBarPositionSlider::-webkit-slider-thumb {
+    width: 1.2em!important;
+    height: 1.2em!important;
+}
 
 @media all and (max-width: 87.5em) {
 

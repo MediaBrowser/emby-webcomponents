@@ -73,8 +73,8 @@ _:-ms-input-placeholder {
 
     .mdl-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
-        width: 1em;
-        height: 1em;
+        width: 1.8em;
+        height: 1.8em;
         box-sizing: border-box;
         border-radius: 50%;
         background: #52B54B;
@@ -91,52 +91,19 @@ _:-ms-input-placeholder {
     transform: scale(1, 1);
 }
 
-.slider-large-thumb::-webkit-slider-thumb {
-    width: 1.8em;
-    height: 1.8em;
-}
-
-.slider-small-thumb::-webkit-slider-thumb {
-    width: .8em;
-    height: .8em;
-}
-
 .slider-no-webkit-thumb::-webkit-slider-thumb {
     opacity: 0 !important;
 }
 
 .mdl-slider::-moz-range-thumb {
     -moz-appearance: none;
-    width: 1em;
-    height: 1em;
+    width: 1.8em;
+    height: 1.8em;
     box-sizing: border-box;
     border-radius: 50%;
     background-image: none;
     background: #52B54B;
     border: none;
-}
-
-.slider-large-thumb::-moz-range-thumb {
-    width: 1.8em;
-    height: 1.8em;
-}
-
-.slider-small-thumb::-moz-range-thumb {
-    width: .8em;
-    height: .8em;
-}
-
-.mdl-slider:active::-webkit-slider-thumb {
-    background-image: none;
-    background: #52B54B;
-    -webkit-transform: scale(1.5);
-    transform: scale(1.5);
-}
-
-.mdl-slider:active::-moz-range-thumb {
-    background-image: none;
-    background: #52B54B;
-    transform: scale(1.5);
 }
 
 .mdl-slider:focus::-webkit-slider-thumb {
@@ -149,8 +116,8 @@ _:-ms-input-placeholder {
 
 .mdl-slider::-ms-thumb {
     -webkit-appearance: none;
-    width: 1em;
-    height: 1em;
+    width: 1.8em;
+    height: 1.8em;
     box-sizing: border-box;
     border-radius: 50%;
     background: #52B54B;
@@ -167,29 +134,16 @@ _:-ms-input-placeholder {
     transform: scale(1, 1);
 }
 
-.slider-large-thumb::-ms-thumb {
-    width: 1.8em;
-    height: 1.8em;
+.mdl-slider[disabled]::-webkit-slider-thumb {
+    display: none;
 }
 
-.slider-small-thumb::-ms-thumb {
-    width: .8em;
-    height: .8em;
+.mdl-slider[disabled]::-moz-range-thumb {
+    display: none;
 }
 
 .mdl-slider[disabled]::-ms-thumb {
-    background: gray;
-}
-
-.mdl-slider:disabled:focus::-webkit-slider-thumb, .mdl-slider:disabled:active::-webkit-slider-thumb, .mdl-slider:disabled::-webkit-slider-thumb {
-    -webkit-transform: scale(0.667);
-    transform: scale(0.667);
-    background: rgba(0,0,0, 0.26);
-}
-
-.mdl-slider:disabled:focus::-moz-range-thumb, .mdl-slider:disabled:active::-moz-range-thumb, .mdl-slider:disabled::-moz-range-thumb {
-    transform: scale(0.667);
-    background: rgba(0,0,0, 0.26);
+    display: none;
 }
 
 .mdl-slider__ie-container {
