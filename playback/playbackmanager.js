@@ -255,7 +255,7 @@
     }
 
     var startingPlaySession = new Date().getTime();
-    function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxAudioSampleRate, maxAudioBitDepth, startPosition) {
+    function getAudioStreamUrl(item, enableRedirection, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxAudioSampleRate, maxAudioBitDepth, startPosition) {
 
         var url = 'Audio/' + item.Id + '/universal';
 
@@ -273,12 +273,12 @@
             api_key: apiClient.accessToken(),
             PlaySessionId: startingPlaySession,
             StartTimeTicks: startPosition || 0,
-            EnableRedirection: true,
+            EnableRedirection: enableRedirection,
             EnableRemoteMedia: apphost.supports('remotemedia')
         });
     }
 
-    function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition) {
+    function getAudioStreamUrlFromDeviceProfile(item, enableRedirection, deviceProfile, maxBitrate, apiClient, startPosition) {
 
         var transcodingProfile = deviceProfile.TranscodingProfiles.filter(function (p) {
             return p.Type === 'Audio' && p.Context === 'Streaming';
@@ -300,10 +300,10 @@
 
         var maxValues = getAudioMaxValues(deviceProfile);
 
-        return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
+        return getAudioStreamUrl(item, enableRedirection, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
     }
 
-    function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
+    function getStreamUrls(items, enableRedirection, deviceProfile, maxBitrate, apiClient, startPosition) {
 
         var audioTranscodingProfile = deviceProfile.TranscodingProfiles.filter(function (p) {
             return p.Type === 'Audio' && p.Context === 'Streaming';
@@ -333,7 +333,7 @@
             var streamUrl;
 
             if (supportsUniversalAudio && item.MediaType === 'Audio') {
-                streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
+                streamUrl = getAudioStreamUrl(item, enableRedirection, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
             }
 
             streamUrls.push(streamUrl || '');
@@ -348,7 +348,10 @@
 
     function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
 
-        return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(function (streamUrls) {
+        // TODO, this needs to be dynamic, but currently we'll only get here in iOS
+        var enableRedirection = true;
+
+        return getStreamUrls(items, enableRedirection, deviceProfile, maxBitrate, apiClient, startPosition).then(function (streamUrls) {
 
             for (var i = 0, length = items.length; i < length; i++) {
 
@@ -384,10 +387,13 @@
 
         if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && apiClient.isMinServerVersion('3.2.17.5')) {
 
+            // TODO: Allow this for players that can support it
+            var enableRedirection = false;
+
             return Promise.resolve({
                 MediaSources: [
                     {
-                        StreamUrl: getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition),
+                        StreamUrl: getAudioStreamUrlFromDeviceProfile(item, enableRedirection, deviceProfile, maxBitrate, apiClient, startPosition),
                         Id: item.Id,
                         MediaStreams: [],
                         RunTimeTicks: item.RunTimeTicks
