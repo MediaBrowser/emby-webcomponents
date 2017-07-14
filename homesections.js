@@ -1024,7 +1024,8 @@
                     showChannelName: false,
                     showAirDateTime: false,
                     showAirEndTime: true,
-                    defaultShape: getThumbShape()
+                    defaultShape: getThumbShape(),
+                    lines: 3
                 });
 
                 if (enableScrollX()) {

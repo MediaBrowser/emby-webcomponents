@@ -691,7 +691,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (forceLines) {
 
-                length = Math.min(lines.length, maxLines || lines.length);
+                length = Math.max(lines.length, maxLines || lines.length);
 
                 while (valid < length) {
                     html += "<div class='" + cssClass + "'>&nbsp;</div>";
