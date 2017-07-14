@@ -208,10 +208,10 @@
 }
 
 .channelHeaderCell {
-    background-size: auto 70%;
-    background-position: 92% center;
-    background-repeat: no-repeat;
     margin-bottom: .34em;
+    height: 4.2em;
+    contain: strict;
+    position: relative;
 }
 
 @media all and (max-width: 50em) {
@@ -222,11 +222,6 @@
 }
 
 .channelPrograms {
-    height: 4.2em;
-    contain: strict;
-}
-
-.channelHeaderCell {
     height: 4.2em;
     contain: strict;
 }
@@ -396,6 +391,17 @@
     max-width: 70%;
 }
 
+.guideChannelImage {
+    position: absolute;
+    right: 8%;
+    top: 15%;
+    bottom: 15%;
+    width: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+
 @media all and (min-width: 62.5em) {
 
     .guideChannelName {
@@ -407,6 +413,10 @@
 
     .guideChannelNumber {
         display: none;
+    }
+
+    .guideChannelImage {
+        width: 70%;
     }
 }
 

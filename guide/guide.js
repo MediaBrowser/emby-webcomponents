@@ -679,19 +679,8 @@
 
                 var channel = channels[i];
                 var hasChannelImage = channel.ImageTags.Primary;
-                var dataSrc = '';
-                if (hasChannelImage) {
 
-                    var url = apiClient.getScaledImageUrl(channel.Id, {
-                        maxHeight: 220,
-                        tag: channel.ImageTags.Primary,
-                        type: "Primary"
-                    });
-
-                    dataSrc = ' data-src="' + url + '"';
-                }
-
-                var cssClass = 'channelHeaderCell clearButton itemAction lazy';
+                var cssClass = 'channelHeaderCell clearButton itemAction';
 
                 if (layoutManager.tv) {
                     cssClass += ' channelHeaderCell-tv';
@@ -707,7 +696,18 @@
                     title.push(channel.Name);
                 }
 
-                html += '<button title="' + title.join(' ') + '" type="button" class="' + cssClass + '"' + dataSrc + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
+                html += '<button title="' + title.join(' ') + '" type="button" class="' + cssClass + '"' + ' data-action="link" data-isfolder="' + channel.IsFolder + '" data-id="' + channel.Id + '" data-serverid="' + channel.ServerId + '" data-type="' + channel.Type + '">';
+
+                if (hasChannelImage) {
+
+                    var url = apiClient.getScaledImageUrl(channel.Id, {
+                        maxHeight: 220,
+                        tag: channel.ImageTags.Primary,
+                        type: "Primary"
+                    });
+
+                    html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
+                }
 
                 if (channel.Number) {
 
