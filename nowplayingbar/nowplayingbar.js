@@ -299,7 +299,7 @@
         }
     }
 
-    function updatePlayerStateInternal(event, state) {
+    function updatePlayerStateInternal(event, state, player) {
 
         showNowPlayingBar();
 
@@ -329,7 +329,7 @@
         }
 
         var nowPlayingItem = state.NowPlayingItem || {};
-        updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playState.BufferedRanges);
+        updateTimeDisplay(playState.PositionTicks, nowPlayingItem.RunTimeTicks, playbackManager.getBufferedRanges(player));
 
         updateNowPlayingInfo(state);
     }
@@ -649,12 +649,12 @@
         isEnabled = true;
 
         if (nowPlayingBarElement) {
-            updatePlayerStateInternal(event, state);
+            updatePlayerStateInternal(event, state, player);
             return;
         }
 
         getNowPlayingBar().then(function () {
-            updatePlayerStateInternal(event, state);
+            updatePlayerStateInternal(event, state, player);
         });
     }
 

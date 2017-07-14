@@ -1692,7 +1692,6 @@
                 state.PlayState.IsMuted = player.isMuted();
                 state.PlayState.IsPaused = player.paused();
                 state.PlayState.RepeatMode = self.getRepeatMode(player);
-                state.PlayState.BufferedRanges = self.getBufferedRanges(player);
                 state.PlayState.MaxStreamingBitrate = self.getMaxStreamingBitrate(player);
 
                 state.PlayState.PositionTicks = getCurrentTicks(player);
