@@ -1,8 +1,8 @@
-define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager'], function (loading, viewManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
+define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
     var embyRouter = {
-        showLocalLogin: function (apiClient, serverId, manualLogin) {
+        showLocalLogin: function (serverId, manualLogin) {
 
             var pageName = manualLogin ? 'manuallogin' : 'login';
 
@@ -13,6 +13,9 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
         },
         showWelcome: function () {
             show('/startup/welcome.html');
+        },
+        showConnectLogin: function () {
+            show('/startup/connectlogin.html');
         },
         showSettings: function () {
             show('/settings/settings.html');
@@ -70,9 +73,9 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
                     result.ApiClient.getPublicUsers().then(function (users) {
 
                         if (users.length) {
-                            embyRouter.showLocalLogin(result.ApiClient, result.Servers[0].Id);
+                            embyRouter.showLocalLogin(result.Servers[0].Id);
                         } else {
-                            embyRouter.showLocalLogin(result.ApiClient, result.Servers[0].Id, true);
+                            embyRouter.showLocalLogin(result.Servers[0].Id, true);
                         }
                     });
                 }
@@ -92,8 +95,8 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
                     require(['alert'], function (alert) {
                         alert({
 
-                            text: Globalize.translate('sharedcomponents#ServerUpdateNeeded', 'https://emby.media'),
-                            html: Globalize.translate('sharedcomponents#ServerUpdateNeeded', '<a href="https://emby.media">https://emby.media</a>')
+                            text: globalize.translate('sharedcomponents#ServerUpdateNeeded', 'https://emby.media'),
+                            html: globalize.translate('sharedcomponents#ServerUpdateNeeded', '<a href="https://emby.media">https://emby.media</a>')
 
                         }).then(function () {
                             embyRouter.showSelectServer();
@@ -223,10 +226,78 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
         });
     }
 
+    var msgTimeout;
+    var forcedLogoutMsg;
+    function onForcedLogoutMessageTimeout() {
+
+        var msg = forcedLogoutMsg;
+        forcedLogoutMsg = null;
+
+        if (msg) {
+            require(['alert'], function (alert) {
+                alert(msg);
+            });
+        }
+    }
+
+    function showForcedLogoutMessage(msg) {
+
+        forcedLogoutMsg = msg;
+        if (msgTimeout) {
+            clearTimeout(msgTimeout);
+        }
+
+        msgTimeout = setTimeout(onForcedLogoutMessageTimeout, 100);
+    }
+
+    function onRequestFail(e, data) {
+
+        var apiClient = this;
+
+        if (data.status === 401) {
+            if (data.errorCode === "ParentalControl") {
+
+                var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
+
+                // Bounce to the login screen, but not if a password entry fails, obviously
+                if (!isCurrentAllowed) {
+
+                    showForcedLogoutMessage(globalize.translate('sharedcomponents#AccessRestrictedTryAgainLater'));
+
+                    if (connectionManager.isLoggedIntoConnect()) {
+                        embyRouter.showConnectLogin();
+                    } else {
+                        embyRouter.showLocalLogin(apiClient.serverId());
+                    }
+                }
+
+            }
+        }
+    }
+
+    function onApiClientCreated(e, newApiClient) {
+
+        events.off(newApiClient, 'requestfail', onRequestFail);
+        events.on(newApiClient, 'requestfail', onRequestFail);
+    }
+
+    function initApiClient(apiClient) {
+        onApiClientCreated({}, apiClient);
+    }
+
+    function initApiClients() {
+
+        connectionManager.getApiClients().forEach(initApiClient);
+
+        events.on(connectionManager, 'apiclientcreated', onApiClientCreated);
+    }
+
     var firstConnectionResult;
     function start(options) {
 
         loading.show();
+
+        initApiClients();
 
         connectionManager.connect({
 
@@ -386,7 +457,7 @@ define(['loading', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'b
 
     function loadContent(ctx, route, html, request) {
 
-        html = Globalize.translateDocument(html, route.dictionary);
+        html = globalize.translateDocument(html, route.dictionary);
         request.view = html;
 
         viewManager.loadView(request);
