@@ -58,7 +58,7 @@
             dialogHelper.close(dlg);
             require(['toast'], function (toast) {
 
-                var msg = target === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadScheduled') : globalize.translate('sharedcomponents#SyncJobCreated');
+                var msg = target === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadingDots') : globalize.translate('sharedcomponents#SyncJobCreated');
 
                 toast(msg);
 
@@ -120,7 +120,7 @@
 
             require(['toast'], function (toast) {
 
-                var msg = targetId === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadScheduled') : globalize.translate('sharedcomponents#SyncJobCreated');
+                var msg = targetId === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadingDots') : globalize.translate('sharedcomponents#SyncJobCreated');
 
                 toast(msg);
 
@@ -193,7 +193,7 @@
 
         var targetContainerClass = options.isLocalSync ? ' hide' : '';
 
-        var syncTargetLabel = globalize.translate('sharedcomponents#LabelDownloadTo');
+        var syncTargetLabel = globalize.translate('sharedcomponents#LabelSyncTo');
 
         if (options.readOnlySyncTarget) {
             html += '<div class="inputContainer' + targetContainerClass + '">';
@@ -389,7 +389,7 @@
             html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
             html += '<h3 class="formDialogHeaderTitle">';
 
-            var syncButtonLabel = globalize.translate('sharedcomponents#Download');
+            var syncButtonLabel = options.isLocalSync ? globalize.translate('sharedcomponents#Download') : globalize.translate('sharedcomponents#Sync');
 
             html += syncButtonLabel;
             html += '</h3>';
