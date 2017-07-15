@@ -58,7 +58,7 @@
             dialogHelper.close(dlg);
             require(['toast'], function (toast) {
 
-                var msg = globalize.translate('sharedcomponents#DownloadScheduled');
+                var msg = target === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadScheduled') : globalize.translate('sharedcomponents#SyncJobCreated');
 
                 toast(msg);
 
@@ -120,7 +120,7 @@
 
             require(['toast'], function (toast) {
 
-                var msg = globalize.translate('sharedcomponents#DownloadScheduled');
+                var msg = targetId === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadScheduled') : globalize.translate('sharedcomponents#SyncJobCreated');
 
                 toast(msg);
 
@@ -193,11 +193,6 @@
 
         var targetContainerClass = options.isLocalSync ? ' hide' : '';
 
-        if (options.showName || dialogOptions.Options.indexOf('Name') !== -1) {
-
-            html += '<h1 style="margin-top:0;" class="syncJobName ' + targetContainerClass + '"></h1>';
-        }
-
         var syncTargetLabel = globalize.translate('sharedcomponents#LabelDownloadTo');
 
         if (options.readOnlySyncTarget) {
@@ -218,8 +213,8 @@
             html += '</select>';
             if (!targets.length) {
                 html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#LabelSyncNoTargetsHelp') + '</div>';
-                html += '<div class="fieldDescription"><a is="emby-linkbutton" class="button-link lnkLearnMore" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('sharedcomponents#LearnMore') + '</a></div>';
             }
+            html += '<div class="fieldDescription"><a is="emby-linkbutton" class="button-link lnkLearnMore" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('sharedcomponents#LearnMore') + '</a></div>';
             html += '</div>';
         }
 
@@ -365,7 +360,8 @@
             }).join(','),
 
             ParentId: options.ParentId,
-            Category: options.Category
+            Category: options.Category,
+            SupportsRemoteSync: true
         };
 
         return apiClient.getJSON(apiClient.getUrl('Sync/Options', dialogOptionsQuery)).then(function (dialogOptions) {

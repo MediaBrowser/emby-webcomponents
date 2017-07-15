@@ -191,7 +191,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
 
             if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Refresh'),
+                    name: globalize.translate('sharedcomponents#RefreshMetadata'),
                     id: 'refresh'
                 });
             }

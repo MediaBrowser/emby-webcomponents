@@ -19,9 +19,7 @@
 
         require(['confirm'], function (confirm) {
 
-            var msg = listInstance.options.isLocalSync ?
-globalize.translate('sharedcomponents#ConfirmRemoveDownload') :
-globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
+            var msg = globalize.translate('sharedcomponents#ConfirmRemoveDownload');
 
             confirm({
 
@@ -95,7 +93,8 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
             listItemClass += ' btnJobMenu';
         }
 
-        html += '<' + tagName + typeAttribute + ' class="' + listItemClass + '" data-id="' + job.Id + '" data-status="' + job.Status + '">';
+        var canEdit = (job.ItemCount || 1) > 1 || job.Status === 'Queued';
+        html += '<' + tagName + typeAttribute + ' class="' + listItemClass + '" data-canedit="' + canEdit + '" data-id="' + job.Id + '" data-status="' + job.Status + '">';
 
         var imgUrl;
 
@@ -155,7 +154,12 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
         html += '</div>';
 
         if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" class="btnJobMenu listItemButton"><i class="md-icon">more_vert</i></button>';
+
+            if (canEdit) {
+                html += '<button type="button" is="paper-icon-button-light" class="btnJobMenu listItemButton"><i class="md-icon">more_vert</i></button>';
+            } else {
+                html += '<button type="button" is="paper-icon-button-light" class="btnCancelJob listItemButton"><i class="md-icon">delete</i></button>';
+            }
         }
 
         html += '</' + tagName + '>';
@@ -244,7 +248,7 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
 
         if (listInstance.options.isLocalSync) {
             options.TargetId = apiClient.deviceId();
-        } 
+        }
 
         return apiClient.getJSON(apiClient.getUrl('Sync/Jobs', options)).then(function (response) {
 
@@ -298,14 +302,14 @@ globalize.translate('sharedcomponents#CancelSyncJobConfirmation');
             });
         } else {
 
-            menuItems.push({
-                name: globalize.translate('sharedcomponents#Edit'),
-                id: 'edit'
-            });
+            if (item.getAttribute('data-canedit') === 'true') {
+                menuItems.push({
+                    name: globalize.translate('sharedcomponents#Edit'),
+                    id: 'edit'
+                });
+            }
 
-            var txt = listInstance.options.isLocalSync ?
-globalize.translate('sharedcomponents#RemoveDownload') :
-globalize.translate('sharedcomponents#ButtonCancelSyncJob');
+            var txt = globalize.translate('sharedcomponents#RemoveDownload');
 
             menuItems.push({
                 name: txt,
@@ -346,7 +350,17 @@ globalize.translate('sharedcomponents#ButtonCancelSyncJob');
 
         var btnJobMenu = dom.parentWithClass(e.target, 'btnJobMenu');
         if (btnJobMenu) {
-            showJobMenu(this, btnJobMenu);
+            showJobMenu(listInstance, btnJobMenu);
+            return;
+        }
+
+        var btnCancelJob = dom.parentWithClass(e.target, 'btnCancelJob');
+        if (btnCancelJob) {
+            var listItem = dom.parentWithClass(btnCancelJob, 'listItem');
+            if (listItem) {
+                var jobId = listItem.getAttribute('data-id');
+                cancelJob(listInstance, jobId);
+            }
             return;
         }
 
@@ -354,8 +368,9 @@ globalize.translate('sharedcomponents#ButtonCancelSyncJob');
     }
 
     function showJobEditor(listInstance, elem) {
+
         var listItem = dom.parentWithClass(elem, 'listItem');
-        if (listItem) {
+        if (listItem && listItem.getAttribute('data-canedit') === 'true') {
             var jobId = listItem.getAttribute('data-id');
             // edit job
             require(['syncJobEditor'], function (syncJobEditor) {

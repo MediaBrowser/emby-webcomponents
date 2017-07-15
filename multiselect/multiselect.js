@@ -248,7 +248,7 @@
             });
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#Refresh'),
+                name: globalize.translate('sharedcomponents#RefreshMetadata'),
                 id: 'refresh'
             });
 

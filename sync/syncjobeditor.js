@@ -8,7 +8,6 @@
                 elem: context.querySelector('.syncJobFormContent'),
                 dialogOptions: dialogOptions,
                 dialogOptionsFn: getTargetDialogOptionsFn(dialogOptions),
-                showName: true,
                 readOnlySyncTarget: true
             }).then(function () {
                 fillJobValues(context, job, dialogOptions);
@@ -239,11 +238,6 @@
     }
 
     function fillJobValues(context, job, editOptions) {
-
-        var txtSyncJobName = context.querySelector('.syncJobName');
-        if (txtSyncJobName) {
-            txtSyncJobName.innerHTML = job.Name;
-        }
 
         var selectProfile = context.querySelector('#selectProfile');
         if (selectProfile) {
