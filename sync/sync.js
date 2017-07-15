@@ -58,7 +58,7 @@
             dialogHelper.close(dlg);
             require(['toast'], function (toast) {
 
-                var msg = target === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadScheduled') : globalize.translate('sharedcomponents#SyncJobCreated');
+                var msg = globalize.translate('sharedcomponents#DownloadScheduled');
 
                 toast(msg);
 
@@ -120,7 +120,7 @@
 
             require(['toast'], function (toast) {
 
-                var msg = targetId === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadScheduled') : globalize.translate('sharedcomponents#SyncJobCreated');
+                var msg = globalize.translate('sharedcomponents#DownloadScheduled');
 
                 toast(msg);
 

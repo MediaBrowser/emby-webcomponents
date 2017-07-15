@@ -106,7 +106,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .45em;
+    margin: .5em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */

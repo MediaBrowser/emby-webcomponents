@@ -266,7 +266,6 @@
   "HeaderDeleteItems": "Delete Items",
   "ConfirmDeleteItems": "Deleting these items will delete them from both the file system and your media library. Are you sure you wish to continue?",
   "PleaseRestartServerName": "Please restart Emby Server - {0}.",
-  "SyncJobCreated": "Sync job created.",
   "LabelSyncJobName": "Sync job name:",
   "LabelQuality": "Quality:",
   "LabelSyncNoTargetsHelp": "It looks like you don't currently have any apps that support offline downloading.",
