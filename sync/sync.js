@@ -361,10 +361,10 @@
 
             ParentId: options.ParentId,
             Category: options.Category,
-            SupportsRemoteSync: true
+            SupportsRemoteSync: options.isLocalSync ? null : true
         });
 
-        return dialogOptionsFn((options.isLocalSync ? apiClient.deviceId() : null)).then(function (dialogOptions) {
+        return dialogOptionsFn().then(function (dialogOptions) {
 
             currentDialogOptions = dialogOptions;
 
