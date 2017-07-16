@@ -106,7 +106,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .5em;
+    margin: .6em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -114,8 +114,11 @@ button {
     outline: none !important;
 }
 
-.layout-mobile .cardBox {
-    margin: .28em;
+@media all and (max-width: 1280px), (max-height: 720px) {
+
+    .layout-mobile .cardBox {
+        margin: .28em;
+    }
 }
 
 .card-focuscontent {
@@ -138,7 +141,7 @@ button {
 }
 
 .cardBox-bottompadded {
-    margin-bottom: 1.4em !important;
+    margin-bottom: 1em !important;
 }
 
 .btnCardOptions {
@@ -178,6 +181,8 @@ button {
     color: inherit;
     /* This is only needed for scalable cards */
     height: 100%;
+    border-radius: .2em;
+    ca;
 }
 
 .chapterCardImageContainer {
