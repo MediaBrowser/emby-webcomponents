@@ -353,7 +353,7 @@
             });
         }
 
-        var dialogOptionsQuery = {
+        var dialogOptionsFn = getTargetDialogOptionsFn(apiClient, {
             UserId: userId,
             ItemIds: (options.items || []).map(function (i) {
                 return i.Id || i;
@@ -362,9 +362,9 @@
             ParentId: options.ParentId,
             Category: options.Category,
             SupportsRemoteSync: true
-        };
+        });
 
-        return apiClient.getJSON(apiClient.getUrl('Sync/Options', dialogOptionsQuery)).then(function (dialogOptions) {
+        return dialogOptionsFn((options.isLocalSync ? apiClient.deviceId() : null)).then(function (dialogOptions) {
 
             currentDialogOptions = dialogOptions;
 
@@ -440,7 +440,7 @@
             renderForm({
                 elem: dlg.querySelector('.formFields'),
                 dialogOptions: dialogOptions,
-                dialogOptionsFn: getTargetDialogOptionsFn(apiClient, dialogOptionsQuery),
+                dialogOptionsFn: dialogOptionsFn,
                 isLocalSync: options.isLocalSync
             });
 
