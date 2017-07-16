@@ -1849,7 +1849,7 @@
                     loading.show();
                 }
 
-                if (item.MediaType === 'Video' && isServerItem(item) && appSettings.enableAutomaticBitrateDetection()) {
+                if (item.MediaType === 'Video' && isServerItem(item) && !itemHelper.isLocalItem(item) && appSettings.enableAutomaticBitrateDetection()) {
 
                     var apiClient = connectionManager.getApiClient(item.ServerId);
                     return apiClient.detectBitrate().then(function (bitrate) {
