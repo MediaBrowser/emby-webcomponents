@@ -429,13 +429,13 @@
         }
     }
 
-    function getTextActionButton(item, text) {
+    function getTextActionButton(item, text, serverId) {
 
         if (!text) {
             text = itemHelper.getDisplayName(item);
         }
 
-        var html = '<button data-id="' + item.Id + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '" type="button" class="itemAction textActionButton" data-action="link">';
+        var html = '<button data-id="' + item.Id + '" data-serverid="' + (item.ServerId || serverId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '" type="button" class="itemAction textActionButton" data-action="link">';
         html += text;
         html += '</button>';
 
@@ -517,12 +517,13 @@
         if (textLines.length > 1) {
             textLines[1].secondary = true;
         }
+        var serverId = nowPlayingItem ? nowPlayingItem.ServerId : null;
         nowPlayingTextElement.innerHTML = textLines.map(function (nowPlayingName) {
 
             var cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
 
             if (nowPlayingName.item) {
-                return '<div' + cssClass + '>' + getTextActionButton(nowPlayingName.item, nowPlayingName.text) + '</div>';
+                return '<div' + cssClass + '>' + getTextActionButton(nowPlayingName.item, nowPlayingName.text, serverId) + '</div>';
             }
 
             return '<div' + cssClass + '>' + nowPlayingName.text + '</div>';
