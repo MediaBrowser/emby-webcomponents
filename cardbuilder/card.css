@@ -106,7 +106,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .6em;
+    margin: .64em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -134,14 +134,14 @@ button {
     transform: scale(1.16, 1.16);
 }
 
+.cardBox-bottompadded {
+    margin-bottom: 1em !important;
+}
+
 .card:focus {
     position: relative !important;
     z-index: 10 !important;
     font-weight: inherit !important;
-}
-
-.cardBox-bottompadded {
-    margin-bottom: 1em !important;
 }
 
 .btnCardOptions {
@@ -423,7 +423,7 @@ button {
 }
 
 .cardOverlayButton-mini {
-    font-size: 80%;
+    font-size: 82%;
 }
 
 .defaultCardColor1 {
