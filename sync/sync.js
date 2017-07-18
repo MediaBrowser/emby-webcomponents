@@ -305,7 +305,67 @@
         }, 100);
     }
 
+    function showWifiMessage() {
+
+        require(['dialog', 'embyRouter'], function (dialog, embyRouter) {
+
+            var options = {
+
+                title: globalize.translate('sharedcomponents#HeaderWaitingForWifi'),
+                text: globalize.translate('sharedcomponents#WifiRequiredToDownload')
+            };
+
+            var items = [];
+
+            items.push({
+                name: options.confirmText || globalize.translate('sharedcomponents#ButtonOk'),
+                id: 'ok',
+                type: 'submit'
+            });
+
+            items.push({
+                name: options.cancelText || globalize.translate('sharedcomponents#HeaderDownloadSettings'),
+                id: 'downloadsettings',
+                type: 'cancel'
+            });
+
+            options.buttons = items;
+
+            dialog(options).then(function (result) {
+
+                if (result === 'ok') {
+                    return Promise.resolve();
+                }
+                if (result === 'downloadsettings') {
+                    embyRouter.show(embyRouter.getRouteUrl('downloadsettings'));
+                    return Promise.resolve();
+                }
+
+                return Promise.reject();
+            });
+        });
+    }
+
+    function validateNetwork() {
+
+        var network = navigator.connection ? navigator.connection.type : null;
+
+        switch (network) {
+
+            case 'cellular':
+            case 'bluetooth':
+                showWifiMessage();
+                return false;
+            default:
+                return true;
+        }
+    }
+
     function showSyncMenu(options) {
+
+        if (options.isLocalSync && appSettings.syncOnlyOnWifi() && !validateNetwork()) {
+            return Promise.reject();
+        }
 
         return registrationServices.validateFeature('sync').then(function () {
             return showSyncMenuInternal(options);
