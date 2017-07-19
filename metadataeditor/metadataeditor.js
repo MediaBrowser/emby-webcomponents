@@ -291,8 +291,8 @@
         if (parentId) {
             reload(context, parentId, item.ServerId);
         } else {
-            require(['embyRouter'], function (embyRouter) {
-                embyRouter.goHome();
+            require(['appRouter'], function (appRouter) {
+                appRouter.goHome();
             });
         }
     }

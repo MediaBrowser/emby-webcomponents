@@ -1,4 +1,4 @@
-define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', 'css!./mediainfo.css', 'programStyles', 'emby-linkbutton'], function (datetime, globalize, embyRouter, itemHelper) {
+define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'material-icons', 'css!./mediainfo.css', 'programStyles', 'emby-linkbutton'], function (datetime, globalize, appRouter, itemHelper) {
     'use strict';
 
     function getTimerIndicator(item) {
@@ -72,7 +72,7 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
 
             if (options.interactive && item.ChannelId) {
                 miscInfo.push({
-                    html: '<a is="emby-linkbutton" class="button-flat mediaInfoItem" href="' + embyRouter.getRouteUrl({
+                    html: '<a is="emby-linkbutton" class="button-flat mediaInfoItem" href="' + appRouter.getRouteUrl({
                         
                         ServerId: item.ServerId,
                         Type: 'TvChannel',
@@ -466,7 +466,7 @@ define(['datetime', 'globalize', 'embyRouter', 'itemHelper', 'material-icons', '
         var channelId = this.getAttribute('data-id');
         var serverId = this.getAttribute('data-serverid');
 
-        embyRouter.showItem(channelId, serverId);
+        appRouter.showItem(channelId, serverId);
 
         e.preventDefault();
         return false;

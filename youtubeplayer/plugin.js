@@ -1,4 +1,4 @@
-define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (require, events, browser, embyRouter, loading) {
+define(['require', 'events', 'browser', 'appRouter', 'loading'], function (require, events, browser, appRouter, loading) {
     "use strict";
 
     function zoomIn(elem, iterations) {
@@ -115,12 +115,12 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
 
             if (playOptions.fullscreen) {
 
-                embyRouter.showVideoOsd().then(function () {
+                appRouter.showVideoOsd().then(function () {
                     instance.videoDialog.classList.remove('onTop');
                 });
 
             } else {
-                embyRouter.setTransparency('backdrop');
+                appRouter.setTransparency('backdrop');
                 instance.videoDialog.classList.remove('onTop');
             }
 
@@ -236,7 +236,7 @@ define(['require', 'events', 'browser', 'embyRouter', 'loading'], function (requ
 
     YoutubePlayer.prototype.destroy = function () {
 
-        embyRouter.setTransparency('none');
+        appRouter.setTransparency('none');
 
         var dlg = this.videoDialog;
         if (dlg) {

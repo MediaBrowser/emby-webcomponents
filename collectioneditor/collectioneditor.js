@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'embyRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'emby-linkbutton', 'flexStyles'], function (dialogHelper, loading, layoutManager, connectionManager, embyRouter, globalize) {
+﻿define(['dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'emby-linkbutton', 'flexStyles'], function (dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
     'use strict';
 
     var currentServerId;
@@ -64,10 +64,7 @@
 
     function redirectToCollection(apiClient, id) {
 
-        apiClient.getItem(apiClient.getCurrentUserId(), id).then(function (item) {
-
-            embyRouter.showItem(item);
-        });
+        appRouter.showItem(id, apiClient.serverId());
     }
 
     function addToCollection(apiClient, dlg, id) {

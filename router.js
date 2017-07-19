@@ -1,7 +1,7 @@
 define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
-    var embyRouter = {
+    var appRouter = {
         showLocalLogin: function (serverId, manualLogin) {
 
             var pageName = manualLogin ? 'manuallogin' : 'login';
@@ -73,21 +73,21 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
                     result.ApiClient.getPublicUsers().then(function (users) {
 
                         if (users.length) {
-                            embyRouter.showLocalLogin(result.Servers[0].Id);
+                            appRouter.showLocalLogin(result.Servers[0].Id);
                         } else {
-                            embyRouter.showLocalLogin(result.Servers[0].Id, true);
+                            appRouter.showLocalLogin(result.Servers[0].Id, true);
                         }
                     });
                 }
                 break;
             case MediaBrowser.ConnectionState.ServerSelection:
                 {
-                    embyRouter.showSelectServer();
+                    appRouter.showSelectServer();
                 }
                 break;
             case MediaBrowser.ConnectionState.ConnectSignIn:
                 {
-                    embyRouter.showWelcome();
+                    appRouter.showWelcome();
                 }
                 break;
             case MediaBrowser.ConnectionState.ServerUpdateNeeded:
@@ -99,7 +99,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
                             html: globalize.translate('sharedcomponents#ServerUpdateNeeded', '<a href="https://emby.media">https://emby.media</a>')
 
                         }).then(function () {
-                            embyRouter.showSelectServer();
+                            appRouter.showSelectServer();
                         });
                     });
                 }
@@ -265,9 +265,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
                     showForcedLogoutMessage(globalize.translate('sharedcomponents#AccessRestrictedTryAgainLater'));
 
                     if (connectionManager.isLoggedIntoConnect()) {
-                        embyRouter.showConnectLogin();
+                        appRouter.showConnectLogin();
                     } else {
-                        embyRouter.showLocalLogin(apiClient.serverId());
+                        appRouter.showLocalLogin(apiClient.serverId());
                     }
                 }
 
@@ -359,13 +359,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
         var apiClient = connectionManager.currentApiClient();
         var pathname = ctx.pathname.toLowerCase();
 
-        console.log('embyRouter - processing path request ' + pathname);
+        console.log('appRouter - processing path request ' + pathname);
 
         var isCurrentRouteStartup = currentRouteInfo ? currentRouteInfo.route.startup : true;
         var shouldExitApp = ctx.isBack && route.isDefaultRoute && isCurrentRouteStartup;
 
         if (!shouldExitApp && (!apiClient || !apiClient.isLoggedIn()) && !route.anonymous) {
-            console.log('embyRouter - route does not allow anonymous access, redirecting to login');
+            console.log('appRouter - route does not allow anonymous access, redirecting to login');
             beginConnectionWizard();
             return;
         }
@@ -380,14 +380,14 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
 
         if (apiClient && apiClient.isLoggedIn()) {
 
-            console.log('embyRouter - user is authenticated');
+            console.log('appRouter - user is authenticated');
 
             if (ctx.isBack && (route.isDefaultRoute || route.startup) && !isCurrentRouteStartup) {
                 handleBackToDefault();
                 return;
             }
             else if (route.isDefaultRoute) {
-                console.log('embyRouter - loading skin home page');
+                console.log('appRouter - loading skin home page');
                 skinManager.loadUserSkin();
                 return;
             } else if (route.roles) {
@@ -401,7 +401,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
             }
         }
 
-        console.log('embyRouter - proceeding to ' + pathname);
+        console.log('appRouter - proceeding to ' + pathname);
         callback();
     }
 
@@ -638,7 +638,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
         if (typeof (item) === 'string') {
             var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
             apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                embyRouter.showItem(item, options);
+                appRouter.showItem(item, options);
             });
         } else {
 
@@ -646,8 +646,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
                 options = arguments[1];
             }
 
-            var url = embyRouter.getRouteUrl(item, options);
-            embyRouter.show(url, {
+            var url = appRouter.getRouteUrl(item, options);
+            appRouter.show(url, {
                 item: item
             });
         }
@@ -729,30 +729,30 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
 
     setBaseRoute();
 
-    embyRouter.addRoute = addRoute;
-    embyRouter.param = param;
-    embyRouter.back = back;
-    embyRouter.show = show;
-    embyRouter.start = start;
-    embyRouter.baseUrl = baseUrl;
-    embyRouter.canGoBack = canGoBack;
-    embyRouter.current = current;
-    embyRouter.beginConnectionWizard = beginConnectionWizard;
-    embyRouter.goHome = goHome;
-    embyRouter.showItem = showItem;
-    embyRouter.setTitle = setTitle;
-    embyRouter.setTransparency = setTransparency;
-    embyRouter.getRoutes = getRoutes;
-    embyRouter.getRouteUrl = getRouteUrl;
-    embyRouter.pushState = pushState;
-    embyRouter.enableNativeHistory = enableNativeHistory;
-    embyRouter.showVideoOsd = showVideoOsd;
-    embyRouter.handleAnchorClick = page.handleAnchorClick;
-    embyRouter.TransparencyLevel = {
+    appRouter.addRoute = addRoute;
+    appRouter.param = param;
+    appRouter.back = back;
+    appRouter.show = show;
+    appRouter.start = start;
+    appRouter.baseUrl = baseUrl;
+    appRouter.canGoBack = canGoBack;
+    appRouter.current = current;
+    appRouter.beginConnectionWizard = beginConnectionWizard;
+    appRouter.goHome = goHome;
+    appRouter.showItem = showItem;
+    appRouter.setTitle = setTitle;
+    appRouter.setTransparency = setTransparency;
+    appRouter.getRoutes = getRoutes;
+    appRouter.getRouteUrl = getRouteUrl;
+    appRouter.pushState = pushState;
+    appRouter.enableNativeHistory = enableNativeHistory;
+    appRouter.showVideoOsd = showVideoOsd;
+    appRouter.handleAnchorClick = page.handleAnchorClick;
+    appRouter.TransparencyLevel = {
         None: 0,
         Backdrop: 1,
         Full: 2
     };
 
-    return embyRouter;
+    return appRouter;
 });

@@ -1,4 +1,4 @@
-﻿define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'embyRouter', 'emby-scroller', 'emby-itemscontainer'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, embyRouter) {
+﻿define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'appRouter', 'emby-scroller', 'emby-itemscontainer'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, appRouter) {
     'use strict';
 
     function loadSuggestions(instance, context, apiClient) {
@@ -18,7 +18,7 @@
 
             var html = result.Items.map(function (i) {
 
-                var href = embyRouter.getRouteUrl(i);
+                var href = appRouter.getRouteUrl(i);
 
                 var itemHtml = '<div><a style="display:inline-block;padding:.55em 1em;" href="' + href + '">';
                 itemHtml += i.Name;

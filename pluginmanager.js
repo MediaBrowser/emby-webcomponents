@@ -32,7 +32,7 @@ define(['events'], function (events) {
 
         return new Promise(function (resolve, reject) {
 
-            require([url, 'globalize', 'embyRouter'], function (pluginFactory, globalize, embyRouter) {
+            require([url, 'globalize', 'appRouter'], function (pluginFactory, globalize, appRouter) {
 
                 var plugin = new pluginFactory();
 
@@ -50,9 +50,9 @@ define(['events'], function (events) {
 
                 var urlLower = url.toLowerCase();
                 if (urlLower.indexOf('http:') === -1 && urlLower.indexOf('https:') === -1 && urlLower.indexOf('file:') === -1) {
-                    if (url.indexOf(embyRouter.baseUrl()) !== 0) {
+                    if (url.indexOf(appRouter.baseUrl()) !== 0) {
 
-                        url = embyRouter.baseUrl() + '/' + url;
+                        url = appRouter.baseUrl() + '/' + url;
                     }
                 }
 

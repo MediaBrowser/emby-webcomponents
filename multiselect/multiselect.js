@@ -1,4 +1,4 @@
-﻿define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'globalize', 'embyRouter', 'dom', 'css!./multiselect'], function (browser, appStorage, appHost, loading, connectionManager, globalize, embyRouter, dom) {
+﻿define(['browser', 'appStorage', 'apphost', 'loading', 'connectionManager', 'globalize', 'appRouter', 'dom', 'css!./multiselect'], function (browser, appStorage, appHost, loading, connectionManager, globalize, appRouter, dom) {
     'use strict';
 
     var selectedItems = [];
@@ -287,7 +287,7 @@
                                 break;
                             case 'delete':
                                 deleteItems(apiClient, items).then(function () {
-                                    embyRouter.goHome();
+                                    appRouter.goHome();
                                 });
                                 hideSelections();
                                 dispatchNeedsRefresh();

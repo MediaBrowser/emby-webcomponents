@@ -1,4 +1,4 @@
-define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'globalize', 'loading', 'dom', 'recordingHelper'], function (playbackManager, inputManager, connectionManager, embyRouter, globalize, loading, dom, recordingHelper) {
+define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'globalize', 'loading', 'dom', 'recordingHelper'], function (playbackManager, inputManager, connectionManager, appRouter, globalize, loading, dom, recordingHelper) {
     'use strict';
 
     function playAllFromHere(card, serverId, queue) {
@@ -186,7 +186,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'embyRouter', 'g
 
         if (action === 'link') {
 
-            embyRouter.showItem(item, {
+            appRouter.showItem(item, {
                 context: card.getAttribute('data-context'),
                 parentId: card.getAttribute('data-parentid')
             });

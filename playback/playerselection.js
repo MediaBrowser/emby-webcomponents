@@ -1,4 +1,4 @@
-﻿define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'embyRouter', 'globalize', 'apphost'], function (appSettings, events, browser, loading, playbackManager, embyRouter, globalize, appHost) {
+﻿define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRouter', 'globalize', 'apphost'], function (appSettings, events, browser, loading, playbackManager, appRouter, globalize, appHost) {
     'use strict';
 
     var currentDisplayInfo;
@@ -228,7 +228,7 @@
 
         dialogHelper.open(dlg).then(function () {
             if (destination === 'nowplaying') {
-                embyRouter.showNowPlaying();
+                appRouter.showNowPlaying();
             }
         }, emptyCallback);
     }

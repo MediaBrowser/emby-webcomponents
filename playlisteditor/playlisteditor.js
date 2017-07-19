@@ -1,4 +1,4 @@
-﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 'connectionManager', 'userSettings', 'embyRouter', 'globalize', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, playbackManager, connectionManager, userSettings, embyRouter, globalize) {
+﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'playbackManager', 'connectionManager', 'userSettings', 'appRouter', 'globalize', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, playbackManager, connectionManager, userSettings, appRouter, globalize) {
     'use strict';
 
     var currentServerId;
@@ -64,10 +64,7 @@
 
     function redirectToPlaylist(apiClient, id) {
 
-        apiClient.getItem(apiClient.getCurrentUserId(), id).then(function (item) {
-
-            embyRouter.showItem(item);
-        });
+        appRouter.showItem(id, apiClient.serverId());
     }
 
     function addToPlaylist(apiClient, dlg, id) {

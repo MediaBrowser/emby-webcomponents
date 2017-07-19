@@ -1,4 +1,4 @@
-﻿define(['browser', 'dom', 'layoutManager', 'shell', 'embyRouter', 'apphost', 'css!./emby-button', 'registerElement'], function (browser, dom, layoutManager, shell, embyRouter, appHost) {
+﻿define(['browser', 'dom', 'layoutManager', 'shell', 'appRouter', 'apphost', 'css!./emby-button', 'registerElement'], function (browser, dom, layoutManager, shell, appRouter, appHost) {
     'use strict';
 
     var EmbyButtonPrototype = Object.create(HTMLButtonElement.prototype);
@@ -78,7 +78,7 @@
                     shell.openUrl(href);
                 }
             } else {
-                embyRouter.handleAnchorClick(e);
+                appRouter.handleAnchorClick(e);
             }
         } else {
             e.preventDefault();

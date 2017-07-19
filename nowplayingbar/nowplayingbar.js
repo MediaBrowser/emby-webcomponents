@@ -231,8 +231,8 @@
 
     function showRemoteControl() {
 
-        require(['embyRouter'], function (embyRouter) {
-            embyRouter.showNowPlaying();
+        require(['appRouter'], function (appRouter) {
+            appRouter.showNowPlaying();
         });
     }
 

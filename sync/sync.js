@@ -307,7 +307,7 @@
 
     function showWifiMessage() {
 
-        require(['dialog', 'embyRouter'], function (dialog, embyRouter) {
+        require(['dialog', 'appRouter'], function (dialog, appRouter) {
 
             var options = {
 
@@ -337,7 +337,7 @@
                     return Promise.resolve();
                 }
                 if (result === 'downloadsettings') {
-                    embyRouter.show(embyRouter.getRouteUrl('downloadsettings'));
+                    appRouter.show(appRouter.getRouteUrl('downloadsettings'));
                     return Promise.resolve();
                 }
 

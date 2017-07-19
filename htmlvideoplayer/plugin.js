@@ -1,4 +1,4 @@
-define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'embyRouter', 'appSettings', 'connectionManager', './htmlmediahelper'], function (browser, require, events, appHost, loading, dom, playbackManager, embyRouter, appSettings, connectionManager, htmlMediaHelper) {
+define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', './htmlmediahelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper) {
     "use strict";
 
     function tryRemoveElement(elem) {
@@ -426,7 +426,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         self.destroy = function () {
 
             htmlMediaHelper.destroyHlsPlayer(self);
-            embyRouter.setTransparency('none');
+            appRouter.setTransparency('none');
 
             var videoElement = self._mediaElement;
 
@@ -518,10 +518,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 if (self._currentPlayOptions.fullscreen) {
 
-                    embyRouter.showVideoOsd().then(onNavigatedToOsd);
+                    appRouter.showVideoOsd().then(onNavigatedToOsd);
 
                 } else {
-                    embyRouter.setTransparency('backdrop');
+                    appRouter.setTransparency('backdrop');
                     videoDialog.classList.remove('videoPlayerContainer-withBackdrop');
                     videoDialog.classList.remove('videoPlayerContainer-onTop');
                 }

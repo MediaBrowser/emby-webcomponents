@@ -1,4 +1,4 @@
-define(['connectionManager', 'confirm', 'embyRouter', 'globalize'], function (connectionManager, confirm, embyRouter, globalize) {
+define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (connectionManager, confirm, appRouter, globalize) {
     'use strict';
 
     function alertText(options) {
@@ -35,9 +35,9 @@ define(['connectionManager', 'confirm', 'embyRouter', 'globalize'], function (co
 
                 if (options.navigate) {
                     if (parentId) {
-                        embyRouter.showItem(parentId, serverId);
+                        appRouter.showItem(parentId, serverId);
                     } else {
-                        embyRouter.goHome();
+                        appRouter.goHome();
                     }
                 }
             }, function (err) {

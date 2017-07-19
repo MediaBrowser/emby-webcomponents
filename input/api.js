@@ -1,4 +1,4 @@
-define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focusManager', 'embyRouter'], function (connectionManager, playbackManager, events, inputManager, focusManager, embyRouter) {
+define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focusManager', 'appRouter'], function (connectionManager, playbackManager, events, inputManager, focusManager, appRouter) {
     'use strict';
 
     function notifyApp() {
@@ -26,9 +26,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
     function displayContent(cmd, apiClient) {
 
-        apiClient.getItem(apiClient.getCurrentUserId(), cmd.Arguments.ItemId).then(function (item) {
-            embyRouter.showItem(item);
-        });
+        appRouter.showItem(cmd.Arguments.ItemId, apiClient.serverId());
     }
 
     function processGeneralCommand(cmd, apiClient) {

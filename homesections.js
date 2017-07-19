@@ -1,4 +1,4 @@
-﻿define(['cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'embyRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton'], function (cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, embyRouter) {
+﻿define(['cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton'], function (cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
     'use strict';
 
     function getDefaultSection(index) {
@@ -190,7 +190,7 @@
                     break;
             }
 
-            html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon">' + icon + '</i><span>' + item.Name + '</span></a>';
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon">' + icon + '</i><span>' + item.Name + '</span></a>';
         }
 
         html += '</div>';
@@ -381,7 +381,7 @@
                 html += '<div class="sectionTitleContainer padded-left">';
                 if (!layoutManager.tv) {
 
-                    html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl(parent, {
+                    html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(parent, {
 
                         section: 'latest'
 
@@ -581,14 +581,14 @@
 
             if (!layoutManager.tv) {
 
-                html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('downloads') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('downloads') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += globalize.translate('sharedcomponents#HeaderMyDownloads');
                 html += '</h2>';
                 html += '<i class="md-icon">&#xE5CC;</i>';
                 html += '</a>';
 
-                html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('managedownloads') + '" class="sectionTitleIconButton"><i class="md-icon">&#xE8B8;</i></a>';
+                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('managedownloads') + '" class="sectionTitleIconButton"><i class="md-icon">&#xE8B8;</i></a>';
 
             } else {
                 html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#HeaderMyDownloads') + '</h2>';
@@ -945,26 +945,26 @@
                     html += '<div class="padded-left padded-right padded-top focuscontainer-x">';
                 }
 
-                html += '<a style="margin:0;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
+                html += '<a style="margin:0;padding:.9em 1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId()
 
                 }) + '" class="raised"><i class="md-icon">&#xE639;</i><span>' + globalize.translate('sharedcomponents#Programs') + '</span></a>';
 
-                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
+                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'guide'
 
                 }) + '" class="raised"><i class="md-icon">&#xE1B2;</i><span>' + globalize.translate('sharedcomponents#Guide') + '</span></a>';
 
-                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('recordedtv', {
+                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
 
                     serverId: apiClient.serverId()
 
                 }) + '" class="raised"><i class="md-icon">&#xE333;</i><span>' + globalize.translate('sharedcomponents#Recordings') + '</span></a>';
 
-                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
+                html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'dvrschedule'
@@ -985,7 +985,7 @@
 
                 if (!layoutManager.tv) {
 
-                    html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('livetv', {
+                    html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                         serverId: apiClient.serverId(),
                         section: 'onnow'
@@ -1064,7 +1064,7 @@
                 html += '<div class="sectionTitleContainer padded-left">';
                 if (!layoutManager.tv) {
 
-                    html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl('nextup', {
+                    html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
 
                         serverId: apiClient.serverId()
 
@@ -1172,7 +1172,7 @@
                 var text = globalize.translate('sharedcomponents#HeaderLatestFrom').replace('{0}', channel.Name);
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + text + '</h2>';
                 if (!layoutManager.tv) {
-                    html += '<a is="emby-linkbutton" href="' + embyRouter.getRouteUrl(channel) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
+                    html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(channel) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
                 }
                 html += '</div>';
 

@@ -1,4 +1,4 @@
-define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playbackManager, focusManager, embyRouter, dom) {
+define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playbackManager, focusManager, appRouter, dom) {
     'use strict';
 
     var lastInputTime = new Date().getTime();
@@ -99,13 +99,13 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 focusManager.moveRight(sourceElement);
                 break;
             case 'home':
-                embyRouter.goHome();
+                appRouter.goHome();
                 break;
             case 'settings':
-                embyRouter.showSettings();
+                appRouter.showSettings();
                 break;
             case 'back':
-                embyRouter.back();
+                appRouter.back();
                 break;
             case 'forward':
                 break;
@@ -128,15 +128,15 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 playbackManager.previousChapter();
                 break;
             case 'guide':
-                embyRouter.showGuide();
+                appRouter.showGuide();
                 break;
             case 'recordedtv':
-                embyRouter.showRecordedTV();
+                appRouter.showRecordedTV();
                 break;
             case 'record':
                 break;
             case 'livetv':
-                embyRouter.showLiveTV();
+                appRouter.showLiveTV();
                 break;
             case 'mute':
                 playbackManager.setMute(true);
@@ -183,10 +183,10 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 playbackManager.changeSubtitleStream();
                 break;
             case 'search':
-                embyRouter.showSearch();
+                appRouter.showSearch();
                 break;
             case 'favorites':
-                embyRouter.showFavorites();
+                appRouter.showFavorites();
                 break;
             case 'fastforward':
                 playbackManager.fastForward();
@@ -211,18 +211,18 @@ define(['playbackManager', 'focusManager', 'embyRouter', 'dom'], function (playb
                 break;
             case 'movies':
                 // TODO
-                embyRouter.goHome();
+                appRouter.goHome();
                 break;
             case 'music':
                 // TODO
-                embyRouter.goHome();
+                appRouter.goHome();
                 break;
             case 'tv':
                 // TODO
-                embyRouter.goHome();
+                appRouter.goHome();
                 break;
             case 'nowplaying':
-                embyRouter.showNowPlaying();
+                appRouter.showNowPlaying();
                 break;
             case 'save':
                 break;

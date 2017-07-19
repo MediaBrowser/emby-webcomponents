@@ -1,4 +1,4 @@
-define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter', 'playbackManager', 'loading', 'appSettings', 'browser'], function (appHost, globalize, connectionManager, itemHelper, embyRouter, playbackManager, loading, appSettings, browser) {
+define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser'], function (appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser) {
     'use strict';
 
     function getCommands(options) {
@@ -349,7 +349,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                     }
                 case 'open':
                     {
-                        embyRouter.showItem(item);
+                        appRouter.showItem(item);
                         getResolveFunction(resolve, id)();
                         break;
                     }
@@ -406,13 +406,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'embyRouter',
                     }
                 case 'album':
                     {
-                        embyRouter.showItem(item.AlbumId, item.ServerId);
+                        appRouter.showItem(item.AlbumId, item.ServerId);
                         getResolveFunction(resolve, id)();
                         break;
                     }
                 case 'artist':
                     {
-                        embyRouter.showItem(item.ArtistItems[0].Id, item.ServerId);
+                        appRouter.showItem(item.ArtistItems[0].Id, item.ServerId);
                         getResolveFunction(resolve, id)();
                         break;
                     }
