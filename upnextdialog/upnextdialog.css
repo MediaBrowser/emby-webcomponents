@@ -1,0 +1,72 @@
+﻿.upNextDialog {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+    transition: transform 300ms ease-out, opacity 300ms ease-out;
+    background-color: rgba(0, 0, 0, .7);
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .8));
+    color: #fff;
+}
+
+.upNextDialog-hidden {
+    transform: translate3d(0,100%,0);
+    opacity: 0;
+}
+
+.upNextDialog-countdownText {
+    color: #52B54B;
+    font-weight: 500;
+}
+
+.upNextDialog-poster {
+    max-width: 40%;
+    max-height: 15%;
+    position: relative;
+    margin-right: 1em;
+    flex-shrink: 0;
+    margin-bottom: .5em;
+}
+
+@media all and (orientation: landscape) {
+
+    .upNextDialog {
+        flex-direction: row;
+    }
+
+    .upNextDialog-poster {
+        max-width: initial;
+        max-height: initial;
+        width: 10%;
+        margin-bottom: 0;
+    }
+}
+
+@media all and (max-width: 50em) {
+    .upNextDialog-overview {
+        display: none !important;
+    }
+}
+
+.upNextDialog-poster-img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: 100%;
+    -moz-box-shadow: 0 0 1.9vh #000;
+    -webkit-box-shadow: 0 0 1.9vh #000;
+    box-shadow: 0 0 1.9vh #000;
+    border: solid 1px #222;
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}

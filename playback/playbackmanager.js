@@ -3002,6 +3002,24 @@
         return this.getCurrentTicks(player);
     };
 
+    PlaybackManager.prototype.nextItem = function (player) {
+
+        player = player || this._currentPlayer;
+
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.nextItem();
+        }
+
+        var nextItem = this._playQueueManager.getNextItemInfo();
+
+        if (!nextItem || !nextItem.item) {
+            return Promise.reject();
+        }
+
+        var apiClient = connectionManager.getApiClient(nextItem.item.ServerId);
+        return apiClient.getItem(apiClient.getCurrentUserId(), nextItem.item.Id);
+    };
+
     PlaybackManager.prototype.canQueue = function (item) {
 
         if (item.Type === 'MusicAlbum' || item.Type === 'MusicArtist' || item.Type === 'MusicGenre') {

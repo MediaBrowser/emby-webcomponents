@@ -34,7 +34,7 @@ define(['apphost'], function (appHost) {
             var nameSeparator = " - ";
 
             if (options.includeParentInfo !== false) {
-                number = "S" + item.ParentIndexNumber + ", E" + number;
+                number = "S" + item.ParentIndexNumber + ":E" + number;
             } else {
                 nameSeparator = ". ";
             }
