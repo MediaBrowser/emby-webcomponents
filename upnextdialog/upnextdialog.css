@@ -9,7 +9,7 @@
     will-change: transform;
     transition: transform 300ms ease-out, opacity 300ms ease-out;
     background-color: rgba(0, 0, 0, .7);
-    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .8));
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .9));
     color: #fff;
 }
 
