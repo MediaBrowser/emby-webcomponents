@@ -189,7 +189,6 @@
     function onStartNowClick() {
 
         this._playNextOnHide = true;
-
         hideComingUpNext.call(this);
     }
 
@@ -197,6 +196,7 @@
 
         options.parent.innerHTML = getHtml();
 
+        options.parent.classList.add('hide');
         options.parent.classList.add('upNextDialog');
         options.parent.classList.add('upNextDialog-hidden');
 
@@ -242,6 +242,10 @@
 
         clearHideAnimationEventListeners(this, elem);
 
+        if (elem.classList.contains('upNextDialog-hidden')) {
+            return;
+        }
+
         // trigger a reflow to force it to animate again
         void elem.offsetWidth;
 
@@ -280,6 +284,8 @@
         instance._hideTime = new Date().getTime() + timeoutLength;
 
         startCountdownTextTimeout(instance);
+
+        console.log('starting up next timer with length: ' + timeoutLength);
 
         instance._comimgUpNextHideTimeout = setTimeout(hideComingUpNext.bind(instance), timeoutLength);
     }
@@ -338,6 +344,16 @@
 
         this._playNextOnHide = null;
         this.reset();
+
+        var options = this.options;
+
+        if (options) {
+            options.parent.classList.add('hide');
+            options.parent.innerHTML = '';
+            options.parent.classList.remove('upNextDialog');
+            options.parent.classList.remove('upNextDialog-hidden');
+        }
+
         this.options = null;
         this.itemType = null;
         this._hideTime = null;
