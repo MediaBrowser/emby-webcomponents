@@ -1,6 +1,12 @@
 ﻿define(['connectionManager', 'serverNotifications', 'events', 'datetime', 'dom', 'imageLoader', 'loading', 'globalize', 'apphost', 'layoutManager', 'scrollHelper', 'dialogHelper', 'listViewStyle', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'emby-linkbutton'], function (connectionManager, serverNotifications, events, datetime, dom, imageLoader, loading, globalize, appHost, layoutManager, scrollHelper, dialogHelper) {
     'use strict';
 
+    function syncNow() {
+        require(['localsync'], function (localSync) {
+            localSync.sync();
+        });
+    }
+
     function renderJob(context, job, dialogOptions) {
 
         require(['syncDialog'], function (syncDialog) {
@@ -180,6 +186,11 @@
 
         }).then(function () {
 
+            // TODO this should check editor options.isLocalSync
+            if (appHost.supports('sync')) {
+                syncNow();
+            }
+
             loadJob(context, jobId, apiClient);
         });
     }
@@ -193,6 +204,11 @@
                 url: apiClient.getUrl('Sync/JobItems/' + jobItemId + '/MarkForRemoval')
 
             }).then(function () {
+
+                // TODO this should check editor options.isLocalSync
+                if (appHost.supports('sync')) {
+                    syncNow();
+                }
 
                 loadJob(context, jobId, apiClient);
             });
@@ -208,6 +224,11 @@
                 url: apiClient.getUrl('Sync/JobItems/' + jobItemId + '/Enable')
 
             }).then(function () {
+
+                // TODO this should check editor options.isLocalSync
+                if (appHost.supports('sync')) {
+                    syncNow();
+                }
 
                 loadJob(context, jobId, apiClient);
             });
@@ -342,6 +363,11 @@
                     contentType: "application/json"
 
                 }).then(function () {
+
+                    // TODO this should check editor options.isLocalSync
+                    if (appHost.supports('sync')) {
+                        syncNow();
+                    }
 
                     loading.hide();
                     dialogHelper.close(context);
