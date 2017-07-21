@@ -15,6 +15,12 @@
         }
     }
 
+    function syncNow() {
+        require(['localsync'], function (localSync) {
+            localSync.sync();
+        });
+    }
+
     function cancelJob(listInstance, id) {
 
         require(['confirm'], function (confirm) {
@@ -37,6 +43,10 @@
                     type: 'DELETE'
 
                 }).then(function () {
+
+                    if (listInstance.options.isLocalSync) {
+                        syncNow();
+                    }
 
                     fetchData(listInstance);
                 });
