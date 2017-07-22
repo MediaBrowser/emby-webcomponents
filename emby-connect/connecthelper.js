@@ -1,6 +1,14 @@
 define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize, loading, alert) {
     'use strict';
 
+    function resolvePromise() {
+        return Promise.resolve();
+    }
+
+    function rejectPromise() {
+        return Promise.reject();
+    }
+
     function showNewUserInviteMessage(result) {
 
         if (!result.IsNewUserInvitation && !result.IsPending) {
@@ -12,10 +20,6 @@ define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize
         var message = result.IsNewUserInvitation ?
             globalize.translate('sharedcomponents#MessageInvitationSentToNewUser', result.GuestDisplayName) :
             globalize.translate('sharedcomponents#MessageInvitationSentToUser', result.GuestDisplayName);
-
-        var resolvePromise = function () {
-            return Promise.resolve();
-        };
 
         return alert({
 
@@ -48,17 +52,18 @@ define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize
 
             loading.hide();
 
-            var rejectPromise = function () {
-                return Promise.reject();
-            };
+            var statusCode = response ? response.status : 0;
 
-            if (response.status === 404) {
+            if (statusCode === 502) {
+                return showConnectServerUnreachableErrorMessage().then(rejectPromise, rejectPromise);
+            }
+            else if (statusCode === 404) {
                 // User doesn't exist
                 return alert({
                     text: globalize.translate('sharedcomponents#GuestUserNotFound')
                 }).then(rejectPromise, rejectPromise);
 
-            } else if ((response.status || 0) >= 500) {
+            } else if ((statusCode || 0) >= 500) {
 
                 // Unable to reach connect server ?
                 return alert({
@@ -89,12 +94,24 @@ define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize
         });
     }
 
-    function showLinkUserMessage(username) {
+    function showConnectServerUnreachableErrorMessage() {
+
+        var text = globalize.translate('sharedcomponents#ErrorConnectServerUnreachable', 'https://connect.emby.media');
+
+        return alert({
+            text: text
+        });
+    }
+
+    function showLinkUserErrorMessage(username, statusCode) {
 
         var html;
         var text;
 
-        if (username) {
+        if (statusCode === 502) {
+            return showConnectServerUnreachableErrorMessage();
+        }
+        else if (username) {
 
             html = globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
             html += '<br/><br/>' + globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount2', 'apps@emby.media');
@@ -133,18 +150,20 @@ define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize
                     text: globalize.translate('sharedcomponents#MessageEmbyAccontRemoved'),
                     title: globalize.translate('sharedcomponents#HeaderEmbyAccountRemoved'),
 
-                }).catch(function () {
-                    return Promise.resolve();
-                });
+                }).catch(resolvePromise);
 
-            }, function () {
+            }, function (response) {
+
+                var statusCode = response ? response.status : 0;
+
+                if (statusCode === 502) {
+                    return showConnectServerUnreachableErrorMessage().then(rejectPromise);
+                }
 
                 return alert({
                     text: globalize.translate('sharedcomponents#ErrorRemovingEmbyConnectAccount')
 
-                }).then(function () {
-                    return Promise.reject();
-                });
+                }).then(rejectPromise);
             });
 
         }
@@ -167,15 +186,17 @@ define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize
                     text: globalize.translate(msgKey),
                     title: globalize.translate('sharedcomponents#HeaderEmbyAccountAdded'),
 
-                }).catch(function () {
-                    return Promise.resolve();
-                });
+                }).catch(resolvePromise);
 
-            }, function () {
+            }, function (response) {
 
-                return showLinkUserMessage('.').then(function () {
-                    return Promise.reject();
-                });
+                var statusCode = response ? response.status : 0;
+
+                if (statusCode === 502) {
+                    return showConnectServerUnreachableErrorMessage().then(rejectPromise);
+                }
+
+                return showLinkUserErrorMessage('.', statusCode).then(rejectPromise);
             });
 
         } else {
@@ -185,6 +206,8 @@ define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize
 
     return {
         inviteGuest: inviteGuest,
-        updateUserLink: updateUserLink
+        updateUserLink: updateUserLink,
+        showLinkUserErrorMessage: showLinkUserErrorMessage,
+        showConnectServerUnreachableErrorMessage: showConnectServerUnreachableErrorMessage
     };
 });
