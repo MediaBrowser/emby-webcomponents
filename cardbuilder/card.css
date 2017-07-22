@@ -88,7 +88,7 @@ button {
     position: relative;
 }
 
-.cardPadder-backdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop, .cardPadder-overflowSmallBackdrop {
+.cardPadder-backdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop {
     padding-bottom: 56.25%;
 }
 
@@ -590,10 +590,6 @@ button {
     .squareCard-scalable {
         width: 11.111111111111111111111111111111%;
     }
-
-    .smallBackdropCard-scalable {
-        width: 10%;
-    }
 }
 
 @media all and (min-width: 2100px) {
@@ -647,20 +643,12 @@ button {
         width: 72vw;
     }
 
-    .overflowSmallBackdropCard {
-        width: 60%;
-    }
-
     .overflowSquareCard {
         width: 42vw;
     }
 }
 
 @media all and (orientation: landscape) {
-
-    .overflowSmallBackdropCard {
-        width: 18.5vw;
-    }
 
     .overflowBackdropCard {
         width: 23.3vw;
@@ -672,10 +660,6 @@ button {
 }
 
 @media all and (orientation: landscape) and (min-width: 1700px) {
-
-    .overflowSmallBackdropCard {
-        width: 18.5vw;
-    }
 
     .overflowBackdropCard {
         width: 18.5vw;
@@ -698,25 +682,11 @@ button {
     .overflowSquareCard {
         width: 30vw;
     }
-
-    .overflowSmallBackdropCard {
-        width: 40%;
-    }
 }
 
 @media all and (orientation: portrait) and (min-width: 640px) {
     .overflowBackdropCard {
         width: 56vw;
-    }
-
-    .overflowSmallBackdropCard {
-        width: 40%;
-    }
-}
-
-@media all and (orientation: portrait) and (min-width: 770px) {
-    .overflowSmallBackdropCard {
-        width: 30%;
     }
 }
 
@@ -730,20 +700,12 @@ button {
         width: 40vw;
     }
 
-    .overflowSmallBackdropCard {
-        width: 24%;
-    }
-
     .overflowSquareCard {
         width: 22vw;
     }
 }
 
 @media all and (orientation: portrait) and (min-width: 1200px) {
-
-    .overflowSmallBackdropCard {
-        width: 18%;
-    }
 
     .overflowPortraitCard {
         width: 18vw;
@@ -774,10 +736,6 @@ button {
     .overflowBackdropCard {
         width: 23.5vw;
     }
-}
-
-.itemsContainer-tv > .overflowSmallBackdropCard {
-    width: 18vw;
 }
 
 .itemsContainer-tv > .overflowBackdropCard {

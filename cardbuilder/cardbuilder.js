@@ -142,20 +142,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         return 100 / 64;
                     }
                     return 100 / 72;
-                case 'overflowSmallBackdrop':
-                    if (screenWidth >= 1200) {
-                        return 100 / 18;
-                    }
-                    if (screenWidth >= 1000) {
-                        return 100 / 24;
-                    }
-                    if (screenWidth >= 770) {
-                        return 100 / 30;
-                    }
-                    if (screenWidth >= 540) {
-                        return 100 / 40;
-                    }
-                    return 100 / 60;
                 default:
                     return 4;
             }

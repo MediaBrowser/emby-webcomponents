@@ -654,7 +654,7 @@
 
             html += cardBuilder.getCardsHtml({
                 items: userViews,
-                shape: scrollX ? 'overflowSmallBackdrop' : shape,
+                shape: scrollX ? 'overflowBackdrop' : shape,
                 showTitle: true,
                 centerText: true,
                 overlayText: false,

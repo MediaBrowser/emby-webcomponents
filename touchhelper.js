@@ -12,6 +12,9 @@ define(['dom', 'events'], function (dom, events) {
         var touchTarget;
         var touchStartX;
         var touchStartY;
+        var lastDeltaX;
+        var lastDeltaY;
+        var thresholdYMet;
         var self = this;
 
         var swipeXThreshold = options.swipeXThreshold || 50;
@@ -26,6 +29,9 @@ define(['dom', 'events'], function (dom, events) {
             touchTarget = null;
             touchStartX = 0;
             touchStartY = 0;
+            lastDeltaX = null;
+            lastDeltaY = null;
+            thresholdYMet = false;
 
             if (touch) {
 
@@ -64,26 +70,41 @@ define(['dom', 'events'], function (dom, events) {
                     deltaY = 0;
                 }
 
+                var currentDeltaX = lastDeltaX == null ? deltaX : (deltaX - lastDeltaX);
+                var currentDeltaY = lastDeltaY == null ? deltaY : (deltaY - lastDeltaY);
+
+                lastDeltaX = deltaX;
+                lastDeltaY = deltaY;
+
                 if (deltaX > swipeXThreshold && Math.abs(deltaY) < swipeXMaxY) {
                     events.trigger(self, 'swiperight', [touchTarget]);
                 }
                 else if (deltaX < (0 - swipeXThreshold) && Math.abs(deltaY) < swipeXMaxY) {
                     events.trigger(self, 'swipeleft', [touchTarget]);
                 }
-                else if (deltaY < (0 - swipeYThreshold) && Math.abs(deltaX) < swipeXMaxY) {
+                else if ((deltaY < (0 - swipeYThreshold) || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
+
+                    thresholdYMet = true;
+
                     events.trigger(self, 'swipeup', [touchTarget, {
                         deltaY: deltaY,
                         deltaX: deltaX,
                         clientX: clientX,
-                        clientY: clientY
+                        clientY: clientY,
+                        currentDeltaX: currentDeltaX,
+                        currentDeltaY: currentDeltaY
                     }]);
                 }
-                else if (deltaY > swipeYThreshold && Math.abs(deltaX) < swipeXMaxY) {
+                else if ((deltaY > swipeYThreshold || thresholdYMet) && Math.abs(deltaX) < swipeXMaxY) {
+                    thresholdYMet = true;
+
                     events.trigger(self, 'swipedown', [touchTarget, {
                         deltaY: deltaY,
                         deltaX: deltaX,
                         clientX: clientX,
-                        clientY: clientY
+                        clientY: clientY,
+                        currentDeltaX: currentDeltaX,
+                        currentDeltaY: currentDeltaY
                     }]);
                 }
 
@@ -96,6 +117,9 @@ define(['dom', 'events'], function (dom, events) {
                 touchTarget = null;
                 touchStartX = 0;
                 touchStartY = 0;
+                lastDeltaX = null;
+                lastDeltaY = null;
+                thresholdYMet = false;
             }
         };
 

@@ -773,6 +773,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return true;
             }
 
+            if (browser.iOS) {
+                var userAgent = navigator.userAgent.toLowerCase();
+                // works in the browser but not the native app
+                if ((userAgent.indexOf('os 9') !== -1 || userAgent.indexOf('os 8') !== -1) && userAgent.indexOf('safari') === -1) {
+                    return true;
+                }
+            }
+
             return false;
         }
 
