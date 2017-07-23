@@ -119,6 +119,17 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
         return true;
     };
 
+    UserSettings.prototype.enableNextVideoInfoOverlay = function (val) {
+
+        if (val != null) {
+            this.set('enableNextVideoInfoOverlay', val.toString(), false);
+        }
+
+        val = this.get('enableNextVideoInfoOverlay');
+
+        return val !== 'false';
+    };
+
     UserSettings.prototype.enableThemeSongs = function (val) {
 
         if (val != null) {
