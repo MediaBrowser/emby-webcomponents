@@ -151,7 +151,6 @@
                 AirTime: form.querySelector('#txtAirTime').value,
                 Genres: editableListViewValues(form.querySelector("#listGenres")),
                 Tags: editableListViewValues(form.querySelector("#listTags")),
-                Keywords: editableListViewValues(form.querySelector("#listKeywords")),
                 Studios: editableListViewValues(form.querySelector("#listStudios")).map(function (element) { return { Name: element }; }),
 
                 PremiereDate: getDateFromForm(form, '#txtPremiereDate', 'PremiereDate'),
@@ -684,12 +683,6 @@
             showElement('#fldYear', context);
         }
 
-        if (item.Type === "Movie" || item.Type === "Trailer" || item.Type === "BoxSet") {
-            showElement('#keywordsCollapsible', context);
-        } else {
-            hideElement('#keywordsCollapsible', context);
-        }
-
         if (item.MediaType === "Video" && item.Type !== "TvChannel") {
             showElement('#fldSourceType', context);
         } else {
@@ -796,7 +789,6 @@
         populateListView(context.querySelector('#listStudios'), (item.Studios || []).map(function (element) { return element.Name || ''; }));
 
         populateListView(context.querySelector('#listTags'), item.Tags);
-        populateListView(context.querySelector('#listKeywords'), item.Keywords);
 
         var lockData = (item.LockData || false);
         var chkLockData = context.querySelector("#chkLockData");
@@ -1056,7 +1048,6 @@
 
         metadatafields.push({ name: globalize.translate('sharedcomponents#Studios'), value: "Studios" });
         metadatafields.push({ name: globalize.translate('sharedcomponents#Tags'), value: "Tags" });
-        metadatafields.push({ name: globalize.translate('sharedcomponents#Keywords'), value: "Keywords" });
         metadatafields.push({ name: globalize.translate('sharedcomponents#Images'), value: "Images" });
         metadatafields.push({ name: globalize.translate('sharedcomponents#Backdrops'), value: "Backdrops" });
 

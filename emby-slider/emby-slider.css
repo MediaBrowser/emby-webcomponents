@@ -83,7 +83,7 @@ _:-ms-input-placeholder {
     }
 
 .mdl-slider-hoverthumb::-webkit-slider-thumb {
-    margin-left: -.1em;
+    margin-left: -.08em;
     transform: scale(0, 0);
 }
 
