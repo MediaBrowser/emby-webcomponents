@@ -73,6 +73,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return false;
         }
 
+        if (browser.iOS) {
+            var userAgent = navigator.userAgent.toLowerCase();
+            // works in the browser but not the native app
+            if ((userAgent.indexOf('os 9') !== -1 || userAgent.indexOf('os 8') !== -1) && userAgent.indexOf('safari') === -1) {
+                return false;
+            }
+        }
+
         if (track) {
             var format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
