@@ -79,6 +79,7 @@
 
             if (browser.tizen || browser.orsay) {
                 txtSearch.readOnly = true;
+				txtSearch.setAttribute('readonly', 'readonly');
             }
 
             txtSearch.addEventListener('input', onSearchInput.bind(instance));
