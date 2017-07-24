@@ -21,7 +21,7 @@
     text-align: left;
     border: 0;
     text-transform: none;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid currentcolor;
     padding-left: .1em;
     background: transparent;
     box-shadow: none;

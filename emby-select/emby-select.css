@@ -2,7 +2,7 @@
     display: block;
     margin: 0;
     margin-bottom: 0 !important;
-    border: 1px solid #383838;
+    border: 1px solid currentcolor;
     border-width: 0 0 1px 0;
     /* Prefixed box-sizing rules necessary for older browsers */
     -webkit-box-sizing: border-box;

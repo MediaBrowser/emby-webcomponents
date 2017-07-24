@@ -12,10 +12,6 @@
     border: .15em solid transparent;
 }
 
-.cardImageContainer-round {
-    border-color: #fff;
-}
-
 .card-round:focus > .cardBox-focustransform {
     transform: scale(1.26, 1.26);
 }
