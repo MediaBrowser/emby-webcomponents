@@ -336,17 +336,6 @@
 
     function updateRepeatModeDisplay(repeatMode) {
 
-        if (repeatMode === 'RepeatAll') {
-            toggleRepeatButtonIcon.innerHTML = "&#xE040;";
-            toggleRepeatButton.classList.add('repeatActive');
-        }
-        else if (repeatMode === 'RepeatOne') {
-            toggleRepeatButtonIcon.innerHTML = "&#xE041;";
-            toggleRepeatButton.classList.add('repeatActive');
-        } else {
-            toggleRepeatButtonIcon.innerHTML = "&#xE040;";
-            toggleRepeatButton.classList.remove('repeatActive');
-        }
     }
 
     function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {
