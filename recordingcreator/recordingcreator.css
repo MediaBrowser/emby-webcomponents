@@ -1,7 +1,3 @@
-.recordingDialogSubmitIcon {
-    color: #cc3333;
-}
-
 .recordingDialog-imageContainer {
     flex-shrink: 0;
     padding: 1em 1em 1em 0;
@@ -14,10 +10,6 @@
 
 .recordingDialog-itemName {
     margin-top: .7em;
-}
-
-.recordingDialog-btnRecord {
-    background-color: #cc3333;
 }
 
 .recordingDetailsContainer {

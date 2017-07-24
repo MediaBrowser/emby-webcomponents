@@ -11,7 +11,6 @@
 /* Now playing bar */
 .nowPlayingBar {
     /* Above everything, except for the video player and popup overlays */
-    color: #ccc;
     text-align: center;
     will-change: transform;
     contain: layout style;
