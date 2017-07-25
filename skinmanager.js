@@ -158,23 +158,27 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
     }
 
     var themeStyleElement;
-    var currentThemeName;
+    var currentThemeStylesheet;
     function unloadTheme() {
         var elem = themeStyleElement;
         if (elem) {
 
             elem.parentNode.removeChild(elem);
             themeStyleElement = null;
+            currentThemeStylesheet = null;
         }
     }
 
-    function setTheme(name, stylesheetPath) {
-
-        if (name === currentThemeName) {
-            return Promise.resolve();
-        }
+    function setTheme(stylesheetPath) {
 
         return new Promise(function (resolve, reject) {
+
+            var linkUrl = getStylesheetPath(stylesheetPath);
+
+            if (currentThemeStylesheet === linkUrl) {
+                resolve();
+                return;
+            }
 
             unloadTheme();
 
@@ -189,6 +193,7 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
             link.setAttribute('href', linkUrl);
             document.head.appendChild(link);
             themeStyleElement = link;
+            currentThemeStylesheet = linkUrl;
         });
     }
 
