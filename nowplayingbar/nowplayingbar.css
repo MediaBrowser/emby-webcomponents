@@ -1,8 +1,4 @@
-﻿.mediaButton.active {
-    color: #52B54B;
-}
-
-.nowPlayingBarInfoContainer {
+﻿.nowPlayingBarInfoContainer {
     display: flex;
     align-items: center;
     height: 100%;
@@ -59,14 +55,6 @@
     flex-grow: 1;
     font-size: 92%;
     margin-right: 2.4em;
-}
-
-.nowPlayingBarSecondaryText {
-    color: #999;
-}
-
-.repeatActive {
-    color: #52B54B;
 }
 
 @media (min-width: 31.25em) {

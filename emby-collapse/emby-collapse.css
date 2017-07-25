@@ -9,7 +9,6 @@
     transition-property: height;
     transition-duration: 300ms;
     overflow: hidden;
-    background: #222;
 }
 
 .emby-collapsible-button {

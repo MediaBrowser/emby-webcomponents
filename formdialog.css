@@ -11,14 +11,6 @@
     flex-shrink: 0;
 }
 
-.formDialogHeader, .formDialogFooter {
-    background-color: #222326;
-}
-
-.formDialogHeader-clear, .formDialogFooter-clear {
-    background-color: transparent;
-}
-
 .formDialogHeaderTitle {
     margin-left: .25em;
     /* In case of h1, h2, h3 */

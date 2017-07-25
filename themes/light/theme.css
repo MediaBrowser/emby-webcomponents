@@ -30,13 +30,16 @@ a.accent {
     background-color: #fff;
 }
 
-.listItem .secondary {
+.listItemBody .secondary {
     color: #737373;
 }
 
 .skinHeader {
-    background-color: #121212;
     color: #ccc;
+}
+
+.skinHeader-withBackground {
+    background-color: #121212;
 }
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
@@ -99,7 +102,7 @@ a.accent {
 }
 
 .formDialogHeader a {
-    color: #fff !important;
+    color: #fff;
 }
 
 .cardText-secondary {
@@ -113,4 +116,43 @@ a.accent {
 
 .actionSheetMenuItem:hover {
     background-color: #ddd;
+}
+
+.toast {
+    background: #303030;
+    color: #fff;
+}
+
+/* appfooter */
+.appfooter {
+    background: #101010;
+    color: #ccc;
+}
+
+@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
+
+    .appfooter-blurred {
+        background: rgba(24,24,24,.7);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+    }
+}
+
+.nowPlayingBarSecondaryText {
+    color: #999;
+}
+
+/* Multi-select */
+.itemSelectionPanel {
+    border: 1px solid #43A047;
+}
+
+.selectionCommandsPanel {
+    background: #43A047;
+    color: #fff;
+}
+
+/* upNextDialog */
+.upNextDialog-countdownText {
+    color: #52B54B;
 }

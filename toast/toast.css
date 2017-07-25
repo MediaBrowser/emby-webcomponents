@@ -8,8 +8,6 @@
     cursor: default;
     -webkit-transition: -webkit-transform .3s ease-out;
     transition: transform .3s ease-out;
-    background: #303030;
-    color: #fff;
     min-height: initial;
     padding: 1em 1.5em;
     bottom: 1em;

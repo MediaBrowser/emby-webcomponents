@@ -76,7 +76,7 @@ a.accent {
     border-color: #aaa;
 }
 
-.paperList, .visualCardBox {
+.paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
     background-color: #222326;
 }
 
@@ -89,10 +89,49 @@ a.accent {
     opacity: .5;
 }
 
-.listItemBody .secondary {
-    color: #999 !important;
+.listItemBody .secondary, .nowPlayingBarSecondaryText {
+    color: #999;
 }
 
 .actionSheetMenuItem:hover {
     background-color: #222;
+}
+
+.collapseContent {
+    background: #222;
+}
+
+.toast {
+    background: #303030;
+    color: #fff;
+}
+
+/* appfooter */
+.appfooter {
+    background: #101010;
+    color: #ccc;
+}
+
+@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
+
+    .appfooter-blurred {
+        background: rgba(24,24,24,.7);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+    }
+}
+
+/* Multi-select */
+.itemSelectionPanel {
+    border: 1px solid #43A047;
+}
+
+.selectionCommandsPanel {
+    background: #43A047;
+    color: #fff;
+}
+
+/* upNextDialog */
+.upNextDialog-countdownText {
+    color: #52B54B;
 }
