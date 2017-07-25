@@ -33,13 +33,9 @@
     transition: all .2s ease-out;
 }
 
-.textareaLabelFocused {
-    color: #52B54B;
-}
-
 .emby-textarea-selectionbar {
     height: 2px;
-    transform: scale(.01, 1);
+    transform: scale(0, 1);
     transition: transform .25s ease-out;
     position: relative;
     top: -1px;
@@ -49,6 +45,5 @@
 }
 
 .emby-textarea:focus + .emby-textarea-selectionbar {
-    background-color: #52B54B;
     transform: none;
 }

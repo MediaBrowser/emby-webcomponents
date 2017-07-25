@@ -163,16 +163,16 @@ a.accent, .button-link {
     background-color: transparent;
 }
 
-    .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
-        background-color: #52B54B;
-        color: #fff !important;
-    }
+.alphaPickerButton-selected, .alphaPickerButton-tv:focus {
+    background-color: #52B54B;
+    color: #fff !important;
+}
 
 /* listItem */
 .listItem-shaded:nth-child(even) {
     background: #f8f8f8;
 }
 
-.emby-select-selectionbar {
+.emby-select-selectionbar, .emby-textarea-selectionbar {
     background-color: #52B54B;
 }

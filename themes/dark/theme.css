@@ -142,15 +142,15 @@ a.accent {
     background-color: transparent;
 }
 
-    .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
-        background-color: #52B54B;
-        color: #fff !important;
-    }
+.alphaPickerButton-selected, .alphaPickerButton-tv:focus {
+    background-color: #52B54B;
+    color: #fff !important;
+}
 
-.emby-select-selectionbar {
+.emby-select-selectionbar, .emby-textarea-selectionbar {
     background-color: #52B54B;
 }
 
-.selectLabelFocused {
+.selectLabelFocused, .textareaLabelFocused {
     color: #52B54B;
 }
