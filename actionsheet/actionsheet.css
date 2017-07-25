@@ -5,18 +5,11 @@
     border: none;
     max-height: 84%;
     border-radius: 1px !important;
-    color: #fff;
 }
 
 .actionsheet-not-fullscreen {
-    background-color: #121314;
     max-width: 90%;
     max-height: 90%;
-    color: #eee;
-}
-
-.actionSheetMenuItem:hover {
-    background-color: #222;
 }
 
 .actionsheet-fullscreen {

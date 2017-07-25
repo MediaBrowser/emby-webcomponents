@@ -110,3 +110,7 @@ a.accent {
     color: inherit;
     opacity: .5;
 }
+
+.actionSheetMenuItem:hover {
+    background-color: #ddd;
+}
