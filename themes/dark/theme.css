@@ -3,7 +3,7 @@ html {
 }
 
 .emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
-    border-color: #383838 !important;
+    border-color: #383838;
 }
 
 a.accent {

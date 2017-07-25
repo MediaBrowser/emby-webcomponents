@@ -18,9 +18,9 @@
     text-transform: none;
     width: 100%;
     text-align: left;
-    border: 0;
     text-transform: none;
-    border-bottom: 1px solid currentcolor;
+    border-width: 0 0 1px 0;
+    border-style: solid;
     padding-left: .1em;
     background: transparent;
     box-shadow: none;
