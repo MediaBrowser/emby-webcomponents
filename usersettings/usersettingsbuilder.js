@@ -122,7 +122,7 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
     UserSettings.prototype.enableNextVideoInfoOverlay = function (val) {
 
         if (val != null) {
-            this.set('enableNextVideoInfoOverlay', val.toString(), false);
+            this.set('enableNextVideoInfoOverlay', val.toString());
         }
 
         val = this.get('enableNextVideoInfoOverlay');
