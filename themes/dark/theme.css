@@ -146,3 +146,11 @@ a.accent {
         background-color: #52B54B;
         color: #fff !important;
     }
+
+.emby-select-selectionbar {
+    background-color: #52B54B;
+}
+
+.selectLabelFocused {
+    color: #52B54B;
+}

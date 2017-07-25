@@ -172,3 +172,7 @@ a.accent, .button-link {
 .listItem-shaded:nth-child(even) {
     background: #f8f8f8;
 }
+
+.emby-select-selectionbar {
+    background-color: #52B54B;
+}
