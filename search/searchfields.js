@@ -64,6 +64,10 @@
 
             var html = globalize.translateDocument(template, 'sharedcomponents');
 
+            if (browser.tizen || browser.orsay) {
+                html = html.replace('<input ', '<input readonly ');
+            }
+
             elem.innerHTML = html;
 
             elem.classList.add('searchFields');
@@ -75,11 +79,6 @@
 
                 elem.querySelector('.alphaPicker').classList.remove('hide');
                 initAlphaPicker(alphaPickerElement, instance);
-            }
-
-            if (browser.tizen || browser.orsay) {
-                txtSearch.readOnly = true;
-				txtSearch.setAttribute('readonly', 'readonly');
             }
 
             txtSearch.addEventListener('input', onSearchInput.bind(instance));
