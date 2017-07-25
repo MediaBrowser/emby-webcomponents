@@ -18,10 +18,6 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         var alphaPickerButtonClassName = 'alphaPickerButton';
 
-        if (layoutManager.tv) {
-            alphaPickerButtonClassName += ' alphaPickerButton-tv';
-        }
-
         return alphaPickerButtonClassName;
     }
 

@@ -25,7 +25,6 @@
     border: 0 !important;
     cursor: pointer;
     outline: none !important;
-    color: inherit;
     vertical-align: middle;
     font-family: inherit;
     font-size: inherit;
@@ -35,7 +34,6 @@
     width: auto;
     border-radius: .1em;
     font-weight: normal;
-    color: #aaa;
     flex-shrink: 0;
     flex-grow: 1;
 }
@@ -50,14 +48,4 @@
     width: 3.3vh;
     height: 3.3vh;
     font-size: 3.3vh;
-}
-
-.alphaPickerButton-selected {
-    background-color: #52B54B;
-    color: #fff;
-}
-
-.alphaPickerButton-tv:focus {
-    background-color: #52B54B;
-    color: #fff;
 }

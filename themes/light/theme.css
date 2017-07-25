@@ -156,3 +156,13 @@ a.accent {
 .upNextDialog-countdownText {
     color: #52B54B;
 }
+
+/* alphaPicker */
+.alphaPickerButton {
+    color: #999;
+}
+
+.alphaPickerButton-selected, .alphaPickerButton:focus {
+    background-color: #52B54B;
+    color: #fff;
+}
