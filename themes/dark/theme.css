@@ -142,7 +142,7 @@ a.accent {
     background-color: transparent;
 }
 
-    .alphaPickerButton-selected, .alphaPickerButton:focus {
+    .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
         background-color: #52B54B;
         color: #fff !important;
     }
