@@ -188,8 +188,6 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
             link.setAttribute('type', 'text/css');
             link.onload = resolve;
 
-            var linkUrl = getStylesheetPath(stylesheetPath);
-
             link.setAttribute('href', linkUrl);
             document.head.appendChild(link);
             themeStyleElement = link;
