@@ -1,4 +1,4 @@
-define(['playbackManager', 'userSettings'], function (playbackManager, userSettings) {
+define(['playbackManager', 'userSettings', 'connectionManager'], function (playbackManager, userSettings, connectionManager) {
     'use strict';
 
     var currentOwnerId;
@@ -51,21 +51,17 @@ define(['playbackManager', 'userSettings'], function (playbackManager, userSetti
 
     function loadThemeMedia(item) {
 
-        require(['connectionManager'], function (connectionManager) {
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+        apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {
 
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-            apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {
+            var ownerId = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.OwnerId : themeMediaResult.ThemeSongsResult.OwnerId;
 
-                var ownerId = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.OwnerId : themeMediaResult.ThemeSongsResult.OwnerId;
+            if (ownerId !== currentOwnerId) {
 
-                if (ownerId !== currentOwnerId) {
+                var items = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.Items : themeMediaResult.ThemeSongsResult.Items;
 
-                    var items = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.Items : themeMediaResult.ThemeSongsResult.Items;
-
-                    playThemeMedia(items, ownerId);
-                }
-            });
-
+                playThemeMedia(items, ownerId);
+            }
         });
     }
 

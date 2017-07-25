@@ -1510,9 +1510,10 @@
                     ParentId: firstItem.ParentId,
                     Filters: "IsNotFolder",
                     // Setting this to true may cause some incorrect sorting
-                    Recursive: true,
+                    Recursive: false,
                     SortBy: "SortName",
-                    MediaTypes: "Photo,Video"
+                    MediaTypes: "Photo,Video",
+                    Limit: 300
 
                 }).then(function (result) {
 
