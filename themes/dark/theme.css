@@ -6,17 +6,16 @@ html {
     border-color: #383838 !important;
 }
 
-.secondaryText {
-    color: #aaa;
-}
-
 a.accent {
     color: #52B54B !important;
 }
 
 .skinHeader {
-    background-color: #121212;
     color: #ccc;
+}
+
+.skinHeader-withBackground {
+    background-color: #121212;
 }
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
@@ -38,7 +37,6 @@ a.accent {
     background-image: -o-linear-gradient(top,rgba(0,0,0,.7) 10%,rgba(0,0,0,0));
     background-image: linear-gradient(to bottom,rgba(0,0,0,.7) 10%,rgba(0,0,0,0));
 }
-
 
 .dialog {
     background-color: #191919;
@@ -70,8 +68,12 @@ a.accent {
 }
 
 
-.paperListLabel, .fieldDescription, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused {
+.paperListLabel, .fieldDescription, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .secondaryText, .checkboxLabel, .inputLabel {
     color: #aaa;
+}
+
+.checkboxOutline {
+    border-color: #aaa;
 }
 
 .paperList, .visualCardBox {
@@ -85,6 +87,10 @@ a.accent {
 .visualCardBox .cardText-secondary {
     color: inherit;
     opacity: .5;
+}
+
+.listItemBody .secondary {
+    color: #999 !important;
 }
 
 .actionSheetMenuItem:hover {
