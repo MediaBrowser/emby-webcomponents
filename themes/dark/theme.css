@@ -138,10 +138,11 @@ a.accent {
 
 /* alphaPicker */
 .alphaPickerButton {
-    color: #999;
+    color: #777;
+    background-color: transparent;
 }
 
-.alphaPickerButton-selected, .alphaPickerButton:focus {
-    background-color: #52B54B;
-    color: #fff;
-}
+    .alphaPickerButton-selected, .alphaPickerButton:focus {
+        background-color: #52B54B;
+        color: #fff !important;
+    }

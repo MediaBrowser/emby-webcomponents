@@ -1,5 +1,5 @@
 html {
-    color: #222;
+    color: #333;
 }
 
 .emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
@@ -10,8 +10,8 @@ html {
     background-color: #fff;
 }
 
-a.accent {
-    color: #52B54B !important;
+a.accent, .button-link {
+    color: green !important;
 }
 
 .secondaryText {
@@ -159,10 +159,16 @@ a.accent {
 
 /* alphaPicker */
 .alphaPickerButton {
-    color: #999;
+    color: #777;
+    background-color: transparent;
 }
 
-.alphaPickerButton-selected, .alphaPickerButton:focus {
-    background-color: #52B54B;
-    color: #fff;
+    .alphaPickerButton-selected, .alphaPickerButton:focus {
+        background-color: #52B54B;
+        color: #fff !important;
+    }
+
+/* listItem */
+.listItem-shaded:nth-child(even) {
+    background: #f8f8f8;
 }
