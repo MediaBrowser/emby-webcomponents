@@ -488,7 +488,7 @@ define(['browser'], function (browser) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: browser.iOS || browser.osx ? true : false
+                BreakOnNonKeyFrames: browser.iOS || browser.osx || !canPlayNativeHls() ? true : false
             });
         }
 
@@ -553,7 +553,7 @@ define(['browser'], function (browser) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: browser.iOS || browser.osx ? true : false
+                BreakOnNonKeyFrames: browser.iOS || browser.osx || !canPlayNativeHls() ? true : false
             });
         }
 
