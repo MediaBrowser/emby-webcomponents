@@ -2,6 +2,10 @@ html {
     color: #333;
 }
 
+a, button, input, select, textarea {
+    outline: 0 !important;
+}
+
 .emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
     border-color: #ccc;
 }
