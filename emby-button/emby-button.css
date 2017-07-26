@@ -31,10 +31,6 @@
     text-decoration: none;
 }
 
-    .emby-button:focus {
-        outline: none !important;
-    }
-
     .emby-button::-moz-focus-inner {
         border: 0;
     }
@@ -155,7 +151,6 @@
     font-size: inherit;
     font-family: inherit;
     color: inherit;
-    outline-width: 0;
     -moz-user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;

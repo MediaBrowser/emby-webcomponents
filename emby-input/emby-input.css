@@ -18,12 +18,17 @@
     color: inherit;
     padding: .35em 0 .3em 0;
     outline: none !important;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
     width: 100%;
     background-color: transparent;
     border-radius: 0;
     /* Ensure it is over the label so that it can be clicked */
     position: relative;
 }
+
+    .emby-input::-moz-focus-inner {
+        border: 0;
+    }
 
 .inputContainer {
     margin-bottom: 1.8em;
