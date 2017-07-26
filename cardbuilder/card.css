@@ -126,6 +126,7 @@ button {
 
 .card-focuscontent {
     border: .12em solid transparent;
+    border-radius: .25em;
 }
 
 .cardBox-focustransform {
@@ -184,12 +185,6 @@ button {
     color: inherit;
     /* This is only needed for scalable cards */
     height: 100%;
-    border-radius: .2em;
-}
-
-.visualCardBox .cardImageContainer {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
 }
 
 .chapterCardImageContainer {
@@ -224,8 +219,16 @@ button {
     bottom: 0;
     /* Needed in case this is a button */
     display: block;
+    /* Needed in case this is a button */
+    margin: 0 !important;
     /* Needed in safari */
     height: 100%;
+    border-radius: .2em;
+}
+
+.visualCardBox .cardContent {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .cardContent-shadow {
@@ -409,8 +412,7 @@ button {
 }
 
 .cardOverlayButton {
-    color: #fff !important;
-    background-color: rgba(0,0,0,.7) !important;
+    color: rgba(255, 255, 255, .76) !important;
     border-radius: 100em;
     position: absolute;
     bottom: 0;
@@ -418,10 +420,13 @@ button {
     margin: 0 .35em .65em 0;
     z-index: 1;
     padding: .4em;
+    background-color: rgba(0,0,0,.4) !important;
+    border: 2px solid rgba(255,255,255,.6);
+    font-size: 92%;
 }
 
 .cardOverlayButton-mini {
-    font-size: 82%;
+    font-size: 80%;
 }
 
 .defaultCardColor1 {

@@ -1,5 +1,5 @@
 html {
-    color: #333;
+    color: #222;
 }
 
 a, button, input, select, textarea {
@@ -40,6 +40,7 @@ a, button, input, select, textarea {
 
 .skinHeader {
     color: #ccc;
+    /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
 }
 
 .skinHeader-withBackground {
@@ -67,7 +68,8 @@ a, button, input, select, textarea {
 }
 
 .backgroundContainer {
-    background-color: #f6f6f6;
+    background-color: #EFEFF1;
+    /*background-image: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);*/
 }
 
 .dialog {
@@ -163,7 +165,7 @@ a, button, input, select, textarea {
 
 /* alphaPicker */
 .alphaPickerButton {
-    color: #777;
+    color: #666;
     background-color: transparent;
 }
 
