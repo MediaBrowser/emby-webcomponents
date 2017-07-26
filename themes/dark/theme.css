@@ -6,10 +6,6 @@ html {
     border-color: #383838;
 }
 
-a.accent {
-    color: #52B54B !important;
-}
-
 .skinHeader {
     color: #ccc;
 }
@@ -70,6 +66,10 @@ a.accent {
 
 .paperListLabel, .fieldDescription, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .secondaryText, .checkboxLabel, .inputLabel {
     color: #aaa;
+}
+
+.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
+    color: #52B54B;
 }
 
 .checkboxOutline {
@@ -147,10 +147,28 @@ a.accent {
     color: #fff !important;
 }
 
-.emby-select-selectionbar, .emby-textarea-selectionbar {
+.emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
     background-color: #52B54B;
 }
 
-.selectLabelFocused, .textareaLabelFocused {
+.listItem-shaded:nth-child(even) {
+    background: #1c1c1c;
+    background: rgba(30, 30, 30, .9);
+}
+
+.progressring-spiner {
+    border-color: #52B54B;
+}
+
+.fab {
+    background-color: #404040;
+    color: #fff;
+}
+
+.button-link {
+    color: #52B54B;
+}
+
+.button-flat-accent {
     color: #52B54B;
 }

@@ -53,7 +53,6 @@
     box-shadow: none;
     margin: 0;
     padding: 0;
-    color: #52B54B;
     vertical-align: initial;
     font-weight: normal;
 }
@@ -61,10 +60,6 @@
     .button-link:hover {
         text-decoration: underline;
     }
-
-.button-flat-accent {
-    color: #52B54B;
-}
 
 .emby-button-focusscale {
     transition: transform 180ms ease-out !important;
@@ -91,13 +86,11 @@
 .fab {
     display: inline-flex;
     border-radius: 50%;
-    background-color: #404040;
     padding: .6em;
     box-sizing: border-box;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: #fff;
     margin: 0;
 }
 
@@ -127,12 +120,12 @@
 }
 
 .raised, .fab {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 .145em .145em 0 rgba(0, 0, 0, 0.14), 0 0.0725em 0.3625em 0 rgba(0, 0, 0, 0.12), 0 0.2175em 0.0725em -.145em rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
     .raised:focus, .fab:focus {
-        box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0.58em 0.725em 0.0725em rgba(0, 0, 0, 0.14), 0 0.2175em 1.015em .145em rgba(0, 0, 0, 0.12), 0 0.3625em 0.3625em -0.2175em rgba(0, 0, 0, 0.4);
     }
 
 .raised-mini {

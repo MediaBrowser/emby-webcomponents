@@ -1,4 +1,4 @@
-﻿define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement'], function (layoutManager, browser) {
+﻿define(['layoutManager', 'browser', 'css!./emby-textarea', 'registerElement', 'emby-input'], function (layoutManager, browser) {
     'use strict';
 
     function autoGrow(textarea, maxLines) {
@@ -122,7 +122,7 @@
         parentNode.insertBefore(label, this);
 
         var div = document.createElement('div');
-        div.classList.add('emby-textarea-selectionbar');
+        div.classList.add('emby-input-selectionbar');
         parentNode.insertBefore(div, this.nextSibling);
 
         this.addEventListener('focus', function () {

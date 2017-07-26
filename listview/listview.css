@@ -74,11 +74,6 @@
     padding-left: 0;
 }
 
-.listItem-shaded:nth-child(even) {
-    background: #1c1c1c;
-    background: rgba(30, 30, 30, .9);
-}
-
 .three-line {
     min-height: 6.3em;
     padding-top: 0;
@@ -193,10 +188,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-}
-
-.listItem .secondary {
-    color: #888;
 }
 
 .listItem:focus .secondary {

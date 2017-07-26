@@ -51,7 +51,8 @@
     width: 200%;
     height: 200%;
     border-radius: 50%;
-    border: .25em solid #52B54B;
+    border-width: .25em;
+    border-style: solid;
     box-sizing: border-box;
 }
 
