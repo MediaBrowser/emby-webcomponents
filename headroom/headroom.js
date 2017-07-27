@@ -177,7 +177,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 var classList = this.elems[i].classList;
 
                 classList.remove(unpinnedClass);
-                classList.remove(pinnedClass);
+                //classList.remove(pinnedClass);
             }
         },
 
@@ -221,7 +221,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 var classList = this.elems[i].classList;
 
                 classList.add(unpinnedClass);
-                classList.remove(pinnedClass);
+                //classList.remove(pinnedClass);
             }
         },
 
@@ -292,7 +292,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 if (currentScrollY && layoutManager.tv) {
                     this.unpin();
                 } else {
-                    this.pin();
+                    this.clear();
                 }
             } else if (layoutManager.tv) {
                 this.clear();
