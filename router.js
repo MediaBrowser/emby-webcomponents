@@ -113,7 +113,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
 
         var url;
 
-        if (typeof (route.contentPath) === 'function') {
+        if (route.contentPath && typeof (route.contentPath) === 'function') {
             url = route.contentPath(ctx.querystring);
         } else {
             url = route.contentPath || route.path;
