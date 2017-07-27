@@ -43,6 +43,25 @@ html {
     /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
 }
 
+    .skinHeader-withBackground::after {
+        position: absolute;
+        right: 0px;
+        bottom: -5px;
+        left: 0px;
+        width: 100%;
+        height: 5px;
+        content: "";
+        transition: opacity 0.4s;
+        pointer-events: none;
+        box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+        will-change: opacity;
+        opacity: 0;
+    }
+
+    .skinHeader-withBackground.headroom--pinned::after {
+        opacity: 1;
+    }
+
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
 
     .skinHeader-blurred {
@@ -212,4 +231,26 @@ html {
 
 .emby-checkbox:checked + span + span + .checkboxOutline > .checkboxOutlineTick {
     background-color: #52B54B;
+}
+
+/* indicators */
+.itemProgressBarForeground {
+    background-color: #52B54B;
+}
+
+.itemProgressBarForeground-recording {
+    background-color: #CB272A;
+}
+
+.countIndicator {
+    background: #52B54B;
+}
+
+.playedIndicator {
+    background: #52B54B;
+}
+
+.fullSyncIndicator {
+    background: #52B54B;
+    color: #fff;
 }

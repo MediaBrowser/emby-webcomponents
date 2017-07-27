@@ -72,6 +72,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         this.initialClass = options.initialClass;
         this.unPinnedClass = options.unPinnedClass;
+        this.pinnedClass = options.pinnedClass;
 
         this.state = 'clear';
     }
@@ -104,7 +105,10 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         remove: function (elem) {
 
-            elem.classList.remove(this.unPinnedClass, this.initialClass);
+            elem.classList.remove(this.unPinnedClass);
+            elem.classList.remove(this.initialClass);
+            elem.classList.remove(this.pinnedClass);
+
             var i = this.elems.indexOf(elem);
             if (i !== -1) {
                 this.elems.splice(i, 1);
@@ -119,7 +123,12 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             this.initialised = false;
 
             for (var i = 0, length = this.elems.length; i < length; i++) {
-                this.elems[i].classList.remove(this.unPinnedClass, this.initialClass);
+
+                var classList = this.elems[i].classList;
+
+                classList.remove(this.unPinnedClass);
+                classList.remove(this.initialClass);
+                classList.remove(this.pinnedClass);
             }
 
             var scrollEventName = this.scroller.getScrollEventName ? this.scroller.getScrollEventName() : 'scroll';
@@ -161,10 +170,36 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             this.state = 'clear';
 
+            var unpinnedClass = this.unPinnedClass;
+            var pinnedClass = this.pinnedClass;
+
             for (var i = 0, length = this.elems.length; i < length; i++) {
                 var classList = this.elems[i].classList;
 
-                classList.remove(this.unPinnedClass);
+                classList.remove(unpinnedClass);
+                classList.remove(pinnedClass);
+            }
+        },
+
+        /**
+         * Unpins the header if it's currently pinned
+         */
+        pin: function () {
+
+            if (this.state === 'pin') {
+                return;
+            }
+
+            this.state = 'pin';
+
+            var unpinnedClass = this.unPinnedClass;
+            var pinnedClass = this.pinnedClass;
+
+            for (var i = 0, length = this.elems.length; i < length; i++) {
+                var classList = this.elems[i].classList;
+
+                classList.remove(unpinnedClass);
+                classList.add(pinnedClass);
             }
         },
 
@@ -179,10 +214,14 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             this.state = 'unpin';
 
+            var unpinnedClass = this.unPinnedClass;
+            var pinnedClass = this.pinnedClass;
+
             for (var i = 0, length = this.elems.length; i < length; i++) {
                 var classList = this.elems[i].classList;
 
-                classList.add(this.unPinnedClass);
+                classList.add(unpinnedClass);
+                classList.remove(pinnedClass);
             }
         },
 
@@ -253,7 +292,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 if (currentScrollY && layoutManager.tv) {
                     this.unpin();
                 } else {
-                    this.clear();
+                    this.pin();
                 }
             } else if (layoutManager.tv) {
                 this.clear();
@@ -270,7 +309,8 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         offset: 0,
         scroller: window,
         initialClass: 'headroom',
-        unPinnedClass: 'headroom--unpinned'
+        unPinnedClass: 'headroom--unpinned',
+        pinnedClass: 'headroom--pinned'
     };
 
     return Headroom;

@@ -10,11 +10,6 @@
     top: 0;
     left: 0;
     bottom: 0;
-    background-color: #52B54B;
-}
-
-.itemProgressBarForeground-recording {
-    background-color: #CB272A;
 }
 
 .indicator {
@@ -47,7 +42,6 @@
 }
 
 .countIndicator {
-    background: rgba(82,181,75,1);
     border-radius: 500px;
     display: -webkit-flex;
     display: flex;
@@ -60,7 +54,6 @@
 }
 
 .playedIndicator {
-    background: rgba(82,181,75,1);
     border-radius: 500px;
     display: -webkit-flex;
     display: flex;
@@ -84,15 +77,10 @@
 }
 
 .syncIndicator {
-    color: #fff;
     border-radius: 500px;
 }
 
 .emptySyncIndicator {
     background: #ccc;
     color: #333;
-}
-
-.fullSyncIndicator {
-    background: rgba(82,181,75,1);
 }
