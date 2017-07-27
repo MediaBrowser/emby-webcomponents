@@ -43,11 +43,10 @@
 
         this.setAttribute('data-embycheckbox', 'true');
 
-        this.classList.add('mdl-checkbox__input');
+        this.classList.add('emby-checkbox');
 
         var labelElement = this.parentNode;
-        labelElement.classList.add('mdl-checkbox');
-        labelElement.classList.add('mdl-js-checkbox');
+        labelElement.classList.add('emby-checkbox-label');
 
         var labelTextElement = labelElement.querySelector('span');
 
@@ -58,7 +57,7 @@
             outlineClass += ' ' + customClass;
         }
 
-        labelElement.insertAdjacentHTML('beforeend', '<span class="mdl-checkbox__focus-helper"></span><span class="' + outlineClass + '"><span class="mdl-checkbox__tick-outline"></span></span>');
+        labelElement.insertAdjacentHTML('beforeend', '<span class="emby-checkbox-focushelper"></span><span class="' + outlineClass + '"><span class="checkboxOutlineTick"></span></span>');
 
         labelTextElement.classList.add('checkboxLabel');
 
@@ -80,6 +79,24 @@
                 passive: true
             });
         }
+    };
+
+    EmbyCheckboxPrototype.detachedCallback = function () {
+
+        this.removeEventListener('keydown', onKeyDown);
+
+        dom.removeEventListener(this, 'click', forceRefresh, {
+            passive: true
+        });
+        dom.removeEventListener(this, 'blur', forceRefresh, {
+            passive: true
+        });
+        dom.removeEventListener(this, 'focus', forceRefresh, {
+            passive: true
+        });
+        dom.removeEventListener(this, 'change', forceRefresh, {
+            passive: true
+        });
     };
 
     document.registerElement('emby-checkbox', {

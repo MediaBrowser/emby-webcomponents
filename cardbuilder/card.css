@@ -382,7 +382,7 @@ button {
     z-index: 1;
     padding: .4em;
     background-color: rgba(0,0,0,.4) !important;
-    border: 2px solid rgba(255,255,255,.6);
+    border: 2px solid rgba(255,255,255,.5);
     font-size: 80%;
 }
 

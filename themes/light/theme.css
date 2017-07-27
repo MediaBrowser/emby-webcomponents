@@ -18,7 +18,7 @@ html {
     color: #555;
 }
 
-.inputLabelFocused, .textareaLabelFocused, .selectLabelFocused {
+.inputLabelFocused, .textareaLabelFocused, .selectLabelFocused, .button-link, .button-flat-accent {
     color: green;
 }
 
@@ -146,11 +146,11 @@ html {
 
 /* Multi-select */
 .itemSelectionPanel {
-    border: 1px solid #43A047;
+    border: 1px solid #52B54B;
 }
 
 .selectionCommandsPanel {
-    background: #43A047;
+    background: #52B54B;
     color: #fff;
 }
 
@@ -188,14 +188,6 @@ html {
     color: #222;
 }
 
-.button-link {
-    color: green;
-}
-
-.button-flat-accent {
-    color: green;
-}
-
 .mediaInfoText {
     color: #333;
     background: #fff;
@@ -207,4 +199,17 @@ html {
 
 .mediaInfoTimerIcon {
     color: #CB272A;
+}
+
+/* checkbox */
+.emby-checkbox:checked + span + span + .checkboxOutline {
+    border-color: #52B54B;
+}
+
+.emby-checkbox:focus + span + .emby-checkbox-focushelper {
+    background-color: rgba(82, 181, 75, 0.26);
+}
+
+.emby-checkbox:checked + span + span + .checkboxOutline > .checkboxOutlineTick {
+    background-color: #52B54B;
 }
