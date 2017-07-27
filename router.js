@@ -111,7 +111,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
 
     function loadContentUrl(ctx, next, route, request) {
 
-        var url = route.contentPath || route.path;
+        var url;
+
+        if (typeof (route.contentPath) === 'function') {
+            url = route.contentPath(ctx.querystring);
+        } else {
+            url = route.contentPath || route.path;
+        }
 
         if (url.indexOf('://') === -1) {
 

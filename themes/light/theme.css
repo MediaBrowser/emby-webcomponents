@@ -36,11 +36,11 @@ html {
 
 .skinHeader {
     color: #ccc;
-    /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
 }
 
 .skinHeader-withBackground {
     background-color: #121212;
+    /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
 }
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
@@ -194,4 +194,17 @@ html {
 
 .button-flat-accent {
     color: green;
+}
+
+.mediaInfoText {
+    color: #333;
+    background: #fff;
+}
+
+.starIcon {
+    color: #CB272A;
+}
+
+.mediaInfoTimerIcon {
+    color: #CB272A;
 }

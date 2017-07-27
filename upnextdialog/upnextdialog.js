@@ -280,14 +280,23 @@
         stopComingUpNextHideTimer(instance);
         instance._playNextOnHide = true;
 
-        var timeoutLength = instance.options.countdownMs;
-        instance._hideTime = new Date().getTime() + timeoutLength;
+        var now = new Date().getTime();
+
+        var timeRemainingMs = instance.options.endTimeMs - now;
+
+        if (timeRemainingMs <= 0) {
+            return;
+        }
+
+        var countdownMs = Math.min(timeRemainingMs, 15000);
+
+        instance._hideTime = now + countdownMs;
 
         startCountdownTextTimeout(instance);
 
-        console.log('starting up next timer with length: ' + timeoutLength);
+        console.log('starting up next timer with length: ' + countdownMs);
 
-        instance._comimgUpNextHideTimeout = setTimeout(hideComingUpNext.bind(instance), timeoutLength);
+        instance._comimgUpNextHideTimeout = setTimeout(hideComingUpNext.bind(instance), countdownMs);
     }
 
     function stopComingUpNextHideTimer(instance) {
