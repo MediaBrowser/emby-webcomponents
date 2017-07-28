@@ -247,6 +247,20 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                                 onErrorInternal('network');
                             }
 
+                        } else if (data.response && data.response.code === 0) {
+
+                            // This could be a CORS error related to access control response headers
+
+                            console.log('hls.js response error code: ' + data.response.code);
+
+                            // Trigger failure differently depending on whether this is prior to start of playback, or after
+                            if (reject) {
+                                reject();
+                                reject = null;
+                            } else {
+                                onErrorInternal('network');
+                            }
+
                         } else {
                             console.log("fatal network error encountered, try to recover");
                             hls.startLoad();
@@ -260,6 +274,8 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                         handleMediaError(instance, currentReject);
                         break;
                     default:
+
+                        console.log('Cannot recover from hls error - destroy and trigger error');
                         // cannot recover
                         // Trigger failure differently depending on whether this is prior to start of playback, or after
                         hls.destroy();

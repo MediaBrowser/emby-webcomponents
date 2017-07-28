@@ -1,4 +1,4 @@
-﻿define(['cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton'], function (cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
+﻿define(['cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
     'use strict';
 
     function getDefaultSection(index) {
@@ -572,7 +572,7 @@
         }) : Promise.resolve([]);
 
         return promise.then(function (items) {
-            
+
             var html = '';
 
             html += '<div class="verticalSection">';
@@ -660,7 +660,8 @@
                 overlayText: false,
                 lazy: true,
                 transition: false,
-                allowBottomPadding: !scrollX
+                allowBottomPadding: !scrollX,
+                cardClass: scrollX ? 'overflowHomeLibraryCard' : null
             });
 
             if (scrollX) {
