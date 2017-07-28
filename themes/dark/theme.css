@@ -63,8 +63,11 @@ html {
     color: #fff;
 }
 
+.checkboxLabel {
+    color: inherit;
+}
 
-.paperListLabel, .fieldDescription, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .secondaryText, .checkboxLabel, .inputLabel {
+.paperListLabel, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .secondaryText, .inputLabel, .fieldDescription {
     color: #aaa;
 }
 

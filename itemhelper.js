@@ -1,4 +1,4 @@
-define(['apphost'], function (appHost) {
+define(['apphost', 'globalize'], function (appHost, globalize) {
     'use strict';
 
     function getDisplayName(item, options) {
@@ -24,7 +24,7 @@ define(['apphost'], function (appHost) {
         }
         if (/*options.isInlineSpecial &&*/ item.Type === "Episode" && item.ParentIndexNumber === 0) {
 
-            name = Globalize.translate('sharedcomponents#ValueSpecialEpisodeName', name);
+            name = globalize.translate('sharedcomponents#ValueSpecialEpisodeName', name);
 
         } else if ((item.Type === "Episode" || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
 
