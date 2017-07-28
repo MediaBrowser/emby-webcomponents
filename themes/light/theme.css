@@ -235,3 +235,21 @@ html {
     background: #52B54B;
     color: #fff;
 }
+
+/* main nav drawer */
+.mainDrawer {
+    background: #fff;
+}
+
+.navMenuDivider {
+    background: #eaeaea;
+}
+
+.navMenuOption:hover {
+    background: #f2f2f2;
+}
+
+.navMenuOption-selected {
+    background: #52B54B !important;
+    color: #fff;
+}

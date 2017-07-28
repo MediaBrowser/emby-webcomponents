@@ -381,8 +381,7 @@ button {
     margin: 0 .35em .65em 0;
     z-index: 1;
     padding: .4em;
-    background-color: rgba(0,0,0,.4) !important;
-    border: 2px solid rgba(255,255,255,.5);
+    background-color: rgba(0,0,0,.7) !important;
     font-size: 68%;
 }
 
