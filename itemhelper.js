@@ -187,7 +187,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return item.SupportsSync;
         },
 
-        canShare: function (user, item) {
+        canShare: function (item, user) {
 
             if (item.Type === 'Program') {
                 return false;
@@ -225,7 +225,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 }
             }
 
-            if (item.MediaType === 'Audio') {
+            else if (item.MediaType === 'Audio') {
                 if (item.Type === 'AudioPodcast') {
                     return true;
                 }

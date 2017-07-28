@@ -203,7 +203,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         }
 
         if (options.share !== false) {
-            if (itemHelper.canShare(user, item)) {
+            if (itemHelper.canShare(item, user)) {
                 commands.push({
                     name: globalize.translate('sharedcomponents#Share'),
                     id: 'share'
