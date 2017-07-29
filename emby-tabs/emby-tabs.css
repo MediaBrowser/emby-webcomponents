@@ -17,7 +17,6 @@
     line-height: initial;
     border-radius: 0 !important;
     overflow: hidden;
-    color: #999;
     font-weight: 500;
 }
 
@@ -26,16 +25,16 @@
         font-weight: 400;
     }
 
-.emby-tab-button-active {
+/*.emby-tab-button-active {
     color: #52B54B;
 }
 
     .emby-tab-button-active.emby-button-tv {
         color: #fff;
-    }
+    }*/
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #52B54B;
+    /*color: #52B54B;*/
     transform: scale(1.26);
 }
 

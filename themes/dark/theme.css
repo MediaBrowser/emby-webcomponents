@@ -242,3 +242,34 @@ html {
     background: #252528 !important;
     color: #52B54B;
 }
+
+/* emby-tabs */
+.emby-tab-button {
+    color: #999;
+}
+
+.emby-tab-button-active {
+    color: #52B54B;
+}
+
+    .emby-tab-button-active.emby-button-tv {
+        color: #fff;
+    }
+
+.emby-tab-button.emby-button-tv:focus {
+    color: #52B54B;
+}
+
+/* guide */
+.guide-channelHeaderCell, .guide-channelTimeslotHeader {
+    background: #2e2e2e;
+}
+
+.guide-programTextIcon {
+    color: #1e1e1e;
+    background: #555;
+}
+
+.guide-headerTimeslots {
+    color: #ccc;
+}

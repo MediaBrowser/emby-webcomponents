@@ -940,7 +940,7 @@
 
                 if (enableScrollX()) {
                     html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true" data-scrollbuttons="false">';
-                    html += '<div class="scrollSlider padded-left padded-right padded-top focuscontainer-x">';
+                    html += '<div class="scrollSlider padded-left padded-right padded-top padded-bottom focuscontainer-x">';
                 }
                 else {
                     html += '<div class="padded-left padded-right padded-top focuscontainer-x">';

@@ -650,9 +650,9 @@
                     if (program.IsHD && options.showHdIcon) {
                         //html += '<i class="guideHdIcon md-icon programIcon">hd</i>';
                         if (layoutManager.tv) {
-                            html += '<div class="programIcon programTextIcon programTextIcon-tv">HD</div>';
+                            html += '<div class="programIcon guide-programTextIcon guide-programTextIcon-tv">HD</div>';
                         } else {
-                            html += '<div class="programIcon programTextIcon">HD</div>';
+                            html += '<div class="programIcon guide-programTextIcon">HD</div>';
                         }
                     }
 
@@ -680,10 +680,10 @@
                 var channel = channels[i];
                 var hasChannelImage = channel.ImageTags.Primary;
 
-                var cssClass = 'channelHeaderCell clearButton itemAction';
+                var cssClass = 'guide-channelHeaderCell clearButton itemAction';
 
                 if (layoutManager.tv) {
-                    cssClass += ' channelHeaderCell-tv';
+                    cssClass += ' guide-channelHeaderCell-tv';
                 }
 
                 var title = [];
