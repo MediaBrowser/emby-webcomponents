@@ -146,15 +146,7 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
 
         var embyWebComponentsBowerPath = 'bower_components/emby-webcomponents';
 
-        switch (stylesheetPath) {
-
-            case 'theme-dark':
-                return require.toUrl(embyWebComponentsBowerPath + '/themes/dark/theme.css');
-            case 'theme-light':
-                return require.toUrl(embyWebComponentsBowerPath + '/themes/light/theme.css');
-            default:
-                return stylesheetPath;
-        }
+        return require.toUrl(embyWebComponentsBowerPath + '/themes/' + stylesheetPath + '/theme.css');
     }
 
     var themeStyleElement;

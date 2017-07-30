@@ -1,17 +1,47 @@
 html {
-    color: #ddd;
+    color: #222;
 }
 
 .emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
-    border-color: #383838;
+    border-color: #ccc;
+}
+
+.collapseContent {
+    background-color: #fff;
+}
+
+.secondaryText {
+    color: #666;
+}
+
+.inputLabelUnfocused, .textareaLabel, .selectLabelUnfocused, .paperListLabel, .fieldDescription {
+    color: #555;
+}
+
+.inputLabelFocused, .textareaLabelFocused, .selectLabelFocused, .button-link, .button-flat-accent {
+    color: #2196F3;
+}
+
+.checkboxOutline {
+    border-color: #444;
+}
+
+.paperList, .visualCardBox {
+    background-color: #fff;
+}
+
+.listItem .secondary {
+    color: #737373;
 }
 
 .skinHeader {
-    color: #ccc;
+    color: #333;
 }
 
 .skinHeader-withBackground {
-    background-color: #121212;
+    background-color: #2196F3;
+    color: #fff;
+    /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
 }
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
@@ -34,57 +64,57 @@ html {
     background-image: linear-gradient(to bottom,rgba(0,0,0,.7) 10%,rgba(0,0,0,0));
 }
 
-.dialog {
-    background-color: #191919;
-}
-
 .backgroundContainer {
-    background-color: #191919;
+    background-color: #f2f2f2;
+    /*background-image: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);*/
 }
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(6, 6, 6, .94);
-        background: linear-gradient(to right, rgba(0, 0, 0, .99), rgba(0, 0, 0, .94), rgba(0, 0, 0, .5));
+        background-color: rgba(255,255,255, .94);
     }
+
+.dialog {
+    background-color: #f0f0f0;
+}
 
 /* buttons */
 .paper-icon-button-light:focus {
-    color: #52B54B;
+    color: #2196F3;
 }
 
 .raised {
-    background: #404040;
-    color: #fff;
-}
-
-.button-submit {
-    background: #52B54B;
-    color: #fff;
-}
-
-.button-accent {
-    background: #52B54B;
-    color: #fff;
-}
-
-.checkboxLabel {
+    background: #fff;
     color: inherit;
 }
 
-.paperListLabel, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .secondaryText, .inputLabel, .fieldDescription {
-    color: #aaa;
+.button-submit {
+    background: #2196F3;
+    color: #fff;
 }
 
-.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
-    color: #52B54B;
+.button-cancel {
+    background: #fff;
+    color: inherit;
 }
 
-.checkboxOutline {
-    border-color: #aaa;
+.button-accent {
+    background: #2196F3;
+    color: #fff;
 }
 
-.paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
-    background-color: #222326;
+.formDialogHeader:not(.formDialogHeader-clear) {
+    background-color: #2196F3;
+    color: #fff;
+}
+
+.formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: #f0f0f0;
+    border-top: 1px solid #ddd;
+    color: inherit;
+}
+
+.formDialogHeader a {
+    color: #fff;
 }
 
 .cardText-secondary {
@@ -92,20 +122,12 @@ html {
 }
 
 .visualCardBox .cardText-secondary {
-    color: inherit;
-    opacity: .5;
-}
-
-.listItem .secondary, .nowPlayingBarSecondaryText {
-    color: #999;
+    color: #000;
+    opacity: .6;
 }
 
 .actionSheetMenuItem:hover {
-    background-color: #222;
-}
-
-.collapseContent {
-    background: #222;
+    background-color: #ddd;
 }
 
 .toast {
@@ -115,7 +137,7 @@ html {
 
 /* appfooter */
 .appfooter {
-    background: #101010;
+    background: #282828;
     color: #ccc;
 }
 
@@ -128,61 +150,57 @@ html {
     }
 }
 
+.nowPlayingBarSecondaryText {
+    color: #999;
+}
+
 /* Multi-select */
 .itemSelectionPanel {
-    border: 1px solid #52B54B;
+    border: 1px solid #2196F3;
 }
 
 .selectionCommandsPanel {
-    background: #52B54B;
+    background: #2196F3;
     color: #fff;
 }
 
 /* upNextDialog */
 .upNextDialog-countdownText {
-    color: #52B54B;
+    color: #2196F3;
 }
 
 /* alphaPicker */
 .alphaPickerButton {
-    color: #999;
+    color: #666;
     background-color: transparent;
 }
 
 .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
-    background-color: #52B54B;
+    background-color: #2196F3;
     color: #fff !important;
 }
 
-.emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
-    background-color: #52B54B;
+/* listItem */
+.listItem-shaded:nth-child(even) {
+    background: #f8f8f8;
 }
 
-.listItem-shaded:nth-child(even) {
-    background: #1c1c1c;
-    background: rgba(30, 30, 30, .9);
+.emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
+    background-color: #2196F3;
 }
 
 .progressring-spiner {
-    border-color: #52B54B;
+    border-color: #2196F3;
 }
 
 .fab {
-    background-color: #404040;
-    color: #fff;
-}
-
-.button-link {
-    color: #52B54B;
-}
-
-.button-flat-accent {
-    color: #52B54B;
+    background-color: #fff;
+    color: #222;
 }
 
 .mediaInfoText {
-    color: #ddd;
-    background: rgba(170,170,190, .2);
+    color: #333;
+    background: #fff;
 }
 
 .starIcon {
@@ -195,20 +213,20 @@ html {
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    border-color: #52B54B;
+    border-color: #2196F3;
 }
 
 .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-    background-color: rgba(82, 181, 75, 0.26);
+    background-color: rgba(33, 150, 243, 0.26);
 }
 
 .emby-checkbox:checked + span + span + .checkboxOutline > .checkboxOutlineTick {
-    background-color: #52B54B;
+    background-color: #2196F3;
 }
 
 /* indicators */
 .itemProgressBarForeground {
-    background-color: #52B54B;
+    background-color: #2196F3;
 }
 
 .itemProgressBarForeground-recording {
@@ -216,64 +234,71 @@ html {
 }
 
 .countIndicator {
-    background: #52B54B;
+    background: #2196F3;
 }
 
 .playedIndicator {
-    background: #52B54B;
+    background: #2196F3;
 }
 
 .fullSyncIndicator {
-    background: #52B54B;
+    background: #2196F3;
     color: #fff;
 }
 
 /* main nav drawer */
 .mainDrawer {
-    background-color: #1c1c1f;
-    color: #ccc;
+    background: #fff;
 }
 
 .navMenuDivider {
-    background: #262626;
+    background: #eaeaea;
 }
 
 .navMenuOption:hover {
-    background: #252528;
+    background: #f2f2f2;
 }
 
 .navMenuOption-selected {
-    background: #252528 !important;
-    color: #52B54B;
+    background: #2196F3 !important;
+    color: #fff;
 }
 
 /* emby-tabs */
 .emby-tab-button {
-    color: #999;
+    color: #fff;
+    opacity: .5;
 }
 
 .emby-tab-button-active {
-    color: #52B54B;
+    color: #fff;
+    opacity: 1;
 }
 
     .emby-tab-button-active.emby-button-tv {
         color: #fff;
+        opacity: 1;
     }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #52B54B;
+    color: #fff;
+    opacity: 1;
 }
 
 /* guide */
 .guide-channelHeaderCell, .guide-channelTimeslotHeader {
-    background: #2e2e2e;
+    background: #ddd;
 }
 
 .guide-programTextIcon {
     color: #1e1e1e;
-    background: #555;
+    background: #aaa;
 }
 
 .guide-headerTimeslots {
-    color: #ccc;
+    color: #333;
+}
+/* detail screen */
+.itemBackdropFader {
+    background: linear-gradient(rgba(0,0,0,0), #f2f2f2);
 }

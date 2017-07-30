@@ -218,10 +218,6 @@
         opacity: 0;
     }
 
-    .paper-icon-button-light:focus {
-        color: #52B54B;
-    }
-
         .paper-icon-button-light:focus:after {
             opacity: .2;
         }
