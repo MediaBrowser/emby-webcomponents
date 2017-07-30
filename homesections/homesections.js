@@ -837,6 +837,9 @@
                 }
 
                 html += '</div>';
+                elem.classList.remove('hide');
+            } else {
+                elem.classList.add('hide');
             }
 
             elem.innerHTML = html;

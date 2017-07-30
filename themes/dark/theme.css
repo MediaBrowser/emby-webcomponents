@@ -265,9 +265,25 @@ html {
     background: #2e2e2e;
 }
 
+.programCellInner {
+    background-color: #202020;
+}
+
 .guide-programTextIcon {
     color: #1e1e1e;
     background: #555;
+}
+
+.guide-currentTimeIndicatorBar {
+    background-color: #52B54B;
+}
+
+.guide-currentTimeIndicatorArrowContainer {
+    color: #52B54B;
+}
+
+.guide-currentTimeIndicatorArrow {
+    color: #52B54B;
 }
 
 .guide-headerTimeslots {

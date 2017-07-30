@@ -1,4 +1,4 @@
-﻿define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationServices', 'dom', 'clearButtonStyle', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, registrationServices, dom) {
+﻿define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationServices', 'dom', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, registrationServices, dom) {
     'use strict';
 
     function showViewSettings(instance) {
@@ -228,10 +228,10 @@
         function updateCurrentTimeIndicator() {
 
             if (!currentTimeIndicatorBar) {
-                currentTimeIndicatorBar = options.element.querySelector('.currentTimeIndicatorBar');
+                currentTimeIndicatorBar = options.element.querySelector('.guide-currentTimeIndicatorBar');
             }
             if (!currentTimeIndicatorArrow) {
-                currentTimeIndicatorArrow = options.element.querySelector('.currentTimeIndicatorArrowContainer');
+                currentTimeIndicatorArrow = options.element.querySelector('.guide-currentTimeIndicatorArrowContainer');
             }
 
             if (!currentDate) {
@@ -437,10 +437,10 @@
                 startDate.setTime(startDate.getTime() + cellDurationMs);
             }
 
-            html += '<div class="currentTimeIndicatorBar hide">';
+            html += '<div class="guide-currentTimeIndicatorBar hide">';
             html += '</div>';
-            html += '<div class="currentTimeIndicatorArrowContainer hide">';
-            html += '<i class="currentTimeIndicatorArrow md-icon">arrow_drop_down</i>';
+            html += '<div class="guide-currentTimeIndicatorArrowContainer hide">';
+            html += '<i class="guide-currentTimeIndicatorArrow md-icon">arrow_drop_down</i>';
             html += '</div>';
 
             return html;
@@ -564,7 +564,7 @@
                 var endPercent = (renderEndMs - renderStartMs) / msPerDay;
                 endPercent *= 100;
 
-                var cssClass = "programCell clearButton itemAction";
+                var cssClass = "programCell itemAction";
                 var accentCssClass = null;
                 var displayInnerContent = true;
 
@@ -680,7 +680,7 @@
                 var channel = channels[i];
                 var hasChannelImage = channel.ImageTags.Primary;
 
-                var cssClass = 'guide-channelHeaderCell clearButton itemAction';
+                var cssClass = 'guide-channelHeaderCell itemAction';
 
                 if (layoutManager.tv) {
                     cssClass += ' guide-channelHeaderCell-tv';
@@ -1204,13 +1204,6 @@
             context.classList.add('tvguide');
 
             context.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
-
-            if (layoutManager.desktop) {
-                var guideScrollers = context.querySelectorAll('.guideScroller');
-                for (var i = 0, length = guideScrollers.length; i < length; i++) {
-                    guideScrollers[i].classList.add('darkScroller');
-                }
-            }
 
             programGrid = context.querySelector('.programGrid');
             var timeslotHeaders = context.querySelector('.timeslotHeaders');

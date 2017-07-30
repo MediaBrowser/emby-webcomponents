@@ -75,7 +75,7 @@
     position: relative;
 }
 
-.currentTimeIndicatorBar {
+.guide-currentTimeIndicatorBar {
     position: absolute;
     bottom: .05em;
     left: 0;
@@ -83,26 +83,23 @@
     height: 2px;
     display: flex;
     margin-left: .25em;
-    background-color: #52B54B;
     height: 2px;
     transform-origin: left;
     transition: transform 500ms ease-out;
 }
 
-.currentTimeIndicatorArrowContainer {
+.guide-currentTimeIndicatorArrowContainer {
     position: absolute;
     bottom: -.4em;
-    color: #52B54B;
     margin-left: .25em;
     transform-origin: left;
     transition: transform 500ms ease-out;
 }
 
-.currentTimeIndicatorArrow {
+.guide-currentTimeIndicatorArrow {
     width: 1em;
     height: 1em;
-    font-size: 1.2em;
-    color: #52B54B;
+    font-size: 2em;
     margin-left: -.52em;
 }
 
@@ -143,9 +140,17 @@
 }
 
 .guide-channelHeaderCell, .guide-channelTimeslotHeader {
+    border: 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
+    outline: none !important;
+    width: 100%;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-right: 1px;
+    margin: 0 1px 0 0;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -154,6 +159,7 @@
     contain: strict;
     flex-shrink: 0;
     border-radius: .2em;
+    color: inherit;
 }
 
 /* Important - have to put the fixed width on channelsContainer, not the individual channelHeaderCell
@@ -251,6 +257,16 @@
 }
 
 .programCell {
+    color: inherit;
+    background: transparent;
+    border: 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
+    outline: none !important;
+    width: 100%;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -263,12 +279,10 @@
     contain: strict;
     flex-grow: 1;
     margin: 0 !important;
-    padding: 0 !important;
 }
 
 .programCellInner {
     margin-right: .34em;
-    background-color: #202020;
     display: flex;
     flex-grow: 1;
     border-radius: .2em;
@@ -419,7 +433,6 @@
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
-    color: #ddd;
 }
 
 .channelsContainer, .programGrid {

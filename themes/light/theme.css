@@ -29,6 +29,7 @@ html {
 .skinHeader-withBackground {
     background-color: #282828;
     color: #ccc;
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
 }
 
@@ -274,15 +275,15 @@ html {
 
 /* emby-tabs */
 .emby-tab-button {
-    color: #999;
+    color: #aaa;
 }
 
 .emby-tab-button-active {
-    color: #52B54B;
+    color: #000;
 }
 
     .emby-tab-button-active.emby-button-tv {
-        color: #fff;
+        color: #000;
     }
 
 .emby-tab-button.emby-button-tv:focus {
@@ -291,7 +292,11 @@ html {
 
 /* guide */
 .guide-channelHeaderCell, .guide-channelTimeslotHeader {
-    background: #ddd;
+    background: #d2d2d2;
+}
+
+.programCellInner {
+    background-color: #e2e2e2;
 }
 
 .guide-programTextIcon {
@@ -302,6 +307,19 @@ html {
 .guide-headerTimeslots {
     color: #333;
 }
+
+.guide-currentTimeIndicatorBar {
+    background-color: #52B54B;
+}
+
+.guide-currentTimeIndicatorArrowContainer {
+    color: #52B54B;
+}
+
+.guide-currentTimeIndicatorArrow {
+    color: #52B54B;
+}
+
 /* detail screen */
 .itemBackdropFader {
     background: linear-gradient(rgba(0,0,0,0), #f2f2f2);

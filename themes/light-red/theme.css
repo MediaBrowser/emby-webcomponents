@@ -27,7 +27,7 @@ html {
 }
 
 .skinHeader-withBackground {
-    background-color: #52B54B;
+    background-color: #E53935;
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     color: #fff;
     /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
@@ -68,7 +68,7 @@ html {
 
 /* buttons */
 .paper-icon-button-light:focus {
-    color: #52B54B;
+    color: #E53935;
 }
 
 .raised {
@@ -77,7 +77,7 @@ html {
 }
 
 .button-submit {
-    background: #52B54B;
+    background: #E53935;
     color: #fff;
 }
 
@@ -87,7 +87,7 @@ html {
 }
 
 .button-accent {
-    background: #52B54B;
+    background: #E53935;
     color: #fff;
 }
 
@@ -100,7 +100,7 @@ html {
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
-    color: green;
+    color: #E53935;
 }
 
 .checkboxOutline {
@@ -112,7 +112,7 @@ html {
 }
 
 .formDialogHeader:not(.formDialogHeader-clear) {
-    background-color: #52B54B;
+    background-color: #E53935;
     color: #fff;
 }
 
@@ -165,17 +165,17 @@ html {
 
 /* Multi-select */
 .itemSelectionPanel {
-    border: 1px solid #52B54B;
+    border: 1px solid #E53935;
 }
 
 .selectionCommandsPanel {
-    background: #52B54B;
+    background: #E53935;
     color: #fff;
 }
 
 /* upNextDialog */
 .upNextDialog-countdownText {
-    color: #52B54B;
+    color: #E53935;
 }
 
 /* alphaPicker */
@@ -185,7 +185,7 @@ html {
 }
 
 .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
-    background-color: #52B54B;
+    background-color: #E53935;
     color: #fff !important;
 }
 
@@ -195,11 +195,11 @@ html {
 }
 
 .emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
-    background-color: #52B54B;
+    background-color: #E53935;
 }
 
 .progressring-spiner {
-    border-color: #52B54B;
+    border-color: #E53935;
 }
 
 .fab {
@@ -222,20 +222,20 @@ html {
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    border-color: #52B54B;
+    border-color: #E53935;
 }
 
 .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-    background-color: rgba(82, 181, 75, 0.26);
+    background-color: rgba(33, 150, 243, 0.26);
 }
 
 .emby-checkbox:checked + span + span + .checkboxOutline > .checkboxOutlineTick {
-    background-color: #52B54B;
+    background-color: #E53935;
 }
 
 /* indicators */
 .itemProgressBarForeground {
-    background-color: #52B54B;
+    background-color: #E53935;
 }
 
 .itemProgressBarForeground-recording {
@@ -243,15 +243,15 @@ html {
 }
 
 .countIndicator {
-    background: #52B54B;
+    background: #E53935;
 }
 
 .playedIndicator {
-    background: #52B54B;
+    background: #E53935;
 }
 
 .fullSyncIndicator {
-    background: #52B54B;
+    background: #E53935;
     color: #fff;
 }
 
@@ -269,7 +269,7 @@ html {
 }
 
 .navMenuOption-selected {
-    background: #52B54B !important;
+    background: #E53935 !important;
     color: #fff;
 }
 
@@ -296,11 +296,11 @@ html {
 
 /* guide */
 .guide-channelHeaderCell, .guide-channelTimeslotHeader {
-    background: #d2d2d2;
+    background: #d0d0d0;
 }
 
 .programCellInner {
-    background-color: #e2e2e2;
+    background-color: #e0e0e0;
 }
 
 .guide-programTextIcon {
