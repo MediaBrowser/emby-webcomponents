@@ -14,20 +14,8 @@ html {
     color: #666;
 }
 
-.inputLabelUnfocused, .textareaLabel, .selectLabelUnfocused, .paperListLabel, .fieldDescription {
-    color: #555;
-}
-
-.inputLabelFocused, .textareaLabelFocused, .selectLabelFocused, .button-link, .button-flat-accent {
-    color: #2196F3;
-}
-
 .checkboxOutline {
     border-color: #444;
-}
-
-.paperList, .visualCardBox {
-    background-color: #fff;
 }
 
 .listItem .secondary {
@@ -102,6 +90,26 @@ html {
     color: #fff;
 }
 
+.checkboxLabel {
+    color: inherit;
+}
+
+.paperListLabel, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
+    color: #555;
+}
+
+.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
+    color: #2196F3;
+}
+
+.checkboxOutline {
+    border-color: currentColor;
+}
+
+.paperList, .visualCardBox {
+    background-color: #fff;
+}
+
 .formDialogHeader:not(.formDialogHeader-clear) {
     background-color: #2196F3;
     color: #fff;
@@ -113,17 +121,17 @@ html {
     color: inherit;
 }
 
-.formDialogHeader a {
-    color: #fff;
-}
-
-.cardText-secondary {
+.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary {
     color: #888;
 }
 
-.visualCardBox .cardText-secondary {
-    color: #000;
-    opacity: .6;
+.cardFooter-vibrant .cardText-secondary {
+    color: inherit;
+    opacity: .5;
+}
+
+.formDialogHeader a {
+    color: #fff;
 }
 
 .actionSheetMenuItem:hover {

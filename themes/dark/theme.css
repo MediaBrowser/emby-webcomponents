@@ -1,5 +1,5 @@
 html {
-    color: #ddd;
+    color: #eee;
 }
 
 .emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
@@ -71,8 +71,8 @@ html {
     color: inherit;
 }
 
-.paperListLabel, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .secondaryText, .inputLabel, .fieldDescription {
-    color: #aaa;
+.paperListLabel, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
+    color: #bbb;
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
@@ -87,17 +87,13 @@ html {
     background-color: #222326;
 }
 
-.cardText-secondary {
+.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary {
     color: #888;
 }
 
-.visualCardBox .cardText-secondary {
+.cardFooter-vibrant .cardText-secondary {
     color: inherit;
     opacity: .5;
-}
-
-.listItem .secondary, .nowPlayingBarSecondaryText {
-    color: #999;
 }
 
 .actionSheetMenuItem:hover {

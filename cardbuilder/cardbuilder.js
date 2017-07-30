@@ -965,6 +965,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (swatch.length) {
 
                         var index = 0;
+                        footerClass += ' cardFooter-vibrant';
                         style = ' style="color:' + swatch[index + 1] + ';background-color:' + swatch[index] + ';"';
                     }
                 }

@@ -121,8 +121,17 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
                 if (swatch.length) {
 
                     var index = 0;
-                    vibrantElement.style.backgroundColor = swatch[index];
-                    vibrantElement.style.color = swatch[index + 1];
+                    var style = vibrantElement.style;
+                    style.backgroundColor = swatch[index];
+                    style.color = swatch[index + 1];
+
+                    var classList = vibrantElement.classList;
+
+                    if (classList.contains('cardFooter')) {
+                        classList.add('cardFooter-vibrant');
+                    } else {
+                        classList.add('vibrant');
+                    }
                 }
             });
         });

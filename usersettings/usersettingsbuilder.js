@@ -183,6 +183,24 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
         return parseInt(this.get('skipForwardLength') || '15000');
     };
 
+    UserSettings.prototype.dashboardTheme = function (val) {
+
+        if (val != null) {
+            this.set('dashboardTheme', val);
+        }
+
+        return this.get('dashboardTheme');
+    };
+
+    UserSettings.prototype.appTheme = function (val) {
+
+        if (val != null) {
+            this.set('appTheme', val, false);
+        }
+
+        return this.get('appTheme', false);
+    };
+
     function getSavedQueryKey(context) {
 
         return 'query-' + context;
