@@ -106,7 +106,7 @@ html, .skinHeader {
     color: inherit;
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary {
+.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle {
     color: #888;
 }
 

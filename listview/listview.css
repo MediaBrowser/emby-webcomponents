@@ -176,11 +176,11 @@
     font-size: 143%;
     border-radius: 500px;
     padding: .5em;
-    color: #fff;
 }
 
     .listItemIcon:not(.listItemIcon-transparent) {
         background-color: #52B54B;
+        color: #fff;
     }
 
 .listItemProgressBar {

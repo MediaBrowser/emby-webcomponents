@@ -1,6 +1,5 @@
 html, .skinHeader {
     color: #222;
-    color: rgba(0, 0, 0, .87);
 }
 
 .emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
@@ -107,7 +106,7 @@ html, .skinHeader {
     color: inherit;
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary {
+.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle {
     color: #888;
 }
 

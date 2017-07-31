@@ -14,7 +14,8 @@ html {
 }
 
 .skinHeader-withBackground {
-    background-color: #121212;
+    background-color: #0C2450;
+    background: linear-gradient(to bottom, #0C2450, #081B3B);
 }
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
@@ -37,17 +38,14 @@ html {
     background-image: linear-gradient(to bottom,rgba(0,0,0,.7) 10%,rgba(0,0,0,0));
 }
 
-.dialog {
-    background-color: #191919;
-}
-
-.backgroundContainer {
-    background-color: #191919;
+.backgroundContainer, .dialog {
+    background-color: #0F3562;
+    background: linear-gradient(to bottom, #0F3562, #1162A4, #03215F);
 }
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(6, 6, 6, .94);
-        background: linear-gradient(to right, rgba(0, 0, 0, .99), rgba(0, 0, 0, .94), rgba(0, 0, 0, .5));
+        background: rgba(17, 98, 164, .94);
+        background: linear-gradient(to bottom, rgba(15, 53, 98, .96), rgba(17, 98, 164, .96), rgba(3, 33, 95, .96));
     }
 
 /* buttons */
@@ -56,7 +54,7 @@ html {
 }
 
 .raised {
-    background: #404040;
+    background: #082845;
     color: #fff;
 }
 
@@ -88,7 +86,7 @@ html {
 }
 
 .paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
-    background-color: #222326;
+    background-color: #0F3562;
 }
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle {
@@ -112,8 +110,9 @@ html {
 
 /* appfooter */
 .appfooter {
-    background: #101010;
-    color: #ccc;
+    background: #0C2450;
+    background: linear-gradient(to top, #0C2450, #081B3B);
+    color: rgba(255, 255, 255, .78);
 }
 
 @supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
@@ -158,7 +157,7 @@ html {
 
 .listItem-shaded:nth-child(even) {
     background: #1c1c1c;
-    background: rgba(30, 30, 30, .9);
+    background: rgba(0, 0, 0, .3);
 }
 
 .progressring-spiner {
@@ -228,7 +227,7 @@ html {
 
 /* main nav drawer */
 .mainDrawer {
-    background-color: #1c1c1f;
+    background-color: #0F3562;
     color: #ccc;
     color: rgba(255, 255, 255, .7);
 }
@@ -240,6 +239,7 @@ html {
 
 .navMenuOption:hover {
     background: #252528;
+    background: rgba(0, 0, 0, .2);
 }
 
 .navMenuOption-selected {
@@ -254,7 +254,7 @@ html {
 }
 
 .emby-tab-button-active {
-    color: #52B54B;
+    color: #fff;
 }
 
     .emby-tab-button-active.emby-button-tv {
@@ -262,16 +262,17 @@ html {
     }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #52B54B;
+    color: #fff;
 }
 
 /* guide */
 .guide-channelHeaderCell, .guide-channelTimeslotHeader {
-    background: #2e2e2e;
+    background: #081B3B;
 }
 
 .programCellInner {
-    background-color: #202020;
+    background-color: #022950;
+    background: linear-gradient(to right, #022950, #042D52);
 }
 
 .guide-programTextIcon {
@@ -293,4 +294,9 @@ html {
 
 .guide-headerTimeslots {
     color: inherit;
+}
+
+/* detail screen */
+.itemBackdropFader {
+    background: linear-gradient(rgba(0,0,0,0), #115E9E);
 }

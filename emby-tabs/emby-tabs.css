@@ -43,7 +43,7 @@
 }
 
 .emby-tab-button-ripple-effect {
-    background: #222 !important;
+    background: rgba(0,0,0,.7) !important;
 }
 
 .tabContent:not(.is-active) {
