@@ -11,19 +11,10 @@ html, .skinHeader {
 }
 
 .skinHeader-withBackground {
-    background-color: #292929;
+    background-color: #303030;
     color: #ccc;
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
-}
-
-@supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
-
-    .skinHeader-blurred {
-        background: rgba(20,20,20,.7);
-        -webkit-backdrop-filter: blur(1.5em);
-        backdrop-filter: blur(1.5em);
-    }
 }
 
 .skinHeader.semiTransparent {

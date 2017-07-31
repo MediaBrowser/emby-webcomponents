@@ -13,7 +13,7 @@ html {
     color: rgba(255, 255, 255, .78);
 }
 
-.skinHeader-withBackground {
+.skinHeader-withBackground, .formDialogHeader:not(.formDialogHeader-clear) {
     background-color: #0C2450;
     background: linear-gradient(to bottom, #0C2450, #081B3B);
 }
@@ -85,7 +85,7 @@ html {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
+.paperList, .visualCardBox, .collapseContent {
     background-color: #0F3562;
 }
 
@@ -109,7 +109,7 @@ html {
 }
 
 /* appfooter */
-.appfooter {
+.appfooter, .formDialogFooter:not(.formDialogFooter-clear) {
     background: #0C2450;
     background: linear-gradient(to top, #0C2450, #081B3B);
     color: rgba(255, 255, 255, .78);

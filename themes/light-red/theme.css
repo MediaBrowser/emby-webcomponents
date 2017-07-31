@@ -11,19 +11,10 @@ html, .skinHeader {
 }
 
 .skinHeader-withBackground {
-    background-color: #E53935;
+    background-color: #cc3333;
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     color: #fff;
     /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
-}
-
-@supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
-
-    .skinHeader-blurred {
-        background: rgba(20,20,20,.7);
-        -webkit-backdrop-filter: blur(1.5em);
-        backdrop-filter: blur(1.5em);
-    }
 }
 
 .skinHeader.semiTransparent {
@@ -52,7 +43,7 @@ html, .skinHeader {
 
 /* buttons */
 .paper-icon-button-light:focus {
-    color: #E53935;
+    color: #cc3333;
 }
 
 .raised {
@@ -61,7 +52,7 @@ html, .skinHeader {
 }
 
 .button-submit {
-    background: #E53935;
+    background: #cc3333;
     color: #fff;
 }
 
@@ -71,7 +62,7 @@ html, .skinHeader {
 }
 
 .button-accent {
-    background: #E53935;
+    background: #cc3333;
     color: #fff;
 }
 
@@ -84,7 +75,7 @@ html, .skinHeader {
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
-    color: #E53935;
+    color: #cc3333;
 }
 
 .checkboxOutline {
@@ -96,7 +87,7 @@ html, .skinHeader {
 }
 
 .formDialogHeader:not(.formDialogHeader-clear) {
-    background-color: #E53935;
+    background-color: #cc3333;
     color: #fff;
 }
 
@@ -149,17 +140,17 @@ html, .skinHeader {
 
 /* Multi-select */
 .itemSelectionPanel {
-    border: 1px solid #E53935;
+    border: 1px solid #cc3333;
 }
 
 .selectionCommandsPanel {
-    background: #E53935;
+    background: #cc3333;
     color: #fff;
 }
 
 /* upNextDialog */
 .upNextDialog-countdownText {
-    color: #E53935;
+    color: #cc3333;
 }
 
 /* alphaPicker */
@@ -169,7 +160,7 @@ html, .skinHeader {
 }
 
 .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
-    background-color: #E53935;
+    background-color: #cc3333;
     color: #fff !important;
 }
 
@@ -179,11 +170,11 @@ html, .skinHeader {
 }
 
 .emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
-    background-color: #E53935;
+    background-color: #cc3333;
 }
 
 .progressring-spiner {
-    border-color: #E53935;
+    border-color: #cc3333;
 }
 
 .fab {
@@ -206,20 +197,20 @@ html, .skinHeader {
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    border-color: #E53935;
+    border-color: #cc3333;
 }
 
 .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-    background-color: rgba(33, 150, 243, 0.26);
+    background-color: rgba(204,51,51, 0.26);
 }
 
 .emby-checkbox:checked + span + span + .checkboxOutline > .checkboxOutlineTick {
-    background-color: #E53935;
+    background-color: #cc3333;
 }
 
 /* indicators */
 .itemProgressBarForeground {
-    background-color: #E53935;
+    background-color: #cc3333;
 }
 
 .itemProgressBarForeground-recording {
@@ -227,15 +218,15 @@ html, .skinHeader {
 }
 
 .countIndicator {
-    background: #E53935;
+    background: #cc3333;
 }
 
 .playedIndicator {
-    background: #E53935;
+    background: #cc3333;
 }
 
 .fullSyncIndicator {
-    background: #E53935;
+    background: #cc3333;
     color: #fff;
 }
 
@@ -253,7 +244,7 @@ html, .skinHeader {
 }
 
 .navMenuOption-selected {
-    background: #E53935 !important;
+    background: #cc3333 !important;
     color: #fff;
 }
 

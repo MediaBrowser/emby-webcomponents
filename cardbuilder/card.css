@@ -384,7 +384,7 @@ button {
     z-index: 1;
     padding: .4em;
     background-color: rgba(0,0,0,.7) !important;
-    font-size: 76%;
+    font-size: 80%;
 }
 
 .defaultCardColor1 {
@@ -653,10 +653,10 @@ button {
     }
 }
 
-@media all and (orientation: portrait) and (min-width: 1000px) {
+@media all and (orientation: portrait) and (min-width: 760px) {
 
     .overflowPortraitCard {
-        width: 22vw;
+        width: 23vw;
     }
 
     .overflowBackdropCard {
@@ -664,7 +664,7 @@ button {
     }
 
     .overflowSquareCard {
-        width: 22vw;
+        width: 23vw;
     }
 }
 
