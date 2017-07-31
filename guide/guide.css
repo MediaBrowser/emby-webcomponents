@@ -243,7 +243,7 @@
 }
 
 .guide-channelTimeslotHeader, .timeslotHeader {
-    background: transparent;
+    background: transparent !important;
     height: 2.2em;
 }
 
@@ -334,11 +334,10 @@
     /*transition: transform 60ms ease-out;*/
 }
 
-.guideProgramNameCaret {
+.guide-programNameCaret {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #666;
     font-size: 200%;
 }
 
@@ -487,23 +486,19 @@
 }
 
 .guide-date-tab-button {
-    color: #555 !important;
     padding: .3em .7em !important;
     margin: 0 .3em !important;
 }
 
     .guide-date-tab-button.emby-tab-button-active {
-        color: #52B54B !important;
         border-color: transparent !important;
     }
 
-    .guide-date-tab-button:focus {
+    /*.guide-date-tab-button:focus {
         color: #52B54B !important;
-    }
+    }*/
 
     .guide-date-tab-button.emby-button-tv:focus {
-        background-color: #52B54B !important;
         border-radius: .15em !important;
-        color: #fff !important;
         transform: none !important;
     }

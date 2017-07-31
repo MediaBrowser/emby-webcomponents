@@ -13,14 +13,13 @@ html, .skinHeader {
 }
 
 .skinHeader-withBackground {
-    background-color: #303030;
-    color: #ccc;
-    color: rgba(255, 255, 255, .87);
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
+    color: rgba(0,0,0,.7);
+    background: #303030;
+    background: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
 }
 
 .skinHeader.semiTransparent {
+    color: #ccc;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background-color: rgba(0,0,0,.4);
@@ -32,8 +31,8 @@ html, .skinHeader {
 }
 
 .backgroundContainer {
-    background-color: #f2f2f2;
-    /*background-image: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);*/
+    background: #f2f2f2;
+    background: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);
 }
 
     .backgroundContainer.withBackdrop {
@@ -49,7 +48,7 @@ html, .skinHeader {
     color: #52B54B;
 }
 
-.raised, .fab {
+.raised {
     background: #fff;
     color: inherit;
 }
@@ -75,6 +74,7 @@ html, .skinHeader {
 
 .paperListLabel, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #555;
+    color: rgba(0, 0, 0, .7);
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
@@ -87,6 +87,7 @@ html, .skinHeader {
 
 .paperList, .visualCardBox {
     background-color: #fff;
+    background-color: rgba(0, 0, 0, .1);
 }
 
 .formDialogHeader:not(.formDialogHeader-clear) {
@@ -101,12 +102,9 @@ html, .skinHeader {
     color: inherit;
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
+.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret, .fieldDescription {
     color: #888;
-}
-
-.fieldDescription {
-    color: #888;
+    color: rgba(0, 0, 0, .5);
 }
 
 .cardFooter-vibrant .cardText-secondary {
@@ -188,6 +186,11 @@ html, .skinHeader {
     border-color: #52B54B;
 }
 
+.fab {
+    background-color: #fff;
+    color: #222;
+}
+
 .mediaInfoText {
     color: #333;
     background: #fff;
@@ -258,11 +261,11 @@ html, .skinHeader {
 /* emby-tabs */
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(0,0,0,.5);
 }
 
 .emby-tab-button-active {
-    color: #52B54B;
+    color: #fff;
 }
 
     .emby-tab-button-active.emby-button-tv {
@@ -270,16 +273,18 @@ html, .skinHeader {
     }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #52B54B;
+    color: #fff;
 }
 
 /* guide */
 .guide-channelHeaderCell, .guide-channelTimeslotHeader {
     background: #d2d2d2;
+    background: rgba(0, 0, 0, .2);
 }
 
 .programCellInner {
     background-color: #e2e2e2;
+    background-color: rgba(0, 0, 0, .1);
 }
 
 .guide-programTextIcon {
@@ -323,5 +328,5 @@ html, .skinHeader {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #f2f2f2);
+    background: linear-gradient(rgba(0,0,0,0), #E4E2DC);
 }

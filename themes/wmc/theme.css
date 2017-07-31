@@ -53,7 +53,7 @@ html {
     color: #52B54B;
 }
 
-.raised {
+.raised, .fab {
     background: #082845;
     color: #fff;
 }
@@ -89,7 +89,7 @@ html {
     background-color: #0F3562;
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle {
+.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
     color: #999;
     color: rgba(255, 255, 255, .5);
 }
@@ -99,13 +99,10 @@ html {
     opacity: .5;
 }
 
-.actionSheetMenuItem:hover {
-    background-color: #222;
-}
-
 .toast {
-    background: #303030;
+    background: #081B3B;
     color: #fff;
+    color: rgba(255, 255, 255, .87);
 }
 
 /* appfooter */
@@ -162,11 +159,6 @@ html {
 
 .progressring-spiner {
     border-color: #52B54B;
-}
-
-.fab {
-    background-color: #404040;
-    color: #fff;
 }
 
 .button-link {
@@ -237,7 +229,7 @@ html {
     background: rgba(255, 255, 255, .12);
 }
 
-.navMenuOption:hover {
+.navMenuOption:hover, .actionSheetMenuItem:hover {
     background: #252528;
     background: rgba(0, 0, 0, .2);
 }
@@ -267,12 +259,12 @@ html {
 
 /* guide */
 .guide-channelHeaderCell, .guide-channelTimeslotHeader {
-    background: #081B3B;
+    background: rgba(8,27,59,.9);
 }
 
 .programCellInner {
     background-color: #022950;
-    background: linear-gradient(to right, #022950, #042D52);
+    background: linear-gradient(to right, rgba(2,41,80,.9), rgba(4,45,82,.9));
 }
 
 .guide-programTextIcon {
@@ -295,6 +287,24 @@ html {
 .guide-headerTimeslots {
     color: inherit;
 }
+
+.guide-date-tab-button {
+    color: #555;
+    color: rgba(255,255,255,.3);
+}
+
+    .guide-date-tab-button.emby-tab-button-active {
+        color: #52B54B;
+    }
+
+    .guide-date-tab-button:focus {
+        color: #52B54B;
+    }
+
+    .guide-date-tab-button.emby-button-tv:focus {
+        background-color: #52B54B;
+        color: #fff;
+    }
 
 /* detail screen */
 .itemBackdropFader {

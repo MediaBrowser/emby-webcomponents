@@ -38,7 +38,7 @@
 
         var caret = cell.caret;
         if (!caret) {
-            caret = cell.querySelector('.guideProgramNameCaret');
+            caret = cell.querySelector('.guide-programNameCaret');
             cell.caret = caret;
         }
 
@@ -617,7 +617,7 @@
 
                     html += '<div class="' + guideProgramNameClass + '">';
 
-                    html += '<div class="guideProgramNameCaret hide"><i class="guideProgramNameCaretIcon md-icon">&#xE314;</i></div>';
+                    html += '<div class="guide-programNameCaret hide"><i class="guideProgramNameCaretIcon md-icon">&#xE314;</i></div>';
 
                     html += '<div class="guideProgramNameText">' + program.Name;
 

@@ -1,6 +1,6 @@
 html {
     color: #eee;
-    color: rgba(255, 255, 255, .9);
+    color: rgba(255, 255, 255, .87);
 }
 
 .emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
@@ -55,7 +55,7 @@ html {
     color: #52B54B;
 }
 
-.raised {
+.raised, .fab {
     background: #404040;
     color: #fff;
 }
@@ -91,7 +91,7 @@ html {
     background-color: #222326;
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle {
+.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
     color: #999;
     color: rgba(255, 255, 255, .5);
 }
@@ -108,12 +108,14 @@ html {
 .toast {
     background: #303030;
     color: #fff;
+    color: rgba(255, 255, 255, .87);
 }
 
 /* appfooter */
 .appfooter {
     background: #101010;
     color: #ccc;
+    color: rgba(255, 255, 255, .78);
 }
 
 @supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
@@ -163,11 +165,6 @@ html {
 
 .progressring-spiner {
     border-color: #52B54B;
-}
-
-.fab {
-    background-color: #404040;
-    color: #fff;
 }
 
 .button-link {
@@ -294,3 +291,21 @@ html {
 .guide-headerTimeslots {
     color: inherit;
 }
+
+.guide-date-tab-button {
+    color: #555;
+    color: rgba(255,255,255,.3);
+}
+
+    .guide-date-tab-button.emby-tab-button-active {
+        color: #52B54B;
+    }
+
+    .guide-date-tab-button:focus {
+        color: #52B54B;
+    }
+
+    .guide-date-tab-button.emby-button-tv:focus {
+        background-color: #52B54B;
+        color: #fff;
+    }

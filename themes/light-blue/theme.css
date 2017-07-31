@@ -1,9 +1,11 @@
 html, .skinHeader {
     color: #222;
+    color: rgba(0, 0, 0, .87);
 }
 
 .emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
     border-color: #ccc;
+    border-color: rgba(0, 0, 0, .158);
 }
 
 .collapseContent {
@@ -46,7 +48,7 @@ html, .skinHeader {
     color: #2196F3;
 }
 
-.raised {
+.raised, .fab {
     background: #fff;
     color: inherit;
 }
@@ -93,11 +95,11 @@ html, .skinHeader {
 
 .formDialogFooter:not(.formDialogFooter-clear) {
     background-color: #f0f0f0;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid rgba(0,0,0,.08);
     color: inherit;
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle {
+.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
     color: #888;
 }
 
@@ -117,12 +119,14 @@ html, .skinHeader {
 .toast {
     background: #303030;
     color: #fff;
+    color: rgba(255, 255, 255, .87);
 }
 
 /* appfooter */
 .appfooter {
     background: #282828;
     color: #ccc;
+    color: rgba(255, 255, 255, .78);
 }
 
 @supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
@@ -156,6 +160,7 @@ html, .skinHeader {
 /* alphaPicker */
 .alphaPickerButton {
     color: #555;
+    color: rgba(0, 0, 0, .7);
     background-color: transparent;
 }
 
@@ -175,11 +180,6 @@ html, .skinHeader {
 
 .progressring-spiner {
     border-color: #2196F3;
-}
-
-.fab {
-    background-color: #fff;
-    color: #222;
 }
 
 .mediaInfoText {
@@ -237,6 +237,7 @@ html, .skinHeader {
 
 .navMenuDivider {
     background: #eaeaea;
+    background: rgba(0, 0, 0, .12);
 }
 
 .navMenuOption:hover {
@@ -298,6 +299,24 @@ html, .skinHeader {
 .guide-currentTimeIndicatorArrow {
     color: #52B54B;
 }
+
+.guide-date-tab-button {
+    color: #555;
+    color: rgba(0, 0, 0, .54);
+}
+
+    .guide-date-tab-button.emby-tab-button-active {
+        color: #2196F3;
+    }
+
+    .guide-date-tab-button:focus {
+        color: #2196F3;
+    }
+
+    .guide-date-tab-button.emby-button-tv:focus {
+        background-color: #2196F3;
+        color: #fff;
+    }
 
 /* detail screen */
 .itemBackdropFader {
