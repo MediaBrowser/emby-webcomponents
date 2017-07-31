@@ -1,5 +1,6 @@
-html {
+html, .skinHeader {
     color: #222;
+    color: rgba(0, 0, 0, .87);
 }
 
 .emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
@@ -8,22 +9,6 @@ html {
 
 .collapseContent {
     background-color: #fff;
-}
-
-.secondaryText {
-    color: #666;
-}
-
-.checkboxOutline {
-    border-color: #444;
-}
-
-.listItem .secondary {
-    color: #737373;
-}
-
-.skinHeader {
-    color: #333;
 }
 
 .skinHeader-withBackground {
@@ -180,7 +165,7 @@ html {
 
 /* alphaPicker */
 .alphaPickerButton {
-    color: #666;
+    color: #555;
     background-color: transparent;
 }
 
@@ -276,22 +261,22 @@ html {
 /* emby-tabs */
 .emby-tab-button {
     color: #fff;
-    opacity: .5;
+    color: rgba(255, 255, 255, .5);
 }
 
 .emby-tab-button-active {
     color: #fff;
-    opacity: 1;
+    color: rgba(255, 255, 255, 1);
 }
 
     .emby-tab-button-active.emby-button-tv {
         color: #fff;
-        opacity: 1;
+        color: rgba(255, 255, 255, 1);
     }
 
 .emby-tab-button.emby-button-tv:focus {
     color: #fff;
-    opacity: 1;
+    color: rgba(255, 255, 255, 1);
 }
 
 /* guide */
@@ -309,7 +294,7 @@ html {
 }
 
 .guide-headerTimeslots {
-    color: #333;
+    color: inherit;
 }
 
 .guide-currentTimeIndicatorBar {
