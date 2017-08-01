@@ -484,7 +484,8 @@
             Limit: enableScrollX() ? 12 : (screenWidth >= 2400 ? 10 : (screenWidth >= 1600 ? 10 : (screenWidth >= 1440 ? 8 : (screenWidth >= 800 ? 7 : 6)))),
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
             Filters: "IsUnplayed",
-            UserId: userId
+            UserId: userId,
+            EnableTotalRecordCount: false
         };
 
         return apiClient.getJSON(apiClient.getUrl("Channels/Items/Latest", options)).then(function (result) {
@@ -1126,7 +1127,8 @@
         options = Object.assign(options || {}, {
 
             UserId: userId,
-            SupportsLatestItems: true
+            SupportsLatestItems: true,
+            EnableTotalRecordCount: false
         });
 
         return apiClient.getJSON(apiClient.getUrl("Channels", options)).then(function (result) {
@@ -1161,7 +1163,8 @@
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
             Filters: "IsUnplayed",
             UserId: apiClient.getCurrentUserId(),
-            ChannelIds: channel.Id
+            ChannelIds: channel.Id,
+            EnableTotalRecordCount: false
         };
 
         apiClient.getJSON(apiClient.getUrl("Channels/Items/Latest", options)).then(function (result) {

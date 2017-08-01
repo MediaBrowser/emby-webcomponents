@@ -14,7 +14,7 @@ html {
 }
 
 .skinHeader-withBackground {
-    background-color: #121212;
+    background-color: #52B54B;
 }
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
@@ -42,7 +42,7 @@ html {
 }
 
 .backgroundContainer {
-    background-color: #191919;
+    background-color: #333;
 }
 
     .backgroundContainer.withBackdrop {
@@ -88,7 +88,7 @@ html {
 }
 
 .paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
-    background-color: #222326;
+    background-color: #222;
 }
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
@@ -251,7 +251,7 @@ html {
 }
 
 .emby-tab-button-active {
-    color: #52B54B;
+    color: #fff;
 }
 
     .emby-tab-button-active.emby-button-tv {
@@ -259,7 +259,7 @@ html {
     }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #52B54B;
+    color: #fff;
 }
 
 /* guide */

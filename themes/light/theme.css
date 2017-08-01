@@ -20,6 +20,10 @@ html, .skinHeader {
     /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
 }
 
+.osdHeader {
+    box-shadow: none !important;
+}
+
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;

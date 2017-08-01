@@ -12,35 +12,38 @@ html, .skinHeader {
     background-color: #fff;
 }
 
-.skinHeader-withBackground {
+.skinHeader-withBackground, .formDialogHeader:not(.formDialogHeader-clear) {
     color: rgba(0,0,0,.7);
     background: #303030;
     background: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
 }
 
-.skinHeader.semiTransparent {
-    color: #ccc;
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    background-color: rgba(0,0,0,.4);
-    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(10%,rgba(0,0,0,.7)),color-stop(10%,rgba(0,0,0,0)));
-    background-image: -webkit-linear-gradient(top,rgba(0,0,0,.7) 10%,rgba(0,0,0,0));
-    background-image: -moz-linear-gradient(top,rgba(0,0,0,.7) 10%,rgba(0,0,0,0));
-    background-image: -o-linear-gradient(top,rgba(0,0,0,.7) 10%,rgba(0,0,0,0));
-    background-image: linear-gradient(to bottom,rgba(0,0,0,.7) 10%,rgba(0,0,0,0));
+@supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
+
+    .skinHeader-blurred {
+        background: linear-gradient(to right,rgba(188,188,188,.7), rgba(167,180,183,.7), rgba(190,181,165,.7), rgba(173,190,194,.7), rgba(185,199,203,.7));
+        -webkit-backdrop-filter: blur(1.5em);
+        backdrop-filter: blur(1.5em);
+    }
 }
 
-.backgroundContainer {
+.skinHeader.semiTransparent {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+.backgroundContainer, .dialog {
     background: #f2f2f2;
-    background: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);
+    background: url(atv1-1080.png) no-repeat center center;
+    background-size: 100% 100%;
 }
 
     .backgroundContainer.withBackdrop {
         background-color: rgba(255,255,255, .94);
     }
 
-.dialog {
-    background-color: #f0f0f0;
+.actionSheet {
+    background: #f0f0f0;
 }
 
 /* buttons */
@@ -48,8 +51,9 @@ html, .skinHeader {
     color: #52B54B;
 }
 
-.raised {
+.raised, .fab {
     background: #fff;
+    background: rgba(0, 0, 0, .14);
     color: inherit;
 }
 
@@ -90,16 +94,9 @@ html, .skinHeader {
     background-color: rgba(0, 0, 0, .1);
 }
 
-.formDialogHeader:not(.formDialogHeader-clear) {
-    background-color: #52B54B;
-    color: #fff;
-}
-
 .formDialogFooter:not(.formDialogFooter-clear) {
-    background-color: #f0f0f0;
     border-top: 1px solid #ddd;
     border-top: 1px solid rgba(0,0,0,.08);
-    color: inherit;
 }
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret, .fieldDescription {
@@ -127,10 +124,10 @@ html, .skinHeader {
 }
 
 /* appfooter */
-.appfooter {
-    background: #282828;
-    color: #ccc;
-    color: rgba(255, 255, 255, .78);
+.appfooter, .formDialogFooter:not(.formDialogFooter-clear) {
+    color: rgba(0,0,0,.7);
+    background: #303030;
+    background: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
 }
 
 @supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
@@ -176,6 +173,7 @@ html, .skinHeader {
 /* listItem */
 .listItem-shaded:nth-child(even) {
     background: #f8f8f8;
+    background: rgba(0, 0, 0, .1);
 }
 
 .emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
@@ -184,11 +182,6 @@ html, .skinHeader {
 
 .progressring-spiner {
     border-color: #52B54B;
-}
-
-.fab {
-    background-color: #fff;
-    color: #222;
 }
 
 .mediaInfoText {
