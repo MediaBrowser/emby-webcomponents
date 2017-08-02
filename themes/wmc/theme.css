@@ -44,10 +44,11 @@ html {
 }
 
     .backgroundContainer.withBackdrop {
-        background: rgba(17, 98, 164, .94);
+        background: rgba(17, 98, 164, .9);
     }
 
 .detailBackgroundContainer.withBackdrop {
+    background: rgba(17, 98, 164, .94);
     background: linear-gradient(to bottom, rgba(15, 53, 98, .95), rgba(17, 98, 164, .95), rgba(3, 33, 95, .95));
 }
 
