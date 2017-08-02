@@ -47,8 +47,11 @@ html {
 
     .backgroundContainer.withBackdrop {
         background-color: rgba(6, 6, 6, .94);
-        background: linear-gradient(to right, rgba(0, 0, 0, .99), rgba(0, 0, 0, .94), rgba(0, 0, 0, .5));
     }
+
+.detailBackgroundContainer.withBackdrop {
+    background: linear-gradient(to right, rgba(0, 0, 0, .99), rgba(0, 0, 0, .94), rgba(0, 0, 0, .5));
+}
 
 /* buttons */
 .paper-icon-button-light:focus {
