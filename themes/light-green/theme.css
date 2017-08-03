@@ -80,7 +80,7 @@ html, .skinHeader {
     color: #555;
 }
 
-.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
+.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused, .button-link {
     color: green;
 }
 
@@ -175,7 +175,7 @@ html, .skinHeader {
 }
 
 /* listItem */
-.listItem-shaded:nth-child(even) {
+.listItem-shaded:nth-child(even), .detailTableBodyRow-shaded:nth-child(even) {
     background: #f8f8f8;
 }
 

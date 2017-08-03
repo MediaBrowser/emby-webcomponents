@@ -81,7 +81,7 @@ html, .skinHeader {
     color: rgba(0, 0, 0, .7);
 }
 
-.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
+.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused, .button-link {
     color: #673AB7;
 }
 
@@ -177,7 +177,7 @@ html, .skinHeader {
 }
 
 /* listItem */
-.listItem-shaded:nth-child(even) {
+.listItem-shaded:nth-child(even), .detailTableBodyRow-shaded:nth-child(even) {
     background: #f8f8f8;
 }
 
