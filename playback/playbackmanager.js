@@ -294,6 +294,10 @@
                 } else {
                     directPlayContainers = p.Container;
                 }
+
+                if (p.AudioCodec) {
+                    directPlayContainers += '|' + p.AudioCodec;
+                }
             }
 
         });
@@ -318,6 +322,10 @@
                     audioDirectPlayContainers += ',' + p.Container;
                 } else {
                     audioDirectPlayContainers = p.Container;
+                }
+
+                if (p.AudioCodec) {
+                    audioDirectPlayContainers += '|' + p.AudioCodec;
                 }
             }
         });

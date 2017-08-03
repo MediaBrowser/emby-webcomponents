@@ -114,6 +114,14 @@ define(['browser'], function (browser) {
             typeString = 'audio/webm';
         } else if (format === 'mp2') {
             typeString = 'audio/mpeg';
+        } else if (format === 'ogg' || format === 'oga') {
+
+            // chrome says probably, but seeing failures
+            if (browser.chrome) {
+                return false;
+            }
+            typeString = 'audio/' + format;
+
         } else {
             typeString = 'audio/' + format;
         }
@@ -460,6 +468,7 @@ define(['browser'], function (browser) {
 
             // aac also appears in the m4a container
             if (audioFormat === 'aac' || audioFormat === 'alac') {
+
                 profile.DirectPlayProfiles.push({
                     Container: 'm4a',
                     AudioCodec: audioFormat,

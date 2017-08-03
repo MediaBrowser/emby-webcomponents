@@ -249,7 +249,9 @@
 
             // Trim off seconds
             if (timeParts.length > 2) {
-                timeParts.length -= 1;
+
+                // setting to 2 also handles '21:00:28 GMT+9:30'
+                timeParts.length = 2;
                 time = timeParts.join(':');
             }
         }

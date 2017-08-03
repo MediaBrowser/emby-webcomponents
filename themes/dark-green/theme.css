@@ -15,6 +15,11 @@ html {
 
 .skinHeader-withBackground {
     background-color: #52B54B;
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
+
+.osdHeader {
+    box-shadow: none !important;
 }
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
@@ -42,7 +47,7 @@ html {
 }
 
 .backgroundContainer {
-    background-color: #333;
+    background-color: #303030;
 }
 
     .backgroundContainer.withBackdrop {

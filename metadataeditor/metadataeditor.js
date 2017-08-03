@@ -128,7 +128,6 @@
                 Name: form.querySelector('#txtName').value,
                 OriginalTitle: form.querySelector('#txtOriginalName').value,
                 ForcedSortName: form.querySelector('#txtSortName').value,
-                DisplayMediaType: form.querySelector('#txtDisplayMediaType').value,
                 CommunityRating: form.querySelector('#txtCommunityRating').value,
                 HomePageUrl: form.querySelector('#txtHomePageUrl').value,
                 CriticRating: form.querySelector('#txtCriticRating').value,
@@ -683,12 +682,6 @@
             showElement('#fldYear', context);
         }
 
-        if (item.MediaType === "Video" && item.Type !== "TvChannel") {
-            showElement('#fldSourceType', context);
-        } else {
-            hideElement('#fldSourceType', context);
-        }
-
         if (item.Type === "Person") {
             //todo
             context.querySelector('#txtProductionYear').label(globalize.translate('sharedcomponents#LabelBirthYear'));
@@ -742,19 +735,10 @@
             showElement('#fldDisplayOrder', context);
 
             context.querySelector('#selectDisplayOrder').innerHTML = '<option value="SortName">' + globalize.translate('sharedcomponents#SortName') + '</option><option value="PremiereDate">' + globalize.translate('sharedcomponents#ReleaseDate') + '</option>';
+            showElement('#collapsibleDisplaySettings', context);
         } else {
             context.querySelector('#selectDisplayOrder').innerHTML = '';
             hideElement('#fldDisplayOrder', context);
-        }
-
-        var displaySettingFields = context.querySelectorAll('.fldDisplaySetting');
-        var hiddenDisplaySettingFields = Array.prototype.filter.call(displaySettingFields, function (field) {
-            return field.style.display !== 'none';
-
-        });
-        if (hiddenDisplaySettingFields.length) {
-            showElement('#collapsibleDisplaySettings', context);
-        } else {
             hideElement('#collapsibleDisplaySettings', context);
         }
     }
@@ -806,7 +790,6 @@
         context.querySelector('#txtOverview').value = item.Overview || '';
         context.querySelector('#txtTagline').value = (item.Taglines && item.Taglines.length ? item.Taglines[0] : '');
         context.querySelector('#txtSortName').value = item.ForcedSortName || "";
-        context.querySelector('#txtDisplayMediaType').value = item.DisplayMediaType || "";
         context.querySelector('#txtCommunityRating').value = item.CommunityRating || "";
         context.querySelector('#txtHomePageUrl').value = item.HomePageUrl || "";
 

@@ -304,23 +304,19 @@
 }
 
 .sportsAccent {
-    background-color: #3949AB;
+    background-color: #3949AB !important;
 }
 
 .movieAccent {
-    background-color: #5E35B1;
+    background-color: #5E35B1 !important;
 }
 
 .childAccent {
-    background-color: #039BE5;
+    background-color: #039BE5 !important;
 }
 
 .newsAccent {
-    background-color: #43A047;
-}
-
-.specialsAccent {
-    background-color: #FB8C00;
+    background-color: #43A047 !important;
 }
 
 .guideProgramName {
