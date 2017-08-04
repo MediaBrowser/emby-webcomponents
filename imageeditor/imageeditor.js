@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'browser', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light', 'css!./imageeditor'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require, browser) {
+﻿define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'browser', 'apphost', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light', 'css!./imageeditor'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require, browser, appHost) {
     'use strict';
 
     var currentItem;
@@ -374,6 +374,16 @@
     }
 
     function initEditor(context, options) {
+
+        var uploadButtons = context.querySelectorAll('.btnOpenUploadMenu');
+        var isFileInputSupported = appHost.supports('fileinput');
+        for (var i = 0, length = uploadButtons.length; i < length; i++) {
+            if (isFileInputSupported) {
+                uploadButtons[i].classList.remove('hide');
+            } else {
+                uploadButtons[i].classList.add('hide');
+            }
+        }
 
         addListeners(context, 'btnOpenUploadMenu', 'click', function () {
             var imageType = this.getAttribute('data-imagetype');

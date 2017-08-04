@@ -172,6 +172,10 @@ html {
     background: rgba(30, 30, 30, .9);
 }
 
+.listItem:focus {
+    background: #333;
+}
+
 .progressring-spiner {
     border-color: #52B54B;
 }
@@ -322,4 +326,29 @@ html {
 /* detail screen */
 .itemBackdropFader {
     background: linear-gradient(rgba(0,0,0,0), #191919);
+}
+
+/* used by directory picker and other areas */
+.infoBanner {
+    color: #000;
+    background: #fff3a5;
+    padding: 1em;
+    border-radius: .25em;
+}
+
+/* buttons */
+.ratingbutton-icon-withrating {
+    color: #cc3333;
+}
+
+.downloadbutton-icon-on {
+    color: #4285F4;
+}
+
+.downloadbutton-icon-complete {
+    color: #4285F4;
+}
+
+.playstatebutton-icon-played {
+    color: #cc3333;
 }

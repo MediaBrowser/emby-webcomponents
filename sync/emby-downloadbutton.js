@@ -50,16 +50,39 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
     function updateSyncStatus(button, syncPercent) {
 
+		var icon = button.iconElement;
+		if (!icon){
+			button.iconElement = button.querySelector('i');
+			icon = button.iconElement;
+		}
+		
         if (syncPercent != null) {
             button.classList.add('downloadbutton-on');
+			
+			if (icon){
+				icon.classList.add('downloadbutton-icon-on');
+			}
+			
         } else {
             button.classList.remove('downloadbutton-on');
+			
+			if (icon){
+				icon.classList.remove('downloadbutton-icon-on');
+			}
         }
 
         if ((syncPercent || 0) >= 100) {
             button.classList.add('downloadbutton-complete');
+			
+			if (icon){
+				icon.classList.add('downloadbutton-icon-complete');
+			}
         } else {
             button.classList.remove('downloadbutton-complete');
+			
+			if (icon){
+				icon.classList.remove('downloadbutton-icon-complete');
+			}
         }
 
         var text;
@@ -124,6 +147,8 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
 
         clearEvents(this);
+		
+		this.iconElement = null;
     };
 
     EmbyDownloadButtonPrototype.setItem = function (item) {

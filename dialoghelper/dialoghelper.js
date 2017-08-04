@@ -1,4 +1,4 @@
-﻿define(['historyManager', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'dom', 'css!./dialoghelper.css', 'scrollStyles'], function (historyManager, focusManager, browser, layoutManager, inputManager, dom) {
+﻿define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'dom', 'css!./dialoghelper.css', 'scrollStyles'], function (appRouter, focusManager, browser, layoutManager, inputManager, dom) {
     'use strict';
 
     var globalOnOpenCallback;
@@ -146,7 +146,7 @@
         animateDialogOpen(dlg);
 
         if (isHistoryEnabled(dlg)) {
-            historyManager.pushState({ dialogId: hash }, "Dialog", '#' + hash);
+            appRouter.pushState({ dialogId: hash }, "Dialog", '#' + hash);
 
             window.addEventListener('popstate', onHashChange);
         } else {
@@ -374,7 +374,7 @@
             dlg.setAttribute('data-lockscroll', 'true');
         }
 
-        if (options.enableHistory !== false && historyManager.enableNativeHistory()) {
+        if (options.enableHistory !== false && appRouter.enableNativeHistory()) {
             dlg.setAttribute('data-history', 'true');
         }
 

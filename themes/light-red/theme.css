@@ -179,6 +179,10 @@ html, .skinHeader {
     background: #f8f8f8;
 }
 
+.listItem:focus {
+    background: #333;
+}
+
 .emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
     background-color: #cc3333;
 }
@@ -326,4 +330,29 @@ html, .skinHeader {
 /* detail screen */
 .itemBackdropFader {
     background: linear-gradient(rgba(0,0,0,0), #f2f2f2);
+}
+
+/* used by directory picker and other areas */
+.infoBanner {
+    color: #000;
+    background: #fff3a5;
+    padding: 1em;
+    border-radius: .25em;
+}
+
+/* buttons */
+.ratingbutton-icon-withrating {
+    color: #cc3333;
+}
+
+.downloadbutton-icon-on {
+    color: #4285F4;
+}
+
+.downloadbutton-icon-complete {
+    color: #4285F4;
+}
+
+.playstatebutton-icon-played {
+    color: #cc3333;
 }

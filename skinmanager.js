@@ -1,4 +1,4 @@
-define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'require'], function (userSettings, events, pluginManager, backdrop, globalize, require) {
+define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (userSettings, events, pluginManager, backdrop, globalize, require, appSettings) {
     'use strict';
 
     var currentSkin;
@@ -142,35 +142,104 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
         }
     });
 
-    function getStylesheetPath(stylesheetPath) {
-
-        var embyWebComponentsBowerPath = 'bower_components/emby-webcomponents';
-
-        return require.toUrl(embyWebComponentsBowerPath + '/themes/' + stylesheetPath + '/theme.css');
-    }
-
     var themeStyleElement;
-    var currentThemeStylesheet;
+    var currentThemeId;
     function unloadTheme() {
         var elem = themeStyleElement;
         if (elem) {
 
             elem.parentNode.removeChild(elem);
             themeStyleElement = null;
-            currentThemeStylesheet = null;
+            currentThemeId = null;
         }
     }
 
-    function setTheme(stylesheetPath) {
+    function getThemes() {
+
+        if (currentSkin.getThemes) {
+            return currentSkin.getThemes();
+        }
+
+        return [];
+    }
+
+    var skinManager = {
+        getCurrentSkin: getCurrentSkin,
+        loadSkin: loadSkin,
+        loadUserSkin: loadUserSkin,
+        getThemes: getThemes
+    };
+
+    function onRegistrationSuccess() {
+        appSettings.set('appthemesregistered', 'true');
+    }
+
+    function onRegistrationFailure() {
+        appSettings.set('appthemesregistered', 'false');
+    }
+
+    function isRegistered() {
+
+        getRequirePromise(['registrationServices']).then(function (registrationServices) {
+            registrationServices.validateFeature('themes', {
+
+                showDialog: false
+
+            }).then(onRegistrationSuccess, onRegistrationFailure);
+        });
+
+        return appSettings.get('appthemesregistered') !== 'false';
+    }
+
+    function getThemeStylesheetInfo(id, isDefaultProperty) {
+
+        var themes = skinManager.getThemes();
+        var defaultTheme;
+        var selectedTheme;
+
+        for (var i = 0, length = themes.length; i < length; i++) {
+
+            var theme = themes[i];
+            if (theme[isDefaultProperty]) {
+                defaultTheme = theme;
+            }
+            if (id === theme.id) {
+                selectedTheme = theme;
+            }
+        }
+
+        selectedTheme = selectedTheme || defaultTheme;
+
+        if (selectedTheme !== defaultTheme.id && !isRegistered()) {
+            selectedTheme = defaultTheme;
+        }
+
+        var embyWebComponentsBowerPath = 'bower_components/emby-webcomponents';
+
+        return {
+            stylesheetPath: require.toUrl(embyWebComponentsBowerPath + '/themes/' + selectedTheme.id + '/theme.css'),
+            themeId: selectedTheme.id
+        };
+    }
+
+    skinManager.setTheme = function (id, context) {
 
         return new Promise(function (resolve, reject) {
 
-            var linkUrl = getStylesheetPath(stylesheetPath);
-
-            if (currentThemeStylesheet === linkUrl) {
+            if (currentThemeId === id) {
                 resolve();
                 return;
             }
+
+            var isDefaultProperty = context === 'serverdashboard' ? 'isDefaultServerDashboard' : 'isDefault';
+            var info = getThemeStylesheetInfo(id, isDefaultProperty);
+
+            if (currentThemeId === info.themeId) {
+                resolve();
+                return;
+            }
+
+            var linkUrl = info.stylesheetPath;
 
             unloadTheme();
 
@@ -183,14 +252,9 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
             link.setAttribute('href', linkUrl);
             document.head.appendChild(link);
             themeStyleElement = link;
-            currentThemeStylesheet = linkUrl;
+            currentThemeId = info.themeId;
         });
-    }
-
-    return {
-        getCurrentSkin: getCurrentSkin,
-        loadSkin: loadSkin,
-        loadUserSkin: loadUserSkin,
-        setTheme: setTheme
     };
+
+    return skinManager;
 });

@@ -190,9 +190,13 @@
     right: 0;
 }
 
-.listItem:focus .secondary {
-    color: inherit !important;
+.listItem:focus {
+    border-radius: .25em;
 }
+
+    .listItem:focus .secondary {
+        color: inherit !important;
+    }
 
 .listItem-focusscale {
     transition: transform .2s ease-out;

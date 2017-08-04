@@ -461,10 +461,29 @@ define(['browser'], function (browser) {
 
         ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
 
-            profile.DirectPlayProfiles.push({
-                Container: audioFormat === 'webma' ? 'webma,webm' : audioFormat,
-                Type: 'Audio'
-            });
+            if (audioFormat === 'mp2') {
+
+                profile.DirectPlayProfiles.push({
+                    Container: 'mp2,mp3',
+                    Type: 'Audio',
+                    AudioCodec: audioFormat
+                });
+            }
+
+            else if (audioFormat === 'mp3') {
+
+                profile.DirectPlayProfiles.push({
+                    Container: audioFormat,
+                    Type: 'Audio',
+                    AudioCodec: audioFormat
+                });
+
+            } else {
+                profile.DirectPlayProfiles.push({
+                    Container: audioFormat === 'webma' ? 'webma,webm' : audioFormat,
+                    Type: 'Audio'
+                });
+            }
 
             // aac also appears in the m4a container
             if (audioFormat === 'aac' || audioFormat === 'alac') {
