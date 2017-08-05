@@ -336,6 +336,17 @@
 
     function updateRepeatModeDisplay(repeatMode) {
 
+        if (repeatMode === 'RepeatAll') {
+            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButton.classList.add('repeatButton-active');
+        }
+        else if (repeatMode === 'RepeatOne') {
+            toggleRepeatButtonIcon.innerHTML = "repeat_one";
+            toggleRepeatButton.classList.add('repeatButton-active');
+        } else {
+            toggleRepeatButtonIcon.innerHTML = "repeat";
+            toggleRepeatButton.classList.remove('repeatButton-active');
+        }
     }
 
     function updateTimeDisplay(positionTicks, runtimeTicks, bufferedRanges) {

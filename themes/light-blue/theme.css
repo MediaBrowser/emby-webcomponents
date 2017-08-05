@@ -358,3 +358,7 @@ html, .skinHeader {
 .playstatebutton-icon-played {
     color: #cc3333;
 }
+
+.repeatButton-active {
+    color: #4285F4;
+}
