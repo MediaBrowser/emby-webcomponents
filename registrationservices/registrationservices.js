@@ -233,20 +233,31 @@
                 }
 
                 // Get supporter status
-                return connectionManager.getRegistrationInfo(iapManager.getAdminFeatureName(feature), connectionManager.currentApiClient()).catch(function () {
+                return connectionManager.getRegistrationInfo(iapManager.getAdminFeatureName(feature), connectionManager.currentApiClient()).catch(function (errorResult) {
+
+                    if (options.showDialog === false) {
+                        return Promise.reject();
+                    }
+
+                    if (errorResult === 'overlimit') {
+                        return showOverLimitAlert();
+                    }
 
                     var dialogOptions = {
                         title: globalize.translate('sharedcomponents#HeaderUnlockFeature'),
                         feature: feature
                     };
 
-                    if (options.showDialog === false) {
-                        return Promise.reject();
-                    }
-
                     return showInAppPurchaseInfo(subscriptionOptions, unlockableProductInfo, dialogOptions);
                 });
             });
+        });
+    }
+
+    function showOverLimitAlert() {
+
+        return alertText('Your Emby Premiere device limit has been exceeded. Please check with the owner of your Emby Server and have them contact Emby support at apps@emby.media if necessary.').then(function () {
+            return Promise.reject();
         });
     }
 

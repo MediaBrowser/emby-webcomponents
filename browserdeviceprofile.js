@@ -761,14 +761,6 @@ define(['browser'], function (browser) {
             MimeType: 'video/mp4'
         });
 
-        if (browser.chrome) {
-            profile.ResponseProfiles.push({
-                Type: 'Video',
-                Container: 'mov',
-                MimeType: 'video/webm'
-            });
-        }
-
         return profile;
     };
 });

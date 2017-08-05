@@ -78,7 +78,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             dragSource: null, // Selector or DOM element for catching dragging events. Default is FRAME.
             mouseDragging: 1, // Enable navigation by dragging the SLIDEE with mouse cursor.
             touchDragging: 1, // Enable navigation by dragging the SLIDEE with touch events.
-            swingSpeed: 0.2, // Swing synchronization speed, where: 1 = instant, 0 = infinite.
             dragThreshold: 3, // Distance in pixels before Sly recognizes dragging.
             intervactive: null, // Selector for special interactive elements.
 
@@ -228,11 +227,27 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
         function nativeScrollTo(container, pos, immediate) {
 
-            if (!immediate && container.scrollTo) {
+
+            if (container.scroll) {
                 if (o.horizontal) {
-                    container.scrollTo(pos, 0);
+
+                    container.scroll({
+                        left: pos,
+                        behavior: immediate ? 'instant' : 'smooth'
+                    });
                 } else {
-                    container.scrollTo(0, pos);
+
+                    container.scroll({
+                        top: pos,
+                        behavior: immediate ? 'instant' : 'smooth'
+                    });
+                }
+            }
+            else if (!immediate && container.scrollTo) {
+                if (o.horizontal) {
+                    container.scrollTo(Math.round(pos), 0);
+                } else {
+                    container.scrollTo(0, Math.round(pos));
                 }
             } else {
                 if (o.horizontal) {

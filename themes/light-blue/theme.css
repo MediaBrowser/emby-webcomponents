@@ -34,6 +34,10 @@ html, .skinHeader {
     background-image: linear-gradient(to bottom,rgba(0,0,0,.7) 10%,rgba(0,0,0,0));
 }
 
+.pageTitleWithDefaultLogo {
+    background-image: url(logo.png);
+}
+
 .backgroundContainer {
     background-color: #f2f2f2;
     /*background-image: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);*/
