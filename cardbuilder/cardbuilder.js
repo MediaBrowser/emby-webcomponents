@@ -1236,7 +1236,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, true, cardFooterId, vibrantSwatch);
             }
 
-            if (outerCardFooter && !options.cardLayout && options.allowBottomPadding !== false) {
+            if (outerCardFooter && !options.cardLayout /*&& options.allowBottomPadding !== false*/) {
                 cardBoxClass += ' cardBox-bottompadded';
             }
 

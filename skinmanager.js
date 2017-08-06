@@ -226,7 +226,7 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
 
         return new Promise(function (resolve, reject) {
 
-            if (currentThemeId === id) {
+            if (currentThemeId && currentThemeId === id) {
                 resolve();
                 return;
             }
@@ -234,7 +234,7 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
             var isDefaultProperty = context === 'serverdashboard' ? 'isDefaultServerDashboard' : 'isDefault';
             var info = getThemeStylesheetInfo(id, isDefaultProperty);
 
-            if (currentThemeId === info.themeId) {
+            if (currentThemeId && currentThemeId === info.themeId) {
                 resolve();
                 return;
             }
