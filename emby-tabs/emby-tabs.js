@@ -158,7 +158,8 @@
                 hiddenScroll: true,
 
                 // In safari the transform is causing the headers to occasionally disappear or flicker
-                requireAnimation: !browser.safari
+                requireAnimation: !browser.safari,
+                allowNativeSmoothScroll: true
             });
             tabs.scroller.init();
         } else {
