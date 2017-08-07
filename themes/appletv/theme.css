@@ -37,8 +37,7 @@ html, .skinHeader {
 }
 
 .backgroundContainer, .dialog {
-    background: #f2f2f2;
-    background: url(https://github.com/MediaBrowser/Emby.Resources/raw/master/images/wallpaper/atv1-1080.png) no-repeat center center;
+    background: #D5E9F2 url(https://github.com/MediaBrowser/Emby.Resources/raw/master/images/wallpaper/atv1-1080.png) no-repeat center center;
     background-size: 100% 100%;
 }
 
