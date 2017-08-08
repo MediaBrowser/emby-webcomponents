@@ -687,9 +687,9 @@
                 }
 
                 var title = [];
-                if (channel.Number) {
+                if (channel.ChannelNumber) {
 
-                    title.push(channel.Number);
+                    title.push(channel.ChannelNumber);
                 }
                 if (channel.Name) {
 
@@ -709,9 +709,9 @@
                     html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
                 }
 
-                if (channel.Number) {
+                if (channel.ChannelNumber) {
 
-                    html += '<h3 class="guideChannelNumber">' + channel.Number + '</h3>';
+                    html += '<h3 class="guideChannelNumber">' + channel.ChannelNumber + '</h3>';
                 }
 
                 if (!hasChannelImage && channel.Name) {

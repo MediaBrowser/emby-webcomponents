@@ -17,8 +17,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         if (item.Type === "TvChannel") {
 
-            if (item.Number) {
-                return item.Number + ' ' + name;
+            if (item.ChannelNumber) {
+                return item.ChannelNumber + ' ' + name;
             }
             return name;
         }
