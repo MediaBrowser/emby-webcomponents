@@ -297,7 +297,7 @@ button {
 }
 
 .card:focus .cardText {
-    color: #fff !important;
+    color: inherit;
 }
 
 .cardText-rightmargin {

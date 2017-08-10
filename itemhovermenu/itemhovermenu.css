@@ -40,6 +40,8 @@
 
 .cardOverlayFab {
     margin-right: .25em !important;
+    background: #404040;
+    color: #fff;
 }
 
 .withHoverMenu {

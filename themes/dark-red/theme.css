@@ -359,3 +359,8 @@ html {
 .repeatButton-active {
     color: #4285F4;
 }
+
+/* cards */
+.card:focus .card-focuscontent {
+    border-color: #52B54B;
+}
