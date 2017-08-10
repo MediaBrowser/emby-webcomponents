@@ -90,6 +90,10 @@
             return s.Id === currentTargetId;
         })[0];
 
+        var state = getPlayerState(session);
+        normalizeImages(state, apiClient);
+        instance.lastPlayerData = state;
+
         if (session) {
             firePlaybackEvent(instance, 'statechange', session, apiClient);
             firePlaybackEvent(instance, 'timeupdate', session, apiClient);
@@ -135,6 +139,7 @@
     function normalizeImages(state, apiClient) {
 
         if (state && state.NowPlayingItem) {
+            g
 
             var item = state.NowPlayingItem;
 
@@ -242,28 +247,7 @@
 
     SessionPlayer.prototype.getPlayerState = function () {
 
-        var apiClient = getCurrentApiClient(this);
-
-        if (apiClient) {
-            return apiClient.getSessions().then(function (sessions) {
-
-                var currentTargetId = getActivePlayerId();
-
-                // Update existing data
-                //updateSessionInfo(popup, msg.Data);
-                var session = sessions.filter(function (s) {
-                    return s.Id === currentTargetId;
-                })[0];
-
-                if (session) {
-                    session = getPlayerState(session);
-                }
-
-                return session || {};
-            });
-        } else {
-            return Promise.resolve({});
-        }
+        return Promise.resolve(this.lastPlayerData || {});
     };
 
     SessionPlayer.prototype.getTargets = function () {

@@ -444,15 +444,13 @@
 
     function initSupporterInfo(context, apiClient) {
 
-        apiClient.getPluginSecurityInfo().then(function (regInfo) {
+        registrationServices.validateFeature('sync',
+            {
+                showDialog: false
 
-            if (!regInfo.IsMBSupporter) {
+            }).catch(function () {
                 showSupporterInfo(context, apiClient);
-            }
-
-        }, function () {
-            showSupporterInfo(context, apiClient);
-        });
+            });
     }
 
     syncJobList.prototype.destroy = function () {

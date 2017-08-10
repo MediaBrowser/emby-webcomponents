@@ -55,13 +55,6 @@
         });
     }
 
-    function getSelectedAirDays(form) {
-        var checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
-        return Array.prototype.map.call(checkedItems, function (c) {
-            return c.getAttribute('data-day');
-        });
-    }
-
     function getAlbumArtists(form) {
 
         return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter(function (s) {
@@ -140,14 +133,11 @@
                 AirsBeforeEpisodeNumber: form.querySelector('#txtAirsBeforeEpisode').value,
                 ParentIndexNumber: form.querySelector('#txtParentIndexNumber').value || null,
                 DisplayOrder: form.querySelector('#selectDisplayOrder').value,
-                Players: form.querySelector('#txtPlayers').value,
                 Album: form.querySelector('#txtAlbum').value,
                 AlbumArtists: getAlbumArtists(form),
                 ArtistItems: getArtists(form),
                 Overview: form.querySelector('#txtOverview').value,
                 Status: form.querySelector('#selectStatus').value,
-                AirDays: getSelectedAirDays(form),
-                AirTime: form.querySelector('#txtAirTime').value,
                 Genres: editableListViewValues(form.querySelector("#listGenres")),
                 Tags: editableListViewValues(form.querySelector("#listTags")),
                 Studios: editableListViewValues(form.querySelector("#listStudios")).map(function (element) { return { Name: element }; }),
@@ -593,12 +583,6 @@
             hideElement('#albumAssociationMessage', context);
         }
 
-        if (item.MediaType === "Game") {
-            showElement('#fldPlayers', context);
-        } else {
-            hideElement('#fldPlayers', context);
-        }
-
         if (item.Type === "Movie" || item.Type === "Trailer") {
             showElement('#fldCriticRating', context);
         } else {
@@ -607,12 +591,8 @@
 
         if (item.Type === "Series") {
             showElement('#fldStatus', context);
-            showElement('#fldAirDays', context);
-            showElement('#fldAirTime', context);
         } else {
             hideElement('#fldStatus', context);
-            hideElement('#fldAirDays', context);
-            hideElement('#fldAirTime', context);
         }
 
         if (item.MediaType === "Video" && item.Type !== "TvChannel") {
@@ -763,10 +743,6 @@
 
         context.querySelector('#select3dFormat', context).value = item.Video3DFormat || "";
 
-        Array.prototype.forEach.call(context.querySelectorAll('.chkAirDay', context), function (el) {
-            el.checked = (item.AirDays || []).indexOf(el.getAttribute('data-day')) !== -1;
-        });
-
         populateListView(context.querySelector('#listGenres'), item.Genres);
         populatePeople(context, item.People || []);
 
@@ -797,7 +773,6 @@
 
         context.querySelector('#txtIndexNumber').value = ('IndexNumber' in item) ? item.IndexNumber : "";
         context.querySelector('#txtParentIndexNumber').value = ('ParentIndexNumber' in item) ? item.ParentIndexNumber : "";
-        context.querySelector('#txtPlayers').value = item.Players || "";
 
         context.querySelector('#txtAbsoluteEpisodeNumber').value = ('AbsoluteEpisodeNumber' in item) ? item.AbsoluteEpisodeNumber : "";
         context.querySelector('#txtDvdEpisodeNumber').value = ('DvdEpisodeNumber' in item) ? item.DvdEpisodeNumber : "";
@@ -857,8 +832,6 @@
         }
 
         context.querySelector('#txtProductionYear').value = item.ProductionYear || "";
-
-        context.querySelector('#txtAirTime').value = item.AirTime || '';
 
         var placeofBirth = item.ProductionLocations && item.ProductionLocations.length ? item.ProductionLocations[0] : '';
         context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
