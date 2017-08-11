@@ -139,7 +139,6 @@
     function normalizeImages(state, apiClient) {
 
         if (state && state.NowPlayingItem) {
-            g
 
             var item = state.NowPlayingItem;
 
