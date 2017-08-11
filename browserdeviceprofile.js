@@ -499,7 +499,9 @@ define(['browser'], function (browser) {
         if (canPlayWebm) {
             profile.DirectPlayProfiles.push({
                 Container: 'webm',
-                Type: 'Video'
+                Type: 'Video',
+                AudioCodec: 'vorbis',
+                VideoCodec: 'VP8,VP9'
             });
         }
 
