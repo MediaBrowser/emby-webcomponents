@@ -36,7 +36,10 @@
 
         var nextAction;
 
-        if (status === 'Failed' || status === 'Cancelled') {
+        if (status === 'Failed') {
+            nextAction = 'retry';
+        }
+        else if (status === 'Cancelled') {
             nextAction = 'retry';
         }
         else if (status === 'Queued' || status === 'Transferring' || status === 'Converting' || status === 'ReadyToTransfer') {
@@ -167,41 +170,20 @@
         if (action === 'retry') {
             retryJobItem(context, jobId, jobItemId, apiClient);
         }
-        else if (action === 'cancel') {
+        else if (action === 'cancel' || action === 'remove') {
             cancelJobItem(context, jobId, jobItemId, apiClient);
-        }
-        else if (action === 'remove') {
-            markForRemoval(context, jobId, jobItemId, apiClient);
         }
     }
 
     function cancelJobItem(context, jobId, jobItemId, apiClient) {
 
-        loading.show();
-
-        apiClient.ajax({
-
-            type: "DELETE",
-            url: apiClient.getUrl('Sync/JobItems/' + jobItemId)
-
-        }).then(function () {
-
-            // TODO this should check editor options.isLocalSync
-            if (appHost.supports('sync')) {
-                syncNow();
-            }
-
-            loadJob(context, jobId, apiClient);
-        });
-    }
-
-    function markForRemoval(context, jobId, jobItemId, apiClient) {
-
         showRemoveConfirm(function () {
+            loading.show();
+
             apiClient.ajax({
 
-                type: "POST",
-                url: apiClient.getUrl('Sync/JobItems/' + jobItemId + '/MarkForRemoval')
+                type: "DELETE",
+                url: apiClient.getUrl('Sync/JobItems/' + jobItemId)
 
             }).then(function () {
 
@@ -217,7 +199,7 @@
 
     function retryJobItem(context, jobId, jobItemId, apiClient) {
 
-        showRemoveConfirm(function () {
+        showRetryConfirm(function () {
             apiClient.ajax({
 
                 type: "POST",
@@ -232,6 +214,22 @@
 
                 loadJob(context, jobId, apiClient);
             });
+        });
+    }
+
+    function showRetryConfirm(callback) {
+
+        // TODO Implement this as a retry dialog
+        require(['confirm'], function (confirm) {
+
+            confirm({
+
+                text: globalize.translate('sharedcomponents#ConfirmRemoveDownload'),
+                confirmText: globalize.translate('sharedcomponents#RemoveDownload'),
+                cancelText: globalize.translate('sharedcomponents#KeepDownload'),
+                primary: 'cancel'
+
+            }).then(callback);
         });
     }
 

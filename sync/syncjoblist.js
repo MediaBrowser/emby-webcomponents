@@ -309,27 +309,19 @@
 
         var menuItems = [];
 
-        if (status === 'Cancelled') {
+        if (item.getAttribute('data-canedit') === 'true') {
             menuItems.push({
-                name: globalize.translate('sharedcomponents#Delete'),
-                id: 'delete'
-            });
-        } else {
-
-            if (item.getAttribute('data-canedit') === 'true') {
-                menuItems.push({
-                    name: globalize.translate('sharedcomponents#Edit'),
-                    id: 'edit'
-                });
-            }
-
-            var txt = globalize.translate('sharedcomponents#RemoveDownload');
-
-            menuItems.push({
-                name: txt,
-                id: 'cancel'
+                name: globalize.translate('sharedcomponents#Edit'),
+                id: 'edit'
             });
         }
+
+        var txt = globalize.translate('sharedcomponents#RemoveDownload');
+
+        menuItems.push({
+            name: txt,
+            id: 'cancel'
+        });
 
         require(['actionsheet'], function (actionsheet) {
 
