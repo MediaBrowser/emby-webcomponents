@@ -576,6 +576,10 @@
 
     function onRepeatModeChange(e) {
 
+        if (!isEnabled) {
+            return;
+        }
+
         var player = this;
 
         updateRepeatModeDisplay(playbackManager.getRepeatMode(player));
