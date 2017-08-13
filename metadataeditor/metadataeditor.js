@@ -55,6 +55,13 @@
         });
     }
 
+    function getSelectedAirDays(form) {
+        var checkedItems = form.querySelectorAll('.chkAirDay:checked') || [];
+        return Array.prototype.map.call(checkedItems, function (c) {
+            return c.getAttribute('data-day');
+        });
+    }
+
     function getAlbumArtists(form) {
 
         return form.querySelector('#txtAlbumArtist').value.trim().split(';').filter(function (s) {
@@ -138,6 +145,8 @@
                 ArtistItems: getArtists(form),
                 Overview: form.querySelector('#txtOverview').value,
                 Status: form.querySelector('#selectStatus').value,
+                AirDays: getSelectedAirDays(form),
+                AirTime: form.querySelector('#txtAirTime').value,
                 Genres: editableListViewValues(form.querySelector("#listGenres")),
                 Tags: editableListViewValues(form.querySelector("#listTags")),
                 Studios: editableListViewValues(form.querySelector("#listStudios")).map(function (element) { return { Name: element }; }),
@@ -591,8 +600,12 @@
 
         if (item.Type === "Series") {
             showElement('#fldStatus', context);
+            showElement('#fldAirDays', context);
+            showElement('#fldAirTime', context);
         } else {
             hideElement('#fldStatus', context);
+            hideElement('#fldAirDays', context);
+            hideElement('#fldAirTime', context);
         }
 
         if (item.MediaType === "Video" && item.Type !== "TvChannel") {
@@ -743,6 +756,10 @@
 
         context.querySelector('#select3dFormat', context).value = item.Video3DFormat || "";
 
+        Array.prototype.forEach.call(context.querySelectorAll('.chkAirDay', context), function (el) {
+            el.checked = (item.AirDays || []).indexOf(el.getAttribute('data-day')) !== -1;
+        });
+
         populateListView(context.querySelector('#listGenres'), item.Genres);
         populatePeople(context, item.People || []);
 
@@ -832,6 +849,8 @@
         }
 
         context.querySelector('#txtProductionYear').value = item.ProductionYear || "";
+
+        context.querySelector('#txtAirTime').value = item.AirTime || '';
 
         var placeofBirth = item.ProductionLocations && item.ProductionLocations.length ? item.ProductionLocations[0] : '';
         context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
