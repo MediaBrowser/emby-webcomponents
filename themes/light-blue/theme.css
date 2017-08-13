@@ -56,6 +56,10 @@ html, .skinHeader {
     color: #2196F3;
 }
 
+.skinHeader-withBackground .paper-icon-button-light:focus {
+    color: #fff;
+}
+
 .raised, .fab {
     background: #fff;
     color: inherit;

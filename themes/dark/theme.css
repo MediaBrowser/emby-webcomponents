@@ -329,8 +329,8 @@ html {
 
 /* used by directory picker and other areas */
 .infoBanner {
-    color: #000;
-    background: #fff3a5;
+    color: #ddd;
+    background: #111;
     padding: 1em;
     border-radius: .25em;
 }
