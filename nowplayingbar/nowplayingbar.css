@@ -2,6 +2,8 @@
     display: flex;
     align-items: center;
     height: 100%;
+    flex-grow: 1;
+    overflow: hidden;
 }
 
 /* Now playing bar */
@@ -22,6 +24,8 @@
     flex-direction: row;
     align-items: center;
     height: 4.2em;
+    position: relative;
+    justify-content: center;
 }
 
 .mediaButton, .nowPlayingBarUserDataButtons .btnUserItemRating {
@@ -43,6 +47,7 @@
     height: 70%;
     width: 4.2em;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
 }
 
 .nowPlayingBarText {
@@ -51,40 +56,9 @@
     text-overflow: ellipsis;
     vertical-align: middle;
     text-align: left;
-    max-width: 10em;
     flex-grow: 1;
     font-size: 92%;
     margin-right: 2.4em;
-}
-
-@media (min-width: 31.25em) {
-    .nowPlayingBarText {
-        max-width: 15.3em;
-    }
-}
-
-@media (min-width: 37.5em) {
-    .nowPlayingBarText {
-        max-width: 17em;
-    }
-}
-
-@media (min-width: 43.75em) {
-    .nowPlayingBarText {
-        max-width: 20.4em;
-    }
-}
-
-@media (min-width: 50em) {
-    .nowPlayingBarText {
-        max-width: 25.5em;
-    }
-}
-
-@media (min-width: 56.25em) {
-    .nowPlayingBarText {
-        max-width: 34em;
-    }
 }
 
 .nowPlayingBarCenter {
@@ -96,6 +70,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
 }
 
 .nowPlayingBarPositionContainer {
@@ -121,6 +96,7 @@
     z-index: 2;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .nowPlayingBarCurrentTime {
@@ -142,8 +118,8 @@
 }
 
 .nowPlayingBarPositionSlider::-webkit-slider-thumb {
-    width: 1.2em!important;
-    height: 1.2em!important;
+    width: 1.2em !important;
+    height: 1.2em !important;
 }
 
 @media all and (max-width: 87.5em) {
@@ -162,7 +138,7 @@
 
 @media all and (max-width: 50em) {
 
-    .nowPlayingBarCenter > * {
+    .nowPlayingBarCenter {
         display: none !important;
     }
 
@@ -175,5 +151,9 @@
 
     .nowPlayingBarRight .playPauseButton {
         display: none;
+    }
+
+    .nowPlayingBarInfoContainer {
+        max-width: 40%;
     }
 }

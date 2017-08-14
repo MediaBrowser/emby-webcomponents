@@ -1221,7 +1221,6 @@
             userId: userId,
             Limit: enableScrollX() ? 12 : 5,
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-            IsInProgress: false,
             EnableTotalRecordCount: false,
             IsLibraryItem: false
 
