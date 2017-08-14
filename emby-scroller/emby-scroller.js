@@ -155,7 +155,8 @@
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
             dispatchScrollEvent: enableScrollButtons || bindHeader || this.getAttribute('data-scrollevent') === 'true',
             hideScrollbar: enableScrollButtons,
-            allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true'
+            allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true',
+            forceHideScrollbars: enableScrollButtons
         };
 
         // If just inserted it might not have any height yet - yes this is a hack

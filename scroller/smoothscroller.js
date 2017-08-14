@@ -743,11 +743,19 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
                     } else {
                         nativeScrollElement.classList.add('hiddenScrollX');
                     }
+
+                    if (o.forceHideScrollbars) {
+                        nativeScrollElement.classList.add('hiddenScrollX-forced');
+                    }
                 } else {
                     if (layoutManager.desktop && !o.hideScrollbar) {
                         nativeScrollElement.classList.add('smoothScrollY');
                     } else {
                         nativeScrollElement.classList.add('hiddenScrollY');
+                    }
+
+                    if (o.forceHideScrollbars) {
+                        nativeScrollElement.classList.add('hiddenScrollY-forced');
                     }
                 }
             } else {

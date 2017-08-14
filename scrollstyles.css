@@ -12,10 +12,14 @@
     /*overflow: -moz-scrollbars-none;*/
 }
 
-    .hiddenScrollX::-webkit-scrollbar, .layout-tv .smoothScrollX::-webkit-scrollbar {
-        height: 0 !important;
-        display: none;
-    }
+.hiddenScrollX-forced {
+    overflow: -moz-scrollbars-none;
+}
+
+.hiddenScrollX::-webkit-scrollbar, .layout-tv .smoothScrollX::-webkit-scrollbar {
+    height: 0 !important;
+    display: none;
+}
 
 
 .smoothScrollY, .hiddenScrollY {
@@ -31,10 +35,14 @@
     /*overflow: -moz-scrollbars-none;*/
 }
 
-    .hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar {
-        width: 0 !important;
-        display: none;
-    }
+.hiddenScrollY-forced {
+    overflow: -moz-scrollbars-none;
+}
+
+.hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar {
+    width: 0 !important;
+    display: none;
+}
 
 .darkScroller::-webkit-scrollbar {
     width: 1em;
