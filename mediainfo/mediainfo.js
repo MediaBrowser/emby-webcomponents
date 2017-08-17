@@ -73,7 +73,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'material-icons', 'c
             if (options.interactive && item.ChannelId) {
                 miscInfo.push({
                     html: '<a is="emby-linkbutton" class="button-flat mediaInfoItem" href="' + appRouter.getRouteUrl({
-                        
+
                         ServerId: item.ServerId,
                         Type: 'TvChannel',
                         Name: item.ChannelName,
@@ -633,7 +633,9 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'material-icons', 'c
             });
         }
 
-        if (audioStream.Codec === 'dca' && audioStream.Profile) {
+        var audioCodec = (audioStream.Codec || '').toLowerCase();
+
+        if ((audioCodec === 'dca' || audioCodec === 'dts') && audioStream.Profile) {
             list.push({
                 type: 'mediainfo',
                 text: audioStream.Profile

@@ -71,7 +71,7 @@
 }
 
 .listItemBody-noleftpadding {
-    padding-left: 0;
+    padding-left: 0 !important;
 }
 
 .three-line {
@@ -154,14 +154,14 @@
     }
 
     .listItemBody {
-        padding-left: .75em !important;
+        padding-left: .75em;
     }
 }
 
 @media all and (max-width: 50em) {
 
     .listItemBody {
-        padding-right: .5em !important;
+        padding-right: .5em;
     }
 }
 

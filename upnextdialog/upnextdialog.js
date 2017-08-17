@@ -127,15 +127,9 @@
 
         var instance = this;
 
-        var hideTime = instance._hideTime;
-
-        if (!hideTime) {
-            return;
-        }
-
         var elem = instance.options.parent;
 
-        var secondsRemaining = Math.max(Math.round((hideTime - new Date().getTime()) / 1000), 0);
+        var secondsRemaining = Math.max(Math.round(getTimeRemainingMs(instance) / 1000), 0);
 
         var timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('sharedcomponents#HeaderSecondsValue', secondsRemaining) + '</span>';
 
@@ -188,8 +182,11 @@
 
     function onStartNowClick() {
 
-        this._playNextOnHide = true;
-        hideComingUpNext.call(this);
+        var options = this.options;
+
+        if (options) {
+            playbackManager.nextTrack(options.player);
+        }
     }
 
     function init(instance, options) {
@@ -215,10 +212,6 @@
 
         clearHideAnimationEventListeners(instance, elem);
         events.trigger(instance, 'hide');
-
-        if (instance._playNextOnHide !== false) {
-            advanceFromUpNext(instance);
-        }
     }
 
     function clearHideAnimationEventListeners(instance, elem) {
@@ -235,7 +228,6 @@
     function hideComingUpNext() {
 
         var instance = this;
-        stopComingUpNextHideTimer(instance);
         clearCountdownTextTimeout(this);
 
         var elem = instance.options.parent;
@@ -259,51 +251,32 @@
         });
     }
 
-    function advanceFromUpNext(instance) {
+    function getTimeRemainingMs(instance) {
 
         var options = instance.options;
+        if (options) {
 
-        var endTimeMs = options.endTimeMs;
+            var runtimeTicks = playbackManager.duration(options.player);
 
-        // If we're already at the end, or close enough, then don't do anything and just allow the normal track advancement to take place
-        if ((new Date().getTime() + 1000) >= endTimeMs) {
-            return;
+            if (runtimeTicks) {
+                var timeRemainingTicks = runtimeTicks - playbackManager.currentTime(options.player);
+
+                return Math.round(timeRemainingTicks / 10000);
+            }
         }
 
-        if (options && instance._playNextOnHide !== false) {
-            playbackManager.nextTrack(options.player);
-        }
+        return 0;
     }
 
     function startComingUpNextHideTimer(instance) {
 
-        stopComingUpNextHideTimer(instance);
-        instance._playNextOnHide = true;
-
-        var now = new Date().getTime();
-
-        var timeRemainingMs = instance.options.endTimeMs - now;
+        var timeRemainingMs = getTimeRemainingMs(instance);
 
         if (timeRemainingMs <= 0) {
             return;
         }
 
-        var countdownMs = Math.min(timeRemainingMs, 15000);
-
-        instance._hideTime = now + countdownMs;
-
         startCountdownTextTimeout(instance);
-
-        console.log('starting up next timer with length: ' + countdownMs);
-
-        instance._comimgUpNextHideTimeout = setTimeout(hideComingUpNext.bind(instance), countdownMs);
-    }
-
-    function stopComingUpNextHideTimer(instance) {
-        if (instance._comimgUpNextHideTimeout) {
-            clearTimeout(instance._comimgUpNextHideTimeout);
-            instance._comimgUpNextHideTimeout = null;
-        }
     }
 
     function UpNextDialog(options) {
@@ -337,21 +310,16 @@
 
     UpNextDialog.prototype.hide = function () {
 
-        this._playNextOnHide = false;
-
         hideComingUpNext.call(this);
     };
 
     UpNextDialog.prototype.reset = function () {
-
-        this._playNextOnHide = false;
 
         hideComingUpNext.call(this);
     };
 
     UpNextDialog.prototype.destroy = function () {
 
-        this._playNextOnHide = null;
         this.reset();
 
         var options = this.options;
@@ -361,11 +329,11 @@
             options.parent.innerHTML = '';
             options.parent.classList.remove('upNextDialog');
             options.parent.classList.remove('upNextDialog-hidden');
+            events.trigger(this, 'hide');
         }
 
         this.options = null;
         this.itemType = null;
-        this._hideTime = null;
     };
 
     return UpNextDialog;
