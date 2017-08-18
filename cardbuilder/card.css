@@ -387,6 +387,32 @@ button {
     font-size: 80%;
 }
 
+.cardOverlayButton-centered {
+    bottom: initial;
+    right: initial;
+    position: static;
+    position: absolute;
+    display: flex;
+    font-size: 112%;
+    margin: -1.3em 0 0 -1.3em;
+    width: 2.6em;
+    height: 2.6em;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(0,0,0,.5) !important;
+    border: 2.4px solid rgba(255,255,255,.6);
+    padding: .38em !important;
+    color: rgba(255, 255, 255, .76);
+}
+
+.cardOverlayButton-clear {
+    background-color: transparent !important;
+    font-size: 130%;
+    padding: 0;
+    margin: 0 .2em .5em 0;
+    color: rgba(255, 255, 255, .7) !important;
+}
+
 .defaultCardColor1 {
     background-color: #009688;
 }

@@ -911,8 +911,9 @@
                     coverImage: true,
                     overlayText: false,
                     centerText: !cardLayout,
-                    overlayMoreButton: true
-                    //action: 'play'
+                    overlayMoreButton: true,
+                    action: 'none',
+                    centerPlayButton: true
 
                 });
 
@@ -1043,14 +1044,16 @@
                     centerText: true,
                     coverImage: true,
                     overlayText: false,
-                    overlayPlayButton: true,
                     allowBottomPadding: !enableScrollX(),
                     showAirTime: true,
                     showChannelName: false,
                     showAirDateTime: false,
                     showAirEndTime: true,
                     defaultShape: getThumbShape(),
-                    lines: 3
+                    lines: 3,
+                    overlayInfoButton: true,
+                    centerPlayButton: true,
+                    action: 'none'
                 });
 
                 if (enableScrollX()) {

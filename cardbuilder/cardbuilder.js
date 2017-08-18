@@ -1249,20 +1249,30 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 var overlayPlayButton = options.overlayPlayButton;
 
-                if (overlayPlayButton == null && !options.overlayMoreButton && !options.cardLayout) {
+                if (overlayPlayButton == null && !options.overlayMoreButton && !options.overlayInfoButton && !options.cardLayout) {
                     overlayPlayButton = item.MediaType === 'Video';
                 }
 
-                var btnCssClass = layoutManager.desktop ? 'cardOverlayButton cardOverlayButton-mini itemAction' : 'cardOverlayButton itemAction';
+                var btnCssClass = 'cardOverlayButton itemAction';
+
+                if (options.centerPlayButton) {
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play" onclick="return false;"><i class="md-icon">&#xE037;</i></button>';
+                }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
                     overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play" onclick="return false;"><i class="md-icon">&#xE037;</i></button>';
                 }
+
                 if (options.overlayMoreButton) {
 
                     var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
 
                     overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu" onclick="return false;"><i class="md-icon">' + moreIcon + '</i></button>';
+                }
+
+                if (options.overlayInfoButton) {
+
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-clear" data-action="link" onclick="return false;"><i class="md-icon">&#xE88E;</i></button>';
                 }
             }
 

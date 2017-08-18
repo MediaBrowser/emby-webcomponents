@@ -271,7 +271,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     var flvPlayer = flvjs.createPlayer({
                         type: 'flv',
                         url: url
-                    });
+                    },
+                        {
+                            lazyLoad: false
+                        });
 
                     flvPlayer.attachMediaElement(elem);
                     flvPlayer.load();
