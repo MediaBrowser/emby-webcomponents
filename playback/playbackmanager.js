@@ -2697,7 +2697,8 @@
 
             if (errorType === 'mediadecodeerror' || errorType === 'medianotsupported') {
 
-                if (streamInfo.playMethod !== 'Transcode' && streamInfo.mediaSource.SupportsTranscoding) {
+                if (streamInfo.mediaSource.SupportsTranscoding &&
+                    streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') === -1) {
 
                     return true;
                 }

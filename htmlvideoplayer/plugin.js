@@ -262,7 +262,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         };
 
-        function setSrcWithFlvPlayer(instance, elem, options, url) {
+        function setSrcWithFlvJs(instance, elem, options, url) {
 
             return new Promise(function (resolve, reject) {
 
@@ -275,16 +275,36 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                     flvPlayer.attachMediaElement(elem);
                     flvPlayer.load();
-                    flvPlayer.play();
 
+                    flvPlayer.play().then(resolve, reject);
                     instance._flvPlayer = flvPlayer;
 
                     // This is needed in setCurrentTrackElement
                     self._currentSrc = url;
+                });
+            });
+        }
 
-                    //setCurrentTrackElement(currentTrackIndex);
+        function setSrcWithHlsJs(instance, elem, options, url) {
 
-                    resolve();
+            return new Promise(function (resolve, reject) {
+
+                requireHlsPlayer(function () {
+
+                    var hls = new Hls({
+                        manifestLoadingTimeOut: 20000
+                        //appendErrorMaxRetry: 6,
+                        //debug: true
+                    });
+                    hls.loadSource(url);
+                    hls.attachMedia(elem);
+
+                    htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
+
+                    self._hlsPlayer = hls;
+
+                    // This is needed in setCurrentTrackElement
+                    self._currentSrc = url;
                 });
             });
         }
@@ -331,33 +351,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
 
-                return new Promise(function (resolve, reject) {
-
-                    requireHlsPlayer(function () {
-                        var hls = new Hls({
-                            manifestLoadingTimeOut: 20000
-                            //appendErrorMaxRetry: 6,
-                            //debug: true
-                        });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
-
-                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
-
-                        self._hlsPlayer = hls;
-
-                        // This is needed in setCurrentTrackElement
-                        self._currentSrc = val;
-
-                        setCurrentTrackElement(currentTrackIndex);
-                    });
-                });
+                return setSrcWithHlsJs(self, elem, options, val);
 
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
 
                 setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
 
-                return setSrcWithFlvPlayer(self, elem, options, val);
+                return setSrcWithFlvJs(self, elem, options, val);
 
             } else {
 
@@ -393,7 +393,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                         self._currentSrc = val;
 
-                        setCurrentTrackElement(currentTrackIndex);
                         return htmlMediaHelper.playWithPromise(elem, onError);
                     });
                 }
@@ -401,7 +400,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 // This is needed in setCurrentTrackElement
                 self._currentSrc = val;
 
-                setCurrentTrackElement(currentTrackIndex);
                 return htmlMediaHelper.playWithPromise(elem, onError);
             }
         }
@@ -544,8 +542,18 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function onNavigatedToOsd() {
 
-            videoDialog.classList.remove('videoPlayerContainer-withBackdrop');
-            videoDialog.classList.remove('videoPlayerContainer-onTop');
+            var dlg = videoDialog;
+            if (dlg) {
+                dlg.classList.remove('videoPlayerContainer-withBackdrop');
+                dlg.classList.remove('videoPlayerContainer-onTop');
+
+                onStartedAndNavigatedToOsd();
+            }
+        }
+        function onStartedAndNavigatedToOsd() {
+
+            // If this causes a failure during navigation we end up in an awkward UI state
+            setCurrentTrackElement(subtitleTrackIndexToSetOnPlaying);
         }
 
         function onPlaying(e) {
@@ -561,7 +569,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     self.originalDocumentTitle = null;
                 }
 
-                setCurrentTrackElement(subtitleTrackIndexToSetOnPlaying);
+                loading.hide();
 
                 htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);
 
@@ -573,10 +581,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     appRouter.setTransparency('backdrop');
                     videoDialog.classList.remove('videoPlayerContainer-withBackdrop');
                     videoDialog.classList.remove('videoPlayerContainer-onTop');
+
+                    onStartedAndNavigatedToOsd();
                 }
-
-                loading.hide();
-
             }
             events.trigger(self, 'playing');
         }
