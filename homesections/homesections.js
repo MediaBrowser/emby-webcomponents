@@ -24,6 +24,24 @@
         }
     }
 
+    function getAllSectionsToShow(userSettings, sectionCount) {
+
+        var sections = [];
+
+        for (var i = 0, length = sectionCount; i < length; i++) {
+
+            var section = userSettings.get('homesection' + i) || getDefaultSection(i);
+
+            if (section === 'folders') {
+                section = getDefaultSection()[0];
+            }
+
+            sections.push(section);
+        }
+
+        return sections;
+    }
+
     function loadSections(elem, apiClient, user, userSettings) {
 
         return getUserViews(apiClient, user.Id).then(function (userViews) {
@@ -41,25 +59,21 @@
             elem.classList.add('homeSectionsContainer');
 
             var promises = [];
+            var sections = getAllSectionsToShow(userSettings, sectionCount);
 
-            for (i = 0, length = sectionCount; i < length; i++) {
+            for (i = 0, length = sections.length; i < length; i++) {
 
-                promises.push(loadSection(elem, apiClient, user, userSettings, userViews, i));
+                promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
             }
 
             return Promise.all(promises);
         });
     }
 
-    function loadSection(page, apiClient, user, userSettings, userViews, index) {
+    function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
 
+        var section = allSections[index];
         var userId = user.Id;
-
-        var section = userSettings.get('homesection' + index) || getDefaultSection(index);
-
-        if (section === 'folders') {
-            section = getDefaultSection()[0];
-        }
 
         var elem = page.querySelector('.section' + index);
 
@@ -67,10 +81,10 @@
             return loadRecentlyAdded(elem, apiClient, user, userViews);
         }
         else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
-            return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews);
+            return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
         }
         else if (section === 'librarybuttons') {
-            return loadlibraryButtons(elem, apiClient, user, userSettings, userViews);
+            return loadlibraryButtons(elem, apiClient, user, userSettings, userViews, allSections);
         }
         else if (section === 'resume') {
             return loadResumeVideo(elem, apiClient, userId);
@@ -626,13 +640,19 @@
         });
     }
 
-    function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews) {
+    function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
 
         elem.classList.remove('verticalSection');
 
         var html = '';
 
         var scrollX = !layoutManager.desktop;
+
+        if (allSections.indexOf('livetv') !== -1) {
+            userViews = userViews.filter(function (u) {
+                return u.CollectionType !== 'livetv';
+            });
+        }
 
         if (userViews.length) {
 

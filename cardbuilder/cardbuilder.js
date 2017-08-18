@@ -1500,7 +1500,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     indicatorsElem = ensureIndicators(card, indicatorsElem);
                     indicatorsElem.appendChild(playedIndicator);
                 }
-                playedIndicator.innerHTML = '<i class="md-icon indicatorIcon">check</i>';
+                playedIndicator.innerHTML = '<i class="md-icon indicatorIcon">&#xE5CA;</i>';
             } else {
 
                 playedIndicator = card.querySelector('.playedIndicator');

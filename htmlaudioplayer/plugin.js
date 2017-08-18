@@ -337,7 +337,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
                 case 3:
                     // MEDIA_ERR_DECODE
                     if (self._hlsPlayer) {
-                        htmlMediaHelper.handleMediaError(self);
+                        htmlMediaHelper.handleHlsJsMediaError(self);
                         return;
                     } else {
                         type = 'mediadecodeerror';

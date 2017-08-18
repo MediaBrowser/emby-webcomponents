@@ -262,6 +262,33 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         };
 
+        function setSrcWithFlvPlayer(instance, elem, options, url) {
+
+            return new Promise(function (resolve, reject) {
+
+                require(['flvjs'], function (flvjs) {
+
+                    var flvPlayer = flvjs.createPlayer({
+                        type: 'flv',
+                        url: url
+                    });
+
+                    flvPlayer.attachMediaElement(elem);
+                    flvPlayer.load();
+                    flvPlayer.play();
+
+                    instance._flvPlayer = flvPlayer;
+
+                    // This is needed in setCurrentTrackElement
+                    self._currentSrc = url;
+
+                    //setCurrentTrackElement(currentTrackIndex);
+
+                    resolve();
+                });
+            });
+        }
+
         function setCurrentSrc(elem, options) {
 
             elem.removeEventListener('error', onError);
@@ -280,6 +307,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             htmlMediaHelper.destroyHlsPlayer(self);
+            htmlMediaHelper.destroyFlvPlayer(self);
 
             var tracks = getMediaStreamTextTracks(options.mediaSource);
 
@@ -325,6 +353,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                     });
                 });
 
+            } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
+
+                setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+
+                return setSrcWithFlvPlayer(self, elem, options, val);
+
             } else {
 
                 elem.autoplay = true;
@@ -343,7 +377,12 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         elem.removeAttribute('src');
                     }
 
-                    elem.innerHTML = '<source src="' + val + '" type="' + mimeType + '">' + getTracksHtml(tracks, options.mediaSource, options.item.ServerId);
+                    elem.innerHTML = '<source src="' +
+                        val +
+                        '" type="' +
+                        mimeType +
+                        '">' +
+                        getTracksHtml(tracks, options.mediaSource, options.item.ServerId);
 
                     elem.addEventListener('loadedmetadata', onLoadedMetadata);
                 } else {
@@ -434,6 +473,8 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         self.destroy = function () {
 
             htmlMediaHelper.destroyHlsPlayer(self);
+            htmlMediaHelper.destroyFlvPlayer(self);
+
             appRouter.setTransparency('none');
 
             var videoElement = self._mediaElement;
@@ -592,7 +633,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 case 3:
                     // MEDIA_ERR_DECODE
                     if (self._hlsPlayer) {
-                        htmlMediaHelper.handleMediaError(self);
+                        htmlMediaHelper.handleHlsJsMediaError(self);
                         return;
                     } else {
                         type = 'mediadecodeerror';

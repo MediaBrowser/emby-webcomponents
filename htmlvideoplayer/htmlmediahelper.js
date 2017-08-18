@@ -62,7 +62,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
     }
 
     var recoverDecodingErrorDate, recoverSwapAudioCodecDate;
-    function handleMediaError(instance, reject) {
+    function handleHlsJsMediaError(instance, reject) {
 
         var hlsPlayer = instance._hlsPlayer;
 
@@ -106,9 +106,9 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
 
         events.trigger(instance, 'error', [
-        {
-            type: type
-        }]);
+            {
+                type: type
+            }]);
     }
 
     function isValidDuration(duration) {
@@ -215,6 +215,21 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
+    function destroyFlvPlayer(instance) {
+        var player = instance._flvPlayer;
+        if (player) {
+            try {
+                player.unload();
+                player.detachMediaElement();
+                player.destroy();
+            } catch (err) {
+                console.log(err);
+            }
+
+            instance._flvPlayer = null;
+        }
+    }
+
     function bindEventsToHlsPlayer(instance, hls, elem, onErrorFn, resolve, reject) {
 
         hls.on(Hls.Events.MANIFEST_PARSED, function () {
@@ -271,7 +286,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                         console.log("fatal media error encountered, try to recover");
                         var currentReject = reject;
                         reject = null;
-                        handleMediaError(instance, currentReject);
+                        handleHlsJsMediaError(instance, currentReject);
                         break;
                     default:
 
@@ -301,6 +316,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         elem.removeAttribute("src");
 
         destroyHlsPlayer(instance);
+        destroyFlvPlayer(instance);
 
         if (instance.originalDocumentTitle) {
             document.title = instance.originalDocumentTitle;
@@ -357,13 +373,14 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         getSavedVolume: getSavedVolume,
         saveVolume: saveVolume,
         enableHlsPlayer: enableHlsPlayer,
-        handleMediaError: handleMediaError,
+        handleHlsJsMediaError: handleHlsJsMediaError,
         isValidDuration: isValidDuration,
         onErrorInternal: onErrorInternal,
         seekOnPlaybackStart: seekOnPlaybackStart,
         applySrc: applySrc,
         playWithPromise: playWithPromise,
         destroyHlsPlayer: destroyHlsPlayer,
+        destroyFlvPlayer: destroyFlvPlayer,
         bindEventsToHlsPlayer: bindEventsToHlsPlayer,
         onEndedInternal: onEndedInternal,
         getCrossOriginValue: getCrossOriginValue,

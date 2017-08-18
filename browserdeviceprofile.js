@@ -182,6 +182,22 @@ define(['browser'], function (browser) {
         return browser.orsay || browser.tizen || browser.edgeUwp;
     }
 
+    function getFlvMseDirectPlayProfile() {
+
+        var videoAudioCodecs = ['aac'];
+
+        if (!browser.edge && !browser.msie) {
+            videoAudioCodecs.push('mp3');
+        }
+
+        return {
+            Container: 'flv',
+            Type: 'Video',
+            VideoCodec: 'h264',
+            AudioCodec: videoAudioCodecs.join(',')
+        };
+    }
+
     function getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options) {
 
         var supported = false;
@@ -201,8 +217,13 @@ define(['browser'], function (browser) {
             case 'mpeg':
                 supported = browser.edgeUwp || browser.tizen || browser.orsay;
                 break;
-            case '3gp':
             case 'flv':
+                supported = browser.tizen || browser.orsay;
+                if (!supported && window.MediaSource != null && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"')) {
+                    return getFlvMseDirectPlayProfile();
+                }
+                break;
+            case '3gp':
             case 'mts':
             case 'trp':
             case 'vob':
@@ -451,7 +472,7 @@ define(['browser'], function (browser) {
         }
 
         // These are formats we can't test for but some devices will support
-        ['m2ts', 'mov', 'wmv', 'ts', 'asf', 'avi', 'mpg', 'mpeg'].map(function (container) {
+        ['m2ts', 'wmv', 'ts', 'asf', 'avi', 'mpg', 'mpeg', 'flv', '3gp', 'mts', 'trp', 'vob', 'vro', 'mov'].map(function (container) {
             return getDirectPlayProfileForVideoContainer(container, videoAudioCodecs, videoTestElement, options);
         }).filter(function (i) {
             return i != null;
