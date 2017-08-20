@@ -21,11 +21,10 @@
 }
 
     .emby-tab-button.emby-button-tv {
-        padding: .4em .9em;
         font-weight: 400;
     }
 
-/*.emby-tab-button-active {
+        /*.emby-tab-button-active {
     color: #52B54B;
 }
 
@@ -33,10 +32,11 @@
         color: #fff;
     }*/
 
-.emby-tab-button.emby-button-tv:focus {
-    /*color: #52B54B;*/
-    transform: scale(1.26);
-}
+        .emby-tab-button.emby-button-tv:focus {
+            /*color: #52B54B;*/
+            transform: scale(1.26);
+            transform-origin: center center;
+        }
 
 .emby-tabs-slider {
     position: relative;
