@@ -1272,7 +1272,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.overlayInfoButton) {
 
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-clear" data-action="link" onclick="return false;"><i class="md-icon">&#xE88E;</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-texticon" data-action="link" onclick="return false;"><i class="cardOverlayButton-texticon-icon">i</i></button>';
                 }
             }
 

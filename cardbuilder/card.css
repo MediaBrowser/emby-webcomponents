@@ -403,14 +403,20 @@ button {
     border: 2.4px solid rgba(255,255,255,.6);
     padding: .38em !important;
     color: rgba(255, 255, 255, .76);
+    transition: transform 200ms ease-out;
 }
 
-.cardOverlayButton-clear {
-    background-color: transparent !important;
-    font-size: 130%;
-    padding: 0;
-    margin: 0 .2em .5em 0;
-    color: rgba(255, 255, 255, .7) !important;
+    .cardOverlayButton-centered:hover {
+        transform: scale(1.2, 1.2);
+    }
+
+.cardOverlayButton-texticon {
+    line-height: 1;
+    background-color: rgba(0,0,0,.4) !important;
+}
+
+.cardOverlayButton-texticon-icon {
+    font-style: normal;
 }
 
 .defaultCardColor1 {

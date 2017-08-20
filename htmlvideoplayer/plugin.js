@@ -273,6 +273,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         url: url
                     },
                         {
+                            seekType: 'range',
                             lazyLoad: false
                         });
 
