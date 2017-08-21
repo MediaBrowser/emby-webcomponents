@@ -27,21 +27,22 @@ define([], function () {
 
         var bottomText = '';
 
-        if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
+        if (nowPlayingItem.ArtistItems && nowPlayingItem.ArtistItems.length) {
 
-            if (nowPlayingItem.ArtistItems && nowPlayingItem.ArtistItems.length) {
+            bottomItem = {
+                Id: nowPlayingItem.ArtistItems[0].Id,
+                Name: nowPlayingItem.ArtistItems[0].Name,
+                Type: 'MusicArtist',
+                IsFolder: true
+            };
 
-                bottomItem = {
-                    Id: nowPlayingItem.ArtistItems[0].Id,
-                    Name: nowPlayingItem.ArtistItems[0].Name,
-                    Type: 'MusicArtist',
-                    IsFolder: true
-                };
+            bottomText = nowPlayingItem.ArtistItems.map(function (a) {
+                return a.Name;
+            }).join(', ');
 
-                bottomText = bottomItem.Name;
-            } else {
-                bottomText = nowPlayingItem.Artists[0];
-            }
+        } else if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
+
+            bottomText = nowPlayingItem.Artists.join(', ');
         }
         else if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
             bottomText = topText;

@@ -167,6 +167,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var outerHtml = '';
 
         var enableContentWrapper = options.enableOverview && !layoutManager.tv;
+        var containerAlbumArtists = options.containerAlbumArtists || [];
 
         for (var i = 0, length = items.length; i < length; i++) {
 
@@ -361,7 +362,13 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     }
                 }
             } else {
-                if (options.artist !== false && (options.artist === true || (item.Artists || [])[0] !== options.containerAlbumArtist)) {
+
+                var showArtist = options.artist === true;
+                if (!showArtist && options.artist !== false) {
+                    showArtist = containerAlbumArtists.length > 1 || (item.Artists || [])[0] !== containerAlbumArtists[0];
+                }
+
+                if (showArtist) {
 
                     if (item.ArtistItems && item.Type !== 'MusicAlbum') {
                         textlines.push(item.ArtistItems.map(function (a) {
