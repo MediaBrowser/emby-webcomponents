@@ -77,7 +77,6 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
             return showDvdMessage();
         }
 
-        return showIsoMessage();
         return Promise.resolve();
     };
 
