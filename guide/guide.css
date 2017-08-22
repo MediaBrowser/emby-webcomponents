@@ -65,7 +65,7 @@
     position: relative;
     contain: strict;
     box-sizing: border-box;
-    margin-bottom: .34em;
+    margin-bottom: .3em;
 }
 
 .timeslotHeadersInner {
@@ -101,7 +101,7 @@
 }
 
 .guideSpacer {
-    width: .34em;
+    width: .3em;
     flex-shrink: 0;
 }
 
@@ -208,7 +208,7 @@
 }
 
 .guide-channelHeaderCell {
-    margin-bottom: .34em;
+    margin-bottom: .3em;
     height: 4.2em;
     contain: strict;
     position: relative;
@@ -279,7 +279,7 @@
 }
 
 .programCellInner {
-    margin-right: .34em;
+    margin-right: .3em;
     display: flex;
     flex-grow: 1;
     border-radius: .16em;

@@ -282,7 +282,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             var currentScrollY = this.getScrollY();
 
-            if (currentScrollY <= 0) {
+            if (currentScrollY <= 30) {
                 this.clear();
             }
             else if (this.shouldUnpin(currentScrollY)) {
