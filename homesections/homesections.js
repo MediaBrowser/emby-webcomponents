@@ -648,12 +648,6 @@
 
         var scrollX = !layoutManager.desktop;
 
-        if (allSections.indexOf('livetv') !== -1) {
-            userViews = userViews.filter(function (u) {
-                return u.CollectionType !== 'livetv';
-            });
-        }
-
         if (userViews.length) {
 
             html += '<div class="verticalSection">';
