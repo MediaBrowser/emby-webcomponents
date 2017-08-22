@@ -306,15 +306,15 @@ html, .skinHeader {
 }
 
 .guide-currentTimeIndicatorBar {
-    background-color: #52B54B;
+    background-color: #cc3333;
 }
 
 .guide-currentTimeIndicatorArrowContainer {
-    color: #52B54B;
+    color: #cc3333;
 }
 
 .guide-currentTimeIndicatorArrow {
-    color: #52B54B;
+    color: #cc3333;
 }
 
 .guide-date-tab-button {
@@ -323,15 +323,15 @@ html, .skinHeader {
 }
 
     .guide-date-tab-button.emby-tab-button-active {
-        color: #52B54B;
+        color: #cc3333;
     }
 
     .guide-date-tab-button:focus {
-        color: #52B54B;
+        color: #cc3333;
     }
 
     .guide-date-tab-button.emby-button-tv:focus {
-        background-color: #52B54B;
+        background-color: #cc3333;
         color: #fff;
     }
 
@@ -371,5 +371,5 @@ html, .skinHeader {
 
 /* cards */
 .card:focus .card-focuscontent {
-    border-color: #52B54B;
+    border-color: #cc3333;
 }

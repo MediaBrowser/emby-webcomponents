@@ -305,15 +305,15 @@ html, .skinHeader {
 }
 
 .guide-currentTimeIndicatorBar {
-    background-color: #52B54B;
+    background-color: #2196F3;
 }
 
 .guide-currentTimeIndicatorArrowContainer {
-    color: #52B54B;
+    color: #2196F3;
 }
 
 .guide-currentTimeIndicatorArrow {
-    color: #52B54B;
+    color: #2196F3;
 }
 
 .guide-date-tab-button {
@@ -369,5 +369,5 @@ html, .skinHeader {
 
 /* cards */
 .card:focus .card-focuscontent {
-    border-color: #52B54B;
+    border-color: #2196F3;
 }

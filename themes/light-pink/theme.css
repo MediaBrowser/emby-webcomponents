@@ -371,5 +371,5 @@ html, .skinHeader {
 
 /* cards */
 .card:focus .card-focuscontent {
-    border-color: #52B54B;
+    border-color: #E91E63;
 }

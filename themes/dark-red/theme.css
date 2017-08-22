@@ -65,7 +65,11 @@ html {
 
 /* buttons */
 .paper-icon-button-light:focus {
-    color: #52B54B;
+    color: #cc3333;
+}
+
+.skinHeader-withBackground .paper-icon-button-light:focus {
+    color: #fff;
 }
 
 .raised, .fab {
@@ -74,12 +78,12 @@ html {
 }
 
 .button-submit {
-    background: #52B54B;
+    background: #cc3333;
     color: #fff;
 }
 
 .button-accent {
-    background: #52B54B;
+    background: #cc3333;
     color: #fff;
 }
 
@@ -93,7 +97,7 @@ html {
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
-    color: #52B54B;
+    color: #cc3333;
 }
 
 .checkboxOutline {
@@ -142,17 +146,17 @@ html {
 
 /* Multi-select */
 .itemSelectionPanel {
-    border: 1px solid #52B54B;
+    border: 1px solid #cc3333;
 }
 
 .selectionCommandsPanel {
-    background: #52B54B;
+    background: #cc3333;
     color: #fff;
 }
 
 /* upNextDialog */
 .upNextDialog-countdownText {
-    color: #52B54B;
+    color: #cc3333;
 }
 
 /* alphaPicker */
@@ -163,12 +167,12 @@ html {
 }
 
 .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
-    background-color: #52B54B;
+    background-color: #cc3333;
     color: #fff !important;
 }
 
 .emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
-    background-color: #52B54B;
+    background-color: #cc3333;
 }
 
 .listItem-shaded:nth-child(even), .detailTableBodyRow-shaded:nth-child(even) {
@@ -181,15 +185,15 @@ html {
 }
 
 .progressring-spiner {
-    border-color: #52B54B;
+    border-color: #cc3333;
 }
 
 .button-link {
-    color: #52B54B;
+    color: #cc3333;
 }
 
 .button-flat-accent {
-    color: #52B54B;
+    color: #cc3333;
 }
 
 .mediaInfoText {
@@ -207,20 +211,20 @@ html {
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    border-color: #52B54B;
+    border-color: #cc3333;
 }
 
 .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-    background-color: rgba(82, 181, 75, 0.26);
+    background-color: rgba(204, 51, 51, 0.26);
 }
 
 .emby-checkbox:checked + span + span + .checkboxOutline > .checkboxOutlineTick {
-    background-color: #52B54B;
+    background-color: #cc3333;
 }
 
 /* indicators */
 .itemProgressBarForeground {
-    background-color: #52B54B;
+    background-color: #cc3333;
 }
 
 .itemProgressBarForeground-recording {
@@ -228,15 +232,15 @@ html {
 }
 
 .countIndicator {
-    background: #52B54B;
+    background: #cc3333;
 }
 
 .playedIndicator {
-    background: #52B54B;
+    background: #cc3333;
 }
 
 .fullSyncIndicator {
-    background: #52B54B;
+    background: #cc3333;
     color: #fff;
 }
 
@@ -257,7 +261,7 @@ html {
 }
 
 .navMenuOption-selected {
-    background: #52B54B !important;
+    background: #cc3333 !important;
     color: #fff;
 }
 
@@ -294,15 +298,15 @@ html {
 }
 
 .guide-currentTimeIndicatorBar {
-    background-color: #52B54B;
+    background-color: #cc3333;
 }
 
 .guide-currentTimeIndicatorArrowContainer {
-    color: #52B54B;
+    color: #cc3333;
 }
 
 .guide-currentTimeIndicatorArrow {
-    color: #52B54B;
+    color: #cc3333;
 }
 
 .guide-headerTimeslots {
@@ -315,15 +319,15 @@ html {
 }
 
     .guide-date-tab-button.emby-tab-button-active {
-        color: #52B54B;
+        color: #cc3333;
     }
 
     .guide-date-tab-button:focus {
-        color: #52B54B;
+        color: #cc3333;
     }
 
     .guide-date-tab-button.emby-button-tv:focus {
-        background-color: #52B54B;
+        background-color: #cc3333;
         color: #fff;
     }
 
@@ -362,5 +366,5 @@ html {
 
 /* cards */
 .card:focus .card-focuscontent {
-    border-color: #52B54B;
+    border-color: #cc3333;
 }
