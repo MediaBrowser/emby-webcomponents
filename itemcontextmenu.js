@@ -154,6 +154,16 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
+        if (item.Type === 'Program' && options.record !== false) {
+
+            if (item.TimerId) {
+                commands.push({
+                    name: Globalize.translate('sharedcomponents#ManageRecording'),
+                    id: 'record'
+                });
+            }
+        }
+
         if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
                 commands.push({
@@ -172,10 +182,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         if (item.Type === 'Program' && options.record !== false) {
 
-            commands.push({
-                name: Globalize.translate('sharedcomponents#Record'),
-                id: 'record'
-            });
+            if (!item.TimerId) {
+                commands.push({
+                    name: Globalize.translate('sharedcomponents#Record'),
+                    id: 'record'
+                });
+            }
         }
 
         if (user.Policy.IsAdministrator) {
@@ -570,7 +582,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             require(['deleteHelper'], function (deleteHelper) {
 
                 deleteHelper.deleteItem({
-                    
+
                     item: item,
                     navigate: false
 

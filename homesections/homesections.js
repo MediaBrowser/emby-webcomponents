@@ -1045,7 +1045,7 @@
                     showAirEndTime: true,
                     defaultShape: getThumbShape(),
                     lines: 3,
-                    overlayMoreButton: true
+                    overlayPlayButton: true
                 });
 
                 if (enableScrollX()) {

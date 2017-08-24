@@ -90,7 +90,13 @@
         if (program.TimerId && program.Status !== 'Cancelled') {
             parent.querySelector('.btnManageRecording').classList.remove('hide');
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.add('recordingIcon-active');
-            parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#DoNotRecord');
+
+            if (program.Status === 'InProgress') {
+                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#StopRecording');
+            } else {
+                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#DoNotRecord');
+            }
+
         } else {
             parent.querySelector('.btnManageRecording').classList.add('hide');
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.remove('recordingIcon-active');

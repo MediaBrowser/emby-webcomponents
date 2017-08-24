@@ -2689,16 +2689,12 @@
             }
         }
 
-        function enablePlaybackRetryWithTranscoding(streamInfo, errorType) {
-
-            if (!streamInfo) {
-                return false;
-            }
+        function enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
 
             if (errorType === 'mediadecodeerror' || errorType === 'medianotsupported') {
 
                 if (streamInfo.mediaSource.SupportsTranscoding &&
-                    streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') === -1) {
+                    (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy)) {
 
                     return true;
                 }
@@ -2729,22 +2725,28 @@
 
             var streamInfo = getPlayerData(player).streamInfo;
 
-            // Auto switch to transcoding
-            if (enablePlaybackRetryWithTranscoding(streamInfo, errorType)) {
+            if (streamInfo) {
 
-                var startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
+                var currentlyPreventsVideoStreamCopy = streamInfo.url.toLowerCase().indexOf('allowvideostreamcopy=false') !== -1;
+                var currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
 
-                changeStream(player, startTime, {
+                // Auto switch to transcoding
+                if (enablePlaybackRetryWithTranscoding(streamInfo, errorType)) {
 
-                    // force transcoding
-                    EnableDirectPlay: false,
-                    EnableDirectStream: false,
-                    AllowVideoStreamCopy: false,
-                    AllowAudioStreamCopy: false
+                    var startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
 
-                }, true);
+                    changeStream(player, startTime, {
 
-                return;
+                        // force transcoding
+                        EnableDirectPlay: false,
+                        EnableDirectStream: false,
+                        AllowVideoStreamCopy: false,
+                        AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
+
+                    }, true);
+
+                    return;
+                }
             }
 
             onPlaybackStopped.call(player, e);
