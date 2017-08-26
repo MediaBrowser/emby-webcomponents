@@ -90,7 +90,7 @@
         loading.show();
         return apiClient.cancelLiveTvTimer(timerId).then(function () {
 
-            if (hideLoading) {
+            if (hideLoading !== false) {
                 loading.hide();
                 sendToast(globalize.translate('sharedcomponents#RecordingCancelled'));
             }

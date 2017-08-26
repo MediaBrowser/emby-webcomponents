@@ -281,7 +281,67 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
         }
     }
 
+    function normalizeImageOptions(options) {
+
+        var height = screen.availHeight;
+        height = Math.min(height, 1440);
+        var scaleFactor = height / 1080;
+
+        if (Math.abs(height - 1080) < 100) {
+            scaleFactor = 1;
+        }
+
+        var appImageScaleFactor = browser.tv ? 0.8 : 1;
+        scaleFactor *= appImageScaleFactor;
+
+        var setQuality;
+        if (options.maxWidth) {
+            options.maxWidth = Math.round(options.maxWidth * scaleFactor);
+            setQuality = true;
+        }
+
+        if (options.width) {
+            options.width = Math.round(options.width * scaleFactor);
+            setQuality = true;
+        }
+
+        if (options.maxHeight) {
+            options.maxHeight = Math.round(options.maxHeight * scaleFactor);
+            setQuality = true;
+        }
+
+        if (options.height) {
+            options.height = Math.round(options.height * scaleFactor);
+            setQuality = true;
+        }
+
+        if (browser.tv) {
+            defaultImageQuality = 70;
+        }
+
+        if (setQuality) {
+            var quality = browser.tv ? 70 : 90;
+
+            var isBackdrop = options.type && options.type.toLowerCase() === 'backdrop';
+            if (isBackdrop) {
+                quality -= 10;
+            }
+
+            if (browser.slow) {
+                quality -= 40;
+            }
+
+            if (browser.iOS && !isBackdrop) {
+                quality -= 10;
+            }
+
+            options.quality = quality;
+        }
+    }
+
     function onApiClientCreated(e, newApiClient) {
+
+        newApiClient.normalizeImageOptions = normalizeImageOptions;
 
         events.off(newApiClient, 'requestfail', onRequestFail);
         events.on(newApiClient, 'requestfail', onRequestFail);

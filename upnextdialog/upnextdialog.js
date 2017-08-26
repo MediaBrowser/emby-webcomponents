@@ -106,11 +106,11 @@
 
         html += '<div class="flex flex-direction-row upNextDialog-buttons" style="margin-top:1em;">';
 
-        html += '<button type="button" is="emby-button" class="raised raised-mini btnStartNow">';
+        html += '<button type="button" is="emby-button" class="raised raised-mini btnStartNow upNextDialog-button">';
         html += globalize.translate('sharedcomponents#HeaderStartNow');
         html += '</button>';
 
-        html += '<button type="button" is="emby-button" class="raised raised-mini btnHide">';
+        html += '<button type="button" is="emby-button" class="raised raised-mini btnHide upNextDialog-button">';
         html += globalize.translate('sharedcomponents#Hide');
         html += '</button>';
 
@@ -130,6 +130,8 @@
         var elem = instance.options.parent;
 
         var secondsRemaining = Math.max(Math.round(getTimeRemainingMs(instance) / 1000), 0);
+
+        console.log('up next seconds remaining: ' + secondsRemaining);
 
         var timeText = '<span class="upNextDialog-countdownText">' + globalize.translate('sharedcomponents#HeaderSecondsValue', secondsRemaining) + '</span>';
 
@@ -167,17 +169,9 @@
 
     function clearCountdownTextTimeout(instance) {
         if (instance._countdownTextTimeout) {
-            clearTimeout(instance._countdownTextTimeout);
+            clearInterval(instance._countdownTextTimeout);
             instance._countdownTextTimeout = null;
         }
-    }
-
-    function startCountdownTextTimeout(instance) {
-
-        setNextVideoText.call(instance);
-        clearCountdownTextTimeout(instance);
-
-        instance._countdownTextTimeout = setInterval(setNextVideoText.bind(instance), 500);
     }
 
     function onStartNowClick() {
@@ -185,7 +179,12 @@
         var options = this.options;
 
         if (options) {
-            playbackManager.nextTrack(options.player);
+
+            var player = options.player;
+
+            this.hide();
+
+            playbackManager.nextTrack(player);
         }
     }
 
@@ -203,17 +202,6 @@
         options.parent.querySelector('.btnStartNow').addEventListener('click', onStartNowClick.bind(instance));
     }
 
-    function onHideAnimationComplete(e) {
-
-        var instance = this;
-        var elem = e.target;
-
-        elem.classList.add('hide');
-
-        clearHideAnimationEventListeners(instance, elem);
-        events.trigger(instance, 'hide');
-    }
-
     function clearHideAnimationEventListeners(instance, elem) {
 
         var fn = instance._onHideAnimationComplete;
@@ -223,6 +211,17 @@
                 once: true
             });
         }
+    }
+
+    function onHideAnimationComplete(e) {
+
+        var instance = this;
+        var elem = e.target;
+
+        elem.classList.add('hide');
+
+        clearHideAnimationEventListeners(instance, elem);
+        events.trigger(instance, 'hide');
     }
 
     function hideComingUpNext() {
@@ -276,7 +275,10 @@
             return;
         }
 
-        startCountdownTextTimeout(instance);
+        setNextVideoText.call(instance);
+        clearCountdownTextTimeout(instance);
+
+        instance._countdownTextTimeout = setInterval(setNextVideoText.bind(instance), 400);
     }
 
     function UpNextDialog(options) {
@@ -313,24 +315,9 @@
         hideComingUpNext.call(this);
     };
 
-    UpNextDialog.prototype.reset = function () {
-
-        hideComingUpNext.call(this);
-    };
-
     UpNextDialog.prototype.destroy = function () {
 
-        this.reset();
-
-        var options = this.options;
-
-        if (options) {
-            options.parent.classList.add('hide');
-            options.parent.innerHTML = '';
-            options.parent.classList.remove('upNextDialog');
-            options.parent.classList.remove('upNextDialog-hidden');
-            events.trigger(this, 'hide');
-        }
+        hideComingUpNext.call(this);
 
         this.options = null;
         this.itemType = null;
