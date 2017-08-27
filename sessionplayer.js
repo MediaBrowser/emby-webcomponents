@@ -395,11 +395,7 @@
     };
 
     SessionPlayer.prototype.playPause = function () {
-        if (this.paused()) {
-            this.unpause();
-        } else {
-            this.pause();
-        }
+        sendPlayStateCommand(getCurrentApiClient(this), 'PlayPause');
     };
 
     SessionPlayer.prototype.setMute = function (isMuted) {
