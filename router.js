@@ -784,9 +784,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
     }
 
     function setBaseRoute() {
-
         var baseRoute = window.location.pathname.replace(getRequestFile(), '');
-        if (endsWith(baseRoute, '/')) {
+        if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
             baseRoute = baseRoute.substring(0, baseRoute.length - 1);
         }
 
