@@ -187,7 +187,7 @@ html, .skinHeader {
 }
 
 .listItem:focus {
-    background: #333;
+    background: #ddd;
 }
 
 .emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {

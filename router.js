@@ -315,10 +315,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
             setQuality = true;
         }
 
-        if (browser.tv) {
-            defaultImageQuality = 70;
-        }
-
         if (setQuality) {
             var quality = browser.tv ? 70 : 90;
 
@@ -554,10 +550,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
         return path;
     }
 
+    function endsWith(str, srch) {
+
+        return str.lastIndexOf(srch) === srch.length - 1;
+    }
+
     var baseRoute = window.location.href.split('?')[0].replace(getRequestFile(), '');
     // support hashbang
     baseRoute = baseRoute.split('#')[0];
-    if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
+    if (endsWith(baseRoute, '/') && !endsWith(baseRoute, '://')) {
         baseRoute = baseRoute.substring(0, baseRoute.length - 1);
     }
     function baseUrl() {
@@ -783,8 +784,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
     }
 
     function setBaseRoute() {
+
         var baseRoute = window.location.pathname.replace(getRequestFile(), '');
-        if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
+        if (endsWith(baseRoute, '/')) {
             baseRoute = baseRoute.substring(0, baseRoute.length - 1);
         }
 

@@ -119,7 +119,7 @@ html, .skinHeader {
 }
 
 .listItem:focus {
-    background: #333;
+    background: #ddd;
 }
 
 .cardFooter-vibrant .cardText-secondary {
