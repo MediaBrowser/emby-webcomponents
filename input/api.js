@@ -170,6 +170,9 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             else if (msg.Data.Command === 'Unpause') {
                 inputManager.trigger('play');
             }
+            else if (msg.Data.Command === 'PlayPause') {
+                inputManager.trigger('playpause');
+            }
             else if (msg.Data.Command === 'Seek') {
                 playbackManager.seek(msg.Data.SeekPositionTicks);
             }
