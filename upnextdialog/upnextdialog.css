@@ -31,8 +31,8 @@
 }
 
 .upNextDialog-button {
-    background: #404040 !important;
-    color: #fff !important;
+    background: #404040;
+    color: #fff;
 }
 
 @media all and (orientation: landscape) {
