@@ -453,6 +453,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
                 skinManager.loadUserSkin();
                 return;
             } else if (route.roles) {
+
                 validateRoles(apiClient, route.roles).then(function () {
 
                     apiClient.ensureWebSocket();
@@ -460,6 +461,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
 
                 }, beginConnectionWizard);
                 return;
+
+            } else {
+                apiClient.ensureWebSocket();
             }
         }
 

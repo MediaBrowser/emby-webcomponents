@@ -34,7 +34,7 @@
 
         .emby-tab-button.emby-button-tv:focus {
             /*color: #52B54B;*/
-            transform: scale(1.26);
+            transform: scale(1.32);
             transform-origin: center center;
         }
 
