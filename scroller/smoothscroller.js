@@ -674,6 +674,12 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             if (entry) {
 
                 var newRect = entry.contentRect;
+
+                // handle element being hidden
+                if (newRect.width === 0 || newRect.height === 0) {
+                    return;
+                }
+
                 if (newRect.width !== contentRect.width || newRect.height !== contentRect.height) {
 
                     contentRect = newRect;
