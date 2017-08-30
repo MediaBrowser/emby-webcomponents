@@ -275,7 +275,8 @@
 
             return registrationServices.validateFeature('dvr', {
 
-                showDialog: false
+                showDialog: false,
+                viewOnly: true
 
             }).then(function () {
 

@@ -232,8 +232,12 @@
                     return Promise.resolve();
                 }
 
+                var registrationOptions = {
+                    viewOnly: options.viewOnly
+                };
+
                 // Get supporter status
-                return connectionManager.getRegistrationInfo(iapManager.getAdminFeatureName(feature), connectionManager.currentApiClient()).catch(function (errorResult) {
+                return connectionManager.getRegistrationInfo(iapManager.getAdminFeatureName(feature), connectionManager.currentApiClient(), registrationOptions).catch(function (errorResult) {
 
                     if (options.showDialog === false) {
                         return Promise.reject();

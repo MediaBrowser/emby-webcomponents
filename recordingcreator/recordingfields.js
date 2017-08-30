@@ -4,7 +4,8 @@
     function getRegistration(apiClient, feature) {
 
         return registrationServices.validateFeature(feature, {
-            showDialog: false
+            showDialog: false,
+            viewOnly: true
         });
     }
 

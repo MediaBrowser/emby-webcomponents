@@ -210,7 +210,7 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
 
         selectedTheme = selectedTheme || defaultTheme;
 
-        if (selectedTheme !== defaultTheme.id && !isRegistered()) {
+        if (selectedTheme.id !== defaultTheme.id && !isRegistered()) {
             selectedTheme = defaultTheme;
         }
 
