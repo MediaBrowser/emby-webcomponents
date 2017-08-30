@@ -69,7 +69,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
 
     function enableHlsPlayer(url, item, mediaSource, mediaType) {
 
-        if (!htmlMediaHelper.enableHlsPlayer(item, mediaSource, mediaType)) {
+        if (!htmlMediaHelper.enableHlsJsPlayer(item, mediaSource, mediaType)) {
 
             return Promise.reject();
         }

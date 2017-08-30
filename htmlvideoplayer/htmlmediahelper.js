@@ -31,7 +31,33 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return false;
     }
 
-    function enableHlsPlayer(item, mediaSource, mediaType) {
+    function enableHlsShakaPlayer(item, mediaSource, mediaType) {
+
+        if (!!window.MediaSource && !!MediaSource.isTypeSupported) {
+
+            if (canPlayNativeHls()) {
+
+                if (browser.edge && mediaType === 'Video') {
+                    return true;
+                }
+
+                // simple playback should use the native support
+                if (mediaSource.RunTimeTicks) {
+                    //if (!browser.edge) {
+                    //return false;
+                    //}
+                }
+
+                //return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    function enableHlsJsPlayer(item, mediaSource, mediaType) {
 
         if (window.MediaSource == null) {
             return false;
@@ -199,6 +225,19 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         } catch (err) {
             console.log('error calling video.play: ' + err);
             return Promise.reject();
+        }
+    }
+
+    function destroyShakaPlayer(instance) {
+        var player = instance._shakaPlayer;
+        if (player) {
+            try {
+                player.destroy();
+            } catch (err) {
+                console.log(err);
+            }
+
+            instance._shakaPlayer = null;
         }
     }
 
@@ -372,7 +411,8 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
     return {
         getSavedVolume: getSavedVolume,
         saveVolume: saveVolume,
-        enableHlsPlayer: enableHlsPlayer,
+        enableHlsJsPlayer: enableHlsJsPlayer,
+        enableHlsShakaPlayer: enableHlsShakaPlayer,
         handleHlsJsMediaError: handleHlsJsMediaError,
         isValidDuration: isValidDuration,
         onErrorInternal: onErrorInternal,

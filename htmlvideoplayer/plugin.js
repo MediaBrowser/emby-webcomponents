@@ -313,6 +313,59 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
+        function onShakaError(event) {
+
+            var error = event.detail;
+            console.error('Error code', error.code, 'object', error);
+        }
+
+        function setSrcWithShakaPlayer(instance, elem, options, url) {
+
+            return new Promise(function (resolve, reject) {
+
+                require(['shaka'], function (shaka) {
+
+                    var player = new shaka.Player(elem);
+
+                    player.configure({
+                        abr: {
+                            enabled: false
+                        },
+                        streaming: {
+
+                            failureCallback: function () {
+                                alert(2);
+                            }
+                        },
+                        retryParameters: {
+                            timeout: 10000,
+                            maxAttempts: 6,
+                            baseDelay: 500,
+                            backoffFactor: 2,
+                            fuzzFactor: 0.5,
+                        }
+                    });
+
+                    // Listen for error events.
+                    player.addEventListener('error', onShakaError);
+
+                    // Try to load a manifest.
+                    // This is an asynchronous process.
+                    player.load(url).then(function () {
+
+                        // This runs if the asynchronous load is successful.
+                        resolve();
+
+                    }, reject);
+
+                    self._shakaPlayer = player;
+
+                    // This is needed in setCurrentTrackElement
+                    self._currentSrc = url;
+                });
+            });
+        }
+
         function setCurrentSrc(elem, options) {
 
             elem.removeEventListener('error', onError);
@@ -351,7 +404,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 elem.crossOrigin = crossOrigin;
             }
 
-            if (htmlMediaHelper.enableHlsPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
+            /*if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
+
+                setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+
+                return setSrcWithShakaPlayer(self, elem, options, val);
+
+            } else*/ if (htmlMediaHelper.enableHlsJsPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
 
                 setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
 
@@ -668,7 +727,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             var mediaElem = e.target;
             mediaElem.removeEventListener('loadedmetadata', onLoadedMetadata);
 
-            if (!self._hlsPlayer) {
+            if (!self._hlsPlayer && !self._shakaPlayer && !self._flvPlayer) {
 
                 try {
                     mediaElem.play();
@@ -1510,7 +1569,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             link = null;
         }
 
-        if (this._hlsPlayer) {
+        if (this._hlsPlayer || this._shakaPlayer) {
             mediaCategory.stats.push({
                 label: 'Stream type:',
                 value: 'HLS'
