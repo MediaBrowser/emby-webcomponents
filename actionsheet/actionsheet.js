@@ -193,7 +193,7 @@
 
         var scrollerClassName = 'actionSheetScroller';
         if (layoutManager.tv) {
-            scrollerClassName += ' actionSheetScroller-tv';
+            scrollerClassName += ' actionSheetScroller-tv focuscontainer-x focuscontainer-y';
         }
         html += '<div class="' + scrollerClassName + ' ' + scrollType + '" style="' + style + '">';
 
