@@ -228,6 +228,20 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
+    function destroyCastPlayer(instance) {
+
+        var player = instance._castPlayer;
+        if (player) {
+            try {
+                player.unload();
+            } catch (err) {
+                console.log(err);
+            }
+
+            instance._castPlayer = null;
+        }
+    }
+
     function destroyShakaPlayer(instance) {
         var player = instance._shakaPlayer;
         if (player) {
@@ -356,6 +370,8 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
         destroyHlsPlayer(instance);
         destroyFlvPlayer(instance);
+        destroyShakaPlayer(instance);
+        destroyCastPlayer(instance);
 
         if (instance.originalDocumentTitle) {
             document.title = instance.originalDocumentTitle;
@@ -421,6 +437,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         playWithPromise: playWithPromise,
         destroyHlsPlayer: destroyHlsPlayer,
         destroyFlvPlayer: destroyFlvPlayer,
+        destroyCastPlayer: destroyCastPlayer,
         bindEventsToHlsPlayer: bindEventsToHlsPlayer,
         onEndedInternal: onEndedInternal,
         getCrossOriginValue: getCrossOriginValue,

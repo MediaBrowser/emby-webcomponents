@@ -1,6 +1,8 @@
 define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', './htmlmediahelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper) {
     "use strict";
 
+    var mediaManager;
+
     function tryRemoveElement(elem) {
         var parentNode = elem.parentNode;
         if (parentNode) {
@@ -59,6 +61,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
     function enableNativeTrackSupport(currentSrc, track) {
 
         if (browser.firefox) {
+            if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
+                return false;
+            }
+        }
+
+        // subs getting blocked due to CORS
+        if (browser.chromecast) {
             if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
                 return false;
             }
@@ -366,6 +375,106 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
+        function setCurrentSrcChromecast(instance, elem, options, url) {
+
+            elem.autoplay = true;
+
+            var lrd = new cast.receiver.MediaManager.LoadRequestData();
+            lrd.currentTime = (options.playerStartPositionTicks || 0) / 10000000;
+            lrd.autoplay = true;
+            lrd.media = new cast.receiver.media.MediaInformation();
+
+            lrd.media.contentId = url;
+            lrd.media.contentType = options.mimeType;
+            lrd.media.streamType = cast.receiver.media.StreamType.OTHER;
+            lrd.media.customData = options;
+
+            console.log('loading media url into mediaManager');
+
+            try {
+                mediaManager.load(lrd);
+                // This is needed in setCurrentTrackElement
+                self._currentSrc = url;
+
+                return Promise.resolve();
+            } catch (err) {
+
+                console.log('mediaManager error: ' + err);
+                return Promise.reject();
+            }
+        }
+
+        // Adapted from : https://github.com/googlecast/CastReferencePlayer/blob/master/player.js
+        function onMediaManagerLoadMedia(event) {
+
+            if (self._castPlayer) {
+                self._castPlayer.unload();    // Must unload before starting again.
+            }
+            self._castPlayer = null;
+
+            var data = event.data;
+
+            var media = event.data.media || {};
+            var url = media.contentId;
+            var contentType = media.contentType.toLowerCase();
+            var options = media.customData;
+
+            var protocol;
+            var ext = 'm3u8';
+
+            var mediaElement = self._mediaElement;
+
+            var host = new cast.player.api.Host({
+                'url': url,
+                'mediaElement': mediaElement
+            });
+
+            if (ext === 'm3u8' ||
+                contentType === 'application/x-mpegurl' ||
+                contentType === 'application/vnd.apple.mpegurl') {
+                protocol = cast.player.api.CreateHlsStreamingProtocol(host);
+            } else if (ext === 'mpd' ||
+                contentType === 'application/dash+xml') {
+                protocol = cast.player.api.CreateDashStreamingProtocol(host);
+            } else if (url.indexOf('.ism') > -1 ||
+                contentType === 'application/vnd.ms-sstr+xml') {
+                protocol = cast.player.api.CreateSmoothStreamingProtocol(host);
+            }
+
+            console.log('loading playback url: ' + url);
+            console.log('contentType: ' + contentType);
+
+            host.onError = function (errorCode) {
+                console.log("Fatal Error - " + errorCode);
+            }
+
+            mediaElement.autoplay = false;
+
+            self._castPlayer = new cast.player.api.Player(host);
+
+            self._castPlayer.load(protocol, data.currentTime || 0);
+
+            self._castPlayer.playWhenHaveEnoughData();
+        }
+
+        function initMediaManager() {
+
+            mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager)
+            mediaManager.onLoad = onMediaManagerLoadMedia.bind(self);
+
+            //mediaManager.defaultOnPlay = mediaManager.onPlay.bind(mediaManager);
+            //mediaManager.onPlay = function (event) {
+            //    // TODO ???
+            //    mediaManager.defaultOnPlay(event);
+            //};
+
+            mediaManager.defaultOnStop = mediaManager.onStop.bind(mediaManager);
+            mediaManager.onStop = function (event) {
+                playbackManager.stop();
+                mediaManager.defaultOnStop(event);
+            };
+        }
+
         function setCurrentSrc(elem, options) {
 
             elem.removeEventListener('error', onError);
@@ -385,6 +494,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             htmlMediaHelper.destroyHlsPlayer(self);
             htmlMediaHelper.destroyFlvPlayer(self);
+            htmlMediaHelper.destroyCastPlayer(self);
 
             var tracks = getMediaStreamTextTracks(options.mediaSource);
 
@@ -410,7 +520,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 return setSrcWithShakaPlayer(self, elem, options, val);
 
-            } else*/ if (htmlMediaHelper.enableHlsJsPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
+            } else*/
+
+            if (browser.chromecast && val.indexOf('.m3u8') !== -1) {
+
+                setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+                return setCurrentSrcChromecast(self, elem, options, val);
+            }
+
+            else if (htmlMediaHelper.enableHlsJsPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
 
                 setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
 
@@ -1239,6 +1357,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         videoDialog = dlg;
                         self._mediaElement = videoElement;
 
+                        if (mediaManager) {
+
+                            if (!mediaManager.embyInit) {
+                                initMediaManager();
+                                mediaManager.embyInit = true;
+                            }
+                            mediaManager.setMediaElement(videoElement);
+                        }
+
                         // don't animate on smart tv's, too slow
                         if (options.fullscreen && browser.supportsCssAnimation() && !browser.slow) {
                             zoomIn(dlg).then(function () {
@@ -1642,6 +1769,10 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             categories: categories
         });
     };
+
+    if (browser.chromecast) {
+        mediaManager = new cast.receiver.MediaManager(document.createElement('video'));
+    }
 
     return HtmlVideoPlayer;
 });
