@@ -169,8 +169,8 @@
         ua = ua.toLowerCase();
 
         var match = /(edge)[ \/]([\w.]+)/.exec(ua) ||
-            /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
-            /(opr)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
+            /(opera)[ \/]([\w.]+)/.exec(ua) ||
+            /(opr)[ \/]([\w.]+)/.exec(ua) ||
             /(chrome)[ \/]([\w.]+)/.exec(ua) ||
             /(safari)[ \/]([\w.]+)/.exec(ua) ||
             /(firefox)[ \/]([\w.]+)/.exec(ua) ||
@@ -226,6 +226,7 @@
     };
 
     var userAgent = navigator.userAgent;
+
     var matched = uaMatch(userAgent);
     var browser = {};
 

@@ -219,9 +219,9 @@ define(['browser'], function (browser) {
                 break;
             case 'flv':
                 supported = browser.tizen || browser.orsay;
-                if (!supported && window.MediaSource != null && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"')) {
-                    return getFlvMseDirectPlayProfile();
-                }
+                //if (!supported && window.MediaSource != null && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"')) {
+                //    return getFlvMseDirectPlayProfile();
+                //}
                 break;
             case '3gp':
             case 'mts':
