@@ -571,19 +571,19 @@
                 if (program.IsKids) {
                     cssClass += " childProgramInfo";
                     displayInnerContent = displayKidsContent;
-                    accentCssClass = 'childAccent';
+                    accentCssClass = 'kids';
                 } else if (program.IsSports) {
                     cssClass += " sportsProgramInfo";
                     displayInnerContent = displaySportsContent;
-                    accentCssClass = 'sportsAccent';
+                    accentCssClass = 'sports';
                 } else if (program.IsNews) {
                     cssClass += " newsProgramInfo";
                     displayInnerContent = displayNewsContent;
-                    accentCssClass = 'newsAccent';
+                    accentCssClass = 'news';
                 } else if (program.IsMovie) {
                     cssClass += " movieProgramInfo";
                     displayInnerContent = displayMovieContent;
-                    accentCssClass = 'movieAccent';
+                    accentCssClass = 'movie';
                 }
                 else if (program.IsSeries) {
                     cssClass += " plainProgramInfo";
@@ -607,7 +607,7 @@
                 html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-startdate="' + program.StartDate + '" data-enddate="' + program.EndDate + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
 
                 if (displayInnerContent && enableColorCodedBackgrounds && accentCssClass) {
-                    html += '<div class="programCellInner ' + accentCssClass + '">';
+                    html += '<div class="programCellInner programCellInner-' + accentCssClass + '">';
                 } else {
                     html += '<div class="programCellInner">';
                 }

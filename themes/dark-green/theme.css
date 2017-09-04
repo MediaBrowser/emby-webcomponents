@@ -292,6 +292,22 @@ html {
     background-color: #202020;
 }
 
+.programCellInner-sports {
+    background: #3949AB;
+}
+
+.programCellInner-movie {
+    background: #5E35B1;
+}
+
+.programCellInner-kids {
+    background: #039BE5;
+}
+
+.programCellInner-news {
+    background: #43A047;
+}
+
 .guide-programTextIcon {
     color: #1e1e1e;
     background: #555;

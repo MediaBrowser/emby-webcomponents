@@ -300,22 +300,6 @@
     height: 2px;
 }
 
-.sportsAccent {
-    background: #3949AB !important;
-}
-
-.movieAccent {
-    background: #5E35B1 !important;
-}
-
-.childAccent {
-    background: #039BE5 !important;
-}
-
-.newsAccent {
-    background: #43A047 !important;
-}
-
 .guideProgramName {
     padding: 0 .5em 0;
     overflow: hidden;
