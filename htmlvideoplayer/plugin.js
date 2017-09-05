@@ -1,4 +1,4 @@
-define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', './htmlmediahelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper) {
+define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', './htmlmediahelper', 'itemHelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper) {
     "use strict";
 
     var mediaManager;
@@ -138,23 +138,28 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         return text.replace(/\\N/gi, '\n');
     }
 
-    function setTracks(elem, tracks, mediaSource, serverId) {
+    function setTracks(elem, tracks, item, mediaSource) {
 
-        elem.innerHTML = getTracksHtml(tracks, mediaSource, serverId);
+        elem.innerHTML = getTracksHtml(tracks, item, mediaSource);
     }
 
-    function getTextTrackUrl(track, serverId) {
-        return playbackManager.getSubtitleUrl(track, serverId);
+    function getTextTrackUrl(track, item) {
+
+        if (itemHelper.isLocalItem(item) && track.Path) {
+            return track.Path;
+        }
+
+        return playbackManager.getSubtitleUrl(track, item.ServerId);
     }
 
-    function getTracksHtml(tracks, mediaSource, serverId) {
+    function getTracksHtml(tracks, item, mediaSource) {
         return tracks.map(function (t) {
 
             var defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
 
             var language = t.Language || 'und';
             var label = t.Language || 'und';
-            return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, serverId) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
+            return '<track id="textTrack' + t.Index + '" label="' + label + '" kind="subtitles" src="' + getTextTrackUrl(t, item) + '" srclang="' + language + '"' + defaultAttribute + '></track>';
 
         }).join('');
     }
@@ -446,7 +451,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             host.onError = function (errorCode) {
                 console.log("Fatal Error - " + errorCode);
-            }
+            };
 
             mediaElement.autoplay = false;
 
@@ -459,7 +464,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function initMediaManager() {
 
-            mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager)
+            mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager);
             mediaManager.onLoad = onMediaManagerLoadMedia.bind(self);
 
             //mediaManager.defaultOnPlay = mediaManager.onPlay.bind(mediaManager);
@@ -516,7 +521,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             /*if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
 
-                setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+                setTracks(elem, tracks, options.item, options.mediaSource);
 
                 return setSrcWithShakaPlayer(self, elem, options, val);
 
@@ -524,19 +529,19 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             if (browser.chromecast && val.indexOf('.m3u8') !== -1) {
 
-                setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+                setTracks(elem, tracks, options.item, options.mediaSource);
                 return setCurrentSrcChromecast(self, elem, options, val);
             }
 
             else if (htmlMediaHelper.enableHlsJsPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
 
-                setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+                setTracks(elem, tracks, options.item, options.mediaSource);
 
                 return setSrcWithHlsJs(self, elem, options, val);
 
             } else if (options.playMethod !== 'Transcode' && options.mediaSource.Container === 'flv') {
 
-                setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+                setTracks(elem, tracks, options.item, options.mediaSource);
 
                 return setSrcWithFlvJs(self, elem, options, val);
 
@@ -563,14 +568,14 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                         '" type="' +
                         mimeType +
                         '">' +
-                        getTracksHtml(tracks, options.mediaSource, options.item.ServerId);
+                        getTracksHtml(tracks, options.item, options.mediaSource);
 
                     elem.addEventListener('loadedmetadata', onLoadedMetadata);
                 } else {
 
                     return htmlMediaHelper.applySrc(elem, val, options).then(function () {
 
-                        setTracks(elem, tracks, options.mediaSource, options.item.ServerId);
+                        setTracks(elem, tracks, options.item, options.mediaSource);
 
                         self._currentSrc = val;
 
@@ -899,13 +904,13 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         self.destroyCustomTrack = destroyCustomTrack;
 
-        function fetchSubtitles(track, serverId) {
+        function fetchSubtitles(track, item) {
 
             return new Promise(function (resolve, reject) {
 
                 require(['fetchHelper'], function (fetchHelper) {
                     fetchHelper.ajax({
-                        url: getTextTrackUrl(track, serverId).replace('.vtt', '.js'),
+                        url: getTextTrackUrl(track, item).replace('.vtt', '.js'),
                         type: 'GET',
                         dataType: 'json'
                     }).then(resolve, reject);
@@ -925,15 +930,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 return;
             }
 
-            var serverId = self._currentPlayOptions.item.ServerId;
+            var item = self._currentPlayOptions.item;
 
             destroyCustomTrack(videoElement);
             customTrackIndex = track.Index;
-            renderTracksEvents(videoElement, track, serverId);
+            renderTracksEvents(videoElement, track, item);
             lastCustomTrackMs = 0;
         }
 
-        function renderWithLibjass(videoElement, track, serverId) {
+        function renderWithLibjass(videoElement, track, item) {
 
             var rendererSettings = {};
 
@@ -951,7 +956,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             require(['libjass', 'ResizeObserver'], function (libjass) {
 
-                libjass.ASS.fromUrl(getTextTrackUrl(track, serverId)).then(function (ass) {
+                libjass.ASS.fromUrl(getTextTrackUrl(track, item)).then(function (ass) {
 
                     var clock = new libjass.renderers.ManualClock();
                     currentClock = clock;
@@ -1021,9 +1026,9 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             return false;
         }
 
-        function renderSubtitlesWithCustomElement(videoElement, track, serverId) {
+        function renderSubtitlesWithCustomElement(videoElement, track, item) {
 
-            fetchSubtitles(track, serverId).then(function (data) {
+            fetchSubtitles(track, item).then(function (data) {
                 if (!videoSubtitlesElem) {
                     var subtitlesContainer = document.createElement('div');
                     subtitlesContainer.classList.add('videoSubtitles');
@@ -1082,17 +1087,17 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             });
         }
 
-        function renderTracksEvents(videoElement, track, serverId) {
+        function renderTracksEvents(videoElement, track, item) {
 
             var format = (track.Codec || '').toLowerCase();
             if (format === 'ssa' || format === 'ass') {
                 // libjass is needed here
-                renderWithLibjass(videoElement, track, serverId);
+                renderWithLibjass(videoElement, track, item);
                 return;
             }
 
             if (requiresCustomSubtitlesElement()) {
-                renderSubtitlesWithCustomElement(videoElement, track, serverId);
+                renderSubtitlesWithCustomElement(videoElement, track, item);
                 return;
             }
 
@@ -1116,7 +1121,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
                 trackElement = videoElement.addTextTrack('subtitles', 'manualTrack' + track.Index, track.Language || 'und');
 
                 // download the track json
-                fetchSubtitles(track, serverId).then(function (data) {
+                fetchSubtitles(track, item).then(function (data) {
 
                     // show in ui
                     console.log('downloaded ' + data.TrackEvents.length + ' track events');

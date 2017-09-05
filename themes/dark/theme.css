@@ -14,7 +14,7 @@ html {
 }
 
 .skinHeader-withBackground {
-    background-color: #131313;
+    background-color: #1a1a1a;
 }
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
@@ -42,11 +42,11 @@ html {
 }
 
 .dialog {
-    background-color: #191919;
+    background-color: #141414;
 }
 
 .backgroundContainer {
-    background-color: #191919;
+    background-color: #141414;
 }
 
     .backgroundContainer.withBackdrop {
