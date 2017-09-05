@@ -875,16 +875,21 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function fetchSubtitles(track, item) {
 
-            // TODO: Can't use fetch for local paths
             return new Promise(function (resolve, reject) {
 
-                require(['fetchHelper'], function (fetchHelper) {
-                    fetchHelper.ajax({
-                        url: getTextTrackUrl(track, item).replace('.vtt', '.js'),
-                        type: 'GET',
-                        dataType: 'json'
-                    }).then(resolve, reject);
-                });
+                var xhr = new XMLHttpRequest();
+
+                var url = getTextTrackUrl(track, item).replace('.vtt', '.js');
+
+                xhr.open('GET', url, true);
+
+                xhr.onload = function (e) {
+                    resolve(JSON.parse(this.response));
+                };
+
+                xhr.onerror = reject;
+
+                xhr.send();
             });
         }
 
