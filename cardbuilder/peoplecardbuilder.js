@@ -4,7 +4,7 @@ define(['cardBuilder'], function (cardBuilder) {
     function buildPeopleCards(items, options) {
 
         options = Object.assign(options || {}, {
-            cardLayout: true,
+            cardLayout: false,
             centerText: true,
             showTitle: true,
             cardFooterAside: 'none',
