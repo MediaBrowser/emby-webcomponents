@@ -126,13 +126,18 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
         });
     }
 
-    function loadUserSkin() {
+    function loadUserSkin(options) {
 
         var skin = userSettings.get('skin', false) || 'defaultskin';
 
         loadSkin(skin).then(function (skin) {
 
-            Emby.Page.goHome();
+            options = options || {};
+            if (options.start) {
+                Emby.Page.invokeShortcut(options.start);
+            } else {
+                Emby.Page.goHome();
+            }
         });
     }
 

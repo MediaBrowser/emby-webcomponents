@@ -259,7 +259,7 @@ html {
 /* emby-tabs */
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .4);
 }
 
 .emby-tab-button-active {

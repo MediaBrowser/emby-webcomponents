@@ -327,10 +327,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
                 quality -= 40;
             }
 
-            if (browser.iOS && !isBackdrop) {
-                quality -= 10;
-            }
-
             options.quality = quality;
         }
     }
@@ -450,7 +446,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
             }
             else if (route.isDefaultRoute) {
                 console.log('appRouter - loading skin home page');
-                skinManager.loadUserSkin();
+                loadUserSkinWithOptions(ctx);
                 return;
             } else if (route.roles) {
 
@@ -469,6 +465,20 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
 
         console.log('appRouter - proceeding to ' + pathname);
         callback();
+    }
+
+    function loadUserSkinWithOptions(ctx) {
+
+        require(['queryString'], function (queryString) {
+            
+            //var url = options.url;
+            //var index = url.indexOf('?');
+            var params = queryString.parse(ctx.querystring);
+
+            skinManager.loadUserSkin({
+                start: params.start
+            });
+        });
     }
 
     function validateRoles(apiClient, roles) {
@@ -800,6 +810,24 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
 
     setBaseRoute();
 
+    function invokeShortcut(id) {
+
+        if (id.indexOf('library-') === 0) {
+            id = id.replace('library-', '');
+
+            id = id.split('_');
+
+            appRouter.showItem(id[0], id[1]);
+        } else {
+
+            id = id.split('_');
+
+            appRouter.show(appRouter.getRouteUrl(id[0], {
+                serverId: id[1]
+            }));
+        }
+    }
+
     appRouter.addRoute = addRoute;
     appRouter.param = param;
     appRouter.back = back;
@@ -824,6 +852,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
         Backdrop: 1,
         Full: 2
     };
+    appRouter.invokeShortcut = invokeShortcut;
 
     return appRouter;
 });
