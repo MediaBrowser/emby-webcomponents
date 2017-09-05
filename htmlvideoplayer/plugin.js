@@ -16,37 +16,6 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         }
     }
 
-    function getDeviceProfile(item, options) {
-
-        options = options || {};
-
-        return new Promise(function (resolve, reject) {
-
-            require(['browserdeviceprofile'], function (profileBuilder) {
-
-                var profile = profileBuilder(getBaseProfileOptions(item));
-
-                // Streaming only, allow in-app ass decoding. Streaming only because there is no automatic retry to transcoding for offline media
-                // Don't use in-app ass decoding if it's a playback retry (automatic switch from direct play to transcoding)
-                if (item && !options.isRetry && appSettings.get('subtitleburnin') !== 'allcomplexformats') {
-                    if (!browser.orsay && !browser.tizen) {
-                        // libjass not working here
-                        profile.SubtitleProfiles.push({
-                            Format: 'ass',
-                            Method: 'External'
-                        });
-                        profile.SubtitleProfiles.push({
-                            Format: 'ssa',
-                            Method: 'External'
-                        });
-                    }
-                }
-
-                resolve(profile);
-            });
-        });
-    }
-
     var _supportsTextTracks;
     function supportsTextTracks() {
 
@@ -906,6 +875,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function fetchSubtitles(track, item) {
 
+            // TODO: Can't use fetch for local paths
             return new Promise(function (resolve, reject) {
 
                 require(['fetchHelper'], function (fetchHelper) {

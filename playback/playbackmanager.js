@@ -884,7 +884,7 @@
         }
 
         function getSubtitleStream(player, index) {
-            return self.currentMediaSource(player).MediaStreams.filter(function (s) {
+            return self.subtitleTracks(player).filter(function (s) {
                 return s.Type === 'Subtitle' && s.Index === index;
             })[0];
         }
@@ -1282,6 +1282,16 @@
             return getPlayerData(player).subtitleStreamIndex;
         };
 
+        function getDeliveryMethod(subtitleStream) {
+            
+            // This will be null for internal subs for local items
+            if (subtitleStream.DeliveryMethod) {
+                return subtitleStream.DeliveryMethod;
+            }
+
+            return subtitleStream.IsExternal ? 'External' : 'Embed';
+        }
+
         self.setSubtitleStreamIndex = function (index, player) {
 
             player = player || self._currentPlayer;
@@ -1303,7 +1313,7 @@
 
             if (currentStream && !newStream) {
 
-                if (currentStream.DeliveryMethod === 'Encode' || (currentStream.DeliveryMethod === 'Embed' && currentPlayMethod === 'Transcode')) {
+                if (getDeliveryMethod(currentStream) === 'Encode' || (getDeliveryMethod(currentStream) === 'Embed' && currentPlayMethod === 'Transcode')) {
 
                     // Need to change the transcoded stream to remove subs
                     changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
@@ -1311,9 +1321,9 @@
             }
             else if (!currentStream && newStream) {
 
-                if (newStream.DeliveryMethod === 'External') {
+                if (getDeliveryMethod(newStream) === 'External') {
                     selectedTrackElementIndex = index;
-                } else if (newStream.DeliveryMethod === 'Embed' && currentPlayMethod !== 'Transcode') {
+                } else if (getDeliveryMethod(newStream) === 'Embed' && currentPlayMethod !== 'Transcode') {
                     selectedTrackElementIndex = index;
                 } else {
 
@@ -1325,11 +1335,11 @@
 
                 // Switching tracks
                 // We can handle this clientside if the new track is external or the new track is embedded and we're not transcoding
-                if (newStream.DeliveryMethod === 'External' || (newStream.DeliveryMethod === 'Embed' && currentPlayMethod !== 'Transcode')) {
+                if (getDeliveryMethod(newStream) === 'External' || (getDeliveryMethod(newStream) === 'Embed' && currentPlayMethod !== 'Transcode')) {
                     selectedTrackElementIndex = index;
 
                     // But in order to handle this client side, if the previous track is being added via transcoding, we'll have to remove it
-                    if (currentStream.DeliveryMethod !== 'External' && currentStream.DeliveryMethod !== 'Embed') {
+                    if (getDeliveryMethod(currentStream) !== 'External' && getDeliveryMethod(currentStream) !== 'Embed') {
                         changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
                     }
                 } else {
@@ -2163,9 +2173,9 @@
                 playerStartPositionTicks: playerStartPositionTicks,
                 item: item,
                 mediaSource: mediaSource,
-                textTracks: getTextTracks(apiClient, mediaSource),
-                // duplicate this temporarily
-                tracks: getTextTracks(apiClient, mediaSource),
+                textTracks: getTextTracks(apiClient, item, mediaSource),
+                // TODO: Deprecate
+                tracks: getTextTracks(apiClient, item, mediaSource),
                 mediaType: type,
                 liveStreamId: liveStreamId,
                 playSessionId: getParam('playSessionId', mediaUrl),
@@ -2180,7 +2190,7 @@
             return resultInfo;
         }
 
-        function getTextTracks(apiClient, mediaSource) {
+        function getTextTracks(apiClient, item, mediaSource) {
 
             var subtitleStreams = mediaSource.MediaStreams.filter(function (s) {
                 return s.Type === 'Subtitle';
@@ -2195,7 +2205,13 @@
             for (var i = 0, length = textStreams.length; i < length; i++) {
 
                 var textStream = textStreams[i];
-                var textStreamUrl = !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
+                var textStreamUrl;
+
+                if (itemHelper.isLocalItem(item)) {
+                    textStreamUrl = textStream.Path;
+                } else {
+                    textStreamUrl = !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;
+                }
 
                 tracks.push({
                     url: textStreamUrl,
