@@ -1,4 +1,4 @@
-define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', './htmlmediahelper', 'itemHelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper) {
+﻿define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', './htmlmediahelper', 'itemHelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper) {
     "use strict";
 
     var mediaManager;
@@ -112,13 +112,18 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
         elem.innerHTML = getTracksHtml(tracks, item, mediaSource);
     }
 
-    function getTextTrackUrl(track, item) {
+    function getTextTrackUrl(track, item, format) {
 
         if (itemHelper.isLocalItem(item) && track.Path) {
             return track.Path;
         }
 
-        return playbackManager.getSubtitleUrl(track, item.ServerId);
+        var url = playbackManager.getSubtitleUrl(track, item.ServerId);
+        if (format) {
+            url = url.replace('.vtt', format);
+        }
+
+        return url;
     }
 
     function getTracksHtml(tracks, item, mediaSource) {
@@ -754,8 +759,15 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
             }
 
             if (elem.videoWidth === 0 && elem.videoHeight === 0) {
-                htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
-                return;
+
+                var mediaSource = (self._currentPlayOptions || {}).mediaSource;
+
+                // Only trigger this if there is media info
+                // Avoid triggering in situations where it might not actually have a video stream (audio only live tv channel)
+                if (!mediaSource || mediaSource.RunTimeTicks) {
+                    htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
+                    return;
+                }
             }
 
             //if (elem.audioTracks && !elem.audioTracks.length) {
@@ -873,13 +885,28 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         self.destroyCustomTrack = destroyCustomTrack;
 
+        function fetchSubtitlesUwp(track, item) {
+
+            return Windows.Storage.StorageFile.getFileFromPathAsync(track.Path).then(function (storageFile) {
+
+                return Windows.Storage.FileIO.readTextAsync(storageFile).then(function (text) {
+                    return JSON.parse(text);
+                });
+            });
+
+        }
+
         function fetchSubtitles(track, item) {
+
+            if (window.Windows && itemHelper.isLocalItem(item)) {
+                return fetchSubtitlesUwp(track, item);
+            }
 
             return new Promise(function (resolve, reject) {
 
                 var xhr = new XMLHttpRequest();
 
-                var url = getTextTrackUrl(track, item).replace('.vtt', '.js');
+                var url = getTextTrackUrl(track, item, '.js');
 
                 xhr.open('GET', url, true);
 
@@ -1064,16 +1091,18 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
         function renderTracksEvents(videoElement, track, item) {
 
-            var format = (track.Codec || '').toLowerCase();
-            if (format === 'ssa' || format === 'ass') {
-                // libjass is needed here
-                renderWithLibjass(videoElement, track, item);
-                return;
-            }
+            if (!itemHelper.isLocalItem(item) || track.IsExternal) {
+                var format = (track.Codec || '').toLowerCase();
+                if (format === 'ssa' || format === 'ass') {
+                    // libjass is needed here
+                    renderWithLibjass(videoElement, track, item);
+                    return;
+                }
 
-            if (requiresCustomSubtitlesElement()) {
-                renderSubtitlesWithCustomElement(videoElement, track, item);
-                return;
+                if (requiresCustomSubtitlesElement()) {
+                    renderSubtitlesWithCustomElement(videoElement, track, item);
+                    return;
+                }
             }
 
             var trackElement = null;
