@@ -9,7 +9,7 @@ html, .skinHeader {
 }
 
 .collapseContent {
-    background-color: #fff;
+    background-color: #eaeaea;
 }
 
 .skinHeader-withBackground, .formDialogHeader:not(.formDialogHeader-clear) {

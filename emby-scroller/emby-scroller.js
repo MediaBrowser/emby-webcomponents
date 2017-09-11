@@ -146,7 +146,7 @@
             touchDragging: 1,
             slidee: slider,
             scrollBy: 200,
-            speed: horizontal ? 300 : 270,
+            speed: horizontal ? 270 : 240,
             //immediateSpeed: pageOptions.immediateSpeed,
             elasticBounds: 1,
             dragHandle: 1,

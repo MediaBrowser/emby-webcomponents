@@ -11,6 +11,8 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
 
     function showMessage(text, userSettingsKey, appHostFeature) {
 
+        userSettingsKey += new Date().getMonth();
+
         if (appHost.supports(appHostFeature)) {
             return Promise.resolve();
         }
