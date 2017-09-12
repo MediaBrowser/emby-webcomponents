@@ -625,7 +625,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
 
         if (checkCanGoBack) {
             var curr = current();
-            if (canGoBack() && curr && (!curr.startup || curr.controller == 'startup/manualserver' || curr.controller == 'startup/manuallogin')) {
+            if (canGoBack() && curr && (!curr.startup || curr.controller === 'startup/manualserver' || curr.controller === 'startup/manuallogin')) {
                 page.back();
             } else {
                 appHost.exit();
