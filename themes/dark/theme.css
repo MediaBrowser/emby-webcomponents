@@ -3,7 +3,7 @@ html {
     color: rgba(255, 255, 255, .8);
 }
 
-.emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
+.emby-textarea, .emby-input, .emby-collapsible-button {
     border-color: #383838;
     border-color: rgba(255,255,255, .135);
 }
@@ -163,7 +163,7 @@ html {
     color: #fff !important;
 }
 
-.emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
+.emby-textarea-selectionbar, .emby-input-selectionbar {
     background-color: #52B54B;
 }
 
@@ -200,6 +200,22 @@ html {
 .mediaInfoTimerIcon {
     color: #CB272A;
 }
+
+/* select */
+.emby-select-withcolor {
+    color: inherit;
+    background: #262626;
+    border: 1px solid #262626;
+    border-radius: .15em;
+}
+
+    .emby-select-withcolor > option {
+        color: inherit;
+    }
+
+    .emby-select-withcolor:focus {
+        border-color: #52B54B;
+    }
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {

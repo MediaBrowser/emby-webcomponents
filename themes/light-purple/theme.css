@@ -3,7 +3,7 @@ html, .skinHeader {
     color: rgba(0, 0, 0, .87);
 }
 
-.emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
+.emby-textarea, .emby-input, .emby-collapsible-button {
     border-color: #ccc;
     border-color: rgba(0, 0, 0, .158);
 }
@@ -193,7 +193,7 @@ html, .skinHeader {
     background: #f8f8f8;
 }
 
-.emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
+.emby-textarea-selectionbar, .emby-input-selectionbar {
     background-color: #673AB7;
 }
 
@@ -213,6 +213,18 @@ html, .skinHeader {
 .mediaInfoTimerIcon {
     color: #CB272A;
 }
+
+/* select */
+.emby-select-withcolor {
+    color: inherit;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .158);
+    border-radius: .15em;
+}
+
+    .emby-select-withcolor:focus {
+        border-color: #673AB7;
+    }
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
@@ -378,6 +390,7 @@ html, .skinHeader {
 .downloadbutton-icon-complete {
     color: #4285F4;
 }
+
 .playstatebutton-icon-played {
     color: #cc3333;
 }

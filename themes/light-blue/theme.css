@@ -3,7 +3,7 @@ html, .skinHeader {
     color: rgba(0, 0, 0, .87);
 }
 
-.emby-textarea, .emby-input, .emby-collapsible-button, .emby-select {
+.emby-textarea, .emby-input, .emby-collapsible-button {
     border-color: #ccc;
     border-color: rgba(0, 0, 0, .158);
 }
@@ -190,7 +190,7 @@ html, .skinHeader {
     background: #ddd;
 }
 
-.emby-select-selectionbar, .emby-textarea-selectionbar, .emby-input-selectionbar {
+.emby-textarea-selectionbar, .emby-input-selectionbar {
     background-color: #2196F3;
 }
 
@@ -210,6 +210,18 @@ html, .skinHeader {
 .mediaInfoTimerIcon {
     color: #CB272A;
 }
+
+/* select */
+.emby-select-withcolor {
+    color: inherit;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .158);
+    border-radius: .15em;
+}
+
+    .emby-select-withcolor:focus {
+        border-color: #2196F3;
+    }
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {

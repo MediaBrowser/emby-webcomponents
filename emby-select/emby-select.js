@@ -119,7 +119,7 @@
         }
 
         if (!browser.firefox) {
-            this.classList.add('emby-select-withoptioncolor');
+            this.classList.add('emby-select-withcolor');
         }
 
         this.addEventListener('mousedown', onMouseDown);
@@ -143,10 +143,6 @@
         label.classList.add('selectLabelUnfocused');
         label.htmlFor = this.id;
         this.parentNode.insertBefore(label, this);
-
-        var div = document.createElement('div');
-        div.classList.add('emby-select-selectionbar');
-        this.parentNode.insertBefore(div, this.nextSibling);
     };
 
     EmbySelectPrototype.setLabel = function (text) {

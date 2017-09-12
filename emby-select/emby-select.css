@@ -2,19 +2,13 @@
     display: block;
     margin: 0;
     margin-bottom: 0 !important;
-    border-style: solid;
-    border-width: 0 0 1px 0;
-    /* Prefixed box-sizing rules necessary for older browsers */
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     /* Remove select styling */
     /* Font size must the 16px or larger to prevent iOS page zoom on focus */
     font-size: 110%;
     /* General select styles: change as needed */
     font-family: inherit;
     font-weight: inherit;
-    padding: .35em .25em .3em 0;
+    padding: .25em .15em;
     cursor: pointer;
     outline: none !important;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -25,14 +19,9 @@
         border: 0;
     }
 
-.emby-select-withoptioncolor {
-    color: inherit;
-    background: none;
+.emby-select-withcolor > option {
+    color: initial;
 }
-
-    .emby-select-withoptioncolor > option {
-        color: initial;
-    }
 
 .selectContainer {
     margin-bottom: 1.8em;
@@ -41,19 +30,5 @@
 
 .selectLabel {
     display: block;
-}
-
-.emby-select-selectionbar {
-    height: 2px;
-    transform: scale(0, 1);
-    transition: transform .25s ease-out;
-    position: relative;
-    top: -1px;
-    margin-bottom: .5em;
-    -webkit-transform-origin: center center;
-    transform-origin: center center;
-}
-
-.emby-select:focus + .emby-select-selectionbar {
-    transform: none;
+    margin-bottom: .25em;
 }
