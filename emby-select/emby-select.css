@@ -14,7 +14,7 @@
     /* General select styles: change as needed */
     font-family: inherit;
     font-weight: inherit;
-    padding: .35em .8em .3em 0;
+    padding: .35em .25em .3em 0;
     cursor: pointer;
     outline: none !important;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -28,9 +28,6 @@
 .emby-select-withoptioncolor {
     color: inherit;
     background: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
 }
 
     .emby-select-withoptioncolor > option {
@@ -40,17 +37,6 @@
 .selectContainer {
     margin-bottom: 1.8em;
     position: relative;
-}
-
-.selectArrowContainer {
-    position: absolute;
-    right: 0;
-    top: .25em;
-    color: inherit;
-}
-
-.selectArrow {
-    margin-top: .35em;
 }
 
 .selectLabel {
