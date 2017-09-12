@@ -229,7 +229,15 @@
         var instance = this;
         clearCountdownTextTimeout(this);
 
+        if (!instance.options) {
+            return;
+        }
+
         var elem = instance.options.parent;
+
+        if (!elem) {
+            return;
+        }
 
         clearHideAnimationEventListeners(this, elem);
 

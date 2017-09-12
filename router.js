@@ -470,7 +470,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
     function loadUserSkinWithOptions(ctx) {
 
         require(['queryString'], function (queryString) {
-            
+
             //var url = options.url;
             //var index = url.indexOf('?');
             var params = queryString.parse(ctx.querystring);
@@ -624,7 +624,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
         var checkCanGoBack = browser.web0s || browser.orsay;
 
         if (checkCanGoBack) {
-            if (canGoBack()) {
+            var curr = current();
+            if (canGoBack() && curr && (!curr.startup || curr.controller == 'startup/manualserver' || curr.controller == 'startup/manuallogin')) {
                 page.back();
             } else {
                 appHost.exit();
