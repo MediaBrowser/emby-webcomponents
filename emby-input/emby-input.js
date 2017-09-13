@@ -49,10 +49,6 @@
         parentNode.insertBefore(label, this);
         this.labelElement = label;
 
-        var div = document.createElement('div');
-        div.classList.add('emby-input-selectionbar');
-        parentNode.insertBefore(div, this.nextSibling);
-
         dom.addEventListener(this, 'focus', function () {
             onChange.call(this);
 

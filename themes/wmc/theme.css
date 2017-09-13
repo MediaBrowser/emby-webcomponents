@@ -3,7 +3,7 @@ html {
     color: rgba(255, 255, 255, .9);
 }
 
-.emby-input, .emby-collapsible-button {
+.emby-collapsible-button {
     border-color: #383838;
     border-color: rgba(255,255,255, .135);
 }
@@ -156,10 +156,6 @@ html {
     color: #fff !important;
 }
 
-.emby-input-selectionbar {
-    background-color: #52B54B;
-}
-
 .listItem-shaded:nth-child(even), .detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
     background: rgba(0, 0, 0, .3);
@@ -195,7 +191,7 @@ html {
 }
 
 /* inputs */
-.emby-textarea {
+.emby-input, .emby-textarea {
     color: inherit;
     background: rgba(255,255,255,.2);
     border: .07em solid rgba(255,255,255, .135);

@@ -3,7 +3,7 @@ html, .skinHeader {
     color: rgba(0, 0, 0, .87);
 }
 
-.emby-input, .emby-collapsible-button {
+.emby-collapsible-button {
     border-color: #ccc;
     border-color: rgba(0, 0, 0, .158);
 }
@@ -192,10 +192,6 @@ html, .skinHeader {
     background: #ddd;
 }
 
-.emby-input-selectionbar {
-    background-color: #52B54B;
-}
-
 .progressring-spiner {
     border-color: #52B54B;
 }
@@ -214,7 +210,7 @@ html, .skinHeader {
 }
 
 /* inputs */
-.emby-textarea {
+.emby-input, .emby-textarea {
     color: inherit;
     background: #fff;
     border: .07em solid rgba(0, 0, 0, .158);
