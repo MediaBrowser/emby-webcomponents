@@ -216,7 +216,7 @@ html, .skinHeader {
 .emby-select-withcolor {
     color: inherit;
     background: #fff;
-    border: 1px solid rgba(0, 0, 0, .158);
+    border: .07em solid rgba(0, 0, 0, .158);
     border-radius: .15em;
 }
 
