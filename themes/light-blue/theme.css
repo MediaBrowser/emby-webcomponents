@@ -3,7 +3,7 @@ html, .skinHeader {
     color: rgba(0, 0, 0, .87);
 }
 
-.emby-textarea, .emby-input, .emby-collapsible-button {
+.emby-input, .emby-collapsible-button {
     border-color: #ccc;
     border-color: rgba(0, 0, 0, .158);
 }
@@ -190,7 +190,7 @@ html, .skinHeader {
     background: #ddd;
 }
 
-.emby-textarea-selectionbar, .emby-input-selectionbar {
+.emby-input-selectionbar {
     background-color: #2196F3;
 }
 
@@ -209,6 +209,14 @@ html, .skinHeader {
 
 .mediaInfoTimerIcon {
     color: #CB272A;
+}
+
+/* inputs */
+.emby-textarea {
+    color: inherit;
+    background: #fff;
+    border: .07em solid rgba(0, 0, 0, .158);
+    border-radius: .15em;
 }
 
 /* select */

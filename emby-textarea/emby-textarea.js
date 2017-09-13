@@ -69,7 +69,6 @@
     var EmbyTextAreaPrototype = Object.create(HTMLTextAreaElement.prototype);
 
     var elementId = 0;
-    var supportsFloatingLabel = false;
 
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
 
@@ -88,7 +87,6 @@
             };
 
             Object.defineProperty(HTMLTextAreaElement.prototype, 'value', descriptor);
-            supportsFloatingLabel = true;
         }
     }
 
@@ -114,16 +112,8 @@
         label.innerHTML = this.getAttribute('label') || '';
         label.classList.add('textareaLabel');
 
-        if (!supportsFloatingLabel || this.type === 'date') {
-            label.classList.add('nofloat');
-        }
-
         label.htmlFor = this.id;
         parentNode.insertBefore(label, this);
-
-        var div = document.createElement('div');
-        div.classList.add('emby-input-selectionbar');
-        parentNode.insertBefore(div, this.nextSibling);
 
         this.addEventListener('focus', function () {
             label.classList.add('textareaLabelFocused');
