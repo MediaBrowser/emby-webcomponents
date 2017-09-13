@@ -85,10 +85,10 @@ button {
 
     100% {
         opacity: 1;
-        -webkit-transform: scale(1);
-        -moz-transform: scale(1);
-        -o-transform: scale(1);
-        transform: scale(1);
+        -webkit-transform: none;
+        -moz-transform: none;
+        -o-transform: none;
+        transform: none;
     }
 }
 
