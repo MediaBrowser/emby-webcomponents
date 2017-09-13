@@ -35,7 +35,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
             var fillingVibrant = fillVibrant(elem, source);
 
             if (enableFade && !layoutManager.tv && enableEffects !== false && !fillingVibrant) {
-                fadeIn(elem);
+                //fadeIn(elem);
             }
 
             elem.removeAttribute("data-src");

@@ -29,10 +29,7 @@
 
     function getTabPanel(tabs, index) {
 
-        var tabsContainer = dom.parentWithClass(tabs, 'tabs-container');
-        if (tabsContainer) {
-            return tabsContainer.querySelector('.tabContent[data-index="' + index + '"]');
-        }
+        return null;
     }
 
     function removeActivePanelClass(tabs, index) {

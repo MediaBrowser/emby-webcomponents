@@ -1327,6 +1327,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 var cardScalableClass = 'cardScalable';
 
+                if (!browser.slow) {
+                    cardScalableClass += ' popIn';
+                }
+
                 if (layoutManager.tv && !options.cardLayout) {
                     cardScalableClass += ' card-focuscontent';
                 }
