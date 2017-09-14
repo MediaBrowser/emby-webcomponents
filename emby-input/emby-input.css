@@ -29,6 +29,6 @@
     margin-bottom: .25em;
 }
 
-.emby-textarea + .fieldDescription {
+.emby-input + .fieldDescription {
     margin-top: .25em;
 }
