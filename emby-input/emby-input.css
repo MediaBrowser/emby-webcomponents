@@ -9,6 +9,8 @@
     font-family: inherit;
     font-weight: inherit;
     padding: .4em .25em;
+    /* Prevent padding from causing width overflow */
+    box-sizing: border-box;
     outline: none !important;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     width: 100%;

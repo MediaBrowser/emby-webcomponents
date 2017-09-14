@@ -1,4 +1,4 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
+define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
     'use strict';
 
     var appRouter = {
@@ -291,6 +291,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
             scaleFactor = 1;
         }
 
+        if (!layoutManager.tv) {
+            scaleFactor = 1;
+        }
+
         var appImageScaleFactor = browser.tv ? 0.8 : 1;
         scaleFactor *= appImageScaleFactor;
 
@@ -316,15 +320,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'skinManager', 'pluginM
         }
 
         if (setQuality) {
-            var quality = browser.tv ? 70 : 90;
+            var quality = browser.tv || browser.slow ? 50 : 90;
 
             var isBackdrop = options.type && options.type.toLowerCase() === 'backdrop';
             if (isBackdrop) {
                 quality -= 10;
-            }
-
-            if (browser.slow) {
-                quality -= 40;
             }
 
             options.quality = quality;
