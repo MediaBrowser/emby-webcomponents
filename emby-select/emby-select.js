@@ -143,6 +143,10 @@
         label.classList.add('selectLabelUnfocused');
         label.htmlFor = this.id;
         this.parentNode.insertBefore(label, this);
+
+        if (this.classList.contains('emby-select-withcolor')) {
+            this.parentNode.insertAdjacentHTML('beforeend', '<div class="selectArrowContainer"><div style="visibility:hidden;">0</div><i class="selectArrow md-icon">&#xE313;</i></div>');
+        }
     };
 
     EmbySelectPrototype.setLabel = function (text) {

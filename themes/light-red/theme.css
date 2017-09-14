@@ -216,6 +216,10 @@ html, .skinHeader {
     border-radius: .15em;
 }
 
+    .emby-input:focus, .emby-textarea:focus {
+        border-color: #cc3333;
+    }
+
 /* select */
 .emby-select-withcolor {
     color: inherit;

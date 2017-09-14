@@ -8,7 +8,7 @@
     /* General select styles: change as needed */
     font-family: inherit;
     font-weight: inherit;
-    padding: .4em .25em;
+    padding: .46em .5em;
     outline: none !important;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     width: 100%;
@@ -30,4 +30,22 @@
 .selectLabel {
     display: block;
     margin-bottom: .25em;
+}
+
+.emby-select-withcolor {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.selectArrowContainer {
+    position: absolute;
+    right: .25em;
+    top: .25em;
+    color: inherit;
+    pointer-events: none;
+}
+
+.selectArrow {
+    margin-top: .35em;
+    font-size: 1.6em;
 }

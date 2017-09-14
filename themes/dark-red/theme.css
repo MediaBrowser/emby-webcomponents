@@ -214,6 +214,10 @@ html {
     border-radius: .15em;
 }
 
+    .emby-input:focus, .emby-textarea:focus {
+        border-color: #cc3333;
+    }
+
 /* select */
 .emby-select-withcolor {
     color: inherit;
@@ -226,9 +230,9 @@ html {
     color: inherit;
 }
 
-.emby-select-withcolor:focus {
-    border-color: #52B54B;
-}
+    .emby-select-withcolor:focus {
+        border-color: #cc3333;
+    }
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
