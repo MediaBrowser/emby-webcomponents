@@ -41,15 +41,15 @@
 
 .selectArrowContainer {
     position: absolute;
-    right: .25em;
+    right: .35em;
     top: .25em;
     color: inherit;
     pointer-events: none;
 }
 
 .selectArrow {
-    margin-top: .35em;
-    font-size: 1.6em;
+    margin-top: .33em;
+    font-size: 1.7em;
 }
 
 .emby-select-iconbutton {
