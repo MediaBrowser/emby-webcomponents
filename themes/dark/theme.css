@@ -365,7 +365,7 @@ html {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #191919);
+    background: linear-gradient(rgba(0,0,0,0), #141414);
 }
 
 /* used by directory picker and other areas */

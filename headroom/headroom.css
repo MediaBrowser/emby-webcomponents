@@ -1,5 +1,5 @@
 .headroom {
-    transition: transform 160ms linear;
+    transition: transform 140ms linear;
 }
 
 .headroom--pinned {
