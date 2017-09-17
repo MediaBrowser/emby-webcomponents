@@ -145,7 +145,7 @@
         });
     }
 
-    function onGeneralEvent(e, state) {
+    function onGeneralEvent(e) {
 
         var player = this;
         var state = playbackManager.getPlayerState(player);
