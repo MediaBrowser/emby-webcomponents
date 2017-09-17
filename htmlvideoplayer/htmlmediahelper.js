@@ -70,6 +70,11 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
         if (canPlayNativeHls()) {
 
+            // Having trouble with chrome's native support and transcoded music
+            if (browser.android && mediaType === 'Audio') {
+                return true;
+            }
+
             if (browser.edge && mediaType === 'Video') {
                 return true;
             }
