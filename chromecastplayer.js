@@ -1094,7 +1094,7 @@
 
     ChromecastPlayer.prototype.getPlayerState = function () {
 
-        return Promise.resolve(this.getPlayerStateInternal() || {});
+        return this.getPlayerStateInternal() || {};
     };
 
     return ChromecastPlayer;

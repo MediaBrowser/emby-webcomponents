@@ -3,28 +3,26 @@
 
     function transferPlayback(oldPlayer, newPlayer) {
 
-        playbackManager.getPlayerState(oldPlayer).then(function (state) {
+        var state = playbackManager.getPlayerState(oldPlayer);
 
-            var item = state.NowPlayingItem;
+        var item = state.NowPlayingItem;
 
-            if (!item) {
-                return;
-            }
+        if (!item) {
+            return;
+        }
 
-            var playState = state.PlayState || {};
+        var playState = state.PlayState || {};
 
-            playbackManager.stop(oldPlayer).then(function () {
+        playbackManager.stop(oldPlayer).then(function () {
 
-                var resumePositionTicks = playState.PositionTicks || 0;
+            var resumePositionTicks = playState.PositionTicks || 0;
 
-                playbackManager.play({
-                    ids: [item.Id],
-                    serverId: item.ServerId,
-                    startPositionTicks: resumePositionTicks
+            playbackManager.play({
+                ids: [item.Id],
+                serverId: item.ServerId,
+                startPositionTicks: resumePositionTicks
 
-                }, newPlayer);
-            });
-
+            }, newPlayer);
         });
     }
 

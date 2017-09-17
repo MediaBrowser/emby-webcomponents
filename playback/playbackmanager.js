@@ -1283,7 +1283,7 @@
         };
 
         function getDeliveryMethod(subtitleStream) {
-            
+
             // This will be null for internal subs for local items
             if (subtitleStream.DeliveryMethod) {
                 return subtitleStream.DeliveryMethod;
@@ -1745,7 +1745,7 @@
 
             state.MediaSource = mediaSource;
 
-            return Promise.resolve(state);
+            return state;
         };
 
         self.duration = function (player) {
@@ -2549,20 +2549,19 @@
             var isFirstItem = playOptions.isFirstItem;
             var fullscreen = playOptions.fullscreen;
 
-            self.getPlayerState(player).then(function (state) {
+            var state = self.getPlayerState(player);
 
-                reportPlayback(state, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
+            reportPlayback(state, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
 
-                state.IsFirstItem = isFirstItem;
-                state.IsFullscreen = fullscreen;
-                events.trigger(player, 'playbackstart', [state]);
-                events.trigger(self, 'playbackstart', [player, state]);
+            state.IsFirstItem = isFirstItem;
+            state.IsFullscreen = fullscreen;
+            events.trigger(player, 'playbackstart', [state]);
+            events.trigger(self, 'playbackstart', [player, state]);
 
-                // only used internally as a safeguard to avoid reporting other events to the server before playback start
-                streamInfo.started = true;
+            // only used internally as a safeguard to avoid reporting other events to the server before playback start
+            streamInfo.started = true;
 
-                acquireResourceLocks(player, streamInfo.mediaType);
-            });
+            acquireResourceLocks(player, streamInfo.mediaType);
         }
 
         function onPlaybackStartedFromSelfManagingPlayer(e, item, mediaSource) {
@@ -2582,62 +2581,60 @@
             var streamInfo = playerData.streamInfo;
             streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
 
-            self.getPlayerState(player).then(function (state) {
+            var state = self.getPlayerState(player);
 
-                reportPlayback(state, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
+            reportPlayback(state, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
 
-                state.IsFirstItem = isFirstItem;
-                state.IsFullscreen = fullscreen;
-                events.trigger(player, 'playbackstart', [state]);
-                events.trigger(self, 'playbackstart', [player, state]);
+            state.IsFirstItem = isFirstItem;
+            state.IsFullscreen = fullscreen;
+            events.trigger(player, 'playbackstart', [state]);
+            events.trigger(self, 'playbackstart', [player, state]);
 
-                // only used internally as a safeguard to avoid reporting other events to the server before playback start
-                streamInfo.started = true;
-            });
+            // only used internally as a safeguard to avoid reporting other events to the server before playback start
+            streamInfo.started = true;
         }
 
         function onPlaybackStoppedFromSelfManagingPlayer(e, playerStopInfo) {
 
             var player = this;
 
-            self.getPlayerState(player).then(function (state) {
+            var state = self.getPlayerState(player);
 
-                var nextItem = playerStopInfo.nextItem;
-                var nextMediaType = playerStopInfo.nextMediaType;
+            var nextItem = playerStopInfo.nextItem;
+            var nextMediaType = playerStopInfo.nextMediaType;
 
-                var playbackStopInfo = {
-                    player: player,
-                    state: state,
-                    nextItem: (nextItem ? nextItem.item : null),
-                    nextMediaType: nextMediaType
-                };
+            var playbackStopInfo = {
+                player: player,
+                state: state,
+                nextItem: (nextItem ? nextItem.item : null),
+                nextMediaType: nextMediaType
+            };
 
-                state.NextMediaType = nextMediaType;
+            state.NextMediaType = nextMediaType;
 
-                var streamInfo = getPlayerData(player).streamInfo;
+            var streamInfo = getPlayerData(player).streamInfo;
 
-                // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
-                streamInfo.ended = true;
+            // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
+            streamInfo.ended = true;
 
-                if (isServerItem(playerStopInfo.item)) {
+            if (isServerItem(playerStopInfo.item)) {
 
-                    state.PlayState.PositionTicks = (playerStopInfo.positionMs || 0) * 10000;
+                state.PlayState.PositionTicks = (playerStopInfo.positionMs || 0) * 10000;
 
-                    reportPlayback(state, playerStopInfo.item.ServerId, 'reportPlaybackStopped');
-                }
+                reportPlayback(state, playerStopInfo.item.ServerId, 'reportPlaybackStopped');
+            }
 
-                state.NextItem = playbackStopInfo.nextItem;
+            state.NextItem = playbackStopInfo.nextItem;
 
-                events.trigger(player, 'playbackstop', [state]);
-                events.trigger(self, 'playbackstop', [playbackStopInfo]);
+            events.trigger(player, 'playbackstop', [state]);
+            events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
-                var newPlayer = nextItem ? getPlayer(nextItem.item, currentPlayOptions) : null;
+            var newPlayer = nextItem ? getPlayer(nextItem.item, currentPlayOptions) : null;
 
-                if (newPlayer !== player) {
-                    destroyPlayer(player);
-                    removeCurrentPlayer(player);
-                }
-            });
+            if (newPlayer !== player) {
+                destroyPlayer(player);
+                removeCurrentPlayer(player);
+            }
         }
 
         function acquireResourceLocks(player, mediaType) {
@@ -2777,93 +2774,91 @@
             }
 
             // User clicked stop or content ended
-            self.getPlayerState(player).then(function (state) {
+            var state = self.getPlayerState(player);
+            var streamInfo = getPlayerData(player).streamInfo;
 
-                var streamInfo = getPlayerData(player).streamInfo;
+            var nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
 
-                var nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
+            var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
-                var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
+            var playbackStopInfo = {
+                player: player,
+                state: state,
+                nextItem: (nextItem ? nextItem.item : null),
+                nextMediaType: nextMediaType
+            };
 
-                var playbackStopInfo = {
-                    player: player,
-                    state: state,
-                    nextItem: (nextItem ? nextItem.item : null),
-                    nextMediaType: nextMediaType
-                };
+            state.NextMediaType = nextMediaType;
 
-                state.NextMediaType = nextMediaType;
+            if (isServerItem(streamInfo.item)) {
 
-                if (isServerItem(streamInfo.item)) {
-
-                    if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
-                        state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
-                    }
-
-                    // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
-                    streamInfo.ended = true;
-
-                    reportPlayback(state, streamInfo.item.ServerId, 'reportPlaybackStopped');
+                if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
+                    state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
                 }
 
-                state.NextItem = playbackStopInfo.nextItem;
+                // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
+                streamInfo.ended = true;
 
-                if (!nextItem) {
-                    self._playQueueManager.reset();
-                }
+                reportPlayback(state, streamInfo.item.ServerId, 'reportPlaybackStopped');
+            }
 
-                events.trigger(player, 'playbackstop', [state]);
-                events.trigger(self, 'playbackstop', [playbackStopInfo]);
+            state.NextItem = playbackStopInfo.nextItem;
 
-                var newPlayer = nextItem ? getPlayer(nextItem.item, currentPlayOptions) : null;
+            if (!nextItem) {
+                self._playQueueManager.reset();
+            }
 
-                if (newPlayer !== player) {
-                    destroyPlayer(player);
-                    removeCurrentPlayer(player);
-                }
+            events.trigger(player, 'playbackstop', [state]);
+            events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
-                if (nextItem) {
-                    self.nextTrack();
-                }
-            });
+            var newPlayer = nextItem ? getPlayer(nextItem.item, currentPlayOptions) : null;
+
+            if (newPlayer !== player) {
+                destroyPlayer(player);
+                removeCurrentPlayer(player);
+            }
+
+            if (nextItem) {
+                self.nextTrack();
+            }
         }
 
         function onPlaybackChanging(activePlayer, newPlayer, newItem) {
 
-            return self.getPlayerState(activePlayer).then(function (state) {
-                var serverId = self.currentItem(activePlayer).ServerId;
+            var state = self.getPlayerState(activePlayer);
 
-                // User started playing something new while existing content is playing
-                var promise;
+            var serverId = self.currentItem(activePlayer).ServerId;
 
-                unbindStopped(activePlayer);
+            // User started playing something new while existing content is playing
+            var promise;
 
-                if (activePlayer === newPlayer) {
+            unbindStopped(activePlayer);
 
-                    // If we're staying with the same player, stop it
-                    promise = activePlayer.stop(false);
+            if (activePlayer === newPlayer) {
 
-                } else {
+                // If we're staying with the same player, stop it
+                promise = activePlayer.stop(false);
 
-                    // If we're switching players, tear down the current one
-                    promise = activePlayer.stop(true);
+            } else {
+
+                // If we're switching players, tear down the current one
+                promise = activePlayer.stop(true);
+            }
+
+            return promise.then(function () {
+
+                bindStopped(activePlayer);
+
+                if (enableLocalPlaylistManagement(activePlayer)) {
+                    reportPlayback(state, serverId, 'reportPlaybackStopped');
                 }
 
-                return promise.then(function () {
-
-                    bindStopped(activePlayer);
-
-                    if (enableLocalPlaylistManagement(activePlayer)) {
-                        reportPlayback(state, serverId, 'reportPlaybackStopped');
-                    }
-
-                    events.trigger(self, 'playbackstop', [{
-                        player: activePlayer,
-                        state: state,
-                        nextItem: newItem,
-                        nextMediaType: newItem.MediaType
-                    }]);
-                });
+                events.trigger(self, 'playbackstop', [{
+                    player: activePlayer,
+                    state: state,
+                    nextItem: newItem,
+                    nextMediaType: newItem.MediaType
+                }]);
             });
         }
 
@@ -2972,27 +2967,36 @@
                 throw new Error('player cannot be null');
             }
 
-            self.getPlayerState(player).then(function (state) {
-                if (state.NowPlayingItem) {
-                    var serverId = state.NowPlayingItem.ServerId;
+            var state = self.getPlayerState(player);
 
-                    var streamInfo = getPlayerData(player).streamInfo;
+            if (state.NowPlayingItem) {
+                var serverId = state.NowPlayingItem.ServerId;
 
-                    if (streamInfo && streamInfo.started && !streamInfo.ended) {
-                        reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
-                    }
+                var streamInfo = getPlayerData(player).streamInfo;
+
+                if (streamInfo && streamInfo.started && !streamInfo.ended) {
+                    reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
                 }
-            });
+            }
         }
+
+        self.onAppClose = function () {
+
+            var player = this._currentPlayer;
+
+            // Try to report playback stopped before the app closes
+            if (player && this.isPlaying(player)) {
+                this._playNextAfterEnded = false;
+                onPlaybackStopped.call(player);
+            }
+        };
 
         window.addEventListener("beforeunload", function (e) {
 
-            var player = self._currentPlayer;
-
-            // Try to report playback stopped before the browser closes
-            if (player && self.isPlaying(player)) {
-                self._playNextAfterEnded = false;
-                onPlaybackStopped.call(player);
+            try {
+                self.onAppClose();
+            } catch (err) {
+                console.log('error in onAppClose: ' + err);
             }
         });
 

@@ -246,7 +246,7 @@
 
     SessionPlayer.prototype.getPlayerState = function () {
 
-        return Promise.resolve(this.lastPlayerData || {});
+        return this.lastPlayerData || {};
     };
 
     SessionPlayer.prototype.getTargets = function () {

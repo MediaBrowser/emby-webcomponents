@@ -714,10 +714,9 @@
 
     function refreshFromPlayer(player) {
 
-        playbackManager.getPlayerState(player).then(function (state) {
+        var state = playbackManager.getPlayerState(player);
 
-            onStateChanged.call(player, { type: 'init' }, state);
-        });
+        onStateChanged.call(player, { type: 'init' }, state);
     }
 
     function bindToPlayer(player) {

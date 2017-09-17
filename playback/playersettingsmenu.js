@@ -91,59 +91,59 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
     function getQualitySecondaryText(player) {
 
-        return playbackManager.getPlayerState(player).then(function (state) {
-            var isAutoEnabled = playbackManager.enableAutomaticBitrateDetection(player);
-            var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
+        var state = playbackManager.getPlayerState(player);
 
-            var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
-                return stream.Type === "Video";
-            })[0];
-            var videoWidth = videoStream ? videoStream.Width : null;
+        var isAutoEnabled = playbackManager.enableAutomaticBitrateDetection(player);
+        var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
 
-            var options = qualityoptions.getVideoQualityOptions({
-                currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
-                isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
-                videoWidth: videoWidth,
-                enableAuto: true
-            });
+        var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
+            return stream.Type === "Video";
+        })[0];
+        var videoWidth = videoStream ? videoStream.Width : null;
 
-            var menuItems = options.map(function (o) {
-
-                var opt = {
-                    name: o.name,
-                    id: o.bitrate,
-                    secondaryText: o.secondaryText
-                };
-
-                if (o.selected) {
-                    opt.selected = true;
-                }
-
-                return opt;
-            });
-
-            var selectedOption = options.filter(function (o) {
-                return o.selected;
-            });
-
-            if (!selectedOption.length) {
-                return null;
-            }
-
-            selectedOption = selectedOption[0];
-
-            var text = selectedOption.name;
-
-            if (selectedOption.autoText) {
-                if (state.PlayState && state.PlayState.PlayMethod !== 'Transcode') {
-                    text += ' - Direct';
-                } else {
-                    text += ' ' + selectedOption.autoText;
-                }
-            }
-
-            return text;
+        var options = qualityoptions.getVideoQualityOptions({
+            currentMaxBitrate: playbackManager.getMaxStreamingBitrate(player),
+            isAutomaticBitrateEnabled: playbackManager.enableAutomaticBitrateDetection(player),
+            videoWidth: videoWidth,
+            enableAuto: true
         });
+
+        var menuItems = options.map(function (o) {
+
+            var opt = {
+                name: o.name,
+                id: o.bitrate,
+                secondaryText: o.secondaryText
+            };
+
+            if (o.selected) {
+                opt.selected = true;
+            }
+
+            return opt;
+        });
+
+        var selectedOption = options.filter(function (o) {
+            return o.selected;
+        });
+
+        if (!selectedOption.length) {
+            return null;
+        }
+
+        selectedOption = selectedOption[0];
+
+        var text = selectedOption.name;
+
+        if (selectedOption.autoText) {
+            if (state.PlayState && state.PlayState.PlayMethod !== 'Transcode') {
+                text += ' - Direct';
+            } else {
+                text += ' ' + selectedOption.autoText;
+            }
+        }
+
+        return text;
     }
 
     function showAspectRatioMenu(player, btn) {
@@ -180,60 +180,60 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
 
         var supportedCommands = playbackManager.getSupportedCommands(player);
 
-        return getQualitySecondaryText(player).then(function (secondaryQualityText) {
-            var mediaType = options.mediaType;
+        var secondaryQualityText = getQualitySecondaryText(player);
 
-            var menuItems = [];
+        var mediaType = options.mediaType;
 
-            if (supportedCommands.indexOf('SetAspectRatio') !== -1) {
+        var menuItems = [];
 
-                var currentAspectRatioId = playbackManager.getAspectRatio(player);
-                var currentAspectRatio = playbackManager.getSupportedAspectRatios(player).filter(function (i) {
-                    return i.id === currentAspectRatioId;
-                })[0];
+        if (supportedCommands.indexOf('SetAspectRatio') !== -1) {
 
-                menuItems.push({
-                    name: globalize.translate('sharedcomponents#AspectRatio'),
-                    id: 'aspectratio',
-                    secondaryText: currentAspectRatio ? currentAspectRatio.name : null
-                });
-            }
+            var currentAspectRatioId = playbackManager.getAspectRatio(player);
+            var currentAspectRatio = playbackManager.getSupportedAspectRatios(player).filter(function (i) {
+                return i.id === currentAspectRatioId;
+            })[0];
 
             menuItems.push({
-                name: globalize.translate('sharedcomponents#Quality'),
-                id: 'quality',
-                secondaryText: secondaryQualityText
+                name: globalize.translate('sharedcomponents#AspectRatio'),
+                id: 'aspectratio',
+                secondaryText: currentAspectRatio ? currentAspectRatio.name : null
             });
+        }
 
-            var repeatMode = playbackManager.getRepeatMode(player);
+        menuItems.push({
+            name: globalize.translate('sharedcomponents#Quality'),
+            id: 'quality',
+            secondaryText: secondaryQualityText
+        });
 
-            if (supportedCommands.indexOf('SetRepeatMode') !== -1 && playbackManager.currentMediaSource(player).RunTimeTicks) {
+        var repeatMode = playbackManager.getRepeatMode(player);
 
-                menuItems.push({
-                    name: globalize.translate('sharedcomponents#RepeatMode'),
-                    id: 'repeatmode',
-                    secondaryText: repeatMode === 'RepeatNone' ? globalize.translate('sharedcomponents#None') : globalize.translate('sharedcomponents#' + repeatMode)
-                });
-            }
+        if (supportedCommands.indexOf('SetRepeatMode') !== -1 && playbackManager.currentMediaSource(player).RunTimeTicks) {
 
-            if (options.stats) {
-
-                menuItems.push({
-                    name: globalize.translate('sharedcomponents#StatsForNerds'),
-                    id: 'stats',
-                    secondaryText: null
-                });
-            }
-
-            return actionsheet.show({
-
-                items: menuItems,
-                positionTo: options.positionTo
-
-            }).then(function (id) {
-
-                return handleSelectedOption(id, options, player);
+            menuItems.push({
+                name: globalize.translate('sharedcomponents#RepeatMode'),
+                id: 'repeatmode',
+                secondaryText: repeatMode === 'RepeatNone' ? globalize.translate('sharedcomponents#None') : globalize.translate('sharedcomponents#' + repeatMode)
             });
+        }
+
+        if (options.stats) {
+
+            menuItems.push({
+                name: globalize.translate('sharedcomponents#StatsForNerds'),
+                id: 'stats',
+                secondaryText: null
+            });
+        }
+
+        return actionsheet.show({
+
+            items: menuItems,
+            positionTo: options.positionTo
+
+        }).then(function (id) {
+
+            return handleSelectedOption(id, options, player);
         });
     }
 
