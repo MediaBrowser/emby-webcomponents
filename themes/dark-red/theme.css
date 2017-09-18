@@ -22,15 +22,6 @@ html {
     box-shadow: none !important;
 }
 
-@supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
-
-    .skinHeader-blurred {
-        background: rgba(20,20,20,.7);
-        -webkit-backdrop-filter: blur(1.5em);
-        backdrop-filter: blur(1.5em);
-    }
-}
-
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
