@@ -221,7 +221,7 @@ define([], function () {
 
         prevContext = prevPageContext;
         page.show(prevContext.pathname, prevContext.state, false, true, false);
-    }
+    };
 
     /**
      * Goes back in the history
