@@ -1148,6 +1148,20 @@
             }
         };
 
+        self.cycleAudioStream = function (player) {
+
+            player = player || self._currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+            }
+        };
+
+        self.cycleSubtitleStream = function (player) {
+
+            player = player || self._currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+            }
+        };
+
         self.changeAudioStreamIndex = function (player) {
 
             player = player || self._currentPlayer;
