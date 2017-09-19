@@ -154,7 +154,7 @@
             autoImmediate: true,
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
             dispatchScrollEvent: enableScrollButtons || bindHeader || this.getAttribute('data-scrollevent') === 'true',
-            hideScrollbar: enableScrollButtons,
+            hideScrollbar: enableScrollButtons || this.getAttribute('data-hidescrollbar') === 'true',
             allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true',
             forceHideScrollbars: enableScrollButtons
         };
