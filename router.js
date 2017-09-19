@@ -281,6 +281,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
+    function onBeforeExit(e) {
+
+        if (browser.web0s) {
+            page.restorePreviousState();
+        }
+    }
+
     function normalizeImageOptions(options) {
 
         var height = screen.availHeight;
@@ -356,6 +363,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         loading.show();
 
         initApiClients();
+
+        events.on(appHost, 'beforeexit', onBeforeExit);
 
         connectionManager.connect({
 
@@ -614,25 +623,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function back() {
 
-        /* I added logging of the history state and what's happening is that back triggers history.back() which triggers the onpopstate event.  From there, there app calls platformBack().  The result is that the home page has been removed from the stack and the app displays the launcher.
-
-        What's interesting is that while the page is removed from the stack, the DOM remains unchanged and the Home page is still visible and navigable.  This means that when you return to the app you are on the home screen (there are no navigation events raised) but the page is not actually on the stack as it was removed.  Therefore, when you move forward, there is no Home page to go back to.
-
-        I expect this is a bug in the platform, or they don't actually expect that you can return to the app after platformBack is called.  The fact is that you can, but the visible page is not actually on the stack, so you can never get back to it.
-
-        */
-        var checkCanGoBack = browser.web0s || browser.orsay;
-
-        if (checkCanGoBack) {
-            var curr = current();
-            if (canGoBack() && curr && (!curr.startup || curr.controller === 'startup/manualserver' || curr.controller === 'startup/manuallogin')) {
-                page.back();
-            } else {
-                appHost.exit();
-            }
-        } else {
-            page.back();
-        }
+        page.back();
     }
 
     function canGoBack() {

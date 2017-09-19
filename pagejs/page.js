@@ -54,6 +54,8 @@ define([], function () {
 
     var prevContext;
 
+    var prevPageContext;
+
     /**
      * Register `path` with callback `fn()`,
      * or route `path`, or redirection,
@@ -215,6 +217,12 @@ define([], function () {
         return ctx;
     };
 
+    page.restorePreviousState = function() {
+
+        prevContext = prevPageContext;
+        page.show(prevContext.pathname, prevContext.state, false, true, false);
+    }
+
     /**
      * Goes back in the history
      * Back should always let the current route push state and then go back.
@@ -328,6 +336,7 @@ define([], function () {
           i = 0,
           j = 0;
 
+        prevPageContext = prevContext;
         prevContext = ctx;
 
         function nextExit() {
