@@ -206,9 +206,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     speed: 240
                 });
 
-                swiperInstance.on('onLazyImageLoad', onSlideChangeStart);
-                swiperInstance.on('onLazyImageReady', onSlideChangeEnd);
-
                 if (layoutManager.mobile) {
                     pause();
                 } else {
@@ -227,16 +224,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 Id: item.Id,
                 ServerId: item.ServerId
             });
-        }
-
-        function onSlideChangeStart(swiper, slide, image) {
-
-            //loading.show();
-        }
-
-        function onSlideChangeEnd(swiper, slide, image) {
-
-            //loading.hide();
         }
 
         function getSwiperSlideHtmlFromSlide(item) {
@@ -362,8 +349,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             var swiper = swiperInstance;
             if (swiper) {
-                swiper.off('onLazyImageLoad');
-                swiper.off('onLazyImageReady');
                 swiper.destroy(true, true);
                 swiperInstance = null;
             }

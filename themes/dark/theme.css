@@ -1,16 +1,11 @@
 html {
-    color: #eee;
-    color: rgba(255, 255, 255, .8);
+    color: #ddd;
+    color: rgba(255, 255, 255, .73);
 }
 
 .emby-collapsible-button {
     border-color: #383838;
     border-color: rgba(255,255,255, .135);
-}
-
-.skinHeader {
-    color: #ccc;
-    color: rgba(255, 255, 255, .78);
 }
 
 .skinHeader-withBackground {
