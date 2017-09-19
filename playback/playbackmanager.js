@@ -1152,6 +1152,7 @@
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
+                return player.cycleAudioStream();
             }
         };
 
@@ -1159,6 +1160,7 @@
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
+                return player.cycleSubtitleStream();
             }
         };
 
