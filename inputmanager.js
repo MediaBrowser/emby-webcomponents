@@ -177,10 +177,10 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
                 playbackManager.toggleAspectRatio();
                 break;
             case 'changeaudiotrack':
-                playbackManager.cycleAudioStream();
+                playbackManager.changeAudioStream();
                 break;
             case 'changesubtitletrack':
-                playbackManager.cycleSubtitleStream();
+                playbackManager.changeSubtitleStream();
                 break;
             case 'search':
                 appRouter.showSearch();

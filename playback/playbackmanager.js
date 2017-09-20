@@ -1148,20 +1148,92 @@
             }
         };
 
-        self.changeAudioStreamIndex = function (player) {
+        self.changeAudioStream = function (player) {
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
-                return player.changeAudioStreamIndex();
+                return player.changeAudioStream();
             }
+
+            if (!player) {
+                return;
+            }
+
+            var currentMediaSource = self.currentMediaSource(player);
+            var mediaStreams = [];
+            var i, length;
+            for (i = 0, length = currentMediaSource.MediaStreams.length; i < length; i++) {
+                if (currentMediaSource.MediaStreams[i].Type === 'Audio') {
+                    mediaStreams.push(currentMediaSource.MediaStreams[i]);
+                }
+            }
+
+            // Nothing to change
+            if (mediaStreams.length <= 1) {
+                return;
+            }
+
+            var currentStreamIndex = self.getAudioStreamIndex(player);
+            var indexInList = -1;
+            for (i = 0, length = mediaStreams.length; i < length; i++) {
+                if (mediaStreams[i].Index === currentStreamIndex) {
+                    indexInList = i;
+                    break;
+                }
+            }
+
+            var nextIndex = indexInList + 1;
+            if (nextIndex >= mediaStreams.length) {
+                nextIndex = 0;
+            }
+
+            nextIndex = nextIndex === -1 ? -1 : mediaStreams[nextIndex].Index;
+
+            self.setAudioStreamIndex(nextIndex, player);
         };
 
-        self.changeSubtitleStreamIndex = function (player) {
+        self.changeSubtitleStream = function (player) {
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
-                return player.changeSubtitleStreamIndex();
+                return player.changeSubtitleStream();
             }
+
+            if (!player) {
+                return;
+            }
+
+            var currentMediaSource = self.currentMediaSource(player);
+            var mediaStreams = [];
+            var i, length;
+            for (i = 0, length = currentMediaSource.MediaStreams.length; i < length; i++) {
+                if (currentMediaSource.MediaStreams[i].Type === 'Subtitle') {
+                    mediaStreams.push(currentMediaSource.MediaStreams[i]);
+                }
+            }
+
+            // No known streams, nothing to change
+            if (!mediaStreams.length) {
+                return;
+            }
+
+            var currentStreamIndex = self.getSubtitleStreamIndex(player);
+            var indexInList = -1;
+            for (i = 0, length = mediaStreams.length; i < length; i++) {
+                if (mediaStreams[i].Index === currentStreamIndex) {
+                    indexInList = i;
+                    break;
+                }
+            }
+
+            var nextIndex = indexInList + 1;
+            if (nextIndex >= mediaStreams.length) {
+                nextIndex = -1;
+            }
+
+            nextIndex = nextIndex === -1 ? -1 : mediaStreams[nextIndex].Index;
+
+            self.setSubtitleStreamIndex(nextIndex, player);
         };
 
         self.getAudioStreamIndex = function (player) {
@@ -3574,53 +3646,53 @@
         console.log('MediaController received command: ' + cmd.Name);
         switch (cmd.Name) {
 
-            case 'SetRepeatMode':
-                this.setRepeatMode(cmd.Arguments.RepeatMode, player);
-                break;
-            case 'VolumeUp':
-                this.volumeUp(player);
-                break;
-            case 'VolumeDown':
-                this.volumeDown(player);
-                break;
-            case 'Mute':
-                this.setMute(true, player);
-                break;
-            case 'Unmute':
-                this.setMute(false, player);
-                break;
-            case 'ToggleMute':
-                this.toggleMute(player);
-                break;
-            case 'SetVolume':
-                this.setVolume(cmd.Arguments.Volume, player);
-                break;
-            case 'SetAspectRatio':
-                this.setAspectRatio(cmd.Arguments.AspectRatio, player);
-                break;
-            case 'SetBrightness':
-                this.setBrightness(cmd.Arguments.Brightness, player);
-                break;
-            case 'SetAudioStreamIndex':
-                this.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
-                break;
-            case 'SetSubtitleStreamIndex':
-                this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
-                break;
-            case 'SetMaxStreamingBitrate':
-                // todo
-                //this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
-                break;
-            case 'ToggleFullscreen':
-                this.toggleFullscreen(player);
-                break;
-            default:
-                {
-                    if (player.sendCommand) {
-                        player.sendCommand(cmd);
-                    }
-                    break;
-                }
+        case 'SetRepeatMode':
+            this.setRepeatMode(cmd.Arguments.RepeatMode, player);
+            break;
+        case 'VolumeUp':
+            this.volumeUp(player);
+            break;
+        case 'VolumeDown':
+            this.volumeDown(player);
+            break;
+        case 'Mute':
+            this.setMute(true, player);
+            break;
+        case 'Unmute':
+            this.setMute(false, player);
+            break;
+        case 'ToggleMute':
+            this.toggleMute(player);
+            break;
+        case 'SetVolume':
+            this.setVolume(cmd.Arguments.Volume, player);
+            break;
+        case 'SetAspectRatio':
+            this.setAspectRatio(cmd.Arguments.AspectRatio, player);
+            break;
+        case 'SetBrightness':
+            this.setBrightness(cmd.Arguments.Brightness, player);
+            break;
+        case 'SetAudioStreamIndex':
+            this.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
+            break;
+        case 'SetSubtitleStreamIndex':
+            this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
+            break;
+        case 'SetMaxStreamingBitrate':
+            // todo
+            //this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
+            break;
+        case 'ToggleFullscreen':
+            this.toggleFullscreen(player);
+            break;
+        default:
+        {
+            if (player.sendCommand) {
+                player.sendCommand(cmd);
+            }
+            break;
+        }
         }
     };
 
