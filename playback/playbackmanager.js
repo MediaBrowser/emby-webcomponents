@@ -1148,92 +1148,20 @@
             }
         };
 
-        self.cycleAudioStream = function (player) {
+        self.changeAudioStreamIndex = function (player) {
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
-                return player.cycleAudioStream();
+                return player.changeAudioStreamIndex();
             }
-
-            if (!player) {
-                return;
-            }
-
-            var currentMediaSource = self.currentMediaSource(player);
-            var mediaStreams = [];
-            var i, length;
-            for (i = 0, length = currentMediaSource.MediaStreams.length; i < length; i++) {
-                if (currentMediaSource.MediaStreams[i].Type === 'Audio') {
-                    mediaStreams.push(currentMediaSource.MediaStreams[i]);
-                }
-            }
-
-            // Nothing to change
-            if (mediaStreams.length <= 1) {
-                return;
-            }
-
-            var currentStreamIndex = self.getAudioStreamIndex(player);
-            var indexInList = -1;
-            for (i = 0, length = mediaStreams.length; i < length; i++) {
-                if (mediaStreams[i].Index === currentStreamIndex) {
-                    indexInList = i;
-                    break;
-                }
-            }
-
-            var nextIndex = indexInList + 1;
-            if (nextIndex >= mediaStreams.length) {
-                nextIndex = 0;
-            }
-
-            nextIndex = nextIndex === -1 ? -1 : mediaStreams[nextIndex].Index;
-
-            self.setAudioStreamIndex(nextIndex, player);
         };
 
-        self.cycleSubtitleStream = function (player) {
+        self.changeSubtitleStreamIndex = function (player) {
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
-                return player.cycleSubtitleStream();
+                return player.changeSubtitleStreamIndex();
             }
-
-            if (!player) {
-                return;
-            }
-
-            var currentMediaSource = self.currentMediaSource(player);
-            var mediaStreams = [];
-            var i, length;
-            for (i = 0, length = currentMediaSource.MediaStreams.length; i < length; i++) {
-                if (currentMediaSource.MediaStreams[i].Type === 'Subtitle') {
-                    mediaStreams.push(currentMediaSource.MediaStreams[i]);
-                }
-            }
-
-            // No known streams, nothing to change
-            if (!mediaStreams.length) {
-                return;
-            }
-
-            var currentStreamIndex = self.getSubtitleStreamIndex(player);
-            var indexInList = -1;
-            for (i = 0, length = mediaStreams.length; i < length; i++) {
-                if (mediaStreams[i].Index === currentStreamIndex) {
-                    indexInList = i;
-                    break;
-                }
-            }
-
-            var nextIndex = indexInList + 1;
-            if (nextIndex >= mediaStreams.length) {
-                nextIndex = -1;
-            }
-
-            nextIndex = nextIndex === -1 ? -1 : mediaStreams[nextIndex].Index;
-
-            self.setSubtitleStreamIndex(nextIndex, player);
         };
 
         self.getAudioStreamIndex = function (player) {
@@ -1536,7 +1464,7 @@
 
             playerData.isChangingStream = true;
 
-            if (playerData.MediaType === "Video") {
+            if (playerData.streamInfo && playerData.streamInfo.mediaType === "Video") {
                 apiClient.stopActiveEncodings(playSessionId).then(function () {
 
                     setSrcIntoPlayer(apiClient, player, streamInfo);
