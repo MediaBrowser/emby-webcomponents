@@ -21,6 +21,11 @@ define(['browser'], function (browser) {
             }
         }
 
+        // Unfortunately haven't yet found a canPlayType for proper detection
+        if (browser.iOS && (browser.iOSVersion || 0) >= 11) {
+            return true;
+        }
+
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/hevc; codecs="hevc, aac"').replace(/no/, ''));
     }
 
