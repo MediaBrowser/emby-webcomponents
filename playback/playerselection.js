@@ -218,7 +218,7 @@
         }
 
         dlg.querySelector('.btnDisconnect').addEventListener('click', function () {
-            disconnectFromPlayer();
+            destination = 'disconnectFromPlayer';
             dialogHelper.close(dlg);
         });
 
@@ -229,6 +229,9 @@
         dialogHelper.open(dlg).then(function () {
             if (destination === 'nowplaying') {
                 appRouter.showNowPlaying();
+            }
+            else if (destination === 'disconnectFromPlayer') {
+                disconnectFromPlayer();
             }
         }, emptyCallback);
     }

@@ -263,7 +263,7 @@
         return apiClient.getUrl(url, {
             UserId: apiClient.getCurrentUserId(),
             DeviceId: apiClient.deviceId(),
-            MaxStreamingBitrate: maxBitrate || appSettings.maxStreamingBitrate(),
+            MaxStreamingBitrate: maxBitrate,
             Container: directPlayContainers,
             TranscodingContainer: transcodingProfile.Container || null,
             TranscodingProtocol: transcodingProfile.Protocol || null,
@@ -303,6 +303,8 @@
         });
 
         var maxValues = getAudioMaxValues(deviceProfile);
+
+        maxBitrate = maxBitrate || appSettings.maxStreamingBitrate();
 
         return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
     }
@@ -355,6 +357,8 @@
     }
 
     function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
+
+        maxBitrate = maxBitrate || appSettings.maxStreamingBitrate();
 
         return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(function (streamUrls) {
 
@@ -3646,53 +3650,53 @@
         console.log('MediaController received command: ' + cmd.Name);
         switch (cmd.Name) {
 
-        case 'SetRepeatMode':
-            this.setRepeatMode(cmd.Arguments.RepeatMode, player);
-            break;
-        case 'VolumeUp':
-            this.volumeUp(player);
-            break;
-        case 'VolumeDown':
-            this.volumeDown(player);
-            break;
-        case 'Mute':
-            this.setMute(true, player);
-            break;
-        case 'Unmute':
-            this.setMute(false, player);
-            break;
-        case 'ToggleMute':
-            this.toggleMute(player);
-            break;
-        case 'SetVolume':
-            this.setVolume(cmd.Arguments.Volume, player);
-            break;
-        case 'SetAspectRatio':
-            this.setAspectRatio(cmd.Arguments.AspectRatio, player);
-            break;
-        case 'SetBrightness':
-            this.setBrightness(cmd.Arguments.Brightness, player);
-            break;
-        case 'SetAudioStreamIndex':
-            this.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
-            break;
-        case 'SetSubtitleStreamIndex':
-            this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
-            break;
-        case 'SetMaxStreamingBitrate':
-            // todo
-            //this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
-            break;
-        case 'ToggleFullscreen':
-            this.toggleFullscreen(player);
-            break;
-        default:
-        {
-            if (player.sendCommand) {
-                player.sendCommand(cmd);
-            }
-            break;
-        }
+            case 'SetRepeatMode':
+                this.setRepeatMode(cmd.Arguments.RepeatMode, player);
+                break;
+            case 'VolumeUp':
+                this.volumeUp(player);
+                break;
+            case 'VolumeDown':
+                this.volumeDown(player);
+                break;
+            case 'Mute':
+                this.setMute(true, player);
+                break;
+            case 'Unmute':
+                this.setMute(false, player);
+                break;
+            case 'ToggleMute':
+                this.toggleMute(player);
+                break;
+            case 'SetVolume':
+                this.setVolume(cmd.Arguments.Volume, player);
+                break;
+            case 'SetAspectRatio':
+                this.setAspectRatio(cmd.Arguments.AspectRatio, player);
+                break;
+            case 'SetBrightness':
+                this.setBrightness(cmd.Arguments.Brightness, player);
+                break;
+            case 'SetAudioStreamIndex':
+                this.setAudioStreamIndex(parseInt(cmd.Arguments.Index), player);
+                break;
+            case 'SetSubtitleStreamIndex':
+                this.setSubtitleStreamIndex(parseInt(cmd.Arguments.Index), player);
+                break;
+            case 'SetMaxStreamingBitrate':
+                // todo
+                //this.setMaxStreamingBitrate(parseInt(cmd.Arguments.Bitrate), player);
+                break;
+            case 'ToggleFullscreen':
+                this.toggleFullscreen(player);
+                break;
+            default:
+                {
+                    if (player.sendCommand) {
+                        player.sendCommand(cmd);
+                    }
+                    break;
+                }
         }
     };
 
