@@ -283,11 +283,14 @@ button {
 .cardFooter {
     padding: .5em .3em;
     position: relative;
-    line-height: 1.74em;
 }
 
 .cardFooter-transparent {
-    padding-top: 0;
+    padding-top: .26em;
+}
+
+.layout-tv .cardFooter-transparent {
+    padding-top: .1em;
 }
 
 .visualCardBox {
@@ -326,7 +329,6 @@ button {
 
 .layout-tv .cardText {
     padding: 0 .5em;
-    font-size: 92%;
 }
 
 .innerCardFooter > .cardText {

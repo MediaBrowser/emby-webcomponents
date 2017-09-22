@@ -196,7 +196,7 @@
             cardBoxCssClass += ' cardBox-focustransform';
         }
 
-        cardBoxCssClass += ' card-focuscontent';
+        cardBoxCssClass += ' card-focuscontent cardBox-bottompadded';
 
         html += '<button type="button" class="' + cssClass + '" data-index="' + index + '">';
         html += '<div class="' + cardBoxCssClass + '">';
