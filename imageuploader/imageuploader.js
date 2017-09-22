@@ -13,14 +13,14 @@
         switch (evt.target.error.code) {
             case evt.target.error.NOT_FOUND_ERR:
                 require(['toast'], function (toast) {
-                    toast(globalize.translate('MessageFileNotFound'));
+                    toast(globalize.translate('sharedcomponents#MessageFileReadError'));
                 });
                 break;
             case evt.target.error.ABORT_ERR:
                 break; // noop
             default:
                 require(['toast'], function (toast) {
-                    toast(globalize.translate('MessageFileReadError'));
+                    toast(globalize.translate('sharedcomponents#MessageFileReadError'));
                 });
                 break;
         }
@@ -133,7 +133,7 @@
 
             dlg.classList.add('formDialog');
 
-            dlg.innerHTML = globalize.translateDocument(template);
+            dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
 
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.on(dlg, false);
