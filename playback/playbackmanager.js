@@ -304,8 +304,6 @@
 
         var maxValues = getAudioMaxValues(deviceProfile);
 
-        maxBitrate = maxBitrate || appSettings.maxStreamingBitrate();
-
         return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
     }
 
@@ -357,8 +355,6 @@
     }
 
     function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
-
-        maxBitrate = maxBitrate || appSettings.maxStreamingBitrate();
 
         return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(function (streamUrls) {
 
@@ -1944,6 +1940,10 @@
                     loading.show();
                 }
 
+                var onBitrateDetectionFailure = function () {
+                    return playAfterBitrateDetect(connectionManager, appSettings.maxStreamingBitrate(), item, playOptions, onPlaybackStartedFn);
+                };
+
                 if (item.MediaType === 'Video' && isServerItem(item) && !itemHelper.isLocalItem(item) && appSettings.enableAutomaticBitrateDetection()) {
 
                     var apiClient = connectionManager.getApiClient(item.ServerId);
@@ -1953,29 +1953,27 @@
 
                         return playAfterBitrateDetect(connectionManager, bitrate, item, playOptions, onPlaybackStartedFn);
 
-                    }, function () {
-
-                        return playAfterBitrateDetect(connectionManager, appSettings.maxStreamingBitrate(), item, playOptions, onPlaybackStartedFn);
-                    });
+                    }, onBitrateDetectionFailure);
 
                 } else {
 
-                    return playAfterBitrateDetect(connectionManager, appSettings.maxStreamingBitrate(), item, playOptions, onPlaybackStartedFn);
+                    onBitrateDetectionFailure();
                 }
 
-            }, function () {
+            }, onInterceptorRejection);
+        }
 
-                var player = self._currentPlayer;
+        function onInterceptorRejection() {
+            var player = self._currentPlayer;
 
-                if (player) {
-                    destroyPlayer(player);
-                    removeCurrentPlayer(player);
-                }
+            if (player) {
+                destroyPlayer(player);
+                removeCurrentPlayer(player);
+            }
 
-                events.trigger(self, 'playbackcancelled');
+            events.trigger(self, 'playbackcancelled');
 
-                return Promise.reject();
-            });
+            return Promise.reject();
         }
 
         function destroyPlayer(player) {

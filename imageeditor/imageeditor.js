@@ -388,12 +388,14 @@
         addListeners(context, 'btnOpenUploadMenu', 'click', function () {
             var imageType = this.getAttribute('data-imagetype');
 
-            require(['components/imageuploader/imageuploader'], function (imageUploader) {
+            require(['imageUploader'], function (imageUploader) {
 
-                imageUploader.show(currentItem.Id, {
+                imageUploader.show({
 
                     theme: options.theme,
-                    imageType: imageType
+                    imageType: imageType,
+                    itemId: currentItem.Id,
+                    serverId: currentItem.ServerId
 
                 }).then(function (hasChanged) {
 
@@ -401,10 +403,6 @@
                         hasChanges = true;
                         reload(context);
                     }
-                });
-            }, function () {
-                require(['alert'], function (alert) {
-                    alert('This feature is coming soon to Emby Theater.');
                 });
             });
         });
