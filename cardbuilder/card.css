@@ -283,13 +283,10 @@ button {
 .cardFooter {
     padding: .5em .3em;
     position: relative;
+    line-height: 1.74em;
 }
 
 .cardFooter-transparent {
-    padding-top: .16em;
-}
-
-.layout-tv .cardFooter-transparent {
     padding-top: 0;
 }
 
@@ -320,7 +317,7 @@ button {
 }
 
 .cardText {
-    padding: .1em .5em;
+    padding: 0 .5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

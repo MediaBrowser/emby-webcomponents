@@ -176,7 +176,7 @@
 
         var html = '';
         var cssClass = "card scalableCard";
-        var cardBoxCssClass = 'cardBox visualCardBox';
+        var cardBoxCssClass = 'cardBox';
         var padderClass;
 
         if (currentItemType === "Episode") {
@@ -200,7 +200,7 @@
 
         html += '<button type="button" class="' + cssClass + '" data-index="' + index + '">';
         html += '<div class="' + cardBoxCssClass + '">';
-        html += '<div class="cardScalable visualCardBox-cardScalable">';
+        html += '<div class="cardScalable">';
         html += '<div class="' + padderClass + '"></div>';
 
         html += '<div class="cardContent searchImage">';
@@ -216,7 +216,7 @@
         html += '</div>';
         html += '</div>';
 
-        html += '<div class="cardFooter visualCardBox-cardFooter">';
+        html += '<div class="cardFooter cardFooter-transparent">';
         html += '<div class="cardText cardTextCentered">' + result.Name + '</div>';
 
         html += '<div class="cardText cardText-secondary cardTextCentered">';
@@ -330,7 +330,7 @@
                 currentItemType = currentItem.Type;
 
                 var dialogOptions = {
-                    size: 'medium',
+                    size: 'fullscreen-border',
                     removeOnClose: true,
                     scrollY: false
                 };
@@ -403,7 +403,7 @@
         require(['text!./itemidentifier.template.html'], function (template) {
 
             var dialogOptions = {
-                size: 'medium',
+                size: 'fullscreen-border',
                 removeOnClose: true,
                 scrollY: false
             };
