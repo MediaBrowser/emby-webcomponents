@@ -535,5 +535,16 @@
   "HeaderUploadImage": "Upload Image",
   "HeaderAddUpdateImage": "Add/Update Image",
   "LabelImageType": "Image type:",
-  "Upload": "Upload"
+  "Upload": "Upload",
+  "Primary": "Primary",
+  "Art": "Art",
+  "Backdrop": "Backdrop",
+  "Banner": "Banner",
+  "Box": "Box",
+  "BoxRear": "Box (rear)",
+  "Disc": "Disc",
+  "Logo": "Logo",
+  "Menu": "Menu",
+  "Screenshot": "Screenshot",
+  "Thumb": "Thumb"
 }

@@ -135,7 +135,7 @@
 
         html += '<div class="cardFooter visualCardBox-cardFooter">';
 
-        html += '<h3 class="cardText cardTextCentered" style="margin:0;">' + image.ImageType + '</h3>';
+        html += '<h3 class="cardText cardTextCentered" style="margin:0;">' + globalize.translate('sharedcomponents#' + image.ImageType) + '</h3>';
 
         html += '<div class="cardText cardText-secondary cardTextCentered">';
         if (image.Width && image.Height) {
