@@ -281,7 +281,7 @@
 
         function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
 
-            var apiClient = connectionManager.currentApiClient();
+            var apiClient = connectionManager.getApiClient(options.serverId);
 
             var channelQuery = {
 
@@ -995,7 +995,7 @@
 
             showLoading();
 
-            var apiClient = connectionManager.currentApiClient();
+            var apiClient = connectionManager.getApiClient(options.serverId);
 
             apiClient.getLiveTvGuideInfo().then(function (guideInfo) {
 

@@ -166,15 +166,23 @@
 
         if ((new Date().getTime() - lastMessage) > intervalMs) {
 
-            return connectionManager.currentApiClient().getPluginSecurityInfo().then(function (regInfo) {
+            var apiClient = connectionManager.currentApiClient();
+            if (apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816') {
+                return Promise.resolve();
+            }
 
-                if (regInfo.IsMBSupporter) {
+            var registrationOptions = {
+                viewOnly: true
+            };
+
+            // Get supporter status
+            return connectionManager.getRegistrationInfo(iapManager.getAdminFeatureName(feature), apiClient, registrationOptions).catch(function (errorResult) {
+
+                if (errorResult === 'overlimit') {
                     appSettings.set(settingsKey, new Date().getTime());
                     return Promise.resolve();
                 }
 
-                return showPeriodicMessage(feature, settingsKey);
-            }, function () {
                 return showPeriodicMessage(feature, settingsKey);
             });
         }

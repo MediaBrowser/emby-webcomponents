@@ -23,22 +23,45 @@ define(['appStorage', 'events'], function (appStorage, events) {
         return this.get('enableAutoLogin') !== 'false';
     };
 
-    AppSettings.prototype.enableAutomaticBitrateDetection = function (val) {
+    AppSettings.prototype.enableAutomaticBitrateDetection = function (isInNetwork, mediaType, val) {
+
+        var key = 'enableautobitratebitrate-' + mediaType + '-' + isInNetwork;
 
         if (val != null) {
-            this.set('enableAutomaticBitrateDetection', val.toString());
+
+            if (isInNetwork && mediaType === 'Audio') {
+                val = true;
+            }
+
+            this.set(key, val.toString());
         }
 
-        return this.get('enableAutomaticBitrateDetection') !== 'false';
+        if (isInNetwork && mediaType === 'Audio') {
+            return true;
+        } else {
+            return this.get(key) !== 'false';
+        }
     };
 
-    AppSettings.prototype.maxStreamingBitrate = function (val) {
+    AppSettings.prototype.maxStreamingBitrate = function (isInNetwork, mediaType, val) {
+
+        var key = 'maxbitrate-' + mediaType + '-' + isInNetwork;
 
         if (val != null) {
-            this.set('preferredVideoBitrate', val);
+
+            if (isInNetwork && mediaType === 'Audio') {
+                //  nothing to do, this is always a max value
+            } else {
+                this.set(key, val);
+            }
         }
 
-        return parseInt(this.get('preferredVideoBitrate') || '0') || 1500000;
+        if (isInNetwork && mediaType === 'Audio') {
+            // return a huge number so that it always direct plays
+            return 150000000;
+        } else {
+            return parseInt(this.get(key) || '0') || 1500000;
+        }
     };
 
     AppSettings.prototype.maxStaticMusicBitrate = function (val) {

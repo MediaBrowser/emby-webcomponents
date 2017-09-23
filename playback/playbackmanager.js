@@ -1264,6 +1264,18 @@
             }
         };
 
+        function getSavedMaxStreamingBitrate(apiClient, mediaType) {
+
+            if (!apiClient) {
+                // This should hopefully never happen
+                apiClient = connectionManager.currentApiClient();
+            }
+
+            var endpointInfo = apiClient.getSavedEndpointInfo() || {};
+
+            return appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType);
+        }
+
         self.getMaxStreamingBitrate = function (player) {
 
             player = player || self._currentPlayer;
@@ -1271,7 +1283,17 @@
                 return player.getMaxStreamingBitrate();
             }
 
-            return getPlayerData(player).maxStreamingBitrate || appSettings.maxStreamingBitrate();
+            var playerData = getPlayerData(player);
+
+            if (playerData.maxStreamingBitrate) {
+                return playerData.maxStreamingBitrate;
+            }
+
+            var mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
+            var currentItem = self.currentItem(player);
+
+            var apiClient = currentItem ? connectionManager.getApiClient(currentItem.ServerId) : connectionManager.currentApiClient();
+            return getSavedMaxStreamingBitrate(apiClient, mediaType);
         };
 
         self.enableAutomaticBitrateDetection = function (player) {
@@ -1281,7 +1303,14 @@
                 return player.enableAutomaticBitrateDetection();
             }
 
-            return appSettings.enableAutomaticBitrateDetection();
+            var playerData = getPlayerData(player);
+            var mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
+            var currentItem = self.currentItem(player);
+
+            var apiClient = currentItem ? connectionManager.getApiClient(currentItem.ServerId) : connectionManager.currentApiClient();
+            var endpointInfo = apiClient.getSavedEndpointInfo() || {};
+
+            return appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType);
         };
 
         self.setMaxStreamingBitrate = function (options, player) {
@@ -1291,21 +1320,29 @@
                 return player.setMaxStreamingBitrate(options);
             }
 
-            var promise;
-            if (options.enableAutomaticBitrateDetection) {
-                appSettings.enableAutomaticBitrateDetection(true);
-                promise = connectionManager.getApiClient(self.currentItem(player).ServerId).detectBitrate(true);
-            } else {
-                appSettings.enableAutomaticBitrateDetection(false);
-                promise = Promise.resolve(options.maxBitrate);
-            }
+            var apiClient = connectionManager.getApiClient(self.currentItem(player).ServerId);
 
-            promise.then(function (bitrate) {
+            apiClient.getEndpointInfo().then(function (endpointInfo) {
 
-                appSettings.maxStreamingBitrate(bitrate);
+                var playerData = getPlayerData(player);
+                var mediaType = playerData.streamInfo ? playerData.streamInfo.mediaType : null;
 
-                changeStream(player, getCurrentTicks(player), {
-                    MaxStreamingBitrate: bitrate
+                var promise;
+                if (options.enableAutomaticBitrateDetection) {
+                    appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, true);
+                    promise = apiClient.detectBitrate(true);
+                } else {
+                    appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType, false);
+                    promise = Promise.resolve(options.maxBitrate);
+                }
+
+                promise.then(function (bitrate) {
+
+                    appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
+
+                    changeStream(player, getCurrentTicks(player), {
+                        MaxStreamingBitrate: bitrate
+                    });
                 });
             });
         };
@@ -1940,25 +1977,36 @@
                     loading.show();
                 }
 
+                // TODO: This should be the media type requested, not the original media type
+                var mediaType = item.MediaType;
+
                 var onBitrateDetectionFailure = function () {
-                    return playAfterBitrateDetect(connectionManager, appSettings.maxStreamingBitrate(), item, playOptions, onPlaybackStartedFn);
+                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn);
                 };
 
-                if (item.MediaType === 'Video' && isServerItem(item) && !itemHelper.isLocalItem(item) && appSettings.enableAutomaticBitrateDetection()) {
-
-                    var apiClient = connectionManager.getApiClient(item.ServerId);
-                    return apiClient.detectBitrate().then(function (bitrate) {
-
-                        appSettings.maxStreamingBitrate(bitrate);
-
-                        return playAfterBitrateDetect(connectionManager, bitrate, item, playOptions, onPlaybackStartedFn);
-
-                    }, onBitrateDetectionFailure);
-
-                } else {
-
-                    onBitrateDetectionFailure();
+                if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
+                    return onBitrateDetectionFailure();
                 }
+
+                var apiClient = connectionManager.getApiClient(item.ServerId);
+                apiClient.getEndpointInfo().then(function (endpointInfo) {
+
+                    if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
+
+                        return apiClient.detectBitrate().then(function (bitrate) {
+
+                            appSettings.maxStreamingBitrate(endpointInfo.IsInNetwork, mediaType, bitrate);
+
+                            return playAfterBitrateDetect(bitrate, item, playOptions, onPlaybackStartedFn);
+
+                        }, onBitrateDetectionFailure);
+
+                    } else {
+
+                        onBitrateDetectionFailure();
+                    }
+
+                }, onBitrateDetectionFailure);
 
             }, onInterceptorRejection);
         }
@@ -2035,7 +2083,7 @@
             });
         }
 
-        function playAfterBitrateDetect(connectionManager, maxBitrate, item, playOptions, onPlaybackStartedFn) {
+        function playAfterBitrateDetect(maxBitrate, item, playOptions, onPlaybackStartedFn) {
 
             var startPosition = playOptions.startPositionTicks;
 
