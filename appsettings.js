@@ -134,5 +134,14 @@ define(['appStorage', 'events'], function (appStorage, events) {
         return appStorage.getItem(getKey(name, userId));
     };
 
+    AppSettings.prototype.enableSystemExternalPlayers = function (val) {
+
+        if (val != null) {
+            this.set('enableSystemExternalPlayers', val.toString());
+        }
+
+        return this.get('enableSystemExternalPlayers') === 'true';
+    };
+
     return new AppSettings();
 });

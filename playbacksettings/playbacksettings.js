@@ -86,7 +86,7 @@ define(['require', 'appSettings', 'apphost', 'qualityoptions', 'globalize', 'loa
 
                 context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
                 context.querySelector('.fldVideoInternetQuality').classList.add('hide');
-                context.querySelector('.fldMusicInternetQuality').classList.add('hide');
+                context.querySelector('.musicQualitySection').classList.add('hide');
             } else {
 
                 context.querySelector('.fldVideoInNetworkQuality').classList.add('hide');
@@ -136,7 +136,7 @@ define(['require', 'appSettings', 'apphost', 'qualityoptions', 'globalize', 'loa
         context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
         context.querySelector('.chkEnableCinemaMode').checked = userSettings.enableCinemaMode();
         context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
-        context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableExternalPlayers();
+        context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
 
         setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
         setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
@@ -161,7 +161,7 @@ define(['require', 'appSettings', 'apphost', 'qualityoptions', 'globalize', 'loa
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
 
-        appSettings.enableExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
+        appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
 
         setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
         setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
