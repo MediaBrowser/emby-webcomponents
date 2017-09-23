@@ -119,12 +119,12 @@ button {
     outline: none !important;
 }
 
-    .cardBox:not(.visualCardBox) {
-        background-color: transparent;
-    }
-
 .layout-tv .cardBox {
-    margin: .7103em;
+    margin: .28em .45em;
+}
+
+.cardBox:not(.visualCardBox) {
+    background-color: transparent;
 }
 
 .card-focuscontent {
@@ -147,10 +147,6 @@ button {
 
 .layout-mobile .cardBox-bottompadded {
     margin-bottom: 1.2em !important;
-}
-
-.layout-tv .cardBox-bottompadded {
-    margin-bottom: 1em !important;
 }
 
 .card:focus {
@@ -325,10 +321,6 @@ button {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
-}
-
-.layout-tv .cardText {
-    padding: 0 .5em;
 }
 
 .innerCardFooter > .cardText {

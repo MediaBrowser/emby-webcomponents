@@ -50,7 +50,7 @@ define(['dom'], function (dom) {
     var focusableQuery = focusableTagNames.map(function (t) {
 
         if (t === 'INPUT') {
-            t += ':not([type="range"])';
+            t += ':not([type="range"]):not([type="file"])';
         }
         return t + ':not([tabindex="-1"]):not(:disabled)';
 
@@ -107,6 +107,9 @@ define(['dom'], function (dom) {
         if (elem.tagName === 'INPUT') {
             var type = elem.type;
             if (type === 'range') {
+                return false;
+            }
+            if (type === 'file') {
                 return false;
             }
         }

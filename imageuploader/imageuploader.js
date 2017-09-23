@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', 'layoutManager', 'globalize', 'require', 'emby-button', 'emby-select', 'formDialogStyle'], function (dialogHelper, connectionManager, dom, loading, scrollHelper, layoutManager, globalize, require) {
+﻿define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', 'layoutManager', 'globalize', 'require', 'emby-button', 'emby-select', 'formDialogStyle', 'css!./style'], function (dialogHelper, connectionManager, dom, loading, scrollHelper, layoutManager, globalize, require) {
     'use strict';
 
     var currentItemId;
@@ -55,7 +55,7 @@
             return function (e) {
 
                 // Render thumbnail.
-                var html = ['<img style="max-width:300px;max-height:100px;" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
+                var html = ['<img style="max-width:100%;max-height:100%;" src="', e.target.result, '" title="', escape(theFile.name), '"/>'].join('');
 
                 page.querySelector('#imageOutput').innerHTML = html;
                 page.querySelector('#fldUpload').classList.remove('hide');
@@ -141,6 +141,11 @@
 
             // Has to be assigned a z-index after the call to .open() 
             dlg.addEventListener('close', function () {
+
+                if (layoutManager.tv) {
+                    scrollHelper.centerFocus.off(dlg, false);
+                }
+
                 loading.hide();
                 resolve(hasChanges);
             });
