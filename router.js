@@ -27,10 +27,14 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             skinManager.getCurrentSkin().showGenre(options);
         },
         showGuide: function () {
-            skinManager.getCurrentSkin().showGuide();
+            skinManager.getCurrentSkin().showGuide({
+                serverId: connectionManager.currentApiClient().serverId()
+            });
         },
         showLiveTV: function () {
-            skinManager.getCurrentSkin().showLiveTV();
+            skinManager.getCurrentSkin().showLiveTV({
+                serverId: connectionManager.currentApiClient().serverId()
+            });
         },
         showRecordedTV: function () {
             skinManager.getCurrentSkin().showRecordedTV();
