@@ -1,4 +1,4 @@
-define(['require', 'globalize', 'appSettings', 'apphost', 'loading', 'connectionManager', 'subtitleAppearanceHelper', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-input', 'emby-checkbox', 'flexStyles'], function (require, globalize, appSettings, appHost, loading, connectionManager, subtitleAppearanceHelper, dom, events) {
+define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loading', 'connectionManager', 'subtitleAppearanceHelper', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-input', 'emby-checkbox', 'flexStyles'], function (require, globalize, appSettings, appHost, focusManager, loading, connectionManager, subtitleAppearanceHelper, dom, events) {
     "use strict";
 
     function populateLanguages(select, languages) {
@@ -181,6 +181,10 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'loading', 'connection
             }
 
             self.loadData();
+
+            if (options.autoFocus) {
+                focusManager.autoFocus(options.element);
+            }
         });
     }
 

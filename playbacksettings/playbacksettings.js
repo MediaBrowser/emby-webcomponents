@@ -1,4 +1,4 @@
-define(['require', 'appSettings', 'apphost', 'qualityoptions', 'globalize', 'loading', 'connectionManager', 'dom', 'events', 'emby-select', 'emby-checkbox'], function (require, appSettings, appHost, qualityoptions, globalize, loading, connectionManager, dom, events) {
+define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', 'globalize', 'loading', 'connectionManager', 'dom', 'events', 'emby-select', 'emby-checkbox'], function (require, appSettings, appHost, focusManager, qualityoptions, globalize, loading, connectionManager, dom, events) {
     "use strict";
 
     function fillSkipLengths(select) {
@@ -240,6 +240,10 @@ define(['require', 'appSettings', 'apphost', 'qualityoptions', 'globalize', 'loa
             }
 
             self.loadData();
+
+            if (options.autoFocus) {
+                focusManager.autoFocus(options.element);
+            }
         });
     }
 
