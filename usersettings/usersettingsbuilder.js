@@ -171,7 +171,7 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
             this.set('skipBackLength', val.toString());
         }
 
-        return parseInt(this.get('skipBackLength') || '15000');
+        return parseInt(this.get('skipBackLength') || '10000');
     };
 
     UserSettings.prototype.skipForwardLength = function (val) {
@@ -180,7 +180,7 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
             this.set('skipForwardLength', val.toString());
         }
 
-        return parseInt(this.get('skipForwardLength') || '15000');
+        return parseInt(this.get('skipForwardLength') || '30000');
     };
 
     UserSettings.prototype.dashboardTheme = function (val) {
