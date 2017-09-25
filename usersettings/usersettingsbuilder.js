@@ -256,10 +256,5 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return this.set(key, JSON.stringify(value), false);
     };
 
-    UserSettings.prototype.toggle = function (name) {
-
-        return this[name](!this[name]());
-    };
-
     return UserSettings;
 });
