@@ -350,7 +350,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         events.on(newApiClient, 'requestfail', onRequestFail);
     }
 
+    // Temporary back
+    function initApiClientOperaTv(apiClient) {
+        apiClient.detectBitrate = function () {
+            return Promise.resolve(170000000);
+        };
+    }
+
     function initApiClient(apiClient) {
+
+        if (browser.operaTv) {
+            initApiClientOperaTv(apiClient);
+        }
         onApiClientCreated({}, apiClient);
     }
 

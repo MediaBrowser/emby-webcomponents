@@ -1,4 +1,4 @@
-define(['appSettings', 'events', 'browser'], function (appsettings, events, browser) {
+define(['appSettings', 'events'], function (appsettings, events) {
     'use strict';
 
     function onSaveTimeout() {
@@ -141,6 +141,11 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
         return val !== 'false';
     };
 
+    UserSettings.prototype.enableThemeVideosByDefault = function () {
+
+        return true;
+    };
+
     UserSettings.prototype.enableThemeVideos = function (val) {
 
         if (val != null) {
@@ -153,7 +158,7 @@ define(['appSettings', 'events', 'browser'], function (appsettings, events, brow
             return val !== 'false';
         }
 
-        return !browser.slow;
+        return this.enableThemeVideosByDefault();
     };
 
     UserSettings.prototype.language = function (val) {
