@@ -573,7 +573,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                     }
                 };
 
-                if (newCardImageContainer.animate && !browser.noAnimation) {
+                if (newCardImageContainer.animate) {
 
                     var keyframes = [
                         { opacity: '0', offset: 0 },

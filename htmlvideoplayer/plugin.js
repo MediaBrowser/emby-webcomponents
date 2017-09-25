@@ -1298,7 +1298,7 @@
 
         function createMediaElement(options) {
 
-            if (browser.tv || browser.noAnimation || browser.iOS) {
+            if (browser.tv || browser.iOS) {
                 // too slow
                 // also on iOS, the backdrop image doesn't look right
                 options.backdropUrl = null;
