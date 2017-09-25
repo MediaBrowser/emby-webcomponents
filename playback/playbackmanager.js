@@ -332,7 +332,6 @@
 
         var maxValues = getAudioMaxValues(deviceProfile);
 
-        var supportsUniversalAudio = apiClient.isMinServerVersion('3.2.17.5');
         var streamUrls = [];
 
         for (var i = 0, length = items.length; i < length; i++) {
@@ -340,7 +339,7 @@
             var item = items[i];
             var streamUrl;
 
-            if (supportsUniversalAudio && item.MediaType === 'Audio') {
+            if (item.MediaType === 'Audio') {
                 streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
             }
 
@@ -390,7 +389,7 @@
         allowVideoStreamCopy,
         allowAudioStreamCopy) {
 
-        if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio' && apiClient.isMinServerVersion('3.2.17.5')) {
+        if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio') {
 
             return Promise.resolve({
                 MediaSources: [
