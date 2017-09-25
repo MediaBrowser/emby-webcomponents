@@ -57,7 +57,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
         }
 
         var currentValue = this.get(name);
-        appsettings.set(name, value, userId);
+        var result = appsettings.set(name, value, userId);
 
         if (enableOnServer !== false && this.displayPrefs) {
             this.displayPrefs.CustomPrefs[name] = value == null ? value : value.toString();
@@ -67,6 +67,8 @@ define(['appSettings', 'events'], function (appsettings, events) {
         if (currentValue !== value) {
             events.trigger(this, 'change', [name]);
         }
+
+        return result;
     };
 
     UserSettings.prototype.get = function (name, enableOnServer) {
