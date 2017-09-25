@@ -107,7 +107,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
     UserSettings.prototype.enableCinemaMode = function (val) {
 
         if (val != null) {
-            this.set('enableCinemaMode', val.toString(), false);
+            return this.set('enableCinemaMode', val.toString(), false);
         }
 
         val = this.get('enableCinemaMode', false);
@@ -122,7 +122,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
     UserSettings.prototype.enableNextVideoInfoOverlay = function (val) {
 
         if (val != null) {
-            this.set('enableNextVideoInfoOverlay', val.toString());
+            return this.set('enableNextVideoInfoOverlay', val.toString());
         }
 
         val = this.get('enableNextVideoInfoOverlay');
@@ -133,7 +133,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
     UserSettings.prototype.enableThemeSongs = function (val) {
 
         if (val != null) {
-            this.set('enableThemeSongs', val.toString(), false);
+            return this.set('enableThemeSongs', val.toString(), false);
         }
 
         val = this.get('enableThemeSongs', false);
@@ -149,7 +149,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
     UserSettings.prototype.enableThemeVideos = function (val) {
 
         if (val != null) {
-            this.set('enableThemeVideos', val.toString(), false);
+            return this.set('enableThemeVideos', val.toString(), false);
         }
 
         val = this.get('enableThemeVideos', false);
@@ -164,7 +164,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
     UserSettings.prototype.language = function (val) {
 
         if (val != null) {
-            this.set('language', val.toString(), false);
+            return this.set('language', val.toString(), false);
         }
 
         return this.get('language', false);
@@ -173,7 +173,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
     UserSettings.prototype.skipBackLength = function (val) {
 
         if (val != null) {
-            this.set('skipBackLength', val.toString());
+            return this.set('skipBackLength', val.toString());
         }
 
         return parseInt(this.get('skipBackLength') || '10000');
@@ -182,7 +182,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
     UserSettings.prototype.skipForwardLength = function (val) {
 
         if (val != null) {
-            this.set('skipForwardLength', val.toString());
+            return this.set('skipForwardLength', val.toString());
         }
 
         return parseInt(this.get('skipForwardLength') || '30000');
@@ -191,7 +191,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
     UserSettings.prototype.dashboardTheme = function (val) {
 
         if (val != null) {
-            this.set('dashboardTheme', val);
+            return this.set('dashboardTheme', val);
         }
 
         return this.get('dashboardTheme');
@@ -200,7 +200,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
     UserSettings.prototype.appTheme = function (val) {
 
         if (val != null) {
-            this.set('appTheme', val, false);
+            return this.set('appTheme', val, false);
         }
 
         return this.get('appTheme', false);
@@ -236,7 +236,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
             values.SortOrder = query.SortOrder;
         }
 
-        this.set(key, JSON.stringify(values));
+        return this.set(key, JSON.stringify(values));
     };
 
     UserSettings.prototype.getSubtitleAppearanceSettings = function (key) {
@@ -250,7 +250,12 @@ define(['appSettings', 'events'], function (appsettings, events) {
 
         key = key || 'localplayersubtitleappearance3';
 
-        this.set(key, JSON.stringify(value), false);
+        return this.set(key, JSON.stringify(value), false);
+    };
+
+    UserSettings.prototype.toggle = function (name) {
+
+        return this[name](!this[name]());
     };
 
     return UserSettings;
