@@ -141,11 +141,6 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return val !== 'false';
     };
 
-    UserSettings.prototype.enableThemeVideosByDefault = function () {
-
-        return true;
-    };
-
     UserSettings.prototype.enableThemeVideos = function (val) {
 
         if (val != null) {
@@ -158,7 +153,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
             return val !== 'false';
         }
 
-        return this.enableThemeVideosByDefault();
+        return UserSettings.defaults.enableThemeVideos;
     };
 
     UserSettings.prototype.language = function (val) {
@@ -203,7 +198,13 @@ define(['appSettings', 'events'], function (appsettings, events) {
             return this.set('appTheme', val, false);
         }
 
-        return this.get('appTheme', false);
+        return this.get('appTheme', false) || UserSettings.defaults.theme;
+    };
+
+    // apps should set these values
+    UserSettings.defaults = {
+        theme: null,
+        enableThemeVideos: true
     };
 
     function getSavedQueryKey(context) {
