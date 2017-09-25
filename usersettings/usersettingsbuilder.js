@@ -197,7 +197,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return this.get('dashboardTheme');
     };
 
-    UserSettings.prototype.appTheme = function (val) {
+    UserSettings.prototype.theme = function (val) {
 
         if (val != null) {
             return this.set('appTheme', val, false);
