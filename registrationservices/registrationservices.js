@@ -3,6 +3,7 @@
 
     var currentDisplayingProductInfos = [];
     var currentDisplayingResolve = null;
+    var currentValidatingFeature = null;
 
     function alertText(options) {
         return new Promise(function (resolve, reject) {
@@ -260,6 +261,8 @@
                         feature: feature
                     };
 
+                    currentValidatingFeature = feature;
+
                     return showInAppPurchaseInfo(subscriptionOptions, unlockableProductInfo, dialogOptions);
                 });
             });
@@ -284,6 +287,7 @@
     function clearCurrentDisplayingInfo() {
         currentDisplayingProductInfos = [];
         currentDisplayingResolve = null;
+        currentValidatingFeature = null;
     }
 
     function showExternalPremiereInfo() {
@@ -695,7 +699,16 @@
 
                 cancelInAppPurchase();
                 resolve();
+                return;
             }
+        }
+
+        var feature = currentValidatingFeature;
+        if (feature) {
+            iapManager.isUnlockedByDefault(feature).then(function () {
+                cancelInAppPurchase();
+                resolve();
+            });
         }
     }
 
