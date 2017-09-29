@@ -501,7 +501,7 @@
 
             } else*/
 
-            if (browser.chromecast && val.indexOf('.m3u8') !== -1) {
+            if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
 
                 setTracks(elem, tracks, options.item, options.mediaSource);
                 return setCurrentSrcChromecast(self, elem, options, val);
