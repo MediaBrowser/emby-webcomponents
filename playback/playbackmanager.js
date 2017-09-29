@@ -1096,6 +1096,7 @@
 
                 if (!brightnessOsdLoaded) {
                     brightnessOsdLoaded = true;
+                    // TODO: Have this trigger an event instead to get the osd out of here
                     require(['brightnessOsd']);
                 }
                 player.setBrightness(val);

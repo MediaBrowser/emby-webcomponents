@@ -123,10 +123,6 @@ button {
     margin: .28em .45em;
 }
 
-.cardBox:not(.visualCardBox) {
-    background-color: transparent;
-}
-
 .card-focuscontent {
     border: .12em solid transparent;
     border-radius: .12em;
