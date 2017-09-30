@@ -1,4 +1,4 @@
-﻿define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'castSenderApiLoader'], function (appSettings, userSettings, playbackManager, connectionManager, globalize, events, castSenderApiLoader) {
+﻿define(['appSettings', 'userSettings', 'playbackManager', 'connectionManager', 'globalize', 'events', 'require', 'castSenderApiLoader'], function (appSettings, userSettings, playbackManager, connectionManager, globalize, events, require, castSenderApiLoader) {
     'use strict';
 
     // Based on https://github.com/googlecast/CastVideos-chrome/blob/master/CastVideos.js
@@ -382,7 +382,7 @@
 
         return new Promise(function (resolve, reject) {
 
-            require(['chromecasthelpers'], function (chromecasthelpers) {
+            require(['./chromecasthelpers'], function (chromecasthelpers) {
 
                 chromecasthelpers.getServerAddress(apiClient).then(function (serverAddress) {
                     message.serverAddress = serverAddress;

@@ -67,25 +67,25 @@
             // begin match for protocol / username / password / host
             "(?:"
 
-                // ============================
-                // If we have a recognized protocol at the beginning of the URL, we're
-                // more relaxed about what we accept, because we assume the user wants
-                // this to be a URL, and we're not accidentally matching human language
-                + protocols + "?"
+            // ============================
+            // If we have a recognized protocol at the beginning of the URL, we're
+            // more relaxed about what we accept, because we assume the user wants
+            // this to be a URL, and we're not accidentally matching human language
+            + protocols + "?"
 
-                // optional username:password@
-                + credentials + "?"
+            // optional username:password@
+            + credentials + "?"
 
-                // IP address (both v4 and v6)
-                + "(?:"
+            // IP address (both v4 and v6)
+            + "(?:"
 
-                    // IPv6
-                    + ipv6
+            // IPv6
+            + ipv6
 
-                    // IPv4
-                    + "|" + ipv4
+            // IPv4
+            + "|" + ipv4
 
-                + ")"
+            + ")"
 
             // end match for protocol / username / password / host
             + ")"
@@ -95,21 +95,21 @@
 
             // plus optional path and query params (no unicode allowed here?)
             + "(?:"
-                + "\\/(?:"
-                    // some characters we'll accept because it's unlikely human language
-                    // would use them after a URL unless they were part of the url
-                    + "(?:[a-z0-9\\/\\@\\&\\#\\~\\*\\_\\-\\+])"
-                    + "|(?:\\%[a-f0-9]{2})"
-                    // some characters are much more likely to be used AFTER a url and
-                    // were not intended to be included in the url itself. Mostly end
-                    // of sentence type things. It's also likely that the URL would 
-                    // still work if any of these characters were missing from the end 
-                    // because we parsed it incorrectly. For these characters to be accepted
-                    // they must be followed by another character that we're reasonably
-                    // sure is part of the url
-                    + "|(?:[\\;\\?\\:\\.\\!\\'\\(\\)\\,\\=]+(?=(?:[a-z0-9\\/\\@\\&\\#\\~\\*\\_\\-\\+])|(?:\\%[a-f0-9]{2})))"
-                + ")*"
-                + "|\\b|\$"
+            + "\\/(?:"
+            // some characters we'll accept because it's unlikely human language
+            // would use them after a URL unless they were part of the url
+            + "(?:[a-z0-9\\/\\@\\&\\#\\~\\*\\_\\-\\+])"
+            + "|(?:\\%[a-f0-9]{2})"
+            // some characters are much more likely to be used AFTER a url and
+            // were not intended to be included in the url itself. Mostly end
+            // of sentence type things. It's also likely that the URL would 
+            // still work if any of these characters were missing from the end 
+            // because we parsed it incorrectly. For these characters to be accepted
+            // they must be followed by another character that we're reasonably
+            // sure is part of the url
+            + "|(?:[\\;\\?\\:\\.\\!\\'\\(\\)\\,\\=]+(?=(?:[a-z0-9\\/\\@\\&\\#\\~\\*\\_\\-\\+])|(?:\\%[a-f0-9]{2})))"
+            + ")*"
+            + "|\\b|\$"
             + ")";
 
         // regex = XRegExp(regex,'gi');
@@ -127,7 +127,6 @@
 
         // look for links in the text
         var LinkParser = {
-
             parse: function (text) {
                 var links = [];
                 var match;
@@ -135,7 +134,7 @@
                 while (match = linkRegExp.exec(text)) {
                     // console.log(matches);
                     var txt = match[0];
-                    var pos = match['index'];
+                    var pos = match.index;
                     var len = txt.length;
                     var url = ensureProtocol(text);
                     links.push({ 'pos': pos, 'text': txt, 'len': len, 'url': url });
@@ -144,7 +143,7 @@
                 return links;
             }
 
-        }
+        };
 
         window.LinkParser = LinkParser;
     })();
@@ -162,10 +161,10 @@
 
         address = address.toLowerCase();
 
-        if (address.indexOf('127.0.0.1') != -1) {
+        if (address.indexOf('127.0.0.1') !== -1) {
             return true;
         }
-        if (address.indexOf('localhost') != -1) {
+        if (address.indexOf('localhost') !== -1) {
             return true;
         }
 
