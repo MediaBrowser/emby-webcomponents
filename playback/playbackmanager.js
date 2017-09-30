@@ -1827,6 +1827,7 @@
 
                 state.PlayState.SubtitleStreamIndex = self.getSubtitleStreamIndex(player);
                 state.PlayState.AudioStreamIndex = self.getAudioStreamIndex(player);
+                state.PlayState.BufferedRanges = self.getBufferedRanges(player);
 
                 state.PlayState.PlayMethod = self.playMethod(player);
 

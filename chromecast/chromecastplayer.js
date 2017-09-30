@@ -967,6 +967,12 @@
         return state.RunTimeTicks;
     };
 
+    ChromecastPlayer.prototype.getBufferedRanges = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.BufferedRanges || [];
+    };
+
     ChromecastPlayer.prototype.paused = function () {
         var state = this.lastPlayerData || {};
         state = state.PlayState || {};
