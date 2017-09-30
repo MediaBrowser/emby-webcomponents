@@ -231,6 +231,7 @@
             if (infoHtml) {
                 bindAppInfoEvents(elem);
             }
+            imageLoader.lazyChildren(elem);
         });
     }
 
