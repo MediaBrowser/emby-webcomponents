@@ -382,9 +382,9 @@
 
         return new Promise(function (resolve, reject) {
 
-            require(['./chromecasthelpers'], function (chromecasthelpers) {
+            require(['chromecastHelper'], function (chromecastHelper) {
 
-                chromecasthelpers.getServerAddress(apiClient).then(function (serverAddress) {
+                chromecastHelper.getServerAddress(apiClient).then(function (serverAddress) {
                     message.serverAddress = serverAddress;
                     player.sendMessageInternal(message).then(resolve, reject);
 

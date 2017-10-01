@@ -16,9 +16,8 @@ html {
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
 
     .skinHeader-blurred {
-        background: rgba(20,20,20,.7);
-        -webkit-backdrop-filter: blur(1.5em);
-        backdrop-filter: blur(1.5em);
+        background-color: #1f1f1f;
+        color: rgba(255, 255, 255, .7);
     }
 }
 
