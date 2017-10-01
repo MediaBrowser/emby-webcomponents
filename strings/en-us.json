@@ -167,6 +167,8 @@
   "FormatValue": "Format: {0}",
   "DownloadsValue": "Downloads: {0}",
   "PerfectMatch": "Perfect match",
+  "EnableExternalVideoPlayers": "Enable external video players",
+  "EnableExternalVideoPlayersHelp": "An external player menu will be shown when starting video playback.",
   "HeaderAlternateEpisodeNumbers": "Alternate Episode Numbers",
   "LabelDvdSeasonNumber": "Dvd season number:",
   "LabelDvdEpisodeNumber": "Dvd episode number:",
