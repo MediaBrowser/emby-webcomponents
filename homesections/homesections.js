@@ -723,21 +723,16 @@
 
         var options = {
 
-            SortBy: "DatePlayed",
-            SortOrder: "Descending",
-            Filters: "IsResumable",
             Limit: limit,
             Recursive: true,
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-            CollapseBoxSetItems: false,
-            ExcludeLocationTypes: "Virtual",
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Backdrop,Thumb",
             EnableTotalRecordCount: false,
             MediaTypes: 'Video'
         };
 
-        return apiClient.getItems(userId, options).then(function (result) {
+        return apiClient.getResumableItems(userId, options).then(function (result) {
 
             var html = '';
 
@@ -801,21 +796,16 @@
 
         var options = {
 
-            SortBy: "DatePlayed",
-            SortOrder: "Descending",
-            Filters: "IsResumable",
             Limit: limit,
             Recursive: true,
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-            CollapseBoxSetItems: false,
-            ExcludeLocationTypes: "Virtual",
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Backdrop,Thumb",
             EnableTotalRecordCount: false,
             MediaTypes: 'Audio'
         };
 
-        return apiClient.getItems(userId, options).then(function (result) {
+        return apiClient.getResumableItems(userId, options).then(function (result) {
 
             var html = '';
 
