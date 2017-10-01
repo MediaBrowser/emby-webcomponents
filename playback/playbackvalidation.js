@@ -13,7 +13,7 @@ define(['playbackManager', 'itemHelper'], function (playbackManager, itemHelper)
         return getRequirePromise(["registrationServices"]).then(function (registrationServices) {
 
             var feature = 'playback';
-            if (options.item && (item.Type === 'TvChannel' || item.Type === 'Recording')) {
+            if (options.item && (options.item.Type === 'TvChannel' || options.item.Type === 'Recording')) {
                 feature = 'livetv';
             }
 
