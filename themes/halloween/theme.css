@@ -14,7 +14,7 @@ html {
 }
 
 .skinHeader-withBackground {
-    background-color: #cc3333;
+    background-color: #141414;
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
@@ -41,8 +41,13 @@ html {
     background-color: #282828;
 }
 
+.backdropContainer {
+    background: url(bg.jpg) no-repeat center center;
+    background-size: contain;
+}
+
 .backgroundContainer {
-    background-color: #282828;
+    background-color: rgba(6, 6, 6, .9);
 }
 
     .backgroundContainer.withBackdrop {
@@ -56,7 +61,7 @@ html {
 
 /* buttons */
 .paper-icon-button-light:focus {
-    color: #cc3333;
+    color: #FF9100;
 }
 
 .skinHeader-withBackground .paper-icon-button-light:focus {
@@ -69,12 +74,12 @@ html {
 }
 
 .button-submit {
-    background: #cc3333;
+    background: #FF9100;
     color: #fff;
 }
 
 .button-accent {
-    background: #cc3333;
+    background: #FF9100;
     color: #fff;
 }
 
@@ -88,7 +93,7 @@ html {
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
-    color: #cc3333;
+    color: #FF9100;
 }
 
 .checkboxOutline {
@@ -137,17 +142,17 @@ html {
 
 /* Multi-select */
 .itemSelectionPanel {
-    border: 1px solid #cc3333;
+    border: 1px solid #FF9100;
 }
 
 .selectionCommandsPanel {
-    background: #cc3333;
+    background: #FF9100;
     color: #fff;
 }
 
 /* upNextDialog */
 .upNextDialog-countdownText {
-    color: #cc3333;
+    color: #FF9100;
 }
 
 /* alphaPicker */
@@ -158,7 +163,7 @@ html {
 }
 
 .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
-    background-color: #cc3333;
+    background-color: #FF9100;
     color: #fff !important;
 }
 
@@ -172,16 +177,16 @@ html {
 }
 
 .progressring-spiner {
-    border-color: #cc3333;
+    border-color: #FF9100;
 }
 
 .button-link {
-    color: #cc3333;
+    color: #FF9100;
     font-weight: 500;
 }
 
 .button-flat-accent {
-    color: #cc3333;
+    color: #FF9100;
 }
 
 .mediaInfoText {
@@ -206,7 +211,7 @@ html {
 }
 
     .emby-input:focus, .emby-textarea:focus {
-        border-color: #cc3333;
+        border-color: #FF9100;
     }
 
 /* select */
@@ -222,12 +227,12 @@ html {
 }
 
     .emby-select-withcolor:focus {
-        border-color: #cc3333;
+        border-color: #FF9100;
     }
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    border-color: #cc3333;
+    border-color: #FF9100;
 }
 
 .emby-checkbox:focus + span + .emby-checkbox-focushelper {
@@ -235,12 +240,12 @@ html {
 }
 
 .emby-checkbox:checked + span + span + .checkboxOutline > .checkboxOutlineTick {
-    background-color: #cc3333;
+    background-color: #FF9100;
 }
 
 /* indicators */
 .itemProgressBarForeground {
-    background-color: #cc3333;
+    background-color: #FF9100;
 }
 
 .itemProgressBarForeground-recording {
@@ -248,15 +253,15 @@ html {
 }
 
 .countIndicator {
-    background: #cc3333;
+    background: #FF9100;
 }
 
 .playedIndicator {
-    background: #cc3333;
+    background: #FF9100;
 }
 
 .fullSyncIndicator {
-    background: #cc3333;
+    background: #FF9100;
     color: #fff;
 }
 
@@ -277,7 +282,7 @@ html {
 }
 
 .navMenuOption-selected {
-    background: #cc3333 !important;
+    background: #FF9100 !important;
     color: #fff;
 }
 
@@ -288,7 +293,7 @@ html {
 }
 
 .emby-tab-button-active {
-    color: #fff;
+    color: #FF9100;
 }
 
     .emby-tab-button-active.emby-button-tv {
@@ -296,7 +301,7 @@ html {
     }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #fff;
+    color: #FF9100;
 }
 
 /* guide */
@@ -330,15 +335,15 @@ html {
 }
 
 .guide-currentTimeIndicatorBar {
-    background-color: #cc3333;
+    background-color: #FF9100;
 }
 
 .guide-currentTimeIndicatorArrowContainer {
-    color: #cc3333;
+    color: #FF9100;
 }
 
 .guide-currentTimeIndicatorArrow {
-    color: #cc3333;
+    color: #FF9100;
 }
 
 .guide-headerTimeslots {
@@ -351,15 +356,15 @@ html {
 }
 
     .guide-date-tab-button.emby-tab-button-active {
-        color: #cc3333;
+        color: #FF9100;
     }
 
     .guide-date-tab-button:focus {
-        color: #cc3333;
+        color: #FF9100;
     }
 
     .guide-date-tab-button.emby-button-tv:focus {
-        background-color: #cc3333;
+        background-color: #FF9100;
         color: #fff;
     }
 
@@ -378,7 +383,7 @@ html {
 
 /* buttons */
 .ratingbutton-icon-withrating {
-    color: #cc3333;
+    color: #FF9100;
 }
 
 .downloadbutton-icon-on {
@@ -390,7 +395,7 @@ html {
 }
 
 .playstatebutton-icon-played {
-    color: #cc3333;
+    color: #FF9100;
 }
 
 .repeatButton-active {
@@ -399,5 +404,5 @@ html {
 
 /* cards */
 .card:focus .card-focuscontent {
-    border-color: #cc3333;
+    border-color: #FF9100;
 }
