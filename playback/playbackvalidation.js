@@ -11,7 +11,13 @@ define(['playbackManager', 'itemHelper'], function (playbackManager, itemHelper)
 
     function validatePlayback(options) {
         return getRequirePromise(["registrationServices"]).then(function (registrationServices) {
-            return registrationServices.validateFeature('playback', options).then(function (result) {
+
+            var feature = 'playback';
+            if (options.item && (item.Type === 'TvChannel' || item.Type === 'Recording')) {
+                feature = 'livetv';
+            }
+
+            return registrationServices.validateFeature(feature, options).then(function (result) {
 
                 if (result && result.enableTimeLimit) {
                     startAutoStopTimer();
