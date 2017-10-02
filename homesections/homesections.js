@@ -855,6 +855,9 @@
             elem.innerHTML = html;
 
             imageLoader.lazyChildren(elem);
+        }, function () {
+            // handle older servers
+            return Promise.resolve();
         });
     }
 
