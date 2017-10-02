@@ -6,7 +6,7 @@
     "Share": "Teilen",
     "Add": "Hinzuf\u00fcgen",
     "ServerUpdateNeeded": "Dieser Emby Server muss aktualisiert werden. Um die neueste Version herunterzuladen, besuche bitte {0}",
-    "LiveTvGuideRequiresUnlock": "Dein TV-Guide ist begrenzt auf {0} Kan\u00e4le. Klicke auf die Freischalten Schaltfl\u00e4che um weitere Informationen zu erhalten.",
+    "LiveTvRequiresUnlock": "Live TV requires an active Emby Premiere subscription.",
     "AttributeNew": "Neu",
     "Premiere": "Premiere",
     "Live": "Live",

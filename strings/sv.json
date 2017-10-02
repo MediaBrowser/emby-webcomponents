@@ -6,7 +6,7 @@
     "Share": "Dela",
     "Add": "L\u00e4gg till",
     "ServerUpdateNeeded": "Den h\u00e4r Emby servern beh\u00f6ver uppdateras. F\u00f6r att ladda ner senaste versionen, g\u00e5 till {0}",
-    "LiveTvGuideRequiresUnlock": "LiveTV guiden \u00e4r f\u00f6r n\u00e4rvarande begr\u00e4nsad till {0} kanaler. Klicka p\u00e5 l\u00e5sa upp knappen f\u00f6r att veta hur du kan ut\u00f6ka upplevelsen.",
+    "LiveTvRequiresUnlock": "Live TV requires an active Emby Premiere subscription.",
     "AttributeNew": "Ny",
     "Premiere": "Premi\u00e4r",
     "Live": "Live",

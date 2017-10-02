@@ -1,4 +1,4 @@
-﻿define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'registrationServices', 'dom', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, registrationServices, dom) {
+﻿define(['require', 'inputManager', 'browser', 'globalize', 'connectionManager', 'scrollHelper', 'serverNotifications', 'loading', 'datetime', 'focusManager', 'playbackManager', 'userSettings', 'imageLoader', 'events', 'layoutManager', 'itemShortcuts', 'dom', 'css!./guide.css', 'programStyles', 'material-icons', 'scrollStyles', 'emby-button', 'paper-icon-button-light', 'emby-tabs', 'emby-scroller', 'flexStyles', 'registerElement'], function (require, inputManager, browser, globalize, connectionManager, scrollHelper, serverNotifications, loading, datetime, focusManager, playbackManager, userSettings, imageLoader, events, layoutManager, itemShortcuts, dom) {
     'use strict';
 
     function showViewSettings(instance) {
@@ -258,27 +258,6 @@
             }
         }
 
-        function getChannelLimit(context) {
-
-            return registrationServices.validateFeature('livetv').then(function () {
-
-                var limit = browser.slow ? 100 : 500;
-
-                context.querySelector('.guideRequiresUnlock').classList.add('hide');
-
-                return limit;
-
-            }, function () {
-
-                var limit = 5;
-
-                context.querySelector('.guideRequiresUnlock').classList.remove('hide');
-                context.querySelector('.unlockText').innerHTML = globalize.translate('sharedcomponents#LiveTvGuideRequiresUnlock', limit);
-
-                return limit;
-            });
-        }
-
         function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
 
             var apiClient = connectionManager.getApiClient(options.serverId);
@@ -291,113 +270,111 @@
 
             channelQuery.UserId = apiClient.getCurrentUserId();
 
-            getChannelLimit(context).then(function (channelLimit) {
+            var channelLimit = 500;
+            currentChannelLimit = channelLimit;
 
-                currentChannelLimit = channelLimit;
+            showLoading();
 
-                showLoading();
+            channelQuery.StartIndex = currentStartIndex;
+            channelQuery.Limit = channelLimit;
+            channelQuery.AddCurrentProgram = false;
+            channelQuery.EnableUserData = false;
+            channelQuery.EnableImageTypes = "Primary";
 
-                channelQuery.StartIndex = currentStartIndex;
-                channelQuery.Limit = channelLimit;
-                channelQuery.AddCurrentProgram = false;
-                channelQuery.EnableUserData = false;
-                channelQuery.EnableImageTypes = "Primary";
+            var categories = self.categoryOptions.categories || [];
+            var displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
+            var displaySportsContent = !categories.length || categories.indexOf('sports') !== -1;
+            var displayNewsContent = !categories.length || categories.indexOf('news') !== -1;
+            var displayKidsContent = !categories.length || categories.indexOf('kids') !== -1;
+            var displaySeriesContent = !categories.length || categories.indexOf('series') !== -1;
 
-                var categories = self.categoryOptions.categories || [];
-                var displayMovieContent = !categories.length || categories.indexOf('movies') !== -1;
-                var displaySportsContent = !categories.length || categories.indexOf('sports') !== -1;
-                var displayNewsContent = !categories.length || categories.indexOf('news') !== -1;
-                var displayKidsContent = !categories.length || categories.indexOf('kids') !== -1;
-                var displaySeriesContent = !categories.length || categories.indexOf('series') !== -1;
-
-                if (displayMovieContent && displaySportsContent && displayNewsContent && displayKidsContent) {
-                    channelQuery.IsMovie = null;
-                    channelQuery.IsSports = null;
-                    channelQuery.IsKids = null;
-                    channelQuery.IsNews = null;
-                    channelQuery.IsSeries = null;
-                } else {
-                    if (displayNewsContent) {
-                        channelQuery.IsNews = true;
-                    }
-                    if (displaySportsContent) {
-                        channelQuery.IsSports = true;
-                    }
-                    if (displayKidsContent) {
-                        channelQuery.IsKids = true;
-                    }
-                    if (displayMovieContent) {
-                        channelQuery.IsMovie = true;
-                    }
-                    if (displaySeriesContent) {
-                        channelQuery.IsSeries = true;
-                    }
+            if (displayMovieContent && displaySportsContent && displayNewsContent && displayKidsContent) {
+                channelQuery.IsMovie = null;
+                channelQuery.IsSports = null;
+                channelQuery.IsKids = null;
+                channelQuery.IsNews = null;
+                channelQuery.IsSeries = null;
+            } else {
+                if (displayNewsContent) {
+                    channelQuery.IsNews = true;
                 }
-
-                if (userSettings.get('livetv-channelorder') === 'DatePlayed') {
-                    channelQuery.SortBy = "DatePlayed";
-                    channelQuery.SortOrder = "Descending";
-                } else {
-                    channelQuery.SortBy = null;
-                    channelQuery.SortOrder = null;
+                if (displaySportsContent) {
+                    channelQuery.IsSports = true;
                 }
+                if (displayKidsContent) {
+                    channelQuery.IsKids = true;
+                }
+                if (displayMovieContent) {
+                    channelQuery.IsMovie = true;
+                }
+                if (displaySeriesContent) {
+                    channelQuery.IsSeries = true;
+                }
+            }
 
-                var date = newStartDate;
-                // Add one second to avoid getting programs that are just ending
-                date = new Date(date.getTime() + 1000);
+            if (userSettings.get('livetv-channelorder') === 'DatePlayed') {
+                channelQuery.SortBy = "DatePlayed";
+                channelQuery.SortOrder = "Descending";
+            } else {
+                channelQuery.SortBy = null;
+                channelQuery.SortOrder = null;
+            }
 
-                // Subtract to avoid getting programs that are starting when the grid ends
-                var nextDay = new Date(date.getTime() + msPerDay - 2000);
+            var date = newStartDate;
+            // Add one second to avoid getting programs that are just ending
+            date = new Date(date.getTime() + 1000);
 
-                apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
+            // Subtract to avoid getting programs that are starting when the grid ends
+            var nextDay = new Date(date.getTime() + msPerDay - 2000);
 
-                    var btnPreviousPage = context.querySelector('.btnPreviousPage');
-                    var btnNextPage = context.querySelector('.btnNextPage');
+            apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
 
-                    if (channelsResult.TotalRecordCount > channelLimit) {
+                var btnPreviousPage = context.querySelector('.btnPreviousPage');
+                var btnNextPage = context.querySelector('.btnNextPage');
 
-                        context.querySelector('.guideOptions').classList.remove('hide');
+                if (channelsResult.TotalRecordCount > channelLimit) {
 
-                        btnPreviousPage.classList.remove('hide');
-                        btnNextPage.classList.remove('hide');
+                    context.querySelector('.guideOptions').classList.remove('hide');
 
-                        if (channelQuery.StartIndex) {
-                            context.querySelector('.btnPreviousPage').disabled = false;
-                        } else {
-                            context.querySelector('.btnPreviousPage').disabled = true;
-                        }
+                    btnPreviousPage.classList.remove('hide');
+                    btnNextPage.classList.remove('hide');
 
-                        if ((channelQuery.StartIndex + channelLimit) < channelsResult.TotalRecordCount) {
-                            btnNextPage.disabled = false;
-                        } else {
-                            btnNextPage.disabled = true;
-                        }
-
+                    if (channelQuery.StartIndex) {
+                        context.querySelector('.btnPreviousPage').disabled = false;
                     } else {
-                        context.querySelector('.guideOptions').classList.add('hide');
+                        context.querySelector('.btnPreviousPage').disabled = true;
                     }
 
-                    apiClient.getLiveTvPrograms({
-                        UserId: apiClient.getCurrentUserId(),
-                        MaxStartDate: nextDay.toISOString(),
-                        MinEndDate: date.toISOString(),
-                        channelIds: channelsResult.Items.map(function (c) {
-                            return c.Id;
-                        }).join(','),
-                        ImageTypeLimit: 1,
-                        EnableImages: false,
-                        //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
-                        SortBy: "StartDate",
-                        EnableTotalRecordCount: false,
-                        EnableUserData: false
+                    if ((channelQuery.StartIndex + channelLimit) < channelsResult.TotalRecordCount) {
+                        btnNextPage.disabled = false;
+                    } else {
+                        btnNextPage.disabled = true;
+                    }
 
-                    }).then(function (programsResult) {
+                } else {
+                    context.querySelector('.guideOptions').classList.add('hide');
+                }
 
-                        renderGuide(context, date, channelsResult.Items, programsResult.Items, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
+                apiClient.getLiveTvPrograms({
+                    UserId: apiClient.getCurrentUserId(),
+                    MaxStartDate: nextDay.toISOString(),
+                    MinEndDate: date.toISOString(),
+                    channelIds: channelsResult.Items.map(function (c) {
+                        return c.Id;
+                    }).join(','),
+                    ImageTypeLimit: 1,
+                    EnableImages: false,
+                    //EnableImageTypes: layoutManager.tv ? "Primary,Backdrop" : "Primary",
+                    SortBy: "StartDate",
+                    EnableTotalRecordCount: false,
+                    EnableUserData: false
 
-                        hideLoading();
+                }).then(function (programsResult) {
 
-                    });
+                    renderGuide(context, date, channelsResult.Items, programsResult.Items, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
+
+                    hideLoading();
+
                 });
             });
         }
@@ -1224,22 +1201,16 @@
             dom.addEventListener(programGrid, 'scroll', function (e) {
                 onProgramGridScroll(context, this, timeslotHeaders);
             }, {
-                passive: true
-            });
+                    passive: true
+                });
 
             dom.addEventListener(timeslotHeaders, 'scroll', function () {
                 onTimeslotHeadersScroll(context, this);
             }, {
-                passive: true
-            });
+                    passive: true
+                });
 
             programGrid.addEventListener('click', onProgramGridClick);
-
-            context.querySelector('.btnUnlockGuide').addEventListener('click', function () {
-                currentStartIndex = 0;
-                reloadPage(context);
-                restartAutoRefresh();
-            });
 
             context.querySelector('.btnNextPage').addEventListener('click', function () {
                 currentStartIndex += currentChannelLimit;

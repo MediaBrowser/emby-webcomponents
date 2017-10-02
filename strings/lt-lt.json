@@ -6,7 +6,7 @@
     "Share": "Dalintis",
     "Add": "Prid\u0117ti",
     "ServerUpdateNeeded": "\u0160\u012f Emby server\u012f reikia atnaujinti. Naujausi\u0105 versij\u0105 atsisi\u0173sti galite {0}",
-    "LiveTvGuideRequiresUnlock": "Tiesiogin\u0117s TV gidas \u0161iuo metu apribotas {0} kanal\u0173. Spauskite atrakinimo mygtuk\u0105 ir su\u017einokite, kaip gauti visas funkcijas.",
+    "LiveTvRequiresUnlock": "Live TV requires an active Emby Premiere subscription.",
     "AttributeNew": "Naujas",
     "Premiere": "Premiera",
     "Live": "Tiesiogiai",

@@ -6,7 +6,7 @@
     "Share": "Dijeli",
     "Add": "Dodaj",
     "ServerUpdateNeeded": "Emby Server treba a\u017eurirati. Da biste preuzeli najnoviju verziju, posjetite {0}",
-    "LiveTvGuideRequiresUnlock": "Vodi\u010d TV u\u017eivo je trenutno ograni\u010den na {0} kanala. Kliknite na gumb za otklju\u010davanje da biste saznali kako u\u017eivati u potpunom do\u017eivljaju.",
+    "LiveTvRequiresUnlock": "Live TV requires an active Emby Premiere subscription.",
     "AttributeNew": "Novo",
     "Premiere": "Premijera",
     "Live": "U\u017eivo",

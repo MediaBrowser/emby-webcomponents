@@ -4,6 +4,7 @@
     var currentDisplayingProductInfos = [];
     var currentDisplayingResolve = null;
     var currentValidatingFeature = null;
+    var isCurrentDialogRejected = null;
 
     function alertText(options) {
         return new Promise(function (resolve, reject) {
@@ -288,6 +289,7 @@
         currentDisplayingProductInfos = [];
         currentDisplayingResolve = null;
         currentValidatingFeature = null;
+        isCurrentDialogRejected = null;
     }
 
     function showExternalPremiereInfo() {
@@ -436,7 +438,7 @@
             btnPurchases[i].addEventListener('click', showExternalPremiereInfo);
         }
 
-        var rejected = false;
+        isCurrentDialogRejected = true;
         var resolveWithTimeLimit = false;
 
         var btnPlayMinute = dlg.querySelector('.btnPlayMinute');
@@ -444,6 +446,7 @@
             btnPlayMinute.addEventListener('click', function () {
 
                 resolveWithTimeLimit = true;
+                isCurrentDialogRejected = false;
                 dialogHelper.close(dlg);
             });
         }
@@ -456,7 +459,6 @@
 
         function onCloseButtonClick() {
 
-            rejected = true;
             dialogHelper.close(dlg);
         }
 
@@ -476,6 +478,7 @@
                 centerFocus(dlg.querySelector('.formDialogContent'), false, false);
             }
 
+            var rejected = isCurrentDialogRejected;
             clearCurrentDisplayingInfo();
             if (rejected) {
                 reject();
@@ -703,6 +706,7 @@
 
             }).length) {
 
+                isCurrentDialogRejected = false;
                 cancelInAppPurchase();
                 resolve();
                 return;
@@ -712,6 +716,7 @@
         var feature = currentValidatingFeature;
         if (feature) {
             iapManager.isUnlockedByDefault(feature).then(function () {
+                isCurrentDialogRejected = false;
                 cancelInAppPurchase();
                 resolve();
             });

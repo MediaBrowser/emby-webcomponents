@@ -6,7 +6,7 @@
     "Share": "Udost\u0119pnij",
     "Add": "Dodaj",
     "ServerUpdateNeeded": "Ten serwer Emby wymaga aktualizacji. Odwied\u017a stron\u0119 {0}, aby pobra\u0107 najnowsz\u0105 wersj\u0119.",
-    "LiveTvGuideRequiresUnlock": "Przewodnik telewizyjny jest aktualnie ograniczony do {0} kana\u0142\u00f3w. Naci\u015bnij przycisk Odblokuj, aby dowiedzie\u0107 si\u0119 jak cieszy\u0107 si\u0119 pe\u0142n\u0105 funkcjonalno\u015bci\u0105.",
+    "LiveTvRequiresUnlock": "Live TV requires an active Emby Premiere subscription.",
     "AttributeNew": "Nowe",
     "Premiere": "Premiera",
     "Live": "Na \u017cywo",

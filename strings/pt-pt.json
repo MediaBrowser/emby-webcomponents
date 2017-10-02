@@ -6,7 +6,7 @@
     "Share": "Partilhar",
     "Add": "Adicionar",
     "ServerUpdateNeeded": "Este Servidor Emby precisa ser atualizado. Para fazer download da vers\u00e3o mais recente, por favor visite {0}",
-    "LiveTvGuideRequiresUnlock": "The Live TV Guide is currently limited to {0} channels. Click the unlock button to learn how to enjoy the full experience.",
+    "LiveTvRequiresUnlock": "Live TV requires an active Emby Premiere subscription.",
     "AttributeNew": "Novo",
     "Premiere": "Premiere",
     "Live": "Live",

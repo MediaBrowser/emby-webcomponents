@@ -1,4 +1,4 @@
-﻿define(['cardBuilder', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (cardBuilder, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
+﻿define(['cardBuilder', 'registrationServices', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (cardBuilder, registrationServices, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
     'use strict';
 
     function getDefaultSection(index) {
@@ -237,13 +237,11 @@
 
     function bindAppInfoEvents(elem) {
 
-        getRequirePromise(['registrationServices']).then(function (registrationServices) {
-            elem.querySelector('.appInfoSection').addEventListener('click', function (e) {
+        elem.querySelector('.appInfoSection').addEventListener('click', function (e) {
 
-                if (dom.parentWithClass(e.target, 'card')) {
-                    registrationServices.showPremiereInfo();
-                }
-            });
+            if (dom.parentWithClass(e.target, 'card')) {
+                registrationServices.showPremiereInfo();
+            }
         });
     }
 
@@ -272,30 +270,27 @@
             return Promise.resolve('');
         }
 
-        return getRequirePromise(['registrationServices']).then(function (registrationServices) {
+        return registrationServices.validateFeature('dvr', {
 
-            return registrationServices.validateFeature('dvr', {
+            showDialog: false,
+            viewOnly: true
 
-                showDialog: false,
-                viewOnly: true
+        }).then(function () {
 
-            }).then(function () {
+            appSettings.set(cacheKey, new Date().getTime());
+            return '';
 
-                appSettings.set(cacheKey, new Date().getTime());
-                return '';
+        }, function () {
 
-            }, function () {
+            appSettings.set(cacheKey, new Date().getTime());
 
-                appSettings.set(cacheKey, new Date().getTime());
+            var infos = [getPremiereInfo];
 
-                var infos = [getPremiereInfo];
+            if (appHost.supports('otherapppromotions')) {
+                infos.push(getTheaterInfo);
+            }
 
-                if (appHost.supports('otherapppromotions')) {
-                    infos.push(getTheaterInfo);
-                }
-
-                return infos[getRandomInt(0, infos.length - 1)]();
-            });
+            return infos[getRandomInt(0, infos.length - 1)]();
         });
     }
 
@@ -923,6 +918,26 @@
         });
     }
 
+    function bindUnlockClick(elem) {
+
+        var btnUnlock = elem.querySelector('.btnUnlock');
+        if (btnUnlock) {
+            btnUnlock.addEventListener('click', function (e) {
+
+                registrationServices.validateFeature('livetv', {
+
+                    viewOnly: true
+
+                }).then(function () {
+
+                    dom.parentWithClass(elem, 'homeSectionsContainer').dispatchEvent(new CustomEvent('settingschange', {
+                        cancelable: false
+                    }));
+                });
+            });
+        }
+    }
+
     function loadOnNow(elem, apiClient, user) {
 
         if (!user.Policy.EnableLiveTvAccess) {
@@ -931,8 +946,21 @@
 
         elem.classList.remove('verticalSection');
 
+        var promises = [];
+
+        promises.push(registrationServices.validateFeature('livetv',
+            {
+                viewOnly: true,
+                showDialog: false
+            }).then(function () {
+                return true;
+            }, function () {
+                return false;
+            }));
+
         var userId = user.Id;
-        return apiClient.getLiveTvRecommendedPrograms({
+
+        promises.push(apiClient.getLiveTvRecommendedPrograms({
 
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
@@ -942,11 +970,15 @@
             EnableTotalRecordCount: false,
             Fields: "ChannelInfo,PrimaryImageAspectRatio"
 
-        }).then(function (result) {
+        }));
 
+        return Promise.all(promises).then(function (responses) {
+
+            var registered = responses[0];
+            var result = responses[1];
             var html = '';
 
-            if (result.Items.length) {
+            if (result.Items.length && registered) {
 
                 html += '<div class="verticalSection">';
                 html += '<div class="sectionTitleContainer padded-left">';
@@ -1053,11 +1085,22 @@
 
                 html += '</div>';
                 html += '</div>';
+
+            } else if (result.Items.length && !registered) {
+
+                html += '<div class="verticalSection padded-left padded-right padded-bottom">';
+                html += '<h2 class="sectionTitle">' + globalize.translate('sharedcomponents#LiveTvRequiresUnlock') + '</h2>';
+                html += '<button is="emby-button" type="button" class="raised button-submit block btnUnlock">';
+                html += '<span>' + globalize.translate('sharedcomponents#HeaderBecomeProjectSupporter') + '</span>';
+                html += '</button>';
+                html += '</div>';
             }
 
             elem.innerHTML = html;
 
             imageLoader.lazyChildren(elem);
+
+            bindUnlockClick(elem);
         });
     }
 

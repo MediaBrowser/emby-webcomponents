@@ -6,7 +6,7 @@
     "Share": "Delen",
     "Add": "Toevoegen",
     "ServerUpdateNeeded": "Deze Emby Server moet worden bijgewerkt. Om de laatste versie te downloaden, gaat u naar {0}",
-    "LiveTvGuideRequiresUnlock": "De Live TV Gids is momenteel gelimiteerd tot {0} kanalen. Klik op de Geef vrij knop om te zien hoe u deze limiet op kunt heffen.",
+    "LiveTvRequiresUnlock": "Live TV requires an active Emby Premiere subscription.",
     "AttributeNew": "Nieuw",
     "Premiere": "Premiere",
     "Live": "Live",
