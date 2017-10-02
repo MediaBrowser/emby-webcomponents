@@ -42,6 +42,7 @@
     "HeaderOfflineDownloads": "M\u00e9dia hors ligne",
     "HeaderOfflineDownloadsDescription": "T\u00e9l\u00e9chargez le m\u00e9dia sur vos appareils pour une utilisation hors ligne facile.",
     "CloudSyncFeatureDescription": "Synchronisez vos m\u00e9dias avec le Cloud pour faciliter la sauvegarde, l'archivage et la conversion.",
+    "LiveTvFeatureDescription": "Stream Live TV to any Emby app, with a compatible TV tuner device installed on your Emby Server.",
     "DvrFeatureDescription": "Schedule individual Live TV recordings, series recordings, and more with Emby DVR.",
     "CinemaModeFeatureDescription": "Le Mode Cin\u00e9ma vous donne la v\u00e9ritable exp\u00e9rience cin\u00e9matographique avec des bandes annonces et des intros personnalis\u00e9s avant le film.",
     "HeaderFreeApps": "Applications Emby gratuites",

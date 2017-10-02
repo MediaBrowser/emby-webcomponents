@@ -42,6 +42,7 @@
     "HeaderOfflineDownloads": "Offline Media",
     "HeaderOfflineDownloadsDescription": "Download media to your devices for easy offline use.",
     "CloudSyncFeatureDescription": "Sincroniza tus medios en la nube para una copia de seguridad, archivado y conversi\u00f3n f\u00e1cil.",
+    "LiveTvFeatureDescription": "Stream Live TV to any Emby app, with a compatible TV tuner device installed on your Emby Server.",
     "DvrFeatureDescription": "Schedule individual Live TV recordings, series recordings, and more with Emby DVR.",
     "CinemaModeFeatureDescription": "El Modo Cine te da la verdadera experiencia de cine con tr\u00e1ilers e intros personalizadas antes de la funci\u00f3n principal.",
     "HeaderFreeApps": "Apps de Emby gratuitas",

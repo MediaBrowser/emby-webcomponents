@@ -42,6 +42,7 @@
     "HeaderOfflineDownloads": "Offline Medie",
     "HeaderOfflineDownloadsDescription": "Download medier til dine enheder for nem offline-brug.",
     "CloudSyncFeatureDescription": "Synk dine medier til skyen for nem backup, arkivering og konvertering.",
+    "LiveTvFeatureDescription": "Stream Live TV to any Emby app, with a compatible TV tuner device installed on your Emby Server.",
     "DvrFeatureDescription": "Schedule individual Live TV recordings, series recordings, and more with Emby DVR.",
     "CinemaModeFeatureDescription": "Biograftilstand giver dig den \u00e6gte biografoplevelse med trailers og brugertilpassede introer, f\u00f8r selve filmen.",
     "HeaderFreeApps": "Gratis Emby Apps",

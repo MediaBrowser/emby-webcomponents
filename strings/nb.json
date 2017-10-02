@@ -42,6 +42,7 @@
     "HeaderOfflineDownloads": "Offline Media",
     "HeaderOfflineDownloadsDescription": "Last ned media til din enhet for enkel offline bruk",
     "CloudSyncFeatureDescription": "Synkroniser mediene til skyen for sikkerhetskopiering, arkivering og konvertering.",
+    "LiveTvFeatureDescription": "Stream Live TV to any Emby app, with a compatible TV tuner device installed on your Emby Server.",
     "DvrFeatureDescription": "Planlegg enkelt Live opptak, serieopptak og mer med Emby DVR.",
     "CinemaModeFeatureDescription": "Kinomodus gir deg den ekte kinoopplevelsen med trailere og tilpassede introer f\u00f8r funksjonen.",
     "HeaderFreeApps": "Gratis Emby Applikasjoner",
