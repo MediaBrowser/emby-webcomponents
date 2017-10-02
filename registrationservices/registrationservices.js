@@ -506,6 +506,12 @@
         }
 
         list.push({
+            name: globalize.translate('sharedcomponents#LiveTV'),
+            icon: '&#xE639;',
+            text: globalize.translate('sharedcomponents#LiveTvFeatureDescription')
+        });
+
+        list.push({
             name: 'Emby DVR',
             icon: '&#xE1B2;',
             text: globalize.translate('sharedcomponents#DvrFeatureDescription')
