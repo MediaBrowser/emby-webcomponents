@@ -31,7 +31,7 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
         select.innerHTML = html;
     }
 
-    function setMaxBitrateIntoField(select, isInNetwork, mediatype, value) {
+    function setMaxBitrateIntoField(select, isInNetwork, mediatype) {
 
         var options = mediatype === 'Audio' ? qualityoptions.getAudioQualityOptions({
 
@@ -58,6 +58,24 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
         } else {
             select.value = appSettings.maxStreamingBitrate(isInNetwork, mediatype);
         }
+    }
+
+    function fillChromecastQuality(select) {
+
+        var options = qualityoptions.getVideoQualityOptions({
+
+            currentMaxBitrate: appSettings.maxChromecastBitrate(),
+            isAutomaticBitrateEnabled: !appSettings.maxChromecastBitrate(),
+            enableAuto: true
+        });
+
+        select.innerHTML = options.map(function (i) {
+
+            // render empty string instead of 0 for the auto option
+            return '<option value="' + (i.bitrate || '') + '">' + i.name + '</option>';
+        }).join('');
+
+        select.value = appSettings.maxChromecastBitrate() || '';
     }
 
     function setMaxBitrateFromField(select, isInNetwork, mediatype, value) {
@@ -129,8 +147,10 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
 
         if (userId === loggedInUserId) {
             context.querySelector('.qualitySections').classList.remove('hide');
+            context.querySelector('.fldChromecastQuality').classList.remove('hide');
         } else {
             context.querySelector('.qualitySections').classList.add('hide');
+            context.querySelector('.fldChromecastQuality').classList.add('hide');
         }
 
         context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
@@ -141,6 +161,8 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
         setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
         setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
         setMaxBitrateIntoField(context.querySelector('.selectMusicInternetQuality'), false, 'Audio');
+
+        fillChromecastQuality(context.querySelector('.selectChromecastVideoQuality'));
 
         var selectSkipForwardLength = context.querySelector('.selectSkipForwardLength');
         fillSkipLengths(selectSkipForwardLength);
@@ -162,6 +184,8 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
     function saveUser(context, user, userSettingsInstance, apiClient) {
 
         appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
+
+        appSettings.maxChromecastBitrate(context.querySelector('.selectChromecastVideoQuality').value);
 
         setMaxBitrateFromField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
         setMaxBitrateFromField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
