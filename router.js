@@ -331,11 +331,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         if (setQuality) {
-            var quality = browser.tv || browser.slow ? 50 : 90;
+
+            var quality = 100;
 
             var isBackdrop = options.type && options.type.toLowerCase() === 'backdrop';
-            if (isBackdrop) {
-                quality -= 10;
+
+            if (browser.tv || browser.slow) {
+                quality = isBackdrop ? 60 : 50;
+            } else {
+                quality = isBackdrop ? 60 : 90;
             }
 
             options.quality = quality;
