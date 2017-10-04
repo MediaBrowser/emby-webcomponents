@@ -489,11 +489,14 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
                 validateRoles(apiClient, route.roles).then(function () {
 
+                    apiClient.ensureWebSocket();
                     callback();
 
                 }, beginConnectionWizard);
                 return;
 
+            } else {
+                apiClient.ensureWebSocket();
             }
         }
 
