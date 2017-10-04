@@ -107,11 +107,9 @@
         var apiClient = getCurrentApiClient(instance);
         if (!apiClient.isWebSocketOpen()) {
 
-            if (apiClient) {
-                apiClient.getSessions().then(function (sessions) {
-                    processUpdatedSessions(instance, sessions, apiClient);
-                });
-            }
+            apiClient.getSessions().then(function (sessions) {
+                processUpdatedSessions(instance, sessions, apiClient);
+            });
         }
     }
 
@@ -180,14 +178,6 @@
         this.type = 'mediaplayer';
         this.isLocalPlayer = false;
         this.id = 'remoteplayer';
-
-        function onWebSocketConnectionChange() {
-
-            // Reconnect
-            if (self.isUpdating) {
-                subscribeToPlayerUpdates(self);
-            }
-        }
 
         events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
             processUpdatedSessions(self, data, apiClient);

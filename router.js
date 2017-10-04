@@ -376,6 +376,14 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         events.on(connectionManager, 'apiclientcreated', onApiClientCreated);
     }
 
+    function onAppResume() {
+        var apiClient = connectionManager.currentApiClient();
+
+        if (apiClient) {
+            apiClient.ensureWebSocket();
+        }
+    }
+
     var firstConnectionResult;
     function start(options) {
 
@@ -384,6 +392,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         initApiClients();
 
         events.on(appHost, 'beforeexit', onBeforeExit);
+        events.on(appHost, 'resume', onAppResume);
 
         connectionManager.connect({
 
@@ -480,14 +489,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
                 validateRoles(apiClient, route.roles).then(function () {
 
-                    apiClient.ensureWebSocket();
                     callback();
 
                 }, beginConnectionWizard);
                 return;
 
-            } else {
-                apiClient.ensureWebSocket();
             }
         }
 
