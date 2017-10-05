@@ -158,6 +158,21 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return UserSettings.defaults.enableThemeVideos;
     };
 
+    UserSettings.prototype.enableBackdrops = function (val) {
+
+        if (val != null) {
+            return this.set('enableBackdrops', val.toString(), false);
+        }
+
+        val = this.get('enableBackdrops', false);
+
+        if (val) {
+            return val !== 'false';
+        }
+
+        return UserSettings.defaults.enableBackdrops;
+    };
+
     UserSettings.prototype.language = function (val) {
 
         if (val != null) {

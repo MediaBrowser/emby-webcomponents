@@ -999,27 +999,27 @@
 
                     serverId: apiClient.serverId()
 
-                }) + '" class="raised"><i class="md-icon">&#xE639;</i><span>' + globalize.translate('sharedcomponents#Programs') + '</span></a>';
+                }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Programs') + '</span></a>';
 
                 html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'guide'
 
-                }) + '" class="raised"><i class="md-icon">&#xE1B2;</i><span>' + globalize.translate('sharedcomponents#Guide') + '</span></a>';
+                }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Guide') + '</span></a>';
 
                 html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
 
                     serverId: apiClient.serverId()
 
-                }) + '" class="raised"><i class="md-icon">&#xE333;</i><span>' + globalize.translate('sharedcomponents#Recordings') + '</span></a>';
+                }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Recordings') + '</span></a>';
 
                 html += '<a style="margin:0 0 0 1em;padding:.9em 1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'dvrschedule'
 
-                }) + '" class="raised"><i class="md-icon">&#xE916;</i><span>' + globalize.translate('sharedcomponents#Schedule') + '</span></a>';
+                }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Schedule') + '</span></a>';
 
                 html += '</div>';
 
