@@ -1,4 +1,4 @@
-define(['require', 'appSettings', 'apphost', 'focusManager', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-linkbutton'], function (require, appSettings, appHost, focusManager, globalize, loading, connectionManager, skinManager, dom, events) {
+define(['require', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-linkbutton'], function (require, layoutManager, appSettings, appHost, focusManager, globalize, loading, connectionManager, skinManager, dom, events) {
     "use strict";
 
     function fillThemes(select, isDashboard) {
@@ -36,6 +36,12 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'globalize', 'loadi
             context.querySelector('.languageSection').classList.add('hide');
         }
 
+        if (appHost.supports('displaymode')) {
+            context.querySelector('.fldDisplayMode').classList.remove('hide');
+        } else {
+            context.querySelector('.fldDisplayMode').classList.add('hide');
+        }
+
         var selectTheme = context.querySelector('#selectTheme');
         var selectDashboardTheme = context.querySelector('#selectDashboardTheme');
 
@@ -51,6 +57,8 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'globalize', 'loadi
 
         selectDashboardTheme.value = userSettings.dashboardTheme() || '';
         selectTheme.value = userSettings.theme() || '';
+
+        context.querySelector('.selectLayout').value = layoutManager.getSavedLayout() || '';
 
         loading.hide();
     }
@@ -80,6 +88,8 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'globalize', 'loadi
             skinManager.setTheme(userSettingsInstance.theme());
             refreshGlobalUserSettings(userSettingsInstance);
         }
+
+        layoutManager.setLayout(context.querySelector('.selectLayout').value);
 
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
     }
