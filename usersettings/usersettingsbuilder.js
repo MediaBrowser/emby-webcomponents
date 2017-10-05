@@ -218,6 +218,24 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return this.get('appTheme', false) || UserSettings.defaults.theme;
     };
 
+    UserSettings.prototype.screensaver = function (val) {
+
+        if (val != null) {
+            return this.set('screensaver', val, false);
+        }
+
+        return this.get('screensaver', false) || UserSettings.defaults.screensaver;
+    };
+
+    UserSettings.prototype.soundEffects = function (val) {
+
+        if (val != null) {
+            return this.set('soundeffects', val, false);
+        }
+
+        return this.get('soundeffects', false) || UserSettings.defaults.soundEffects;
+    };
+
     // apps should set these values
     UserSettings.defaults = {
         theme: null,

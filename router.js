@@ -363,7 +363,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function initApiClient(apiClient) {
 
-        if (browser.operaTv || browser.web0s) {
+        if (browser.operaTv) {
             initApiClientOperaTv(apiClient);
         }
         onApiClientCreated({}, apiClient);

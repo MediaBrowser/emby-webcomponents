@@ -118,6 +118,15 @@ define(['appStorage', 'events'], function (appStorage, events) {
         return [];
     };
 
+    AppSettings.prototype.runAtStartup = function (val) {
+
+        if (val != null) {
+            this.set('runatstartup', val.toString());
+        }
+
+        return this.get('runatstartup') === 'true';
+    };
+
     AppSettings.prototype.set = function (name, value, userId) {
 
         var currentValue = this.get(name, userId);

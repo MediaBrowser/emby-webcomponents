@@ -1,4 +1,4 @@
-define(['require', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-linkbutton'], function (require, layoutManager, appSettings, appHost, focusManager, globalize, loading, connectionManager, skinManager, dom, events) {
+define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-linkbutton'], function (require, layoutManager, appSettings, pluginManager, appHost, focusManager, globalize, loading, connectionManager, skinManager, dom, events) {
     "use strict";
 
     function fillThemes(select, isDashboard) {
@@ -17,6 +17,48 @@ define(['require', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'g
             return '<option value="' + value + '">' + t.name + '</option>';
 
         }).join('');
+    }
+
+    function loadScreensavers(context) {
+
+        var selectScreensaver = context.querySelector('.selectScreensaver');
+        var options = pluginManager.ofType('screensaver').map(function (plugin) {
+            return {
+                name: plugin.name,
+                value: plugin.id
+            };
+        });
+
+        options.unshift({
+            name: Globalize.translate('core#None'),
+            value: 'none'
+        });
+
+        selectScreensaver.innerHTML = options.map(function (o) {
+            return '<option value="' + o.value + '">' + o.name + '</option>';
+        }).join('');
+        selectScreensaver.value = screensaverManager.getCurrentId(true);
+    }
+
+    function loadSoundEffects(context) {
+
+        var selectSoundEffects = context.querySelector('.selectSoundEffects');
+        var options = pluginManager.ofType('soundeffects').map(function (plugin) {
+            return {
+                name: plugin.name,
+                value: plugin.id
+            };
+        });
+
+        options.unshift({
+            name: Globalize.translate('core#None'),
+            value: 'none'
+        });
+
+        selectSoundEffects.innerHTML = options.map(function (o) {
+            return '<option value="' + o.value + '">' + o.name + '</option>';
+        }).join('');
+        selectSoundEffects.value = soundEffectsManager.getCurrentId();
     }
 
     function loadForm(context, user, userSettings, apiClient) {
@@ -42,15 +84,38 @@ define(['require', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'g
             context.querySelector('.fldDisplayMode').classList.add('hide');
         }
 
+        if (appHost.supports('runatstartup')) {
+            context.querySelector('.fldAutorun').classList.remove('hide');
+        } else {
+            context.querySelector('.fldAutorun').classList.add('hide');
+        }
+
+        if (appHost.supports('soundeffects')) {
+            context.querySelector('.fldSoundEffects').classList.remove('hide');
+        } else {
+            context.querySelector('.fldSoundEffects').classList.add('hide');
+        }
+
+        if (appHost.supports('screensaver')) {
+            context.querySelector('.selectScreensaverContainer').classList.remove('hide');
+        } else {
+            context.querySelector('.selectScreensaverContainer').classList.add('hide');
+        }
+
+        context.querySelector('.chkRunAtStartup').checked = appSettings.runAtStartup();
+
         var selectTheme = context.querySelector('#selectTheme');
         var selectDashboardTheme = context.querySelector('#selectDashboardTheme');
 
         fillThemes(selectTheme);
         fillThemes(selectDashboardTheme, true);
+        loadScreensavers(context);
+        loadSoundEffects(context);
 
         context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
         context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
+        context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
@@ -71,6 +136,8 @@ define(['require', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'g
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
 
+        appSettings.runAtStartup(context.querySelector('.chkRunAtStartup').checked);
+
         user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;
 
         if (appHost.supports('displaylanguage')) {
@@ -78,8 +145,11 @@ define(['require', 'layoutManager', 'appSettings', 'apphost', 'focusManager', 'g
         }
 
         userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
+        userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
         userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
+        userSettingsInstance.set('soundeffects', context.querySelector('.selectSoundEffects').value);
+        userSettingsInstance.set('screensaver', context.querySelector('.selectScreensaver').value);
 
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
 

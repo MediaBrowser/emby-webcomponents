@@ -3,7 +3,7 @@
     <h1 class="sectionTitle">
         ${Display}
     </h1>
-    <div class="selectContainer languageSection">
+    <div class="selectContainer languageSection hide">
         <select id="selectLanguage" is="emby-select" label="${LabelDisplayLanguage}">
             <option value="">${Auto}</option>
             <option value="ar">Arabic</option>
@@ -80,6 +80,29 @@
         </label>
         <div class="fieldDescription checkboxFieldDescription">${EnableThemeSongsHelp}</div>
     </div>
+    <div class="checkboxContainer checkboxContainer-withDescription">
+        <label>
+            <input type="checkbox" is="emby-checkbox" id="chkThemeVideo" />
+            <span>${EnableThemeVideos}</span>
+        </label>
+        <div class="fieldDescription checkboxFieldDescription">${EnableThemeVideosHelp}</div>
+    </div>
+
+    <div class="selectContainer hide selectScreensaverContainer">
+        <select is="emby-select" class="selectScreensaver" label="${Screensaver}"></select>
+    </div>
+
+    <div class="selectContainer fldSoundEffects hide">
+        <select is="emby-select" class="selectSoundEffects" label="${SoundEffects}"></select>
+    </div>
+
+    <div class="checkboxContainer hide fldAutorun">
+        <label>
+            <input type="checkbox" is="emby-checkbox" class="chkRunAtStartup" />
+            <span>${RunAtStartup}</span>
+        </label>
+    </div>
+
     <div class="checkboxContainer checkboxContainer-withDescription">
         <label>
             <input type="checkbox" is="emby-checkbox" class="chkDisplayMissingEpisodes" />
