@@ -71,6 +71,27 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         }
     }
 
+    function loadSkins(context, userSettings) {
+
+        var selectSkin = context.querySelector('.selectSkin');
+
+        var options = pluginManager.ofType('skin').map(function (plugin) {
+            return {
+                name: plugin.name,
+                value: plugin.id
+            };
+        });
+
+        selectSkin.innerHTML = options.map(function (o) {
+            return '<option value="' + o.value + '">' + o.name + '</option>';
+        }).join('');
+        selectSkin.value = userSettings.skin();
+
+        if (!selectSkin.value && options.length) {
+            selectSkin.value = options[0].value;
+        }
+    }
+
     function loadForm(context, user, userSettings, apiClient) {
 
         var loggedInUserId = apiClient.getCurrentUserId();
@@ -127,6 +148,7 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         fillThemes(selectDashboardTheme, true);
         loadScreensavers(context, userSettings);
         loadSoundEffects(context, userSettings);
+        loadSkins(context, userSettings);
 
         context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
@@ -166,6 +188,8 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
         userSettingsInstance.soundEffects(context.querySelector('.selectSoundEffects').value);
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
+
+        userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
 

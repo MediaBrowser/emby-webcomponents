@@ -209,6 +209,15 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return this.get('dashboardTheme');
     };
 
+    UserSettings.prototype.skin = function (val) {
+
+        if (val != null) {
+            return this.set('skin', val, false);
+        }
+
+        return this.get('skin', false) || UserSettings.defaults.skin;
+    };
+
     UserSettings.prototype.theme = function (val) {
 
         if (val != null) {
