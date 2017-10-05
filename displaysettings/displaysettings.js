@@ -19,7 +19,7 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         }).join('');
     }
 
-    function loadScreensavers(context) {
+    function loadScreensavers(context, userSettings) {
 
         var selectScreensaver = context.querySelector('.selectScreensaver');
         var options = pluginManager.ofType('screensaver').map(function (plugin) {
@@ -30,17 +30,22 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         });
 
         options.unshift({
-            name: Globalize.translate('core#None'),
+            name: globalize.translate('sharedcomponents#None'),
             value: 'none'
         });
 
         selectScreensaver.innerHTML = options.map(function (o) {
             return '<option value="' + o.value + '">' + o.name + '</option>';
         }).join('');
-        selectScreensaver.value = screensaverManager.getCurrentId(true);
+        selectScreensaver.value = userSettings.screensaver();
+
+        if (!selectScreensaver.value) {
+            // TODO: set the default instead of none
+            selectScreensaver.value = 'none';
+        }
     }
 
-    function loadSoundEffects(context) {
+    function loadSoundEffects(context, userSettings) {
 
         var selectSoundEffects = context.querySelector('.selectSoundEffects');
         var options = pluginManager.ofType('soundeffects').map(function (plugin) {
@@ -51,14 +56,19 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         });
 
         options.unshift({
-            name: Globalize.translate('core#None'),
+            name: globalize.translate('sharedcomponents#None'),
             value: 'none'
         });
 
         selectSoundEffects.innerHTML = options.map(function (o) {
             return '<option value="' + o.value + '">' + o.name + '</option>';
         }).join('');
-        selectSoundEffects.value = soundEffectsManager.getCurrentId();
+        selectSoundEffects.value = userSettings.soundEffects();
+
+        if (!selectSoundEffects.value) {
+            // TODO: set the default instead of none
+            selectSoundEffects.value = 'none';
+        }
     }
 
     function loadForm(context, user, userSettings, apiClient) {
@@ -96,6 +106,12 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
             context.querySelector('.fldSoundEffects').classList.add('hide');
         }
 
+        if (appHost.supports('skins')) {
+            context.querySelector('.selectSkinContainer').classList.remove('hide');
+        } else {
+            context.querySelector('.selectSkinContainer').classList.add('hide');
+        }
+
         if (appHost.supports('screensaver')) {
             context.querySelector('.selectScreensaverContainer').classList.remove('hide');
         } else {
@@ -109,8 +125,8 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
 
         fillThemes(selectTheme);
         fillThemes(selectDashboardTheme, true);
-        loadScreensavers(context);
-        loadSoundEffects(context);
+        loadScreensavers(context, userSettings);
+        loadSoundEffects(context, userSettings);
 
         context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
@@ -148,8 +164,8 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
         userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
-        userSettingsInstance.set('soundeffects', context.querySelector('.selectSoundEffects').value);
-        userSettingsInstance.set('screensaver', context.querySelector('.selectScreensaver').value);
+        userSettingsInstance.soundEffects(context.querySelector('.selectSoundEffects').value);
+        userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
 
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
 
