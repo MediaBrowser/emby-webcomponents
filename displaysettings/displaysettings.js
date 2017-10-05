@@ -30,6 +30,12 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'globalize', 'loadi
             context.querySelector('.selectDashboardThemeContainer').classList.add('hide');
         }
 
+        if (appHost.supports('displaylanguage')) {
+            context.querySelector('.languageSection').classList.remove('hide');
+        } else {
+            context.querySelector('.languageSection').classList.add('hide');
+        }
+
         var selectTheme = context.querySelector('#selectTheme');
         var selectDashboardTheme = context.querySelector('#selectDashboardTheme');
 
@@ -39,7 +45,7 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'globalize', 'loadi
         context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
         context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
-        context.querySelector('#selectBackdrop').value = appStorage.getItem('enableBackdrops-' + user.Id) || '0';
+        context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
 
@@ -57,7 +63,21 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'globalize', 'loadi
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
 
-        if (user.Id === apiClient.getCurrentUserId()) {
+        user.Configuration.DisplayMissingEpisodes = context.querySelector('.chkDisplayMissingEpisodes').checked;
+
+        if (appHost.supports('displaylanguage')) {
+            userSettingsInstance.language(context.querySelector('#selectLanguage').value);
+        }
+
+        userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
+        userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
+        userSettingsInstance.theme(context.querySelector('#selectTheme').value);
+
+        userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
+
+        if (user.Id === Dashboard.getCurrentUserId()) {
+
+            skinManager.setTheme(userSettingsInstance.theme());
             refreshGlobalUserSettings(userSettingsInstance);
         }
 
