@@ -193,7 +193,7 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
 
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
 
-        if (user.Id === Dashboard.getCurrentUserId()) {
+        if (user.Id === apiClient.getCurrentUserId()) {
 
             skinManager.setTheme(userSettingsInstance.theme());
             refreshGlobalUserSettings(userSettingsInstance);
@@ -259,11 +259,7 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
                 options.element.querySelector('.btnSave').classList.remove('hide');
             }
 
-            self.loadData();
-
-            if (options.autoFocus) {
-                focusManager.autoFocus(options.element);
-            }
+            self.loadData(options.autoFocus);
         });
     }
 
@@ -274,7 +270,7 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         embed(options, this);
     }
 
-    DisplaySettings.prototype.loadData = function () {
+    DisplaySettings.prototype.loadData = function (autoFocus) {
 
         var self = this;
         var context = self.options.element;
@@ -285,13 +281,17 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         var apiClient = connectionManager.getApiClient(self.options.serverId);
         var userSettings = self.options.userSettings;
 
-        apiClient.getUser(userId).then(function (user) {
+        return apiClient.getUser(userId).then(function (user) {
 
-            userSettings.setUserInfo(userId, apiClient).then(function () {
+            return userSettings.setUserInfo(userId, apiClient).then(function () {
 
                 self.dataLoaded = true;
 
                 loadForm(context, user, userSettings, apiClient);
+
+                if (autoFocus) {
+                    focusManager.autoFocus(context);
+                }
             });
         });
     };
