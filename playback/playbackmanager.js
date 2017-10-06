@@ -101,6 +101,18 @@
         };
     }
 
+    function mergePlaybackQueries(obj1, obj2) {
+
+        var query = Object.assign(obj1, obj2);
+
+        var filters = query.Filters ? query.Filters.split(',') : [];
+        if (filters.indexOf('IsNotFolder') === -1) {
+            filters.push('IsNotFolder');
+        }
+        query.Filters = filters.join(',');
+        return query;
+    }
+
     function backdropImageUrl(apiClient, item, options) {
 
         options = options || {};
@@ -1608,6 +1620,8 @@
 
             var serverId = firstItem.ServerId;
 
+            var queryOptions = options.queryOptions || {};
+
             if (firstItem.Type === "Program") {
 
                 promise = getItemsForPlayback(serverId, {
@@ -1673,13 +1687,15 @@
             }
             else if (firstItem.IsFolder) {
 
-                promise = getItemsForPlayback(serverId, {
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+
                     ParentId: firstItem.Id,
                     Filters: "IsNotFolder",
                     Recursive: true,
                     SortBy: "SortName",
                     MediaTypes: "Audio,Video"
-                });
+
+                }, queryOptions));
             }
             else if (firstItem.Type === "Episode" && items.length === 1 && getPlayer(firstItem, options).supportsProgress !== false) {
 
@@ -3406,7 +3422,7 @@
         });
     };
 
-    PlaybackManager.prototype.shuffle = function (shuffleItem, player) {
+    PlaybackManager.prototype.shuffle = function (shuffleItem, player, queryOptions) {
 
         player = player || this._currentPlayer;
         if (player && player.shuffle) {
@@ -3422,7 +3438,6 @@
             var query = {
                 Fields: "MediaSources,Chapters",
                 Limit: 200,
-                Filters: "IsNotFolder",
                 Recursive: true,
                 SortBy: "Random"
             };
@@ -3445,6 +3460,10 @@
             }
             else {
                 return;
+            }
+
+            if (queryOptions) {
+                query = mergePlaybackQueries(query, queryOptions);
             }
 
             getItemsForPlayback(item.ServerId, query).then(function (result) {
