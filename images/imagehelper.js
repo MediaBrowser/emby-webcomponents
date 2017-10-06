@@ -5,8 +5,6 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         fn();
     };
 
-    //var imagesWorker = new Worker(require.toUrl('.').split('?')[0] + '/imagesworker.js');
-
     var self = {};
 
     // seeing slow performance with firefox
@@ -32,60 +30,15 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     function fillImageElement(elem, source, enableEffects) {
         imageFetcher.loadImage(elem, source).then(function () {
 
-            var fillingVibrant = fillVibrant(elem, source);
+            var fillingVibrant = false;//fillVibrant(elem, source);
 
-            if (enableFade && !layoutManager.tv && enableEffects !== false && !fillingVibrant) {
-                //fadeIn(elem);
+            if (enableFade && enableEffects !== false && !fillingVibrant) {
+                fadeIn(elem);
             }
 
             elem.removeAttribute("data-src");
         });
     }
-
-    //var placeholder = document.createElement('div');
-    //imagesWorker.onmessage = function (evt) {
-    //    placeholder.dispatchEvent(new CustomEvent('decoded', {
-    //        detail: evt.data,
-    //        bubbles: false,
-    //        cancellable: false
-    //    }));
-    //};
-
-    //var uniqueId = 0;
-
-    //function fillCanvas(elem, source) {
-
-    //    var newUniqueId = (++uniqueId);
-
-    //    imagesWorker.postMessage({
-    //        url: source,
-    //        id: newUniqueId
-    //    });
-
-    //    placeholder.addEventListener('decoded', function (e) {
-
-    //        if (e.detail.id == newUniqueId) {
-
-    //            var imageBitmap = e.detail.imageBitmap;
-    //            var canvas = document.createElement('canvas');
-    //            var canvasContext = canvas.getContext('2d');
-
-    //            //drawWidth *= ratio;
-    //            //drawHeight *= ratio;
-
-    //            // https://stackoverflow.com/questions/21961839/simulation-background-size-cover-in-canvas/21961894#21961894
-    //            canvasContext.imageSmoothingEnabled = false;
-    //            var width = canvas.width = elem.offsetWidth;
-    //            var height = canvas.height = elem.offsetHeight;
-    //            canvasContext.drawImage(imageBitmap, 0, 0, imageBitmap.width, imageBitmap.height, 0, 0, width, height);
-
-    //            fillVibrant(elem, source, canvas, canvasContext);
-
-    //            elem.insertBefore(canvas, elem.firstChild);
-    //            elem.removeAttribute("data-src");
-    //        }
-    //    });
-    //}
 
     function fillVibrant(img, url, canvas, canvasContext) {
 
@@ -214,7 +167,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
 
     function fadeIn(elem) {
 
-        var cssClass = layoutManager.tv ? 'lazy-image-fadein-fast' : 'lazy-image-fadein';
+        var cssClass = 'lazy-image-fadein';
 
         elem.classList.add(cssClass);
     }

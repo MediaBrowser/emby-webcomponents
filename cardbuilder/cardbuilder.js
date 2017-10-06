@@ -692,6 +692,33 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording';
         }
 
+        function getAirTimeText(item, showAirDateTime, showAirEndTime) {
+            
+            var airTimeText = '';
+            if (item.StartDate) {
+
+                try {
+                    var date = datetime.parseISO8601Date(item.StartDate);
+
+                    if (showAirDateTime) {
+                        airTimeText += datetime.toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' }) + ' ';
+                    }
+
+                    airTimeText += datetime.getDisplayTime(date);
+
+                    if (item.EndDate && showAirEndTime) {
+                        date = datetime.parseISO8601Date(item.EndDate);
+                        airTimeText += ' - ' + datetime.getDisplayTime(date);
+                    }
+                }
+                catch (e) {
+                    console.log("Error parsing date: " + item.StartDate);
+                }
+            }
+
+            return airTimeText;
+        }
+
         var uniqueFooterIndex = 0;
         function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, isOuterFooter, cardFooterId, vibrantSwatch) {
 
@@ -848,29 +875,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.showAirTime) {
 
-                    var airTimeText = '';
-                    if (item.StartDate) {
-
-                        try {
-                            var date = datetime.parseISO8601Date(item.StartDate);
-
-                            if (options.showAirDateTime) {
-                                airTimeText += datetime.toLocaleDateString(date, { weekday: 'short', month: 'short', day: 'numeric' }) + ' ';
-                            }
-
-                            airTimeText += datetime.getDisplayTime(date);
-
-                            if (item.EndDate && options.showAirEndTime) {
-                                date = datetime.parseISO8601Date(item.EndDate);
-                                airTimeText += ' - ' + datetime.getDisplayTime(date);
-                            }
-                        }
-                        catch (e) {
-                            console.log("Error parsing date: " + item.PremiereDate);
-                        }
-                    }
-
-                    lines.push(airTimeText || '');
+                    lines.push(getAirTimeText(item, options.showAirDateTime, options.showAirEndTime) || '');
                 }
 
                 if (options.showChannelName) {
@@ -909,6 +914,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (item.CurrentProgram) {
                         lines.push(item.CurrentProgram.Name);
+                    } else {
+                        lines.push('');
+                    }
+                }
+
+                if (options.showCurrentProgramTime && item.Type === 'TvChannel') {
+
+                    if (item.CurrentProgram) {
+                        lines.push(getAirTimeText(item.CurrentProgram, false, true) || '');
                     } else {
                         lines.push('');
                     }
@@ -1146,10 +1160,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var action = options.action || 'link';
 
-            var scalable = options.scalable !== false;
-            if (scalable) {
-                className += " scalableCard " + options.shape + "Card-scalable";
-            }
+            className += " scalableCard " + options.shape + "Card-scalable";
 
             if (options.cardClass) {
                 className += " " + options.cardClass;
@@ -1185,7 +1196,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerClass += ' ' + getDefaultColorClass(item.Name);
             }
 
-            var separateCardBox = scalable;
             var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
 
             if (layoutManager.tv) {
@@ -1194,7 +1204,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     cardBoxClass += ' cardBox-focustransform';
                 }
 
-                if (options.cardLayout || !separateCardBox) {
+                if (options.cardLayout) {
                     cardBoxClass += ' card-focuscontent';
                 }
             }
@@ -1240,10 +1250,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardBoxClass += ' cardBox-bottompadded';
             }
 
-            if (!separateCardBox) {
-                cardImageContainerClass += " " + cardBoxClass;
-            }
-
             var overlayButtons = '';
             if (!layoutManager.tv) {
 
@@ -1287,70 +1293,52 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var cardContentClose = '';
             var cardScalableClose = '';
 
-            if (separateCardBox) {
-                var cardContentOpen;
+            var cardContentOpen;
 
-                var cardContentClass = 'cardContent';
-                if (!options.cardLayout) {
-                    cardContentClass += ' cardContent-shadow';
-                }
-
-                if (layoutManager.tv) {
-                    cardContentOpen = '<div class="' + cardContentClass + '">';
-                    cardContentClose = '</div>';
-                } else {
-                    cardContentOpen = '<button type="button" class="clearButton ' + cardContentClass + ' itemAction" data-action="' + action + '">';
-                    cardContentClose = '</button>';
-                }
-
-                var vibrantAttributes = options.vibrant && imgUrl && !vibrantSwatch ?
-                    (' data-vibrant="' + cardFooterId + '" data-swatch="db"') :
-                    '';
-
-                // Don't use the IMG tag with safari because it puts a white border around it
-                if (vibrantAttributes && !browser.safari) {
-                    cardImageContainerOpen = '<div class="' + cardImageContainerClass + '">';
-
-                    var imgClass = 'cardImage cardImage-img lazy';
-                    if (coveredImage) {
-                        if (devicePixelRatio === 1) {
-                            imgClass += ' coveredImage-noscale-img';
-                        } else {
-                            imgClass += ' coveredImage-img';
-                        }
-                    }
-                    cardImageContainerOpen += '<img crossOrigin="Anonymous" class="' + imgClass + '"' + vibrantAttributes + ' data-src="' + imgUrl + '" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />';
-
-                } else {
-                    cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy"' + vibrantAttributes + ' data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + '">');
-                }
-
-                var cardScalableClass = 'cardScalable';
-
-                if (!browser.slow) {
-                    cardScalableClass += ' popIn';
-                }
-
-                if (layoutManager.tv && !options.cardLayout) {
-                    cardScalableClass += ' card-focuscontent';
-                }
-                cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + options.shape + '"></div>' + cardContentOpen + cardImageContainerOpen;
-                cardBoxClose = '</div>';
-                cardScalableClose = '</div>';
-                cardImageContainerClose = '</div>';
-            } else {
-
-                if (overlayButtons && !separateCardBox) {
-                    cardImageContainerClass += ' cardImageContainerClass-button';
-                    cardImageContainerOpen = imgUrl ? ('<button type="button" data-action="' + action + '" class="itemAction ' + cardImageContainerClass + ' lazy" data-src="' + imgUrl + '">') : ('<button type="button" data-action="' + action + '" class="itemAction ' + cardImageContainerClass + '">');
-                    cardImageContainerClose = '</button>';
-
-                    className += ' forceRelative';
-                } else {
-                    cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + '">');
-                    cardImageContainerClose = '</div>';
-                }
+            var cardContentClass = 'cardContent';
+            if (!options.cardLayout) {
+                cardContentClass += ' cardContent-shadow';
             }
+
+            if (layoutManager.tv) {
+                cardContentOpen = '<div class="' + cardContentClass + '">';
+                cardContentClose = '</div>';
+            } else {
+                cardContentOpen = '<button type="button" class="clearButton ' + cardContentClass + ' itemAction" data-action="' + action + '">';
+                cardContentClose = '</button>';
+            }
+
+            var vibrantAttributes = options.vibrant && imgUrl && !vibrantSwatch ?
+                (' data-vibrant="' + cardFooterId + '" data-swatch="db"') :
+                '';
+
+            // Don't use the IMG tag with safari because it puts a white border around it
+            if (vibrantAttributes && !browser.safari) {
+                cardImageContainerOpen = '<div class="' + cardImageContainerClass + '">';
+
+                var imgClass = 'cardImage cardImage-img lazy';
+                if (coveredImage) {
+                    if (devicePixelRatio === 1) {
+                        imgClass += ' coveredImage-noscale-img';
+                    } else {
+                        imgClass += ' coveredImage-img';
+                    }
+                }
+                cardImageContainerOpen += '<img crossOrigin="Anonymous" class="' + imgClass + '"' + vibrantAttributes + ' data-src="' + imgUrl + '" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />';
+
+            } else {
+                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy"' + vibrantAttributes + ' data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + '">');
+            }
+
+            var cardScalableClass = 'cardScalable';
+
+            if (layoutManager.tv && !options.cardLayout) {
+                cardScalableClass += ' card-focuscontent';
+            }
+            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + options.shape + '"></div>' + cardContentOpen + cardImageContainerOpen;
+            cardBoxClose = '</div>';
+            cardScalableClose = '</div>';
+            cardImageContainerClose = '</div>';
 
             var indicatorsHtml = '';
 
@@ -1390,7 +1378,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerOpen += '<div class="cardText cardDefaultText">' + defaultName + '</div>';
             }
 
-            var tagName = (layoutManager.tv || !scalable) && !overlayButtons ? 'button' : 'div';
+            var tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
 
             var nameWithPrefix = (item.SortName || item.Name || '');
             var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
