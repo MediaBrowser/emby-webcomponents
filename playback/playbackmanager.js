@@ -392,7 +392,7 @@
         deviceProfile,
         maxBitrate,
         startPosition,
-        mediaSource,
+        mediaSourceId,
         audioStreamIndex,
         subtitleStreamIndex,
         liveStreamId,
@@ -441,8 +441,8 @@
         if (allowAudioStreamCopy != null) {
             query.AllowAudioStreamCopy = allowAudioStreamCopy;
         }
-        if (mediaSource) {
-            query.MediaSourceId = mediaSource.Id;
+        if (mediaSourceId) {
+            query.MediaSourceId = mediaSourceId;
         }
         if (liveStreamId) {
             query.LiveStreamId = liveStreamId;
@@ -1553,7 +1553,7 @@
 
                 var maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
 
-                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, currentMediaSource, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
+                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, currentMediaSource.Id, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
 
                     if (validatePlaybackInfoResult(self, result)) {
 
@@ -2144,7 +2144,11 @@
                     return sendPlaybackListToPlayer(player, playOptions.items, deviceProfile, maxBitrate, apiClient, startPosition);
                 }
 
-                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition).then(function (mediaSource) {
+                var mediaSourceId = playOptions.mediaSourceId;
+                var audioStreamIndex = playOptions.audioStreamIndex;
+                var subtitleStreamIndex = playOptions.subtitleStreamIndex;
+
+                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (mediaSource) {
 
                     var streamInfo = createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
 
@@ -2171,6 +2175,28 @@
                 });
             });
         }
+
+        self.getPlaybackInfo = function (item, options) {
+
+            var playOptions = {};
+            var startPosition = 0;
+            var mediaType = options.mediaType || item.MediaType;
+            var player = getPlayer(item, playOptions);
+            var apiClient = connectionManager.getApiClient(item.ServerId);
+            var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
+
+            return player.getDeviceProfile(item).then(function (deviceProfile) {
+
+                var mediaSourceId = null;
+                var audioStreamIndex = null;
+                var subtitleStreamIndex = null;
+
+                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (mediaSource) {
+
+                    return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
+                });
+            });
+        };
 
         function createStreamInfo(apiClient, type, item, mediaSource, startPosition, forceTranscoding) {
 
@@ -2363,14 +2389,9 @@
             return tracks;
         }
 
-        function getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, callback) {
+        function getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex) {
 
-            if (item.MediaType === "Video") {
-
-                //Dashboard.showModalLoadingMsg();
-            }
-
-            return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition).then(function (playbackInfoResult) {
+            return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (playbackInfoResult) {
 
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
 
@@ -2393,7 +2414,6 @@
                                 return mediaSource;
                             }
                         } else {
-                            //Dashboard.hideModalLoadingMsg();
                             showPlaybackInfoErrorMessage(self, 'NoCompatibleStream');
                             return Promise.reject();
                         }
@@ -2450,7 +2470,10 @@
 
             if (newItem) {
                 var playOptions = Object.assign({}, currentPlayOptions, {
-                    startPositionTicks: 0
+                    startPositionTicks: 0,
+                    mediaSourceId: null,
+                    audioStreamIndex: null,
+                    subtitleStreamIndex: null
                 });
 
                 playInternal(newItem, playOptions, function () {
@@ -2545,7 +2568,10 @@
                 console.log('playing next track');
 
                 var playOptions = Object.assign({}, currentPlayOptions, {
-                    startPositionTicks: 0
+                    startPositionTicks: 0,
+                    mediaSourceId: null,
+                    audioStreamIndex: null,
+                    subtitleStreamIndex: null
                 });
 
                 playInternal(newItemInfo.item, playOptions, function () {
@@ -2570,7 +2596,10 @@
                 if (newItem) {
 
                     var playOptions = Object.assign({}, currentPlayOptions, {
-                        startPositionTicks: 0
+                        startPositionTicks: 0,
+                        mediaSourceId: null,
+                        audioStreamIndex: null,
+                        subtitleStreamIndex: null
                     });
 
                     playInternal(newItem, playOptions, function () {
