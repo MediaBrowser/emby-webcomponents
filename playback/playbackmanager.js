@@ -2027,7 +2027,6 @@
 
         function destroyPlayer(player) {
             player.destroy();
-            releaseResourceLocks(player);
         }
 
         function runInterceptors(item, playOptions) {
@@ -2683,8 +2682,6 @@
 
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;
-
-            acquireResourceLocks(player, streamInfo.mediaType);
         }
 
         function onPlaybackStartedFromSelfManagingPlayer(e, item, mediaSource) {
@@ -2757,71 +2754,6 @@
             if (newPlayer !== player) {
                 destroyPlayer(player);
                 removeCurrentPlayer(player);
-            }
-        }
-
-        function acquireResourceLocks(player, mediaType) {
-
-            if (!player) {
-                throw new Error('player cannot be null');
-            }
-
-            if (!player.isLocalPlayer || player.hasResourceLocks) {
-                return;
-            }
-
-            var playerData = getPlayerData(player);
-            playerData.resourceLocks = playerData.resourceLocks || {};
-            var locks = playerData.resourceLocks;
-
-            ensureLock(locks, 'network');
-            ensureLock(locks, 'wake');
-
-            if (mediaType === 'Video') {
-                ensureLock(locks, 'screen');
-            }
-        }
-
-        function ensureLock(locks, resourceType) {
-
-            var prop = resourceType + 'Lock';
-            var existingLock = locks[prop];
-            if (existingLock) {
-                existingLock.acquire();
-                return;
-            }
-
-            require(['resourceLockManager'], function (resourceLockManager) {
-                resourceLockManager.request(resourceType).then(function (resourceLock) {
-                    locks[prop] = resourceLock;
-                    resourceLock.acquire();
-                }, function () {
-                    // not supported or not allowed
-                });
-            });
-        }
-
-        function releaseResourceLocks(player) {
-
-            if (!player) {
-                throw new Error('player cannot be null');
-            }
-
-            if (!player.isLocalPlayer || player.hasResourceLocks) {
-                return;
-            }
-
-            var playerData = getPlayerData(player);
-            var locks = playerData.resourceLocks || {};
-
-            if (locks.wakeLock) {
-                locks.wakeLock.release();
-            }
-            if (locks.networkLock) {
-                locks.networkLock.release();
-            }
-            if (locks.screenLock) {
-                locks.screenLock.release();
             }
         }
 
