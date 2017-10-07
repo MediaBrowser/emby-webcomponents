@@ -1692,7 +1692,8 @@
                     ParentId: firstItem.Id,
                     Filters: "IsNotFolder",
                     Recursive: true,
-                    SortBy: "SortName",
+                    // These are pre-sorted
+                    SortBy: ['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null,
                     MediaTypes: "Audio,Video"
 
                 }, queryOptions));
