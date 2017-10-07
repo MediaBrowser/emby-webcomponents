@@ -258,8 +258,6 @@
 
         if (listInstance.options.isLocalSync) {
             options.TargetId = apiClient.deviceId();
-        } else if (listInstance.options.enableRemoteSyncManagement === false) {
-            options.SupportsRemoteSync = true;
         }
 
         return apiClient.getJSON(apiClient.getUrl('Sync/Jobs', options)).then(function (response) {

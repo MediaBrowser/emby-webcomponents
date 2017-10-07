@@ -420,8 +420,7 @@
             }).join(','),
 
             ParentId: options.ParentId,
-            Category: options.Category,
-            SupportsRemoteSync: options.isLocalSync ? null : true
+            Category: options.Category
         });
 
         return dialogOptionsFn().then(function (dialogOptions) {
