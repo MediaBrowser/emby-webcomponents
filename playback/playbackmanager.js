@@ -1,4 +1,4 @@
-﻿define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'serverNotifications', 'apphost', 'fullscreenManager', 'layoutManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, serverNotifications, apphost, fullscreenManager, layoutManager) {
+﻿define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'serverNotifications', 'apphost', 'fullscreenManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, serverNotifications, apphost, fullscreenManager) {
     'use strict';
 
     function enableLocalPlaylistManagement(player) {
@@ -3565,7 +3565,7 @@
                 "SetRepeatMode"
             ];
 
-            if (apphost.supports('fullscreenchange') && !layoutManager.tv) {
+            if (apphost.supports('fullscreenchange')) {
                 list.push('ToggleFullscreen');
             }
 

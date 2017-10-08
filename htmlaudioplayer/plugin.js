@@ -176,7 +176,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
             }, function () {
 
                 elem.autoplay = true;
-                var mimeType = options.mimeType;
 
                 return htmlMediaHelper.applySrc(elem, val, options).then(function () {
 
