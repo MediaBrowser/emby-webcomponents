@@ -46,7 +46,7 @@ html {
 }
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(6, 6, 6, .9);
+        background-color: rgba(12,12,12, .9);
     }
 
 .detailBackgroundContainer.withBackdrop {
