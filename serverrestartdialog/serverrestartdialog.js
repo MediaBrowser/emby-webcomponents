@@ -66,7 +66,7 @@
 
         var dlg = dialogHelper.createDialog(dialogOptions);
 
-        var buttons = [];
+        var configuredButtons = [];
 
         dlg.classList.add('formDialog');
 
@@ -83,7 +83,7 @@
             formDialogContent.style['max-height'] = '60%';
             scrollHelper.centerFocus.on(formDialogContent, false);
         } else {
-            formDialogContent.style.maxWidth = (Math.min((buttons.length * 150) + 200, dom.getWindowSize().innerWidth - 50)) + 'px';
+            formDialogContent.style.maxWidth = (Math.min((configuredButtons.length * 150) + 200, dom.getWindowSize().innerWidth - 50)) + 'px';
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
@@ -97,9 +97,9 @@
 
         var i, length;
         var html = '';
-        for (i = 0, length = buttons.length; i < length; i++) {
+        for (i = 0, length = configuredButtons.length; i < length; i++) {
 
-            var item = buttons[i];
+            var item = configuredButtons[i];
             var autoFocus = i === 0 ? ' autofocus' : '';
 
             var buttonClass = 'btnOption raised formDialogFooterItem formDialogFooterItem-autosize';
