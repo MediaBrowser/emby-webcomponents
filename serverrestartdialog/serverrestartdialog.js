@@ -1,8 +1,9 @@
-﻿define(['loading', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (loading, dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
+﻿define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (loading, events, dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
     var currentApiClient;
     var currentDlg;
+    var currentInstance;
 
     function reloadPageWhenServerAvailable(retryCount) {
 
@@ -17,6 +18,7 @@
 
             // If this is back to false, the restart completed
             if (!info.IsShuttingDown) {
+                currentInstance.restarted = true;
                 dialogHelper.close(currentDlg);
             } else {
                 retryReload(retryCount);
@@ -39,10 +41,11 @@
         }, 500);
     }
 
-    function startRestart(apiClient, dlg) {
+    function startRestart(instance, apiClient, dlg) {
 
         currentApiClient = apiClient;
         currentDlg = dlg;
+        currentInstance = instance;
 
         apiClient.restartServer().then(function () {
 
@@ -124,7 +127,7 @@
 
         var dlgPromise = dialogHelper.open(dlg);
 
-        startRestart(options.apiClient, dlg);
+        startRestart(instance, options.apiClient, dlg);
 
         return dlgPromise.then(function () {
 
@@ -134,13 +137,16 @@
 
             instance.destroy();
             loading.hide();
+
+            if (instance.restarted) {
+                events.trigger(instance, 'restarted');
+            }
         });
     }
 
     function ServerRestartDialog(options) {
 
         this.options = options;
-        this.show();
     }
 
     ServerRestartDialog.prototype.show = function () {
@@ -159,6 +165,7 @@
 
         currentApiClient = null;
         currentDlg = null;
+        currentInstance = null;
         this.options = null;
     };
 

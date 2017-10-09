@@ -1,7 +1,6 @@
 ﻿// from https://github.com/jakearchibald/idb
 
 (function () {
-
     'use strict';
 
     function toArray(arr) {
@@ -46,6 +45,9 @@
             Object.defineProperty(ProxyClass.prototype, prop, {
                 get: function () {
                     return this[targetProp][prop];
+                },
+                set: function (val) {
+                    this[targetProp][prop] = val;
                 }
             });
         });
@@ -89,23 +91,23 @@
     }
 
     proxyProperties(Index, '_index', [
-      'name',
-      'keyPath',
-      'multiEntry',
-      'unique'
+        'name',
+        'keyPath',
+        'multiEntry',
+        'unique'
     ]);
 
     proxyRequestMethods(Index, '_index', IDBIndex, [
-      'get',
-      'getKey',
-      'getAll',
-      'getAllKeys',
-      'count'
+        'get',
+        'getKey',
+        'getAll',
+        'getAllKeys',
+        'count'
     ]);
 
     proxyCursorRequestMethods(Index, '_index', IDBIndex, [
-      'openCursor',
-      'openKeyCursor'
+        'openCursor',
+        'openKeyCursor'
     ]);
 
     function Cursor(cursor, request) {
@@ -114,15 +116,15 @@
     }
 
     proxyProperties(Cursor, '_cursor', [
-      'direction',
-      'key',
-      'primaryKey',
-      'value'
+        'direction',
+        'key',
+        'primaryKey',
+        'value'
     ]);
 
     proxyRequestMethods(Cursor, '_cursor', IDBCursor, [
-      'update',
-      'delete'
+        'update',
+        'delete'
     ]);
 
     // proxy 'next' methods
@@ -158,30 +160,31 @@
     };
 
     proxyProperties(ObjectStore, '_store', [
-      'name',
-      'keyPath',
-      'indexNames',
-      'autoIncrement'
+        'name',
+        'keyPath',
+        'indexNames',
+        'autoIncrement'
     ]);
 
     proxyRequestMethods(ObjectStore, '_store', IDBObjectStore, [
-      'put',
-      'add',
-      'delete',
-      'clear',
-      'get',
-      'getAll',
-      'getAllKeys',
-      'count'
+        'put',
+        'add',
+        'delete',
+        'clear',
+        'get',
+        'getAll',
+        'getKey',
+        'getAllKeys',
+        'count'
     ]);
 
     proxyCursorRequestMethods(ObjectStore, '_store', IDBObjectStore, [
-      'openCursor',
-      'openKeyCursor'
+        'openCursor',
+        'openKeyCursor'
     ]);
 
     proxyMethods(ObjectStore, '_store', IDBObjectStore, [
-      'deleteIndex'
+        'deleteIndex'
     ]);
 
     function Transaction(idbTransaction) {
@@ -204,12 +207,12 @@
     };
 
     proxyProperties(Transaction, '_tx', [
-      'objectStoreNames',
-      'mode'
+        'objectStoreNames',
+        'mode'
     ]);
 
     proxyMethods(Transaction, '_tx', IDBTransaction, [
-      'abort'
+        'abort'
     ]);
 
     function UpgradeDB(db, oldVersion, transaction) {
@@ -223,14 +226,14 @@
     };
 
     proxyProperties(UpgradeDB, '_db', [
-      'name',
-      'version',
-      'objectStoreNames'
+        'name',
+        'version',
+        'objectStoreNames'
     ]);
 
     proxyMethods(UpgradeDB, '_db', IDBDatabase, [
-      'deleteObjectStore',
-      'close'
+        'deleteObjectStore',
+        'close'
     ]);
 
     function DB(db) {
@@ -242,13 +245,13 @@
     };
 
     proxyProperties(DB, '_db', [
-      'name',
-      'version',
-      'objectStoreNames'
+        'name',
+        'version',
+        'objectStoreNames'
     ]);
 
     proxyMethods(DB, '_db', IDBDatabase, [
-      'close'
+        'close'
     ]);
 
     // Add cursor iterators
@@ -316,6 +319,7 @@
 
     if (typeof module !== 'undefined') {
         module.exports = exp;
+        module.exports.default = module.exports;
     }
     else {
         self.idb = exp;
