@@ -1,4 +1,4 @@
-﻿define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'serverNotifications', 'apphost', 'fullscreenManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, serverNotifications, apphost, fullscreenManager) {
+﻿define(['events', 'datetime', 'appSettings', 'itemHelper', 'pluginManager', 'playQueueManager', 'userSettings', 'globalize', 'connectionManager', 'loading', 'apphost', 'fullscreenManager'], function (events, datetime, appSettings, itemHelper, pluginManager, PlayQueueManager, userSettings, globalize, connectionManager, loading, apphost, fullscreenManager) {
     'use strict';
 
     function enableLocalPlaylistManagement(player) {
@@ -3092,23 +3092,6 @@
             }
         };
 
-        window.addEventListener("beforeunload", function (e) {
-
-            try {
-                self.onAppClose();
-            } catch (err) {
-                console.log('error in onAppClose: ' + err);
-            }
-        });
-
-        events.on(serverNotifications, 'ServerShuttingDown', function (e, apiClient, data) {
-            self.setDefaultPlayerActive();
-        });
-
-        events.on(serverNotifications, 'ServerRestarting', function (e, apiClient, data) {
-            self.setDefaultPlayerActive();
-        });
-
         self.playbackStartTime = function (player) {
 
             player = player || this._currentPlayer;
@@ -3119,6 +3102,14 @@
             var streamInfo = getPlayerData(player).streamInfo;
             return streamInfo ? streamInfo.playbackStartTimeTicks : null;
         };
+
+        if (apphost.supports('remotecontrol')) {
+
+            require(['serverNotifications'], function (serverNotifications) {
+                events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(this));
+                events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(this));
+            });
+        }
     }
 
     PlaybackManager.prototype.getCurrentPlayer = function () {
