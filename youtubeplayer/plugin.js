@@ -176,6 +176,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
                         window.addEventListener('resize', resizeListener);
                     } else {
                         resizeListener = instance.resizeListener = onVideoResize.bind(instance);
+                        window.addEventListener('resize', resizeListener);
                     }
                     window.removeEventListener('orientationChange', resizeListener);
                     window.addEventListener('orientationChange', resizeListener);
@@ -403,7 +404,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
-            currentYoutubePlayer.isMuted();
+            return currentYoutubePlayer.isMuted();
         }
     };
 
