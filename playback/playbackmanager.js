@@ -2179,6 +2179,7 @@
 
         self.getPlaybackInfo = function (item, options) {
 
+            options = options || {};
             var playOptions = {};
             var startPosition = 0;
             var mediaType = options.mediaType || item.MediaType;
