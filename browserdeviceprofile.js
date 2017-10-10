@@ -341,7 +341,7 @@ define(['browser'], function (browser) {
     return function (options) {
 
         options = options || {};
-        var physicalAudioChannels = options.audioChannels || (browser.mobile ? 2 : 6);
+        var physicalAudioChannels = options.audioChannels || (browser.tv || browser.chromecast || browser.ps4 || browser.xboxOne ? 6 : 2);
 
         var bitrateSetting = getMaxBitrate();
 
@@ -390,11 +390,16 @@ define(['browser'], function (browser) {
             }
         }
 
-        var mp3Added = false;
-        if (canPlayMkv) {
-            if (supportsMp3VideoAudio) {
-                mp3Added = true;
-                videoAudioCodecs.push('mp3');
+        if (supportsMp3VideoAudio) {
+            videoAudioCodecs.push('mp3');
+
+            // PS4 fails to load HLS with mp3 audio
+            if (!browser.ps4) {
+
+                // mp3 encoder only supports 2 channels, so only make that preferred if we're only requesting 2 channels
+                if (physicalAudioChannels <= 2) {
+                    hlsVideoAudioCodecs.push('mp3');
+                }
             }
         }
         if (videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '')) {
@@ -402,12 +407,11 @@ define(['browser'], function (browser) {
             hlsVideoAudioCodecs.push('aac');
         }
         if (supportsMp3VideoAudio) {
-            if (!mp3Added) {
-                videoAudioCodecs.push('mp3');
-            }
+            // PS4 fails to load HLS with mp3 audio
             if (!browser.ps4) {
-                // PS4 fails to load HLS with mp3 audio
-                hlsVideoAudioCodecs.push('mp3');
+                if (hlsVideoAudioCodecs.indexOf('mp3') === -1) {
+                    hlsVideoAudioCodecs.push('mp3');
+                }
             }
         }
 
