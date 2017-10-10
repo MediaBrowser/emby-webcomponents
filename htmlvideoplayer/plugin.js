@@ -522,45 +522,15 @@
             } else {
 
                 elem.autoplay = true;
-                var mimeType = options.mimeType;
 
-                // Opera TV guidelines suggest using source elements, so let's do that if we have a valid mimeType
-                if (mimeType && browser.operaTv) {
+                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
 
-                    if (browser.chrome && mimeType === 'video/x-matroska') {
-                        mimeType = 'video/webm';
-                    }
+                    setTracks(elem, tracks, options.item, options.mediaSource);
 
-                    // Need to do this or we won't be able to restart a new stream
-                    if (elem.currentSrc) {
-                        elem.src = '';
-                        elem.removeAttribute('src');
-                    }
+                    self._currentSrc = val;
 
-                    elem.innerHTML = '<source src="' +
-                        val +
-                        '" type="' +
-                        mimeType +
-                        '">' +
-                        getTracksHtml(tracks, options.item, options.mediaSource);
-
-                    elem.addEventListener('loadedmetadata', onLoadedMetadata);
-                } else {
-
-                    return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-
-                        setTracks(elem, tracks, options.item, options.mediaSource);
-
-                        self._currentSrc = val;
-
-                        return htmlMediaHelper.playWithPromise(elem, onError);
-                    });
-                }
-
-                // This is needed in setCurrentTrackElement
-                self._currentSrc = val;
-
-                return htmlMediaHelper.playWithPromise(elem, onError);
+                    return htmlMediaHelper.playWithPromise(elem, onError);
+                });
             }
         }
 
