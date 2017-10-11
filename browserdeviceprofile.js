@@ -433,7 +433,7 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('truehd');
         }
 
-        if (browser.tizen) {
+        if (browser.tizen || browser.orsay) {
             videoAudioCodecs.push('aac_latm');
         }
 
