@@ -56,8 +56,32 @@
         }
     };
 
+    function arrayInsertAt(destArray, pos, arrayToInsert) {
+        var args = [];
+        args.push(pos);                           // where to insert
+        args.push(0);                             // nothing to remove
+        args = args.concat(arrayToInsert);        // add on array to insert
+        destArray.splice.apply(destArray, args);  // splice it in
+    }
+
     PlayQueueManager.prototype.queueNext = function (items) {
-        this.queue(items);
+
+        var i, length;
+
+        for (i = 0, length = items.length; i < length; i++) {
+
+            addUniquePlaylistItemId(items[i]);
+        }
+
+        var currentIndex = this.getCurrentPlaylistIndex();
+
+        if (currentIndex === -1) {
+            currentIndex = this._playlist.length;
+        } else {
+            currentIndex++;
+        }
+
+        arrayInsertAt(this._playlist, currentIndex, items);
     };
 
     PlayQueueManager.prototype.getCurrentPlaylistIndex = function () {

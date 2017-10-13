@@ -351,7 +351,7 @@
             var item = items[i];
             var streamUrl;
 
-            if (item.MediaType === 'Audio') {
+            if (item.MediaType === 'Audio' && !itemHelper.isLocalItem(item)) {
                 streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
             }
 
@@ -411,6 +411,12 @@
                         MediaStreams: [],
                         RunTimeTicks: item.RunTimeTicks
                     }]
+            });
+        }
+
+        if (item.PresetMediaSource) {
+            return Promise.resolve({
+                MediaSources: [item.PresetMediaSource]
             });
         }
 

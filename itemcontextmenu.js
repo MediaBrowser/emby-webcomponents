@@ -33,7 +33,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             });
         }
 
-        if (playbackManager.canQueue(item)) {
+        var canQueueItem = playbackManager.canQueue(item);
+
+        if (canQueueItem) {
             if (options.queue !== false) {
                 commands.push({
                     name: globalize.translate('sharedcomponents#AddToPlayQueue'),
@@ -180,6 +182,15 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
+        if (canQueueItem) {
+            if (options.queue !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#PlayNext'),
+                    id: 'queuenext'
+                });
+            }
+        }
+
         if (item.Type === 'Program' && options.record !== false) {
 
             if (!item.TimerId) {
@@ -309,11 +320,11 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                             var downloadHref = apiClient.getItemDownloadUrl(itemId);
 
                             fileDownloader.download([
-                            {
-                                url: downloadHref,
-                                itemId: itemId,
-                                serverId: serverId
-                            }]);
+                                {
+                                    url: downloadHref,
+                                    itemId: itemId,
+                                    serverId: serverId
+                                }]);
 
                             getResolveFunction(getResolveFunction(resolve, id), id)();
                         });
@@ -380,6 +391,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 case 'queue':
                     {
                         play(item, false, true);
+                        getResolveFunction(resolve, id)();
+                        break;
+                    }
+                case 'queuenext':
+                    {
+                        play(item, false, true, true);
                         getResolveFunction(resolve, id)();
                         break;
                     }
@@ -527,9 +544,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function play(item, resume, queue) {
+    function play(item, resume, queue, queueNext) {
 
-        var method = queue ? 'queue' : 'play';
+        var method = queue ? (queueNext ? 'queueNext' : 'queue') : 'play';
 
         var startPosition = 0;
         if (resume && item.UserData && item.UserData.PlaybackPositionTicks) {
