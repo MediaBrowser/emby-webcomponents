@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', './social-share-kit-1.0.10/dist/js/social-share-kit.min', 'css!./social-share-kit-1.0.10/dist/css/social-share-kit.css', 'emby-button'], function (dialogHelper, layoutManager, globalize) {
+﻿define(['dialogHelper', 'layoutManager', 'globalize', './socialsharekit/dist/js/social-share-kit.min', 'css!./socialsharekit/dist/css/social-share-kit.css', 'emby-button'], function (dialogHelper, layoutManager, globalize) {
     'use strict';
 
     function showMenu(options) {
