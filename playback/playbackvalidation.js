@@ -10,12 +10,20 @@ define(['playbackManager', 'itemHelper'], function (playbackManager, itemHelper)
     }
 
     function validatePlayback(options) {
-        return getRequirePromise(["registrationServices"]).then(function (registrationServices) {
 
-            var feature = 'playback';
-            if (options.item && (options.item.Type === 'TvChannel' || options.item.Type === 'Recording')) {
-                feature = 'livetv';
+        var feature = 'playback';
+        if (options.item && (options.item.Type === 'TvChannel' || options.item.Type === 'Recording')) {
+            feature = 'livetv';
+        }
+
+        if (feature === 'playback') {
+            var player = playbackManager.getCurrentPlayer();
+            if (player && !player.isLocalPlayer) {
+                return Promise.resolve();
             }
+        }
+
+        return getRequirePromise(["registrationServices"]).then(function (registrationServices) {
 
             return registrationServices.validateFeature(feature, options).then(function (result) {
 

@@ -2698,6 +2698,27 @@
             }
         }
 
+        function onPlayerProgressInterval() {
+            var player = this;
+            sendProgressUpdate(player, 'timeupdate');
+        }
+
+        function startPlaybackProgressTimer(player) {
+
+            stopPlaybackProgressTimer(player);
+
+            player._progressInterval = setInterval(onPlayerProgressInterval.bind(player), 10000);
+        }
+
+        function stopPlaybackProgressTimer(player) {
+
+            if (player._progressInterval) {
+
+                clearInterval(player._progressInterval);
+                player._progressInterval = null;
+            }
+        }
+
         function onPlaybackStarted(player, playOptions, streamInfo, mediaSource) {
 
             if (!player) {
@@ -2735,6 +2756,8 @@
 
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;
+
+            startPlaybackProgressTimer(player);
         }
 
         function onPlaybackStartedFromSelfManagingPlayer(e, item, mediaSource) {
@@ -2765,12 +2788,15 @@
 
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;
+
+            startPlaybackProgressTimer(player);
         }
 
         function onPlaybackStoppedFromSelfManagingPlayer(e, playerStopInfo) {
 
             var player = this;
 
+            stopPlaybackProgressTimer(player);
             var state = self.getPlayerState(player);
 
             var nextItem = playerStopInfo.nextItem;
@@ -2880,6 +2906,8 @@
             if (getPlayerData(player).isChangingStream) {
                 return;
             }
+
+            stopPlaybackProgressTimer(player);
 
             // User clicked stop or content ended
             var state = self.getPlayerState(player);

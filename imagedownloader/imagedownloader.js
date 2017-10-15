@@ -51,7 +51,7 @@
             });
 
             var selectImageProvider = page.querySelector('#selectImageProvider');
-            selectImageProvider.innerHTML = '<option value="">' + globalize.translate('LabelAll') + '</option>' + providersHtml;
+            selectImageProvider.innerHTML = '<option value="">' + globalize.translate('sharedcomponents#All') + '</option>' + providersHtml;
             selectImageProvider.value = provider;
 
             loading.hide();
@@ -114,8 +114,8 @@
         if (showControls) {
             html += '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
 
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('ButtonPreviousPage') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><i class="md-icon">&#xE5C4;</i></button>';
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('ButtonNextPage') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><i class="md-icon">arrow_forward</i></button>';
+            html += '<button is="paper-icon-button-light" title="' + globalize.translate('sharedcomponents#Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><i class="md-icon">&#xE5C4;</i></button>';
+            html += '<button is="paper-icon-button-light" title="' + globalize.translate('sharedcomponents#Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><i class="md-icon">arrow_forward</i></button>';
             html += '</div>';
         }
 
@@ -207,6 +207,8 @@
             html += '<div class="' + cssClass + '"';
         }
 
+        html += ' data-imageprovider="' + image.ProviderName + '" data-imageurl="' + image.Url + '" data-imagetype="' + image.Type + '"';
+
         html += '>';
 
         html += '<div class="' + cardBoxCssClass + '">';
@@ -214,7 +216,12 @@
         html += '<div class="cardPadder-' + shape + '"></div>';
         html += '<div class="cardContent">';
 
-        html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></a>';
+        if (layoutManager.tv) {
+            html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></div>';
+        }
+        else {
+            html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></a>';
+        }
 
         html += '</div>';
         html += '</div>';
@@ -270,7 +277,7 @@
         if (enableFooterButtons) {
             html += '<div class="cardText cardTextCentered">';
 
-            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised data-imageprovider="' + image.ProviderName + '" data-imageurl="' + image.Url + '" data-imagetype="' + image.Type + '" title="' + globalize.translate('ButtonDownload') + '"><i class="md-icon">cloud_download</i></button>';
+            html += '<button is="paper-icon-button-light" class="btnDownloadRemoteImage autoSize" raised" title="' + globalize.translate('sharedcomponents#Download') + '"><i class="md-icon">&#xE2C0;</i></button>';
             html += '</div>';
         }
 
@@ -314,7 +321,14 @@
 
             var btnDownloadRemoteImage = parentWithClass(e.target, 'btnDownloadRemoteImage');
             if (btnDownloadRemoteImage) {
-                downloadRemoteImage(page, apiClient, btnDownloadRemoteImage.getAttribute('data-imageurl'), btnDownloadRemoteImage.getAttribute('data-imagetype'), btnDownloadRemoteImage.getAttribute('data-imageprovider'));
+                var card = parentWithClass(btnDownloadRemoteImage, 'card');
+                downloadRemoteImage(page, apiClient, card.getAttribute('data-imageurl'), card.getAttribute('data-imagetype'), card.getAttribute('data-imageprovider'));
+                return;
+            }
+
+            var btnImageCard = parentWithClass(e.target, 'btnImageCard');
+            if (btnImageCard) {
+                downloadRemoteImage(page, apiClient, btnImageCard.getAttribute('data-imageurl'), btnImageCard.getAttribute('data-imagetype'), btnImageCard.getAttribute('data-imageprovider'));
             }
         });
     }
@@ -342,7 +356,7 @@
 
             var dlg = dialogHelper.createDialog(dialogOptions);
 
-            dlg.innerHTML = globalize.translateDocument(template);
+            dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
 
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.on(dlg, false);
