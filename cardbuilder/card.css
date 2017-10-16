@@ -279,6 +279,15 @@ button {
     padding: .3em .5em;
 }
 
+.cardFooter-withlogo {
+    padding-left: 4em;
+    position: relative;
+}
+
+.cardFooterLogo{
+    position: absolute;
+}
+
 .cardTextCentered {
     text-align: center;
 }
@@ -316,10 +325,6 @@ button {
     .textActionButton:hover {
         text-decoration: underline;
     }
-
-.cardFooterLogo {
-    margin-right: 1em;
-}
 
 .cardImageIcon {
     width: auto;

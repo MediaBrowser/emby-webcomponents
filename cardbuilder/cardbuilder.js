@@ -730,6 +730,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var html = '';
 
+            if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
+                var logoHeight = 40;
+
+                html += '<img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="lazy cardFooterLogo" data-src="' + apiClient.getScaledImageUrl(item.ChannelId, {
+                    type: "Primary",
+                    height: logoHeight,
+                    tag: item.ChannelPrimaryImageTag
+                }) + '" />';
+            }
+
             var showOtherText = isOuterFooter ? !overlayText : overlayText;
 
             if (isOuterFooter && options.cardLayout && !layoutManager.tv) {
@@ -887,19 +897,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (options.showChannelName) {
 
                     if (item.ChannelId) {
-
-                        var channelText = item.ChannelName;
-                        //var logoHeight = 32;
-
-                        //if (item.ChannelPrimaryImageTag) {
-                        //    channelText = '<img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="lazy cardFooterLogo" style="height:' + logoHeight + 'px" data-src="' + apiClient.getScaledImageUrl(item.ChannelId, {
-                        //        type: "Primary",
-                        //        height: logoHeight,
-                        //        tag: item.ChannelPrimaryImageTag
-                        //    }) + '" />' + channelText;
-                        //} else {
-                        //    channelText += '<div style="height:' + logoHeight + 'px;width:0;"></div>';
-                        //}
 
                         lines.push(getTextActionButton({
 
@@ -1249,6 +1246,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var outerCardFooter = '';
             if (!overlayText && !footerOverlayed) {
                 footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter cardFooter-transparent';
+
+                if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
+                    footerCssClass += ' cardFooter-withlogo';
+                }
+
                 outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, true, cardFooterId, vibrantSwatch);
             }
 
