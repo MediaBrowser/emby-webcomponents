@@ -8,7 +8,7 @@
     /* General select styles: change as needed */
     font-family: inherit;
     font-weight: inherit;
-    padding: .46em .5em;
+    padding: .5em .5em;
     /* Prevent padding from causing width overflow */
     box-sizing: border-box;
     outline: none !important;
@@ -42,7 +42,7 @@
 .selectArrowContainer {
     position: absolute;
     right: .35em;
-    top: .25em;
+    top: .27em;
     color: inherit;
     pointer-events: none;
 }

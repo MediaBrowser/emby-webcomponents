@@ -194,8 +194,8 @@ html {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #262626;
-    border: .07em solid #262626;
+    background: #222326;
+    border: .07em solid #222326;
     border-radius: .15em;
 }
 
@@ -206,8 +206,8 @@ html {
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #262626;
-    border: .07em solid #262626;
+    background: #222326;
+    border: .07em solid #222326;
     border-radius: .15em;
 }
 
@@ -262,7 +262,7 @@ html {
 }
 
 .navMenuDivider {
-    background: #262626;
+    background: #222326;
     background: rgba(255, 255, 255, .12);
 }
 
