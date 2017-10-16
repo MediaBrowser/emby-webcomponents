@@ -1,6 +1,6 @@
 html {
-    color: #eee;
-    color: rgba(255, 255, 255, .87);
+    color: #ddd;
+    color: rgba(255, 255, 255, .73);
 }
 
 .emby-collapsible-button {
@@ -8,18 +8,17 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.skinHeader {
-    color: #ccc;
-    color: rgba(255, 255, 255, .78);
-}
-
 .skinHeader-withBackground {
-    background-color: #52B54B;
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    background-color: #1a1a1a;
+    color: rgba(255, 255, 255, .7);
 }
 
-.osdHeader {
-    box-shadow: none !important;
+@supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
+
+    .skinHeader-blurred {
+        background-color: #1f1f1f;
+        color: rgba(255, 255, 255, .7);
+    }
 }
 
 .skinHeader.semiTransparent {
@@ -38,11 +37,11 @@ html {
 }
 
 .dialog {
-    background-color: #282828;
+    background-color: #141414;
 }
 
 .backgroundContainer {
-    background-color: #282828;
+    background-color: #141414;
 }
 
     .backgroundContainer.withBackdrop {
@@ -59,12 +58,8 @@ html {
     color: #52B54B;
 }
 
-.skinHeader-withBackground .paper-icon-button-light:focus {
-    color: #fff;
-}
-
 .raised, .fab {
-    background: #404040;
+    background: #333;
     color: #fff;
 }
 
@@ -96,7 +91,7 @@ html {
 }
 
 .paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
-    background-color: #222;
+    background-color: #222326;
 }
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
@@ -199,20 +194,20 @@ html {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #202020;
-    border: .07em solid #202020;
+    background: #222326;
+    border: .07em solid #222326;
     border-radius: .15em;
 }
 
-.emby-input:focus, .emby-textarea:focus {
-    border-color: #52B54B;
-}
+    .emby-input:focus, .emby-textarea:focus {
+        border-color: #52B54B;
+    }
 
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #202020;
-    border: .07em solid #202020;
+    background: #222326;
+    border: .07em solid #222326;
     border-radius: .15em;
 }
 
@@ -267,7 +262,7 @@ html {
 }
 
 .navMenuDivider {
-    background: #202020;
+    background: #222326;
     background: rgba(255, 255, 255, .12);
 }
 
@@ -283,11 +278,11 @@ html {
 /* emby-tabs */
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .4);
 }
 
 .emby-tab-button-active {
-    color: #fff;
+    color: #52B54B;
 }
 
     .emby-tab-button-active.emby-button-tv {
@@ -295,7 +290,7 @@ html {
     }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #fff;
+    color: #52B54B;
 }
 
 /* guide */
@@ -364,7 +359,7 @@ html {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #191919);
+    background: linear-gradient(rgba(0,0,0,0), #141414);
 }
 
 /* used by directory picker and other areas */

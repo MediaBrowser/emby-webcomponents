@@ -1,6 +1,6 @@
 html {
-    color: #ddd;
-    color: rgba(255, 255, 255, .73);
+    color: #eee;
+    color: rgba(255, 255, 255, .87);
 }
 
 .emby-collapsible-button {
@@ -8,17 +8,18 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.skinHeader-withBackground {
-    background-color: #1a1a1a;
-    color: rgba(255, 255, 255, .7);
+.skinHeader {
+    color: #ccc;
+    color: rgba(255, 255, 255, .78);
 }
 
-@supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
+.skinHeader-withBackground {
+    background-color: #181818;
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
 
-    .skinHeader-blurred {
-        background-color: #1f1f1f;
-        color: rgba(255, 255, 255, .7);
-    }
+.osdHeader {
+    box-shadow: none !important;
 }
 
 .skinHeader.semiTransparent {
@@ -37,11 +38,11 @@ html {
 }
 
 .dialog {
-    background-color: #141414;
+    background-color: #282828;
 }
 
 .backgroundContainer {
-    background-color: #141414;
+    background-color: #282828;
 }
 
     .backgroundContainer.withBackdrop {
@@ -59,7 +60,7 @@ html {
 }
 
 .raised, .fab {
-    background: #333;
+    background: #404040;
     color: #fff;
 }
 
@@ -91,7 +92,7 @@ html {
 }
 
 .paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
-    background-color: #222326;
+    background-color: #222;
 }
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
@@ -194,20 +195,20 @@ html {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #222326;
-    border: .07em solid #222326;
+    background: #202020;
+    border: .07em solid #202020;
     border-radius: .15em;
 }
 
-    .emby-input:focus, .emby-textarea:focus {
-        border-color: #52B54B;
-    }
+.emby-input:focus, .emby-textarea:focus {
+    border-color: #52B54B;
+}
 
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #222326;
-    border: .07em solid #222326;
+    background: #202020;
+    border: .07em solid #202020;
     border-radius: .15em;
 }
 
@@ -262,7 +263,7 @@ html {
 }
 
 .navMenuDivider {
-    background: #222326;
+    background: #202020;
     background: rgba(255, 255, 255, .12);
 }
 
@@ -359,7 +360,7 @@ html {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #141414);
+    background: linear-gradient(rgba(0,0,0,0), #191919);
 }
 
 /* used by directory picker and other areas */
