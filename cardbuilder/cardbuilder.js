@@ -907,7 +907,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             MediaType: item.MediaType,
                             IsFolder: false
 
-                        }, channelText));
+                        }, item.ChannelName));
                     } else {
                         lines.push(item.ChannelName || '&nbsp;');
                     }
