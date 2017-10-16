@@ -201,6 +201,7 @@
                 ironIcon: 'playlist-add'
             });
 
+            // TODO: Be more dynamic based on what is selected
             if (user.Policy.EnableContentDeletion) {
                 menuItems.push({
                     name: globalize.translate('sharedcomponents#Delete'),
