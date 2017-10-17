@@ -2670,6 +2670,19 @@
                 return;
             }
 
+            if (!player.isLocalPlayer) {
+                if (mode === 'next') {
+                    player.queueNext({
+                        items: items
+                    });
+                } else {
+                    player.queue({
+                        items: items
+                    });
+                }
+                return;
+            }
+
             var queueDirectToPlayer = player && !enableLocalPlaylistManagement(player);
 
             if (queueDirectToPlayer) {

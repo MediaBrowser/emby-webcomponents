@@ -72,7 +72,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .28em;
+    margin: .28em .4em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -82,6 +82,13 @@ button {
 
 .layout-tv .cardBox {
     margin: .28em .45em;
+}
+
+@media all and (max-width: 50em) {
+
+    .cardBox {
+        margin: .28em;
+    }
 }
 
 .card-focuscontent {
@@ -284,7 +291,7 @@ button {
     position: relative;
 }
 
-.cardFooterLogo{
+.cardFooterLogo {
     position: absolute;
 }
 
@@ -376,7 +383,7 @@ button {
     z-index: 1;
     padding: .5em;
     background-color: rgba(0,0,0,.7) !important;
-    font-size: 84%;
+    font-size: 86%;
 }
 
 .cardOverlayButton-centered {
