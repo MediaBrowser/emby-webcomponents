@@ -125,9 +125,9 @@
     }
 
 .raised-mini {
-    padding: .44em .7em;
+    padding: .44em 1em;
     border-radius: 100em;
-    font-size: 96%;
+    font-size: 92%;
 }
 
 .button-flat-mini {
