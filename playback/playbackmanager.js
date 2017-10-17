@@ -3154,8 +3154,8 @@
         if (apphost.supports('remotecontrol')) {
 
             require(['serverNotifications'], function (serverNotifications) {
-                events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(this));
-                events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(this));
+                events.on(serverNotifications, 'ServerShuttingDown', self.setDefaultPlayerActive.bind(self));
+                events.on(serverNotifications, 'ServerRestarting', self.setDefaultPlayerActive.bind(self));
             });
         }
     }
