@@ -111,7 +111,11 @@
 
                 var tabContainers = getTabContainersFn();
                 if (e.detail.previousIndex != null) {
-                    tabContainers[e.detail.previousIndex].classList.remove('is-active');
+
+                    var previousPanel = tabContainers[e.detail.previousIndex];
+                    if (previousPanel) {
+                        previousPanel.classList.remove('is-active');
+                    }
                 }
 
                 var newPanel = tabContainers[e.detail.selectedTabIndex];
@@ -122,7 +126,9 @@
                 //    }
                 //}
 
-                newPanel.classList.add('is-active');
+                if (newPanel) {
+                    newPanel.classList.add('is-active');
+                }
             });
 
             if (onBeforeTabChange) {

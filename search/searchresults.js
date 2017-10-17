@@ -20,7 +20,7 @@
 
                 var href = appRouter.getRouteUrl(i);
 
-                var itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.55em 1em;" href="' + href + '">';
+                var itemHtml = '<div><a is="emby-linkbutton" class="button-link" style="display:inline-block;padding:.5em 1em;" href="' + href + '">';
                 itemHtml += i.Name;
                 itemHtml += '</a></div>';
                 return itemHtml;

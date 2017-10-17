@@ -20,7 +20,7 @@
     vertical-align: middle;
     border: 0;
     vertical-align: middle;
-    border-radius: .15em;
+    border-radius: .2em;
     /* These are getting an outline in opera tv browsers, which run chrome 30 */
     outline: none !important;
     position: relative;
@@ -127,6 +127,7 @@
 .raised-mini {
     padding: .44em .7em;
     border-radius: 100em;
+    font-size: 96%;
 }
 
 .button-flat-mini {
@@ -219,9 +220,9 @@
         opacity: 0;
     }
 
-        .paper-icon-button-light:focus:after {
-            opacity: .2;
-        }
+    .paper-icon-button-light:focus:after {
+        opacity: .2;
+    }
 
 .emby-button-ripple-effect, .paper-icon-button-light-ripple-effect {
     position: absolute;
