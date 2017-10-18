@@ -102,6 +102,24 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         return null;
     }
 
+    function getChannelImageUrl(item, width) {
+
+        var apiClient = connectionManager.getApiClient(item.ServerId);
+
+        var options = {
+            width: width,
+            type: "Primary"
+        };
+
+        if (item.ChannelId && item.ChannelPrimaryImageTag) {
+
+            options.tag = item.ChannelPrimaryImageTag;
+            return apiClient.getScaledImageUrl(item.ChannelId, options);
+        }
+
+        return null;
+    }
+
     function getTextLinesHtml(textlines, isLargeStyle) {
 
         var html = '';
@@ -252,8 +270,8 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (options.image !== false) {
-                var imgUrl = getImageUrl(item, downloadWidth);
-
+                var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
+                console.log(imgUrl);
                 var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
                 if (isLargeStyle && layoutManager.tv) {
