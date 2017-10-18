@@ -733,11 +733,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
                 var logoHeight = 40;
 
-                html += '<img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" class="lazy cardFooterLogo" data-src="' + apiClient.getScaledImageUrl(item.ChannelId, {
+                html += '<div class="lazy cardFooterLogo" data-src="' + apiClient.getScaledImageUrl(item.ChannelId, {
                     type: "Primary",
                     height: logoHeight,
                     tag: item.ChannelPrimaryImageTag
-                }) + '" />';
+                }) + '"></div>';
             }
 
             var showOtherText = isOuterFooter ? !overlayText : overlayText;

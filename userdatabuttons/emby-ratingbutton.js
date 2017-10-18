@@ -106,6 +106,11 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
     function setTitle(button) {
         button.title = globalize.translate('sharedcomponents#Favorite');
+
+        var text = button.querySelector('.button-text');
+        if (text) {
+            text.innerHTML = button.title;
+        }
     }
 
     function clearEvents(button) {

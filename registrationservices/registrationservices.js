@@ -253,18 +253,27 @@
                         return Promise.reject();
                     }
 
+                    var alertPromise;
+
                     if (errorResult === 'overlimit') {
-                        return showOverLimitAlert();
+                        alertPromise = showOverLimitAlert();
                     }
 
-                    var dialogOptions = {
-                        title: globalize.translate('sharedcomponents#HeaderUnlockFeature'),
-                        feature: feature
-                    };
+                    if (!alertPromise) {
+                        alertPromise = Promise.resolve();
+                    }
 
-                    currentValidatingFeature = feature;
+                    return alertPromise.then(function () {
 
-                    return showInAppPurchaseInfo(subscriptionOptions, unlockableProductInfo, dialogOptions);
+                        var dialogOptions = {
+                            title: globalize.translate('sharedcomponents#HeaderUnlockFeature'),
+                            feature: feature
+                        };
+
+                        currentValidatingFeature = feature;
+
+                        return showInAppPurchaseInfo(subscriptionOptions, unlockableProductInfo, dialogOptions);
+                    });
                 });
             });
         });
@@ -272,8 +281,8 @@
 
     function showOverLimitAlert() {
 
-        return alertText('Your Emby Premiere device limit has been exceeded. Please check with the owner of your Emby Server and have them contact Emby support at apps@emby.media if necessary.').then(function () {
-            return Promise.reject();
+        return alertText('Your Emby Premiere device limit has been exceeded. Please check with the owner of your Emby Server and have them contact Emby support at apps@emby.media if necessary.').catch(function () {
+            return Promise.resolve();
         });
     }
 

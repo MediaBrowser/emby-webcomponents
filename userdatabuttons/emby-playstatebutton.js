@@ -51,26 +51,28 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     function setState(button, played, updateAttribute) {
 
         var icon = button.iconElement;
-		if (!icon){
-			button.iconElement = button.querySelector('i');
-			icon = button.iconElement;
-		}
-		
+        if (!icon) {
+            button.iconElement = button.querySelector('i');
+            icon = button.iconElement;
+        }
+
         if (played) {
 
             button.classList.add('playstatebutton-played');
-			
-			if (icon){
-				icon.classList.add('playstatebutton-icon-played');
-			}
+
+            if (icon) {
+                icon.classList.add('playstatebutton-icon-played');
+                icon.classList.remove('playstatebutton-icon-unplayed');
+            }
 
         } else {
 
             button.classList.remove('playstatebutton-played');
-			
-			if (icon){
-				icon.classList.remove('playstatebutton-icon-played');
-			}
+
+            if (icon) {
+                icon.classList.remove('playstatebutton-icon-played');
+                icon.classList.add('playstatebutton-icon-unplayed');
+            }
         }
 
         if (updateAttribute !== false) {
@@ -81,9 +83,14 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
     function setTitle(button, itemType) {
 
         if (itemType !== 'AudioBook' && itemType !== 'AudioPodcast') {
-            button.title = globalize.translate('sharedcomponents#MarkWatched');
+            button.title = globalize.translate('sharedcomponents#Watched');
         } else {
-            button.title = globalize.translate('sharedcomponents#MarkPlayed');
+            button.title = globalize.translate('sharedcomponents#Played');
+        }
+
+        var text = button.querySelector('.button-text');
+        if (text) {
+            text.innerHTML = button.title;
         }
     }
 
@@ -136,7 +143,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
 
         clearEvents(this);
-		this.iconElement = null;
+        this.iconElement = null;
     };
 
     EmbyPlaystateButtonPrototype.setItem = function (item) {

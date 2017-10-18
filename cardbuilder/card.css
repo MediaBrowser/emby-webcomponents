@@ -275,7 +275,7 @@ button {
 }
 
 .cardText {
-    padding: 0 .5em;
+    padding: .06em .5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -293,6 +293,13 @@ button {
 
 .cardFooterLogo {
     position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 4.5em;
+    background-size: 70% auto;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 
 .cardTextCentered {
