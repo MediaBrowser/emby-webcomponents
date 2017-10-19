@@ -3330,16 +3330,10 @@
             return;
         }
 
-        var ticks = this.getCurrentTicks(player);
-
         // Go back 15 seconds
-        ticks += userSettings.skipForwardLength() * 10000;
+        var offsetTicks = userSettings.skipBackLength() * 10000;
 
-        var runTimeTicks = this.duration(player) || 0;
-
-        if (ticks < runTimeTicks) {
-            this.seek(ticks);
-        }
+        this.seekRelative(offsetTicks, player);
     };
 
     PlaybackManager.prototype.rewind = function (player) {
@@ -3351,12 +3345,10 @@
             return;
         }
 
-        var ticks = this.getCurrentTicks(player);
-
         // Go back 15 seconds
-        ticks -= userSettings.skipBackLength() * 10000;
+        var offsetTicks = 0 - (userSettings.skipBackLength() * 10000);
 
-        this.seek(Math.max(0, ticks));
+        this.seekRelative(offsetTicks, player);
     };
 
     PlaybackManager.prototype.seekPercent = function (percent, player) {
