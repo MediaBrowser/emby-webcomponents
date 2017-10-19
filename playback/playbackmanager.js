@@ -1498,6 +1498,22 @@
             changeStream(player, ticks);
         };
 
+        self.seekRelative = function (offsetTicks, player) {
+
+            player = player || self._currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player) && player.seekRelative) {
+
+                if (player.isLocalPlayer) {
+                    return player.seekRelative((ticks || 0) / 10000);
+                } else {
+                    return player.seekRelative(ticks);
+                }
+            }
+
+            var ticks = getCurrentTicks(player) + offsetTicks;
+            return this.seek(ticks, player);
+        };
+
         // Returns true if the player can seek using native client-side seeking functions
         function canPlayerSeek(player) {
 
