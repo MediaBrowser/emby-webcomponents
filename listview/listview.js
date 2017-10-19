@@ -204,13 +204,13 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     }
 
                     if (i === 0) {
-                        html += '<h1 class="listGroupHeader listGroupHeader-first">';
+                        html += '<h2 class="listGroupHeader listGroupHeader-first">';
                     }
                     else {
-                        html += '<h1 class="listGroupHeader">';
+                        html += '<h2 class="listGroupHeader">';
                     }
                     html += itemGroupTitle;
-                    html += '</h1>';
+                    html += '</h2>';
 
                     html += '<div>';
 
