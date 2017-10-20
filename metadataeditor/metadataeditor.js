@@ -521,6 +521,12 @@
 
         var elem = context.querySelector('.externalIds', context);
         elem.innerHTML = html;
+
+        if (externalIds.length) {
+            context.querySelector('.externalIdsSection').classList.remove('hide');
+        } else {
+            context.querySelector('.externalIdsSection').classList.add('hide');
+        }
     }
 
     // Function to hide the element by selector or raw element
@@ -673,6 +679,18 @@
             showElement('#fldPremiereDate', context);
             showElement('#fldDateAdded', context);
             showElement('#fldYear', context);
+        }
+
+        if (item.Type === "TvChannel") {
+            hideElement('.overviewContainer', context);
+        } else {
+            showElement('.overviewContainer', context);
+        }
+
+        if (item.Type === "TvChannel") {
+            hideElement('.websiteFieldContainer', context);
+        } else {
+            showElement('.websiteFieldContainer', context);
         }
 
         if (item.Type === "Person") {
@@ -1062,7 +1080,7 @@
             setFieldVisibilities(context, item);
             fillItemInfo(context, item, metadataEditorInfo.ParentalRatingOptions);
 
-            if (item.MediaType === "Video" && item.Type !== "Episode") {
+            if (item.MediaType === "Video" && item.Type !== "Episode" && item.Type !== "TvChannel") {
                 showElement('#fldTagline', context);
             } else {
                 hideElement('#fldTagline', context);

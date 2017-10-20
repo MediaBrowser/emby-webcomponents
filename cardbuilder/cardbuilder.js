@@ -1203,12 +1203,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (layoutManager.tv) {
 
-                if (!browser.slow) {
+                var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
+
+                if (enableFocusTransfrom) {
                     cardBoxClass += ' cardBox-focustransform';
                 }
 
-                if (options.cardLayout) {
-                    cardBoxClass += ' card-focuscontent';
+                if (options.cardLayout || !enableFocusTransfrom) {
+                    cardBoxClass += ' card-focuscontent card-focuscontent-large';
                 }
             }
 

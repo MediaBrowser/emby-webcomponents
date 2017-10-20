@@ -93,7 +93,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         var cardBoxCssClass = 'cardBox';
 
         if (layoutManager.tv) {
-            cardBoxCssClass += ' cardBox-focustransform card-focuscontent';
+            var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
+
+            if (enableFocusTransfrom) {
+                cardBoxCssClass += ' cardBox-focustransform';
+            }
+
+            if (!enableFocusTransfrom) {
+                cardBoxCssClass += ' card-focuscontent card-focuscontent-large';
+            }
         }
 
         var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="cardScalable"><div class="cardPadder-' + shape + '"></div><div class="cardContent">' + cardImageContainer + '</div><div class="innerCardFooter">' + nameHtml + '</div></div></div></div></button>';

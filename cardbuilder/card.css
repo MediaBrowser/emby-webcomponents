@@ -96,6 +96,10 @@ button {
     border-radius: .12em;
 }
 
+.card-focuscontent-large {
+    border-width: .3em;
+}
+
 .cardBox-focustransform {
     will-change: transform;
     transition: transform 200ms ease-out;
