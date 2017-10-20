@@ -1210,7 +1210,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.cardLayout || !enableFocusTransfrom) {
-                    cardBoxClass += ' card-focuscontent card-focuscontent-large';
+                    cardBoxClass += ' card-focuscontent';
+
+                    if (!enableFocusTransfrom) {
+                        cardBoxClass += ' card-focuscontent-large';
+                    }
                 }
             }
 
