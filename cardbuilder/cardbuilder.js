@@ -1200,16 +1200,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
+            var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
 
             if (layoutManager.tv) {
-
-                var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
 
                 if (enableFocusTransfrom) {
                     cardBoxClass += ' cardBox-focustransform';
                 }
 
-                if (options.cardLayout || !enableFocusTransfrom) {
+                if (options.cardLayout) {
                     cardBoxClass += ' card-focuscontent';
 
                     if (!enableFocusTransfrom) {
@@ -1347,8 +1346,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var cardScalableClass = 'cardScalable';
 
             if (layoutManager.tv && !options.cardLayout) {
+
                 cardScalableClass += ' card-focuscontent';
+
+                if (!enableFocusTransfrom) {
+                    cardScalableClass += ' card-focuscontent-large';
+                }
             }
+
             cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + options.shape + '"></div>' + cardContentOpen + cardImageContainerOpen;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
