@@ -131,7 +131,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         // Miscellaneous
         var scrollSource = frame;
         var dragSourceElement = o.dragSource ? o.dragSource : frame;
-        var animation = {};
         var dragging = {
             released: 1
         };
@@ -258,7 +257,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             }
         }
 
-        /**
+        var lastAnimate;
+
+       /**
 		 * Animate to a position.
 		 *
 		 * @param {Int}  newPos    New position.
@@ -280,19 +281,18 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             }
 
             // Update the animation object
-            animation.from = pos.cur;
-            animation.to = newPos;
-            animation.immediate = immediate || dragging.init || !o.speed;
+            var from = pos.cur;
+            immediate = immediate || dragging.init || !o.speed;
 
             var now = new Date().getTime();
 
             if (o.autoImmediate) {
-                if (!animation.immediate && (now - (animation.lastAnimate || 0)) <= 50) {
-                    animation.immediate = true;
+                if (!immediate && (now - (lastAnimate || 0)) <= 50) {
+                    immediate = true;
                 }
             }
 
-            if (!animation.immediate && o.skipSlideToWhenVisible && fullItemPos && fullItemPos.isVisible) {
+            if (!immediate && o.skipSlideToWhenVisible && fullItemPos && fullItemPos.isVisible) {
 
                 return;
             }
@@ -301,9 +301,9 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             if (newPos !== pos.dest) {
                 pos.dest = newPos;
 
-                renderAnimateWithTransform();
+                renderAnimateWithTransform(from, newPos, immediate);
 
-                animation.lastAnimate = now;
+                lastAnimate = now;
             }
         };
 
@@ -329,20 +329,20 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             }
         }
 
-        function renderAnimateWithTransform() {
+        function renderAnimateWithTransform(fromPosition, toPosition, immediate) {
 
             var speed = o.speed;
 
-            if (animation.immediate) {
+            if (immediate) {
                 speed = o.immediateSpeed || 50;
             }
 
             if (o.horizontal) {
-                setStyleProperty(slideeElement, 'transform', 'translateX(' + (-round(animation.to)) + 'px)', speed);
+                setStyleProperty(slideeElement, 'transform', 'translateX(' + (-round(toPosition)) + 'px)', speed);
             } else {
-                setStyleProperty(slideeElement, 'transform', 'translateY(' + (-round(animation.to)) + 'px)', speed);
+                setStyleProperty(slideeElement, 'transform', 'translateY(' + (-round(toPosition)) + 'px)', speed);
             }
-            self._pos.cur = animation.to;
+            self._pos.cur = toPosition;
 
             dispatchScrollEventIfNeeded();
         }
