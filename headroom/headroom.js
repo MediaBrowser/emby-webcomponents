@@ -282,7 +282,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             var currentScrollY = this.getScrollY();
 
-            if (currentScrollY <= 70) {
+            var minThreshold = layoutManager.tv ? 70 : 30;
+
+            if (currentScrollY <= minThreshold) {
                 this.clear();
             }
             else if (this.shouldUnpin(currentScrollY)) {
