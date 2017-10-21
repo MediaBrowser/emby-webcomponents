@@ -54,15 +54,15 @@ button {
     position: relative;
 }
 
-.cardPadder-backdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop {
+.cardPadder-backdrop, .cardPadder-mixedBackdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop {
     padding-bottom: 56.25%;
 }
 
-.cardPadder-square, .cardPadder-overflowSquare {
+.cardPadder-square, .cardPadder-mixedSquare, .cardPadder-overflowSquare {
     padding-bottom: 100%;
 }
 
-.cardPadder-portrait, .cardPadder-overflowPortrait, .overflowPortraitCard-textCardPadder {
+.cardPadder-portrait, .cardPadder-mixedPortrait, .cardPadder-overflowPortrait, .overflowPortraitCard-textCardPadder {
     padding-bottom: 150%;
 }
 
@@ -352,21 +352,11 @@ button {
 }
 
 .cardIndicators {
-    right: 1.25%;
-    top: 1.25%;
+    right: .225em;
+    top: .225em;
     position: absolute;
     display: flex;
     align-items: center;
-}
-
-.portraitCardIndicators {
-    right: 1.5%;
-    top: 1%;
-}
-
-.backdropCardIndicators {
-    right: .75%;
-    top: 1.4%;
 }
 
 .cardProgramAttributeIndicators {
@@ -449,67 +439,79 @@ button {
     background-color: #F57F17;
 }
 
-.bannerCard-scalable {
+.bannerCard {
     width: 100%;
 }
 
-.backdropCard-scalable {
+.backdropCard {
     width: 100%;
 }
 
-.smallBackdropCard-scalable {
+.smallBackdropCard {
     width: 50%;
 }
 
-.squareCard-scalable {
+.squareCard {
     width: 50%;
 }
 
-.portraitCard-scalable {
+.portraitCard {
     width: 33.333333333333333333333333333333%;
+}
+
+.mixedPortraitCard {
+    width: 14em;
+}
+
+.mixedSquareCard {
+    width: 21em;
+}
+
+.mixedBackdropCard {
+    width: 37.333333333333333333333333333333em;
 }
 
 @media all and (min-width: 400px) {
 
-    .backdropCard-scalable {
+    .backdropCard {
         width: 50%;
     }
 }
 
 @media all and (min-width: 500px) {
 
-    .smallBackdropCard-scalable {
+    .smallBackdropCard {
         width: 33.333333333333333333333333333333%;
     }
 
-    .squareCard-scalable, .portraitCard-scalable {
+    .squareCard, .portraitCard {
         width: 33.333333333333333333333333333333%;
     }
 }
 
 @media all and (min-width: 700px) {
-    .squareCard-scalable, .portraitCard-scalable {
+    .squareCard, .portraitCard {
         width: 25%;
     }
 }
 
 @media all and (min-width: 770px) {
-    .backdropCard-scalable {
+    .backdropCard {
         width: 33.333333333333333333333333333333%;
     }
 }
 
 @media all and (min-width: 800px) {
 
-    .bannerCard-scalable {
+    .bannerCard {
         width: 50%;
     }
 
-    .portraitCard-scalable {
+    .portraitCard {
         width: 20%;
     }
 
-    .smallBackdropCard-scalable {
+    .smallBackdropCard {
         width: 25%;
     }
 }
@@ -517,7 +519,7 @@ button {
 
 @media all and (min-width: 900px) {
 
-    .squareCard-scalable {
+    .squareCard {
         width: 20%;
     }
 }
@@ -525,30 +527,30 @@ button {
 @media all and (min-width: 1000px) {
 
 
-    .smallBackdropCard-scalable {
+    .smallBackdropCard {
         width: 20%;
     }
 }
 
 @media all and (min-width: 1200px) {
 
-    .backdropCard-scalable {
+    .backdropCard {
         width: 25%;
     }
 
-    .squareCard-scalable {
+    .squareCard {
         width: 16.666666666666666666666666666667%;
     }
 
-    .bannerCard-scalable {
+    .bannerCard {
         width: 33.333333333333333333333333333333%;
     }
 
-    .portraitCard-scalable {
+    .portraitCard {
         width: 16.666666666666666666666666666667%;
     }
 
-    .smallBackdropCard-scalable {
+    .smallBackdropCard {
         width: 16.666666666666666666666666666667%;
     }
 }
@@ -556,83 +558,83 @@ button {
 
 @media all and (min-width: 1400px) {
 
-    .squareCard-scalable {
+    .squareCard {
         width: 14.285714285714285714285714285714%;
     }
 
-    .portraitCard-scalable {
+    .portraitCard {
         width: 14.285714285714285714285714285714%;
     }
 
-    .smallBackdropCard-scalable {
+    .smallBackdropCard {
         width: 14.285714285714285714285714285714%;
     }
 }
 
 @media all and (min-width: 1600px) {
 
-    .portraitCard-scalable {
+    .portraitCard {
         width: 12.5%;
     }
 
-    .smallBackdropCard-scalable {
+    .smallBackdropCard {
         width: 12.5%;
     }
 
-    .backdropCard-scalable {
+    .backdropCard {
         width: 20%;
     }
 
-    .squareCard-scalable {
+    .squareCard {
         width: 12.5%;
     }
 }
 
 @media all and (min-width: 1920px) {
 
-    .squareCard-scalable {
+    .squareCard {
         width: 11.111111111111111111111111111111%;
     }
 }
 
 @media all and (min-width: 2100px) {
 
-    .backdropCard-scalable {
+    .backdropCard {
         width: 20%;
     }
 
-    .portraitCard-scalable {
+    .portraitCard {
         width: 11.111111111111111111111111111111%;
     }
 }
 
 @media all and (min-width: 2200px) {
 
-    .bannerCard-scalable {
+    .bannerCard {
         width: 25%;
     }
 
-    .portraitCard-scalable {
+    .portraitCard {
         width: 10%;
     }
 }
 
 @media all and (min-width: 2500px) {
 
-    .backdropCard-scalable {
+    .backdropCard {
         width: 16.666666666666666666666666666667%;
     }
 }
 
-.itemsContainer-tv > .backdropCard-scalable {
+.itemsContainer-tv > .backdropCard {
     width: 25%;
 }
 
-.itemsContainer-tv > .squareCard-scalable {
+.itemsContainer-tv > .squareCard {
     width: 16.666666666666666666666666666667%;
 }
 
-.itemsContainer-tv > .portraitCard-scalable {
+.itemsContainer-tv > .portraitCard {
     width: 16.666666666666666666666666666667%;
 }
 

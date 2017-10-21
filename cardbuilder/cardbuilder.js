@@ -187,23 +187,25 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
 
-            var isThumbAspectRatio = primaryImageAspectRatio && Math.abs(primaryImageAspectRatio - 1.777777778) < 0.3;
-            var isSquareAspectRatio = primaryImageAspectRatio && Math.abs(primaryImageAspectRatio - 1) < 0.33 ||
-                primaryImageAspectRatio && Math.abs(primaryImageAspectRatio - 1.3333334) < 0.01;
-
             if (options.shape === 'auto' || options.shape === 'autohome' || options.shape === 'autooverflow' || options.shape === 'autoVertical') {
 
-                if (options.preferThumb === true || isThumbAspectRatio) {
-                    options.shape = options.shape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
-                } else if (isSquareAspectRatio) {
-                    options.coverImage = true;
-                    options.shape = options.shape === 'autooverflow' ? 'overflowSquare' : 'square';
-                } else if (primaryImageAspectRatio && primaryImageAspectRatio > 1.9) {
-                    options.shape = 'banner';
-                    options.coverImage = true;
-                } else if (primaryImageAspectRatio && Math.abs(primaryImageAspectRatio - 0.6666667) < 0.2) {
-                    options.shape = options.shape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
-                } else {
+                options.shape = null;
+
+                if (primaryImageAspectRatio) {
+
+                    if (primaryImageAspectRatio > 1.9) {
+                        options.shape = 'banner';
+                        options.coverImage = true;
+                    } else if (primaryImageAspectRatio >= 1.33) {
+                        options.shape = options.shape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
+                    } else if (primaryImageAspectRatio > 0.71) {
+                        options.shape = options.shape === 'autooverflow' ? 'overflowSquare' : 'square';
+                    } else {
+                        options.shape = options.shape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
+                    }
+                }
+
+                if (!options.shape) {
                     options.shape = options.defaultShape || (options.shape === 'autooverflow' ? 'overflowSquare' : 'square');
                 }
             }
@@ -254,16 +256,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             setCardData(items, options);
-
-            var className = 'card';
-
-            if (options.shape) {
-                className += ' ' + options.shape + 'Card';
-            }
-
-            if (options.cardCssClass) {
-                className += ' ' + options.cardCssClass;
-            }
 
             var html = '';
             var itemsInRow = 0;
@@ -353,8 +345,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     hasOpenRow = true;
                 }
 
-                var cardClass = className;
-                html += buildCard(i, item, apiClient, options, cardClass);
+                html += buildCard(i, item, apiClient, options);
 
                 itemsInRow++;
 
@@ -387,7 +378,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 for (i = 0, length = options.leadingButtons.length; i < length; i++) {
 
-                    html = '<button data-textcardid="' + options.leadingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card scalableCard ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow"><div class="cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.leadingButtons[i].name + '</div></div></div></div>' + cardFooterHtml + '</div></button>' + html;
+                    html = '<button data-textcardid="' + options.leadingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow"><div class="cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.leadingButtons[i].name + '</div></div></div></div>' + cardFooterHtml + '</div></button>' + html;
                 }
 
             }
@@ -396,7 +387,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 for (i = 0, length = options.trailingButtons.length; i < length; i++) {
 
-                    html += '<button data-textcardid="' + options.trailingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card scalableCard ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow"><div class="cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.trailingButtons[i].name + '</div></div></div></div>' + cardFooterHtml + '</div></button>';
+                    html += '<button data-textcardid="' + options.trailingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow"><div class="cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.trailingButtons[i].name + '</div></div></div></div>' + cardFooterHtml + '</div></button>';
                 }
 
             }
@@ -424,14 +415,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return null;
         }
 
-        function getCardImageUrl(item, apiClient, options) {
+        function getCardImageUrl(item, apiClient, options, shape) {
 
             var imageItem = item.ProgramInfo || item;
             item = imageItem;
 
             var width = options.width;
             var height = null;
-            var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio([item]);
+            var primaryImageAspectRatio = item.PrimaryImageAspectRatio;
             var forceName = false;
             var imgUrl = null;
             var coverImage = false;
@@ -503,7 +494,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (primaryImageAspectRatio) {
-                    uiAspect = getDesiredAspect(options.shape);
+                    uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
                         coverImage = Math.abs(primaryImageAspectRatio - uiAspect) <= 0.2;
                     }
@@ -525,7 +516,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (primaryImageAspectRatio) {
-                    uiAspect = getDesiredAspect(options.shape);
+                    uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
                         coverImage = Math.abs(primaryImageAspectRatio - uiAspect) <= 0.2;
                     }
@@ -559,7 +550,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 });
 
                 if (primaryImageAspectRatio) {
-                    uiAspect = getDesiredAspect(options.shape);
+                    uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
                         coverImage = Math.abs(primaryImageAspectRatio - uiAspect) <= 0.2;
                     }
@@ -1159,7 +1150,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function buildCard(index, item, apiClient, options, className) {
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function buildCard(index, item, apiClient, options) {
 
             var action = options.action || 'link';
 
@@ -1171,13 +1166,43 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 action = 'play';
             }
 
-            className += " scalableCard " + options.shape + "Card-scalable";
+            var shape = options.shape;
+
+            if (shape === 'mixed') {
+
+                shape = null;
+
+                var primaryImageAspectRatio = item.PrimaryImageAspectRatio;
+
+                if (primaryImageAspectRatio) {
+
+                    if (primaryImageAspectRatio >= 1.33) {
+                        shape = 'mixedBackdrop';
+                    } else if (primaryImageAspectRatio > 0.71) {
+                        shape = 'mixedSquare';
+                    } else {
+                        shape = 'mixedPortrait';
+                    }
+                }
+
+                shape = shape || 'mixedSquare';
+            }
+
+            var className = 'card';
+
+            if (shape) {
+                className += ' ' + shape + 'Card';
+            }
+
+            if (options.cardCssClass) {
+                className += ' ' + options.cardCssClass;
+            }
 
             if (options.cardClass) {
                 className += " " + options.cardClass;
             }
 
-            var imgInfo = getCardImageUrl(item, apiClient, options);
+            var imgInfo = getCardImageUrl(item, apiClient, options, shape);
             var imgUrl = imgInfo.imgUrl;
 
             var forceName = imgInfo.forceName;
@@ -1362,7 +1387,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + options.shape + '"></div>' + cardContentOpen + cardImageContainerOpen;
+            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardContentOpen + cardImageContainerOpen;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
             cardImageContainerClose = '</div>';
@@ -1391,7 +1416,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (indicatorsHtml) {
-                cardImageContainerOpen += '<div class="cardIndicators ' + options.shape + 'CardIndicators">' + indicatorsHtml + '</div>';
+                cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
             }
 
             //if (item.Type === 'Program' || item.Type === 'Timer') {
