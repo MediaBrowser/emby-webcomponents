@@ -16,7 +16,6 @@
     cursor: pointer;
     z-index: 0;
     padding: 1em 1em;
-    font-weight: normal;
     vertical-align: middle;
     border: 0;
     vertical-align: middle;
@@ -164,7 +163,6 @@
     width: auto;
     height: auto;
     padding: 8px;
-    font-weight: normal;
     vertical-align: middle;
     border: 0;
     vertical-align: middle;

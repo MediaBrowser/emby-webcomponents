@@ -13,7 +13,7 @@
     top: 0;
     left: 0;
     right: 0;
-    padding: .5em;
+    padding: 1em .5em;
     display: flex;
     align-items: center;
     z-index: 99999;

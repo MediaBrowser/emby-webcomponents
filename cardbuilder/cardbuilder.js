@@ -1163,6 +1163,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var action = options.action || 'link';
 
+            if (action === 'play' && item.IsFolder) {
+                // If this hard-coding is ever removed make sure to test nested photo albums
+                action = 'link';
+            }
+            else if (item.MediaType === 'Photo') {
+                action = 'play';
+            }
+
             className += " scalableCard " + options.shape + "Card-scalable";
 
             if (options.cardClass) {
@@ -1364,9 +1372,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             indicatorsHtml += indicators.getSyncIndicator(item);
             indicatorsHtml += indicators.getTimerIndicator(item);
 
-            if (options.showVideoIndicator) {
-                indicatorsHtml += indicators.getVideoIndicator(item);
-            }
+            indicatorsHtml += indicators.getTypeIndicator(item);
 
             if (options.showGroupCount) {
 

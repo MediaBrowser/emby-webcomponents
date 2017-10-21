@@ -184,11 +184,20 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '';
     }
 
-    function getVideoIndicator(item) {
+    function getTypeIndicator(item) {
 
-        if (item.MediaType === 'Video') {
+        if (item.Type === 'Video') {
 
             return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE04B;</i></div>';
+        }
+        if (item.Type === 'Folder' || item.Type === 'PhotoAlbum') {
+
+            return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE2C7;</i></div>';
+        }
+        if (item.Type === 'Photo') {
+
+            return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE410;</i></div>';
+            //return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE412;</i></div>';
         }
 
         return '';
@@ -244,6 +253,6 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         getTimerIndicator: getTimerIndicator,
         enablePlayedIndicator: enablePlayedIndicator,
         getSyncIndicator: getSyncIndicator,
-        getVideoIndicator: getVideoIndicator
+        getTypeIndicator: getTypeIndicator
     };
 });
