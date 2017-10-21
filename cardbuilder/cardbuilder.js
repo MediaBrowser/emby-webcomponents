@@ -1150,10 +1150,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
         function buildCard(index, item, apiClient, options) {
 
             var action = options.action || 'link';
