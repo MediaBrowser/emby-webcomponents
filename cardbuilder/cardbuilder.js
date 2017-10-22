@@ -496,7 +496,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
-                        coverImage = Math.abs(primaryImageAspectRatio - uiAspect) <= 0.2;
+                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                     }
                 }
 
@@ -518,7 +518,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
-                        coverImage = Math.abs(primaryImageAspectRatio - uiAspect) <= 0.2;
+                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                     }
                 }
             }
@@ -552,7 +552,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
-                        coverImage = Math.abs(primaryImageAspectRatio - uiAspect) <= 0.2;
+                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
                     }
                 }
             }

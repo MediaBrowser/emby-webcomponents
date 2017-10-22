@@ -460,15 +460,15 @@ button {
 }
 
 .mixedPortraitCard {
-    width: 14em;
+    width: 12em;
 }
 
 .mixedSquareCard {
-    width: 21em;
+    width: 18em;
 }
 
 .mixedBackdropCard {
-    width: 37.333333333333333333333333333333em;
+    width: 32em;
 }
 
 @media all and (min-width: 400px) {
