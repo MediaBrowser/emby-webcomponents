@@ -1,4 +1,4 @@
-define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (userSettings, events, pluginManager, backdrop, globalize, require, appSettings) {
+define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings) {
     'use strict';
 
     var currentSkin;
