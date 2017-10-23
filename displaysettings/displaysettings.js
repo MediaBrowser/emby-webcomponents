@@ -155,6 +155,7 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         context.querySelector('#chkThemeSong').checked = userSettings.enableThemeSongs();
         context.querySelector('#chkThemeVideo').checked = userSettings.enableThemeVideos();
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
+        context.querySelector('#chkSeasonalThemes').checked = userSettings.enableSeasonalThemes();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
 
@@ -192,6 +193,7 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
+        userSettingsInstance.enableSeasonalThemes(context.querySelector('#chkSeasonalThemes').checked);
 
         if (user.Id === apiClient.getCurrentUserId()) {
 

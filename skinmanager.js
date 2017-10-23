@@ -196,7 +196,7 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
         return appSettings.get('appthemesregistered') !== 'false';
     }
 
-    function getThemeStylesheetInfo(id, isDefaultProperty) {
+    function getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty) {
 
         var themes = skinManager.getThemes();
         var defaultTheme;
@@ -215,7 +215,7 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
 
         selectedTheme = selectedTheme || defaultTheme;
 
-        if (selectedTheme.id !== defaultTheme.id && !isRegistered()) {
+        if (selectedTheme.id !== defaultTheme.id && requiresRegistration && !isRegistered()) {
             selectedTheme = defaultTheme;
         }
 
@@ -227,9 +227,63 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
         };
     }
 
+    var themeResources = {};
+    function modifyThemeForSeasonal(id) {
+
+        if (!userSettings.enableSeasonalThemes()) {
+            return id;
+        }
+
+        var date = new Date();
+        var month = date.getMonth();
+        var day = date.getDate();
+
+        if (month == 9 && day >= 30) {
+            return 'halloween';
+        }
+
+        return id;
+    }
+
+    var lastSound = 0;
+    var currentSound;
+
+    function loadThemeResources(id) {
+
+        lastSound = 0;
+
+        if (currentSound) {
+            currentSound.stop();
+            currentSound = null;
+        }
+
+        if (id === 'halloween') {
+            themeResources = {
+                themeSong: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/monsterparadefade.mp3',
+                effect: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/howl.wav',
+                backdrop: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/bg.jpg'
+            };
+            return;
+        }
+
+        themeResources = {
+        };
+    }
+
     skinManager.setTheme = function (id, context) {
 
         return new Promise(function (resolve, reject) {
+
+            var requiresRegistration = true;
+
+            if (context !== 'serverdashboard') {
+
+                var newId = modifyThemeForSeasonal(id);
+                if (newId !== id) {
+                    requiresRegistration = false;
+                }
+                id = newId;
+            }
 
             if (currentThemeId && currentThemeId === id) {
                 resolve();
@@ -237,7 +291,7 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
             }
 
             var isDefaultProperty = context === 'serverdashboard' ? 'isDefaultServerDashboard' : 'isDefault';
-            var info = getThemeStylesheetInfo(id, isDefaultProperty);
+            var info = getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty);
 
             if (currentThemeId && currentThemeId === info.themeId) {
                 resolve();
@@ -258,8 +312,51 @@ define(['userSettings', 'events', 'pluginManager', 'backdrop', 'globalize', 'req
             document.head.appendChild(link);
             themeStyleElement = link;
             currentThemeId = info.themeId;
+            loadThemeResources(info.themeId);
+
+            onViewBeforeShow();
         });
     };
+
+    function onViewBeforeShow() {
+
+        if (themeResources.backdrop) {
+
+            backdrop.setBackdrop(themeResources.backdrop);
+        }
+
+        if (!browser.mobile) {
+            if (lastSound == 0) {
+
+                if (themeResources.themeSong) {
+                    playSound(themeResources.themeSong);
+                }
+
+            } else if ((new Date().getTime() - lastSound) > 30000) {
+                if (themeResources.effect) {
+                    playSound(themeResources.effect);
+                }
+            }
+        }
+    }
+
+    document.addEventListener('viewshow', onViewBeforeShow);
+
+    function playSound(path, volume) {
+
+        lastSound = new Date().getTime();
+
+        require(['howler'], function (howler) {
+
+            var sound = new Howl({
+                urls: [path],
+                volume: volume || .1
+            });
+
+            sound.play();
+            currentSound = sound;
+        });
+    }
 
     return skinManager;
 });

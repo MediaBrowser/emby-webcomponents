@@ -1,3 +1,23 @@
+/*@import url('https://fonts.googleapis.com/css?family=Creepster');*/
+@import url('https://fonts.googleapis.com/css?family=Eater');
+
+h1 {
+    font-family: Eater;
+    font-weight: normal !important;
+    font-size: 1.566em !important;
+}
+
+h2 {
+    font-family: Eater;
+    font-weight: normal !important;
+    font-size: 1.305em !important;
+}
+
+.sectionTabs button, .userViewNames .btnUserViewHeader {
+    font-family: Eater !important;
+    font-size: 87% !important;
+}
+
 html {
     color: #eee;
     color: rgba(255, 255, 255, .87);
@@ -14,8 +34,7 @@ html {
 }
 
 .skinHeader-withBackground {
-    background-color: #141414;
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    background-color: #202020;
 }
 
 .osdHeader {
@@ -38,16 +57,11 @@ html {
 }
 
 .dialog {
-    background-color: #282828;
-}
-
-.backdropContainer {
-    background: url(bg.jpg) no-repeat center center;
-    background-size: contain;
+    background-color: #1a1a1a;
 }
 
 .backgroundContainer {
-    background-color: rgba(12,12,12, .9);
+    background-color: #1a1a1a;
 }
 
     .backgroundContainer.withBackdrop {
@@ -222,9 +236,9 @@ html {
     border-radius: .15em;
 }
 
-.emby-select-withcolor > option {
-    color: inherit;
-}
+    .emby-select-withcolor > option {
+        color: inherit;
+    }
 
     .emby-select-withcolor:focus {
         border-color: #FF9100;
@@ -405,4 +419,17 @@ html {
 /* cards */
 .card:focus .card-focuscontent {
     border-color: #FF9100;
+}
+
+/* horizontal home header buttons */
+.btnUserViewHeader:focus {
+    color: #FF9100 !important;
+}
+
+    .btnUserViewHeader:focus .userViewButtonText {
+        border-bottom-color: #FF9100 !important;
+    }
+
+.emby-button:focus:not(.btnUserViewHeader):not(.emby-tab-button) {
+    background: #FF9100;
 }
