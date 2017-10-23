@@ -238,7 +238,7 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
         var month = date.getMonth();
         var day = date.getDate();
 
-        if (month == 9 && day >= 30) {
+        if (month === 9 && day >= 30) {
             return 'halloween';
         }
 
@@ -256,6 +256,8 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
             currentSound.stop();
             currentSound = null;
         }
+
+        backdrop.clear();
 
         if (id === 'halloween') {
             themeResources = {
@@ -326,7 +328,7 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
         }
 
         if (!browser.mobile) {
-            if (lastSound == 0) {
+            if (lastSound === 0) {
 
                 if (themeResources.themeSong) {
                     playSound(themeResources.themeSong);
@@ -350,7 +352,7 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
 
             var sound = new Howl({
                 urls: [path],
-                volume: volume || .1
+                volume: volume || 0.1
             });
 
             sound.play();
