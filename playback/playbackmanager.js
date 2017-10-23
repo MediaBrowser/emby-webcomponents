@@ -1676,7 +1676,7 @@
                     Recursive: false,
                     SortBy: "SortName",
                     MediaTypes: "Photo,Video",
-                    Limit: 300
+                    Limit: 500
 
                 }).then(function (result) {
 
