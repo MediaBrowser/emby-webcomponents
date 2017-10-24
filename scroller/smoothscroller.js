@@ -88,8 +88,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
         var isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
 
-        var browserSupportsAnimation = browser.animate ? true : false;
-
         // native scroll is a must with touch input
         // also use native scroll when scrolling vertically in desktop mode - excluding horizontal because the mouse wheel support is choppy at the moment
         // in cases with firefox, if the smooth scroll api is supported then use that because their implementation is very good
@@ -97,12 +95,12 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             // native smooth scroll
             options.enableNativeScroll = true;
         }
-        else if (options.requireAnimation && browserSupportsAnimation) {
+        else if (options.requireAnimation && (browser.animate || browser.supportsCssAnimation())) {
 
             // transform is the only way to guarantee animation
             options.enableNativeScroll = false;
         }
-        else if (!layoutManager.tv || !browserSupportsAnimation) {
+        else if (!layoutManager.tv || !browser.animate) {
 
             options.enableNativeScroll = true;
         }

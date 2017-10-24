@@ -1,4 +1,4 @@
-﻿define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'registerElement'], function (scroller, dom, layoutManager, inputManager, focusManager) {
+﻿define(['scroller', 'dom', 'layoutManager', 'inputManager', 'focusManager', 'browser', 'registerElement'], function (scroller, dom, layoutManager, inputManager, focusManager, browser) {
     'use strict';
 
     var ScrollerProtoType = Object.create(HTMLDivElement.prototype);
@@ -156,7 +156,10 @@
             dispatchScrollEvent: enableScrollButtons || bindHeader || this.getAttribute('data-scrollevent') === 'true',
             hideScrollbar: enableScrollButtons || this.getAttribute('data-hidescrollbar') === 'true',
             allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true',
-            forceHideScrollbars: enableScrollButtons
+            forceHideScrollbars: enableScrollButtons,
+
+            // In edge, with the native scroll, the content jumps around when hovering over the buttons
+            requireAnimation: enableScrollButtons && browser.edge
         };
 
         // If just inserted it might not have any height yet - yes this is a hack

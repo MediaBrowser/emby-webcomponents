@@ -56,7 +56,7 @@ html, .skinHeader {
     color: #52B54B;
 }
 
-.skinHeader-withBackground .paper-icon-button-light:focus {
+.skinHeader-withBackground .paper-icon-button-light:focus, .skinHeader-withBackground .button-link {
     color: #fff;
 }
 
