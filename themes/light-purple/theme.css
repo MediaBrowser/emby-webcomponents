@@ -378,6 +378,14 @@ html, .skinHeader {
     background: linear-gradient(rgba(0,0,0,0), #EDE7F6);
 }
 
+@media all and (min-width: 62.5em) {
+
+    .detailButton-mobile {
+        background: rgba(0,0,0,.14) !important;
+        backdrop-filter: blur(10px);
+    }
+}
+
 /* used by directory picker and other areas */
 .infoBanner {
     color: #000;

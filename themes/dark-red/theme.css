@@ -368,6 +368,14 @@ html {
     background: linear-gradient(rgba(0,0,0,0), #191919);
 }
 
+@media all and (min-width: 62.5em) {
+
+    .detailButton-mobile {
+        background: rgba(255,255,255,.14) !important;
+        backdrop-filter: blur(10px);
+    }
+}
+
 /* used by directory picker and other areas */
 .infoBanner {
     color: #ddd;

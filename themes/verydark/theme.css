@@ -295,11 +295,11 @@ html {
 
 /* guide */
 .guide-channelHeaderCell, .guide-channelTimeslotHeader {
-    background: #2e2e2e;
+    background: #2a2a2a;
 }
 
 .programCellInner {
-    background-color: #202020;
+    background-color: #1e1e1e;
 }
 
 .programCellInner-sports {
@@ -360,6 +360,14 @@ html {
 /* detail screen */
 .itemBackdropFader {
     background: linear-gradient(rgba(0,0,0,0), #141414);
+}
+
+@media all and (min-width: 62.5em) {
+
+    .detailButton-mobile {
+        background: rgba(255,255,255,.14) !important;
+        backdrop-filter: blur(10px);
+    }
 }
 
 /* used by directory picker and other areas */
