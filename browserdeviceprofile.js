@@ -7,7 +7,7 @@ define(['browser'], function (browser) {
 
     function canPlayH265(videoTestElement, options) {
 
-        if (browser.tizen || browser.orsay || browser.xboxOne || options.supportsHevc) {
+        if (browser.tizen || browser.orsay || browser.xboxOne || browser.web0s || options.supportsHevc) {
             return true;
         }
 
@@ -419,7 +419,7 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('mp2');
         }
 
-        if (browser.tizen || browser.orsay || options.supportsDts) {
+        if (browser.tizen || browser.orsay || browser.web0s || options.supportsDts) {
             videoAudioCodecs.push('dca');
             videoAudioCodecs.push('dts');
         }
