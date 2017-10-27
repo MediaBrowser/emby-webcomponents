@@ -189,6 +189,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (options.shape === 'auto' || options.shape === 'autohome' || options.shape === 'autooverflow' || options.shape === 'autoVertical') {
 
+                var requestedShape = options.shape;
                 options.shape = null;
 
                 if (primaryImageAspectRatio) {
@@ -197,16 +198,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         options.shape = 'banner';
                         options.coverImage = true;
                     } else if (primaryImageAspectRatio >= 1.33) {
-                        options.shape = options.shape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
+                        options.shape = requestedShape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
                     } else if (primaryImageAspectRatio > 0.71) {
-                        options.shape = options.shape === 'autooverflow' ? 'overflowSquare' : 'square';
+                        options.shape = requestedShape === 'autooverflow' ? 'overflowSquare' : 'square';
                     } else {
-                        options.shape = options.shape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
+                        options.shape = requestedShape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
                     }
                 }
 
                 if (!options.shape) {
-                    options.shape = options.defaultShape || (options.shape === 'autooverflow' ? 'overflowSquare' : 'square');
+                    options.shape = options.defaultShape || (requestedShape === 'autooverflow' ? 'overflowSquare' : 'square');
                 }
             }
 

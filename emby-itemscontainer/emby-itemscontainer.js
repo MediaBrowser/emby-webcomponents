@@ -259,14 +259,13 @@
 
     function onKeyDown(e) {
 
-        var keyCode = e.keyCode;
-        var chrCode = keyCode - 48 * Math.floor(keyCode / 48);
-        chrCode = (96 <= keyCode) ? chrCode : keyCode;
-        var chr = String.fromCharCode(chrCode);
-
-        chr = alphanumeric(chr);
+        var key = e.key;
+        var chr = key ? alphanumeric(key) : null;
 
         if (chr) {
+
+            chr = chr.toString().toUpperCase();
+
             currentDisplayTextContainer = this;
             onAlphanumericKeyPress(e, chr);
         }

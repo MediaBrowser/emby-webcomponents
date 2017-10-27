@@ -382,7 +382,8 @@ define(['browser'], function (browser) {
 
             // This works in edge desktop, but not mobile
             // TODO: Retest this on mobile
-            if (!browser.edge || !browser.touch || browser.edgeUwp) {
+            var supportsAc3InHls = (!browser.edge || !browser.touch || browser.edgeUwp) && !browser.web0s;
+            if (supportsAc3InHls) {
                 hlsVideoAudioCodecs.push('ac3');
                 if (eAc3) {
                     hlsVideoAudioCodecs.push('eac3');
