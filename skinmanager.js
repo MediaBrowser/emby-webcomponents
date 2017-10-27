@@ -320,7 +320,11 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
         });
     };
 
-    function onViewBeforeShow() {
+    function onViewBeforeShow(e) {
+
+        if (e.detail.type === 'video-osd') {
+            return;
+        }
 
         if (themeResources.backdrop) {
 
@@ -350,13 +354,18 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
 
         require(['howler'], function (howler) {
 
-            var sound = new Howl({
-                urls: [path],
-                volume: volume || 0.1
-            });
+            try {
+                var sound = new Howl({
+                    urls: [path],
+                    volume: volume || 0.1
+                });
 
-            sound.play();
-            currentSound = sound;
+                sound.play();
+                currentSound = sound;
+            }
+            catch (err) {
+                console.log('Error playing sound: ' + err);
+            }
         });
     }
 
