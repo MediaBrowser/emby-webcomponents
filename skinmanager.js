@@ -316,13 +316,13 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
             currentThemeId = info.themeId;
             loadThemeResources(info.themeId);
 
-            onViewBeforeShow();
+            onViewBeforeShow({});
         });
     };
 
     function onViewBeforeShow(e) {
 
-        if (e.detail.type === 'video-osd') {
+        if (e.detail && e.detail.type === 'video-osd') {
             return;
         }
 

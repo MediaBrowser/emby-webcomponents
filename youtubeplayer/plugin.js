@@ -69,7 +69,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
         instance.timeUpdateInterval = null;
     }
 
-    function onEndedInternal(instance, triggerEnded) {
+    function onEndedInternal(instance) {
 
         clearTimeUpdateInterval(instance);
         var resizeListener = instance.resizeListener;
@@ -79,13 +79,11 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
             instance.resizeListener = null;
         }
 
-        if (triggerEnded) {
-            var stopInfo = {
-                src: instance._currentSrc
-            };
+        var stopInfo = {
+            src: instance._currentSrc
+        };
 
-            events.trigger(instance, 'stopped', [stopInfo]);
-        }
+        events.trigger(instance, 'stopped', [stopInfo]);
 
         instance._currentSrc = null;
         if (instance.currentYoutubePlayer) {
@@ -216,7 +214,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
         });
     };
 
-    YoutubePlayer.prototype.stop = function (destroyPlayer, reportEnded) {
+    YoutubePlayer.prototype.stop = function (destroyPlayer) {
 
         var src = this._currentSrc;
 
@@ -225,7 +223,7 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
             if (this.currentYoutubePlayer) {
                 this.currentYoutubePlayer.stopVideo();
             }
-            onEndedInternal(this, reportEnded);
+            onEndedInternal(this);
 
             if (destroyPlayer) {
                 this.destroy();
@@ -348,7 +346,6 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
         var currentYoutubePlayer = this.currentYoutubePlayer;
 
         if (currentYoutubePlayer) {
-            console.log(currentYoutubePlayer.getPlayerState());
             return currentYoutubePlayer.getPlayerState() === 2;
         }
 
