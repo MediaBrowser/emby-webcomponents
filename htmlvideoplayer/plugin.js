@@ -1268,9 +1268,10 @@
 
         function createMediaElement(options) {
 
-            if (browser.tv || browser.iOS) {
+            if (browser.tv || browser.iOS || browser.mobile) {
                 // too slow
                 // also on iOS, the backdrop image doesn't look right
+                // on android mobile, it works, but can be slow to have the video surface fully cover the backdrop
                 options.backdropUrl = null;
             }
             return new Promise(function (resolve, reject) {

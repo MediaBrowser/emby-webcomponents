@@ -278,7 +278,7 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
 
             var requiresRegistration = true;
 
-            if (context !== 'serverdashboard') {
+            if (context !== 'serverdashboard' && !browser.orsay && !browser.tizen) {
 
                 var newId = modifyThemeForSeasonal(id);
                 if (newId !== id) {

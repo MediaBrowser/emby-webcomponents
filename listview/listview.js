@@ -278,12 +278,16 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     imageClass += ' listItemImage-large-tv';
                 }
 
+                var playOnImageClick = options.imagePlayButton && !layoutManager.tv;
+
                 if (!clickEntireItem) {
                     imageClass += ' itemAction';
                 }
 
+                var imageAction = playOnImageClick ? 'resume' : action;
+
                 if (imgUrl) {
-                    html += '<div data-action="' + action + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
+                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
                 } else {
                     html += '<div class="' + imageClass + '">';
                 }
@@ -295,7 +299,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                     html += '<div class="indicators listItemIndicators">' + indicatorsHtml + '</div>';
                 }
 
-                if (options.imagePlayButton && !layoutManager.tv) {
+                if (playOnImageClick) {
                     html += '<button is="paper-icon-button-light" class="listItemImageButton itemAction" data-action="resume"><i class="md-icon listItemImageButton-icon">&#xE037;</i></button>';
                 }
 

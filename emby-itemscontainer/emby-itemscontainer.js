@@ -266,8 +266,10 @@
 
             chr = chr.toString().toUpperCase();
 
-            currentDisplayTextContainer = this;
-            onAlphanumericKeyPress(e, chr);
+            if (chr.length === 1) {
+                currentDisplayTextContainer = this;
+                onAlphanumericKeyPress(e, chr);
+            }
         }
     }
 

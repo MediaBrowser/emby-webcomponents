@@ -216,18 +216,39 @@
         html += '</div>';
         html += '</div>';
 
+        var numLines = 2;
+        if (currentItemType === "MusicAlbum") {
+            numLines++;
+        }
+        else if (currentItemType === "Game") {
+            numLines++;
+        }
+
         html += '<div class="cardFooter cardFooter-transparent">';
-        html += '<div class="cardText cardTextCentered">' + result.Name + '</div>';
 
-        html += '<div class="cardText cardText-secondary cardTextCentered">';
-        html += result.ProductionYear || '&nbsp;';
-        html += '</div>';
+        var lines = [result.Name];
 
+        if (result.AlbumArtist) {
+            lines.push(result.AlbumArtist.Name);
+        }
+        if (result.ProductionYear) {
+            lines.push(result.ProductionYear);
+        }
         if (result.GameSystem) {
-            html += '<div class="cardText cardText-secondary cardTextCentered">';
-            html += result.GameSystem;
+            lines.push(result.GameSystem);
+        }
+
+        for (var i = 0; i < numLines; i++) {
+
+            if (i === 0) {
+                html += '<div class="cardText cardTextCentered">';
+            } else {
+                html += '<div class="cardText cardText-secondary cardTextCentered">';
+            }
+            html += lines[i] || '&nbsp;';
             html += '</div>';
         }
+
         html += '</div>';
         html += '</div>';
         html += '</button>';
