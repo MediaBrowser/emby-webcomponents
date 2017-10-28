@@ -180,7 +180,7 @@ define(['browser'], function (browser) {
     }
 
     function supportsMpeg2Video() {
-        return browser.orsay || browser.tizen || browser.edgeUwp;
+        return browser.orsay || browser.tizen || browser.edgeUwp || browser.web0s;
     }
 
     function supportsVc1() {
@@ -366,7 +366,7 @@ define(['browser'], function (browser) {
             videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '');
 
         // Not sure how to test for this
-        var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay;
+        var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
 
         // Only put mp3 first if mkv support is there
         // Otherwise with HLS and mp3 audio we're seeing some browsers
