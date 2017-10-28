@@ -1,4 +1,4 @@
-﻿define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', './htmlmediahelper', 'itemHelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper) {
+﻿define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper) {
     "use strict";
 
     var mediaManager;
@@ -507,7 +507,7 @@
                 return setCurrentSrcChromecast(self, elem, options, val);
             }
 
-            else if (htmlMediaHelper.enableHlsJsPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
+            else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
 
                 setTracks(elem, tracks, options.item, options.mediaSource);
 

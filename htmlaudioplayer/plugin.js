@@ -1,4 +1,4 @@
-define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvideoplayer/htmlmediahelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
+define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
     "use strict";
 
     function getDefaultProfile() {
@@ -69,7 +69,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', './../htmlvide
 
     function enableHlsPlayer(url, item, mediaSource, mediaType) {
 
-        if (!htmlMediaHelper.enableHlsJsPlayer(item, mediaSource, mediaType)) {
+        if (!htmlMediaHelper.enableHlsJsPlayer(mediaSource.RunTimeTicks, mediaType)) {
 
             return Promise.reject();
         }
