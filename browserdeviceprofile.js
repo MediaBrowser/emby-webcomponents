@@ -754,15 +754,20 @@ define(['browser'], function (browser) {
             });
         }
 
+        var globalVideoConditions = [];
+
         if (globalMaxVideoBitrate) {
+            globalVideoConditions.push({
+                Condition: 'LessThanEqual',
+                Property: 'VideoBitrate',
+                Value: globalMaxVideoBitrate
+            });
+        }
+
+        if (globalVideoConditions.length) {
             profile.CodecProfiles.push({
                 Type: 'Video',
-                Conditions: [
-                    {
-                        Condition: 'LessThanEqual',
-                        Property: 'VideoBitrate',
-                        Value: globalMaxVideoBitrate
-                    }]
+                Conditions: globalVideoConditions
             });
         }
 
