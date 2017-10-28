@@ -57,7 +57,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return false;
     }
 
-    function enableHlsJsPlayer(item, mediaSource, mediaType) {
+    function enableHlsJsPlayer(runTimeTicks, mediaType) {
 
         if (window.MediaSource == null) {
             return false;
@@ -80,7 +80,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
             }
 
             // simple playback should use the native support
-            if (mediaSource.RunTimeTicks) {
+            if (runTimeTicks) {
                 //if (!browser.edge) {
                 return false;
                 //}
