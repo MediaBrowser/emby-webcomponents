@@ -368,6 +368,14 @@ define(['browser'], function (browser) {
         // Not sure how to test for this
         var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
 
+        var maxVideoWidth = browser.xboxOne ?
+            (self.screen ? self.screen.width : null) :
+            null;
+
+        if (options.maxVideoWidth) {
+            maxVideoWidth = options.maxVideoWidth;
+        }
+
         // Only put mp3 first if mkv support is there
         // Otherwise with HLS and mp3 audio we're seeing some browsers
         // safari is lying
@@ -741,6 +749,15 @@ define(['browser'], function (browser) {
             });
         }
 
+        if (maxVideoWidth) {
+            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+                Condition: 'LessThanEqual',
+                Property: 'Width',
+                Value: maxVideoWidth.toString(),
+                IsRequired: false
+            });
+        }
+
         var globalMaxVideoBitrate = (getGlobalMaxVideoBitrate() || '').toString();
 
         var h264MaxVideoBitrate = globalMaxVideoBitrate;
@@ -761,6 +778,15 @@ define(['browser'], function (browser) {
                 Condition: 'LessThanEqual',
                 Property: 'VideoBitrate',
                 Value: globalMaxVideoBitrate
+            });
+        }
+
+        if (maxVideoWidth) {
+            globalVideoConditions.push({
+                Condition: 'LessThanEqual',
+                Property: 'Width',
+                Value: maxVideoWidth.toString(),
+                IsRequired: false
             });
         }
 

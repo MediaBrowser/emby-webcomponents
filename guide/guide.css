@@ -155,7 +155,7 @@
     text-align: left;
     contain: strict;
     flex-shrink: 0;
-    border-radius: .16em;
+    border-radius: .12em;
     color: inherit;
 }
 
@@ -282,7 +282,7 @@
     margin-right: .3em;
     display: flex;
     flex-grow: 1;
-    border-radius: .16em;
+    border-radius: .12em;
     position: absolute;
     top: 0;
     left: 0;

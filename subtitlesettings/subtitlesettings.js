@@ -59,22 +59,12 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
         });
     }
 
-    function refreshGlobalUserSettings(userSettingsInstance) {
-        require(['userSettings'], function (userSettings) {
-            userSettings.importFrom(userSettingsInstance);
-        });
-    }
-
     function saveUser(context, user, userSettingsInstance, appearanceKey, apiClient) {
 
         var appearanceSettings = userSettingsInstance.getSubtitleAppearanceSettings(appearanceKey);
         appearanceSettings = Object.assign(appearanceSettings, getSubtitleAppearanceObject(context));
 
         userSettingsInstance.setSubtitleAppearanceSettings(appearanceSettings, appearanceKey);
-
-        if (user.Id === apiClient.getCurrentUserId()) {
-            refreshGlobalUserSettings(userSettingsInstance);
-        }
 
         user.Configuration.SubtitleLanguagePreference = context.querySelector('#selectSubtitleLanguage').value;
         user.Configuration.SubtitleMode = context.querySelector('#selectSubtitlePlaybackMode').value;

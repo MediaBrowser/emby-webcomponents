@@ -16,7 +16,6 @@ define(['appSettings', 'events'], function (appsettings, events) {
     }
 
     function UserSettings() {
-
     }
 
     UserSettings.prototype.setUserInfo = function (userId, apiClient) {
@@ -56,7 +55,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
             throw new Error('userId cannot be null');
         }
 
-        var currentValue = this.get(name);
+        var currentValue = this.get(name, enableOnServer);
         var result = appsettings.set(name, value, userId);
 
         if (enableOnServer !== false && this.displayPrefs) {
@@ -180,6 +179,15 @@ define(['appSettings', 'events'], function (appsettings, events) {
         }
 
         return this.get('language', false);
+    };
+
+    UserSettings.prototype.dateTimeLocale = function (val) {
+
+        if (val != null) {
+            return this.set('datetimelocale', val.toString(), false);
+        }
+
+        return this.get('datetimelocale', false);
     };
 
     UserSettings.prototype.skipBackLength = function (val) {

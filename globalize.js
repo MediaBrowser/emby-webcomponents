@@ -3,10 +3,15 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     var allTranslations = {};
     var currentCulture;
+    var currentDateTimeCulture;
 
     function getCurrentLocale() {
 
         return currentCulture;
+    }
+
+    function getCurrentDateTimeLocale() {
+        return currentDateTimeCulture;
     }
 
     function getDefaultLanguage() {
@@ -41,6 +46,20 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         culture = culture || getDefaultLanguage();
 
         currentCulture = normalizeLocaleName(culture);
+
+        var dateTimeCulture;
+        try {
+            dateTimeCulture = userSettings.dateTimeLocale();
+        } catch (err) {
+
+        }
+
+        if (dateTimeCulture) {
+            currentDateTimeCulture = normalizeLocaleName(dateTimeCulture);
+        }
+        else {
+            currentDateTimeCulture = currentCulture;
+        }
 
         ensureTranslations(currentCulture);
     }
@@ -257,7 +276,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     events.on(connectionManager, 'localusersignedin', updateCurrentCulture);
     events.on(userSettings, 'change', function (e, name) {
-        if (name === 'language') {
+        if (name === 'language' || name === 'datetimelocale') {
             updateCurrentCulture();
         }
     });
@@ -270,6 +289,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         loadStrings: loadStrings,
         defaultModule: defaultModule,
         getCurrentLocale: getCurrentLocale,
+        getCurrentDateTimeLocale: getCurrentDateTimeLocale,
         register: register
     };
 });

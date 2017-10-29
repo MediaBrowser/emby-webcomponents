@@ -1,4 +1,4 @@
-define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-linkbutton'], function (require, layoutManager, appSettings, pluginManager, appHost, focusManager, globalize, loading, connectionManager, skinManager, dom, events) {
+define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-linkbutton'], function (require, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
     "use strict";
 
     function fillThemes(select, isDashboard) {
@@ -139,6 +139,12 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
             context.querySelector('.selectScreensaverContainer').classList.add('hide');
         }
 
+        if (datetime.supportsLocalization()) {
+            context.querySelector('.fldDateTimeLocale').classList.remove('hide');
+        } else {
+            context.querySelector('.fldDateTimeLocale').classList.add('hide');
+        }
+
         context.querySelector('.chkRunAtStartup').checked = appSettings.runAtStartup();
 
         var selectTheme = context.querySelector('#selectTheme');
@@ -158,6 +164,7 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         context.querySelector('#chkSeasonalThemes').checked = userSettings.enableSeasonalThemes();
 
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
+        context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
         selectDashboardTheme.value = userSettings.dashboardTheme() || '';
         selectTheme.value = userSettings.theme() || '';
@@ -165,12 +172,6 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         context.querySelector('.selectLayout').value = layoutManager.getSavedLayout() || '';
 
         loading.hide();
-    }
-
-    function refreshGlobalUserSettings(userSettingsInstance) {
-        require(['userSettings'], function (userSettings) {
-            userSettings.importFrom(userSettingsInstance);
-        });
     }
 
     function saveUser(context, user, userSettingsInstance, apiClient) {
@@ -182,6 +183,8 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         if (appHost.supports('displaylanguage')) {
             userSettingsInstance.language(context.querySelector('#selectLanguage').value);
         }
+
+        userSettingsInstance.dateTimeLocale(context.querySelector('.selectDateTimeLocale').value);
 
         userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
         userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
@@ -198,7 +201,6 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         if (user.Id === apiClient.getCurrentUserId()) {
 
             skinManager.setTheme(userSettingsInstance.theme());
-            refreshGlobalUserSettings(userSettingsInstance);
         }
 
         layoutManager.setLayout(context.querySelector('.selectLayout').value);

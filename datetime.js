@@ -104,12 +104,6 @@
         return false;
     }();
 
-    function getCurrentLocale() {
-        var locale = globalize.getCurrentLocale();
-
-        return locale;
-    }
-
     function getOptionList(options) {
 
         var list = [];
@@ -134,7 +128,7 @@
 
         if (toLocaleTimeStringSupportsLocales) {
 
-            var currentLocale = getCurrentLocale();
+            var currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
                 return date.toLocaleString(currentLocale, options);
@@ -154,7 +148,7 @@
 
         if (toLocaleTimeStringSupportsLocales) {
 
-            var currentLocale = getCurrentLocale();
+            var currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
                 return date.toLocaleDateString(currentLocale, options);
@@ -188,7 +182,7 @@
 
         if (toLocaleTimeStringSupportsLocales) {
 
-            var currentLocale = getCurrentLocale();
+            var currentLocale = globalize.getCurrentDateTimeLocale();
 
             if (currentLocale) {
                 return date.toLocaleTimeString(currentLocale, options);
@@ -280,6 +274,9 @@
         toLocaleString: toLocaleString,
         getDisplayTime: getDisplayTime,
         isRelativeDay: isRelativeDay,
-        toLocaleTimeString: toLocaleTimeString
+        toLocaleTimeString: toLocaleTimeString,
+        supportsLocalization: function () {
+            return toLocaleTimeStringSupportsLocales;
+        }
     };
 });
