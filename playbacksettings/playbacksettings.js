@@ -175,12 +175,6 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
         loading.hide();
     }
 
-    function refreshGlobalUserSettings(userSettingsInstance) {
-        require(['userSettings'], function (userSettings) {
-            userSettings.importFrom(userSettingsInstance);
-        });
-    }
-
     function saveUser(context, user, userSettingsInstance, apiClient) {
 
         appSettings.enableSystemExternalPlayers(context.querySelector('.chkExternalVideoPlayer').checked);
@@ -200,10 +194,6 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
         userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
         userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
-
-        if (user.Id === apiClient.getCurrentUserId()) {
-            refreshGlobalUserSettings(userSettingsInstance);
-        }
 
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
     }

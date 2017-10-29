@@ -314,12 +314,6 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         return list;
     }
 
-    function refreshGlobalUserSettings(userSettingsInstance) {
-        require(['userSettings'], function (userSettings) {
-            userSettings.importFrom(userSettingsInstance);
-        });
-    }
-
     function saveUser(context, user, userSettingsInstance, apiClient) {
 
         user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
@@ -355,10 +349,6 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         for (i = 0, length = selectLandings.length; i < length; i++) {
             var selectLanding = selectLandings[i];
             userSettingsInstance.set('landing-' + selectLanding.getAttribute('data-folderid'), selectLanding.value);
-        }
-
-        if (user.Id === apiClient.getCurrentUserId()) {
-            refreshGlobalUserSettings(userSettingsInstance);
         }
 
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
