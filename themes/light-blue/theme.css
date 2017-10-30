@@ -269,7 +269,7 @@ html, .skinHeader {
 
 .navMenuDivider {
     background: #eaeaea;
-    background: rgba(0, 0, 0, .12);
+    background: rgba(0, 0, 0, .14);
 }
 
 .navMenuOption:hover {
