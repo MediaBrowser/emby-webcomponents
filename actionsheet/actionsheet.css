@@ -120,4 +120,5 @@
 .actionsheetDivider {
     height: .07em;
     margin: .25em 0;
+    flex-shrink: 0;
 }
