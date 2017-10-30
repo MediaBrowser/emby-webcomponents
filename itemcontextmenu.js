@@ -19,6 +19,70 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         var user = options.user;
 
+        if (canPlay && item.MediaType !== 'Photo') {
+            if (options.play !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Play'),
+                    id: 'resume'
+                });
+            }
+
+            if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#PlayAllFromHere'),
+                    id: 'playallfromhere'
+                });
+            }
+        }
+
+        if (playbackManager.canQueue(item)) {
+
+            if (options.queue !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#AddToPlayQueue'),
+                    id: 'queue'
+                });
+            }
+
+            if (options.queue !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#PlayNext'),
+                    id: 'queuenext'
+                });
+            }
+
+            //if (options.queueAllFromHere) {
+            //    commands.push({
+            //        name: globalize.translate('sharedcomponents#QueueAllFromHere'),
+            //        id: 'queueallfromhere'
+            //    });
+            //}
+        }
+
+        if (item.IsFolder || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
+            if (options.shuffle !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#Shuffle'),
+                    id: 'shuffle'
+                });
+            }
+        }
+
+        if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist" || item.Type === "MusicGenre" || item.CollectionType === "music") {
+            if (options.instantMix !== false) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#InstantMix'),
+                    id: 'instantmix'
+                });
+            }
+        }
+
+        if (commands.length) {
+            commands.push({
+                divider: true
+            });
+        }
+
         if (itemHelper.supportsAddingToCollection(item)) {
             commands.push({
                 name: globalize.translate('sharedcomponents#AddToCollection'),
@@ -31,24 +95,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 name: globalize.translate('sharedcomponents#AddToPlaylist'),
                 id: 'addtoplaylist'
             });
-        }
-
-        var canQueueItem = playbackManager.canQueue(item);
-
-        if (canQueueItem) {
-            if (options.queue !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#AddToPlayQueue'),
-                    id: 'queue'
-                });
-            }
-
-            //if (options.queueAllFromHere) {
-            //    commands.push({
-            //        name: globalize.translate('sharedcomponents#QueueAllFromHere'),
-            //        id: 'queueallfromhere'
-            //    });
-            //}
         }
 
         if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
@@ -147,46 +193,12 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
-        if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist" || item.Type === "MusicGenre" || item.CollectionType === "music") {
-            if (options.instantMix !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#InstantMix'),
-                    id: 'instantmix'
-                });
-            }
-        }
-
         if (item.Type === 'Program' && options.record !== false) {
 
             if (item.TimerId) {
                 commands.push({
                     name: Globalize.translate('sharedcomponents#ManageRecording'),
                     id: 'record'
-                });
-            }
-        }
-
-        if (canPlay && item.MediaType !== 'Photo') {
-            if (options.play !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#Play'),
-                    id: 'resume'
-                });
-            }
-
-            if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#PlayAllFromHere'),
-                    id: 'playallfromhere'
-                });
-            }
-        }
-
-        if (canQueueItem) {
-            if (options.queue !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#PlayNext'),
-                    id: 'queuenext'
                 });
             }
         }
@@ -230,15 +242,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 commands.push({
                     name: globalize.translate('sharedcomponents#Share'),
                     id: 'share'
-                });
-            }
-        }
-
-        if (item.IsFolder || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
-            if (options.shuffle !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#Shuffle'),
-                    id: 'shuffle'
                 });
             }
         }

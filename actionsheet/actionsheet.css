@@ -103,7 +103,11 @@
     flex-grow: 0;
 }
 
-.actionsheet-extraSpacing {
+.actionsheet-largeFont {
+    font-size: 105%;
+}
+
+.actionsheet-xlargeFont {
     font-size: 112%;
 }
 
@@ -111,4 +115,9 @@
     position: fixed;
     top: .75em;
     left: .5em;
+}
+
+.actionsheetDivider {
+    height: .07em;
+    margin: .25em 0;
 }

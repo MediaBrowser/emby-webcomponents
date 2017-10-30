@@ -100,6 +100,11 @@ html {
     color: rgba(255, 255, 255, .5);
 }
 
+.actionsheetDivider {
+    background: #444;
+    background: rgba(255, 255, 255, .1);
+}
+
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
     opacity: .5;

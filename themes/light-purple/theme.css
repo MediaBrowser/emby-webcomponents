@@ -114,6 +114,11 @@ html, .skinHeader {
     color: rgba(0, 0, 0, .54);
 }
 
+.actionsheetDivider {
+    background: #ddd;
+    background: rgba(0, 0, 0, .1);
+}
+
 .listItem:focus {
     background: #ddd;
 }

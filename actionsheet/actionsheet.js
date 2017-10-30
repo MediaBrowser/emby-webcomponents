@@ -131,6 +131,12 @@
             dlg.classList.add('actionsheet-extraSpacing');
         }
 
+        if (layoutManager.mobile) {
+            dlg.classList.add('actionsheet-xlargeFont');
+        } else if (layoutManager.desktop) {
+            dlg.classList.add('actionsheet-largeFont');
+        }
+
         dlg.classList.add('actionSheet');
 
         if (options.dialogClass) {
@@ -212,6 +218,12 @@
         for (i = 0, length = options.items.length; i < length; i++) {
 
             option = options.items[i];
+
+            if (option.divider) {
+
+                html += '<div class="actionsheetDivider"></div>';
+                continue;
+            }
 
             var autoFocus = option.selected ? ' autoFocus' : '';
 

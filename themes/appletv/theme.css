@@ -107,6 +107,11 @@ html, .skinHeader {
     color: rgba(0, 0, 0, .5);
 }
 
+.actionsheetDivider {
+    background: #ddd;
+    background: rgba(0, 0, 0, .1);
+}
+
 .cardFooter-vibrant .cardText-secondary {
     color: inherit;
     opacity: .5;

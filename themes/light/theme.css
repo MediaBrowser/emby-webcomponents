@@ -109,6 +109,11 @@ html, .skinHeader {
     color: #888;
 }
 
+.actionsheetDivider {
+    background: #ddd;
+    background: rgba(0, 0, 0, .1);
+}
+
 .fieldDescription {
     color: #888;
 }
