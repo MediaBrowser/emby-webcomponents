@@ -3331,7 +3331,7 @@
         }
 
         // Go back 15 seconds
-        var offsetTicks = userSettings.skipBackLength() * 10000;
+        var offsetTicks = userSettings.skipForwardLength() * 10000;
 
         this.seekRelative(offsetTicks, player);
     };
