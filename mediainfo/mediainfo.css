@@ -70,3 +70,13 @@
     /*font-size: inherit;*/
     /*background: rgba(81, 81, 81, .7);*/
 }
+
+.mediaInfoOfficialRating {
+    border: .09em solid currentColor;
+    padding: 0 .6em;
+    height: 1.3em;
+    line-height: 1.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
