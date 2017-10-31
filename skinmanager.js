@@ -331,7 +331,7 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
             backdrop.setBackdrop(themeResources.backdrop);
         }
 
-        if (!browser.mobile) {
+        if (!browser.mobile && userSettings.enableThemeSongs()) {
             if (lastSound === 0) {
 
                 if (themeResources.themeSong) {
