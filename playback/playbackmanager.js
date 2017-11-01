@@ -2110,14 +2110,15 @@
             }, reject);
         }
 
-        function sendPlaybackListToPlayer(player, items, deviceProfile, maxBitrate, apiClient, startPosition) {
+        function sendPlaybackListToPlayer(player, items, deviceProfile, maxBitrate, apiClient, startPositionTicks) {
 
-            return setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(function () {
+            return setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositionTicks).then(function () {
 
                 loading.hide();
 
                 return player.play({
-                    items: items
+                    items: items,
+                    startPositionTicks: startPositionTicks || 0
                 });
             });
         }
