@@ -64,11 +64,6 @@ html {
         background-color: rgba(12,12,12, .9);
     }
 
-.detailBackgroundContainer.withBackdrop {
-    background-color: rgba(6, 6, 6, .94);
-    background: linear-gradient(to right, rgba(0, 0, 0, .99), rgba(0, 0, 0, .94), rgba(0, 0, 0, .5));
-}
-
 /* buttons */
 .paper-icon-button-light:focus {
     color: #FF9100;
@@ -391,8 +386,7 @@ html {
 @media all and (min-width: 62.5em) {
 
     .detailButton-mobile {
-        background: rgba(255,255,255,.14) !important;
-        backdrop-filter: blur(10px);
+        background: #444 !important;
     }
 }
 
