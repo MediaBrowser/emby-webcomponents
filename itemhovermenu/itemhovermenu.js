@@ -1,22 +1,26 @@
-﻿define(['connectionManager', 'itemHelper', 'mediaInfo', 'playbackManager', 'globalize', 'dom', 'apphost', 'css!./itemhovermenu', 'emby-button', 'emby-playstatebutton', 'emby-ratingbutton'], function (connectionManager, itemHelper, mediaInfo, playbackManager, globalize, dom, appHost) {
+﻿define(['layoutManager', 'connectionManager', 'itemHelper', 'mediaInfo', 'playbackManager', 'globalize', 'dom', 'apphost', 'css!./itemhovermenu', 'emby-button', 'emby-playstatebutton', 'emby-ratingbutton'], function (layoutManager, connectionManager, itemHelper, mediaInfo, playbackManager, globalize, dom, appHost) {
     'use strict';
 
     var preventHover = false;
     var showOverlayTimeout;
 
-    function onHoverOut(e) {
+    function onPointerLeave(e) {
 
-        var elem = e.target;
+        var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
-        if (showOverlayTimeout) {
-            clearTimeout(showOverlayTimeout);
-            showOverlayTimeout = null;
-        }
+        if (pointerType === 'mouse') {
+            var elem = e.target;
 
-        elem = elem.classList.contains('cardOverlayTarget') ? elem : elem.querySelector('.cardOverlayTarget');
+            if (showOverlayTimeout) {
+                clearTimeout(showOverlayTimeout);
+                showOverlayTimeout = null;
+            }
 
-        if (elem) {
-            slideDownToHide(elem);
+            elem = elem.classList.contains('cardOverlayTarget') ? elem : elem.querySelector('.cardOverlayTarget');
+
+            if (elem) {
+                slideDownToHide(elem);
+            }
         }
     }
 
@@ -205,29 +209,33 @@
         slideUpToShow(innerElem);
     }
 
-    function onHoverIn(e) {
+    function onPointerEnter(e) {
 
-        var elem = e.target;
-        var card = dom.parentWithClass(elem, 'cardBox');
+        var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
-        if (!card) {
-            return;
+        if (pointerType === 'mouse') {
+            var elem = e.target;
+            var card = dom.parentWithClass(elem, 'cardBox');
+
+            if (!card) {
+                return;
+            }
+
+            if (preventHover === true) {
+                preventHover = false;
+                return;
+            }
+
+            if (showOverlayTimeout) {
+                clearTimeout(showOverlayTimeout);
+                showOverlayTimeout = null;
+            }
+
+            showOverlayTimeout = setTimeout(function () {
+                onShowTimerExpired(card);
+
+            }, 1600);
         }
-
-        if (preventHover === true) {
-            preventHover = false;
-            return;
-        }
-
-        if (showOverlayTimeout) {
-            clearTimeout(showOverlayTimeout);
-            showOverlayTimeout = null;
-        }
-
-        showOverlayTimeout = setTimeout(function () {
-            onShowTimerExpired(card);
-
-        }, 1600);
     }
 
     function preventTouchHover() {
@@ -238,19 +246,38 @@
 
         this.parent = parentElement;
 
-        this.parent.addEventListener('mouseenter', onHoverIn, true);
-        this.parent.addEventListener('mouseleave', onHoverOut, true);
-        dom.addEventListener(this.parent, "touchstart", preventTouchHover, {
-            passive: true
+        dom.addEventListener(this.parent, (window.PointerEvent ? 'pointerenter' : 'mouseenter'), onPointerEnter, {
+            passive: true,
+            capture: true
         });
+
+        dom.addEventListener(this.parent, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), onPointerLeave, {
+            passive: true,
+            capture: true
+        });
+
+        if (!window.PointerEvent) {
+
+            // We only need this as a safeguard when pointer events are not supported
+            dom.addEventListener(this.parent, "touchstart", preventTouchHover, {
+                passive: true
+            });
+        }
     }
 
     ItemHoverMenu.prototype = {
         constructor: ItemHoverMenu,
 
         destroy: function () {
-            this.parent.removeEventListener('mouseenter', onHoverIn, true);
-            this.parent.removeEventListener('mouseleave', onHoverOut, true);
+
+            dom.removeEventListener(this.parent, (window.PointerEvent ? 'pointerenter' : 'mouseenter'), onPointerEnter, {
+                passive: true,
+                capture: true
+            });
+            dom.removeEventListener(this.parent, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), onPointerLeave, {
+                passive: true,
+                capture: true
+            });
 
             dom.removeEventListener(this.parent, "touchstart", preventTouchHover, {
                 passive: true

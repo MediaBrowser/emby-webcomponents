@@ -138,7 +138,7 @@
 
         // In firefox this feature disrupts the ability to move the slider
         if (!browser.firefox) {
-            dom.addEventListener(this, 'mousemove', function (e) {
+            dom.addEventListener(this, (window.PointerEvent ? 'pointermove' : 'mousemove'), function (e) {
 
                 if (!this.dragging) {
                     var rect = this.getBoundingClientRect();
@@ -157,7 +157,7 @@
                 passive: true
             });
 
-            dom.addEventListener(this, 'mouseleave', function () {
+            dom.addEventListener(this, (window.PointerEvent ? 'pointerleave' : 'mouseleave'), function () {
                 sliderBubble.classList.add('hide');
                 hasHideClass = true;
             }, {

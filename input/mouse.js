@@ -15,50 +15,58 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         inputmanager.notifyMouseMove();
     }
 
-    var lastMouseMoveData;
-    function onMouseMove(e) {
+    var lastPointerMoveData;
+    function onPointerMove(e) {
 
-        var eventX = e.screenX;
-        var eventY = e.screenY;
+        var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
-        // if coord don't exist how could it move
-        if (typeof eventX === "undefined" && typeof eventY === "undefined") {
-            return;
-        }
+        if (pointerType === 'mouse') {
+            var eventX = e.screenX;
+            var eventY = e.screenY;
 
-        var obj = lastMouseMoveData;
-        if (!obj) {
-            lastMouseMoveData = {
-                x: eventX,
-                y: eventY
-            };
-            return;
-        }
+            // if coord don't exist how could it move
+            if (typeof eventX === "undefined" && typeof eventY === "undefined") {
+                return;
+            }
 
-        // if coord are same, it didn't move
-        if (Math.abs(eventX - obj.x) < 10 && Math.abs(eventY - obj.y) < 10) {
-            return;
-        }
+            var obj = lastPointerMoveData;
+            if (!obj) {
+                lastPointerMoveData = {
+                    x: eventX,
+                    y: eventY
+                };
+                return;
+            }
 
-        obj.x = eventX;
-        obj.y = eventY;
+            // if coord are same, it didn't move
+            if (Math.abs(eventX - obj.x) < 10 && Math.abs(eventY - obj.y) < 10) {
+                return;
+            }
 
-        lastMouseInputTime = new Date().getTime();
-        notifyApp();
+            obj.x = eventX;
+            obj.y = eventY;
 
-        if (isMouseIdle) {
-            isMouseIdle = false;
-            document.body.classList.remove('mouseIdle');
-            events.trigger(self, 'mouseactive');
+            lastMouseInputTime = new Date().getTime();
+            notifyApp();
+
+            if (isMouseIdle) {
+                isMouseIdle = false;
+                document.body.classList.remove('mouseIdle');
+                events.trigger(self, 'mouseactive');
+            }
         }
     }
 
-    function onMouseEnter(e) {
+    function onPointerEnter(e) {
 
-        if (!isMouseIdle) {
-            var parent = focusManager.focusableParent(e.target);
-            if (parent) {
-                focusManager.focus(e.target);
+        var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
+
+        if (pointerType === 'mouse') {
+            if (!isMouseIdle) {
+                var parent = focusManager.focusableParent(e.target);
+                if (parent) {
+                    focusManager.focus(e.target);
+                }
             }
         }
     }
@@ -71,10 +79,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
         if (browser.web0s) {
             return false;
-        }
-
-        if (browser.xboxOne) {
-            return true;
         }
 
         if (browser.tv) {
@@ -117,25 +121,25 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
         stopMouseInterval();
 
-        dom.removeEventListener(document, 'mousemove', onMouseMove, {
+        dom.removeEventListener(document, (window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove, {
             passive: true
         });
 
         if (!layoutManager.mobile) {
             startMouseInterval();
 
-            dom.addEventListener(document, 'mousemove', onMouseMove, {
+            dom.addEventListener(document, (window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove, {
                 passive: true
             });
         }
 
-        dom.removeEventListener(document, 'mouseenter', onMouseEnter, {
+        dom.removeEventListener(document, (window.PointerEvent ? 'pointerenter' : 'mouseenter'), onPointerEnter, {
             capture: true,
             passive: true
         });
 
         if (enableFocusWithMouse()) {
-            dom.addEventListener(document, 'mouseenter', onMouseEnter, {
+            dom.addEventListener(document, (window.PointerEvent ? 'pointerenter' : 'mouseenter'), onPointerEnter, {
                 capture: true,
                 passive: true
             });
