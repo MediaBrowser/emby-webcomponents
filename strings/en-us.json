@@ -605,5 +605,7 @@
   "AutoBasedOnLanguageSetting": "Auto (based on language setting)",
   "LabelDateTimeLocale": "Date time locale:",
   "DirectorValue": "Director: {0}",
-  "DirectorsValue": "Directors: {0}"
+  "DirectorsValue": "Directors: {0}",
+  "GenreValue": "Genre: {0}",
+  "GenresValue": "Genres: {0}"
 }

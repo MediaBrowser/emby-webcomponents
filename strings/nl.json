@@ -1,5 +1,9 @@
 {
     "AutoBasedOnLanguageSetting": "Auto (based on language setting)",
+  "DirectorValue": "Director: {0}",
+  "DirectorsValue": "Directors: {0}",
+  "GenreValue": "Genre: {0}",
+  "GenresValue": "Genres: {0}",
     "LabelDateTimeLocale": "Date time locale:",
     "MessageUnlockAppWithPurchaseOrSupporter": "Ontgrendel deze functie met een kleine eenmalige aankoop, of met een actief Emby Premiere abonnement.",
     "MessageUnlockAppWithSupporter": "Ontgrendel deze functie met een actief Emby Premiere abonnement.",

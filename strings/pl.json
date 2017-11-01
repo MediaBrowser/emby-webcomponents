@@ -1,5 +1,9 @@
 {
     "AutoBasedOnLanguageSetting": "Automatycznie (w oparciu na ustawienia j\u0119zykowe)",
+  "DirectorValue": "Director: {0}",
+  "DirectorsValue": "Directors: {0}",
+  "GenreValue": "Genre: {0}",
+  "GenresValue": "Genres: {0}",
     "LabelDateTimeLocale": "Czas lokalny",
     "MessageUnlockAppWithPurchaseOrSupporter": "Odblokuj t\u0119 funkcj\u0119, za niewielk\u0105 jednorazow\u0105 op\u0142at\u0105 lub przy u\u017cyciu aktywnej subskrypcji Emby Premium.",
     "MessageUnlockAppWithSupporter": "Odblokuj t\u0119 funkcj\u0119 przy u\u017cyciu subskrypcji Emby Premium.",
