@@ -2203,7 +2203,7 @@
 
             options = options || {};
             var playOptions = {};
-            var startPosition = 0;
+            var startPosition = playOptions.startPositionTicks || 0;
             var mediaType = options.mediaType || item.MediaType;
             var player = getPlayer(item, playOptions);
             var apiClient = connectionManager.getApiClient(item.ServerId);
