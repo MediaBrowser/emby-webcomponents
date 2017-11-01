@@ -34,12 +34,32 @@
         return 0;
     }
 
-    function onScrolledToPosition(scrollButtons, pos) {
+    function getScrollWidth(parent) {
+
+        if (parent.getScrollSize) {
+            return parent.getScrollSize();
+        }
+
+        return 0;
+    }
+
+    function onScrolledToPosition(scrollButtons, pos, scrollWidth) {
 
         if (pos > 0) {
             scrollButtons.scrollButtonsLeft.classList.remove('hide');
         } else {
             scrollButtons.scrollButtonsLeft.classList.add('hide');
+        }
+
+        if (scrollWidth > 0) {
+
+            pos += dom.getWindowSize().innerWidth;
+
+            if (pos >= scrollWidth) {
+                scrollButtons.scrollButtonsRight.classList.add('hide');
+            } else {
+                scrollButtons.scrollButtonsRight.classList.remove('hide');
+            }
         }
     }
 
@@ -48,8 +68,9 @@
         var scrollButtons = this;
         var scroller = this.scroller;
         var pos = getScrollPosition(scroller);
+        var scrollWidth = getScrollWidth(scroller);
 
-        onScrolledToPosition(scrollButtons, pos);
+        onScrolledToPosition(scrollButtons, pos, scrollWidth);
     }
 
     function getStyleValue(style, name) {
