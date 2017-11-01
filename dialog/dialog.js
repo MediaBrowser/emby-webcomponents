@@ -1,4 +1,4 @@
-define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle'], function (dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
+define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
     function showDialog(options, template) {
@@ -20,10 +20,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
 
         dlg.innerHTML = globalize.translateHtml(template, 'sharedcomponents');
 
-        dlg.style['align-items'] = 'center';
-        dlg.style['justify-content'] = 'center';
+        dlg.classList.add('align-items-center');
+        dlg.classList.add('justify-content-center');
         var formDialogContent = dlg.querySelector('.formDialogContent');
-        formDialogContent.style['flex-grow'] = 'initial';
+        formDialogContent.classList.add('no-grow');
 
         if (enableTvLayout) {
             formDialogContent.style['max-width'] = '50%';

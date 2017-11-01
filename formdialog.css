@@ -18,7 +18,7 @@
     margin-bottom: 0;
 }
 
-.formDialogContent {
+.formDialogContent:not(.no-grow) {
     flex-grow: 1;
 }
 
