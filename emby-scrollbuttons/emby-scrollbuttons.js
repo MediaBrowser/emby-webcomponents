@@ -53,7 +53,7 @@
 
         if (scrollWidth > 0) {
 
-            pos += dom.getWindowSize().innerWidth;
+            pos += scrollButtons.offsetWidth;
 
             if (pos >= scrollWidth) {
                 scrollButtons.scrollButtonsRight.classList.add('hide');
