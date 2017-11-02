@@ -113,7 +113,7 @@
 
         if (subs.length) {
 
-            html += '<h1>' + globalize.translate('sharedcomponents#MySubtitles') + '</h1>';
+            html += '<h2>' + globalize.translate('sharedcomponents#MySubtitles') + '</h2>';
 
             if (layoutManager.tv) {
                 html += '<div class="paperList paperList-clear">';
@@ -236,7 +236,7 @@
                 if (i > 0) {
                     html += '</div>';
                 }
-                html += '<h1>' + provider + '</h1>';
+                html += '<h2>' + provider + '</h2>';
                 if (layoutManager.tv) {
                     html += '<div class="paperList paperList-clear">';
                 } else {

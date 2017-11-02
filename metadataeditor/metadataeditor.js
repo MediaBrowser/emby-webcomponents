@@ -1050,7 +1050,7 @@
 
         var html = '';
 
-        html += "<h1>" + globalize.translate('sharedcomponents#HeaderEnabledFields') + "</h1>";
+        html += "<h2>" + globalize.translate('sharedcomponents#HeaderEnabledFields') + "</h2>";
         html += "<p>" + globalize.translate('sharedcomponents#HeaderEnabledFieldsHelp') + "</p>";
         html += generateSliders(metadatafields, lockedFields);
         container.innerHTML = html;
