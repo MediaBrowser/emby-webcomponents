@@ -1626,6 +1626,8 @@
 
                 playerData.isChangingStream = false;
                 playerData.streamInfo = streamInfo;
+                streamInfo.started = true;
+                streamInfo.ended = false;
 
                 sendProgressUpdate(player, 'timeupdate');
             }, function (e) {

@@ -49,6 +49,7 @@
     margin: 0;
     padding: 0;
     vertical-align: initial;
+    display: inline;
 }
 
     .button-link:hover {
@@ -134,6 +135,7 @@
 
 .emby-button > i + span {
     margin-left: .5em;
+    vertical-align: middle;
 }
 
 .emby-button > span + i {
