@@ -49,12 +49,15 @@
     margin: 0;
     padding: 0;
     vertical-align: initial;
+}
+
+.button-link-inline {
     display: inline;
 }
 
-    .button-link:hover {
-        text-decoration: underline;
-    }
+.button-link:hover {
+    text-decoration: underline;
+}
 
 .emby-button-focusscale {
     transition: transform 180ms ease-out !important;

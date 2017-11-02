@@ -93,6 +93,11 @@
 
         this.classList.add('emby-button');
 
+        if (browser.firefox) {
+            // a ff hack is needed for vertical alignment
+            this.classList.add('button-link-inline');
+        }
+
         if (layoutManager.tv) {
             this.classList.add('emby-button-focusscale');
             this.classList.add('emby-button-tv');
