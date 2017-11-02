@@ -2203,10 +2203,9 @@
         self.getPlaybackInfo = function (item, options) {
 
             options = options || {};
-            var playOptions = {};
-            var startPosition = playOptions.startPositionTicks || 0;
+            var startPosition = options.startPositionTicks || 0;
             var mediaType = options.mediaType || item.MediaType;
-            var player = getPlayer(item, playOptions);
+            var player = getPlayer(item, options);
             var apiClient = connectionManager.getApiClient(item.ServerId);
             var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
 

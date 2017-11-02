@@ -172,7 +172,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             });
 
             inputmanager.on(window, onInputCommand);
-            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
 
             dlg.addEventListener('close', onDialogClosed);
 
@@ -354,7 +354,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             }
 
             inputmanager.off(window, onInputCommand);
-            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
         }
 
         function startInterval(options) {
@@ -469,29 +469,33 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
         var lastMouseMoveData;
 
-        function onMouseMove(e) {
+        function onPointerMove(e) {
 
-            var eventX = e.screenX || 0;
-            var eventY = e.screenY || 0;
+            var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
 
-            var obj = lastMouseMoveData;
-            if (!obj) {
-                lastMouseMoveData = {
-                    x: eventX,
-                    y: eventY
-                };
-                return;
+            if (pointerType === 'mouse') {
+                var eventX = e.screenX || 0;
+                var eventY = e.screenY || 0;
+
+                var obj = lastMouseMoveData;
+                if (!obj) {
+                    lastMouseMoveData = {
+                        x: eventX,
+                        y: eventY
+                    };
+                    return;
+                }
+
+                // if coord are same, it didn't move
+                if (Math.abs(eventX - obj.x) < 10 && Math.abs(eventY - obj.y) < 10) {
+                    return;
+                }
+
+                obj.x = eventX;
+                obj.y = eventY;
+
+                showOsd();
             }
-
-            // if coord are same, it didn't move
-            if (Math.abs(eventX - obj.x) < 10 && Math.abs(eventY - obj.y) < 10) {
-                return;
-            }
-
-            obj.x = eventX;
-            obj.y = eventY;
-
-            showOsd();
         }
 
         function onInputCommand(e) {

@@ -3,7 +3,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
     function buildChapterCardsHtml(item, chapters, options) {
 
-        var className = 'card scalableCard itemAction chapterCard';
+        var className = 'card itemAction chapterCard';
 
         if (layoutManager.tv && (browser.animate || browser.edge)) {
             className += ' card-focusscale';
@@ -24,7 +24,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         }
 
         className += ' ' + shape + 'Card';
-        className += ' ' + shape + 'Card-scalable';
 
         if (options.block || options.rows) {
             className += ' block';
@@ -104,7 +103,18 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             }
         }
 
-        var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="cardScalable"><div class="cardPadder-' + shape + '"></div><div class="cardContent">' + cardImageContainer + '</div><div class="innerCardFooter">' + nameHtml + '</div></div></div></div></button>';
+        var cardScalableClass = 'cardScalable';
+
+        if (layoutManager.tv) {
+
+            cardScalableClass += ' card-focuscontent';
+
+            if (!enableFocusTransfrom) {
+                cardScalableClass += ' card-focuscontent-large';
+            }
+        }
+
+        var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div><div class="cardContent cardContent-shadow">' + cardImageContainer + '</div><div class="innerCardFooter">' + nameHtml + '</div></div></div></div></button>';
 
         return html;
     }
