@@ -90,26 +90,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         nameHtml += '<div class="cardText">' + datetime.getDisplayRunningTime(chapter.StartPositionTicks) + '</div>';
 
         var cardBoxCssClass = 'cardBox';
+        var cardScalableClass = 'cardScalable';
 
         if (layoutManager.tv) {
             var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
 
-            if (enableFocusTransfrom) {
-                cardBoxCssClass += ' cardBox-focustransform';
-            }
-
-            if (!enableFocusTransfrom) {
-                cardBoxCssClass += ' card-focuscontent card-focuscontent-large';
-            }
-        }
-
-        var cardScalableClass = 'cardScalable';
-
-        if (layoutManager.tv) {
-
             cardScalableClass += ' card-focuscontent';
 
-            if (!enableFocusTransfrom) {
+            if (enableFocusTransfrom) {
+                cardBoxCssClass += ' cardBox-focustransform';
+            } else {
+                cardBoxCssClass += ' card-focuscontent card-focuscontent-large';
                 cardScalableClass += ' card-focuscontent-large';
             }
         }
