@@ -100,7 +100,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             if (enableFocusTransfrom) {
                 cardBoxCssClass += ' cardBox-focustransform';
             } else {
-                cardBoxCssClass += ' card-focuscontent card-focuscontent-large';
                 cardScalableClass += ' card-focuscontent-large';
             }
         }
