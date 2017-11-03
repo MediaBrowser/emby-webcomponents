@@ -2847,11 +2847,11 @@
             // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
             streamInfo.ended = true;
 
-            if (isServerItem(playerStopInfo.item)) {
+            if (isServerItem(playerStopInfo.item.item)) {
 
                 state.PlayState.PositionTicks = (playerStopInfo.positionMs || 0) * 10000;
 
-                reportPlayback(state, playerStopInfo.item.ServerId, 'reportPlaybackStopped');
+                reportPlayback(state, playerStopInfo.item.item.ServerId, 'reportPlaybackStopped');
             }
 
             state.NextItem = playbackStopInfo.nextItem;

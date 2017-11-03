@@ -82,6 +82,8 @@
             }
 
             txtSearch.addEventListener('input', onSearchInput.bind(instance));
+
+            instance.focus();
         });
     }
 
