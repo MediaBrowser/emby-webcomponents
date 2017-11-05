@@ -642,6 +642,17 @@
         playOptions.fullscreen = playOptions.fullscreen !== false;
     }
 
+    function truncatePlayOptions(playOptions) {
+
+        return {
+            fullscreen: playOptions.fullscreen,
+            mediaSourceId: playOptions.mediaSourceId,
+            audioStreamIndex: playOptions.audioStreamIndex,
+            subtitleStreamIndex: playOptions.subtitleStreamIndex,
+            startPositionTicks: playOptions.startPositionTicks
+        };
+    }
+
     function getNowPlayingItemForReporting(player, item, mediaSource) {
 
         var nowPlayingItem = Object.assign({}, item);
@@ -692,7 +703,6 @@
         var lastLocalPlayer;
         var currentPairingId = null;
 
-        var currentPlayOptions;
         this._playNextAfterEnded = true;
         var playerStates = {};
 
@@ -1575,6 +1585,8 @@
 
                 var maxBitrate = params.MaxStreamingBitrate || self.getMaxStreamingBitrate(player);
 
+                var currentPlayOptions = currentItem.playOptions || {};
+
                 getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, currentMediaSource.Id, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
 
                     if (validatePlaybackInfoResult(self, result)) {
@@ -1582,7 +1594,6 @@
                         currentMediaSource = result.MediaSources[0];
 
                         var streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks);
-
                         streamInfo.fullscreen = currentPlayOptions.fullscreen;
 
                         if (!streamInfo.url) {
@@ -1969,16 +1980,29 @@
 
             var apiClient = connectionManager.getApiClient(firstItem.ServerId);
 
-            return getIntros(firstItem, apiClient, options).then(function (intros) {
+            return getIntros(firstItem, apiClient, options).then(function (introsResult) {
 
-                items = intros.Items.concat(items);
+                var introItems = introsResult.Items;
+                var introPlayOptions;
 
-                currentPlayOptions = options;
+                firstItem.playOptions = truncatePlayOptions(options);
+
+                if (introItems.length) {
+
+                    introPlayOptions = {
+                        fullscreen: firstItem.playOptions.fullscreen
+                    };
+
+                } else {
+                    introPlayOptions = firstItem.playOptions;
+                }
+
+                items = introItems.concat(items);
 
                 // Needed by players that manage their own playlist
                 options.items = items;
 
-                return playInternal(items[0], options, function () {
+                return playInternal(items[0], introPlayOptions, function () {
 
                     self._playQueueManager.setPlaylist(items);
 
@@ -2495,14 +2519,10 @@
             }
 
             if (newItem) {
-                var playOptions = Object.assign({}, currentPlayOptions, {
-                    startPositionTicks: 0,
-                    mediaSourceId: null,
-                    audioStreamIndex: null,
-                    subtitleStreamIndex: null
-                });
 
-                playInternal(newItem, playOptions, function () {
+                var newItemPlayOptions = newItem.playOptions || {};
+
+                playInternal(newItem, newItemPlayOptions, function () {
                     setPlaylistState(newItem.PlaylistItemId, newItemIndex);
                 });
             }
@@ -2593,14 +2613,9 @@
 
                 console.log('playing next track');
 
-                var playOptions = Object.assign({}, currentPlayOptions, {
-                    startPositionTicks: 0,
-                    mediaSourceId: null,
-                    audioStreamIndex: null,
-                    subtitleStreamIndex: null
-                });
+                var newItemPlayOptions = newItemInfo.item.playOptions || {};
 
-                playInternal(newItemInfo.item, playOptions, function () {
+                playInternal(newItemInfo.item, newItemPlayOptions, function () {
                     setPlaylistState(newItemInfo.item.PlaylistItemId, newItemInfo.index);
                 });
             }
@@ -2621,14 +2636,10 @@
 
                 if (newItem) {
 
-                    var playOptions = Object.assign({}, currentPlayOptions, {
-                        startPositionTicks: 0,
-                        mediaSourceId: null,
-                        audioStreamIndex: null,
-                        subtitleStreamIndex: null
-                    });
+                    var newItemPlayOptions = newItem.playOptions || {};
+                    newItemPlayOptions.startPositionTicks = 0;
 
-                    playInternal(newItem, playOptions, function () {
+                    playInternal(newItem, newItemPlayOptions, function () {
                         setPlaylistState(newItem.PlaylistItemId, newIndex);
                     });
                 }
@@ -2796,7 +2807,7 @@
             var player = this;
             setCurrentPlayerInternal(player);
 
-            var playOptions = currentPlayOptions;
+            var playOptions = item.playOptions || {};
             var isFirstItem = playOptions.isFirstItem;
             var fullscreen = playOptions.fullscreen;
 
@@ -2859,7 +2870,8 @@
             events.trigger(player, 'playbackstop', [state]);
             events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
-            var newPlayer = nextItem ? getPlayer(nextItem.item, currentPlayOptions) : null;
+            var nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || {}) : {};
+            var newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
             if (newPlayer !== player) {
                 destroyPlayer(player);
@@ -2978,7 +2990,8 @@
             events.trigger(player, 'playbackstop', [state]);
             events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
-            var newPlayer = nextItem ? getPlayer(nextItem.item, currentPlayOptions) : null;
+            var nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || {}) : {};
+            var newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
             if (newPlayer !== player) {
                 destroyPlayer(player);
@@ -3591,7 +3604,7 @@
 
     PlaybackManager.prototype.getSupportedCommands = function (player) {
 
-        player = player || this._currentPlayer;
+        player = player || this._currentPlayer || { isLocalPlayer: true };
 
         if (player.isLocalPlayer) {
             // Full list
@@ -3611,7 +3624,8 @@
                 "DisplayContent",
                 "GoToSearch",
                 "DisplayMessage",
-                "SetRepeatMode"
+                "SetRepeatMode",
+                "PlayMediaSource"
             ];
 
             if (apphost.supports('fullscreenchange')) {
