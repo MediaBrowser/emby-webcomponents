@@ -31,7 +31,7 @@
 }
 
     .emby-select-focusscale:focus {
-        transform: scale(1.16);
+        transform: scale(1.1);
         z-index: 1;
     }
 
