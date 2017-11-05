@@ -49,7 +49,17 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
         return userSettings.enableThemeSongs();
     }
 
+    var excludeTypes = ['CollectionFolder', 'UserView', 'Program', 'SeriesTimer', 'Person', 'TvChannel', 'Channel'];
+
     function loadThemeMedia(item) {
+
+        if (item.CollectionType) {
+            return;
+        }
+
+        if (excludeTypes.indexOf(item.Type) !== -1) {
+            return;
+        }
 
         var apiClient = connectionManager.getApiClient(item.ServerId);
         apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {

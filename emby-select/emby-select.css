@@ -8,7 +8,7 @@
     /* General select styles: change as needed */
     font-family: inherit;
     font-weight: inherit;
-    padding: .5em .5em;
+    padding: .5em 1.9em .5em .5em;
     /* Prevent padding from causing width overflow */
     box-sizing: border-box;
     outline: none !important;
@@ -17,7 +17,7 @@
 }
 
 .selectContainer-inline > .emby-select {
-    padding: .1em .5em;
+    padding: .1em 1.9em .1em .5em;
 }
 
 .emby-select::-moz-focus-inner {
