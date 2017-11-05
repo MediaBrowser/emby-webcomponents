@@ -17,7 +17,8 @@
 }
 
 .selectContainer-inline > .emby-select {
-    padding: .1em 1.9em .1em .5em;
+    padding: .5em 1.9em .5em .5em;
+    font-size: inherit;
 }
 
 .emby-select::-moz-focus-inner {
@@ -75,7 +76,7 @@
 
 .selectContainer-inline > .selectArrowContainer {
     top: initial;
-    bottom: 0;
+    bottom: .23em;
 }
 
 .selectArrow {
