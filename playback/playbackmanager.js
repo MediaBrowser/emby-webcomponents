@@ -1836,7 +1836,7 @@
             return player;
         }
 
-        self.getPlayerState = function (player) {
+        self.getPlayerState = function (player, item, mediaSource) {
 
             player = player || self._currentPlayer;
 
@@ -1848,8 +1848,8 @@
                 return player.getPlayerState();
             }
 
-            var item = player ? self.currentItem(player) : null;
-            var mediaSource = player ? self.currentMediaSource(player) : null;
+            item = item || self.currentItem(player);
+            mediaSource = mediaSource || self.currentMediaSource(player);
 
             var state = {
                 PlayState: {}
@@ -2776,7 +2776,7 @@
             var isFirstItem = playOptions.isFirstItem;
             var fullscreen = playOptions.fullscreen;
 
-            var state = self.getPlayerState(player);
+            var state = self.getPlayerState(player, streamInfo.item, streamInfo.mediaSource);
 
             reportPlayback(state, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
 
@@ -2808,7 +2808,7 @@
             var streamInfo = playerData.streamInfo;
             streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
 
-            var state = self.getPlayerState(player);
+            var state = self.getPlayerState(player, item, mediaSource);
 
             reportPlayback(state, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
 
@@ -2828,7 +2828,7 @@
             var player = this;
 
             stopPlaybackProgressTimer(player);
-            var state = self.getPlayerState(player);
+            var state = self.getPlayerState(player, playerStopInfo.item, playerStopInfo.mediaSource);
 
             var nextItem = playerStopInfo.nextItem;
             var nextMediaType = playerStopInfo.nextMediaType;
@@ -2847,11 +2847,11 @@
             // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
             streamInfo.ended = true;
 
-            if (isServerItem(playerStopInfo.item.item)) {
+            if (isServerItem(playerStopInfo.item)) {
 
                 state.PlayState.PositionTicks = (playerStopInfo.positionMs || 0) * 10000;
 
-                reportPlayback(state, playerStopInfo.item.item.ServerId, 'reportPlaybackStopped');
+                reportPlayback(state, playerStopInfo.item.ServerId, 'reportPlaybackStopped');
             }
 
             state.NextItem = playbackStopInfo.nextItem;

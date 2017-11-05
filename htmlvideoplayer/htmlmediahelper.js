@@ -81,7 +81,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
             }
 
             if (browser.edge && mediaType === 'Video') {
-                return true;
+                //return true;
             }
 
             // simple playback should use the native support

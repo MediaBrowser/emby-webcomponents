@@ -32,7 +32,8 @@
     }
 
     function onViewTabsReady() {
-        this.triggerBeforeTabChange();
+        this.selectedIndex(this.readySelectedIndex);
+        this.readySelectedIndex = null;
     }
 
     function allowSwipe(target) {
@@ -203,8 +204,12 @@
                 tabsElem.addEventListener('tabchange', onTabChange);
             }
 
-            if (!tabsElem.triggerBeforeTabChange) {
-                //tabsElem.addEventListener('ready', onViewTabsReady);
+            if (tabsElem.selectedIndex) {
+                tabsElem.selectedIndex(selectedIndex);
+            } else {
+
+                tabsElem.readySelectedIndex = selectedIndex;
+                tabsElem.addEventListener('ready', onViewTabsReady);
             }
 
             //if (enableSwipe !== false) {

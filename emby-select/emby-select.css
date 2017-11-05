@@ -16,22 +16,48 @@
     width: 100%;
 }
 
-    .emby-select::-moz-focus-inner {
-        border: 0;
+.selectContainer-inline > .emby-select {
+    padding: .1em .5em;
+}
+
+.emby-select::-moz-focus-inner {
+    border: 0;
+}
+
+.emby-select-focusscale {
+    transition: transform 180ms ease-out !important;
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+}
+
+    .emby-select-focusscale:focus {
+        transform: scale(1.16);
+        z-index: 1;
     }
 
-    .emby-select + .fieldDescription {
-        margin-top: .25em;
-    }
+.emby-select + .fieldDescription {
+    margin-top: .25em;
+}
 
 .selectContainer {
     margin-bottom: 1.8em;
     position: relative;
 }
 
+.selectContainer-inline {
+    display: inline-flex;
+    margin-bottom: 0;
+    align-items: center;
+}
+
 .selectLabel {
     display: block;
     margin-bottom: .25em;
+    margin-right: .75em;
+}
+
+.selectContainer-inline > .selectLabel {
+    margin-bottom: 0;
 }
 
 .emby-select-withcolor {
@@ -41,10 +67,15 @@
 
 .selectArrowContainer {
     position: absolute;
-    right: .35em;
+    right: .3em;
     top: .27em;
     color: inherit;
     pointer-events: none;
+}
+
+.selectContainer-inline > .selectArrowContainer {
+    top: initial;
+    bottom: 0;
 }
 
 .selectArrow {

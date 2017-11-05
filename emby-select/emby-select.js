@@ -122,6 +122,10 @@
             this.classList.add('emby-select-withcolor');
         }
 
+        if (layoutManager.tv) {
+            this.classList.add('emby-select-focusscale');
+        }
+
         this.addEventListener('mousedown', onMouseDown);
         this.addEventListener('keydown', onKeyDown);
 
