@@ -253,6 +253,21 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             return true;
+        },
+
+        supportsMediaSourceSelection: function (item) {
+
+            if (item.MediaType !== 'Video') {
+                return false;
+            }
+            if (item.Type === 'TvChannel') {
+                return false;
+            }
+            if (item.SourceType && item.SourceType !== 'Library') {
+                return false;
+            }
+
+            return true;
         }
     };
 });
