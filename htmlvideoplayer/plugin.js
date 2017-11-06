@@ -564,15 +564,22 @@
             }
 
             // https://msdn.microsoft.com/en-us/library/hh772507(v=vs.85).aspx
+
             var elemAudioTracks = elem.audioTracks || [];
             for (i = 0, length = elemAudioTracks.length; i < length; i++) {
 
                 if (audioTrackOffset === i) {
+                    console.log('setting audio track ' + i + ' to enabled');
                     elemAudioTracks[i].enabled = true;
                 } else {
+                    console.log('setting audio track ' + i + ' to disabled');
                     elemAudioTracks[i].enabled = false;
                 }
             }
+
+            setTimeout(function () {
+                elem.currentTime = elem.currentTime;
+            }, 100);
         };
 
         self.stop = function (destroyPlayer) {
@@ -1459,9 +1466,9 @@
         return null;
     };
 
-    HtmlVideoPlayer.prototype.canSetAudioStreamIndex = function () {
+    HtmlVideoPlayer.prototype.canSetAudioStreamIndex = function (index) {
 
-        if (browser.edge || browser.msie) {
+        if (browser.tizen || browser.orsay || browser.edge || browser.msie) {
             return true;
         }
 

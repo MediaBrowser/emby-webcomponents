@@ -95,7 +95,7 @@
         });
     }
 
-    function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange) {
+    function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
 
         var enableInFooter = enableTabsInFooter();
 
@@ -204,12 +204,14 @@
                 tabsElem.addEventListener('tabchange', onTabChange);
             }
 
-            if (tabsElem.selectedIndex) {
-                tabsElem.selectedIndex(selectedIndex);
-            } else {
+            if (setSelectedIndex !== false) {
+                if (tabsElem.selectedIndex) {
+                    tabsElem.selectedIndex(selectedIndex);
+                } else {
 
-                tabsElem.readySelectedIndex = selectedIndex;
-                tabsElem.addEventListener('ready', onViewTabsReady);
+                    tabsElem.readySelectedIndex = selectedIndex;
+                    tabsElem.addEventListener('ready', onViewTabsReady);
+                }
             }
 
             //if (enableSwipe !== false) {
