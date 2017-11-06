@@ -16,9 +16,22 @@
     width: 100%;
 }
 
+    .emby-select[disabled] {
+        background: none !important;
+        border-color: transparent !important;
+        color: inherit !important;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
 .selectContainer-inline > .emby-select {
-    padding: .5em 1.9em .5em .5em;
+    padding: .4em 1.9em .4em .5em;
     font-size: inherit;
+}
+
+.selectContainer-inline > .emby-select[disabled] {
+    padding: .4em 0 .4em 0;
 }
 
 .emby-select::-moz-focus-inner {
@@ -64,6 +77,7 @@
 .emby-select-withcolor {
     -webkit-appearance: none;
     appearance: none;
+    border-radius: .2em;
 }
 
 .selectArrowContainer {
@@ -76,7 +90,11 @@
 
 .selectContainer-inline > .selectArrowContainer {
     top: initial;
-    bottom: .23em;
+    bottom: .2em;
+}
+
+.emby-select[disabled] + .selectArrowContainer {
+    display: none;
 }
 
 .selectArrow {

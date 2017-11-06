@@ -23,10 +23,10 @@ html {
 }
 
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
+    box-shadow: none;
 }
 
 .pageTitleWithDefaultLogo {
@@ -191,8 +191,8 @@ html {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #202020;
-    border: .07em solid #202020;
+    background: #1c1c1c;
+    border: .07em solid #1c1c1c;
     border-radius: .15em;
 }
 
@@ -203,9 +203,8 @@ html {
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #202020;
-    border: .07em solid #202020;
-    border-radius: .15em;
+    background: #1c1c1c;
+    border: .07em solid #1c1c1c;
 }
 
     .emby-select-withcolor > option {

@@ -227,7 +227,6 @@ html, .skinHeader {
     color: inherit;
     background: #fff;
     border: .07em solid rgba(0, 0, 0, .158);
-    border-radius: .15em;
 }
 
 .emby-select-withcolor:focus {

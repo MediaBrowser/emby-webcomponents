@@ -17,15 +17,6 @@
         return elem;
     }
 
-    function initHeadRoom(instance, elem) {
-
-        require(["headroom-window"], function (headroom) {
-
-            self.headroom = headroom;
-            headroom.add(elem);
-        });
-    }
-
     function appFooter(options) {
 
         var self = this;
@@ -43,17 +34,10 @@
                 self.element.insertBefore(elem, self.element.firstChild);
             }
         };
-
-        initHeadRoom(self, self.element);
     }
 
     appFooter.prototype.destroy = function () {
         var self = this;
-
-        if (self.headroom) {
-            self.headroom.remove(self.element);
-            self.headroom = null;
-        }
 
         self.element = null;
     };

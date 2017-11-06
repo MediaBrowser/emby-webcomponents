@@ -190,8 +190,8 @@ html {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #222326;
-    border: .07em solid #222326;
+    background: #242424;
+    border: .07em solid #242424;
     border-radius: .15em;
 }
 
@@ -202,9 +202,8 @@ html {
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #222326;
-    border: .07em solid #222326;
-    border-radius: .15em;
+    background: #242424;
+    border: .07em solid #242424;
 }
 
     .emby-select-withcolor > option {

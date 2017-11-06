@@ -203,7 +203,6 @@ html {
     color: inherit;
     background: rgba(255,255,255,.2);
     border: .07em solid rgba(255,255,255, .135);
-    border-radius: .15em;
 }
 
     .emby-select-withcolor > option {
