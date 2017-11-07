@@ -30,9 +30,9 @@
     font-size: inherit;
 }
 
-.selectContainer-inline > .emby-select[disabled] {
-    padding: .4em 0 .4em 0;
-}
+    .selectContainer-inline > .emby-select[disabled] {
+        padding: .4em 0 .4em 0;
+    }
 
 .emby-select::-moz-focus-inner {
     border: 0;
@@ -90,7 +90,8 @@
 
 .selectContainer-inline > .selectArrowContainer {
     top: initial;
-    bottom: .1em;
+    bottom: .24em;
+    font-size: 90%;
 }
 
 .emby-select[disabled] + .selectArrowContainer {
