@@ -504,28 +504,28 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'material-icons', 'c
             }
             if (i.Width >= 2500) {
                 if (i.IsInterlaced) {
-                    return '1440i';
+                    return '1440I';
                 }
-                return '1440p';
+                return '1440P';
             }
             if (i.Width >= 1900) {
                 if (i.IsInterlaced) {
-                    return '1080i';
+                    return '1080I';
                 }
-                return '1080p';
+                return '1080P';
             }
             if (i.Width >= 1260) {
                 if (i.IsInterlaced) {
-                    return '720i';
+                    return '720I';
                 }
-                return '720p';
+                return '720P';
             }
             if (i.Width >= 700) {
 
                 if (i.IsInterlaced) {
-                    return '480i';
+                    return '480I';
                 }
-                return '480p';
+                return '480P';
             }
 
         }
