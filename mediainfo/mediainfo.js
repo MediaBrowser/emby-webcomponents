@@ -495,53 +495,41 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'material-icons', 'c
         return '';
     }
 
-    function getResolutionText(item) {
+    function getResolutionText(i) {
 
-        if (!item.MediaSources || !item.MediaSources.length) {
-            return null;
-        }
+        if (i.Width) {
 
-        return item.MediaSources[0].MediaStreams.filter(function (i) {
-
-            return i.Type === 'Video';
-
-        }).map(function (i) {
-
-            if (i.Height) {
-
-                if (i.Width >= 3800) {
-                    return '4K';
-                }
-                if (i.Width >= 2500) {
-                    if (i.IsInterlaced) {
-                        return '1440I';
-                    }
-                    return '1440P';
-                }
-                if (i.Width >= 1900) {
-                    if (i.IsInterlaced) {
-                        return '1080I';
-                    }
-                    return '1080P';
-                }
-                if (i.Width >= 1260) {
-                    if (i.IsInterlaced) {
-                        return '720I';
-                    }
-                    return '720P';
-                }
-                if (i.Width >= 700) {
-
-                    if (i.IsInterlaced) {
-                        return '480I';
-                    }
-                    return '480P';
-                }
-
+            if (i.Width >= 3800) {
+                return '4K';
             }
-            return null;
-        })[0];
+            if (i.Width >= 2500) {
+                if (i.IsInterlaced) {
+                    return '1440i';
+                }
+                return '1440p';
+            }
+            if (i.Width >= 1900) {
+                if (i.IsInterlaced) {
+                    return '1080i';
+                }
+                return '1080p';
+            }
+            if (i.Width >= 1260) {
+                if (i.IsInterlaced) {
+                    return '720i';
+                }
+                return '720p';
+            }
+            if (i.Width >= 700) {
 
+                if (i.IsInterlaced) {
+                    return '480i';
+                }
+                return '480p';
+            }
+
+        }
+        return null;
     }
 
     function getAudioStreamForDisplay(item) {
@@ -591,7 +579,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'material-icons', 'c
         //    html += '<div class="mediaInfoIcon mediaInfoText">' + mediaSource.Container + '</div>';
         //}
 
-        var resolutionText = getResolutionText(item);
+        var resolutionText = getResolutionText(videoStream);
         if (resolutionText) {
             list.push({
                 type: 'mediainfo',
@@ -669,6 +657,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'material-icons', 'c
         getSecondaryMediaInfoHtml: getSecondaryMediaInfoHtml,
         fillPrimaryMediaInfo: fillPrimaryMediaInfo,
         fillSecondaryMediaInfo: fillSecondaryMediaInfo,
-        getMediaInfoStats: getMediaInfoStats
+        getMediaInfoStats: getMediaInfoStats,
+        getResolutionText: getResolutionText
     };
 });

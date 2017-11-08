@@ -805,7 +805,7 @@ define(['browser'], function (browser) {
                     {
                         Condition: 'LessThanEqual',
                         Property: 'AudioSampleRate',
-                        Value: '48000'
+                        Value: '96000'
                     }]
             });
         }
