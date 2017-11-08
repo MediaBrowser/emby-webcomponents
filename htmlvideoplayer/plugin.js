@@ -29,6 +29,12 @@
 
     function enableNativeTrackSupport(currentSrc, track) {
 
+        if (track) {
+            if (track.DeliveryMethod === 'Embed') {
+                return true;
+            }
+        }
+
         if (browser.firefox) {
             if ((currentSrc || '').toLowerCase().indexOf('.m3u8') !== -1) {
                 return false;
@@ -87,7 +93,7 @@
     function getMediaStreamTextTracks(mediaSource) {
 
         return mediaSource.MediaStreams.filter(function (s) {
-            return s.Type === 'Subtitle' && s.DeliveryMethod === 'External';
+            return s.Type === 'Subtitle';
         });
     }
 
@@ -128,6 +134,10 @@
 
     function getTracksHtml(tracks, item, mediaSource) {
         return tracks.map(function (t) {
+
+            if (t.DeliveryMethod !== 'External') {
+                return '';
+            }
 
             var defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
 
@@ -1222,20 +1232,7 @@
 
                 console.log('Setting track ' + i + ' mode to: ' + mode);
 
-                // Safari uses integers for the mode property
-                // http://www.jwplayer.com/html5/scripting/
-                // edit: not anymore
-                var useNumericMode = false;
-
-                if (!isNaN(currentTrack.mode)) {
-                    //useNumericMode = true;
-                }
-
-                if (useNumericMode) {
-                    currentTrack.mode = mode;
-                } else {
-                    currentTrack.mode = modes[mode];
-                }
+                currentTrack.mode = modes[mode];
             }
         }
 
