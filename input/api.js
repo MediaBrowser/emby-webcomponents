@@ -1,6 +1,8 @@
 define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focusManager', 'appRouter'], function (connectionManager, playbackManager, events, inputManager, focusManager, appRouter) {
     'use strict';
 
+    var serverNotifications = {};
+
     function notifyApp() {
 
         inputManager.notify();
@@ -157,7 +159,14 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                 playbackManager.queue({ ids: msg.Data.ItemIds, serverId: serverId });
             }
             else {
-                playbackManager.play({ ids: msg.Data.ItemIds, startPositionTicks: msg.Data.StartPositionTicks, serverId: serverId });
+                playbackManager.play({
+                    ids: msg.Data.ItemIds,
+                    startPositionTicks: msg.Data.StartPositionTicks,
+                    mediaSourceId: msg.Data.MediaSourceId,
+                    audioStreamIndex: msg.Data.AudioStreamIndex,
+                    subtitleStreamIndex: msg.Data.SubtitleStreamIndex,
+                    serverId: serverId
+                });
             }
 
         }
@@ -191,6 +200,20 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             var cmd = msg.Data;
             processGeneralCommand(cmd, apiClient);
         }
+        else if (msg.MessageType === "UserDataChanged") {
+
+            if (msg.Data.UserId === apiClient.getCurrentUserId()) {
+
+                for (var i = 0, length = msg.Data.UserDataList.length; i < length; i++) {
+                    events.trigger(serverNotifications, 'UserDataChanged', [apiClient, msg.Data.UserDataList[i]]);
+                }
+            }
+        }
+        else {
+
+            events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
+        }
+
     }
 
     function bindEvents(apiClient) {
@@ -206,4 +229,5 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         bindEvents(newApiClient);
     });
 
+    return serverNotifications;
 });

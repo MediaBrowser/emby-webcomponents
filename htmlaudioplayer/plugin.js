@@ -354,31 +354,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
             htmlMediaHelper.onErrorInternal(self, type);
         }
-
-        function onDocumentClick() {
-            document.removeEventListener('click', onDocumentClick);
-
-            var elem = document.createElement('audio');
-            elem.classList.add('mediaPlayerAudio');
-            elem.classList.add('hide');
-
-            document.body.appendChild(elem);
-
-            elem.src = require.toUrl('.').split('?')[0] + '/blank.mp3';
-            elem.play();
-
-            setTimeout(function () {
-                elem.pause();
-                elem.src = '';
-                elem.removeAttribute("src");
-                elem.innerHTML = '';
-            }, 1000);
-        }
-
-        // Mobile browsers don't allow autoplay, so this is a nice workaround
-        if (!appHost.supports('htmlaudioautoplay')) {
-            document.addEventListener('click', onDocumentClick);
-        }
     }
 
     HtmlAudioPlayer.prototype.currentSrc = function () {

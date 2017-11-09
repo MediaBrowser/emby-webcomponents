@@ -21,7 +21,19 @@
         };
 
         if (options.startPositionTicks) {
-            remoteOptions.startPositionTicks = options.startPositionTicks;
+            remoteOptions.StartPositionTicks = options.startPositionTicks;
+        }
+
+        if (options.mediaSourceId) {
+            remoteOptions.MediaSourceId = options.mediaSourceId;
+        }
+
+        if (options.audioStreamIndex != null) {
+            remoteOptions.AudioStreamIndex = options.audioStreamIndex;
+        }
+
+        if (options.subtitleStreamIndex != null) {
+            remoteOptions.SubtitleStreamIndex = options.subtitleStreamIndex;
         }
 
         return apiClient.sendPlayCommand(sessionId, remoteOptions);
@@ -286,16 +298,17 @@
 
     SessionPlayer.prototype.play = function (options) {
 
-        var playOptions = {};
-        playOptions.ids = options.ids || options.items.map(function (i) {
-            return i.Id;
-        });
+        options = Object.assign({}, options);
 
-        if (options.startPositionTicks) {
-            playOptions.startPositionTicks = options.startPositionTicks;
+        if (options.items) {
+            options.ids = options.items.map(function (i) {
+                return i.Id;
+            });
+
+            options.items = null;
         }
 
-        return sendPlayCommand(getCurrentApiClient(this), playOptions, 'PlayNow');
+        return sendPlayCommand(getCurrentApiClient(this), options, 'PlayNow');
     };
 
     SessionPlayer.prototype.shuffle = function (item) {

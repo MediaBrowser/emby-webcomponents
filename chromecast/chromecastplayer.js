@@ -662,7 +662,8 @@
             isLocalPlayer: false,
             appName: PlayerName,
             deviceName: appName,
-            supportedCommands: ["VolumeUp",
+            supportedCommands: [
+                "VolumeUp",
                 "VolumeDown",
                 "Mute",
                 "Unmute",
@@ -672,7 +673,9 @@
                 "SetSubtitleStreamIndex",
                 "DisplayContent",
                 "SetRepeatMode",
-                "EndSession"]
+                "EndSession",
+                "PlayMediaSource"
+            ]
         };
     };
 

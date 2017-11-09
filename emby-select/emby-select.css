@@ -67,11 +67,11 @@
 .selectLabel {
     display: block;
     margin-bottom: .25em;
-    margin-right: .75em;
 }
 
 .selectContainer-inline > .selectLabel {
     margin-bottom: 0;
+    margin-right: .5em;
 }
 
 .emby-select-withcolor {
