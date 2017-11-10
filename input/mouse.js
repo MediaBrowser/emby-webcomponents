@@ -18,42 +18,38 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     var lastPointerMoveData;
     function onPointerMove(e) {
 
-        var pointerType = e.pointerType || (layoutManager.mobile ? 'touch' : 'mouse');
+        var eventX = e.screenX;
+        var eventY = e.screenY;
 
-        if (pointerType === 'mouse') {
-            var eventX = e.screenX;
-            var eventY = e.screenY;
+        // if coord don't exist how could it move
+        if (typeof eventX === "undefined" && typeof eventY === "undefined") {
+            return;
+        }
 
-            // if coord don't exist how could it move
-            if (typeof eventX === "undefined" && typeof eventY === "undefined") {
-                return;
-            }
+        var obj = lastPointerMoveData;
+        if (!obj) {
+            lastPointerMoveData = {
+                x: eventX,
+                y: eventY
+            };
+            return;
+        }
 
-            var obj = lastPointerMoveData;
-            if (!obj) {
-                lastPointerMoveData = {
-                    x: eventX,
-                    y: eventY
-                };
-                return;
-            }
+        // if coord are same, it didn't move
+        if (Math.abs(eventX - obj.x) < 10 && Math.abs(eventY - obj.y) < 10) {
+            return;
+        }
 
-            // if coord are same, it didn't move
-            if (Math.abs(eventX - obj.x) < 10 && Math.abs(eventY - obj.y) < 10) {
-                return;
-            }
+        obj.x = eventX;
+        obj.y = eventY;
 
-            obj.x = eventX;
-            obj.y = eventY;
+        lastMouseInputTime = new Date().getTime();
+        notifyApp();
 
-            lastMouseInputTime = new Date().getTime();
-            notifyApp();
-
-            if (isMouseIdle) {
-                isMouseIdle = false;
-                document.body.classList.remove('mouseIdle');
-                events.trigger(self, 'mouseactive');
-            }
+        if (isMouseIdle) {
+            isMouseIdle = false;
+            document.body.classList.remove('mouseIdle');
+            events.trigger(self, 'mouseactive');
         }
     }
 
