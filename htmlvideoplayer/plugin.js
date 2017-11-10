@@ -52,6 +52,10 @@
             return false;
         }
 
+        if (browser.web0s) {
+            return false;
+        }
+
         // Edge is randomly not rendering subtitles
         if (browser.edge) {
             return false;

@@ -741,12 +741,16 @@ define(['browser'], function (browser) {
                 Value: 'false',
                 IsRequired: false
             });
-            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
-                Condition: 'NotEquals',
-                Property: 'IsInterlaced',
-                Value: 'true',
-                IsRequired: false
-            });
+
+            // Chromecast won't deinterlace, but it can play interlaced h264 without transcoding
+            if (!browser.chromecast) {
+                profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+                    Condition: 'NotEquals',
+                    Property: 'IsInterlaced',
+                    Value: 'true',
+                    IsRequired: false
+                });
+            }
         }
 
         if (maxVideoWidth) {
