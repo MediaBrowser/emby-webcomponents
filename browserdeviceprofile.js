@@ -297,10 +297,10 @@ define(['browser'], function (browser) {
 
             var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
             if (isChromecastUltra) {
-                return 80000000;
+                return null;
             }
 
-            return 10000000;
+            return 30000000;
         }
 
         var isTizenFhd = false;
@@ -316,7 +316,7 @@ define(['browser'], function (browser) {
 
         return browser.ps4 ? 8000000 :
             (browser.xboxOne ? 12000000 :
-                (browser.edgeUwp ? 40000000 :
+                (browser.edgeUwp ? null :
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }
 
