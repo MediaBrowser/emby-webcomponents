@@ -168,8 +168,8 @@
                 close(dlg);
             }
         }, {
-            passive: true
-        });
+                passive: true
+            });
     }
 
     function isHistoryEnabled(dlg) {
@@ -304,7 +304,13 @@
         onAnimationFinish();
     }
 
+    var supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;
+
     function shouldLockDocumentScroll(options) {
+
+        if (supportsOverscrollBehavior && (options.size || !browser.touch)) {
+            return false;
+        }
 
         if (options.lockScroll != null) {
             return options.lockScroll;

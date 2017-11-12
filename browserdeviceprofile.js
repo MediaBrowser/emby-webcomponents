@@ -550,6 +550,8 @@ define(['browser'], function (browser) {
 
         profile.TranscodingProfiles = [];
 
+        var hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || !canPlayNativeHls() ? true : false;
+
         if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
 
@@ -561,7 +563,7 @@ define(['browser'], function (browser) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: browser.iOS || browser.osx || !canPlayNativeHls() ? true : false
+                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
             });
         }
 
@@ -626,7 +628,7 @@ define(['browser'], function (browser) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: browser.iOS || browser.osx || !canPlayNativeHls() ? true : false
+                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
             });
         }
 

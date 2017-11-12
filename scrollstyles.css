@@ -4,6 +4,7 @@
     overflow-y: hidden;
     scroll-behavior: smooth;
     white-space: nowrap;
+    overscroll-behavior-x: contain;
 }
 
 .hiddenScrollX, .layout-tv .smoothScrollX {
@@ -27,6 +28,7 @@
     -webkit-overflow-scrolling: touch;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    overscroll-behavior-y: contain;
 }
 
 .hiddenScrollY, .layout-tv .smoothScrollY {

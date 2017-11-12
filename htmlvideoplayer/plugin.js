@@ -325,28 +325,23 @@
 
             return new Promise(function (resolve, reject) {
 
-                require(['shaka'], function (shaka) {
+                require(['shaka'], function () {
 
                     var player = new shaka.Player(elem);
 
-                    player.configure({
-                        abr: {
-                            enabled: false
-                        },
-                        streaming: {
+                    //player.configure({
+                    //    abr: {
+                    //        enabled: false
+                    //    },
+                    //    streaming: {
 
-                            failureCallback: function () {
-                                alert(2);
-                            }
-                        },
-                        retryParameters: {
-                            timeout: 10000,
-                            maxAttempts: 6,
-                            baseDelay: 500,
-                            backoffFactor: 2,
-                            fuzzFactor: 0.5,
-                        }
-                    });
+                    //        failureCallback: function () {
+                    //            alert(2);
+                    //        }
+                    //    }
+                    //});
+
+                    //shaka.log.setLevel(6);
 
                     // Listen for error events.
                     player.addEventListener('error', onShakaError);
@@ -513,9 +508,7 @@
 
                 return setSrcWithShakaPlayer(self, elem, options, val);
 
-            } else*/
-
-            if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
+            } else*/ if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
 
                 setTracks(elem, tracks, options.item, options.mediaSource);
                 return setCurrentSrcChromecast(self, elem, options, val);
