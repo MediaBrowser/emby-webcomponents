@@ -47,12 +47,12 @@ button {
     }
 
     .vertical-wrap > .card {
-        contain: layout style paint;
+        contain: layout style;
     }
 
 .cardScalable {
     position: relative;
-    contain: layout style paint;
+    contain: layout style;
 }
 
 .cardPadder-backdrop, .cardPadder-mixedBackdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop {
