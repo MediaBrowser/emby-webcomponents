@@ -47,27 +47,32 @@ button {
     }
 
     .vertical-wrap > .card {
-        contain: layout style;
+        contain: layout style paint;
     }
 
 .cardScalable {
     position: relative;
+    contain: layout style paint;
 }
 
 .cardPadder-backdrop, .cardPadder-mixedBackdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop {
     padding-bottom: 56.25%;
+    contain: strict;
 }
 
 .cardPadder-square, .cardPadder-mixedSquare, .cardPadder-overflowSquare {
     padding-bottom: 100%;
+    contain: strict;
 }
 
 .cardPadder-portrait, .cardPadder-mixedPortrait, .cardPadder-overflowPortrait, .overflowPortraitCard-textCardPadder {
     padding-bottom: 150%;
+    contain: strict;
 }
 
 .cardPadder-banner {
     padding-bottom: 18.5%;
+    contain: strict;
 }
 
 .cardBox {
@@ -78,6 +83,7 @@ button {
     /* These both are needed in case cardBox is a button */
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
+    contain: layout style paint;
 }
 
 .layout-tv .cardBox {
@@ -160,6 +166,7 @@ button {
     color: inherit;
     /* This is only needed for scalable cards */
     height: 100%;
+    contain: strict;
 }
 
 .chapterCardImageContainer {
@@ -187,6 +194,7 @@ button {
     border-radius: .12em;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
+    contain: strict;
 }
 
 .visualCardBox .cardContent {
@@ -358,6 +366,7 @@ button {
     position: absolute;
     display: flex;
     align-items: center;
+    contain: layout style paint;
 }
 
 .cardProgramAttributeIndicators {

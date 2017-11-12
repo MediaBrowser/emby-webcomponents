@@ -84,11 +84,11 @@ _:-ms-input-placeholder {
 
 .mdl-slider-hoverthumb::-webkit-slider-thumb {
     margin-left: -.08em;
-    transform: scale(0, 0);
+    transform: scale(.6, .6);
 }
 
 .mdl-slider:hover::-webkit-slider-thumb {
-    transform: scale(1, 1);
+    transform: none;
 }
 
 .slider-no-webkit-thumb::-webkit-slider-thumb {
@@ -127,11 +127,11 @@ _:-ms-input-placeholder {
 
 .mdl-slider-hoverthumb::-ms-thumb {
     margin-left: -.4em;
-    transform: scale(0, 0);
+    transform: scale(.5, .5);
 }
 
 .mdl-slider:hover::-ms-thumb {
-    transform: scale(1, 1);
+    transform: none;
 }
 
 .mdl-slider[disabled]::-webkit-slider-thumb {
@@ -183,7 +183,6 @@ _:-ms-input-placeholder {
 
 .mdl-slider__background-lower {
     /*transition: width 0.18s cubic-bezier(0.4, 0, 0.2, 1);*/
-    background: #52B54B;
     position: absolute;
     left: 0;
     width: 0;

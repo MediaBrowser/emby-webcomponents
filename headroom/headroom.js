@@ -62,11 +62,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         this.scroller = options.scroller;
 
-        if (this.scroller.getScrollPosition) {
-            this.debouncer = this.update.bind(this);
-        } else {
-            this.debouncer = new Debouncer(this.update.bind(this));
-        }
+        this.debouncer = onScroll.bind(this);
         this.offset = options.offset;
         this.initialised = false;
 
@@ -76,6 +72,11 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         this.state = 'clear';
     }
+
+    function onScroll() {
+        requestAnimationFrame(this.rafCallback || (this.rafCallback = this.update.bind(this)));
+    }
+
     Headroom.prototype = {
         constructor: Headroom,
 
@@ -282,7 +283,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             var currentScrollY = this.getScrollY();
 
-            var minThreshold = layoutManager.tv ? 70 : 50;
+            var minThreshold = layoutManager.tv ? 70 : 0;
 
             if (currentScrollY <= minThreshold) {
                 this.clear();

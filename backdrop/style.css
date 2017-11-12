@@ -1,5 +1,5 @@
 .backdropContainer {
-    contain: layout style;
+    contain: layout style size;
 }
 
 .backdropImage {
