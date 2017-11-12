@@ -26,6 +26,10 @@ button {
     font-weight: inherit !important;
 }
 
+.card-nofocustransform {
+    contain: style paint;
+}
+
 .itemsContainer {
     display: flex;
 }
@@ -48,6 +52,10 @@ button {
 
     .vertical-wrap > .card {
         contain: layout style;
+    }
+
+    .vertical-wrap > .card-nofocustransform {
+        contain: layout style paint;
     }
 
 .cardScalable {
@@ -83,7 +91,7 @@ button {
     /* These both are needed in case cardBox is a button */
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
-    contain: layout style paint;
+    contain: layout style;
 }
 
 .layout-tv .cardBox {

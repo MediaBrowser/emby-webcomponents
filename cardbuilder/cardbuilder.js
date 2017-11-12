@@ -1185,6 +1185,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 shape = shape || 'mixedSquare';
             }
 
+            var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
             var className = 'card';
 
             if (shape) {
@@ -1197,6 +1198,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (options.cardClass) {
                 className += " " + options.cardClass;
+            }
+
+            if (!enableFocusTransfrom) {
+                className += ' card-nofocustransform';
             }
 
             var imgInfo = getCardImageUrl(item, apiClient, options, shape);
@@ -1230,7 +1235,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
-            var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
 
             if (layoutManager.tv) {
 
