@@ -1200,7 +1200,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += " " + options.cardClass;
             }
 
-            if (!enableFocusTransfrom) {
+            if (!enableFocusTransfrom || !layoutManager.tv) {
                 className += ' card-nofocustransform';
             }
 

@@ -21,13 +21,13 @@ button {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
     cursor: pointer;
-    contain: style;
+    contain: layout style;
     flex-shrink: 0;
     font-weight: inherit !important;
 }
 
 .card-nofocustransform {
-    contain: style paint;
+    contain: layout style paint;
 }
 
 .itemsContainer {
@@ -48,14 +48,6 @@ button {
 
     .vertical-wrap.centered {
         justify-content: center;
-    }
-
-    .vertical-wrap > .card {
-        contain: layout style;
-    }
-
-    .vertical-wrap > .card-nofocustransform {
-        contain: layout style paint;
     }
 
 .cardScalable {
