@@ -17,6 +17,31 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
         return browser.supportsCssAnimation();
     }
 
+    function findLastView(parent) {
+
+        var nodes = parent.childNodes;
+        for (var i = nodes.length - 1; i >= 0; i--) {
+            var node = nodes[i];
+            var classList = node.classList;
+            if (classList && classList.contains('view')) {
+                return node;
+            }
+        }
+    }
+
+    function findViewBefore(elem) {
+
+        var node = elem.previousSibling;
+        while (node) {
+            var classList = node.classList;
+            if (classList && classList.contains('view')) {
+                return node;
+            }
+
+            node = node.previousSibling;
+        }
+    }
+
     function loadView(options) {
 
         if (options.cancel) {
@@ -33,33 +58,37 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
             pageIndex = 0;
         }
 
-        var view = document.createElement('div');
-
-        if (options.type) {
-            view.setAttribute('data-type', options.type);
-        }
+        var viewHtml = options.view;
 
         var properties = [];
         if (options.fullscreen) {
             properties.push('fullscreen');
         }
 
+        var currentPage = allPages[pageIndex];
+
+        var view;
+
+        if (currentPage) {
+            triggerDestroy(currentPage);
+            currentPage.insertAdjacentHTML('beforebegin', viewHtml);
+            view = findViewBefore(currentPage);
+            mainAnimatedPages.removeChild(currentPage);
+
+        } else {
+            mainAnimatedPages.insertAdjacentHTML('beforeend', viewHtml);
+
+            view = findLastView(mainAnimatedPages);
+        }
+
+        view.classList.add('mainAnimatedPage');
+
         if (properties.length) {
             view.setAttribute('data-properties', properties.join(','));
         }
 
-        view.innerHTML = options.view;
-
-        var currentPage = allPages[pageIndex];
-        var animatable = view;
-
-        view.classList.add('mainAnimatedPage');
-
-        if (currentPage) {
-            triggerDestroy(currentPage);
-            mainAnimatedPages.replaceChild(view, currentPage);
-        } else {
-            mainAnimatedPages.appendChild(view);
+        if (options.type) {
+            view.setAttribute('data-type', options.type);
         }
 
         allPages[pageIndex] = view;
@@ -71,7 +100,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
         beforeAnimate(allPages, pageIndex, selected);
 
         // animate here
-        return animate(animatable, previousAnimatable, options.transition, options.isBack).then(function () {
+        return animate(view, previousAnimatable, options.transition, options.isBack).then(function () {
 
             selectedPageIndex = pageIndex;
             currentUrls[pageIndex] = options.url;

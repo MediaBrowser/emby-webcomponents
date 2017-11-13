@@ -1,4 +1,4 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'clearButtonStyle', 'programStyles'],
+define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'programStyles'],
     function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, itemShortcuts) {
         'use strict';
 
@@ -252,10 +252,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 isVertical = true;
             }
 
-            if (options.vibrant && !appHost.supports('imageanalysis')) {
-                options.vibrant = false;
-            }
-
             setCardData(items, options);
 
             var html = '';
@@ -379,7 +375,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 for (i = 0, length = options.leadingButtons.length; i < length; i++) {
 
-                    html = '<button data-textcardid="' + options.leadingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow"><div class="cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.leadingButtons[i].name + '</div></div></div></div>' + cardFooterHtml + '</div></button>' + html;
+                    html = '<button data-textcardid="' + options.leadingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.leadingButtons[i].name + '</div></div></div>' + cardFooterHtml + '</div></button>' + html;
                 }
 
             }
@@ -388,7 +384,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 for (i = 0, length = options.trailingButtons.length; i < length; i++) {
 
-                    html += '<button data-textcardid="' + options.trailingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow"><div class="cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.trailingButtons[i].name + '</div></div></div></div>' + cardFooterHtml + '</div></button>';
+                    html += '<button data-textcardid="' + options.trailingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.trailingButtons[i].name + '</div></div></div>' + cardFooterHtml + '</div></button>';
                 }
 
             }
@@ -718,7 +714,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         var uniqueFooterIndex = 0;
-        function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, isOuterFooter, cardFooterId, vibrantSwatch) {
+        function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, isOuterFooter, cardFooterId) {
 
             var html = '';
 
@@ -969,15 +965,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 var style = '';
 
-                if (options.vibrant && vibrantSwatch) {
-                    var swatch = vibrantSwatch.split('|');
-                    if (swatch.length) {
-
-                        var index = 0;
-                        footerClass += ' cardFooter-vibrant';
-                        style = ' style="color:' + swatch[index + 1] + ';background-color:' + swatch[index] + ';"';
-                    }
-                }
                 html = '<div id="' + cardFooterId + '" class="' + footerClass + '"' + style + '>' + html;
 
                 //cardFooter
@@ -1280,8 +1267,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
             }
 
-            var vibrantSwatch = options.vibrant && imgUrl ? imageLoader.getCachedVibrantInfo(imgUrl) : null;
-
             var outerCardFooter = '';
             if (!overlayText && !footerOverlayed) {
                 footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter cardFooter-transparent';
@@ -1290,7 +1275,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     footerCssClass += ' cardFooter-withlogo';
                 }
 
-                outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, true, cardFooterId, vibrantSwatch);
+                outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, true, cardFooterId);
             }
 
             if (outerCardFooter && !options.cardLayout /*&& options.allowBottomPadding !== false*/) {
@@ -1337,10 +1322,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var cardImageContainerOpen;
             var cardImageContainerClose = '';
             var cardBoxClose = '';
-            var cardContentClose = '';
             var cardScalableClose = '';
-
-            var cardContentOpen;
 
             var cardContentClass = 'cardContent';
             if (!options.cardLayout) {
@@ -1348,33 +1330,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (layoutManager.tv) {
-                cardContentOpen = '<div class="' + cardContentClass + '">';
-                cardContentClose = '</div>';
+
+                // Don't use the IMG tag with safari because it puts a white border around it
+                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
+
+                cardImageContainerClose = '</div>';
             } else {
-                cardContentOpen = '<button type="button" class="clearButton ' + cardContentClass + ' itemAction" data-action="' + action + '">';
-                cardContentClose = '</button>';
-            }
+                // Don't use the IMG tag with safari because it puts a white border around it
+                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '">') : ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
-            var vibrantAttributes = options.vibrant && imgUrl && !vibrantSwatch ?
-                (' data-vibrant="' + cardFooterId + '" data-swatch="db"') :
-                '';
-
-            // Don't use the IMG tag with safari because it puts a white border around it
-            if (vibrantAttributes && !browser.safari) {
-                cardImageContainerOpen = '<div class="' + cardImageContainerClass + '">';
-
-                var imgClass = 'cardImage cardImage-img lazy';
-                if (coveredImage) {
-                    if (devicePixelRatio === 1) {
-                        imgClass += ' coveredImage-noscale-img';
-                    } else {
-                        imgClass += ' coveredImage-img';
-                    }
-                }
-                cardImageContainerOpen += '<img crossOrigin="Anonymous" class="' + imgClass + '"' + vibrantAttributes + ' data-src="' + imgUrl + '" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />';
-
-            } else {
-                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy"' + vibrantAttributes + ' data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + '">');
+                cardImageContainerClose = '</button>';
             }
 
             var cardScalableClass = 'cardScalable';
@@ -1388,10 +1353,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardContentOpen + cardImageContainerOpen;
+            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
-            cardImageContainerClose = '</div>';
 
             var indicatorsHtml = '';
 
@@ -1468,7 +1432,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var contextData = options.context ? (' data-context="' + options.context + '"') : '';
             var parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
 
-            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + cardContentClose + overlayButtons + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
         function buildCards(items, options) {

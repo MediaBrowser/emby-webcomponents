@@ -195,6 +195,15 @@ button {
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
     contain: strict;
+    background-color: transparent;
+    border: 0 !important;
+    padding: 0 !important;
+    cursor: pointer;
+    color: inherit;
+    width: 100%;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: inherit;
 }
 
 .visualCardBox .cardContent {

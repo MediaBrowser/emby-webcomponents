@@ -62,9 +62,8 @@
         }
 
         if (browser.iOS) {
-            var userAgent = navigator.userAgent.toLowerCase();
             // works in the browser but not the native app
-            if ((userAgent.indexOf('os 9') !== -1 || userAgent.indexOf('os 8') !== -1) && userAgent.indexOf('safari') === -1) {
+            if ((browser.iosVersion || 10) < 10) {
                 return false;
             }
         }
