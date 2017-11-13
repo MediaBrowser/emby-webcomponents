@@ -74,7 +74,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
         var imgUrl = getImgUrl(item, chapter, index, options.width || 400, apiClient);
 
-        var cardImageContainerClass = 'cardImageContainer chapterCardImageContainer';
+        var cardImageContainerClass = 'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
         if (options.coverImage) {
             cardImageContainerClass += ' coveredImage';
         }
@@ -104,7 +104,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             }
         }
 
-        var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div><div class="cardContent cardContent-shadow">' + cardImageContainer + '</div><div class="innerCardFooter">' + nameHtml + '</div></div></div></div></button>';
+        var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainer + '</div><div class="innerCardFooter">' + nameHtml + '</div></div></div></button>';
 
         return html;
     }

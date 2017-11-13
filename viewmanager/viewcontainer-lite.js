@@ -17,24 +17,24 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
         return browser.supportsCssAnimation();
     }
 
-    function findLastView(parent) {
+    function findLastView(parent, className) {
 
         var nodes = parent.childNodes;
         for (var i = nodes.length - 1; i >= 0; i--) {
             var node = nodes[i];
             var classList = node.classList;
-            if (classList && classList.contains('view')) {
+            if (classList && classList.contains(className)) {
                 return node;
             }
         }
     }
 
-    function findViewBefore(elem) {
+    function findViewBefore(elem, className) {
 
         var node = elem.previousSibling;
         while (node) {
             var classList = node.classList;
-            if (classList && classList.contains('view')) {
+            if (classList && classList.contains(className)) {
                 return node;
             }
 
@@ -72,13 +72,25 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
         if (currentPage) {
             triggerDestroy(currentPage);
             currentPage.insertAdjacentHTML('beforebegin', viewHtml);
-            view = findViewBefore(currentPage);
+            view = findViewBefore(currentPage, 'view');
+
+            // legacy
+            if (!view) {
+                view = findViewBefore(currentPage, 'pageContainer');
+                view.classList.add('view');
+            }
             mainAnimatedPages.removeChild(currentPage);
 
         } else {
             mainAnimatedPages.insertAdjacentHTML('beforeend', viewHtml);
 
-            view = findLastView(mainAnimatedPages);
+            view = findLastView(mainAnimatedPages, 'view');
+
+            // legacy
+            if (!view) {
+                view = findLastView(mainAnimatedPages, 'pageContainer');
+                view.classList.add('view');
+            }
         }
 
         view.classList.add('mainAnimatedPage');

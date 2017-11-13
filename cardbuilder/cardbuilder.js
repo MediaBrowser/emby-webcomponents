@@ -1337,7 +1337,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerClose = '</div>';
             } else {
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '">') : ('<button data-action="' + action + '" class="' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
+                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '">') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
                 cardImageContainerClose = '</button>';
             }
