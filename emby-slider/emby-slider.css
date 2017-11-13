@@ -10,7 +10,7 @@ _:-ms-input-placeholder {
     -moz-appearance: none;
     -ms-appearance: none;
     appearance: none;
-    height: .214em;
+    height: .2em;
     background: transparent;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -58,7 +58,7 @@ _:-ms-input-placeholder {
     .mdl-slider::-ms-track {
         background: none;
         color: transparent;
-        height: .214em;
+        height: .2em;
         width: 100%;
         border: none;
     }
@@ -83,8 +83,8 @@ _:-ms-input-placeholder {
     }
 
 .mdl-slider-hoverthumb::-webkit-slider-thumb {
-    margin-left: -.08em;
-    transform: scale(.6, .6);
+    margin-left: -.12em;
+    transform: scale(.7, .7);
 }
 
 .mdl-slider:hover::-webkit-slider-thumb {
@@ -146,7 +146,7 @@ _:-ms-input-placeholder {
     display: none;
 }
 
-.mdl-slider__ie-container {
+.mdl-slider-ie-container {
     height: 18px;
     overflow: visible;
     border: none;
@@ -154,7 +154,7 @@ _:-ms-input-placeholder {
     padding: none;
 }
 
-.mdl-slider__container {
+.mdl-slider-container {
     height: 18px;
     position: relative;
     background: none;
@@ -162,10 +162,10 @@ _:-ms-input-placeholder {
     flex-direction: row;
 }
 
-.mdl-slider__background-flex {
+.mdl-slider-background-flex {
     background: #333;
     position: absolute;
-    height: .214em;
+    height: .2em;
     margin-top: -.1em;
     width: 100%;
     top: 50%;
@@ -176,28 +176,33 @@ _:-ms-input-placeholder {
     padding: 0;
 }
 
-.mdl-slider__background-flex-inner {
+.mdl-slider-background-flex-inner {
     position: relative;
     width: 100%;
 }
 
-.mdl-slider__background-lower {
+.mdl-slider-background-lower {
     /*transition: width 0.18s cubic-bezier(0.4, 0, 0.2, 1);*/
     position: absolute;
     left: 0;
     width: 0;
     top: 0;
     bottom: 0;
+    background-color: #52B54B;
 }
 
-.mdl-slider__background-lower-withtransform {
+.mdl-slider-background-lower-clear {
+    background-color: transparent;
+}
+
+.mdl-slider-background-lower-withtransform {
     width: 100%;
     /*transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);*/
     transform-origin: left center;
     transform: scaleX(0);
 }
 
-.mdl-slider__background-upper {
+.mdl-slider-background-upper {
     /*transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1), width 0.18s cubic-bezier(0.4, 0, 0.2, 1);*/
     background: #666;
     background: rgba(255, 255, 255, .4);

@@ -17,12 +17,15 @@
         }
     }
 
-    function updateValues(range, backgroundLower) {
+    function updateValues() {
 
+        var range = this;
         var value = range.value;
 
         // put this on a callback. Doing it within the event sometimes causes the slider to get hung up and not respond
         requestAnimationFrame(function () {
+
+            var backgroundLower = range.backgroundLower;
 
             if (backgroundLower) {
                 var fraction = (value - range.min) / (range.max - range.min);
@@ -81,21 +84,21 @@
         }
 
         var containerElement = this.parentNode;
-        containerElement.classList.add('mdl-slider__container');
+        containerElement.classList.add('mdl-slider-container');
 
         var htmlToInsert = '';
 
         if (!supportsNativeProgressStyle) {
-            htmlToInsert += '<div class="mdl-slider__background-flex">';
-            htmlToInsert += '<div class="mdl-slider__background-flex-inner">';
+            htmlToInsert += '<div class="mdl-slider-background-flex">';
+            htmlToInsert += '<div class="mdl-slider-background-flex-inner">';
 
             // the more of these, the more ranges we can display
-            htmlToInsert += '<div class="mdl-slider__background-upper"></div>';
+            htmlToInsert += '<div class="mdl-slider-background-upper"></div>';
 
             if (enableWidthWithTransform) {
-                htmlToInsert += '<div class="mdl-slider__background-lower mdl-slider__background-lower-withtransform"></div>';
+                htmlToInsert += '<div class="mdl-slider-background-lower mdl-slider-background-lower-withtransform"></div>';
             } else {
-                htmlToInsert += '<div class="mdl-slider__background-lower"></div>';
+                htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
             }
 
             htmlToInsert += '</div>';
@@ -106,8 +109,8 @@
 
         containerElement.insertAdjacentHTML('beforeend', htmlToInsert);
 
-        var backgroundLower = containerElement.querySelector('.mdl-slider__background-lower');
-        this.backgroundUpper = containerElement.querySelector('.mdl-slider__background-upper');
+        this.backgroundLower = containerElement.querySelector('.mdl-slider-background-lower');
+        this.backgroundUpper = containerElement.querySelector('.mdl-slider-background-upper');
         var sliderBubble = containerElement.querySelector('.sliderBubble');
 
         var hasHideClass = sliderBubble.classList.contains('hide');
@@ -127,7 +130,7 @@
 
         dom.addEventListener(this, 'change', function () {
             this.dragging = false;
-            updateValues(this, backgroundLower);
+            updateValues.call(this);
 
             sliderBubble.classList.add('hide');
             hasHideClass = true;
@@ -168,11 +171,9 @@
         if (!supportsNativeProgressStyle) {
 
             if (supportsValueSetOverride) {
-                this.addEventListener('valueset', function () {
-                    updateValues(this, backgroundLower);
-                });
+                this.addEventListener('valueset', updateValues);
             } else {
-                startInterval(this, backgroundLower);
+                startInterval(this);
             }
         }
     };
@@ -231,14 +232,24 @@
         setRange(elem, 0, 0);
     };
 
-    function startInterval(range, backgroundLower) {
+    EmbySliderPrototype.setIsClear = function (isClear) {
+
+        var backgroundLower = this.backgroundLower;
+        if (backgroundLower) {
+            if (isClear) {
+                backgroundLower.classList.add('mdl-slider-background-lower-clear');
+            } else {
+                backgroundLower.classList.remove('mdl-slider-background-lower-clear');
+            }
+        }
+    };
+
+    function startInterval(range) {
         var interval = range.interval;
         if (interval) {
             clearInterval(interval);
         }
-        range.interval = setInterval(function () {
-            updateValues(range, backgroundLower);
-        }, 100);
+        range.interval = setInterval(updateValues.bind(range), 100);
     }
 
     EmbySliderPrototype.detachedCallback = function () {
@@ -249,6 +260,7 @@
         }
         this.interval = null;
         this.backgroundUpper = null;
+        this.backgroundLower = null;
     };
 
     document.registerElement('emby-slider', {

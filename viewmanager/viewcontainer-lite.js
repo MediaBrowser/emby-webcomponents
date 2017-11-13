@@ -74,23 +74,12 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
             currentPage.insertAdjacentHTML('beforebegin', viewHtml);
             view = findViewBefore(currentPage, 'view');
 
-            // legacy
-            if (!view) {
-                view = findViewBefore(currentPage, 'pageContainer');
-                view.classList.add('view');
-            }
             mainAnimatedPages.removeChild(currentPage);
 
         } else {
             mainAnimatedPages.insertAdjacentHTML('beforeend', viewHtml);
 
             view = findLastView(mainAnimatedPages, 'view');
-
-            // legacy
-            if (!view) {
-                view = findLastView(mainAnimatedPages, 'pageContainer');
-                view.classList.add('view');
-            }
         }
 
         view.classList.add('mainAnimatedPage');

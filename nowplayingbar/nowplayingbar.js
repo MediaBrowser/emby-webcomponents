@@ -326,6 +326,10 @@
 
         if (positionSlider && !positionSlider.dragging) {
             positionSlider.disabled = !playState.CanSeek;
+
+            // determines if both forward and backward buffer progress will be visible
+            var isProgressClear = state.MediaSource && state.MediaSource.RunTimeTicks == null;
+            positionSlider.setIsClear(isProgressClear);
         }
 
         var nowPlayingItem = state.NowPlayingItem || {};
