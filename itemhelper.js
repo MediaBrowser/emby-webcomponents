@@ -63,7 +63,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
         }
 
-        return !item.CollectionType && invalidTypes.indexOf(item.Type) === -1 && item.MediaType !== 'Photo';
+        return !item.CollectionType && invalidTypes.indexOf(item.Type) === -1 && item.MediaType !== 'Photo' && !isLocalItem(item);
     }
 
     function supportsAddingToPlaylist(item) {
@@ -90,6 +90,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
         }
 
+        if (isLocalItem(item)) {
+            return false;
+        }
+
         return item.MediaType || item.IsFolder || item.Type === "Genre" || item.Type === "MusicGenre" || item.Type === "MusicArtist";
     }
 
@@ -111,6 +115,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
         }
 
+        if (isLocalItem(item)) {
+            return false;
+        }
+
         return user.Policy.IsAdministrator;
     }
 
@@ -129,21 +137,25 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         supportsAddingToPlaylist: supportsAddingToPlaylist,
         isLocalItem: isLocalItem,
 
-        canIdentify: function (user, itemType) {
+        canIdentify: function (user, item) {
+
+            var itemType = item.Type;
 
             if (itemType === "Movie" ||
-              itemType === "Trailer" ||
-              itemType === "Series" ||
-              itemType === "Game" ||
-              itemType === "BoxSet" ||
-              itemType === "Person" ||
-              itemType === "Book" ||
-              itemType === "MusicAlbum" ||
-              itemType === "MusicArtist") {
+                itemType === "Trailer" ||
+                itemType === "Series" ||
+                itemType === "Game" ||
+                itemType === "BoxSet" ||
+                itemType === "Person" ||
+                itemType === "Book" ||
+                itemType === "MusicAlbum" ||
+                itemType === "MusicArtist") {
 
                 if (user.Policy.IsAdministrator) {
 
-                    return true;
+                    if (!isLocalItem(item)) {
+                        return true;
+                    }
                 }
             }
 
@@ -175,12 +187,16 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 }
             }
 
-            return itemType !== 'Timer' && itemType !== 'SeriesTimer' && canEdit(user, item);
+            return itemType !== 'Timer' && itemType !== 'SeriesTimer' && canEdit(user, item) && !isLocalItem(item);
         },
 
         canSync: function (user, item) {
 
             if (user && !user.Policy.EnableContentDownloading) {
+                return false;
+            }
+
+            if (isLocalItem(item)) {
                 return false;
             }
 
@@ -205,6 +221,9 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 if (item.Status !== 'Completed') {
                     return false;
                 }
+            }
+            if (isLocalItem(item)) {
+                return false;
             }
             return user.Policy.EnablePublicSharing && appHost.supports('sharing');
         },

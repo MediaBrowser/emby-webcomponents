@@ -9,10 +9,6 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         var commands = [];
 
-        if (itemHelper.isLocalItem(item)) {
-            return commands;
-        }
-
         if (browser.operaTv || browser.web0s) {
             return commands;
         }
@@ -149,7 +145,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
-        if (itemHelper.canEdit(user, item)) {
+        var canEdit = itemHelper.canEdit(user, item);
+        if (canEdit) {
 
             if (options.edit !== false && item.Type !== 'SeriesTimer') {
 
@@ -172,7 +169,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
-        if (itemHelper.canEdit(user, item)) {
+        if (canEdit) {
 
             if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
                 if (options.editSubtitles !== false) {
@@ -185,7 +182,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         }
 
         if (options.identify !== false) {
-            if (itemHelper.canIdentify(user, item.Type)) {
+            if (itemHelper.canIdentify(user, item)) {
                 commands.push({
                     name: globalize.translate('sharedcomponents#Identify'),
                     id: 'identify'
