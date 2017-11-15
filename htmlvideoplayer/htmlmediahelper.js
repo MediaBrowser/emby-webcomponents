@@ -309,37 +309,54 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
             console.log('HLS Error: Type: ' + data.type + ' Details: ' + (data.details || '') + ' Fatal: ' + (data.fatal || false));
 
+            switch (data.type) {
+                case Hls.ErrorTypes.NETWORK_ERROR:
+                    // try to recover network error
+                    if (data.response && data.response.code && data.response.code >= 400) {
+
+                        console.log('hls.js response error code: ' + data.response.code);
+
+                        // Trigger failure differently depending on whether this is prior to start of playback, or after
+                        hls.destroy();
+
+                        if (reject) {
+                            reject('servererror');
+                            reject = null;
+                        } else {
+                            onErrorInternal(instance, 'servererror');
+                        }
+
+                        return;
+
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+
             if (data.fatal) {
                 switch (data.type) {
                     case Hls.ErrorTypes.NETWORK_ERROR:
-                        // try to recover network error
-                        if (data.response && data.response.code && data.response.code >= 400 && data.response.code < 500) {
 
-                            console.log('hls.js response error code: ' + data.response.code);
-
-                            // Trigger failure differently depending on whether this is prior to start of playback, or after
-                            if (reject) {
-                                reject();
-                                reject = null;
-                            } else {
-                                onErrorInternal('network');
-                            }
-
-                        } else if (data.response && data.response.code === 0) {
+                        if (data.response && data.response.code === 0) {
 
                             // This could be a CORS error related to access control response headers
 
                             console.log('hls.js response error code: ' + data.response.code);
 
                             // Trigger failure differently depending on whether this is prior to start of playback, or after
+                            hls.destroy();
+
                             if (reject) {
-                                reject();
+                                reject('network');
                                 reject = null;
                             } else {
-                                onErrorInternal('network');
+                                onErrorInternal(instance, 'network');
                             }
+                        }
 
-                        } else {
+                        else {
                             console.log("fatal network error encountered, try to recover");
                             hls.startLoad();
                         }
@@ -362,7 +379,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                             reject();
                             reject = null;
                         } else {
-                            onErrorInternal('mediadecodeerror');
+                            onErrorInternal(instance, 'mediadecodeerror');
                         }
                         break;
                 }

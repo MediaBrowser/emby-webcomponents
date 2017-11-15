@@ -1597,8 +1597,7 @@
                         streamInfo.fullscreen = currentPlayOptions.fullscreen;
 
                         if (!streamInfo.url) {
-                            showPlaybackInfoErrorMessage(self, 'NoCompatibleStream');
-                            self.nextTrack();
+                            showPlaybackInfoErrorMessage(self, 'NoCompatibleStream', true);
                             return;
                         }
 
@@ -1642,8 +1641,13 @@
 
                 sendProgressUpdate(player, 'timeupdate');
             }, function (e) {
+
+                var playerData = getPlayerData(player);
+                playerData.isChangingStream = false;
+
                 onPlaybackError.call(player, e, {
-                    type: 'mediadecodeerror'
+                    type: 'mediadecodeerror',
+                    streamInfo: streamInfo
                 });
             });
         }
@@ -2211,14 +2215,15 @@
                         loading.hide();
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
-                    }, function () {
+                    }, function (err) {
 
                         // TODO: Improve this because it will report playback start on a failure
                         onPlaybackStartedFn();
                         onPlaybackStarted(player, playOptions, streamInfo, mediaSource);
-                        setTimeout(function (err) {
+                        setTimeout(function () {
                             onPlaybackError.call(player, err, {
-                                type: 'mediadecodeerror'
+                                type: 'mediadecodeerror',
+                                streamInfo: streamInfo
                             });
                         }, 100);
                     });
@@ -2881,21 +2886,11 @@
 
         function enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy) {
 
-            if (errorType === 'mediadecodeerror' || errorType === 'medianotsupported') {
+            // mediadecodeerror, medianotsupported, network, servererror
 
-                if (streamInfo.mediaSource.SupportsTranscoding &&
-                    (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy)) {
+            if (streamInfo.mediaSource.SupportsTranscoding && (!currentlyPreventsVideoStreamCopy || !currentlyPreventsAudioStreamCopy)) {
 
-                    return true;
-                }
-            }
-
-            if (errorType === 'network') {
-
-                if (streamInfo.playMethod === 'DirectPlay' && streamInfo.mediaSource.IsRemote && streamInfo.mediaSource.SupportsTranscoding) {
-
-                    return true;
-                }
+                return true;
             }
 
             return false;
@@ -2913,7 +2908,7 @@
 
             console.log('playbackmanager playback error type: ' + (errorType || ''));
 
-            var streamInfo = getPlayerData(player).streamInfo;
+            var streamInfo = error.streamInfo || getPlayerData(player).streamInfo;
 
             if (streamInfo) {
 
@@ -2921,7 +2916,7 @@
                 var currentlyPreventsAudioStreamCopy = streamInfo.url.toLowerCase().indexOf('allowaudiostreamcopy=false') !== -1;
 
                 // Auto switch to transcoding
-                if (enablePlaybackRetryWithTranscoding(streamInfo, errorType)) {
+                if (enablePlaybackRetryWithTranscoding(streamInfo, errorType, currentlyPreventsVideoStreamCopy, currentlyPreventsAudioStreamCopy)) {
 
                     var startTime = getCurrentTicks(player) || streamInfo.playerStartPositionTicks;
 
@@ -2939,10 +2934,11 @@
                 }
             }
 
-            onPlaybackStopped.call(player, e);
+            var displayErrorCode = 'NoCompatibleStream';
+            onPlaybackStopped.call(player, e, displayErrorCode);
         }
 
-        function onPlaybackStopped(e) {
+        function onPlaybackStopped(e, displayErrorCode) {
 
             var player = this;
 
@@ -2998,7 +2994,10 @@
                 removeCurrentPlayer(player);
             }
 
-            if (nextItem) {
+            if (displayErrorCode && typeof (displayErrorCode) === 'string') {
+                showPlaybackInfoErrorMessage(self, displayErrorCode, nextItem);
+            }
+            else if (nextItem) {
                 self.nextTrack();
             }
         }

@@ -713,8 +713,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return airTimeText;
         }
 
-        var uniqueFooterIndex = 0;
-        function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, isOuterFooter, cardFooterId) {
+        function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, isOuterFooter) {
 
             var html = '';
 
@@ -965,7 +964,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 var style = '';
 
-                html = '<div id="' + cardFooterId + '" class="' + footerClass + '"' + style + '>' + html;
+                html = '<div class="' + footerClass + '"' + style + '>' + html;
 
                 //cardFooter
                 html += "</div>";
@@ -1245,13 +1244,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var footerOverlayed = false;
 
-            var cardFooterId = 'cardFooter' + uniqueFooterIndex;
-            uniqueFooterIndex++;
-
             if (overlayText) {
 
                 footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
-                innerCardFooter += getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, false, cardFooterId);
+                innerCardFooter += getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, false);
                 footerOverlayed = true;
             }
             else if (progressHtml) {
@@ -1275,7 +1271,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     footerCssClass += ' cardFooter-withlogo';
                 }
 
-                outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, true, cardFooterId);
+                outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, true);
             }
 
             if (outerCardFooter && !options.cardLayout /*&& options.allowBottomPadding !== false*/) {

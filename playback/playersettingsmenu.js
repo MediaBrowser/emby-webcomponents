@@ -1,4 +1,4 @@
-define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings', 'qualityoptions'], function (actionsheet, datetime, playbackManager, globalize, appSettings, qualityoptions) {
+define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings', 'qualityoptions'], function (connectionManager, actionsheet, datetime, playbackManager, globalize, appSettings, qualityoptions) {
     'use strict';
 
     function showQualityMenu(player, btn) {
@@ -174,13 +174,11 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         });
     }
 
-    function show(options) {
+    function showWithUser(options, player, user) {
 
         var player = options.player;
 
         var supportedCommands = playbackManager.getSupportedCommands(player);
-
-        var secondaryQualityText = getQualitySecondaryText(player);
 
         var mediaType = options.mediaType;
 
@@ -200,11 +198,15 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
             });
         }
 
-        menuItems.push({
-            name: globalize.translate('sharedcomponents#Quality'),
-            id: 'quality',
-            secondaryText: secondaryQualityText
-        });
+        if (user && user.Policy.EnableVideoPlaybackTranscoding) {
+            var secondaryQualityText = getQualitySecondaryText(player);
+
+            menuItems.push({
+                name: globalize.translate('sharedcomponents#Quality'),
+                id: 'quality',
+                secondaryText: secondaryQualityText
+            });
+        }
 
         var repeatMode = playbackManager.getRepeatMode(player);
 
@@ -234,6 +236,23 @@ define(['actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings'
         }).then(function (id) {
 
             return handleSelectedOption(id, options, player);
+        });
+    }
+
+    function show(options) {
+
+        var player = options.player;
+
+        var currentItem = playbackManager.currentItem(player);
+
+        if (!currentItem || !currentItem.ServerId) {
+            return showWithUser(options, player, null);
+        }
+
+        var apiClient = connectionManager.getApiClient(currentItem.ServerId);
+
+        return apiClient.getCurrentUser().then(function (user) {
+            return showWithUser(options, player, user);
         });
     }
 
