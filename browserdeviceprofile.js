@@ -406,7 +406,8 @@ define(['browser'], function (browser) {
             if (!browser.ps4) {
 
                 // mp3 encoder only supports 2 channels, so only make that preferred if we're only requesting 2 channels
-                if (physicalAudioChannels <= 2) {
+                // Also apply it for chromecast because it no longer supports AAC 5.1
+                if (physicalAudioChannels <= 2 || browser.chromecast) {
                     hlsVideoAudioCodecs.push('mp3');
                 }
             }
@@ -673,29 +674,42 @@ define(['browser'], function (browser) {
 
         var supportsSecondaryAudio = browser.tizen || browser.orsay || browser.edge || browser.msie;
 
+        var aacCodecProfileConditions = [];
+
         // Handle he-aac not supported
         if (!videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.5"').replace(/no/, '')) {
             // TODO: This needs to become part of the stream url in order to prevent stream copy
+            aacCodecProfileConditions.push({
+                Condition: 'NotEquals',
+                Property: 'AudioProfile',
+                Value: 'HE-AAC'
+            });
+        }
+
+        if (!supportsSecondaryAudio) {
+            aacCodecProfileConditions.push({
+                Condition: 'Equals',
+                Property: 'IsSecondaryAudio',
+                Value: 'false',
+                IsRequired: 'false'
+            });
+        }
+
+        if (browser.chromecast) {
+            aacCodecProfileConditions.push({
+                Condition: 'LessThanEqual',
+                Property: 'AudioChannels',
+                Value: '2',
+                IsRequired: true
+            });
+        }
+
+        if (aacCodecProfileConditions.length) {
             profile.CodecProfiles.push({
                 Type: 'VideoAudio',
                 Codec: 'aac',
-                Conditions: [
-                    {
-                        Condition: 'NotEquals',
-                        Property: 'AudioProfile',
-                        Value: 'HE-AAC'
-                    }
-                ]
+                Conditions: aacCodecProfileConditions
             });
-
-            if (!supportsSecondaryAudio) {
-                profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
-                    Condition: 'Equals',
-                    Property: 'IsSecondaryAudio',
-                    Value: 'false',
-                    IsRequired: 'false'
-                });
-            }
         }
 
         if (!supportsSecondaryAudio) {
