@@ -1,4 +1,4 @@
-define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-linkbutton'], function (require, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
+define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-linkbutton'], function (require, browser, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
     "use strict";
 
     function fillThemes(select, isDashboard) {
@@ -92,6 +92,28 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         }
     }
 
+    function showOrHideMissingEpisodesField(context, user, apiClient) {
+
+        if (browser.tizen || browser.web0s) {
+            context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
+            return;
+        }
+
+        apiClient.getUserViews({}, user.Id).then(function (result) {
+
+            if (result.Items.filter(function (view) {
+
+                return !view.CollectionType || view.CollectionType === 'tvshows';
+
+            }).length) {
+
+                context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
+            } else {
+                context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
+            }
+        });
+    }
+
     function loadForm(context, user, userSettings, apiClient) {
 
         var loggedInUserId = apiClient.getCurrentUserId();
@@ -145,6 +167,16 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
             context.querySelector('.fldDateTimeLocale').classList.add('hide');
         }
 
+        if (!browser.tizen && !browser.web0s) {
+            context.querySelector('.fldBackdrops').classList.remove('hide');
+            context.querySelector('.fldThemeSong').classList.remove('hide');
+            context.querySelector('.fldThemeVideo').classList.remove('hide');
+        } else {
+            context.querySelector('.fldBackdrops').classList.add('hide');
+            context.querySelector('.fldThemeSong').classList.add('hide');
+            context.querySelector('.fldThemeVideo').classList.add('hide');
+        }
+
         context.querySelector('.chkRunAtStartup').checked = appSettings.runAtStartup();
 
         var selectTheme = context.querySelector('#selectTheme');
@@ -170,6 +202,8 @@ define(['require', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', '
         selectTheme.value = userSettings.theme() || '';
 
         context.querySelector('.selectLayout').value = layoutManager.getSavedLayout() || '';
+
+        showOrHideMissingEpisodesField(context, user, apiClient);
 
         loading.hide();
     }

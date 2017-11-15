@@ -119,11 +119,38 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
                 value: 'favorites'
             });
         }
+        else if (type === 'music') {
 
-        list.push({
-            name: globalize.translate('sharedcomponents#Genres'),
-            value: 'genres'
-        });
+            list.push({
+                name: globalize.translate('sharedcomponents#Suggestions'),
+                value: 'suggestions'
+            });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Albums'),
+                value: 'albums'
+            });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#HeaderAlbumArtists'),
+                value: 'albumartists'
+            });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Artists'),
+                value: 'artists'
+            });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Playlists'),
+                value: 'playlists'
+            });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Genres'),
+                value: 'genres'
+            });
+        }
 
         return list;
     }
@@ -147,7 +174,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         for (var i = 0, length = result.Items.length; i < length; i++) {
             var folder = result.Items[i];
 
-            if (!(folder.CollectionType === 'movies' || folder.CollectionType === 'tvshows')) {
+            if (!(folder.CollectionType === 'movies' || folder.CollectionType === 'tvshows' || folder.CollectionType === 'music')) {
                 continue;
             }
 
@@ -331,7 +358,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         var viewItems = context.querySelectorAll('.viewItem');
         var orderedViews = [];
         var i, length;
-        for ( i = 0, length = viewItems.length; i < length; i++) {
+        for (i = 0, length = viewItems.length; i < length; i++) {
             orderedViews.push(viewItems[i].getAttribute('data-viewid'));
         }
 

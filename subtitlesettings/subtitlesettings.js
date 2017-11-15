@@ -34,6 +34,10 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
         apiClient.getCultures().then(function (allCultures) {
 
+            if (appHost.supports('subtitleburnsettings') && user.Policy.EnableVideoPlaybackTranscoding) {
+                context.querySelector('.fldBurnIn').classList.remove('hide');
+            }
+
             var selectSubtitleLanguage = context.querySelector('#selectSubtitleLanguage');
 
             populateLanguages(selectSubtitleLanguage, allCultures);
@@ -164,10 +168,6 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
             if (appHost.supports('subtitleappearancesettings')) {
                 options.element.querySelector('.subtitleAppearanceSection').classList.remove('hide');
-            }
-
-            if (appHost.supports('subtitleburnsettings')) {
-                options.element.querySelector('.fldBurnIn').classList.remove('hide');
             }
 
             self.loadData();
