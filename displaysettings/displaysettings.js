@@ -99,19 +99,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             return;
         }
 
-        apiClient.getUserViews({}, user.Id).then(function (result) {
-
-            if (result.Items.filter(function (view) {
-
-                return !view.CollectionType || view.CollectionType === 'tvshows';
-
-            }).length) {
-
-                context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
-            } else {
-                context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
-            }
-        });
+        context.querySelector('.fldDisplayMissingEpisodes').classList.remove('hide');
     }
 
     function loadForm(context, user, userSettings, apiClient) {

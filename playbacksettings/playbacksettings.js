@@ -1,4 +1,4 @@
-define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', 'globalize', 'loading', 'connectionManager', 'dom', 'events', 'emby-select', 'emby-checkbox'], function (require, appSettings, appHost, focusManager, qualityoptions, globalize, loading, connectionManager, dom, events) {
+define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', 'globalize', 'loading', 'connectionManager', 'dom', 'events', 'emby-select', 'emby-checkbox'], function (require, browser, appSettings, appHost, focusManager, qualityoptions, globalize, loading, connectionManager, dom, events) {
     "use strict";
 
     function fillSkipLengths(select) {
@@ -88,13 +88,25 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
         }
     }
 
-    function showHideQualityFields(context, apiClient) {
+    function showHideQualityFields(context, user, apiClient) {
+
+        if (user.Policy.EnableVideoPlaybackTranscoding) {
+            context.querySelector('.videoQualitySection').classList.remove('hide');
+        } else {
+            context.querySelector('.videoQualitySection').classList.add('hide');
+        }
 
         if (appHost.supports('multiserver')) {
 
             context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
             context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
-            context.querySelector('.musicQualitySection').classList.remove('hide');
+
+            if (user.Policy.EnableAudioPlaybackTranscoding) {
+                context.querySelector('.musicQualitySection').classList.remove('hide');
+            } else {
+                context.querySelector('.musicQualitySection').classList.add('hide');
+            }
+
             return;
         }
 
@@ -103,15 +115,32 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
             if (endpointInfo.IsInNetwork) {
 
                 context.querySelector('.fldVideoInNetworkQuality').classList.remove('hide');
+
                 context.querySelector('.fldVideoInternetQuality').classList.add('hide');
                 context.querySelector('.musicQualitySection').classList.add('hide');
             } else {
 
                 context.querySelector('.fldVideoInNetworkQuality').classList.add('hide');
+
                 context.querySelector('.fldVideoInternetQuality').classList.remove('hide');
-                context.querySelector('.musicQualitySection').classList.remove('hide');
+
+                if (user.Policy.EnableAudioPlaybackTranscoding) {
+                    context.querySelector('.musicQualitySection').classList.remove('hide');
+                } else {
+                    context.querySelector('.musicQualitySection').classList.add('hide');
+                }
             }
         });
+    }
+
+    function showOrHideEpisodesField(context, user, apiClient) {
+
+        if (browser.tizen || browser.web0s) {
+            context.querySelector('.fldEpisodeAutoPlay').classList.add('hide');
+            return;
+        }
+
+        context.querySelector('.fldEpisodeAutoPlay').classList.remove('hide');
     }
 
     function loadForm(context, user, userSettings, apiClient) {
@@ -119,7 +148,7 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
         var loggedInUserId = apiClient.getCurrentUserId();
         var userId = user.Id;
 
-        showHideQualityFields(context, apiClient);
+        showHideQualityFields(context, user, apiClient);
 
         apiClient.getCultures().then(function (allCultures) {
 
@@ -145,12 +174,23 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
             context.querySelector('.fldExternalPlayer').classList.add('hide');
         }
 
-        if (userId === loggedInUserId) {
+        if (userId === loggedInUserId && (user.Policy.EnableVideoPlaybackTranscoding || user.Policy.EnableAudioPlaybackTranscoding)) {
             context.querySelector('.qualitySections').classList.remove('hide');
-            context.querySelector('.fldChromecastQuality').classList.remove('hide');
+
+            if (appHost.supports('chromecast') && user.Policy.EnableVideoPlaybackTranscoding) {
+                context.querySelector('.fldChromecastQuality').classList.remove('hide');
+            } else {
+                context.querySelector('.fldChromecastQuality').classList.add('hide');
+            }
         } else {
             context.querySelector('.qualitySections').classList.add('hide');
             context.querySelector('.fldChromecastQuality').classList.add('hide');
+        }
+
+        if (browser.tizen || browser.web0s) {
+            context.querySelector('.fldEnableNextVideoOverlay').classList.add('hide');
+        } else {
+            context.querySelector('.fldEnableNextVideoOverlay').classList.remove('hide');
         }
 
         context.querySelector('.chkPlayDefaultAudioTrack').checked = user.Configuration.PlayDefaultAudioTrack || false;
@@ -171,6 +211,8 @@ define(['require', 'appSettings', 'apphost', 'focusManager', 'qualityoptions', '
         var selectSkipBackLength = context.querySelector('.selectSkipBackLength');
         fillSkipLengths(selectSkipBackLength);
         selectSkipBackLength.value = userSettings.skipBackLength();
+
+        showOrHideEpisodesField(context, user, apiClient);
 
         loading.hide();
     }
