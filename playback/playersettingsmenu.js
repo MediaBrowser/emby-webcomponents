@@ -176,8 +176,6 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
 
     function showWithUser(options, player, user) {
 
-        var player = options.player;
-
         var supportedCommands = playbackManager.getSupportedCommands(player);
 
         var mediaType = options.mediaType;
