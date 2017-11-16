@@ -72,6 +72,7 @@
 .selectContainer-inline > .selectLabel {
     margin-bottom: 0;
     margin-right: .5em;
+    flex-shrink: 0;
 }
 
 .emby-select-withcolor {

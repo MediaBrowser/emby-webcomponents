@@ -378,7 +378,7 @@ button {
     position: absolute;
     display: flex;
     align-items: center;
-    contain: layout style paint;
+    contain: layout style;
 }
 
 .cardProgramAttributeIndicators {

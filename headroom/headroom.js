@@ -284,6 +284,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             var currentScrollY = this.getScrollY();
 
             var minThreshold = layoutManager.tv ? 70 : 0;
+            var lastKnownScrollY = this.lastKnownScrollY;
+            var scrollDirection = currentScrollY > lastKnownScrollY ? 'down' : 'up';
+            var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 10;
 
             if (currentScrollY <= minThreshold) {
                 this.clear();
@@ -291,7 +294,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             else if (this.shouldUnpin(currentScrollY)) {
                 this.unpin();
             }
-            else if (this.shouldPin(currentScrollY)) {
+            else if (toleranceExceeded && this.shouldPin(currentScrollY)) {
                 if (currentScrollY && layoutManager.tv) {
                     this.unpin();
                 } else {
