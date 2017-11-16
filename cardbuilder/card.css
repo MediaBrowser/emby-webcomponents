@@ -260,17 +260,8 @@ button {
 }
 
 .cardFooter {
-    padding: .5em .3em;
+    padding: .3em .3em .5em .3em;
     position: relative;
-}
-
-.cardFooter-transparent {
-    padding-top: .26em;
-    font-size: 93%;
-}
-
-.layout-tv .cardFooter-transparent {
-    padding-top: .1em;
 }
 
 .visualCardBox {
@@ -305,6 +296,11 @@ button {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+    font-size: 93%;
+}
+
+.cardText-first {
+    padding-top: .26em;
 }
 
 .innerCardFooter > .cardText {

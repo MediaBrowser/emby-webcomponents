@@ -224,8 +224,6 @@
             numLines++;
         }
 
-        html += '<div class="cardFooter cardFooter-transparent">';
-
         var lines = [result.Name];
 
         if (result.AlbumArtist) {
@@ -241,7 +239,7 @@
         for (var i = 0; i < numLines; i++) {
 
             if (i === 0) {
-                html += '<div class="cardText cardTextCentered">';
+                html += '<div class="cardText cardText-first cardTextCentered">';
             } else {
                 html += '<div class="cardText cardText-secondary cardTextCentered">';
             }
@@ -249,7 +247,6 @@
             html += '</div>';
         }
 
-        html += '</div>';
         html += '</div>';
         html += '</button>';
         return html;

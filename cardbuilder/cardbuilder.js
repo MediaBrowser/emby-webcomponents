@@ -365,7 +365,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            var cardFooterHtml = '<div id="cardFooter595" class="cardFooter cardFooter-transparent">';
+            var cardFooterHtml = '<div class="cardFooter cardFooter-transparent">';
             for (i = 0, length = options.lines; i < length; i++) {
                 cardFooterHtml += '<div class="cardText">&nbsp;</div>';
             }
@@ -651,6 +651,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (valid > 0 && isOuterFooter) {
                     currentCssClass += ' cardText-secondary';
+                } else if (valid === 0 && isOuterFooter) {
+                    currentCssClass += ' cardText-first';
                 }
 
                 if (addRightMargin) {
@@ -716,9 +718,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, isOuterFooter) {
 
             var html = '';
+            var hasLogo;
 
             if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
                 var logoHeight = 40;
+                hasLogo = true;
 
                 html += '<div class="lazy cardFooterLogo" data-src="' + apiClient.getScaledImageUrl(item.ChannelId, {
                     type: "Primary",
@@ -962,12 +966,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (html) {
 
-                var style = '';
+                if (!isOuterFooter || hasLogo) {
+                    html = '<div class="' + footerClass + '">' + html;
 
-                html = '<div class="' + footerClass + '"' + style + '>' + html;
-
-                //cardFooter
-                html += "</div>";
+                    //cardFooter
+                    html += "</div>";
+                }
             }
 
             return html;
