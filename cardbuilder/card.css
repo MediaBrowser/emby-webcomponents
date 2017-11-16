@@ -300,7 +300,11 @@ button {
 }
 
 .cardText-first {
-    padding-top: .26em;
+    padding-top: .3em;
+}
+
+.layout-tv .cardText-first {
+    padding-top: .16em;
 }
 
 .innerCardFooter > .cardText {
