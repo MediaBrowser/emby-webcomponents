@@ -259,7 +259,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          */
         shouldUnpin: function (currentScrollY) {
             var scrollingDown = currentScrollY > this.lastKnownScrollY,
-              pastOffset = currentScrollY >= this.offset;
+                pastOffset = currentScrollY >= this.offset;
 
             return scrollingDown && pastOffset;
         },
@@ -271,7 +271,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          */
         shouldPin: function (currentScrollY) {
             var scrollingUp = currentScrollY < this.lastKnownScrollY,
-              pastOffset = currentScrollY <= this.offset;
+                pastOffset = currentScrollY <= this.offset;
 
             return scrollingUp || pastOffset;
         },
@@ -283,24 +283,26 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             var currentScrollY = this.getScrollY();
 
-            var minThreshold = layoutManager.tv ? 70 : 0;
             var lastKnownScrollY = this.lastKnownScrollY;
-            var scrollDirection = currentScrollY > lastKnownScrollY ? 'down' : 'up';
-            var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 10;
 
-            if (currentScrollY <= minThreshold) {
+            var isTv = layoutManager.tv;
+
+            if (isTv && currentScrollY <= 70) {
                 this.clear();
             }
             else if (this.shouldUnpin(currentScrollY)) {
                 this.unpin();
             }
             else if (this.shouldPin(currentScrollY)) {
-                if (currentScrollY && layoutManager.tv) {
+
+                var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 10;
+
+                if (currentScrollY && isTv) {
                     this.unpin();
-                } else {
+                } else if (toleranceExceeded) {
                     this.clear();
                 }
-            } else if (layoutManager.tv) {
+            } else if (isTv) {
                 this.clear();
             }
 

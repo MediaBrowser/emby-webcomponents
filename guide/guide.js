@@ -1187,6 +1187,8 @@
                     capture: true,
                     passive: true
                 });
+            } else if (layoutManager.desktop) {
+                timeslotHeaders.classList.add('timeslotHeaders-desktop');
             }
 
             if (browser.iOS || browser.osx) {

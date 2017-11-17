@@ -62,6 +62,11 @@
     font-size: 120%;
 }
 
+.timeslotHeaders-desktop::-webkit-scrollbar {
+    width: 1em;
+    height: .5em;
+}
+
 .programContainer {
     white-space: nowrap;
     position: relative;
