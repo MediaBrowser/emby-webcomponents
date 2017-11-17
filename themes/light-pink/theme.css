@@ -309,49 +309,45 @@ html, .skinHeader {
 }
 
 /* guide */
-.guide-channelHeaderCell, .guide-channelTimeslotHeader {
-    background: #d2d2d2;
+.guide-channelHeaderCell, .channelPrograms, .programCell {
+    border-color: rgba(0,0,0,.12);
 }
 
-.programCellInner {
-    background-color: #e2e2e2;
+.programCell-sports {
+    background: #3949AB !important;
 }
 
-.programCellInner-sports {
-    background: #3949AB;
+.programCell-movie {
+    background: #5E35B1 !important;
 }
 
-.programCellInner-movie {
-    background: #5E35B1;
+.programCell-kids {
+    background: #039BE5 !important;
 }
 
-.programCellInner-kids {
-    background: #039BE5;
+.programCell-news {
+    background: #43A047 !important;
 }
 
-.programCellInner-news {
-    background: #43A047;
+.programCell:focus, .guide-channelHeaderCell:focus {
+    background-color: #555 !important;
 }
 
 .guide-programTextIcon {
     color: #1e1e1e;
-    background: #aaa;
-}
-
-.guide-headerTimeslots {
-    color: inherit;
+    background: #555;
 }
 
 .guide-currentTimeIndicatorBar {
     background-color: #E91E63;
 }
 
-.guide-currentTimeIndicatorArrowContainer {
-    color: #E91E63;
+.guide-currentTimeIndicatorArrow {
+    background-color: #E91E63;
 }
 
-.guide-currentTimeIndicatorArrow {
-    color: #E91E63;
+.guide-headerTimeslots {
+    color: inherit;
 }
 
 .guide-date-tab-button {

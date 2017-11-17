@@ -294,7 +294,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             else if (this.shouldUnpin(currentScrollY)) {
                 this.unpin();
             }
-            else if (toleranceExceeded && this.shouldPin(currentScrollY)) {
+            else if (this.shouldPin(currentScrollY)) {
                 if (currentScrollY && layoutManager.tv) {
                     this.unpin();
                 } else {

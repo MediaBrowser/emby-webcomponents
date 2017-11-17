@@ -289,28 +289,28 @@ html {
 }
 
 /* guide */
-.guide-channelHeaderCell, .guide-channelTimeslotHeader {
-    background: #2a2a2a;
+.guide-channelHeaderCell, .channelPrograms, .programCell {
+    border-color: #282828;
 }
 
-.programCellInner {
-    background-color: #1e1e1e;
+.programCell-sports {
+    background: #3949AB!important;
 }
 
-.programCellInner-sports {
-    background: #3949AB;
+.programCell-movie {
+    background: #5E35B1!important;
 }
 
-.programCellInner-movie {
-    background: #5E35B1;
+.programCell-kids {
+    background: #039BE5!important;
 }
 
-.programCellInner-kids {
-    background: #039BE5;
+.programCell-news {
+    background: #43A047!important;
 }
 
-.programCellInner-news {
-    background: #43A047;
+.programCell:focus, .guide-channelHeaderCell:focus {
+    background-color: #555 !important;
 }
 
 .guide-programTextIcon {
@@ -322,12 +322,8 @@ html {
     background-color: #52B54B;
 }
 
-.guide-currentTimeIndicatorArrowContainer {
-    color: #52B54B;
-}
-
 .guide-currentTimeIndicatorArrow {
-    color: #52B54B;
+    background-color: #52B54B;
 }
 
 .guide-headerTimeslots {
@@ -401,4 +397,22 @@ html {
 /* cards */
 .card:focus .card-focuscontent {
     border-color: #52B54B;
+}
+
+.layout-desktop ::-webkit-scrollbar {
+    width: 1em;
+    height: 1em;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #3b3b3b;
+}
+
+::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal {
+    -webkit-border-radius: 2px;
+    background: #888 no-repeat center;
 }

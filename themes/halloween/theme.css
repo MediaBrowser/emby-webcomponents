@@ -313,28 +313,28 @@ html {
 }
 
 /* guide */
-.guide-channelHeaderCell, .guide-channelTimeslotHeader {
-    background: #2e2e2e;
+.guide-channelHeaderCell, .channelPrograms, .programCell {
+    border-color: #282828;
 }
 
-.programCellInner {
-    background-color: #202020;
+.programCell-sports {
+    background: #3949AB !important;
 }
 
-.programCellInner-sports {
-    background: #3949AB;
+.programCell-movie {
+    background: #5E35B1 !important;
 }
 
-.programCellInner-movie {
-    background: #5E35B1;
+.programCell-kids {
+    background: #039BE5 !important;
 }
 
-.programCellInner-kids {
-    background: #039BE5;
+.programCell-news {
+    background: #43A047 !important;
 }
 
-.programCellInner-news {
-    background: #43A047;
+.programCell:focus, .guide-channelHeaderCell:focus {
+    background-color: #555 !important;
 }
 
 .guide-programTextIcon {
@@ -343,15 +343,11 @@ html {
 }
 
 .guide-currentTimeIndicatorBar {
-    background-color: #FF9100;
-}
-
-.guide-currentTimeIndicatorArrowContainer {
-    color: #FF9100;
+    background-color: #52B54B;
 }
 
 .guide-currentTimeIndicatorArrow {
-    color: #FF9100;
+    background-color: #52B54B;
 }
 
 .guide-headerTimeslots {
@@ -364,15 +360,15 @@ html {
 }
 
     .guide-date-tab-button.emby-tab-button-active {
-        color: #FF9100;
+        color: #52B54B;
     }
 
     .guide-date-tab-button:focus {
-        color: #FF9100;
+        color: #52B54B;
     }
 
     .guide-date-tab-button.emby-button-tv:focus {
-        background-color: #FF9100;
+        background-color: #52B54B;
         color: #fff;
     }
 

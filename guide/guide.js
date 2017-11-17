@@ -417,7 +417,7 @@
             html += '<div class="guide-currentTimeIndicatorBar hide">';
             html += '</div>';
             html += '<div class="guide-currentTimeIndicatorArrowContainer hide">';
-            html += '<i class="guide-currentTimeIndicatorArrow md-icon">arrow_drop_down</i>';
+            html += '<div class="guide-currentTimeIndicatorArrow md-icon"></div>';
             html += '</div>';
 
             return html;
@@ -571,6 +571,10 @@
                     displayInnerContent = displayMovieContent && displayNewsContent && displaySportsContent && displayKidsContent && displaySeriesContent;
                 }
 
+                if (displayInnerContent && enableColorCodedBackgrounds && accentCssClass) {
+                    cssClass += " programCell-" + accentCssClass;
+                }
+
                 var timerAttributes = '';
                 if (program.TimerId) {
                     timerAttributes += ' data-timerid="' + program.TimerId + '"';
@@ -582,12 +586,6 @@
                 var isAttribute = endPercent >= 2 ? ' is="emby-programcell"' : '';
 
                 html += '<button' + isAttribute + ' data-action="' + clickAction + '"' + timerAttributes + ' data-channelid="' + program.ChannelId + '" data-id="' + program.Id + '" data-serverid="' + program.ServerId + '" data-startdate="' + program.StartDate + '" data-enddate="' + program.EndDate + '" data-type="' + program.Type + '" class="' + cssClass + '" style="left:' + startPercent + '%;width:' + endPercent + '%;">';
-
-                if (displayInnerContent && enableColorCodedBackgrounds && accentCssClass) {
-                    html += '<div class="programCellInner programCellInner-' + accentCssClass + '">';
-                } else {
-                    html += '<div class="programCellInner">';
-                }
 
                 if (displayInnerContent) {
                     var guideProgramNameClass = "guideProgramName";
@@ -638,7 +636,6 @@
                     html += '</div>';
                 }
 
-                html += '</div>';
                 html += '</button>';
             }
 
