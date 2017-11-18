@@ -399,6 +399,7 @@ html {
     border-color: #52B54B;
 }
 
+/* scrollbars */
 .layout-desktop ::-webkit-scrollbar {
     width: 1em;
     height: 1em;
@@ -415,4 +416,8 @@ html {
 ::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal {
     -webkit-border-radius: 2px;
     background: #888 no-repeat center;
+}
+
+.timeslotHeaders-desktop::-webkit-scrollbar {
+    height: .7em;
 }
