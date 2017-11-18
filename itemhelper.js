@@ -282,7 +282,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             if (item.Type === 'TvChannel') {
                 return false;
             }
-            if (item.MediaSources.length === 1 && item.MediaSources[0].Type === 'Placeholder') {
+            if (!item.MediaSources || (item.MediaSources.length === 1 && item.MediaSources[0].Type === 'Placeholder')) {
                 return false;
             }
             if (item.SourceType && item.SourceType !== 'Library') {
