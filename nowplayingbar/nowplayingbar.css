@@ -34,11 +34,9 @@
     text-align: center;
 }
 
-    .mediaButton i {
-        height: 1em;
-        width: 1em;
-        font-size: 200%;
-    }
+.mediaButton {
+    font-size: 120%;
+}
 
 .nowPlayingBar .nowPlayingImage {
     background-position: center center;

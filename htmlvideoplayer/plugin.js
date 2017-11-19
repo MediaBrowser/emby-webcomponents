@@ -632,7 +632,6 @@
                 videoElement.removeEventListener('pause', onPause);
                 videoElement.removeEventListener('playing', onPlaying);
                 videoElement.removeEventListener('play', onPlay);
-                videoElement.removeEventListener('loadedmetadata', onLoadedMetadata);
                 videoElement.removeEventListener('click', onClick);
                 videoElement.removeEventListener('dblclick', onDblClick);
 
@@ -807,21 +806,6 @@
             }
 
             htmlMediaHelper.onErrorInternal(self, type);
-        }
-
-        function onLoadedMetadata(e) {
-
-            var mediaElem = e.target;
-            mediaElem.removeEventListener('loadedmetadata', onLoadedMetadata);
-
-            if (!self._hlsPlayer && !self._shakaPlayer && !self._flvPlayer) {
-
-                try {
-                    mediaElem.play();
-                } catch (err) {
-                    console.log('error calling mediaElement.play: ' + err);
-                }
-            }
         }
 
         function destroyCustomTrack(videoElement) {

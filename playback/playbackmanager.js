@@ -286,7 +286,7 @@
             PlaySessionId: startingPlaySession,
             StartTimeTicks: startPosition || 0,
             EnableRedirection: true,
-            EnableRemoteMedia: apphost.supports('remotemedia')
+            EnableRemoteMedia: apphost.supports('remoteaudio')
         });
     }
 
@@ -572,7 +572,7 @@
 
         if (mediaSource.SupportsDirectPlay || isFolderRip) {
 
-            if (mediaSource.IsRemote && (item.Type === 'TvChannel' || item.Type === 'Trailer') && !apphost.supports('remotemedia')) {
+            if (mediaSource.IsRemote && !apphost.supports('remotevideo') && !apphost.supports('remotemedia')) {
                 return Promise.resolve(false);
             }
 
