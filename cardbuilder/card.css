@@ -533,20 +533,12 @@ button {
         width: 50%;
     }
 
-    .portraitCard {
+    .squareCard, .portraitCard {
         width: 20%;
     }
 
     .smallBackdropCard {
         width: 25%;
-    }
-}
-
-
-@media all and (min-width: 900px) {
-
-    .squareCard {
-        width: 20%;
     }
 }
 
@@ -564,16 +556,12 @@ button {
         width: 25%;
     }
 
-    .squareCard {
+    .squareCard, .portraitCard {
         width: 16.666666666666666666666666666667%;
     }
 
     .bannerCard {
         width: 33.333333333333333333333333333333%;
-    }
-
-    .portraitCard {
-        width: 16.666666666666666666666666666667%;
     }
 
     .smallBackdropCard {
@@ -584,11 +572,7 @@ button {
 
 @media all and (min-width: 1400px) {
 
-    .squareCard {
-        width: 14.285714285714285714285714285714%;
-    }
-
-    .portraitCard {
+    .squareCard, .portraitCard {
         width: 14.285714285714285714285714285714%;
     }
 
@@ -599,10 +583,6 @@ button {
 
 @media all and (min-width: 1600px) {
 
-    .portraitCard {
-        width: 12.5%;
-    }
-
     .smallBackdropCard {
         width: 12.5%;
     }
@@ -611,14 +591,14 @@ button {
         width: 20%;
     }
 
-    .squareCard {
+    .squareCard, .portraitCard {
         width: 12.5%;
     }
 }
 
 @media all and (min-width: 1920px) {
 
-    .squareCard {
+    .squareCard, .portraitCard {
         width: 11.111111111111111111111111111111%;
     }
 }
@@ -628,10 +608,6 @@ button {
     .backdropCard {
         width: 20%;
     }
-
-    .portraitCard {
-        width: 11.111111111111111111111111111111%;
-    }
 }
 
 @media all and (min-width: 2200px) {
@@ -640,7 +616,7 @@ button {
         width: 25%;
     }
 
-    .portraitCard {
+    .squareCard, .portraitCard {
         width: 10%;
     }
 }

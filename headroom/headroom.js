@@ -295,7 +295,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             }
             else if (this.shouldPin(currentScrollY)) {
 
-                var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 10;
+                var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 14;
 
                 if (currentScrollY && isTv) {
                     this.unpin();

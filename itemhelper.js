@@ -274,6 +274,21 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return true;
         },
 
+        canRefreshMetadata: function (item, user) {
+
+            if (user.Policy.IsAdministrator) {
+
+                if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
+
+                    if (!isLocalItem(item)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        },
+
         supportsMediaSourceSelection: function (item) {
 
             if (item.MediaType !== 'Video') {

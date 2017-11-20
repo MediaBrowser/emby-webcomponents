@@ -210,14 +210,11 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
-        if (user.Policy.IsAdministrator) {
-
-            if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#RefreshMetadata'),
-                    id: 'refresh'
-                });
-            }
+        if (itemHelper.canRefreshMetadata(item, user)) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#RefreshMetadata'),
+                id: 'refresh'
+            });
         }
 
         if (item.PlaylistItemId && options.playlistId) {
