@@ -414,7 +414,11 @@ define(['browser'], function (browser) {
         }
         if (videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '')) {
             videoAudioCodecs.push('aac');
-            hlsVideoAudioCodecs.push('aac');
+
+            // chromecast no longer supports AAC 5.1
+            if (physicalAudioChannels <= 2 || !browser.chromecast) {
+                hlsVideoAudioCodecs.push('aac');
+            }
         }
         if (supportsMp3VideoAudio) {
             // PS4 fails to load HLS with mp3 audio

@@ -23,24 +23,31 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
             size = item[horizontal ? 'offsetWidth' : 'offsetHeight'];
         }
 
-        if (horizontal) {
-            offset += scrollContainer.scrollLeft;
-        } else {
-            offset += scrollContainer.scrollTop;
-        }
+        var currentStart = horizontal ? scrollContainer.scrollLeft : scrollContainer.scrollTop;
+
+        offset += currentStart;
 
         var frameSize = horizontal ? scrollContainer.offsetWidth : scrollContainer.offsetHeight;
+
+        var currentEnd = currentStart + frameSize;
+
+        var isVisible = offset >= currentStart && (offset + size) <= currentEnd;
 
         return {
             start: offset,
             center: (offset - (frameSize / 2) + (size / 2)),
             end: offset - frameSize + size,
-            size: size
+            size: size,
+            isVisible: isVisible
         };
     }
 
-    function toCenter(container, elem, horizontal) {
+    function toCenter(container, elem, horizontal, skipWhenVisible) {
         var pos = getPosition(container, elem, horizontal);
+
+        if (skipWhenVisible && pos.isVisible) {
+            return;
+        }
 
         if (container.scrollTo) {
             if (horizontal) {
@@ -57,8 +64,12 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function toStart(container, elem, horizontal) {
+    function toStart(container, elem, horizontal, skipWhenVisible) {
         var pos = getPosition(container, elem, horizontal);
+
+        if (skipWhenVisible && pos.isVisible) {
+            return;
+        }
 
         if (container.scrollTo) {
             if (horizontal) {

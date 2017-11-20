@@ -1090,7 +1090,7 @@
             if (lastFocusDirection === 'left' || lastFocusDirection === 'right') {
 
                 if (programCell) {
-                    scrollHelper.toCenter(programGrid, programCell, true);
+                    scrollHelper.toStart(programGrid, programCell, true, true);
                 }
             }
 
