@@ -214,7 +214,10 @@
             if (!targets.length) {
                 html += '<div class="fieldDescription">' + globalize.translate('sharedcomponents#LabelSyncNoTargetsHelp') + '</div>';
             }
-            html += '<div class="fieldDescription"><a is="emby-linkbutton" class="button-link lnkLearnMore" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('sharedcomponents#LearnMore') + '</a></div>';
+
+            if (appHost.supports('externallinks')) {
+                html += '<div class="fieldDescription"><a is="emby-linkbutton" class="button-link lnkLearnMore" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank">' + globalize.translate('sharedcomponents#LearnMore') + '</a></div>';
+            }
             html += '</div>';
         }
 
@@ -453,7 +456,9 @@
             html += syncButtonLabel;
             html += '</h3>';
 
-            html += '<a is="emby-linkbutton" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+            if (appHost.supports('externallinks')) {
+                html += '<a is="emby-linkbutton" href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+            }
 
             html += '</div>';
 

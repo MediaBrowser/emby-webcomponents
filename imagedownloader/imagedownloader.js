@@ -1,4 +1,4 @@
-﻿define(['loading', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'paper-icon-button-light', 'emby-linkbutton', 'formDialogStyle', 'cardStyle'], function (loading, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
+﻿define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'paper-icon-button-light', 'emby-linkbutton', 'formDialogStyle', 'cardStyle'], function (loading, appHost, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
     var currentItemId;
@@ -216,7 +216,7 @@
         html += '<div class="cardPadder-' + shape + '"></div>';
         html += '<div class="cardContent">';
 
-        if (layoutManager.tv) {
+        if (layoutManager.tv || !appHost.supports('externallinks')) {
             html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></div>';
         }
         else {

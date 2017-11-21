@@ -431,7 +431,9 @@
         html += globalize.translate('sharedcomponents#Sync');
         html += '</h3>';
 
-        html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" is="emby-linkbutton" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+        if (appHost.supports('externallinks')) {
+            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" is="emby-linkbutton" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+        }
 
         html += '</div>';
 

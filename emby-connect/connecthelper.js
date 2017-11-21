@@ -1,4 +1,4 @@
-define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize, loading, alert) {
+define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function (globalize, appHost, loading, alert) {
     'use strict';
 
     function resolvePromise() {
@@ -82,8 +82,12 @@ define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize
 
     function showGuestGeneralErrorMessage() {
 
-        var html = globalize.translate('sharedcomponents#ErrorAddingGuestAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
-        html += '<br/><br/>' + globalize.translate('sharedcomponents#ErrorAddingGuestAccount2', 'apps@emby.media');
+        var html;
+
+        if (appHost.supports('externallinks')) {
+            html = globalize.translate('sharedcomponents#ErrorAddingGuestAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
+            html += '<br/><br/>' + globalize.translate('sharedcomponents#ErrorAddingGuestAccount2', 'apps@emby.media');
+        }
 
         var text = globalize.translate('sharedcomponents#ErrorAddingGuestAccount1', 'https://emby.media/connect');
         text += '\n\n' + globalize.translate('sharedcomponents#ErrorAddingGuestAccount2', 'apps@emby.media');
@@ -113,8 +117,10 @@ define(['globalize', 'loading', 'alert', 'emby-linkbutton'], function (globalize
         }
         else if (username) {
 
-            html = globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
-            html += '<br/><br/>' + globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount2', 'apps@emby.media');
+            if (appHost.supports('externallinks')) {
+                html = globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
+                html += '<br/><br/>' + globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount2', 'apps@emby.media');
+            }
 
             text = globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount1', 'https://emby.media/connect');
             text += '\n\n' + globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount2', 'apps@emby.media');

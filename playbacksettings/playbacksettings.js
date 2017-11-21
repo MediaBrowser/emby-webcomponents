@@ -7,7 +7,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         select.innerHTML = options.map(function (option) {
             return {
-                name: Globalize.translate('sharedcomponents#ValueSeconds', option),
+                name: globalize.translate('sharedcomponents#ValueSeconds', option),
                 value: option * 1000
             };
         }).map(function (o) {
@@ -19,7 +19,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
         var html = "";
 
-        html += "<option value=''></option>";
+        html += "<option value=''>" + globalize.translate('sharedcomponents#AnyLanguage') + "</option>";
 
         for (var i = 0, length = languages.length; i < length; i++) {
 
