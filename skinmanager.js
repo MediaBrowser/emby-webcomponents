@@ -356,7 +356,7 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
 
             try {
                 var sound = new Howl({
-                    urls: [path],
+                    src: [path],
                     volume: volume || 0.1
                 });
 
