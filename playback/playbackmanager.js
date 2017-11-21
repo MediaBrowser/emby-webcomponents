@@ -1708,7 +1708,7 @@
                         index = 0;
                     }
 
-                    options.playStartIndex = index;
+                    options.startIndex = index;
 
                     return Promise.resolve(result);
 
@@ -1962,7 +1962,7 @@
 
         function playPhotos(items, options, user) {
 
-            var playStartIndex = options.playStartIndex || 0;
+            var playStartIndex = options.startIndex || 0;
             var player = getPlayer(items[playStartIndex], options);
 
             loading.hide();
@@ -1974,7 +1974,7 @@
 
         function playWithIntros(items, options, user) {
 
-            var playStartIndex = options.playStartIndex || 0;
+            var playStartIndex = options.startIndex || 0;
             var firstItem = items[playStartIndex];
 
             if (firstItem.MediaType === "Photo") {
@@ -2006,7 +2006,7 @@
                 // Needed by players that manage their own playlist
                 options.items = items;
 
-                return playInternal(items[0], introPlayOptions, function () {
+                return playInternal(items[playStartIndex], introPlayOptions, function () {
 
                     self._playQueueManager.setPlaylist(items);
 
@@ -2671,7 +2671,7 @@
 
                 return translateItemsForPlayback(options.items, options).then(function (items) {
 
-                    // TODO: Handle options.playStartIndex for photos
+                    // TODO: Handle options.startIndex for photos
                     queueAll(items, mode, player);
 
                 });
@@ -2690,7 +2690,7 @@
 
                     return translateItemsForPlayback(result.Items, options).then(function (items) {
 
-                        // TODO: Handle options.playStartIndex for photos
+                        // TODO: Handle options.startIndex for photos
                         queueAll(items, mode, player);
 
                     });

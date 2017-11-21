@@ -10,11 +10,14 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         var ids = [];
 
         var foundCard = false;
+        var startIndex;
+
         for (var i = 0, length = cards.length; i < length; i++) {
             if (cards[i] === card) {
                 foundCard = true;
+                startIndex = i;
             }
-            if (foundCard) {
+            if (foundCard || !queue) {
                 ids.push(cards[i].getAttribute('data-id'));
             }
         }
@@ -29,9 +32,11 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                 serverId: serverId
             });
         } else {
+
             playbackManager.play({
                 ids: ids,
-                serverId: serverId
+                serverId: serverId,
+                startIndex: startIndex
             });
         }
     }
@@ -250,15 +255,15 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         else if (action === 'menu') {
 
             var options = target.getAttribute('data-playoptions') === 'false' ?
-            {
-                shuffle: false,
-                instantMix: false,
-                play: false,
-                playAllFromHere: false,
-                queue: false,
-                queueAllFromHere: false
-            } :
-            {};
+                {
+                    shuffle: false,
+                    instantMix: false,
+                    play: false,
+                    playAllFromHere: false,
+                    queue: false,
+                    queueAllFromHere: false
+                } :
+                {};
 
             options.positionTo = target;
 

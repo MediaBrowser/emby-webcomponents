@@ -36,6 +36,10 @@
             remoteOptions.SubtitleStreamIndex = options.subtitleStreamIndex;
         }
 
+        if (options.startIndex != null) {
+            remoteOptions.StartIndex = options.startIndex;
+        }
+
         return apiClient.sendPlayCommand(sessionId, remoteOptions);
     }
 

@@ -165,6 +165,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                     mediaSourceId: msg.Data.MediaSourceId,
                     audioStreamIndex: msg.Data.AudioStreamIndex,
                     subtitleStreamIndex: msg.Data.SubtitleStreamIndex,
+                    startIndex: msg.Data.StartIndex,
                     serverId: serverId
                 });
             }

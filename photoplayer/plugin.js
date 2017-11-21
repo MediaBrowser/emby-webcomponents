@@ -19,7 +19,7 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
             require(['slideshow'], function (slideshow) {
 
-                var index = options.playStartIndex || 0;
+                var index = options.startIndex || 0;
 
                 var newSlideShow = new slideshow({
                     showTitle: false,
