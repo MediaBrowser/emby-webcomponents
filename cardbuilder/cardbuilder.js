@@ -194,7 +194,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (primaryImageAspectRatio) {
 
-                    if (primaryImageAspectRatio > 1.9) {
+                    if (primaryImageAspectRatio >= 3) {
                         options.shape = 'banner';
                         options.coverImage = true;
                     } else if (primaryImageAspectRatio >= 1.33) {

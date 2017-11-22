@@ -5,7 +5,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
         var html = "";
 
-        html += "<option value=''></option>";
+        html += "<option value=''>" + globalize.translate('sharedcomponents#AnyLanguage') + "</option>";
 
         for (var i = 0, length = languages.length; i < length; i++) {
 

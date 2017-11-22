@@ -231,7 +231,7 @@
 
     function getIntros(firstItem, apiClient, options) {
 
-        if (options.startPositionTicks || options.fullscreen === false || !enableIntros(firstItem) || !userSettings.enableCinemaMode()) {
+        if (options.startPositionTicks || options.startIndex || options.fullscreen === false || !enableIntros(firstItem) || !userSettings.enableCinemaMode()) {
             return Promise.resolve({
                 Items: []
             });
@@ -2004,7 +2004,8 @@
                 items = introItems.concat(items);
 
                 // Needed by players that manage their own playlist
-                options.items = items;
+                introPlayOptions.items = items;
+                introPlayOptions.startIndex = playStartIndex;
 
                 return playInternal(items[playStartIndex], introPlayOptions, function () {
 
@@ -2140,7 +2141,7 @@
             }, reject);
         }
 
-        function sendPlaybackListToPlayer(player, items, deviceProfile, maxBitrate, apiClient, startPositionTicks) {
+        function sendPlaybackListToPlayer(player, items, deviceProfile, maxBitrate, apiClient, startPositionTicks, mediaSourceId, audioStreamIndex, subtitleStreamIndex, startIndex) {
 
             return setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPositionTicks).then(function () {
 
@@ -2148,7 +2149,11 @@
 
                 return player.play({
                     items: items,
-                    startPositionTicks: startPositionTicks || 0
+                    startPositionTicks: startPositionTicks || 0,
+                    mediaSourceId: mediaSourceId,
+                    audioStreamIndex: audioStreamIndex,
+                    subtitleStreamIndex: subtitleStreamIndex,
+                    startIndex: startIndex
                 });
             });
         }
@@ -2193,14 +2198,17 @@
 
                 var apiClient = connectionManager.getApiClient(item.ServerId);
 
-                if (player && !enableLocalPlaylistManagement(player)) {
-
-                    return sendPlaybackListToPlayer(player, playOptions.items, deviceProfile, maxBitrate, apiClient, startPosition);
-                }
-
                 var mediaSourceId = playOptions.mediaSourceId;
                 var audioStreamIndex = playOptions.audioStreamIndex;
                 var subtitleStreamIndex = playOptions.subtitleStreamIndex;
+
+                if (player && !enableLocalPlaylistManagement(player)) {
+
+                    return sendPlaybackListToPlayer(player, playOptions.items, deviceProfile, maxBitrate, apiClient, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex, playOptions.startIndex);
+                }
+
+                // this reference was only needed by sendPlaybackListToPlayer
+                playOptions.items = null;
 
                 return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (mediaSource) {
 
