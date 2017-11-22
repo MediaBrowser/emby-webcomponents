@@ -252,94 +252,6 @@
         }
     }
 
-    function alphanumeric(value) {
-        var letterNumber = /^[0-9a-zA-Z]+$/;
-        return value.match(letterNumber);
-    }
-
-    function onKeyDown(e) {
-
-        var key = e.key;
-        var chr = key ? alphanumeric(key) : null;
-
-        if (chr) {
-
-            chr = chr.toString().toUpperCase();
-
-            if (chr.length === 1) {
-                currentDisplayTextContainer = this;
-                onAlphanumericKeyPress(e, chr);
-            }
-        }
-    }
-
-    var inputDisplayElement;
-    var currentDisplayText = '';
-    var currentDisplayTextContainer;
-    function ensureInputDisplayElement() {
-        if (!inputDisplayElement) {
-            inputDisplayElement = document.createElement('div');
-            inputDisplayElement.classList.add('alphanumeric-shortcut');
-            inputDisplayElement.classList.add('hide');
-
-            document.body.appendChild(inputDisplayElement);
-        }
-    }
-
-    var alpanumericShortcutTimeout;
-    function clearAlphaNumericShortcutTimeout() {
-        if (alpanumericShortcutTimeout) {
-            clearTimeout(alpanumericShortcutTimeout);
-            alpanumericShortcutTimeout = null;
-        }
-    }
-    function resetAlphaNumericShortcutTimeout() {
-        clearAlphaNumericShortcutTimeout();
-        alpanumericShortcutTimeout = setTimeout(onAlphanumericShortcutTimeout, 2000);
-    }
-
-    function onAlphanumericKeyPress(e, chr) {
-        if (currentDisplayText.length >= 3) {
-            return;
-        }
-        ensureInputDisplayElement();
-        currentDisplayText += chr;
-        inputDisplayElement.innerHTML = currentDisplayText;
-        inputDisplayElement.classList.remove('hide');
-        resetAlphaNumericShortcutTimeout();
-    }
-
-    function onAlphanumericShortcutTimeout() {
-        var value = currentDisplayText;
-        var container = currentDisplayTextContainer;
-
-        currentDisplayText = '';
-        currentDisplayTextContainer = null;
-        inputDisplayElement.innerHTML = '';
-        inputDisplayElement.classList.add('hide');
-        clearAlphaNumericShortcutTimeout();
-        selectByShortcutValue(container, value);
-    }
-
-    function selectByShortcutValue(container, value) {
-
-        value = value.toUpperCase();
-
-        var focusElem;
-        if (value === '#') {
-
-            focusElem = container.querySelector('*[data-prefix]');
-        }
-
-        if (!focusElem) {
-            focusElem = container.querySelector('*[data-prefix^=\'' + value + '\']');
-        }
-
-        if (focusElem) {
-            focusManager.focus(focusElem);
-        }
-    }
-
     ItemsContainerProtoType.createdCallback = function () {
 
         this.classList.add('itemsContainer');
@@ -355,12 +267,6 @@
             if (this.getAttribute('data-contextmenu') !== 'false') {
                 this.addEventListener('contextmenu', onContextMenu);
             }
-        }
-
-        if (this.getAttribute('data-alphanumericshortcuts') === 'true') {
-            dom.addEventListener(this, 'keydown', onKeyDown, {
-                passive: true
-            });
         }
 
         if (layoutManager.desktop && this.getAttribute('data-hovermenu') !== 'false') {
@@ -391,10 +297,6 @@
     };
 
     ItemsContainerProtoType.detachedCallback = function () {
-
-        dom.removeEventListener(this, 'keydown', onKeyDown, {
-            passive: true
-        });
 
         this.enableHoverMenu(false);
         this.enableMultiSelect(false);
