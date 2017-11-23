@@ -409,7 +409,7 @@
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
@@ -443,7 +443,6 @@
                 });
 
                 if (enableScrollX()) {
-                    html += '</div>';
                     html += '</div>';
                 }
                 html += '</div>';
@@ -507,7 +506,7 @@
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderLatestChannelMedia') + '</h2>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
@@ -523,7 +522,6 @@
                 });
 
                 if (enableScrollX()) {
-                    html += '</div>';
                     html += '</div>';
                 }
             }
@@ -607,7 +605,7 @@
             }
             html += '</div>';
 
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
 
             var cardLayout = false;
 
@@ -629,7 +627,6 @@
                 lines: 2
             });
 
-            html += '</div>';
             html += '</div>';
             html += '</div>';
 
@@ -735,7 +732,7 @@
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueWatching') + '</h2>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
@@ -761,7 +758,6 @@
                 });
 
                 if (enableScrollX()) {
-                    html += '</div>';
                     html += '</div>';
                 }
                 html += '</div>';
@@ -811,7 +807,7 @@
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueListening') + '</h2>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
@@ -837,7 +833,6 @@
                 });
 
                 if (enableScrollX()) {
-                    html += '</div>';
                     html += '</div>';
                 }
 
@@ -875,7 +870,7 @@
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderActiveRecordings') + '</h2>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
@@ -905,7 +900,6 @@
                 });
 
                 if (enableScrollX()) {
-                    html += '</div>';
                     html += '</div>';
                 }
 
@@ -1053,7 +1047,7 @@
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
@@ -1079,7 +1073,6 @@
                 });
 
                 if (enableScrollX()) {
-                    html += '</div>';
                     html += '</div>';
                 }
 
@@ -1142,7 +1135,7 @@
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
@@ -1165,7 +1158,6 @@
                 });
 
                 if (enableScrollX()) {
-                    html += '</div>';
                     html += '</div>';
                 }
 
@@ -1240,7 +1232,7 @@
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
                 } else {
                     html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
                 }
@@ -1257,7 +1249,6 @@
                 });
 
                 if (enableScrollX()) {
-                    html += '</div>';
                     html += '</div>';
                 }
                 html += '</div>';
@@ -1298,7 +1289,7 @@
             }
 
             if (enableScrollX()) {
-                html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true"><div class="scrollerframe padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
             } else {
                 html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
             }
@@ -1321,7 +1312,6 @@
             });
 
             if (enableScrollX()) {
-                html += '</div>';
                 html += '</div>';
             }
 

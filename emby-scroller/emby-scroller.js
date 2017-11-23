@@ -136,7 +136,7 @@
 
         var bindHeader = this.getAttribute('data-bindheader') === 'true';
 
-        var scrollFrame = this.querySelector('.scrollerframe') || this;
+        var scrollFrame = this;
         var enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false' && scrollFrame !== this;
 
         var options = {

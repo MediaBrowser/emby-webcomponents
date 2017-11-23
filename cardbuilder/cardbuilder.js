@@ -966,7 +966,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (html) {
 
-                if (!isOuterFooter || hasLogo) {
+                if (!isOuterFooter || hasLogo || options.cardLayout) {
                     html = '<div class="' + footerClass + '">' + html;
 
                     //cardFooter
