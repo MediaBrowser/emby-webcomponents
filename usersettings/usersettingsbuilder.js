@@ -268,14 +268,8 @@ define(['appSettings', 'events'], function (appsettings, events) {
         enableThemeVideos: true
     };
 
-    function getSavedQueryKey(context) {
+    UserSettings.prototype.loadQuerySettings = function (key, query) {
 
-        return 'query-' + context;
-    }
-
-    UserSettings.prototype.loadQuerySettings = function (query, context) {
-
-        var key = getSavedQueryKey(context);
         var values = this.get(key);
 
         if (values) {
@@ -284,11 +278,12 @@ define(['appSettings', 'events'], function (appsettings, events) {
 
             return Object.assign(query, values);
         }
+
+        return query;
     };
 
-    UserSettings.prototype.saveQuerySettings = function (query, context) {
+    UserSettings.prototype.saveQuerySettings = function (key, query) {
 
-        var key = getSavedQueryKey(context);
         var values = {};
 
         if (query.SortBy) {

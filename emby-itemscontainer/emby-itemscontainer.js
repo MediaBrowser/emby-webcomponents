@@ -1,4 +1,4 @@
-﻿define(['itemShortcuts', 'connectionManager', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, connectionManager, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
+﻿define(['itemShortcuts', 'connectionManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, connectionManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
     'use strict';
 
     var ItemsContainerProtoType = Object.create(HTMLDivElement.prototype);
@@ -312,6 +312,56 @@
         removeNotificationEvent(this, 'TimerCancelled');
         removeNotificationEvent(this, 'SeriesTimerCancelled');
     };
+
+    ItemsContainerProtoType.pause = function () {
+
+        this.paused = true;
+    };
+
+    ItemsContainerProtoType.resume = function () {
+
+        this.paused = false;
+
+        if (this.needsRefresh) {
+            this.refreshItems();
+        }
+    };
+
+    ItemsContainerProtoType.refreshItems = function () {
+
+        if (!this.fetchData) {
+            return;
+        }
+
+        if (this.paused) {
+            this.needsRefresh = true;
+            return;
+        }
+
+        this.needsRefresh = false;
+
+        loading.show();
+
+        this.fetchData().then(onDataFetched.bind(this));
+    };
+
+    function onDataFetched(result) {
+
+        var items = result.Items;
+
+        // Scroll back up so they can see the results from the beginning
+        // TODO: Find scroller
+        window.scrollTo(0, 0);
+
+        this.innerHTML = this.getItemsHtml(items);
+
+        imageLoader.lazyChildren(this);
+        loading.hide();
+
+        if (this.afterRefresh) {
+            this.afterRefresh(result);
+        }
+    }
 
     document.registerElement('emby-itemscontainer', {
         prototype: ItemsContainerProtoType,
