@@ -330,24 +330,24 @@
     ItemsContainerProtoType.refreshItems = function () {
 
         if (!this.fetchData) {
-            return;
+            return Promise.reject();
         }
 
         if (this.paused) {
             this.needsRefresh = true;
-            return;
+            return Promise.reject();
         }
 
         this.needsRefresh = false;
 
         loading.show();
 
-        this.fetchData().then(onDataFetched.bind(this));
+        return this.fetchData().then(onDataFetched.bind(this));
     };
 
     function onDataFetched(result) {
 
-        var items = result.Items;
+        var items = result.Items || result;
 
         // Scroll back up so they can see the results from the beginning
         // TODO: Find scroller
