@@ -34,6 +34,10 @@
     justify-content: center;
 }
 
+.justify-content-flex-end {
+    justify-content: flex-end;
+}
+
 .flex-wrap-wrap {
     flex-wrap: wrap;
 }

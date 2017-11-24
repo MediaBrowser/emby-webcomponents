@@ -60,6 +60,19 @@
         instance.alphaPicker.on('alphavaluechanged', onAlphaValueChanged.bind(instance));
     }
 
+    function showViewSettingsMenu() {
+
+        var instance = this;
+
+        require(['viewSettings'], function (ViewSettings) {
+
+            new ViewSettings().show().then(function () {
+
+                instance.itemsContainer.refreshItems();
+            });
+        });
+    }
+
     function ItemsTab(view, params) {
         this.view = view;
         this.params = params;
@@ -73,7 +86,17 @@
 
         this.itemsContainer.fetchData = this.fetchData.bind(this);
         this.itemsContainer.getItemsHtml = this.getItemsHtml.bind(this);
+
+        var btnViewSettings = view.querySelector('.btnViewSettings');
+        if (btnViewSettings) {
+            btnViewSettings.addEventListener('click', showViewSettingsMenu.bind(this));
+        }
     }
+
+    ItemsTab.prototype.getSettingsKey = function () {
+
+        return this.params.parentId;
+    };
 
     ItemsTab.prototype.onResume = function (options) {
 
@@ -89,14 +112,8 @@
             });
         }
 
-        var apiClient = this.apiClient;
-
-        if (!options.refresh) {
-            return;
-        }
-
         var instance = this;
-        this.itemsContainer.refreshItems().then(function (result) {
+        this.itemsContainer.resume(options).then(function (result) {
             if (options.autoFocus) {
                 focusManager.autoFocus(instance.itemsContainer);
             }

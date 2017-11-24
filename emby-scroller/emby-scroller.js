@@ -137,7 +137,7 @@
         var bindHeader = this.getAttribute('data-bindheader') === 'true';
 
         var scrollFrame = this;
-        var enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false' && scrollFrame !== this;
+        var enableScrollButtons = layoutManager.desktop && horizontal && this.getAttribute('data-scrollbuttons') !== 'false';
 
         var options = {
             horizontal: horizontal,
@@ -155,7 +155,8 @@
             skipSlideToWhenVisible: this.getAttribute('data-skipfocuswhenvisible') === 'true',
             dispatchScrollEvent: enableScrollButtons || bindHeader || this.getAttribute('data-scrollevent') === 'true',
             hideScrollbar: enableScrollButtons || this.getAttribute('data-hidescrollbar') === 'true',
-            allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true',
+            allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true' && !enableScrollButtons,
+            allowNativeScroll: false,
             forceHideScrollbars: enableScrollButtons,
 
             // In edge, with the native scroll, the content jumps around when hovering over the buttons

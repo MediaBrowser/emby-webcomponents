@@ -617,5 +617,6 @@
   "LabelAudio": "Audio:",
   "LabelVideo": "Video:",
   "LabelSubtitles": "Subtitles:",
-  "Off": "Off"
+  "Off": "Off",
+  "ShowTitles":  "Show titles"
 }

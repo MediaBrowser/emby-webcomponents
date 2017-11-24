@@ -318,13 +318,15 @@
         this.paused = true;
     };
 
-    ItemsContainerProtoType.resume = function () {
+    ItemsContainerProtoType.resume = function (options) {
 
         this.paused = false;
 
-        if (this.needsRefresh) {
-            this.refreshItems();
+        if (this.needsRefresh || (options && options.refresh)) {
+            return this.refreshItems();
         }
+
+        return Promise.resolve();
     };
 
     ItemsContainerProtoType.refreshItems = function () {
@@ -349,9 +351,18 @@
 
         var items = result.Items || result;
 
+        var parentContainer = this.parentContainer;
+        if (parentContainer) {
+            if (items.length) {
+                parentContainer.classList.remove('hide');
+            } else {
+                parentContainer.classList.add('hide');
+            }
+        }
+
         // Scroll back up so they can see the results from the beginning
         // TODO: Find scroller
-        window.scrollTo(0, 0);
+        //window.scrollTo(0, 0);
 
         this.innerHTML = this.getItemsHtml(items);
 

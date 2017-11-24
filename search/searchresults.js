@@ -16,6 +16,10 @@
 
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
 
+            if (instance.mode !== 'suggestions') {
+                result.Items = [];
+            }
+
             var html = result.Items.map(function (i) {
 
                 var href = appRouter.getRouteUrl(i);
@@ -29,7 +33,10 @@
 
             var searchSuggestions = context.querySelector('.searchSuggestions');
             searchSuggestions.querySelector('.searchSuggestionsList').innerHTML = html;
-            searchSuggestions.classList.remove('hide');
+
+            if (result.Items.length) {
+                searchSuggestions.classList.remove('hide');
+            }
         });
     }
 
@@ -116,8 +123,10 @@
     function search(instance, apiClient, context, value) {
 
         if (value || layoutManager.tv) {
+            instance.mode = 'search';
             context.querySelector('.searchSuggestions').classList.add('hide');
         } else {
+            instance.mode = 'suggestions';
             loadSuggestions(instance, context, apiClient);
         }
 
@@ -137,19 +146,19 @@
 
             }, context, '.movieResults', {
 
-                preferThumb: true,
-                inheritThumb: false,
-                shape: (enableScrollX() ? 'overflowPortrait' : 'portrait'),
-                showParentTitleOrTitle: true,
-                showTitle: false,
-                centerText: true,
-                coverImage: true,
-                overlayText: false,
-                overlayMoreButton: true,
-                showAirTime: true,
-                showAirDateTime: true,
-                showChannelName: true
-            });
+                    preferThumb: true,
+                    inheritThumb: false,
+                    shape: (enableScrollX() ? 'overflowPortrait' : 'portrait'),
+                    showParentTitleOrTitle: true,
+                    showTitle: false,
+                    centerText: true,
+                    coverImage: true,
+                    overlayText: false,
+                    overlayMoreButton: true,
+                    showAirTime: true,
+                    showAirDateTime: true,
+                    showChannelName: true
+                });
         } else {
 
             searchType(instance, apiClient, {
@@ -163,11 +172,11 @@
 
             }, context, '.movieResults', {
 
-                showTitle: true,
-                overlayText: false,
-                centerText: true,
-                showYear: true
-            });
+                    showTitle: true,
+                    overlayText: false,
+                    centerText: true,
+                    showYear: true
+                });
         }
 
         searchType(instance, apiClient, {
@@ -181,11 +190,11 @@
 
         }, context, '.seriesResults', {
 
-            showTitle: true,
-            overlayText: false,
-            centerText: true,
-            showYear: true
-        });
+                showTitle: true,
+                overlayText: false,
+                centerText: true,
+                showYear: true
+            });
 
         if (instance.options.collectionType === 'livetv') {
 
@@ -204,19 +213,19 @@
 
             }, context, '.episodeResults', {
 
-                preferThumb: true,
-                inheritThumb: false,
-                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-                showParentTitleOrTitle: true,
-                showTitle: false,
-                centerText: true,
-                coverImage: true,
-                overlayText: false,
-                overlayMoreButton: true,
-                showAirTime: true,
-                showAirDateTime: true,
-                showChannelName: true
-            });
+                    preferThumb: true,
+                    inheritThumb: false,
+                    shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+                    showParentTitleOrTitle: true,
+                    showTitle: false,
+                    centerText: true,
+                    coverImage: true,
+                    overlayText: false,
+                    overlayMoreButton: true,
+                    showAirTime: true,
+                    showAirDateTime: true,
+                    showChannelName: true
+                });
 
         } else {
 
@@ -231,10 +240,10 @@
 
             }, context, '.episodeResults', {
 
-                coverImage: true,
-                showTitle: true,
-                showParentTitle: true
-            });
+                    coverImage: true,
+                    showTitle: true,
+                    showParentTitle: true
+                });
         }
 
         searchType(instance, apiClient, {
@@ -250,20 +259,20 @@
 
         }, context, '.sportsResults', {
 
-            preferThumb: true,
-            inheritThumb: false,
-            shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-            showParentTitleOrTitle: true,
-            showTitle: false,
-            centerText: true,
-            coverImage: true,
-            overlayText: false,
-            overlayMoreButton: true,
-            showAirTime: true,
-            showAirDateTime: true,
-            showChannelName: true
+                preferThumb: true,
+                inheritThumb: false,
+                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+                showParentTitleOrTitle: true,
+                showTitle: false,
+                centerText: true,
+                coverImage: true,
+                overlayText: false,
+                overlayMoreButton: true,
+                showAirTime: true,
+                showAirDateTime: true,
+                showChannelName: true
 
-        });
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -278,20 +287,20 @@
 
         }, context, '.kidsResults', {
 
-            preferThumb: true,
-            inheritThumb: false,
-            shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-            showParentTitleOrTitle: true,
-            showTitle: false,
-            centerText: true,
-            coverImage: true,
-            overlayText: false,
-            overlayMoreButton: true,
-            showAirTime: true,
-            showAirDateTime: true,
-            showChannelName: true
+                preferThumb: true,
+                inheritThumb: false,
+                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+                showParentTitleOrTitle: true,
+                showTitle: false,
+                centerText: true,
+                coverImage: true,
+                overlayText: false,
+                overlayMoreButton: true,
+                showAirTime: true,
+                showAirDateTime: true,
+                showChannelName: true
 
-        });
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -306,20 +315,20 @@
 
         }, context, '.newsResults', {
 
-            preferThumb: true,
-            inheritThumb: false,
-            shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-            showParentTitleOrTitle: true,
-            showTitle: false,
-            centerText: true,
-            coverImage: true,
-            overlayText: false,
-            overlayMoreButton: true,
-            showAirTime: true,
-            showAirDateTime: true,
-            showChannelName: true
+                preferThumb: true,
+                inheritThumb: false,
+                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+                showParentTitleOrTitle: true,
+                showTitle: false,
+                centerText: true,
+                coverImage: true,
+                overlayText: false,
+                overlayMoreButton: true,
+                showAirTime: true,
+                showAirDateTime: true,
+                showChannelName: true
 
-        });
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -337,20 +346,20 @@
 
         }, context, '.programResults', {
 
-            preferThumb: true,
-            inheritThumb: false,
-            shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-            showParentTitleOrTitle: true,
-            showTitle: false,
-            centerText: true,
-            coverImage: true,
-            overlayText: false,
-            overlayMoreButton: true,
-            showAirTime: true,
-            showAirDateTime: true,
-            showChannelName: true
+                preferThumb: true,
+                inheritThumb: false,
+                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
+                showParentTitleOrTitle: true,
+                showTitle: false,
+                centerText: true,
+                coverImage: true,
+                overlayText: false,
+                overlayMoreButton: true,
+                showAirTime: true,
+                showAirDateTime: true,
+                showChannelName: true
 
-        });
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -364,11 +373,11 @@
 
         }, context, '.videoResults', {
 
-            showParentTitle: true,
-            showTitle: true,
-            overlayText: false,
-            centerText: true
-        });
+                showParentTitle: true,
+                showTitle: true,
+                overlayText: false,
+                centerText: true
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -380,9 +389,9 @@
 
         }, context, '.peopleResults', {
 
-            coverImage: true,
-            showTitle: true
-        });
+                coverImage: true,
+                showTitle: true
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -393,9 +402,9 @@
             IncludeArtists: true
 
         }, context, '.artistResults', {
-            coverImage: true,
-            showTitle: true
-        });
+                coverImage: true,
+                showTitle: true
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -408,11 +417,11 @@
 
         }, context, '.albumResults', {
 
-            showParentTitle: true,
-            showTitle: true,
-            overlayText: false,
-            centerText: true
-        });
+                showParentTitle: true,
+                showTitle: true,
+                overlayText: false,
+                centerText: true
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -425,13 +434,13 @@
 
         }, context, '.songResults', {
 
-            showParentTitle: true,
-            showTitle: true,
-            overlayText: false,
-            centerText: true,
-            action: 'play'
+                showParentTitle: true,
+                showTitle: true,
+                overlayText: false,
+                centerText: true,
+                action: 'play'
 
-        });
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -444,11 +453,11 @@
 
         }, context, '.bookResults', {
 
-            showTitle: true,
-            overlayText: false,
-            centerText: true
+                showTitle: true,
+                overlayText: false,
+                centerText: true
 
-        });
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -461,10 +470,10 @@
 
         }, context, '.audioBookResults', {
 
-            showTitle: true,
-            overlayText: false,
-            centerText: true
-        });
+                showTitle: true,
+                overlayText: false,
+                centerText: true
+            });
     }
 
     function searchType(instance, apiClient, query, context, section, cardOptions) {

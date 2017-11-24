@@ -91,7 +91,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
         // native scroll is a must with touch input
         // also use native scroll when scrolling vertically in desktop mode - excluding horizontal because the mouse wheel support is choppy at the moment
         // in cases with firefox, if the smooth scroll api is supported then use that because their implementation is very good
-        if (isSmoothScrollSupported && ((browser.firefox && !layoutManager.tv) || options.allowNativeSmoothScroll)) {
+        if (options.allowNativeScroll === false) {
+            options.enableNativeScroll = false;
+        }
+        else if (isSmoothScrollSupported && ((browser.firefox && !layoutManager.tv) || options.allowNativeSmoothScroll)) {
             // native smooth scroll
             options.enableNativeScroll = true;
         }
@@ -257,14 +260,14 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
 
         var lastAnimate;
 
-       /**
-		 * Animate to a position.
-		 *
-		 * @param {Int}  newPos    New position.
-		 * @param {Bool} immediate Reposition immediately without an animation.
-		 *
-		 * @return {Void}
-		 */
+        /**
+          * Animate to a position.
+          *
+          * @param {Int}  newPos    New position.
+          * @param {Bool} immediate Reposition immediately without an animation.
+          *
+          * @return {Void}
+          */
         self.slideTo = function (newPos, immediate, fullItemPos) {
 
             ensureSizeInfo();
