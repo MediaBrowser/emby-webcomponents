@@ -148,7 +148,11 @@ html {
     background-color: transparent;
 }
 
-.alphaPickerButton-selected, .alphaPickerButton-tv:focus {
+.alphaPickerButton-selected {
+    color: #fff;
+}
+
+.alphaPickerButton-tv:focus {
     background-color: #52B54B;
     color: #fff !important;
 }
@@ -294,19 +298,19 @@ html {
 }
 
 .programCell-sports {
-    background: #3949AB!important;
+    background: #3949AB !important;
 }
 
 .programCell-movie {
-    background: #5E35B1!important;
+    background: #5E35B1 !important;
 }
 
 .programCell-kids {
-    background: #039BE5!important;
+    background: #039BE5 !important;
 }
 
 .programCell-news {
-    background: #43A047!important;
+    background: #43A047 !important;
 }
 
 .programCell:focus, .guide-channelHeaderCell:focus {

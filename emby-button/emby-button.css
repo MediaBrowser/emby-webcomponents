@@ -126,6 +126,11 @@
         box-shadow: 0 0.58em 0.725em 0.0725em rgba(0, 0, 0, 0.14), 0 0.2175em 1.015em .145em rgba(0, 0, 0, 0.12), 0 0.3625em 0.3625em -0.2175em rgba(0, 0, 0, 0.4);
     }
 
+.raised-small {
+    padding: .75em;
+    font-size: 92%;
+}
+
 .raised-mini {
     padding: .44em 1em;
     border-radius: 100em;

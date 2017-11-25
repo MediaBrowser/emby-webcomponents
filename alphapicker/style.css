@@ -16,6 +16,10 @@
     font-size: 90%;
 }
 
+.alphaPicker-vertical.alphaPicker-tv {
+    font-size: 80%;
+}
+
 .alphaPickerRow-vertical {
     flex-direction: column;
 }

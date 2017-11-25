@@ -33,6 +33,10 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         element.classList.add('alphaPicker');
 
+        if (layoutManager.tv) {
+            element.classList.add('alphaPicker-tv');
+        }
+
         if (element.classList.contains('alphaPicker-vertical')) {
 
         } else {

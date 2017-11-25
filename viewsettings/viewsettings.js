@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'emby-linkbutton', 'flexStyles'], function (dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize) {
+﻿define(['require', 'dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'userSettings', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'emby-linkbutton', 'flexStyles'], function (require, dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize, userSettings) {
     'use strict';
 
     function onSubmit(e) {
@@ -7,31 +7,18 @@
         return false;
     }
 
-    function getEditorHtml() {
+    function initEditor(context, settings) {
 
-        var html = '';
+        context.querySelector('form').addEventListener('submit', onSubmit);
 
-        html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
-        html += '<div class="dialogContentInner dialog-content-centered">';
-        html += '<form style="margin:auto;">';
-
-        html += '<div class="checkboxContainer">';
-        html += '<label>';
-        html += '<input is="emby-checkbox" type="checkbox" id="chkShowTitles" />';
-        html += '<span>' + globalize.translate('sharedcomponents#ShowTitles') + '</span>';
-        html += '</label>';
-        html += '</div>';
-
-        html += '</form>';
-        html += '</div>';
-        html += '</div>';
-
-        return html;
+        context.querySelector('#chkShowTitle').checked = settings.showTitle || false;
+        context.querySelector('#chkShowYear').checked = settings.showYear || false;
     }
 
-    function initEditor(content, items) {
+    function saveValues(context, settings, settingsKey) {
 
-        content.querySelector('form').addEventListener('submit', onSubmit);
+        userSettings.set(settingsKey + '-showtitle', context.querySelector('#chkShowTitle').checked);
+        userSettings.set(settingsKey + '-showyear', context.querySelector('#chkShowYear').checked);
     }
 
     function centerFocus(elem, horiz, on) {
@@ -47,64 +34,70 @@
 
     ViewSettings.prototype.show = function (options) {
 
-        var dialogOptions = {
-            removeOnClose: true,
-            scrollY: false
-        };
+        return new Promise(function (resolve, reject) {
 
-        if (layoutManager.tv) {
-            dialogOptions.size = 'fullscreen';
-        } else {
-            dialogOptions.size = 'small';
-        }
+            require(['text!./viewsettings.template.html'], function (template) {
 
-        var dlg = dialogHelper.createDialog(dialogOptions);
+                var dialogOptions = {
+                    removeOnClose: true,
+                    scrollY: false
+                };
 
-        dlg.classList.add('formDialog');
+                if (layoutManager.tv) {
+                    dialogOptions.size = 'fullscreen';
+                } else {
+                    dialogOptions.size = 'small';
+                }
 
-        var html = '';
+                var dlg = dialogHelper.createDialog(dialogOptions);
 
-        html += '<div class="formDialogHeader">';
-        html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
-        html += '<h3 class="formDialogHeaderTitle">';
-        html += globalize.translate('sharedcomponents#Settings');
-        html += '</h3>';
+                dlg.classList.add('formDialog');
 
-        html += '</div>';
+                var html = '';
 
-        html += getEditorHtml();
+                html += '<div class="formDialogHeader">';
+                html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+                html += '<h3 class="formDialogHeaderTitle">${Settings}</h3>';
 
-        dlg.innerHTML = html;
+                html += '</div>';
 
-        initEditor(dlg);
+                html += template;
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
+                dlg.innerHTML = globalize.translateDocument(html, 'sharedcomponents');
 
-            dialogHelper.close(dlg);
-        });
+                initEditor(dlg, options.settings);
 
-        if (layoutManager.tv) {
-            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-        }
+                dlg.querySelector('.btnCancel').addEventListener('click', function () {
 
-        var submited;
+                    dialogHelper.close(dlg);
+                });
 
-        dlg.querySelector('form').addEventListener('change', function () {
+                if (layoutManager.tv) {
+                    centerFocus(dlg.querySelector('.formDialogContent'), false, true);
+                }
 
-            submited = true;
-        });
+                var submitted;
 
-        return dialogHelper.open(dlg).then(function () {
+                dlg.querySelector('form').addEventListener('change', function () {
 
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-            }
+                    submitted = true;
+                });
 
-            if (submitted) {
-                return Promise.resolve();
-            }
+                dialogHelper.open(dlg).then(function () {
 
-            return Promise.reject();
+                    if (layoutManager.tv) {
+                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
+                    }
+
+                    if (submitted) {
+                        saveValues(dlg, options.settings, options.settingsKey);
+                        resolve();
+                        return;
+                    }
+
+                    reject();
+                });
+            });
         });
     };
 

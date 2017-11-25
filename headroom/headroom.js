@@ -287,7 +287,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             var isTv = layoutManager.tv;
 
-            if (currentScrollY <= (isTv ? 70 : 10)) {
+            if (currentScrollY <= (isTv ? 100 : 10)) {
                 this.clear();
             }
             else if (this.shouldUnpin(currentScrollY)) {

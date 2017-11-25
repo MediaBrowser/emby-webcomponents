@@ -149,7 +149,11 @@ html {
     background-color: transparent;
 }
 
-.alphaPickerButton-selected, .alphaPickerButton-tv:focus {
+.alphaPickerButton-selected {
+    color: #fff;
+}
+
+.alphaPickerButton-tv:focus {
     background-color: #52B54B;
     color: #fff !important;
 }

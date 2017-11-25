@@ -1,4 +1,4 @@
-﻿define(['alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager'], function (AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager) {
+﻿define(['userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager'], function (userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager) {
     'use strict';
 
     function trySelectValue(instance, scroller, view, value) {
@@ -66,7 +66,12 @@
 
         require(['viewSettings'], function (ViewSettings) {
 
-            new ViewSettings().show().then(function () {
+            new ViewSettings().show({
+
+                settingsKey: instance.getSettingsKey(),
+                settings: instance.getViewSettings()
+
+            }).then(function () {
 
                 instance.itemsContainer.refreshItems();
             });
@@ -92,6 +97,19 @@
             btnViewSettings.addEventListener('click', showViewSettingsMenu.bind(this));
         }
     }
+
+    function getSettingValue(key, defaultValue) {
+    }
+
+    ItemsTab.prototype.getViewSettings = function () {
+
+        var basekey = this.getSettingsKey();
+
+        return {
+            showTitle: userSettings.get(basekey + '-showtitle') !== 'false',
+            showYear: userSettings.get(basekey + '-showyear') !== 'false'
+        };
+    };
 
     ItemsTab.prototype.getSettingsKey = function () {
 
