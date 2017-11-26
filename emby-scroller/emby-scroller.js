@@ -156,7 +156,7 @@
             dispatchScrollEvent: enableScrollButtons || bindHeader || this.getAttribute('data-scrollevent') === 'true',
             hideScrollbar: enableScrollButtons || this.getAttribute('data-hidescrollbar') === 'true',
             allowNativeSmoothScroll: this.getAttribute('data-allownativesmoothscroll') === 'true' && !enableScrollButtons,
-            allowNativeScroll: false,
+            allowNativeScroll: !enableScrollButtons,
             forceHideScrollbars: enableScrollButtons,
 
             // In edge, with the native scroll, the content jumps around when hovering over the buttons
