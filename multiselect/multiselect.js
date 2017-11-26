@@ -373,11 +373,7 @@
         });
 
         for (var i = 0, length = elems.length; i < length; i++) {
-            elems[i].dispatchEvent(new CustomEvent('needsrefresh', {
-                detail: {},
-                cancelable: false,
-                bubbles: true
-            }));
+            elems[i].notifyRefreshNeeded();
         }
     }
 

@@ -151,11 +151,7 @@
 
             loading.hide();
 
-            itemsContainer.dispatchEvent(new CustomEvent('needsrefresh', {
-                detail: {},
-                cancelable: false,
-                bubbles: true
-            }));
+            itemsContainer.notifyRefreshNeeded();
         });
     }
 
@@ -201,9 +197,25 @@
         });
     }
 
+    function getEventsToMonitor(itemsContainer) {
+
+        var monitor = itemsContainer.getAttribute('data-monitor');
+        if (monitor) {
+            return monitor.split(',');
+        }
+
+        return [];
+    }
+
     function onTimerCreated(e, apiClient, data) {
 
         var itemsContainer = this;
+
+        if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
+
+            itemsContainer.notifyRefreshNeeded();
+            return;
+        }
 
         var programId = data.ProgramId;
         // This could be null, not supported by all tv providers
@@ -215,11 +227,24 @@
     }
 
     function onSeriesTimerCreated(e, apiClient, data) {
+
         var itemsContainer = this;
+        if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
+
+            itemsContainer.notifyRefreshNeeded();
+            return;
+        }
     }
 
     function onTimerCancelled(e, apiClient, data) {
         var itemsContainer = this;
+
+        if (getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
+
+            itemsContainer.notifyRefreshNeeded();
+            return;
+        }
+
         var id = data.Id;
 
         require(['cardBuilder'], function (cardBuilder) {
@@ -228,12 +253,48 @@
     }
 
     function onSeriesTimerCancelled(e, apiClient, data) {
+
         var itemsContainer = this;
+        if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1) {
+
+            itemsContainer.notifyRefreshNeeded();
+            return;
+        }
+
         var id = data.Id;
 
         require(['cardBuilder'], function (cardBuilder) {
             cardBuilder.onSeriesTimerCancelled(id, itemsContainer);
         });
+    }
+
+    function onLibraryChanged(e, apiClient, data) {
+
+        var itemsContainer = this;
+        if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1 || getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
+
+            // yes this is an assumption
+            return;
+        }
+
+        var itemsAdded = data.ItemsAdded || [];
+        var itemsRemoved = data.ItemsRemoved || [];
+        if (!itemsAdded.length && !itemsRemoved.length) {
+            return;
+        }
+
+        var parentId = itemsContainer.getAttribute('data-parentid');
+        if (parentId) {
+            var foldersAddedTo = data.FoldersAddedTo || [];
+            var foldersRemovedFrom = data.FoldersRemovedFrom || [];
+            var collectionFolders = data.CollectionFolders || [];
+
+            if (foldersAddedTo.indexOf(parentId) === -1 && foldersRemovedFrom.indexOf(parentId) === -1 && collectionFolders.indexOf(parentId) === -1) {
+                return;
+            }
+        }
+
+        itemsContainer.notifyRefreshNeeded();
     }
 
     function addNotificationEvent(instance, name, handler) {
@@ -290,6 +351,7 @@
         addNotificationEvent(this, 'SeriesTimerCreated', onSeriesTimerCreated);
         addNotificationEvent(this, 'TimerCancelled', onTimerCancelled);
         addNotificationEvent(this, 'SeriesTimerCancelled', onSeriesTimerCancelled);
+        addNotificationEvent(this, 'LibraryChanged', onLibraryChanged);
 
         if (this.getAttribute('data-dragreorder') === 'true') {
             this.enableDragReordering(true);
@@ -311,6 +373,7 @@
         removeNotificationEvent(this, 'SeriesTimerCreated');
         removeNotificationEvent(this, 'TimerCancelled');
         removeNotificationEvent(this, 'SeriesTimerCancelled');
+        removeNotificationEvent(this, 'LibraryChanged');
     };
 
     ItemsContainerProtoType.pause = function () {
@@ -347,6 +410,16 @@
         return this.fetchData().then(onDataFetched.bind(this));
     };
 
+    ItemsContainerProtoType.notifyRefreshNeeded = function () {
+
+        var timeout = this.refreshTimeout;
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+
+        this.refreshTimeout = setTimeout(this.refreshItems.bind(this), 5000);
+    };
+
     function onDataFetched(result) {
 
         var items = result.Items || result;
@@ -364,10 +437,26 @@
         // TODO: Find scroller
         //window.scrollTo(0, 0);
 
+        var activeElement = document.activeElement;
+        var focusId;
+
+        if (this.contains(activeElement)) {
+            focusId = activeElement.getAttribute('data-id');
+        }
+
         this.innerHTML = this.getItemsHtml(items);
 
         imageLoader.lazyChildren(this);
         loading.hide();
+
+        if (focusId) {
+            var newElement = this.querySelector('[data-id="' + focusId + '"]');
+            if (newElement) {
+                focusManager.focus(newElement);
+            } else {
+                focusManager.autoFocus(this);
+            }
+        }
 
         if (this.afterRefresh) {
             this.afterRefresh(result);

@@ -104,11 +104,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                             itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
 
                             if (itemsContainer) {
-                                itemsContainer.dispatchEvent(new CustomEvent('needsrefresh', {
-                                    detail: {},
-                                    cancelable: false,
-                                    bubbles: true
-                                }));
+                                itemsContainer.notifyRefreshNeeded();
                             }
                         }
                         else if (result.command === 'canceltimer') {

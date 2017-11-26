@@ -93,6 +93,10 @@
         this.itemsContainer.fetchData = this.fetchData.bind(this);
         this.itemsContainer.getItemsHtml = this.getItemsHtml.bind(this);
 
+        if (params.parentId) {
+            this.itemsContainer.setAttribute('data-parentid', params.parentId);
+        }
+
         var btnViewSettings = view.querySelector('.btnViewSettings');
         if (btnViewSettings) {
             btnViewSettings.addEventListener('click', showViewSettingsMenu.bind(this));
