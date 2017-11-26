@@ -1,12 +1,15 @@
-.smoothScrollX, .hiddenScrollX {
+.scrollX {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     overflow-y: hidden;
-    scroll-behavior: smooth;
     white-space: nowrap;
 }
 
-.hiddenScrollX, .layout-tv .smoothScrollX {
+.smoothScrollX {
+    scroll-behavior: smooth;
+}
+
+.hiddenScrollX, .layout-tv .scrollX {
     -ms-overflow-style: none;
     /* Can't do this because it not only hides the scrollbar, but also prevents scrolling */
     /*overflow: -moz-scrollbars-none;*/
@@ -16,11 +19,10 @@
     overflow: -moz-scrollbars-none;
 }
 
-.hiddenScrollX::-webkit-scrollbar, .layout-tv .smoothScrollX::-webkit-scrollbar {
+.hiddenScrollX::-webkit-scrollbar, .layout-tv .scrollX::-webkit-scrollbar {
     height: 0 !important;
     display: none;
 }
-
 
 .smoothScrollY, .hiddenScrollY {
     overflow-y: auto;

@@ -69,7 +69,8 @@
             new ViewSettings().show({
 
                 settingsKey: instance.getSettingsKey(),
-                settings: instance.getViewSettings()
+                settings: instance.getViewSettings(),
+                visibleSettings: instance.getVisibleViewSettings()
 
             }).then(function () {
 
@@ -107,7 +108,8 @@
 
         return {
             showTitle: userSettings.get(basekey + '-showtitle') !== 'false',
-            showYear: userSettings.get(basekey + '-showyear') !== 'false'
+            showYear: userSettings.get(basekey + '-showyear') !== 'false',
+            imageType: userSettings.get(basekey + '-imagetype')
         };
     };
 
@@ -131,11 +133,22 @@
         }
 
         var instance = this;
+        var autoFocus = options.autoFocus;
+
         this.itemsContainer.resume(options).then(function (result) {
-            if (options.autoFocus) {
+            if (autoFocus) {
                 focusManager.autoFocus(instance.itemsContainer);
             }
         });
+    };
+
+    ItemsTab.prototype.getVisibleViewSettings = function () {
+
+        return [
+            'showtitle',
+            'showyear',
+            'imagetype'
+        ];
     };
 
     ItemsTab.prototype.onPause = function () {

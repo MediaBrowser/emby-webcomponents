@@ -13,12 +13,14 @@
 
         context.querySelector('#chkShowTitle').checked = settings.showTitle || false;
         context.querySelector('#chkShowYear').checked = settings.showYear || false;
+        context.querySelector('.selectImageType').value = settings.imageType || '';
     }
 
     function saveValues(context, settings, settingsKey) {
 
         userSettings.set(settingsKey + '-showtitle', context.querySelector('#chkShowTitle').checked);
         userSettings.set(settingsKey + '-showyear', context.querySelector('#chkShowYear').checked);
+        userSettings.set(settingsKey + '-imagetype', context.querySelector('.selectImageType').value);
     }
 
     function centerFocus(elem, horiz, on) {
@@ -65,6 +67,15 @@
 
                 dlg.innerHTML = globalize.translateDocument(html, 'sharedcomponents');
 
+                var settingElements = dlg.querySelectorAll('.viewSetting');
+                for (var i = 0, length = settingElements.length; i < length; i++) {
+                    if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
+                        settingElements[i].classList.add('hide');
+                    } else {
+                        settingElements[i].classList.remove('hide');
+                    }
+                }
+
                 initEditor(dlg, options.settings);
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
@@ -81,7 +92,8 @@
                 dlg.querySelector('form').addEventListener('change', function () {
 
                     submitted = true;
-                });
+
+                }, true);
 
                 dialogHelper.open(dlg).then(function () {
 

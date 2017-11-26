@@ -16,7 +16,7 @@
     function removeCenterFocus(dlg) {
 
         if (layoutManager.tv) {
-            if (dlg.classList.contains('smoothScrollX')) {
+            if (dlg.classList.contains('scrollX')) {
                 centerFocus(dlg, true, false);
             }
             else if (dlg.classList.contains('smoothScrollY')) {
@@ -424,6 +424,7 @@
         dlg.classList.add('dialog');
 
         if (options.scrollX) {
+            dlg.classList.add('scrollX');
             dlg.classList.add('smoothScrollX');
 
             if (layoutManager.tv) {

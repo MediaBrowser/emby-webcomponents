@@ -746,8 +746,10 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
             if (!transform) {
                 if (o.horizontal) {
                     if (layoutManager.desktop && !o.hideScrollbar) {
+                        nativeScrollElement.classList.add('scrollX');
                         nativeScrollElement.classList.add('smoothScrollX');
                     } else {
+                        nativeScrollElement.classList.add('scrollX');
                         nativeScrollElement.classList.add('hiddenScrollX');
                     }
 

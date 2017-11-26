@@ -433,12 +433,20 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     tag: item.ImageTags.Thumb
                 });
 
-            } else if (options.preferBanner && item.ImageTags && item.ImageTags.Banner) {
+            } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Banner",
                     maxWidth: width,
                     tag: item.ImageTags.Banner
+                });
+
+            } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
+
+                imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                    type: "Disc",
+                    maxWidth: width,
+                    tag: item.ImageTags.Disc
                 });
 
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {

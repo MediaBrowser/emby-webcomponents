@@ -44,8 +44,9 @@
                 return false;
             }
 
-            if (elem.classList) {
-                return !elem.classList.contains('hiddenScrollX') && !elem.classList.contains('smoothScrollX') && !elem.classList.contains('animatedScrollX');
+            var classList = elem.classList;
+            if (classList) {
+                return !classList.contains('scrollX') && !classList.contains('animatedScrollX');
             }
 
             return true;

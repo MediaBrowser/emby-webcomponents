@@ -46,6 +46,10 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         }
     };
 
+    function onHeadroomClearedExternally() {
+        this.state = null;
+    }
+
     /**
    * UI enhancement for fixed headers.
    * Hides header when scrolling down
@@ -88,6 +92,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             if (browser.supportsCssAnimation()) {
                 for (var i = 0, length = this.elems.length; i < length; i++) {
                     this.elems[i].classList.add(this.initialClass);
+                    this.elems[i].addEventListener('clearheadroom', onHeadroomClearedExternally.bind(this));
                 }
 
                 this.attachEvent();
@@ -100,6 +105,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             if (browser.supportsCssAnimation()) {
                 elem.classList.add(this.initialClass);
+                elem.addEventListener('clearheadroom', onHeadroomClearedExternally.bind(this));
                 this.elems.push(elem);
             }
         },
@@ -287,7 +293,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             var isTv = layoutManager.tv;
 
-            if (currentScrollY <= (isTv ? 100 : 10)) {
+            if (currentScrollY <= (isTv ? 120 : 10)) {
                 this.clear();
             }
             else if (this.shouldUnpin(currentScrollY)) {

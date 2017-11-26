@@ -160,8 +160,10 @@
             });
             tabs.scroller.init();
         } else {
+            tabs.classList.add('scrollX');
             tabs.classList.add('hiddenScrollX');
-        }
+            tabs.classList.add('smoothScrollX');
+       }
     }
 
     EmbyTabs.createdCallback = function () {
