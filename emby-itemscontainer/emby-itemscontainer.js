@@ -151,7 +151,7 @@
 
             loading.hide();
 
-            itemsContainer.notifyRefreshNeeded();
+            itemsContainer.refreshItems();
         });
     }
 
@@ -417,7 +417,7 @@
             clearTimeout(timeout);
         }
 
-        this.refreshTimeout = setTimeout(this.refreshItems.bind(this), 5000);
+        this.refreshTimeout = setTimeout(this.refreshItems.bind(this), 10000);
     };
 
     function onDataFetched(result) {

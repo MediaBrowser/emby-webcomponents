@@ -761,9 +761,14 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'ResizeObserver', 'sc
                     }
                 } else {
                     if (layoutManager.desktop && !o.hideScrollbar) {
-                        nativeScrollElement.classList.add('smoothScrollY');
+                        nativeScrollElement.classList.add('scrollY');
                     } else {
+                        nativeScrollElement.classList.add('scrollY');
                         nativeScrollElement.classList.add('hiddenScrollY');
+
+                        if (layoutManager.tv && o.allowNativeSmoothScroll !== false) {
+                            nativeScrollElement.classList.add('smoothScrollY');
+                        }
                     }
 
                     if (o.forceHideScrollbars) {

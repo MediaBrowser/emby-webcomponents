@@ -145,7 +145,7 @@
 
         var html = '';
 
-        var scrollType = layoutManager.desktop ? 'smoothScrollY' : 'hiddenScrollY';
+        var scrollClassName = layoutManager.tv ? 'scrollY smoothScrollY hiddenScrollY' : 'scrollY';
         var style = '';
 
         // Admittedly a hack but right now the scrollbar is being factored into the width which is causing truncation
@@ -201,7 +201,7 @@
         if (layoutManager.tv) {
             scrollerClassName += ' actionSheetScroller-tv focuscontainer-x focuscontainer-y';
         }
-        html += '<div class="' + scrollerClassName + ' ' + scrollType + '" style="' + style + '">';
+        html += '<div class="' + scrollerClassName + ' ' + scrollClassName + '" style="' + style + '">';
 
         var menuItemClass = 'actionSheetMenuItem';
 

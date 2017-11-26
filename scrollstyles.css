@@ -24,7 +24,13 @@
     display: none;
 }
 
-.smoothScrollY, .hiddenScrollY {
+.scrollY {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
+}
+
+.smoothScrollY {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overflow-x: hidden;
@@ -41,26 +47,7 @@
     overflow: -moz-scrollbars-none;
 }
 
-.hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar {
+.hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar, .layout-tv .scrollY::-webkit-scrollbar {
     width: 0 !important;
     display: none;
-}
-
-.darkScroller::-webkit-scrollbar {
-    width: 1em;
-    height: 1em;
-}
-
-.darkScroller::-webkit-scrollbar-button:start:decrement,
-.darkScroller::-webkit-scrollbar-button:end:increment {
-    display: none;
-}
-
-.darkScroller::-webkit-scrollbar-track-piece {
-    background-color: #3b3b3b;
-}
-
-.darkScroller::-webkit-scrollbar-thumb:vertical, .darkScroller::-webkit-scrollbar-thumb:horizontal {
-    -webkit-border-radius: 2px;
-    background: #888 no-repeat center;
 }
