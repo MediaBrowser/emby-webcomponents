@@ -87,20 +87,20 @@
     width: 100%;
     display: flex;
     margin-left: .25em;
-    height: .1em;
+    height: .09em;
     transform-origin: left;
     transition: transform 500ms ease-out;
 }
 
 .guide-currentTimeIndicatorArrowContainer {
     position: absolute;
-    bottom: -.33em;
+    bottom: -.3em;
     margin-left: .25em;
     transform-origin: left;
     transition: transform 500ms ease-out;
     display: flex;
     align-items: center;
-    font-size: 72%;
+    font-size: 68%;
 }
 
 .guide-currentTimeIndicatorArrow {

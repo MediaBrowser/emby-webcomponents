@@ -455,7 +455,7 @@ define(['browser'], function (browser) {
         if (canPlayAudioFormat('opus')) {
             videoAudioCodecs.push('opus');
             hlsVideoAudioCodecs.push('opus');
-       }
+        }
 
         if (canPlayAudioFormat('flac')) {
             videoAudioCodecs.push('flac');
@@ -633,7 +633,7 @@ define(['browser'], function (browser) {
                 Container: 'mkv',
                 Type: 'Video',
                 AudioCodec: videoAudioCodecs.join(','),
-                VideoCodec: hlsVideoCodecs.join(','),
+                VideoCodec: mp4VideoCodecs.join(','),
                 Context: 'Streaming',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 CopyTimestamps: true
@@ -645,7 +645,7 @@ define(['browser'], function (browser) {
                 Container: 'mkv',
                 Type: 'Video',
                 AudioCodec: videoAudioCodecs.join(','),
-                VideoCodec: 'h264',
+                VideoCodec: mp4VideoCodecs.join(','),
                 Context: 'Static',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 CopyTimestamps: true
@@ -657,7 +657,7 @@ define(['browser'], function (browser) {
                 Container: 'ts',
                 Type: 'Video',
                 AudioCodec: hlsVideoAudioCodecs.join(','),
-                VideoCodec: 'h264',
+                VideoCodec: hlsVideoCodecs.join(','),
                 Context: 'Streaming',
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),

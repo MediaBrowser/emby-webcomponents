@@ -309,7 +309,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                     this.clear();
                 }
             } else if (isTv) {
-                this.clear();
+                //this.clear();
             }
 
             this.lastKnownScrollY = currentScrollY;
