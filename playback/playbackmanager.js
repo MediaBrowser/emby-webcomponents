@@ -2250,11 +2250,7 @@
 
             return player.getDeviceProfile(item).then(function (deviceProfile) {
 
-                var mediaSourceId = null;
-                var audioStreamIndex = null;
-                var subtitleStreamIndex = null;
-
-                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (mediaSource) {
+                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, options.mediaSourceId, options.audioStreamIndex, options.subtitleStreamIndex).then(function (mediaSource) {
 
                     return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
                 });
