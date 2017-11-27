@@ -312,12 +312,12 @@ define(['appSettings', 'events'], function (appsettings, events) {
 
     UserSettings.prototype.setFilter = function (key, value) {
 
-        return this.set(key, value, false);
+        return this.set(key, value, true);
     };
 
     UserSettings.prototype.getFilter = function (key) {
 
-        return this.get(key, false);
+        return this.get(key, true);
     };
 
     return UserSettings;

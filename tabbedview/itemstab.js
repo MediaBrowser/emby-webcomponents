@@ -1,4 +1,4 @@
-﻿define(['userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'css!./itemstab'], function (userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager) {
+﻿define(['userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager'], function (userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager) {
     'use strict';
 
     function trySelectValue(instance, scroller, view, value) {
