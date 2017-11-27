@@ -310,5 +310,15 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return this.set(key, JSON.stringify(value), false);
     };
 
+    UserSettings.prototype.setFilter = function (key, value) {
+
+        return this.set(key, value, false);
+    };
+
+    UserSettings.prototype.getFilter = function (key) {
+
+        return this.get(key, false);
+    };
+
     return UserSettings;
 });

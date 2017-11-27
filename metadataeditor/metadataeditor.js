@@ -294,30 +294,6 @@
         }
     }
 
-    function onWebSocketMessageReceived(e, data) {
-
-        var msg = data;
-
-        if (msg.MessageType === "LibraryChanged") {
-
-            if (msg.Data.ItemsUpdated.indexOf(currentItem.Id) !== -1) {
-
-                console.log('Item updated - reloading metadata');
-                reload(currentContext, currentItem.Id, currentItem.ServerId);
-            }
-        }
-    }
-
-    function bindItemChanged(context, apiClient) {
-
-        Events.on(apiClient, "websocketmessage", onWebSocketMessageReceived);
-    }
-
-    function unbindItemChanged(context, apiClient) {
-
-        Events.off(apiClient, "websocketmessage", onWebSocketMessageReceived);
-    }
-
     function onEditorClick(e) {
 
         var btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
@@ -406,11 +382,6 @@
                 editPerson(context, currentItem.People[index], index);
             }
         });
-
-        // For now this is only supported in dialog mode because we have a way of knowing when it closes
-        if (isDialog()) {
-            bindItemChanged(context, apiClient);
-        }
     }
 
     function getItem(itemId, serverId) {
@@ -1134,7 +1105,6 @@
                     centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }
 
-                unbindItemChanged(dlg, connectionManager.getApiClient(serverId));
                 resolve();
             });
 

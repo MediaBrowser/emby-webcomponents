@@ -341,13 +341,14 @@ define(['browser'], function (browser) {
     return function (options) {
 
         options = options || {};
-        var physicalAudioChannels = options.audioChannels || (browser.tv || browser.chromecast || browser.ps4 || browser.xboxOne ? 6 : 2);
+        var physicalAudioChannels = options.audioChannels || (browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
 
         var bitrateSetting = getMaxBitrate();
 
         var videoTestElement = document.createElement('video');
 
-        var canPlayWebm = videoTestElement.canPlayType('video/webm').replace(/no/, '');
+        var canPlayVp8 = videoTestElement.canPlayType('video/webm; codecs="vp8"').replace(/no/, '');
+        var canPlayVp9 = videoTestElement.canPlayType('video/webm; codecs="vp9"').replace(/no/, '');
 
         var canPlayMkv = testCanPlayMkv(videoTestElement);
 
@@ -451,6 +452,15 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('aac_latm');
         }
 
+        if (canPlayAudioFormat('opus')) {
+            videoAudioCodecs.push('opus');
+            hlsVideoAudioCodecs.push('opus');
+       }
+
+        if (canPlayAudioFormat('flac')) {
+            videoAudioCodecs.push('flac');
+        }
+
         videoAudioCodecs = videoAudioCodecs.filter(function (c) {
             return (options.disableVideoAudioCodecs || []).indexOf(c) === -1;
         });
@@ -460,8 +470,11 @@ define(['browser'], function (browser) {
         });
 
         var mp4VideoCodecs = [];
+        var hlsVideoCodecs = [];
+
         if (canPlayH264(videoTestElement)) {
             mp4VideoCodecs.push('h264');
+            hlsVideoCodecs.push('h264');
         }
         if (canPlayH265(videoTestElement, options)) {
             mp4VideoCodecs.push('h265');
@@ -478,6 +491,13 @@ define(['browser'], function (browser) {
 
         if (browser.tizen || browser.orsay) {
             mp4VideoCodecs.push('msmpeg4v2');
+        }
+
+        if (canPlayVp8) {
+            mp4VideoCodecs.push('vp8');
+        }
+        if (canPlayVp9) {
+            mp4VideoCodecs.push('vp9');
         }
 
         if (mp4VideoCodecs.length) {
@@ -544,12 +564,21 @@ define(['browser'], function (browser) {
             }
         });
 
-        if (canPlayWebm) {
+        if (canPlayVp8) {
             profile.DirectPlayProfiles.push({
                 Container: 'webm',
                 Type: 'Video',
                 AudioCodec: 'vorbis',
-                VideoCodec: 'VP8,VP9'
+                VideoCodec: 'VP8'
+            });
+        }
+
+        if (canPlayVp9) {
+            profile.DirectPlayProfiles.push({
+                Container: 'webm',
+                Type: 'Video',
+                AudioCodec: 'vorbis',
+                VideoCodec: 'VP9'
             });
         }
 
@@ -604,7 +633,7 @@ define(['browser'], function (browser) {
                 Container: 'mkv',
                 Type: 'Video',
                 AudioCodec: videoAudioCodecs.join(','),
-                VideoCodec: mp4VideoCodecs.join(','),
+                VideoCodec: hlsVideoCodecs.join(','),
                 Context: 'Streaming',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 CopyTimestamps: true
@@ -637,7 +666,7 @@ define(['browser'], function (browser) {
             });
         }
 
-        if (canPlayWebm) {
+        if (canPlayVp8) {
             profile.TranscodingProfiles.push({
                 Container: 'webm',
                 Type: 'Video',
