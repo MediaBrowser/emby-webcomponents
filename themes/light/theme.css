@@ -229,9 +229,11 @@ html, .skinHeader {
     border: .07em solid rgba(0, 0, 0, .158);
 }
 
-.emby-select-withcolor:focus {
-    border-color: #52B54B;
-}
+    .emby-select-withcolor:focus {
+        border-color: #52B54B;
+        background-color: #52B54B;
+        color: #fff;
+    }
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {

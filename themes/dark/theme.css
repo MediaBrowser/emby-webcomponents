@@ -200,9 +200,9 @@ html {
     border-radius: .15em;
 }
 
-.emby-input:focus, .emby-textarea:focus {
-    border-color: #52B54B;
-}
+    .emby-input:focus, .emby-textarea:focus {
+        border-color: #52B54B;
+    }
 
 /* select */
 .emby-select-withcolor {
@@ -216,7 +216,9 @@ html {
     }
 
     .emby-select-withcolor:focus {
-        border-color: #52B54B;
+        border-color: #52B54B !important;
+        background-color: #52B54B !important;
+        color: #fff !important;
     }
 
 /* checkbox */

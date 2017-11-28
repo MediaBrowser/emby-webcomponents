@@ -239,7 +239,9 @@ html {
     }
 
     .emby-select-withcolor:focus {
-        border-color: #FF9100;
+        border-color: #FF9100 !important;
+        background-color: #FF9100 !important;
+        color: #fff !important;
     }
 
 /* checkbox */

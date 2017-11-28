@@ -230,6 +230,8 @@ html, .skinHeader {
 
     .emby-select-withcolor:focus {
         border-color: #52B54B;
+        background-color: #52B54B;
+        color: #fff;
     }
 
 /* checkbox */
