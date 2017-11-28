@@ -90,6 +90,12 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         if (!selectSkin.value && options.length) {
             selectSkin.value = options[0].value;
         }
+
+        if (options.length > 1 && appHost.supports('skins')) {
+            context.querySelector('.selectSkinContainer').classList.remove('hide');
+        } else {
+            context.querySelector('.selectSkinContainer').classList.add('hide');
+        }
     }
 
     function showOrHideMissingEpisodesField(context, user, apiClient) {
@@ -125,6 +131,12 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             context.querySelector('.fldDisplayMode').classList.add('hide');
         }
 
+        if (appHost.supports('displaymode') || layoutManager.tv) {
+            context.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
+        } else {
+            context.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
+        }
+
         if (appHost.supports('externallinks')) {
             context.querySelector('.learnHowToContributeContainer').classList.remove('hide');
         } else {
@@ -141,12 +153,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             context.querySelector('.fldSoundEffects').classList.remove('hide');
         } else {
             context.querySelector('.fldSoundEffects').classList.add('hide');
-        }
-
-        if (appHost.supports('skins')) {
-            context.querySelector('.selectSkinContainer').classList.remove('hide');
-        } else {
-            context.querySelector('.selectSkinContainer').classList.add('hide');
         }
 
         if (appHost.supports('screensaver')) {
@@ -191,6 +197,8 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
         context.querySelector('#chkSeasonalThemes').checked = userSettings.enableSeasonalThemes();
 
+        context.querySelector('.selectTVHomeScreen').value = userSettings.get('tvhome') || '';
+
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
@@ -222,6 +230,8 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
         userSettingsInstance.soundEffects(context.querySelector('.selectSoundEffects').value);
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
+
+        userSettingsInstance.set('tvhome', context.querySelector('.selectTVHomeScreen').value);
 
         userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 

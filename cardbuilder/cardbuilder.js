@@ -723,20 +723,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return airTimeText;
         }
 
-        function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, isOuterFooter) {
+        function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
 
             var html = '';
-            var hasLogo;
 
-            if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
-                var logoHeight = 40;
-                hasLogo = true;
-
-                html += '<div class="lazy cardFooterLogo" data-src="' + apiClient.getScaledImageUrl(item.ChannelId, {
-                    type: "Primary",
-                    height: logoHeight,
-                    tag: item.ChannelPrimaryImageTag
-                }) + '"></div>';
+            if (logoUrl) {
+                html += '<div class="lazy cardFooterLogo" data-src="' + logoUrl + '"></div>';
             }
 
             var showOtherText = isOuterFooter ? !overlayText : overlayText;
@@ -974,7 +966,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (html) {
 
-                if (!isOuterFooter || hasLogo || options.cardLayout) {
+                if (!isOuterFooter || logoUrl || options.cardLayout) {
                     html = '<div class="' + footerClass + '">' + html;
 
                     //cardFooter
@@ -1256,10 +1248,30 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var footerOverlayed = false;
 
+            var logoUrl;
+            var logoHeight = 40;
+
+            if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
+                logoUrl = apiClient.getScaledImageUrl(item.ChannelId, {
+                    type: "Primary",
+                    height: logoHeight,
+                    tag: item.ChannelPrimaryImageTag
+                });
+            }
+            else if (options.showLogo && item.ParentLogoImageTag) {
+                logoUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
+                    type: "Logo",
+                    height: logoHeight,
+                    tag: item.ParentLogoImageTag
+                });
+            }
+
             if (overlayText) {
 
+                logoUrl = null;
+
                 footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
-                innerCardFooter += getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, false);
+                innerCardFooter += getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, false);
                 footerOverlayed = true;
             }
             else if (progressHtml) {
@@ -1279,11 +1291,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (!overlayText && !footerOverlayed) {
                 footerCssClass = options.cardLayout ? 'cardFooter' : 'cardFooter cardFooter-transparent';
 
-                if (options.showChannelLogo && item.ChannelPrimaryImageTag) {
+                if (logoUrl) {
                     footerCssClass += ' cardFooter-withlogo';
                 }
 
-                outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, true);
+                if (!options.cardLayout) {
+                    logoUrl = null;
+                }
+
+                outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, true);
             }
 
             if (outerCardFooter && !options.cardLayout /*&& options.allowBottomPadding !== false*/) {

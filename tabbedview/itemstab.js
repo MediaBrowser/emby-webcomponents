@@ -139,8 +139,13 @@
         return {
             showTitle: userSettings.get(basekey + '-showtitle') !== 'false',
             showYear: userSettings.get(basekey + '-showyear') !== 'false',
-            imageType: userSettings.get(basekey + '-imagetype')
+            imageType: userSettings.get(basekey + '-imagetype') || this.getDefaultImageType()
         };
+    };
+
+    ItemsTab.prototype.getDefaultImageType = function () {
+
+        return 'primary';
     };
 
     ItemsTab.prototype.getSettingsKey = function () {

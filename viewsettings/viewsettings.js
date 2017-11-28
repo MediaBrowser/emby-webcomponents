@@ -13,15 +13,18 @@
 
         context.querySelector('#chkShowTitle').checked = settings.showTitle || false;
         context.querySelector('#chkShowYear').checked = settings.showYear || false;
-        context.querySelector('.selectImageType').value = settings.imageType || '';
+        context.querySelector('#chkGroupBySeries').checked = settings.groupBySeries || false;
+        context.querySelector('.selectImageType').value = settings.imageType || 'primary';
     }
 
     function saveValues(context, settings, settingsKey) {
 
         userSettings.set(settingsKey + '-showtitle', context.querySelector('#chkShowTitle').checked);
         userSettings.set(settingsKey + '-showyear', context.querySelector('#chkShowYear').checked);
+        userSettings.set(settingsKey + '-groupbyseries', context.querySelector('#chkGroupBySeries').checked);
+
         userSettings.set(settingsKey + '-imagetype', context.querySelector('.selectImageType').value);
-    }
+}
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
