@@ -11,20 +11,25 @@
 
         context.querySelector('form').addEventListener('submit', onSubmit);
 
-        context.querySelector('#chkShowTitle').checked = settings.showTitle || false;
-        context.querySelector('#chkShowYear').checked = settings.showYear || false;
-        context.querySelector('#chkGroupBySeries').checked = settings.groupBySeries || false;
+        var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
+
+        for (var i = 0, length = elems.length; i < length; i++) {
+
+            elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
+        }
+
         context.querySelector('.selectImageType').value = settings.imageType || 'primary';
     }
 
     function saveValues(context, settings, settingsKey) {
 
-        userSettings.set(settingsKey + '-showtitle', context.querySelector('#chkShowTitle').checked);
-        userSettings.set(settingsKey + '-showyear', context.querySelector('#chkShowYear').checked);
-        userSettings.set(settingsKey + '-groupbyseries', context.querySelector('#chkGroupBySeries').checked);
+        var elems = context.querySelectorAll('.viewSetting-checkboxContainer');
+        for (var i = 0, length = elems.length; i < length; i++) {
+            userSettings.set(settingsKey + '-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input').checked);
+        }
 
-        userSettings.set(settingsKey + '-imagetype', context.querySelector('.selectImageType').value);
-}
+        userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
+    }
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {

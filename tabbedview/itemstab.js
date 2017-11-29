@@ -137,9 +137,9 @@
         var basekey = this.getSettingsKey();
 
         return {
-            showTitle: userSettings.get(basekey + '-showtitle') !== 'false',
-            showYear: userSettings.get(basekey + '-showyear') !== 'false',
-            imageType: userSettings.get(basekey + '-imagetype') || this.getDefaultImageType()
+            showTitle: userSettings.get(basekey + '-showTitle') !== 'false',
+            showYear: userSettings.get(basekey + '-showYear') !== 'false',
+            imageType: userSettings.get(basekey + '-imageType') || this.getDefaultImageType()
         };
     };
 
@@ -150,7 +150,7 @@
 
     ItemsTab.prototype.getSettingsKey = function () {
 
-        return this.params.parentId;
+        return this.params.parentId + '-1';
     };
 
     ItemsTab.prototype.onResume = function (options) {
@@ -180,9 +180,9 @@
     ItemsTab.prototype.getVisibleViewSettings = function () {
 
         return [
-            'showtitle',
-            'showyear',
-            'imagetype'
+            'showTitle',
+            'showYear',
+            'imageType'
         ];
     };
 
@@ -193,7 +193,8 @@
         return {
             IsPlayed: userSettings.getFilter(basekey + '-filter-IsPlayed') === 'true',
             IsUnplayed: userSettings.getFilter(basekey + '-filter-IsUnplayed') === 'true',
-            IsFavorite: userSettings.getFilter(basekey + '-filter-IsFavorite') === 'true'
+            IsFavorite: userSettings.getFilter(basekey + '-filter-IsFavorite') === 'true',
+            IsResumable: userSettings.getFilter(basekey + '-filter-IsResumable') === 'true'
         };
     };
 
@@ -202,7 +203,8 @@
         return [
             'IsUnplayed',
             'IsPlayed',
-            'IsFavorite'
+            'IsFavorite',
+            'IsResumable'
         ];
     };
 
