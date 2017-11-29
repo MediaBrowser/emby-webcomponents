@@ -14,7 +14,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
         }
     }
 
-    function getAlphaPickerButtonClassName() {
+    function getAlphaPickerButtonClassName(vertical) {
 
         var alphaPickerButtonClassName = 'alphaPickerButton';
 
@@ -22,11 +22,22 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
             alphaPickerButtonClassName += ' alphaPickerButton-tv';
         }
 
+        if (vertical) {
+            alphaPickerButtonClassName += ' alphaPickerButton-vertical';
+        }
+
         return alphaPickerButtonClassName;
     }
 
-    function getLetterButton(l) {
-        return '<button data-value="' + l + '" class="' + getAlphaPickerButtonClassName() + '">' + l + '</button>';
+    function getLetterButton(l, vertical) {
+        return '<button data-value="' + l + '" class="' + getAlphaPickerButtonClassName(vertical) + '">' + l + '</button>';
+    }
+
+    function mapLetters(letters, vertical) {
+
+        return letters.map(function (l) {
+            return getLetterButton(l, vertical);
+        });
     }
 
     function render(element, options) {
@@ -37,7 +48,9 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
             element.classList.add('alphaPicker-tv');
         }
 
-        if (element.classList.contains('alphaPicker-vertical')) {
+        var vertical = element.classList.contains('alphaPicker-vertical');
+
+        if (vertical) {
 
         } else {
             element.classList.add('focuscontainer-x');
@@ -46,11 +59,11 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
         var html = '';
         var letters;
 
-        var alphaPickerButtonClassName = getAlphaPickerButtonClassName();
+        var alphaPickerButtonClassName = getAlphaPickerButtonClassName(vertical);
 
         var rowClassName = 'alphaPickerRow';
 
-        if (element.classList.contains('alphaPicker-vertical')) {
+        if (vertical) {
             rowClassName += ' alphaPickerRow-vertical';
         }
 
@@ -60,11 +73,11 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
             html += '<button data-value=" " is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="md-icon alphaPickerButtonIcon">&#xE256;</i></button>';
         } else {
             letters = ['#'];
-            html += letters.map(getLetterButton).join('');
+            html += mapLetters(letters, vertical).join('');
         }
 
         letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        html += letters.map(getLetterButton).join('');
+        html += mapLetters(letters, vertical).join('');
 
         if (options.mode === 'keyboard') {
             // backspace icon
@@ -74,7 +87,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
             letters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
             html += '<div class="' + rowClassName + '">';
             html += '<br/>';
-            html += letters.map(getLetterButton).join('');
+            html += mapLetters(letters, vertical).join('');
             html += '</div>';
         } else {
             html += '</div>';

@@ -5,19 +5,21 @@
     align-self: center;
 }
 
+.alphaPicker-vertical {
+    line-height: 1;
+}
+
+.alphaPicker-fixed {
+    position: fixed;
+    bottom: 5.5em;
+    z-index: 1;
+}
+
 .alphaPickerRow {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
-}
-
-.alphaPicker-vertical {
-    font-size: 90%;
-}
-
-.alphaPicker-vertical.alphaPicker-tv {
-    font-size: 82%;
 }
 
 .alphaPickerRow-vertical {
@@ -41,14 +43,101 @@
     flex-grow: 1;
 }
 
-.alphaPicker-vertical .alphaPickerButton {
+@media all and (max-height: 50em) {
+
+    .alphaPicker-vertical {
+        font-size: 94%;
+    }
+
+    .alphaPickerButton-vertical {
+        padding-top: 1px !important;
+        padding-bottom: 1px !important;
+    }
+}
+
+@media all and (max-height: 47.5em) {
+
+    .alphaPicker-vertical {
+        font-size: 90%;
+    }
+}
+
+@media all and (max-height: 44em) {
+
+    .alphaPickerButton-vertical {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
+
+@media all and (max-height: 37em) {
+
+    .alphaPicker-vertical {
+        font-size: 76%;
+    }
+
+    .alphaPicker-fixed {
+        bottom: 5em;
+    }
+}
+
+.alphaPicker-vertical.alphaPicker-tv {
+    font-size: 82%;
+}
+
+.alphaPickerButton-tv.alphaPickerButton-vertical {
     padding: 0;
+}
+
+.alphaPickerButton-vertical {
     /* Assign a fixed width to ensure they have the same dimensions and avoid throwing off directional navigation */
     width: 1.5em;
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
 
 .alphaPickerButtonIcon {
-    width: 3.3vh;
-    height: 3.3vh;
-    font-size: 3.3vh;
+    font-size: 100% !important;
+}
+
+.alphaPicker-fixed.alphaPicker-tv {
+    bottom: 1%;
+}
+
+.alphaPicker-fixed-left {
+    left: .3em;
+}
+
+.alphaPicker-fixed-right {
+    right: .3em;
+}
+
+@media all and (min-width: 40em) {
+
+    .alphaPicker-fixed-left {
+        left: .4em;
+    }
+
+    .alphaPicker-fixed-right {
+        right: .4em;
+    }
+}
+
+@media all and (min-width: 62.5em) {
+
+    .alphaPicker-fixed-left {
+        left: 1em;
+    }
+
+    .alphaPicker-fixed-right {
+        right: 1em;
+    }
+}
+
+@media all and (max-height: 31.25em) {
+
+    .alphaPicker-fixed {
+        display: none !important;
+    }
 }

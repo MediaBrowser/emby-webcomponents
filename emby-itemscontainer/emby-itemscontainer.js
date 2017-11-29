@@ -196,8 +196,14 @@
             cardBuilder.onUserDataChanged(userData, itemsContainer);
         });
 
+        var eventsToMonitor = getEventsToMonitor(itemsContainer);
+
         // TODO: Check user data change reason?
-        if (getEventsToMonitor(itemsContainer).indexOf('markfavorite') !== -1) {
+        if (eventsToMonitor.indexOf('markfavorite') !== -1) {
+
+            itemsContainer.notifyRefreshNeeded();
+        }
+        else if (eventsToMonitor.indexOf('markplayed') !== -1) {
 
             itemsContainer.notifyRefreshNeeded();
         }
@@ -277,7 +283,8 @@
     function onLibraryChanged(e, apiClient, data) {
 
         var itemsContainer = this;
-        if (getEventsToMonitor(itemsContainer).indexOf('seriestimers') !== -1 || getEventsToMonitor(itemsContainer).indexOf('timers') !== -1) {
+        var eventsToMonitor = getEventsToMonitor(itemsContainer);
+        if (eventsToMonitor.indexOf('seriestimers') !== -1 || eventsToMonitor.indexOf('timers') !== -1) {
 
             // yes this is an assumption
             return;
@@ -309,9 +316,10 @@
 
         var state = stopInfo.state;
 
+        var eventsToMonitor = getEventsToMonitor(itemsContainer);
         if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
 
-            if (getEventsToMonitor(itemsContainer).indexOf('videoplayback') !== -1) {
+            if (eventsToMonitor.indexOf('videoplayback') !== -1) {
 
                 itemsContainer.notifyRefreshNeeded();
                 return;
@@ -320,7 +328,7 @@
 
         else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
 
-            if (getEventsToMonitor(itemsContainer).indexOf('audioplayback') !== -1) {
+            if (eventsToMonitor.indexOf('audioplayback') !== -1) {
 
                 itemsContainer.notifyRefreshNeeded();
                 return;
