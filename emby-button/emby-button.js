@@ -66,14 +66,25 @@
         return true;
     }
 
+    function openPremiumInfo() {
+
+        require(['registrationServices'], function (registrationServices) {
+            registrationServices.showPremiereInfo();
+        });
+    }
+
     function onAnchorClick(e) {
 
-        var href = this.getAttribute('href');
+        var href = this.getAttribute('href') || '';
 
         if (href !== '#') {
 
             if (this.getAttribute('target')) {
-                if (!appHost.supports('targetblank')) {
+                if (href.indexOf('emby.media/premiere') !== -1 && !appHost.supports('externalpremium')) {
+                    e.preventDefault();
+                    openPremiumInfo();
+                }
+                else if (!appHost.supports('targetblank')) {
                     e.preventDefault();
                     shell.openUrl(href);
                 }

@@ -92,7 +92,7 @@ define(['backdrop', 'mainTabsManager', 'emby-tabs'], function (backdrop, mainTab
 
             var isViewRestored = e.detail.isRestored;
 
-            Emby.Page.setTitle('');
+            self.setTitle();
             backdrop.clear();
 
             if (!isViewRestored) {
@@ -105,6 +105,10 @@ define(['backdrop', 'mainTabsManager', 'emby-tabs'], function (backdrop, mainTab
 
         view.addEventListener('viewdestroy', onViewDestroy.bind(this));
     }
+
+    TabbedView.prototype.setTitle = function () {
+        Emby.Page.setTitle('');
+    };
 
     return TabbedView;
 });

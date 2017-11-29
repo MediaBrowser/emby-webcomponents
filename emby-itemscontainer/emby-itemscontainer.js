@@ -1,4 +1,4 @@
-﻿define(['itemShortcuts', 'connectionManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, connectionManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
+﻿define(['itemShortcuts', 'connectionManager', 'playbackManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, connectionManager, playbackManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
     'use strict';
 
     var ItemsContainerProtoType = Object.create(HTMLDivElement.prototype);
@@ -195,6 +195,12 @@
         require(['cardBuilder'], function (cardBuilder) {
             cardBuilder.onUserDataChanged(userData, itemsContainer);
         });
+
+        // TODO: Check user data change reason?
+        if (getEventsToMonitor(itemsContainer).indexOf('markfavorite') !== -1) {
+
+            itemsContainer.notifyRefreshNeeded();
+        }
     }
 
     function getEventsToMonitor(itemsContainer) {
@@ -297,19 +303,46 @@
         itemsContainer.notifyRefreshNeeded();
     }
 
-    function addNotificationEvent(instance, name, handler) {
+    function onPlaybackStopped(e, stopInfo) {
 
-        var localHandler = handler.bind(instance);
-        events.on(serverNotifications, name, localHandler);
-        instance[name] = localHandler;
+        var itemsContainer = this;
+
+        var state = stopInfo.state;
+
+        if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
+
+            if (getEventsToMonitor(itemsContainer).indexOf('videoplayback') !== -1) {
+
+                itemsContainer.notifyRefreshNeeded();
+                return;
+            }
+        }
+
+        else if (state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Audio') {
+
+            if (getEventsToMonitor(itemsContainer).indexOf('audioplayback') !== -1) {
+
+                itemsContainer.notifyRefreshNeeded();
+                return;
+            }
+        }
     }
 
-    function removeNotificationEvent(instance, name) {
+    function addNotificationEvent(instance, name, handler, owner) {
 
-        var handler = instance[name];
+        var localHandler = handler.bind(instance);
+        owner = owner || serverNotifications;
+        events.on(owner, name, localHandler);
+        instance['event_' + name] = localHandler;
+    }
+
+    function removeNotificationEvent(instance, name, owner) {
+
+        var handler = instance['event_' + name];
         if (handler) {
-            events.off(serverNotifications, name, handler);
-            instance[name] = null;
+            owner = owner || serverNotifications;
+            events.off(owner, name, handler);
+            instance['event_' + name] = null;
         }
     }
 
@@ -352,6 +385,7 @@
         addNotificationEvent(this, 'TimerCancelled', onTimerCancelled);
         addNotificationEvent(this, 'SeriesTimerCancelled', onSeriesTimerCancelled);
         addNotificationEvent(this, 'LibraryChanged', onLibraryChanged);
+        addNotificationEvent(this, 'playbackstop', onPlaybackStopped, playbackManager);
 
         if (this.getAttribute('data-dragreorder') === 'true') {
             this.enableDragReordering(true);
@@ -374,6 +408,7 @@
         removeNotificationEvent(this, 'TimerCancelled');
         removeNotificationEvent(this, 'SeriesTimerCancelled');
         removeNotificationEvent(this, 'LibraryChanged');
+        removeNotificationEvent(this, 'playbackstop', playbackManager);
     };
 
     ItemsContainerProtoType.pause = function () {
@@ -395,12 +430,12 @@
     ItemsContainerProtoType.refreshItems = function () {
 
         if (!this.fetchData) {
-            return Promise.reject();
+            return Promise.resolve();
         }
 
         if (this.paused) {
             this.needsRefresh = true;
-            return Promise.reject();
+            return Promise.resolve();
         }
 
         this.needsRefresh = false;
@@ -410,15 +445,35 @@
         return this.fetchData().then(onDataFetched.bind(this));
     };
 
-    ItemsContainerProtoType.notifyRefreshNeeded = function () {
+    ItemsContainerProtoType.notifyRefreshNeeded = function (duration) {
+
+        if (this.paused) {
+            this.needsRefresh = true;
+            return;
+        }
 
         var timeout = this.refreshTimeout;
         if (timeout) {
             clearTimeout(timeout);
         }
 
-        this.refreshTimeout = setTimeout(this.refreshItems.bind(this), 10000);
+        duration = duration || 10000;
+        this.refreshTimeout = setTimeout(this.refreshItems.bind(this), duration);
     };
+
+    function resetRefreshInterval(itemsContainer) {
+
+        if (itemsContainer.refreshInterval) {
+
+            clearInterval(itemsContainer.refreshInterval);
+            itemsContainer.refreshInterval = null;
+        }
+
+        var interval = parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0');
+        if (interval) {
+            itemsContainer.refreshInterval = setInterval(itemsContainer.notifyRefreshNeeded.bind(itemsContainer), interval);
+        }
+    }
 
     function onDataFetched(result) {
 
@@ -461,6 +516,8 @@
         if (this.afterRefresh) {
             this.afterRefresh(result);
         }
+
+        resetRefreshInterval(this);
     }
 
     document.registerElement('emby-itemscontainer', {
