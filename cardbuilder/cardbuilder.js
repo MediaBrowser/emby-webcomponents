@@ -1413,8 +1413,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             //}
 
             if (!imgUrl) {
-                var defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
-                cardImageContainerOpen += '<div class="cardText cardDefaultText">' + defaultName + '</div>';
+                cardImageContainerOpen += getCardDefaultText(item);
             }
 
             var tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
@@ -1457,6 +1456,23 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
 
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+        }
+
+        function getCardDefaultText(item) {
+
+            var collectionType = item.CollectionType;
+            if (collectionType === 'livetv') {
+                return '<i class="cardImageIcon md-icon">&#xE1B2;</i>';
+            }
+            if (collectionType === 'homevideos' || collectionType === 'photos') {
+                return '<i class="cardImageIcon md-icon">&#xE412;</i>';
+            }
+            if (collectionType === 'music') {
+                return '<i class="cardImageIcon md-icon">&#xE310;</i>';
+            }
+
+            var defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
+            return '<div class="cardText cardDefaultText">' + defaultName + '</div>';
         }
 
         function buildCards(items, options) {

@@ -80,11 +80,11 @@ html, .skinHeader {
     color: inherit;
 }
 
-.paperListLabel, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
+.paperListLabel, .selectLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #555;
 }
 
-.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused, .button-link {
+.textareaLabelFocused, .inputLabelFocused, .button-link {
     color: #cc3333;
 }
 
@@ -227,6 +227,11 @@ html, .skinHeader {
     background: #fff;
     border: .07em solid rgba(0, 0, 0, .158);
 }
+
+    .emby-select-withcolor > option {
+        color: #000;
+        background: #fff;
+    }
 
     .emby-select-withcolor:focus {
         border-color: #cc3333;

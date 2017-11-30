@@ -92,12 +92,12 @@ html {
     color: inherit;
 }
 
-.paperListLabel, .selectLabelUnfocused, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
+.paperListLabel, .selectLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #bbb;
     color: rgba(255, 255, 255, .7);
 }
 
-.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
+.textareaLabelFocused, .inputLabelFocused {
     color: #FF9100;
 }
 
@@ -236,6 +236,7 @@ html {
 
     .emby-select-withcolor > option {
         color: inherit;
+        background: #222;
     }
 
     .emby-select-withcolor:focus {
