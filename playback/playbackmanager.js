@@ -1977,6 +1977,18 @@
             var playStartIndex = options.startIndex || 0;
             var firstItem = items[playStartIndex];
 
+            // If index was bad, reset it
+            if (!firstItem) {
+                playStartIndex = 0;
+                firstItem = items[playStartIndex];
+            }
+
+            // If it's still null then there's nothing to play
+            if (!firstItem) {
+                showPlaybackInfoErrorMessage(self, 'NoCompatibleStream', false);
+                return Promise.reject();
+            }
+
             if (firstItem.MediaType === "Photo") {
 
                 return playPhotos(items, options, user);

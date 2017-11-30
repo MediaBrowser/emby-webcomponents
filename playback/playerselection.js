@@ -1,8 +1,6 @@
 ﻿define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRouter', 'globalize', 'apphost'], function (appSettings, events, browser, loading, playbackManager, appRouter, globalize, appHost) {
     'use strict';
 
-    var currentDisplayInfo;
-
     function mirrorItem(info, player) {
 
         var item = info.item;
@@ -17,8 +15,6 @@
     }
 
     function mirrorIfEnabled(info) {
-
-        info = info || currentDisplayInfo;
 
         if (info && playbackManager.enableDisplayMirroring()) {
 
@@ -239,10 +235,6 @@
     function onMirrorChange() {
         playbackManager.enableDisplayMirroring(this.checked);
     }
-
-    document.addEventListener('viewbeforeshow', function () {
-        currentDisplayInfo = null;
-    });
 
     document.addEventListener('viewshow', function (e) {
 
