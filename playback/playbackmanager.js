@@ -550,19 +550,19 @@
 
     function isHostReachable(mediaSource, apiClient) {
 
-        var url = mediaSource.Path;
-
-        var isServerAddress = url.toLowerCase().replace('https:', 'http').indexOf(apiClient.serverAddress().toLowerCase().replace('https:', 'http').substring(0, 14)) === 0;
-
-        if (isServerAddress) {
-            return Promise.resolve(true);
-        }
-
         if (mediaSource.IsRemote) {
             return Promise.resolve(true);
         }
 
-        return Promise.resolve(false);
+        return apiClient.getEndpointInfo().then(function (endpointInfo) {
+
+            if (endpointInfo.IsInNetwork) {
+                return Promise.resolve(true);
+            }
+
+            // media source is in network, but connection is out of network
+            return Promise.resolve(false);
+        });
     }
 
     function supportsDirectPlay(apiClient, item, mediaSource) {
