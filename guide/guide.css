@@ -104,8 +104,8 @@
 }
 
 .guide-currentTimeIndicatorArrow {
-    width: 1em;
-    height: 1em;
+    width: .92em;
+    height: .92em;
     font-size: inherit;
     margin-left: -.52em;
     border-radius: 100em;

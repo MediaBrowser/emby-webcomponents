@@ -502,8 +502,10 @@
 
         var activeElement = document.activeElement;
         var focusId;
+        var hasActiveElement;
 
         if (this.contains(activeElement)) {
+            hasActiveElement = true;
             focusId = activeElement.getAttribute('data-id');
         }
 
@@ -512,20 +514,32 @@
         imageLoader.lazyChildren(this);
         loading.hide();
 
-        if (focusId) {
-            var newElement = this.querySelector('[data-id="' + focusId + '"]');
-            if (newElement) {
-                focusManager.focus(newElement);
-            } else {
-                focusManager.autoFocus(this);
-            }
+        if (hasActiveElement) {
+            setFocus(this, focusId);
         }
+
+        resetRefreshInterval(this);
 
         if (this.afterRefresh) {
             this.afterRefresh(result);
         }
+    }
 
-        resetRefreshInterval(this);
+    function setFocus(itemsContainer, focusId) {
+        if (focusId) {
+            var newElement = itemsContainer.querySelector('[data-id="' + focusId + '"]');
+            if (newElement) {
+
+                try {
+                    focusManager.focus(newElement);
+                    return;
+                }
+                catch (err) {
+                }
+            }
+        }
+
+        focusManager.autoFocus(this);
     }
 
     document.registerElement('emby-itemscontainer', {
