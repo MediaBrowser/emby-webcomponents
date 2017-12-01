@@ -287,9 +287,7 @@
                                 dispatchNeedsRefresh();
                                 break;
                             case 'delete':
-                                deleteItems(apiClient, items).then(function () {
-                                    appRouter.goHome();
-                                });
+                                deleteItems(apiClient, items).then(dispatchNeedsRefresh);
                                 hideSelections();
                                 dispatchNeedsRefresh();
                                 break;

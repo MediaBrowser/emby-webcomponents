@@ -12,7 +12,7 @@
 .alphaPicker-fixed {
     position: fixed;
     bottom: 5.5em;
-    z-index: 1;
+    z-index: 999999;
 }
 
 .alphaPickerRow {
@@ -73,7 +73,7 @@
 @media all and (max-height: 37em) {
 
     .alphaPicker-vertical {
-        font-size: 76%;
+        font-size: 82%;
     }
 
     .alphaPicker-fixed {
@@ -106,22 +106,11 @@
 }
 
 .alphaPicker-fixed-left {
-    left: .3em;
+    left: .4em;
 }
 
 .alphaPicker-fixed-right {
-    right: .3em;
-}
-
-@media all and (min-width: 40em) {
-
-    .alphaPicker-fixed-left {
-        left: .4em;
-    }
-
-    .alphaPicker-fixed-right {
-        right: .4em;
-    }
+    right: .4em;
 }
 
 @media all and (min-width: 62.5em) {

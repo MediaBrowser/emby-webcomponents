@@ -432,6 +432,20 @@
 
         this.paused = false;
 
+        var refreshIntervalEndTime = this.refreshIntervalEndTime;
+        if (refreshIntervalEndTime) {
+
+            var remainingMs = refreshIntervalEndTime - new Date().getTime();
+            if (remainingMs > 0 && !this.needsRefresh) {
+
+                resetRefreshInterval(this, remainingMs);
+
+            } else {
+                this.needsRefresh = true;
+                this.refreshIntervalEndTime = null;
+            }
+        }
+
         if (this.needsRefresh || (options && options.refresh)) {
             return this.refreshItems();
         }
@@ -476,26 +490,30 @@
         }
     };
 
-    function clearRefreshInterval(itemsContainer, setNeedsRefresh) {
+    function clearRefreshInterval(itemsContainer, isPausing) {
 
         if (itemsContainer.refreshInterval) {
 
             clearInterval(itemsContainer.refreshInterval);
             itemsContainer.refreshInterval = null;
 
-            if (setNeedsRefresh) {
-                itemsContainer.needsRefresh = true;
+            if (!isPausing) {
+                itemsContainer.refreshIntervalEndTime = null;
             }
         }
     }
 
-    function resetRefreshInterval(itemsContainer) {
+    function resetRefreshInterval(itemsContainer, intervalMs) {
 
         clearRefreshInterval(itemsContainer);
 
-        var interval = parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0');
-        if (interval) {
-            itemsContainer.refreshInterval = setInterval(itemsContainer.notifyRefreshNeeded.bind(itemsContainer), interval);
+        if (!intervalMs) {
+            intervalMs = parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0');
+        }
+
+        if (intervalMs) {
+            itemsContainer.refreshInterval = setInterval(itemsContainer.notifyRefreshNeeded.bind(itemsContainer), intervalMs);
+            itemsContainer.refreshIntervalEndTime = new Date().getTime() + intervalMs;
         }
     }
 
