@@ -61,6 +61,20 @@
         return elem;
     }
 
+    function onFocus(e) {
+        var label = getLabel(this);
+        if (label) {
+            label.classList.add('selectLabelFocused');
+        }
+    }
+
+    function onBlur(e) {
+        var label = getLabel(this);
+        if (label) {
+            label.classList.remove('selectLabelFocused');
+        }
+    }
+
     function onMouseDown(e) {
 
         // e.button=0 for primary (left) mouse button click
@@ -112,6 +126,9 @@
 
         this.addEventListener('mousedown', onMouseDown);
         this.addEventListener('keydown', onKeyDown);
+
+        this.addEventListener('focus', onFocus);
+        this.addEventListener('blur', onBlur);
     };
 
     EmbySelectPrototype.attachedCallback = function () {

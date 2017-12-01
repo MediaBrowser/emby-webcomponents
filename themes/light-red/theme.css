@@ -80,11 +80,11 @@ html, .skinHeader {
     color: inherit;
 }
 
-.paperListLabel, .selectLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
+.paperListLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #555;
 }
 
-.textareaLabelFocused, .inputLabelFocused, .button-link {
+.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused, .button-link {
     color: #cc3333;
 }
 

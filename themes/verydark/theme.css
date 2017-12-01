@@ -68,12 +68,12 @@ html {
     color: inherit;
 }
 
-.paperListLabel, .selectLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
+.paperListLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #bbb;
     color: rgba(255, 255, 255, .7);
 }
 
-.textareaLabelFocused, .inputLabelFocused {
+.selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
     color: #52B54B;
 }
 

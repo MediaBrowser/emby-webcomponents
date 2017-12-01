@@ -12,19 +12,70 @@
         context.querySelector('form').addEventListener('submit', onSubmit);
 
         var elems = context.querySelectorAll('.simpleFilter');
+        var i, length;
 
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (i = 0, length = elems.length; i < length; i++) {
 
-            elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
+            if (elems[i].tagName === 'INPUT') {
+                elems[i].checked = settings[elems[i].getAttribute('data-settingname')] || false;
+            } else {
+                elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
+            }
+        }
+
+        var videoTypes = settings.VideoTypes ? settings.VideoTypes.split(',') : [];
+        elems = context.querySelectorAll('.chkVideoTypeFilter');
+
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            elems[i].checked = videoTypes.indexOf(elems[i].getAttribute('data-filter')) !== -1;
+        }
+
+        var seriesStatuses = settings.SeriesStatus ? settings.SeriesStatus.split(',') : [];
+        elems = context.querySelectorAll('.chkSeriesStatus');
+
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            elems[i].checked = seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
         }
     }
 
     function saveValues(context, settings, settingsKey) {
 
         var elems = context.querySelectorAll('.simpleFilter');
-        for (var i = 0, length = elems.length; i < length; i++) {
-            setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
+        var i, length;
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            if (elems[i].tagName === 'INPUT') {
+                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
+            } else {
+                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
+            }
         }
+
+        // Video type
+        var videoTypes = [];
+        elems = context.querySelectorAll('.chkVideoTypeFilter');
+
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            if (elems[i].checked) {
+                videoTypes.push(elems[i].getAttribute('data-filter'));
+            }
+        }
+        userSettings.setFilter(settingsKey + '-filter-VideoTypes', videoTypes.join(','));
+
+        // Series status
+        var seriesStatuses = [];
+        elems = context.querySelectorAll('.chkSeriesStatus');
+
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            if (elems[i].checked) {
+                seriesStatuses.push(elems[i].getAttribute('data-filter'));
+            }
+        }
+        userSettings.setFilter(settingsKey + '-filter-SeriesStatus', seriesStatuses.join(','));
     }
 
     function setBasicFilter(context, key, elem) {
@@ -99,10 +150,10 @@
                 dlg.querySelector('form').addEventListener('change', function () {
 
                     submitted = true;
-                    if (options.onChange) {
-                        saveValues(dlg, options.settings, options.settingsKey);
-                        options.onChange();
-                    }
+                    //if (options.onChange) {
+                    //    saveValues(dlg, options.settings, options.settingsKey);
+                    //    options.onChange();
+                    //}
 
                 }, true);
 
@@ -114,10 +165,10 @@
 
                     if (submitted) {
 
-                        if (!options.onChange) {
-                            saveValues(dlg, options.settings, options.settingsKey);
-                            resolve();
-                        }
+                        //if (!options.onChange) {
+                        saveValues(dlg, options.settings, options.settingsKey);
+                        resolve();
+                        //}
                         return;
                     }
 
