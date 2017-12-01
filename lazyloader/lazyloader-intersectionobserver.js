@@ -25,22 +25,27 @@ define(['require', 'browser'], function (require, browser) {
         var observer = new IntersectionObserver(function (entries) {
             for (var j = 0, length2 = entries.length; j < length2; j++) {
                 var entry = entries[j];
-                var target = entry.target;
 
-                observer.unobserve(target);
+                if (entry.intersectionRatio > 0) {
 
-                if (!target[observerId]) {
-                    target[observerId] = 1;
-                    callback(target);
-                    loadedCount++;
+                    // Stop watching and load the image
+                    var target = entry.target;
 
-                    if (loadedCount >= self.elementCount) {
-                        self.destroyObserver();
+                    observer.unobserve(target);
+
+                    if (!target[observerId]) {
+                        target[observerId] = 1;
+                        callback(target);
+                        loadedCount++;
+
+                        if (loadedCount >= self.elementCount) {
+                            self.destroyObserver();
+                        }
                     }
                 }
             }
         },
-        observerOptions
+            observerOptions
         );
 
         this.observer = observer;
