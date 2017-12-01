@@ -67,6 +67,15 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         return apiClient.getItem(apiClient.getCurrentUserId(), id);
     }
 
+    function notifyRefreshNeeded(childElement, itemsContainer) {
+
+        itemsContainer = itemsContainer || dom.parentWithAttribute(childElement, 'is', 'emby-itemscontainer');
+
+        if (itemsContainer) {
+            itemsContainer.notifyRefreshNeeded(true);
+        }
+    }
+
     function showContextMenu(card, options) {
 
         getItem(card).then(function (item) {
@@ -100,24 +109,12 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                             executeAction(card, options.positionTo, result.command);
                         }
                         else if (result.command === 'removefromplaylist' || result.command === 'removefromcollection') {
-
-                            itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
-
-                            if (itemsContainer) {
-                                itemsContainer.notifyRefreshNeeded();
-                            }
+                            notifyRefreshNeeded(card, options.itemsContainer);
                         }
                         else if (result.command === 'canceltimer') {
-
-                            itemsContainer = options.itemsContainer || dom.parentWithAttribute(card, 'is', 'emby-itemscontainer');
-
-                            if (itemsContainer) {
-                                itemsContainer.dispatchEvent(new CustomEvent('timercancelled', {
-                                    detail: {},
-                                    cancelable: false,
-                                    bubbles: true
-                                }));
-                            }
+                            notifyRefreshNeeded(card, options.itemsContainer);
+                        } else if (result.updated || result.deleted) {
+                            notifyRefreshNeeded(card, options.itemsContainer);
                         }
                     });
                 });

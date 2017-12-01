@@ -321,7 +321,7 @@
 
             if (eventsToMonitor.indexOf('videoplayback') !== -1) {
 
-                itemsContainer.notifyRefreshNeeded();
+                itemsContainer.notifyRefreshNeeded(true);
                 return;
             }
         }
@@ -330,7 +330,7 @@
 
             if (eventsToMonitor.indexOf('audioplayback') !== -1) {
 
-                itemsContainer.notifyRefreshNeeded();
+                itemsContainer.notifyRefreshNeeded(true);
                 return;
             }
         }
@@ -402,6 +402,8 @@
 
     ItemsContainerProtoType.detachedCallback = function () {
 
+        clearRefreshInterval(this);
+
         this.enableHoverMenu(false);
         this.enableMultiSelect(false);
         this.enableDragReordering(false);
@@ -420,6 +422,8 @@
     };
 
     ItemsContainerProtoType.pause = function () {
+
+        clearRefreshInterval(this, true);
 
         this.paused = true;
     };
@@ -453,7 +457,7 @@
         return this.fetchData().then(onDataFetched.bind(this));
     };
 
-    ItemsContainerProtoType.notifyRefreshNeeded = function (duration) {
+    ItemsContainerProtoType.notifyRefreshNeeded = function (isInForeground) {
 
         if (this.paused) {
             this.needsRefresh = true;
@@ -465,17 +469,29 @@
             clearTimeout(timeout);
         }
 
-        duration = duration || 10000;
-        this.refreshTimeout = setTimeout(this.refreshItems.bind(this), duration);
+        if (isInForeground === true) {
+            this.refreshItems();
+        } else {
+            this.refreshTimeout = setTimeout(this.refreshItems.bind(this), 10000);
+        }
     };
 
-    function resetRefreshInterval(itemsContainer) {
+    function clearRefreshInterval(itemsContainer, setNeedsRefresh) {
 
         if (itemsContainer.refreshInterval) {
 
             clearInterval(itemsContainer.refreshInterval);
             itemsContainer.refreshInterval = null;
+
+            if (setNeedsRefresh) {
+                itemsContainer.needsRefresh = true;
+            }
         }
+    }
+
+    function resetRefreshInterval(itemsContainer) {
+
+        clearRefreshInterval(itemsContainer);
 
         var interval = parseInt(itemsContainer.getAttribute('data-refreshinterval') || '0');
         if (interval) {
@@ -539,7 +555,7 @@
             }
         }
 
-        focusManager.autoFocus(this);
+        focusManager.autoFocus(itemsContainer);
     }
 
     document.registerElement('emby-itemscontainer', {

@@ -365,17 +365,21 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            var cardFooterHtml = '<div class="cardFooter cardFooter-transparent">';
+            var cardFooterHtml = '';
             for (i = 0, length = options.lines; i < length; i++) {
-                cardFooterHtml += '<div class="cardText">&nbsp;</div>';
+
+                if (i === 0) {
+                    cardFooterHtml += '<div class="cardText cardTextCentered cardText-first">&nbsp;</div>';
+                } else {
+                    cardFooterHtml += '<div class="cardText cardTextCentered cardText-secondary">&nbsp;</div>';
+                }
             }
-            cardFooterHtml += '</div>';
 
             if (options.leadingButtons) {
 
                 for (i = 0, length = options.leadingButtons.length; i < length; i++) {
 
-                    html = '<button data-textcardid="' + options.leadingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.leadingButtons[i].name + '</div></div></div>' + cardFooterHtml + '</div></button>' + html;
+                    html = getExtraButtonHtml(options, options.leadingButtons[i], cardFooterHtml) + html;
                 }
 
             }
@@ -384,10 +388,31 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 for (i = 0, length = options.trailingButtons.length; i < length; i++) {
 
-                    html += '<button data-textcardid="' + options.trailingButtons[i].id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata"><div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div><div class="cardContent cardContent-shadow cardImageContainer coveredImage textCardImageContainer"><div class="cardText cardDefaultText">' + options.trailingButtons[i].name + '</div></div></div>' + cardFooterHtml + '</div></button>';
+                    html += getExtraButtonHtml(options, options.trailingButtons[i], cardFooterHtml);
                 }
 
             }
+
+            return html;
+        }
+
+        function getExtraButtonHtml(options, buttonInfo, cardFooterHtml) {
+
+            var html = '<button data-textcardid="' + buttonInfo.id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata">';
+
+            html += '<div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div>';
+
+            var icon = '';
+
+            if (buttonInfo.icon) {
+                icon = '<i class="cardImageIcon cardImageIcon-small md-icon">' + buttonInfo.icon + '</i>';
+            }
+
+            html += '<div class="cardContent cardContent-shadow cardImageContainer coveredImage textCardImageContainer flex-direction-column">' + icon + '<div class="cardText cardDefaultText">' + buttonInfo.name + '</div></div></div>';
+
+            html += cardFooterHtml;
+            html += '</div>';
+            html += '</button>';
 
             return html;
         }
