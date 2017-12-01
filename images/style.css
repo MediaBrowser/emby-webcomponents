@@ -39,17 +39,9 @@
 @keyframes popInAnimation {
     0% {
         opacity: 0;
-        -webkit-transform: scale(.97);
-        -moz-transform: scale(.97);
-        -o-transform: scale(.97);
-        transform: scale(.97);
     }
 
     100% {
         opacity: 1;
-        -webkit-transform: none;
-        -moz-transform: none;
-        -o-transform: none;
-        transform: none;
     }
 }
