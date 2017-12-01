@@ -12,6 +12,11 @@ define(['dom'], function (dom) {
             elem.style.backgroundImage = "url('" + url + "')";
             return Promise.resolve();
 
+            //return loadImageIntoImg(document.createElement('img'), url).then(function () {
+            //    elem.style.backgroundImage = "url('" + url + "')";
+            //    return Promise.resolve();
+            //});
+
         }
         return loadImageIntoImg(elem, url);
     }
