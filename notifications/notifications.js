@@ -251,7 +251,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         showNotification(notification, 0, apiClient);
     });
 
-    events.on(serverNotifications, 'RestartRequired', function (e, apiClient, data) {
+    events.on(serverNotifications, 'RestartRequired', function (e, apiClient) {
 
         var serverId = apiClient.serverInfo().Id;
         var notification = {

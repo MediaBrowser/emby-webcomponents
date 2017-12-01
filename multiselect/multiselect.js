@@ -373,7 +373,7 @@
         });
 
         for (var i = 0, length = elems.length; i < length; i++) {
-            elems[i].notifyRefreshNeeded();
+            elems[i].notifyRefreshNeeded(true);
         }
     }
 
