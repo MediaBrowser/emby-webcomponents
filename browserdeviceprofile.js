@@ -300,7 +300,7 @@ define(['browser'], function (browser) {
                 return null;
             }
 
-            return 30000000;
+            return 40000000;
         }
 
         var isTizenFhd = false;
