@@ -196,7 +196,7 @@
         options.parent.classList.add('upNextDialog');
         options.parent.classList.add('upNextDialog-hidden');
 
-        playbackManager.nextItem(options.player).then(fillItem.bind(instance));
+        fillItem.call(instance, options.nextItem);
 
         options.parent.querySelector('.btnHide').addEventListener('click', instance.hide.bind(instance));
         options.parent.querySelector('.btnStartNow').addEventListener('click', onStartNowClick.bind(instance));

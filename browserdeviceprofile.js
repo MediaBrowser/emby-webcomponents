@@ -400,6 +400,15 @@ define(['browser'], function (browser) {
             }
         }
 
+        var canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
+
+        if (canPlayAacVideoAudio) {
+            if (browser.chromecast) {
+                // prioritize this first
+                videoAudioCodecs.push('aac');
+            }
+        }
+
         if (supportsMp3VideoAudio) {
             videoAudioCodecs.push('mp3');
 
@@ -413,8 +422,11 @@ define(['browser'], function (browser) {
                 }
             }
         }
-        if (videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '')) {
-            videoAudioCodecs.push('aac');
+        if (canPlayAacVideoAudio) {
+
+            if (videoAudioCodecs.indexOf('aac') === -1) {
+                videoAudioCodecs.push('aac');
+            }
 
             // chromecast no longer supports AAC 5.1
             if (physicalAudioChannels <= 2 || !browser.chromecast) {

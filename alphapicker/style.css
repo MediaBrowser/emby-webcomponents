@@ -60,6 +60,10 @@
     .alphaPicker-vertical {
         font-size: 90%;
     }
+
+    .alphaPicker-fixed {
+        bottom: 5em;
+    }
 }
 
 @media all and (max-height: 44em) {
@@ -75,9 +79,12 @@
     .alphaPicker-vertical {
         font-size: 82%;
     }
+}
 
-    .alphaPicker-fixed {
-        bottom: 5em;
+@media all and (max-height: 32em) {
+
+    .alphaPicker-vertical {
+        font-size: 74%;
     }
 }
 
