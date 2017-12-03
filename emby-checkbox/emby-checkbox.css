@@ -7,13 +7,13 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    padding-left: 2.6em;
+    padding-left: 2.4em;
     align-items: center;
-    height: 2.3em;
+    height: 2.35em;
 }
 
 .checkboxFieldDescription {
-    padding-left: 2.65em;
+    padding-left: 2.4em;
 }
 
 .checkboxContainer {
@@ -117,13 +117,24 @@
     margin: .5em 0;
 }
 
+.checkboxList-verticalwrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    .checkboxList-verticalwrap > .emby-checkbox-label {
+        display: inline-flex;
+        margin: .5em 2em .5em 0;
+        width: auto;
+    }
+
 .checkboxList-paperList {
     padding: 1em !important;
     margin: .75em 0 !important;
 }
 
 .checkboxListLabel {
-    margin-bottom: 0;
+    margin-bottom: .25em;
 }
 
 @-webkit-keyframes repaintChrome {

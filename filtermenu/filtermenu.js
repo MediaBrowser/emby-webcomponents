@@ -7,6 +7,83 @@
         return false;
     }
 
+    function renderOptions(context, selector, cssClass, items, isCheckedFn) {
+
+        var elem = context.querySelector(selector);
+
+        if (items.length) {
+
+            elem.classList.remove('hide');
+
+        } else {
+            elem.classList.add('hide');
+        }
+
+        var html = '';
+
+        html += items.map(function (filter) {
+
+            var itemHtml = '';
+
+            var checkedHtml = isCheckedFn(filter) ? ' checked' : '';
+            itemHtml += '<label>';
+            itemHtml += '<input is="emby-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter + '" class="' + cssClass + '"/>';
+            itemHtml += '<span>' + filter + '</span>';
+            itemHtml += '</label>';
+
+            return itemHtml;
+
+        }).join('');
+
+        elem.querySelector('.filterOptions').innerHTML = html;
+    }
+
+    function renderDynamicFilters(context, result, options) {
+
+        // If there's a huge number of these they will be really show to render
+        //if (result.Tags) {
+        //    result.Tags.length = Math.min(result.Tags.length, 50);
+        //}
+
+        renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
+            var delimeter = '|';
+            return (delimeter + (options.settings.Genres || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
+        });
+
+        //renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
+        //    var delimeter = '|';
+        //    return (delimeter + (query.OfficialRatings || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
+        //});
+
+        //renderOptions(context, '.tagFilters', 'chkTagFilter', result.Tags, function (i) {
+        //    var delimeter = '|';
+        //    return (delimeter + (query.Tags || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
+        //});
+
+        //renderOptions(context, '.yearFilters', 'chkYearFilter', result.Years, function (i) {
+
+        //    var delimeter = ',';
+        //    return (delimeter + (query.Years || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
+        //});
+   }
+
+    function loadDynamicFilters(context, options) {
+
+        var apiClient = connectionManager.getApiClient(options.serverId);
+
+        apiClient.getJSON(apiClient.getUrl('Items/Filters', {
+
+            UserId: apiClient.getCurrentUserId(),
+            ParentId: options.parentId,
+            IncludeItemTypes: options.itemTypes.join(',')
+
+
+        })).then(function (result) {
+
+            renderDynamicFilters(context, result, options);
+        });
+    }
+
     function initEditor(context, settings) {
 
         context.querySelector('form').addEventListener('submit', onSubmit);
@@ -37,6 +114,12 @@
         for (i = 0, length = elems.length; i < length; i++) {
 
             elems[i].checked = seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
+        }
+
+        if (context.querySelector('.featureSection .viewSetting:not(.hide)')) {
+            context.querySelector('.featureSection').classList.remove('hide');
+        } else {
+            context.querySelector('.featureSection').classList.add('hide');
         }
     }
 
@@ -75,7 +158,18 @@
                 seriesStatuses.push(elems[i].getAttribute('data-filter'));
             }
         }
-        userSettings.setFilter(settingsKey + '-filter-SeriesStatus', seriesStatuses.join(','));
+
+        // Genres
+        var genres = [];
+        elems = context.querySelectorAll('.chkGenreFilter');
+
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            if (elems[i].checked) {
+                genres.push(elems[i].getAttribute('data-filter'));
+            }
+        }
+        userSettings.setFilter(settingsKey + '-filter-Genres', genres.join('|'));
     }
 
     function setBasicFilter(context, key, elem) {
@@ -135,6 +229,7 @@
                 }
 
                 initEditor(dlg, options.settings);
+                loadDynamicFilters(dlg, options);
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
 

@@ -1,8 +1,4 @@
 {
-    "Resumable": "Resumable",
-    "HeaderVideoType": "Video Type",
-    "HeaderSeriesStatus": "Series Status",
-    "ContinueWatching": "Continue watching",
     "MessageUnlockAppWithPurchaseOrSupporter": "Unlock this feature with a small one-time purchase, or with an active Emby Premiere subscription.",
     "MessageUnlockAppWithSupporter": "Unlock this feature with an active Emby Premiere subscription.",
     "MessageToValidateSupporter": "If you have an active Emby Premiere subscription, ensure you've setup Emby Premiere in your Emby Server Dashboard, which you can access by clicking Emby Premiere within the main menu.",
@@ -425,6 +421,7 @@
     "HeaderMyMedia": "Moje m\u00e9dia",
     "HeaderMyMediaSmall": "My Media (small)",
     "LatestFromLibrary": "Latest {0}",
+    "ContinueWatching": "Continue watching",
     "HeaderLatestChannelMedia": "Latest Channel Items",
     "HeaderContinueWatching": "Pokra\u010dova\u0165 v pozeran\u00ed",
     "HeaderContinueListening": "Pokra\u010dova\u0165 v po\u010d\u00favan\u00ed",
@@ -624,11 +621,17 @@
     "Off": "Off",
     "ShowTitle": "Show title",
     "ShowYear": "Zobraz rok",
-    "HeaderPosterOptions": "Poster Options",
     "Filters": "Filters",
     "Unplayed": "Unplayed",
     "LabelTVHomeScreen": "TV mode home screen:",
     "Horizontal": "Horizont\u00e1lne",
     "Vertical": "Vertik\u00e1lne",
-    "GroupBySeries": "Zoskupi\u0165 pod\u013ea s\u00e9rie"
+    "GroupBySeries": "Zoskupi\u0165 pod\u013ea s\u00e9rie",
+    "HeaderVideoType": "Video Type",
+    "HeaderSeriesStatus": "Series Status",
+    "Features": "Features",
+    "Trailers": "Trailers",
+    "Extras": "Extras",
+    "ThemeSongs": "Theme songs",
+    "ThemeVideos": "Theme videos"
 }

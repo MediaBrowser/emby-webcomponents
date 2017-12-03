@@ -628,5 +628,10 @@
   "Vertical": "Vertical",
   "GroupBySeries": "Group by series",
   "HeaderVideoType": "Video Type",
-  "HeaderSeriesStatus": "Series Status"
+  "HeaderSeriesStatus": "Series Status",
+  "Features": "Features",
+  "Trailers": "Trailers",
+  "Extras": "Extras",
+  "ThemeSongs": "Theme songs",
+  "ThemeVideos": "Theme videos"
 }

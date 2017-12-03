@@ -41,7 +41,7 @@ html {
 }
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(6,6,6,.8);
+        background-color: rgba(6,6,6,.88);
     }
 
 /* buttons */

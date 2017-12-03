@@ -71,7 +71,10 @@
                 settingsKey: instance.getSettingsKey(),
                 settings: instance.getFilters(),
                 visibleSettings: instance.getVisibleFilters(),
-                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer)
+                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
+                parentId: instance.params.parentId,
+                itemTypes: instance.getItemTypes ? instance.getItemTypes() : [],
+                serverId: instance.apiClient.serverId()
 
             }).then(function () {
 
@@ -199,7 +202,13 @@
             IsSD: userSettings.getFilter(basekey + '-filter-IsSD') === 'true',
             Is3D: userSettings.getFilter(basekey + '-filter-Is3D') === 'true',
             VideoTypes: userSettings.getFilter(basekey + '-filter-VideoTypes'),
-            SeriesStatus: userSettings.getFilter(basekey + '-filter-SeriesStatus')
+            SeriesStatus: userSettings.getFilter(basekey + '-filter-SeriesStatus'),
+            HasSubtitles: userSettings.getFilter(basekey + '-filter-HasSubtitles'),
+            HasTrailer: userSettings.getFilter(basekey + '-filter-HasTrailer'),
+            HasSpecialFeature: userSettings.getFilter(basekey + '-filter-HasSpecialFeature'),
+            HasThemeSong: userSettings.getFilter(basekey + '-filter-HasThemeSong'),
+            HasThemeVideo: userSettings.getFilter(basekey + '-filter-HasThemeVideo'),
+            Genres: userSettings.getFilter(basekey + '-filter-Genres')
         };
     };
 
@@ -210,8 +219,18 @@
             'IsPlayed',
             'IsFavorite',
             'IsResumable',
-            'VideoType'
+            'VideoType',
+            'HasSubtitles',
+            'HasTrailer',
+            'HasSpecialFeature',
+            'HasThemeSong',
+            'HasThemeVideo'
         ];
+    };
+
+    ItemsTab.prototype.getItemTypes = function () {
+
+        return [];
     };
 
     ItemsTab.prototype.setFilterStatus = function (hasFilters) {

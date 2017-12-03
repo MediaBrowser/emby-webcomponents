@@ -1,8 +1,4 @@
 {
-    "Resumable": "Reanudable",
-    "HeaderVideoType": "Tipo de Video",
-    "HeaderSeriesStatus": "Estado de la Serie",
-    "ContinueWatching": "Continue watching",
     "MessageUnlockAppWithPurchaseOrSupporter": "Desbloquee esta caracter\u00edstica con una peque\u00f1a compra \u00fanica, o con una suscripci\u00f3n activa de Emby Premier.",
     "MessageUnlockAppWithSupporter": "Desbloquee esta caracter\u00edstica con una suscripci\u00f3n activa de Emby Premier.",
     "MessageToValidateSupporter": "Si tiene una subscripci\u00f3n de Emby Premiere activa, aseg\u00farese de que ha configurado Emby Premiere en el Panel de Control del Servidor Emby, al cual puede acceder dando click en Emby Premiere dentro del men\u00fa principal.",
@@ -425,6 +421,7 @@
     "HeaderMyMedia": "Mis Medios",
     "HeaderMyMediaSmall": "Mis medios (peque\u00f1o)",
     "LatestFromLibrary": "M\u00e1s recientes {0}",
+    "ContinueWatching": "Continue watching",
     "HeaderLatestChannelMedia": "\u00cdtems Recientes de Canales",
     "HeaderContinueWatching": "Continuar Viendo",
     "HeaderContinueListening": "Continuar Escuchando",
@@ -624,11 +621,17 @@
     "Off": "Apagar",
     "ShowTitle": "Mostrar titulo",
     "ShowYear": "Mostrar a\u00f1o",
-    "HeaderPosterOptions": "Opciones de Poster",
     "Filters": "Filtros",
     "Unplayed": "No reproducido",
     "LabelTVHomeScreen": "Modo de pantalla de TV:",
     "Horizontal": "Horizontal",
     "Vertical": "Vertical",
-    "GroupBySeries": "Agrupar por series"
+    "GroupBySeries": "Agrupar por series",
+    "HeaderVideoType": "Tipo de Video",
+    "HeaderSeriesStatus": "Estado de la Serie",
+    "Features": "Features",
+    "Trailers": "Trailers",
+    "Extras": "Extras",
+    "ThemeSongs": "Theme songs",
+    "ThemeVideos": "Theme videos"
 }
