@@ -74,7 +74,8 @@
                 onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
                 parentId: instance.params.parentId,
                 itemTypes: instance.getItemTypes ? instance.getItemTypes() : [],
-                serverId: instance.apiClient.serverId()
+                serverId: instance.apiClient.serverId(),
+                filterMenuOptions: instance.getFilterMenuOptions()
 
             }).then(function () {
 
@@ -208,7 +209,7 @@
             HasSpecialFeature: userSettings.getFilter(basekey + '-filter-HasSpecialFeature'),
             HasThemeSong: userSettings.getFilter(basekey + '-filter-HasThemeSong'),
             HasThemeVideo: userSettings.getFilter(basekey + '-filter-HasThemeVideo'),
-            Genres: userSettings.getFilter(basekey + '-filter-Genres')
+            GenreIds: userSettings.getFilter(basekey + '-filter-GenreIds')
         };
     };
 
@@ -226,6 +227,15 @@
             'HasThemeSong',
             'HasThemeVideo'
         ];
+    };
+
+    ItemsTab.prototype.getFilterMenuOptions = function () {
+
+        var params = this.params;
+
+        return {
+
+        };
     };
 
     ItemsTab.prototype.getItemTypes = function () {

@@ -27,8 +27,8 @@
 
             var checkedHtml = isCheckedFn(filter) ? ' checked' : '';
             itemHtml += '<label>';
-            itemHtml += '<input is="emby-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter + '" class="' + cssClass + '"/>';
-            itemHtml += '<span>' + filter + '</span>';
+            itemHtml += '<input is="emby-checkbox" type="checkbox"' + checkedHtml + ' data-filter="' + filter.Id + '" class="' + cssClass + '"/>';
+            itemHtml += '<span>' + filter.Name + '</span>';
             itemHtml += '</label>';
 
             return itemHtml;
@@ -47,7 +47,7 @@
 
         renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
             var delimeter = '|';
-            return (delimeter + (options.settings.Genres || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
+            return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
         });
 
         //renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
@@ -65,22 +65,25 @@
         //    var delimeter = ',';
         //    return (delimeter + (query.Years || '') + delimeter).indexOf(delimeter + i + delimeter) != -1;
         //});
-   }
+    }
 
     function loadDynamicFilters(context, options) {
 
         var apiClient = connectionManager.getApiClient(options.serverId);
 
-        apiClient.getJSON(apiClient.getUrl('Items/Filters', {
+        var filterMenuOptions = Object.assign(options.filterMenuOptions, {
 
             UserId: apiClient.getCurrentUserId(),
             ParentId: options.parentId,
-            IncludeItemTypes: options.itemTypes.join(',')
+            IncludeItemTypes: options.itemTypes.join(','),
+        });
 
-
-        })).then(function (result) {
+        apiClient.getJSON(apiClient.getUrl('Items/Filters2', filterMenuOptions)).then(function (result) {
 
             renderDynamicFilters(context, result, options);
+        }, function () {
+
+            // older server
         });
     }
 
@@ -114,6 +117,12 @@
         for (i = 0, length = elems.length; i < length; i++) {
 
             elems[i].checked = seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
+        }
+
+        if (context.querySelector('.basicFilterSection .viewSetting:not(.hide)')) {
+            context.querySelector('.basicFilterSection').classList.remove('hide');
+        } else {
+            context.querySelector('.basicFilterSection').classList.add('hide');
         }
 
         if (context.querySelector('.featureSection .viewSetting:not(.hide)')) {
@@ -169,7 +178,7 @@
                 genres.push(elems[i].getAttribute('data-filter'));
             }
         }
-        userSettings.setFilter(settingsKey + '-filter-Genres', genres.join('|'));
+        userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join('|'));
     }
 
     function setBasicFilter(context, key, elem) {

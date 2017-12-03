@@ -124,7 +124,7 @@
 
     .checkboxList-verticalwrap > .emby-checkbox-label {
         display: inline-flex;
-        margin: .5em 2em .5em 0;
+        margin: .35em 2em .35em 0;
         width: auto;
     }
 
