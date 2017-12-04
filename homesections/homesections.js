@@ -1,4 +1,4 @@
-﻿define(['cardBuilder', 'registrationServices', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (cardBuilder, registrationServices, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
+﻿define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (connectionManager, cardBuilder, registrationServices, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
     'use strict';
 
     function getDefaultSection(index) {
@@ -66,8 +66,48 @@
                 promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
             }
 
-            return Promise.all(promises);
+            return Promise.all(promises).then(function () {
+
+                return resume(elem, {
+                    refresh: true
+                });
+            });
         });
+    }
+
+    function destroySections(elem) {
+
+        var elems = elem.querySelectorAll('.itemsContainer');
+        var i, length;
+
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            elems[i].fetchData = null;
+            elems[i].parentContainer = null;
+            elems[i].getItemsHtml = null;
+        }
+
+        elem.innerHTML = '';
+    }
+
+    function pause(elem) {
+
+        var elems = elem.querySelectorAll('.itemsContainer');
+        var i, length;
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            elems[i].pause();
+        }
+    }
+
+    function resume(elem, options) {
+
+        var elems = elem.querySelectorAll('.itemsContainer');
+        var i, length;
+
+        for (i = 0, length = elems.length; i < length; i++) {
+            elems[i].resume(options);
+        }
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
@@ -78,7 +118,7 @@
         var elem = page.querySelector('.section' + index);
 
         if (section === 'latestmedia') {
-            return loadRecentlyAdded(elem, apiClient, user, userViews);
+            loadRecentlyAdded(elem, apiClient, user, userViews);
         }
         else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
             return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
@@ -87,22 +127,22 @@
             return loadlibraryButtons(elem, apiClient, user, userSettings, userViews, allSections);
         }
         else if (section === 'resume') {
-            return loadResumeVideo(elem, apiClient, userId);
+            loadResumeVideo(elem, apiClient, userId);
         }
         else if (section === 'resumeaudio') {
-            return loadResumeAudio(elem, apiClient, userId);
+            loadResumeAudio(elem, apiClient, userId);
         }
         else if (section === 'activerecordings') {
-            return loadActiveRecordings(elem, apiClient, userId);
+            loadLatestLiveTvRecordings(elem, true, apiClient, userId);
         }
         else if (section === 'nextup') {
-            return loadNextUp(elem, apiClient, userId);
+            loadNextUp(elem, apiClient, userId);
         }
         else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
         }
         else if (section === 'latesttvrecordings') {
-            return loadLatestLiveTvRecordings(elem, apiClient, userId);
+            loadLatestLiveTvRecordings(elem, false, apiClient, userId);
         }
         else if (section === 'latestchannelmedia') {
             return loadLatestChannelMedia(elem, apiClient, userId);
@@ -113,6 +153,7 @@
 
             return Promise.resolve();
         }
+        return Promise.resolve();
     }
 
     function getUserViews(apiClient, userId) {
@@ -353,104 +394,116 @@
         return html;
     }
 
+    function getFetchLatestItemsFn(serverId, parentId, collectionType) {
+
+        return function () {
+
+            var apiClient = connectionManager.getApiClient(serverId);
+
+            var limit = 16;
+
+            if (enableScrollX()) {
+
+                if (collectionType === 'music') {
+                    limit = 30;
+                }
+            }
+            else {
+
+                if (collectionType === 'tvshows') {
+                    limit = 5;
+                } else if (collectionType === 'music') {
+                    limit = 9;
+                } else {
+                    limit = 8;
+                }
+            }
+
+            var options = {
+
+                Limit: limit,
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                ImageTypeLimit: 1,
+                EnableImageTypes: "Primary,Backdrop,Thumb",
+                ParentId: parentId
+            };
+
+            return apiClient.getJSON(apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/Items/Latest', options));
+        };
+    }
+
+    function getLatestItemsHtmlFn(viewType) {
+
+        return function (items) {
+
+            var shape = viewType === 'movies' ?
+                getPortraitShape() :
+                viewType === 'music' ?
+                    getSquareShape() :
+                    getThumbShape();
+
+            var cardLayout = false;
+
+            return cardBuilder.getCardsHtml({
+                items: items,
+                shape: shape,
+                preferThumb: viewType !== 'movies' && viewType !== 'music' ? 'auto' : null,
+                showUnplayedIndicator: false,
+                showChildCountIndicator: true,
+                context: 'home',
+                overlayText: false,
+                centerText: !cardLayout,
+                overlayPlayButton: viewType !== 'photos',
+                allowBottomPadding: !enableScrollX() && !cardLayout,
+                cardLayout: cardLayout,
+                showTitle: viewType !== 'photos',
+                showYear: viewType === 'movies' || viewType === 'tvshows' || !viewType,
+                showParentTitle: viewType === 'music' || viewType === 'tvshows' || !viewType || (cardLayout && (viewType === 'tvshows')),
+                lines: 2
+            });
+        };
+    }
+
     function renderLatestSection(elem, apiClient, user, parent) {
 
-        var limit = 16;
+        var html = '';
+        html += '<div class="sectionTitleContainer padded-left">';
+        if (!layoutManager.tv) {
+
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(parent, {
+
+                section: 'latest'
+
+            }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            html += globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name);
+            html += '</h2>';
+            html += '<i class="md-icon">&#xE5CC;</i>';
+            html += '</a>';
+
+        } else {
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name) + '</h2>';
+        }
+        html += '</div>';
 
         if (enableScrollX()) {
-
-            if (parent.CollectionType === 'music') {
-                limit = 30;
-            }
-        }
-        else {
-
-            if (parent.CollectionType === 'tvshows') {
-                limit = 5;
-            } else if (parent.CollectionType === 'music') {
-                limit = 9;
-            } else {
-                limit = 8;
-            }
+            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
         }
 
-        var options = {
+        if (enableScrollX()) {
+            html += '</div>';
+        }
+        html += '</div>';
 
-            Limit: limit,
-            Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-            ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Thumb",
-            ParentId: parent.Id
-        };
+        elem.innerHTML = html;
 
-        return apiClient.getJSON(apiClient.getUrl('Users/' + user.Id + '/Items/Latest', options)).then(function (items) {
+        var itemsContainer = elem.querySelector('.itemsContainer');
+        itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType);
+        itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.CollectionType);
+        itemsContainer.parentContainer = elem;
 
-            var html = '';
-
-            if (items.length) {
-
-                html += '<div class="sectionTitleContainer padded-left">';
-                if (!layoutManager.tv) {
-
-                    html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(parent, {
-
-                        section: 'latest'
-
-                    }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
-                    html += '<h2 class="sectionTitle sectionTitle-cards">';
-                    html += globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name);
-                    html += '</h2>';
-                    html += '<i class="md-icon">&#xE5CC;</i>';
-                    html += '</a>';
-
-                } else {
-                    html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name) + '</h2>';
-                }
-                html += '</div>';
-
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-                }
-
-                var viewType = parent.CollectionType;
-
-                var shape = viewType === 'movies' ?
-                    getPortraitShape() :
-                    viewType === 'music' ?
-                        getSquareShape() :
-                        getThumbShape();
-
-                var cardLayout = false;
-
-                html += cardBuilder.getCardsHtml({
-                    items: items,
-                    shape: shape,
-                    preferThumb: viewType !== 'movies' && viewType !== 'music' ? 'auto' : null,
-                    showUnplayedIndicator: false,
-                    showChildCountIndicator: true,
-                    context: 'home',
-                    overlayText: false,
-                    centerText: !cardLayout,
-                    overlayPlayButton: viewType !== 'photos',
-                    allowBottomPadding: !enableScrollX() && !cardLayout,
-                    cardLayout: cardLayout,
-                    showTitle: viewType !== 'photos',
-                    showYear: viewType === 'movies' || viewType === 'tvshows' || !viewType,
-                    showParentTitle: viewType === 'music' || viewType === 'tvshows' || !viewType || (cardLayout && (viewType === 'tvshows')),
-                    lines: 2
-                });
-
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
-                html += '</div>';
-            }
-
-            elem.innerHTML = html;
-            imageLoader.lazyChildren(elem);
-        });
     }
 
     function loadRecentlyAdded(elem, apiClient, user, userViews) {
@@ -479,6 +532,7 @@
 
             var frag = document.createElement('div');
             frag.classList.add('verticalSection');
+            frag.classList.add('hide');
             elem.appendChild(frag);
 
             renderLatestSection(frag, apiClient, user, item);
@@ -697,219 +751,170 @@
         });
     }
 
-    function loadResumeVideo(elem, apiClient, userId) {
+    function getContinueWatchingFetchFn(serverId) {
 
-        var screenWidth = dom.getWindowSize().innerWidth;
+        return function () {
 
-        var limit;
+            var apiClient = connectionManager.getApiClient(serverId);
 
-        if (enableScrollX()) {
+            var screenWidth = dom.getWindowSize().innerWidth;
 
-            limit = 12;
+            var limit;
 
-        } else {
+            if (enableScrollX()) {
 
-            limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
-            limit = Math.min(limit, 5);
-        }
+                limit = 12;
 
-        var options = {
+            } else {
 
-            Limit: limit,
-            Recursive: true,
-            Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-            ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Thumb",
-            EnableTotalRecordCount: false,
-            MediaTypes: 'Video'
-        };
-
-        return apiClient.getResumableItems(userId, options).then(function (result) {
-
-            var html = '';
-
-            if (result.Items.length) {
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueWatching') + '</h2>';
-
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-                }
-
-                var cardLayout = false;
-
-                html += cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    preferThumb: true,
-                    shape: getThumbShape(),
-                    overlayText: false,
-                    showTitle: true,
-                    showParentTitle: true,
-                    lazy: true,
-                    showDetailsMenu: true,
-                    overlayPlayButton: true,
-                    context: 'home',
-                    centerText: !cardLayout,
-                    allowBottomPadding: false,
-                    cardLayout: cardLayout,
-                    showYear: true,
-                    lines: 2
-                });
-
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
-                html += '</div>';
+                limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
+                limit = Math.min(limit, 5);
             }
 
-            elem.innerHTML = html;
+            var options = {
 
-            imageLoader.lazyChildren(elem);
-        }, function () {
-            // handle older servers
-            return Promise.resolve();
+                Limit: limit,
+                Recursive: true,
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                ImageTypeLimit: 1,
+                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableTotalRecordCount: false,
+                MediaTypes: 'Video'
+            };
+
+            return apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
+        };
+    }
+
+    function getContinueWatchingItemsHtml(items) {
+
+        var cardLayout = false;
+
+        return cardBuilder.getCardsHtml({
+            items: items,
+            preferThumb: true,
+            shape: getThumbShape(),
+            overlayText: false,
+            showTitle: true,
+            showParentTitle: true,
+            lazy: true,
+            showDetailsMenu: true,
+            overlayPlayButton: true,
+            context: 'home',
+            centerText: !cardLayout,
+            allowBottomPadding: false,
+            cardLayout: cardLayout,
+            showYear: true,
+            lines: 2
+        });
+    }
+
+    function loadResumeVideo(elem, apiClient, userId) {
+
+        var html = '';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueWatching') + '</h2>';
+
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="videoplayback,markplayed">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        }
+
+        if (enableScrollX()) {
+            html += '</div>';
+        }
+        html += '</div>';
+
+        elem.classList.add('hide');
+        elem.innerHTML = html;
+
+        var itemsContainer = elem.querySelector('.itemsContainer');
+        itemsContainer.fetchData = getContinueWatchingFetchFn(apiClient.serverId());
+        itemsContainer.getItemsHtml = getContinueWatchingItemsHtml;
+        itemsContainer.parentContainer = elem;
+    }
+
+    function getContinueListeningFetchFn(serverId) {
+
+        return function () {
+
+            var apiClient = connectionManager.getApiClient(serverId);
+
+            var screenWidth = dom.getWindowSize().innerWidth;
+
+            var limit;
+
+            if (enableScrollX()) {
+
+                limit = 12;
+
+            } else {
+
+                limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
+                limit = Math.min(limit, 5);
+            }
+
+            var options = {
+
+                Limit: limit,
+                Recursive: true,
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                ImageTypeLimit: 1,
+                EnableImageTypes: "Primary,Backdrop,Thumb",
+                EnableTotalRecordCount: false,
+                MediaTypes: 'Audio'
+            };
+
+            return apiClient.getResumableItems(apiClient.getCurrentUserId(), options);
+        };
+    }
+
+    function getContinueListeningItemsHtml(items) {
+
+        var cardLayout = false;
+
+        return cardBuilder.getCardsHtml({
+            items: items,
+            preferThumb: true,
+            shape: getThumbShape(),
+            overlayText: false,
+            showTitle: true,
+            showParentTitle: true,
+            lazy: true,
+            showDetailsMenu: true,
+            overlayPlayButton: true,
+            context: 'home',
+            centerText: !cardLayout,
+            allowBottomPadding: false,
+            cardLayout: cardLayout,
+            showYear: true,
+            lines: 2
         });
     }
 
     function loadResumeAudio(elem, apiClient, userId) {
 
-        var screenWidth = dom.getWindowSize().innerWidth;
-
-        var limit;
+        var html = '';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueWatching') + '</h2>';
 
         if (enableScrollX()) {
-
-            limit = 12;
-
+            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="audioplayback,markplayed">';
         } else {
-
-            limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
-            limit = Math.min(limit, 5);
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="audioplayback,markplayed">';
         }
 
-        var options = {
+        if (enableScrollX()) {
+            html += '</div>';
+        }
+        html += '</div>';
 
-            Limit: limit,
-            Recursive: true,
-            Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-            ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Thumb",
-            EnableTotalRecordCount: false,
-            MediaTypes: 'Audio'
-        };
+        elem.classList.add('hide');
+        elem.innerHTML = html;
 
-        return apiClient.getResumableItems(userId, options).then(function (result) {
-
-            var html = '';
-
-            if (result.Items.length) {
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueListening') + '</h2>';
-
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-                }
-
-                var cardLayout = false;
-
-                html += cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    preferThumb: true,
-                    shape: getThumbShape(),
-                    overlayText: false,
-                    showTitle: true,
-                    showParentTitle: true,
-                    lazy: true,
-                    showDetailsMenu: true,
-                    overlayPlayButton: true,
-                    context: 'home',
-                    centerText: !cardLayout,
-                    allowBottomPadding: false,
-                    cardLayout: cardLayout,
-                    showYear: true,
-                    lines: 2
-                });
-
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
-
-                html += '</div>';
-                elem.classList.remove('hide');
-            } else {
-                elem.classList.add('hide');
-            }
-
-            elem.innerHTML = html;
-
-            imageLoader.lazyChildren(elem);
-        }, function () {
-            // handle older servers
-            return Promise.resolve();
-        });
-    }
-
-    function loadActiveRecordings(elem, apiClient, userId) {
-
-        apiClient.getLiveTvRecordings({
-
-            UserId: userId,
-            IsInProgress: true,
-            Fields: 'CanDelete,PrimaryImageAspectRatio,BasicSyncInfo',
-            EnableTotalRecordCount: false,
-            EnableImageTypes: "Primary,Thumb,Backdrop"
-
-        }).then(function (result) {
-
-            var html = '';
-
-            if (result.Items.length) {
-
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderActiveRecordings') + '</h2>';
-
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-                }
-
-                var cardLayout = false;
-
-                html += cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    lazy: true,
-                    allowBottomPadding: !enableScrollX(),
-                    shape: enableScrollX() ? 'autooverflow' : 'auto',
-                    defaultShape: getThumbShape(),
-                    showTitle: false,
-                    showParentTitleOrTitle: true,
-                    showAirTime: true,
-                    showAirEndTime: true,
-                    showChannelName: true,
-                    cardLayout: cardLayout,
-                    preferThumb: 'auto',
-                    coverImage: true,
-                    overlayText: false,
-                    centerText: !cardLayout,
-                    overlayMoreButton: true,
-                    action: 'none',
-                    centerPlayButton: true
-
-                });
-
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
-
-                html += '</div>';
-            }
-
-            elem.innerHTML = html;
-
-            imageLoader.lazyChildren(elem);
-        });
+        var itemsContainer = elem.querySelector('.itemsContainer');
+        itemsContainer.fetchData = getContinueListeningFetchFn(apiClient.serverId());
+        itemsContainer.getItemsHtml = getContinueListeningItemsHtml;
+        itemsContainer.parentContainer = elem;
     }
 
     function bindUnlockClick(elem) {
@@ -1097,77 +1102,85 @@
         });
     }
 
+    function getNextUpFetchFn(serverId) {
+
+        return function () {
+
+            var apiClient = connectionManager.getApiClient(serverId);
+
+            return apiClient.getNextUpEpisodes({
+
+                Limit: enableScrollX() ? 24 : 15,
+                Fields: "PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo",
+                UserId: apiClient.getCurrentUserId(),
+                ImageTypeLimit: 1,
+                EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
+                EnableTotalRecordCount: false
+            });
+        };
+    }
+
+    function getNextUpItemsHtml(items) {
+
+        var cardLayout = false;
+
+        return cardBuilder.getCardsHtml({
+            items: items,
+            preferThumb: true,
+            shape: getThumbShape(),
+            overlayText: false,
+            showTitle: true,
+            showParentTitle: true,
+            lazy: true,
+            overlayPlayButton: true,
+            context: 'home',
+            centerText: !cardLayout,
+            allowBottomPadding: !enableScrollX(),
+            cardLayout: cardLayout
+        });
+    }
+
     function loadNextUp(elem, apiClient, userId) {
 
-        var query = {
+        var html = '';
+        html += '<div class="sectionTitleContainer padded-left">';
+        if (!layoutManager.tv) {
 
-            Limit: enableScrollX() ? 24 : 15,
-            Fields: "PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo",
-            UserId: userId,
-            ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Banner,Thumb",
-            EnableTotalRecordCount: false
-        };
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
 
-        apiClient.getNextUpEpisodes(query).then(function (result) {
+                serverId: apiClient.serverId()
 
-            var html = '';
+            }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
+            html += '<h2 class="sectionTitle sectionTitle-cards">';
+            html += globalize.translate('sharedcomponents#HeaderNextUp');
+            html += '</h2>';
+            html += '<i class="md-icon">&#xE5CC;</i>';
+            html += '</a>';
 
-            if (result.Items.length) {
+        } else {
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#HeaderNextUp') + '</h2>';
+        }
+        html += '</div>';
 
-                html += '<div class="sectionTitleContainer padded-left">';
-                if (!layoutManager.tv) {
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="videoplayback,markplayed">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
+        }
 
-                    html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
+        if (enableScrollX()) {
+            html += '</div>';
+        }
 
-                        serverId: apiClient.serverId()
+        html += '</div>';
 
-                    }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
-                    html += '<h2 class="sectionTitle sectionTitle-cards">';
-                    html += globalize.translate('sharedcomponents#HeaderNextUp');
-                    html += '</h2>';
-                    html += '<i class="md-icon">&#xE5CC;</i>';
-                    html += '</a>';
+        elem.classList.add('hide');
+        elem.innerHTML = html;
 
-                } else {
-                    html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#HeaderNextUp') + '</h2>';
-                }
-                html += '</div>';
-
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-                }
-
-                var cardLayout = false;
-
-                html += cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    preferThumb: true,
-                    shape: getThumbShape(),
-                    overlayText: false,
-                    showTitle: true,
-                    showParentTitle: true,
-                    lazy: true,
-                    overlayPlayButton: true,
-                    context: 'home',
-                    centerText: !cardLayout,
-                    allowBottomPadding: !enableScrollX(),
-                    cardLayout: cardLayout
-                });
-
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
-
-                html += '</div>';
-            }
-
-            elem.innerHTML = html;
-
-            imageLoader.lazyChildren(elem);
-        });
+        var itemsContainer = elem.querySelector('.itemsContainer');
+        itemsContainer.fetchData = getNextUpFetchFn(apiClient.serverId());
+        itemsContainer.getItemsHtml = getNextUpItemsHtml;
+        itemsContainer.parentContainer = elem;
     }
 
     function loadLatestChannelItems(elem, apiClient, userId, options) {
@@ -1261,41 +1274,32 @@
         });
     }
 
-    function loadLatestLiveTvRecordings(elem, apiClient, userId) {
+    function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
 
-        return apiClient.getLiveTvRecordings({
+        return function () {
 
-            userId: userId,
-            Limit: enableScrollX() ? 12 : 5,
-            Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-            EnableTotalRecordCount: false,
-            IsLibraryItem: false
+            var apiClient = connectionManager.getApiClient(serverId);
 
-        }).then(function (result) {
+            return apiClient.getLiveTvRecordings({
 
-            var html = '';
+                userId: apiClient.getCurrentUserId(),
+                Limit: enableScrollX() ? 12 : 5,
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                EnableTotalRecordCount: false,
+                IsLibraryItem: activeRecordingsOnly ? null : false,
+                IsInProgress: activeRecordingsOnly ? true : null
 
-            if (result.Items.length) {
+            });
+        };
+    }
 
-                html += '<div class="sectionTitleContainer">';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderLatestRecordings') + '</h2>';
-                if (!layoutManager.tv) {
-                    //html += '<a href="livetv.html?tab=3" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('sharedcomponents#More') + '</span></button></a>';
-                    //html += '<button data-href="" type="button" is="emby-button" class="raised raised-mini sectionTitleButton btnMore">';
-                    //html += '<span>' + globalize.translate('sharedcomponents#More') + '</span>';
-                    //html += '</button>';
-                }
-                html += '</div>';
-            }
+    function getLatestRecordingItemsHtml(activeRecordingsOnly) {
 
-            if (enableScrollX()) {
-                html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-            } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-            }
+        return function (items) {
+            var cardLayout = false;
 
-            html += cardBuilder.getCardsHtml({
-                items: result.Items,
+            return cardBuilder.getCardsHtml({
+                items: items,
                 shape: enableScrollX() ? 'autooverflow' : 'auto',
                 showTitle: true,
                 showParentTitle: true,
@@ -1304,34 +1308,66 @@
                 showDetailsMenu: true,
                 centerText: true,
                 overlayText: false,
-                overlayPlayButton: true,
+                showYear: true,
+                lines: 2,
+                overlayPlayButton: !activeRecordingsOnly,
                 allowBottomPadding: !enableScrollX(),
                 preferThumb: true,
-                cardLayout: false
-
+                cardLayout: false,
+                overlayMoreButton: activeRecordingsOnly,
+                action: activeRecordingsOnly ? 'none' : null,
+                centerPlayButton: activeRecordingsOnly
             });
+        };
+    }
 
-            if (enableScrollX()) {
-                html += '</div>';
-            }
+    function loadLatestLiveTvRecordings(elem, activeRecordingsOnly, apiClient, userId) {
 
+        var title = activeRecordingsOnly ?
+            globalize.translate('sharedcomponents#HeaderActiveRecordings') :
+            globalize.translate('sharedcomponents#HeaderLatestRecordings');
+
+        var html = '';
+
+        html += '<div class="sectionTitleContainer">';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + '</h2>';
+        if (!layoutManager.tv) {
+            //html += '<a href="livetv.html?tab=3" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('sharedcomponents#More') + '</span></button></a>';
+            //html += '<button data-href="" type="button" is="emby-button" class="raised raised-mini sectionTitleButton btnMore">';
+            //html += '<span>' + globalize.translate('sharedcomponents#More') + '</span>';
+            //html += '</button>';
+        }
+        html += '</div>';
+
+        if (enableScrollX()) {
+            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right">';
+        } else {
+            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+        }
+
+        if (enableScrollX()) {
             html += '</div>';
+        }
 
-            elem.innerHTML = html;
-            imageLoader.lazyChildren(elem);
-        });
+        html += '</div>';
+
+        elem.classList.add('hide');
+        elem.innerHTML = html;
+
+        var itemsContainer = elem.querySelector('.itemsContainer');
+        itemsContainer.fetchData = getLatestRecordingsFetchFn(apiClient.serverId(), activeRecordingsOnly);
+        itemsContainer.getItemsHtml = getLatestRecordingItemsHtml(activeRecordingsOnly);
+        itemsContainer.parentContainer = elem;
     }
 
     return {
         loadLatestChannelMedia: loadLatestChannelMedia,
         loadLibraryTiles: loadLibraryTiles,
-        loadResumeVideo: loadResumeVideo,
-        loadResumeAudio: loadResumeAudio,
-        loadActiveRecordings: loadActiveRecordings,
-        loadNextUp: loadNextUp,
         loadLatestChannelItems: loadLatestChannelItems,
-        loadLatestLiveTvRecordings: loadLatestLiveTvRecordings,
         getDefaultSection: getDefaultSection,
-        loadSections: loadSections
+        loadSections: loadSections,
+        destroySections: destroySections,
+        pause: pause,
+        resume: resume
     };
 });
