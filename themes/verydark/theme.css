@@ -217,9 +217,12 @@ html {
 
     .emby-select-withcolor:focus {
         border-color: #52B54B !important;
-        background-color: #52B54B !important;
-        color: #fff !important;
     }
+
+.emby-select-tv-withcolor:focus {
+    background-color: #52B54B !important;
+    color: #fff !important;
+}
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {

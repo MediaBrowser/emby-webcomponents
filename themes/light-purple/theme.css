@@ -237,9 +237,12 @@ html, .skinHeader {
 
     .emby-select-withcolor:focus {
         border-color: #673AB7;
-        background-color: #673AB7;
-        color: #fff;
     }
+
+.emby-select-tv-withcolor:focus {
+    background-color: #673AB7;
+    color: #fff;
+}
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {

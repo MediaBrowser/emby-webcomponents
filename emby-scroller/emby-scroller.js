@@ -187,6 +187,22 @@
         });
     }
 
+    ScrollerProtoType.pause = function () {
+
+        var headroom = this.headroom;
+        if (headroom) {
+            headroom.pause();
+        }
+    };
+
+    ScrollerProtoType.resume = function () {
+
+        var headroom = this.headroom;
+        if (headroom) {
+            headroom.resume();
+        }
+    };
+
     ScrollerProtoType.detachedCallback = function () {
 
         if (this.getAttribute('data-navcommands')) {

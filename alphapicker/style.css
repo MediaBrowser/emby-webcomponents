@@ -45,8 +45,8 @@
 
 @media all and (max-height: 50em) {
 
-    .alphaPicker-vertical {
-        font-size: 94%;
+    .alphaPicker-fixed {
+        bottom: 5em;
     }
 
     .alphaPickerButton-vertical {
@@ -55,18 +55,18 @@
     }
 }
 
-@media all and (max-height: 47.5em) {
+@media all and (max-height: 49em) {
 
     .alphaPicker-vertical {
-        font-size: 90%;
-    }
-
-    .alphaPicker-fixed {
-        bottom: 5em;
+        font-size: 94%;
     }
 }
 
 @media all and (max-height: 44em) {
+
+    .alphaPicker-vertical {
+        font-size: 90%;
+    }
 
     .alphaPickerButton-vertical {
         padding-top: 0 !important;

@@ -222,9 +222,12 @@ html {
 
     .emby-select-withcolor:focus {
         border-color: #cc3333 !important;
-        background-color: #cc3333 !important;
-        color: #fff !important;
     }
+
+.emby-select-tv-withcolor:focus {
+    background-color: #cc3333 !important;
+    color: #fff !important;
+}
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {

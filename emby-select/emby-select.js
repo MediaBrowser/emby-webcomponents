@@ -118,6 +118,10 @@
 
         if (!browser.firefox) {
             this.classList.add('emby-select-withcolor');
+
+			if (layoutManager.tv) {
+                this.classList.add('emby-select-tv-withcolor');
+			}
         }
 
         if (layoutManager.tv) {

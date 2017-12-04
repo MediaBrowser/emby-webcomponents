@@ -161,6 +161,11 @@
 
         var view = this.view;
 
+        var scroller = this.scroller;
+        if (scroller) {
+            scroller.resume();
+        }
+
         if (this.enableAlphaPicker && !this.alphaPicker) {
             initAlphaPicker(this, view);
         }
@@ -270,6 +275,11 @@
     };
 
     ItemsTab.prototype.onPause = function () {
+
+        var scroller = this.scroller;
+        if (scroller) {
+            scroller.pause();
+        }
 
         var alphaNumericShortcuts = this.alphaNumericShortcuts;
         if (alphaNumericShortcuts) {

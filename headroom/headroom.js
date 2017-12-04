@@ -78,6 +78,11 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
     }
 
     function onScroll() {
+
+        if (this.paused) {
+            return;
+        }
+
         requestAnimationFrame(this.rafCallback || (this.rafCallback = this.update.bind(this)));
     }
 
@@ -120,6 +125,14 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             if (i !== -1) {
                 this.elems.splice(i, 1);
             }
+        },
+
+        pause: function () {
+            this.paused = true;
+        },
+
+        resume: function () {
+            this.paused = false;
         },
 
         /**
@@ -286,6 +299,10 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * Handles updating the state of the widget
          */
         update: function () {
+
+            if (this.paused) {
+                return;
+            }
 
             var currentScrollY = this.getScrollY();
 

@@ -229,9 +229,12 @@ html, .skinHeader {
 
     .emby-select-withcolor:focus {
         border-color: #2196F3;
-        background-color: #2196F3;
-        color: #fff;
     }
+
+.emby-select-tv-withcolor:focus {
+    background-color: #2196F3;
+    color: #fff;
+}
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
@@ -401,6 +404,7 @@ html, .skinHeader {
 .downloadbutton-icon-complete {
     color: #4285F4;
 }
+
 .playstatebutton-icon-played {
     color: #cc3333;
 }
