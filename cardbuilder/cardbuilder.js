@@ -1438,7 +1438,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             //}
 
             if (!imgUrl) {
-                cardImageContainerOpen += getCardDefaultText(item);
+                cardImageContainerOpen += getCardDefaultText(item, options);
             }
 
             var tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
@@ -1483,7 +1483,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
-        function getCardDefaultText(item) {
+        function getCardDefaultText(item, options) {
 
             var collectionType = item.CollectionType;
             if (collectionType === 'livetv') {
@@ -1494,6 +1494,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
             if (collectionType === 'music') {
                 return '<i class="cardImageIcon md-icon">&#xE310;</i>';
+            }
+            if (item.Type === 'Person') {
+                return '<i class="cardImageIcon md-icon">&#xE7FD;</i>';
+            }
+            if (options.defaultCardImageIcon) {
+                return '<i class="cardImageIcon md-icon">' + options.defaultCardImageIcon + '</i>';
             }
 
             var defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
