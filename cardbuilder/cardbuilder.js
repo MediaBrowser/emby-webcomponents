@@ -3,6 +3,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         'use strict';
 
         var devicePixelRatio = window.devicePixelRatio || 1;
+        var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
 
         function getCardsHtml(items, options) {
 
@@ -366,7 +367,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var cardFooterHtml = '';
-            for (i = 0, length = options.lines; i < length; i++) {
+            for (i = 0, length = (options.lines || 0); i < length; i++) {
 
                 if (i === 0) {
                     cardFooterHtml += '<div class="cardText cardTextCentered cardText-first">&nbsp;</div>';
@@ -398,9 +399,30 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function getExtraButtonHtml(options, buttonInfo, cardFooterHtml) {
 
-            var html = '<button data-textcardid="' + buttonInfo.id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-scalable ' + options.shape + 'Card-textCard itemAction card-withuserdata">';
+            var tagOpen = buttonInfo.routeUrl ?
+                '<a is="emby-linkbutton" href="' + buttonInfo.routeUrl + '" data-focusscale="false"' :
+                '<button';
 
-            html += '<div class="cardBox cardBox-focustransform cardBox-bottompadded"><div class="cardScalable card-focuscontent"><div class="' + options.shape + 'Card-textCardPadder"></div>';
+            var html = tagOpen + 'data-textcardid="' + buttonInfo.id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-textCard itemAction card-withuserdata">';
+
+            var cardBoxClass = 'cardBox';
+
+            if (enableFocusTransfrom) {
+                cardBoxClass += ' cardBox-focustransform';
+            }
+
+            if (options.lines) {
+                cardBoxClass += ' cardBox-bottompadded';
+            }
+
+            var cardScalableClass = 'cardScalable card-focuscontent';
+            cardScalableClass += ' card-focuscontent';
+
+            if (!enableFocusTransfrom) {
+                cardScalableClass += ' card-focuscontent-large';
+            }
+
+            html += '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="' + options.shape + 'Card-textCardPadder"></div>';
 
             var icon = '';
 
@@ -412,7 +434,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             html += cardFooterHtml;
             html += '</div>';
-            html += '</button>';
+
+            if (buttonInfo.routeUrl) {
+                html += '</a>';
+            } else {
+                html += '</button>';
+            }
 
             return html;
         }
@@ -1200,7 +1227,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 shape = shape || 'mixedSquare';
             }
 
-            var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
             var className = 'card';
 
             if (shape) {

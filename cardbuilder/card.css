@@ -60,7 +60,7 @@ button {
     contain: strict;
 }
 
-.cardPadder-square, .cardPadder-mixedSquare, .cardPadder-overflowSquare {
+.cardPadder-square, .cardPadder-mixedSquare, .cardPadder-overflowSquare, .overflowSquareCard-textCardPadder {
     padding-bottom: 100%;
     contain: strict;
 }

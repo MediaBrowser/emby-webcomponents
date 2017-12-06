@@ -1,4 +1,4 @@
-define(['backdrop', 'mainTabsManager', 'emby-tabs'], function (backdrop, mainTabsManager) {
+define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager) {
     'use strict';
 
     function onViewDestroy(e) {
@@ -49,7 +49,7 @@ define(['backdrop', 'mainTabsManager', 'emby-tabs'], function (backdrop, mainTab
                     var refresh = !controller.refreshed;
 
                     controller.onResume({
-                        autoFocus: initialTabIndex != null,
+                        autoFocus: initialTabIndex != null && layoutManager.tv,
                         refresh: refresh
                     });
 

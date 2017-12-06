@@ -110,7 +110,9 @@
         }
 
         if (layoutManager.tv) {
-            this.classList.add('emby-button-focusscale');
+            if (this.getAttribute('data-focusscale') !== 'false') {
+                this.classList.add('emby-button-focusscale');
+            }
             this.classList.add('emby-button-tv');
         }
 
