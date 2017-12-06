@@ -419,6 +419,10 @@
         removeNotificationEvent(this, 'SeriesTimerCancelled');
         removeNotificationEvent(this, 'LibraryChanged');
         removeNotificationEvent(this, 'playbackstop', playbackManager);
+
+        this.fetchData = null;
+        this.getItemsHtml = null;
+        this.parentContainer = null;
     };
 
     ItemsContainerProtoType.pause = function () {

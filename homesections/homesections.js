@@ -937,13 +937,56 @@
         }
     }
 
+    function getOnNowFetchFn(serverId) {
+
+        return function () {
+
+            var apiClient = connectionManager.getApiClient(serverId);
+
+            return apiClient.getLiveTvRecommendedPrograms({
+
+                userId: apiClient.getCurrentUserId(),
+                IsAiring: true,
+                limit: 24,
+                ImageTypeLimit: 1,
+                EnableImageTypes: "Primary,Thumb,Backdrop",
+                EnableTotalRecordCount: false,
+                Fields: "ChannelInfo,PrimaryImageAspectRatio"
+
+            });
+        };
+    }
+
+    function getOnNowItemsHtml(items) {
+
+        var cardLayout = false;
+
+        return cardBuilder.getCardsHtml({
+            items: items,
+            preferThumb: 'auto',
+            inheritThumb: false,
+            shape: (enableScrollX() ? 'autooverflow' : 'auto'),
+            showParentTitleOrTitle: true,
+            showTitle: true,
+            centerText: true,
+            coverImage: true,
+            overlayText: false,
+            allowBottomPadding: !enableScrollX(),
+            showAirTime: true,
+            showChannelName: false,
+            showAirDateTime: false,
+            showAirEndTime: true,
+            defaultShape: getThumbShape(),
+            lines: 3,
+            overlayPlayButton: true
+        });
+    }
+
     function loadOnNow(elem, apiClient, user) {
 
         if (!user.Policy.EnableLiveTvAccess) {
-            return Promise.resolve('');
+            return Promise.resolve();
         }
-
-        elem.classList.remove('verticalSection');
 
         var promises = [];
 
@@ -963,7 +1006,7 @@
 
             userId: apiClient.getCurrentUserId(),
             IsAiring: true,
-            limit: enableScrollX() ? 24 : 8,
+            limit: 1,
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Thumb,Backdrop",
             EnableTotalRecordCount: false,
@@ -978,6 +1021,11 @@
             var html = '';
 
             if (result.Items.length && registered) {
+
+                elem.classList.remove('padded-left');
+                elem.classList.remove('padded-right');
+                elem.classList.remove('padded-bottom');
+                elem.classList.remove('verticalSection');
 
                 html += '<div class="verticalSection">';
                 html += '<div class="sectionTitleContainer padded-left">';
@@ -1052,30 +1100,10 @@
                 html += '</div>';
 
                 if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right" data-refreshinterval="300000">';
                 } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-refreshinterval="300000">';
                 }
-
-                html += cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    preferThumb: 'auto',
-                    inheritThumb: false,
-                    shape: (enableScrollX() ? 'autooverflow' : 'auto'),
-                    showParentTitleOrTitle: true,
-                    showTitle: true,
-                    centerText: true,
-                    coverImage: true,
-                    overlayText: false,
-                    allowBottomPadding: !enableScrollX(),
-                    showAirTime: true,
-                    showChannelName: false,
-                    showAirDateTime: false,
-                    showAirEndTime: true,
-                    defaultShape: getThumbShape(),
-                    lines: 3,
-                    overlayPlayButton: true
-                });
 
                 if (enableScrollX()) {
                     html += '</div>';
@@ -1084,19 +1112,26 @@
                 html += '</div>';
                 html += '</div>';
 
+                elem.innerHTML = html;
+
+                var itemsContainer = elem.querySelector('.itemsContainer');
+                itemsContainer.parentContainer = elem;
+                itemsContainer.fetchData = getOnNowFetchFn(apiClient.serverId());
+                itemsContainer.getItemsHtml = getOnNowItemsHtml;
+
             } else if (result.Items.length && !registered) {
 
-                html += '<div class="verticalSection padded-left padded-right padded-bottom">';
+                elem.classList.add('padded-left');
+                elem.classList.add('padded-right');
+                elem.classList.add('padded-bottom');
+
                 html += '<h2 class="sectionTitle">' + globalize.translate('sharedcomponents#LiveTvRequiresUnlock') + '</h2>';
                 html += '<button is="emby-button" type="button" class="raised button-submit block btnUnlock">';
                 html += '<span>' + globalize.translate('sharedcomponents#HeaderBecomeProjectSupporter') + '</span>';
                 html += '</button>';
-                html += '</div>';
+
+                elem.innerHTML = html;
             }
-
-            elem.innerHTML = html;
-
-            imageLoader.lazyChildren(elem);
 
             bindUnlockClick(elem);
         });
