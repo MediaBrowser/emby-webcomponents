@@ -1,4 +1,4 @@
-﻿define(['userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager'], function (userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager) {
+﻿define(['userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'loading'], function (userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager, loading) {
     'use strict';
 
     function trySelectValue(instance, scroller, view, value) {
@@ -159,6 +159,10 @@
 
     ItemsTab.prototype.onResume = function (options) {
 
+        if (options && options.refresh) {
+            loading.show();
+        }
+
         var view = this.view;
 
         var scroller = this.scroller;
@@ -180,6 +184,9 @@
         var autoFocus = options.autoFocus;
 
         this.itemsContainer.resume(options).then(function (result) {
+
+            loading.hide();
+
             if (autoFocus) {
                 focusManager.autoFocus(instance.itemsContainer);
             }

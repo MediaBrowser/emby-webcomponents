@@ -339,7 +339,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             if (browser.tv || browser.slow) {
                 quality = isBackdrop ? 60 : 50;
             } else {
-                quality = isBackdrop ? 60 : 90;
+                quality = isBackdrop ? 70 : 90;
             }
 
             options.quality = quality;

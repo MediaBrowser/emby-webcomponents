@@ -117,6 +117,8 @@
         }
 
         if (enableAnimation() && this.getAttribute('data-ripple') !== 'false' && !this.classList.contains('button-link')) {
+            this.classList.add('emby-button-withripple');
+
             dom.addEventListener(this, 'keydown', onKeyDown, {
                 passive: true
             });

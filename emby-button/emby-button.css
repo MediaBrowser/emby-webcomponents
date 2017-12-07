@@ -29,9 +29,13 @@
     text-decoration: none;
 }
 
-    .emby-button::-moz-focus-inner {
-        border: 0;
-    }
+.emby-button-withripple {
+    overflow: hidden;
+}
+
+.emby-button::-moz-focus-inner {
+    border: 0;
+}
 
 .button-flat {
     background: transparent;

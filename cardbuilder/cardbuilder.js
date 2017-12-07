@@ -400,10 +400,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         function getExtraButtonHtml(options, buttonInfo, cardFooterHtml) {
 
             var tagOpen = buttonInfo.routeUrl ?
-                '<a is="emby-linkbutton" href="' + buttonInfo.routeUrl + '" data-focusscale="false"' :
+                '<a is="emby-linkbutton" href="' + buttonInfo.routeUrl + '" data-focusscale="false" data-ripple="false"' :
                 '<button';
 
-            var html = tagOpen + 'data-textcardid="' + buttonInfo.id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-textCard itemAction card-withuserdata">';
+            var html = tagOpen + ' data-textcardid="' + buttonInfo.id + '" class="textButtonCard card ' + options.shape + 'Card ' + options.shape + 'Card-textCard itemAction card-withuserdata">';
 
             var cardBoxClass = 'cardBox';
 
@@ -411,7 +411,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardBoxClass += ' cardBox-focustransform';
             }
 
-            if (options.lines) {
+            if (cardFooterHtml) {
                 cardBoxClass += ' cardBox-bottompadded';
             }
 

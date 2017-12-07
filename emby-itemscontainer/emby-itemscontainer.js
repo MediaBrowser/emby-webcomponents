@@ -470,8 +470,6 @@
 
         this.needsRefresh = false;
 
-        loading.show();
-
         return this.fetchData().then(onDataFetched.bind(this));
     };
 
@@ -550,7 +548,6 @@
         this.innerHTML = this.getItemsHtml(items);
 
         imageLoader.lazyChildren(this);
-        loading.hide();
 
         if (hasActiveElement) {
             setFocus(this, focusId);

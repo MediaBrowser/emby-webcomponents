@@ -17,6 +17,8 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
 
         this.view = null;
         this.params = null;
+        this.currentTabController = null;
+        this.initialTabIndex = null;
     }
 
     function onBeforeTabChange() {
@@ -31,17 +33,15 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
 
         var self = this;
 
-        var currentTabController;
-
         var currentTabIndex = parseInt(params.tab || this.getDefaultTabIndex(params.parentId));
-        var initialTabIndex = currentTabIndex;
+        this.initialTabIndex = currentTabIndex;
 
         function validateTabLoad(index) {
 
             return self.validateTabLoad ? self.validateTabLoad(index) : Promise.resolve();
         }
 
-        function loadTab(index) {
+        function loadTab(index, previousIndex) {
 
             validateTabLoad(index).then(function () {
                 self.getTabController(index).then(function (controller) {
@@ -49,15 +49,14 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
                     var refresh = !controller.refreshed;
 
                     controller.onResume({
-                        autoFocus: initialTabIndex != null && layoutManager.tv,
+                        autoFocus: previousIndex == null && layoutManager.tv,
                         refresh: refresh
                     });
 
                     controller.refreshed = true;
 
-                    initialTabIndex = null;
                     currentTabIndex = index;
-                    currentTabController = controller;
+                    self.currentTabController = controller;
                 });
             });
         }
@@ -68,20 +67,17 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
 
         function onTabChange(e) {
             var newIndex = parseInt(e.detail.selectedTabIndex);
-            var previousTabController = e.detail.previousIndex == null ? null : self.tabControllers[e.detail.previousIndex];
+            var previousIndex = e.detail.previousIndex;
+
+            var previousTabController = previousIndex == null ? null : self.tabControllers[previousIndex];
             if (previousTabController && previousTabController.onPause) {
                 previousTabController.onPause();
             }
 
-            loadTab(newIndex);
+            loadTab(newIndex, previousIndex);
         }
 
-        view.addEventListener('viewbeforehide', function (e) {
-
-            if (currentTabController && currentTabController.onPause) {
-                currentTabController.onPause();
-            }
-        });
+        view.addEventListener('viewbeforehide', this.onPause.bind(this));
 
         view.addEventListener('viewbeforeshow', function (e) {
 
@@ -90,21 +86,35 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
 
         view.addEventListener('viewshow', function (e) {
 
-            var isViewRestored = e.detail.isRestored;
-
-            self.setTitle();
-            backdrop.clear();
-
-            if (!isViewRestored) {
-                mainTabsManager.selectedTabIndex(initialTabIndex);
-            }
-            else if (currentTabController && currentTabController.onResume) {
-                currentTabController.onResume({});
-            }
+            self.onResume(e.detail);
         });
 
         view.addEventListener('viewdestroy', onViewDestroy.bind(this));
     }
+
+    TabbedView.prototype.onResume = function (options) {
+
+        this.setTitle();
+        backdrop.clear();
+
+        var currentTabController = this.currentTabController;
+
+        if (!currentTabController) {
+            mainTabsManager.selectedTabIndex(this.initialTabIndex);
+        }
+        else if (currentTabController && currentTabController.onResume) {
+            currentTabController.onResume({});
+        }
+    };
+
+    TabbedView.prototype.onPause = function () {
+
+        var currentTabController = this.currentTabController;
+
+        if (currentTabController && currentTabController.onPause) {
+            currentTabController.onPause();
+        }
+    };
 
     TabbedView.prototype.setTitle = function () {
         Emby.Page.setTitle('');
