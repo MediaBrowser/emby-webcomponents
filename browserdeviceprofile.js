@@ -512,6 +512,10 @@ define(['browser'], function (browser) {
             mp4VideoCodecs.push('vp9');
         }
 
+        if (canPlayVp8 || browser.tizen || browser.orsay) {
+            videoAudioCodecs.push('vorbis');
+        }
+
         if (mp4VideoCodecs.length) {
             profile.DirectPlayProfiles.push({
                 Container: 'mp4,m4v',
@@ -596,7 +600,7 @@ define(['browser'], function (browser) {
 
         profile.TranscodingProfiles = [];
 
-        var hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || !canPlayNativeHls() ? true : false;
+        var hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls() ? true : false;
 
         if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
@@ -691,18 +695,6 @@ define(['browser'], function (browser) {
                 MaxAudioChannels: physicalAudioChannels.toString()
             });
         }
-
-        profile.TranscodingProfiles.push({
-            Container: 'mp4',
-            Type: 'Video',
-            AudioCodec: videoAudioCodecs.join(','),
-            VideoCodec: 'h264',
-            Context: 'Streaming',
-            Protocol: 'http',
-            // If audio transcoding is needed, limit channels to number of physical audio channels
-            // Trying to transcode to 5 channels when there are only 2 speakers generally does not sound good
-            MaxAudioChannels: physicalAudioChannels.toString()
-        });
 
         profile.TranscodingProfiles.push({
             Container: 'mp4',
@@ -804,14 +796,14 @@ define(['browser'], function (browser) {
             });
 
             // Chromecast won't deinterlace, but it can play interlaced h264 without transcoding
-            if (!browser.chromecast) {
+            //if (!browser.chromecast) {
                 profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
                     Condition: 'NotEquals',
                     Property: 'IsInterlaced',
                     Value: 'true',
                     IsRequired: false
                 });
-            }
+            //}
         }
 
         if (maxVideoWidth) {
