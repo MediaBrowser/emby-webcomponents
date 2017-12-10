@@ -84,6 +84,7 @@
             query.Fields = "MediaSources,Chapters";
             query.ExcludeLocationTypes = "Virtual";
             query.EnableTotalRecordCount = false;
+            query.CollapseBoxSetItems = false;
 
             return apiClient.getItems(apiClient.getCurrentUserId(), query);
         }
