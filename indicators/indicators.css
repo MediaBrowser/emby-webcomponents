@@ -84,3 +84,13 @@
     background: #ccc;
     color: #333;
 }
+
+.missingIndicator, .unairedIndicator {
+    background: #cc3333;
+    padding: .25em .5em;
+    border-radius: 100em;
+    color: #fff;
+    font-size: 84%;
+    font-weight: 500;
+    margin: 0 .25em;
+}

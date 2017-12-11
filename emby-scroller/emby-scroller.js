@@ -85,12 +85,7 @@
 
         var cmd = e.detail.command;
 
-        if (cmd === 'home') {
-            focusManager.focusFirst(this, '.' + this.getAttribute('data-navcommands'));
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        else if (cmd === 'end') {
+        if (cmd === 'end') {
             focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
             e.preventDefault();
             e.stopPropagation();

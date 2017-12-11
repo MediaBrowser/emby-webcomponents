@@ -203,6 +203,29 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '';
     }
 
+    function getMissingIndicator(item) {
+
+        if (item.Type === 'Episode' && item.LocationType === 'Virtual') {
+
+            if (item.PremiereDate) {
+                try {
+
+                    var premiereDate = datetime.parseISO8601Date(item.PremiereDate).getTime();
+
+                    if (premiereDate > new Date().getTime()) {
+                        return '<div class="unairedIndicator">Unaired</div>';
+                    }
+
+                } catch (err) {
+                }
+            }
+
+            return '<div class="missingIndicator">Missing</div>';
+        }
+
+        return '';
+    }
+
     var ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
 
     function onAutoTimeProgress() {
@@ -253,6 +276,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         getTimerIndicator: getTimerIndicator,
         enablePlayedIndicator: enablePlayedIndicator,
         getSyncIndicator: getSyncIndicator,
-        getTypeIndicator: getTypeIndicator
+        getTypeIndicator: getTypeIndicator,
+        getMissingIndicator: getMissingIndicator
     };
 });

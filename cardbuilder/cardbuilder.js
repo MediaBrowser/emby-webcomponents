@@ -1434,6 +1434,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var indicatorsHtml = '';
 
+            indicatorsHtml += indicators.getMissingIndicator(item);
+
             indicatorsHtml += indicators.getSyncIndicator(item);
             indicatorsHtml += indicators.getTimerIndicator(item);
 

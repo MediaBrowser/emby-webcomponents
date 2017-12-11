@@ -1,4 +1,4 @@
-define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'material-icons', 'css!./mediainfo.css', 'programStyles', 'emby-linkbutton'], function (datetime, globalize, appRouter, itemHelper) {
+define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'material-icons', 'css!./mediainfo.css', 'programStyles', 'emby-linkbutton'], function (datetime, globalize, appRouter, itemHelper, indicators) {
     'use strict';
 
     function getTimerIndicator(item) {
@@ -351,6 +351,8 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'material-icons', 'c
                 html += getMediaInfoItem(endsAt, 'endsAt');
             }
         }
+
+        html += indicators.getMissingIndicator(item);
 
         return html;
     }
