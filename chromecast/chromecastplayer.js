@@ -435,7 +435,7 @@
         if (e === false) {
             this.castPlayerState = PLAYER_STATE.IDLE;
         }
-        console.log("chromecast updating media: " + e);
+        //console.log("chromecast updating media: " + e);
     };
 
     /**
@@ -445,7 +445,7 @@
     CastPlayer.prototype.setReceiverVolume = function (mute, vol) {
 
         if (!this.currentMediaSession) {
-            console.log('this.currentMediaSession is null');
+            //console.log('this.currentMediaSession is null');
             return;
         }
 
@@ -524,7 +524,7 @@
 
         events.on(instance._castPlayer, eventName, function (e, data) {
 
-            console.log('cc: ' + eventName);
+            //console.log('cc: ' + eventName);
             var state = instance.getPlayerStateInternal(data);
 
             events.trigger(instance, eventName, [state]);
@@ -579,7 +579,7 @@
 
         events.on(instance._castPlayer, "playbackprogress", function (e, data) {
 
-            console.log('cc: positionchange');
+            //console.log('cc: positionchange');
             var state = instance.getPlayerStateInternal(data);
 
             events.trigger(instance, "timeupdate", [state]);
@@ -593,7 +593,7 @@
 
         events.on(instance._castPlayer, "playstatechange", function (e, data) {
 
-            console.log('cc: playstatechange');
+            //console.log('cc: playstatechange');
             var state = instance.getPlayerStateInternal(data);
 
             events.trigger(instance, "pause", [state]);
