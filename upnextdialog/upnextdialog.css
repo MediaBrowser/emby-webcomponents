@@ -11,6 +11,8 @@
     background-color: rgba(0, 0, 0, .7);
     background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .9));
     color: #fff;
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .upNextDialog-hidden {

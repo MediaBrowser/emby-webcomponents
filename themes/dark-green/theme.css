@@ -30,7 +30,7 @@ html {
 }
 
 .pageTitleWithDefaultLogo {
-    background-image: url(logo.png);
+    background-image: url(../logowhite.png);
 }
 
 .dialog {
