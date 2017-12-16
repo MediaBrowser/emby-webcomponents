@@ -1012,12 +1012,6 @@
 
         metadatafields.push({ name: globalize.translate('sharedcomponents#Studios'), value: "Studios" });
         metadatafields.push({ name: globalize.translate('sharedcomponents#Tags'), value: "Tags" });
-        metadatafields.push({ name: globalize.translate('sharedcomponents#Images'), value: "Images" });
-        metadatafields.push({ name: globalize.translate('sharedcomponents#Backdrops'), value: "Backdrops" });
-
-        if (item.Type === "Game") {
-            metadatafields.push({ name: globalize.translate('sharedcomponents#Screenshots'), value: "Screenshots" });
-        }
 
         var html = '';
 
