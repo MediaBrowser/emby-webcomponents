@@ -140,7 +140,7 @@ define(['browser'], function (browser) {
 
     function testCanPlayMkv(videoTestElement) {
 
-        if (browser.tizen || browser.orsay) {
+        if (browser.tizen || browser.orsay || browser.web0s) {
             return true;
         }
 
