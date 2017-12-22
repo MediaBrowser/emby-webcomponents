@@ -166,7 +166,7 @@
         var view = this.view;
 
         var scroller = this.scroller;
-        if (scroller) {
+        if (scroller && scroller.resume) {
             scroller.resume();
         }
 
@@ -284,7 +284,7 @@
     ItemsTab.prototype.onPause = function () {
 
         var scroller = this.scroller;
-        if (scroller) {
+        if (scroller && scroller.pause) {
             scroller.pause();
         }
 

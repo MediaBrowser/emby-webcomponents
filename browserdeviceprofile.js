@@ -377,6 +377,15 @@ define(['browser'], function (browser) {
             maxVideoWidth = options.maxVideoWidth;
         }
 
+        var canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
+
+        if (canPlayAacVideoAudio) {
+            if (browser.chromecast) {
+                // prioritize this first
+                videoAudioCodecs.push('aac');
+            }
+        }
+
         // Only put mp3 first if mkv support is there
         // Otherwise with HLS and mp3 audio we're seeing some browsers
         // safari is lying
@@ -397,15 +406,6 @@ define(['browser'], function (browser) {
                 if (eAc3) {
                     hlsVideoAudioCodecs.push('eac3');
                 }
-            }
-        }
-
-        var canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
-
-        if (canPlayAacVideoAudio) {
-            if (browser.chromecast) {
-                // prioritize this first
-                videoAudioCodecs.push('aac');
             }
         }
 
@@ -797,12 +797,12 @@ define(['browser'], function (browser) {
 
             // Chromecast won't deinterlace, but it can play interlaced h264 without transcoding
             //if (!browser.chromecast) {
-                profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
-                    Condition: 'NotEquals',
-                    Property: 'IsInterlaced',
-                    Value: 'true',
-                    IsRequired: false
-                });
+            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+                Condition: 'NotEquals',
+                Property: 'IsInterlaced',
+                Value: 'true',
+                IsRequired: false
+            });
             //}
         }
 

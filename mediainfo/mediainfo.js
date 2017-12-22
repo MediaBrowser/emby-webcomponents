@@ -516,7 +516,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                 }
                 return '1080P';
             }
-            if (i.Width >= 1260) {
+            if (i.Width >= 1200) {
                 if (i.IsInterlaced) {
                     return '720i';
                 }
