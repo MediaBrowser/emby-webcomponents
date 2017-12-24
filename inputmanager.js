@@ -122,10 +122,12 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
             case 'info':
                 break;
             case 'next':
-                playbackManager.nextChapter();
+            case 'nexttrack':
+                playbackManager.nextTrack();
                 break;
             case 'previous':
-                playbackManager.previousChapter();
+            case 'previoustrack':
+                playbackManager.previousTrack();
                 break;
             case 'guide':
                 appRouter.showGuide();

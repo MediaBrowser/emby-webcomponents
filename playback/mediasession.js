@@ -227,11 +227,11 @@
     }
 
     navigator.mediaSession.setActionHandler('previoustrack', function () {
-        execute('previousChapter');
+        execute('previousTrack');
     });
 
     navigator.mediaSession.setActionHandler('nexttrack', function () {
-        execute('nextChapter');
+        execute('nextTrack');
     });
 
     navigator.mediaSession.setActionHandler('play', function () {
