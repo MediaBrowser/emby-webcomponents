@@ -336,21 +336,18 @@ html, .skinHeader {
     background: #43A047 !important;
 }
 
+.programCell-active {
+    background: rgba(0,0,0,.1) !important;
+}
+
 .programCell:focus, .guide-channelHeaderCell:focus {
-    background-color: #555 !important;
+    background-color: #52B54B !important;
+    color: #fff !important;
 }
 
 .guide-programTextIcon {
     color: #1e1e1e;
     background: #555;
-}
-
-.guide-currentTimeIndicatorBar {
-    background-color: #52B54B;
-}
-
-.guide-currentTimeIndicatorArrow {
-    background-color: #52B54B;
 }
 
 .guide-headerTimeslots {

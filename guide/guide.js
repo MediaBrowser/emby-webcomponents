@@ -156,7 +156,6 @@
             events.off(serverNotifications, 'TimerCancelled', onTimerCancelled);
             events.off(serverNotifications, 'SeriesTimerCancelled', onSeriesTimerCancelled);
 
-            clearCurrentTimeUpdateInterval();
             setScrollEvents(options.element, false);
             itemShortcuts.off(options.element);
             items = {};
@@ -202,60 +201,6 @@
 
         function hideLoading() {
             loading.hide();
-        }
-
-        var currentTimeUpdateInterval;
-        var currentTimeIndicatorBar;
-        var currentTimeIndicatorArrow;
-        function startCurrentTimeUpdateInterval() {
-            clearCurrentTimeUpdateInterval();
-
-            //currentTimeUpdateInterval = setInterval(updateCurrentTimeIndicator, 1000);
-            currentTimeUpdateInterval = setInterval(updateCurrentTimeIndicator, 60000);
-            updateCurrentTimeIndicator();
-        }
-
-        function clearCurrentTimeUpdateInterval() {
-            var interval = currentTimeUpdateInterval;
-            if (interval) {
-                clearInterval(interval);
-            }
-            currentTimeUpdateInterval = null;
-            currentTimeIndicatorBar = null;
-            currentTimeIndicatorArrow = null;
-        }
-
-        function updateCurrentTimeIndicator() {
-
-            if (!currentTimeIndicatorBar) {
-                currentTimeIndicatorBar = options.element.querySelector('.guide-currentTimeIndicatorBar');
-            }
-            if (!currentTimeIndicatorArrow) {
-                currentTimeIndicatorArrow = options.element.querySelector('.guide-currentTimeIndicatorArrowContainer');
-            }
-
-            if (!currentDate) {
-                return;
-            }
-
-            var dateDifference = new Date().getTime() - currentDate.getTime();
-            var pct = dateDifference > 0 ? (dateDifference / totalRendererdMs) : 0;
-            pct = Math.min(pct, 1);
-
-            if (pct <= 0 || pct >= 1) {
-                currentTimeIndicatorBar.classList.add('hide');
-                currentTimeIndicatorArrow.classList.add('hide');
-            } else {
-                currentTimeIndicatorBar.classList.remove('hide');
-                currentTimeIndicatorArrow.classList.remove('hide');
-
-                //pct *= 100;
-                //pct = 100 - pct;
-                //currentTimeIndicatorElement.style.width = (pct * 100) + '%';
-                currentTimeIndicatorBar.style.transform = 'scaleX(' + pct + ')';
-                //currentTimeIndicatorArrow.style.transform = 'translateX(' + (pct * 100) + '%)';
-                currentTimeIndicatorArrow.style.left = (pct * 100) + '%';
-            }
         }
 
         function reloadGuide(context, newStartDate, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
@@ -414,12 +359,6 @@
                 startDate.setTime(startDate.getTime() + cellDurationMs);
             }
 
-            html += '<div class="guide-currentTimeIndicatorBar hide">';
-            html += '</div>';
-            html += '<div class="guide-currentTimeIndicatorArrowContainer hide">';
-            html += '<div class="guide-currentTimeIndicatorArrow md-icon"></div>';
-            html += '</div>';
-
             return html;
         }
 
@@ -503,6 +442,7 @@
             var enableColorCodedBackgrounds = userSettings.get('guide-colorcodedbackgrounds') === 'true';
 
             var programsFound;
+            var now = new Date().getTime();
 
             for (var i = listInfo.startIndex, length = programs.length; i < length; i++) {
 
@@ -522,22 +462,25 @@
 
                 parseDates(program);
 
-                if (program.EndDateLocal.getTime() < startMs) {
+                var startDateLocalMs = program.StartDateLocal.getTime();
+                var endDateLocalMs = program.EndDateLocal.getTime();
+
+                if (endDateLocalMs < startMs) {
                     continue;
                 }
 
-                if (program.StartDateLocal.getTime() > endMs) {
+                if (startDateLocalMs > endMs) {
                     break;
                 }
 
                 items[program.Id] = program;
 
-                var renderStartMs = Math.max(program.StartDateLocal.getTime(), startMs);
-                var startPercent = (program.StartDateLocal.getTime() - startMs) / msPerDay;
+                var renderStartMs = Math.max(startDateLocalMs, startMs);
+                var startPercent = (startDateLocalMs - startMs) / msPerDay;
                 startPercent *= 100;
                 startPercent = Math.max(startPercent, 0);
 
-                var renderEndMs = Math.min(program.EndDateLocal.getTime(), endMs);
+                var renderEndMs = Math.min(endDateLocalMs, endMs);
                 var endPercent = (renderEndMs - renderStartMs) / msPerDay;
                 endPercent *= 100;
 
@@ -546,33 +489,31 @@
                 var displayInnerContent = true;
 
                 if (program.IsKids) {
-                    cssClass += " childProgramInfo";
                     displayInnerContent = displayKidsContent;
                     accentCssClass = 'kids';
                 } else if (program.IsSports) {
-                    cssClass += " sportsProgramInfo";
                     displayInnerContent = displaySportsContent;
                     accentCssClass = 'sports';
                 } else if (program.IsNews) {
-                    cssClass += " newsProgramInfo";
                     displayInnerContent = displayNewsContent;
                     accentCssClass = 'news';
                 } else if (program.IsMovie) {
-                    cssClass += " movieProgramInfo";
                     displayInnerContent = displayMovieContent;
                     accentCssClass = 'movie';
                 }
                 else if (program.IsSeries) {
-                    cssClass += " plainProgramInfo";
                     displayInnerContent = displaySeriesContent;
                 }
                 else {
-                    cssClass += " plainProgramInfo";
                     displayInnerContent = displayMovieContent && displayNewsContent && displaySportsContent && displayKidsContent && displaySeriesContent;
                 }
 
                 if (displayInnerContent && enableColorCodedBackgrounds && accentCssClass) {
                     cssClass += " programCell-" + accentCssClass;
+                }
+
+                if (now >= startDateLocalMs && now < endDateLocalMs) {
+                    cssClass += " programCell-active";
                 }
 
                 var timerAttributes = '';
@@ -771,7 +712,6 @@
             var startDate = date;
             var endDate = new Date(startDate.getTime() + msPerDay);
             context.querySelector('.timeslotHeaders').innerHTML = getTimeslotHeadersHtml(startDate, endDate);
-            startCurrentTimeUpdateInterval();
             items = {};
             renderPrograms(context, date, channels, programs);
 
@@ -881,8 +821,6 @@
         }
 
         function changeDate(page, date, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
-
-            clearCurrentTimeUpdateInterval();
 
             var newStartDate = normalizeDateToTimeslot(date);
             currentDate = newStartDate;

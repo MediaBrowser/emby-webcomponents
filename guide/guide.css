@@ -57,7 +57,6 @@
 
 .timeslotHeaders {
     white-space: nowrap;
-    padding-bottom: .5em;
     font-weight: 500;
     font-size: 120%;
 }
@@ -78,37 +77,6 @@
 
 .timeslotHeadersInner {
     position: relative;
-}
-
-.guide-currentTimeIndicatorBar {
-    position: absolute;
-    bottom: .05em;
-    left: 0;
-    width: 100%;
-    display: flex;
-    margin-left: .25em;
-    height: .09em;
-    transform-origin: left;
-    transition: transform 500ms ease-out;
-}
-
-.guide-currentTimeIndicatorArrowContainer {
-    position: absolute;
-    bottom: -.3em;
-    margin-left: .25em;
-    transform-origin: left;
-    transition: transform 500ms ease-out;
-    display: flex;
-    align-items: center;
-    font-size: 68%;
-}
-
-.guide-currentTimeIndicatorArrow {
-    width: .88em;
-    height: .88em;
-    font-size: inherit;
-    margin-left: -.52em;
-    border-radius: 100em;
 }
 
 .guideSpacer {
