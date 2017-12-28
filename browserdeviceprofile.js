@@ -764,6 +764,11 @@ define(['browser'], function (browser) {
         }
 
         var maxH264Level = browser.chromecast ? '42' : '51';
+        var h264Profiles = 'high|main|baseline|constrained baseline';
+
+        if (browser.chrome && !browser.chromecast) {
+            h264Profiles += '|high 10';
+        }
 
         profile.CodecProfiles.push({
             Type: 'Video',
@@ -778,7 +783,7 @@ define(['browser'], function (browser) {
                 {
                     Condition: 'EqualsAny',
                     Property: 'VideoProfile',
-                    Value: 'high|main|baseline|constrained baseline'
+                    Value: h264Profiles
                 },
                 {
                     Condition: 'LessThanEqual',

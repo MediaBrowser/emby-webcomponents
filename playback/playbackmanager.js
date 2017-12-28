@@ -1030,6 +1030,12 @@
             return players;
         };
 
+        function getDefaultPlayOptions() {
+            return {
+                fullscreen: true
+            };
+        }
+
         self.canPlay = function (item) {
 
             var itemType = item.Type;
@@ -1057,7 +1063,7 @@
             }
 
             //var mediaType = item.MediaType;
-            return getPlayer(item, {}) != null;
+            return getPlayer(item, getDefaultPlayOptions()) != null;
         };
 
         self.toggleAspectRatio = function (player) {
@@ -2499,7 +2505,6 @@
         function getPlayer(item, playOptions) {
 
             var serverItem = isServerItem(item);
-
             return getAutomaticPlayers(self).filter(function (p) {
 
                 if (p.canPlayMediaType(item.MediaType)) {
@@ -2892,7 +2897,7 @@
             events.trigger(player, 'playbackstop', [state]);
             events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
-            var nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || {}) : {};
+            var nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             var newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
             if (newPlayer !== player) {
@@ -3003,7 +3008,7 @@
             events.trigger(player, 'playbackstop', [state]);
             events.trigger(self, 'playbackstop', [playbackStopInfo]);
 
-            var nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || {}) : {};
+            var nextItemPlayOptions = nextItem ? (nextItem.item.playOptions || getDefaultPlayOptions()) : getDefaultPlayOptions();
             var newPlayer = nextItem ? getPlayer(nextItem.item, nextItemPlayOptions) : null;
 
             if (newPlayer !== player) {
