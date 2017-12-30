@@ -951,6 +951,7 @@
             var container;
             var channelPrograms;
             var focusableElements;
+            var newRow;
 
             var scrollX = false;
 
@@ -961,7 +962,7 @@
                         container = programGrid;
                         channelPrograms = dom.parentWithClass(programCell, 'channelPrograms');
 
-                        var newRow = channelPrograms.previousSibling;
+                        newRow = channelPrograms.previousSibling;
                         if (newRow) {
                             focusableElements = getChannelProgramsFocusableElements(newRow);
                             if (focusableElements.length) {
@@ -987,7 +988,7 @@
                         container = programGrid;
                         channelPrograms = dom.parentWithClass(programCell, 'channelPrograms');
 
-                        var newRow = channelPrograms.nextSibling;
+                        newRow = channelPrograms.nextSibling;
                         if (newRow) {
                             focusableElements = getChannelProgramsFocusableElements(newRow);
                             if (focusableElements.length) {
