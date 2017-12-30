@@ -39,7 +39,9 @@ define(['dom'], function (dom) {
     function focus(element) {
 
         try {
-            element.focus();
+            element.focus({
+                preventScroll: true
+            });
         } catch (err) {
             console.log('Error in focusManager.autoFocus: ' + err);
         }
@@ -238,7 +240,7 @@ define(['dom'], function (dom) {
         return box;
     }
 
-    function nav(activeElement, direction, container) {
+    function nav(activeElement, direction, container, focusableElements) {
 
         activeElement = activeElement || document.activeElement;
 
@@ -256,22 +258,21 @@ define(['dom'], function (dom) {
         var focusableContainer = dom.parentWithClass(activeElement, 'focusable');
 
         var rect = getOffset(activeElement);
-        var focusableElements = [];
 
         // Get elements and work out x/y points
         var cache = [],
-			point1x = parseFloat(rect.left) || 0,
-			point1y = parseFloat(rect.top) || 0,
-			point2x = parseFloat(point1x + rect.width - 1) || point1x,
-			point2y = parseFloat(point1y + rect.height - 1) || point1y,
-			// Shortcuts to help with compression
-			min = Math.min,
-			max = Math.max;
+            point1x = parseFloat(rect.left) || 0,
+            point1y = parseFloat(rect.top) || 0,
+            point2x = parseFloat(point1x + rect.width - 1) || point1x,
+            point2y = parseFloat(point1y + rect.height - 1) || point1y,
+            // Shortcuts to help with compression
+            min = Math.min,
+            max = Math.max;
 
         var sourceMidX = rect.left + (rect.width / 2);
         var sourceMidY = rect.top + (rect.height / 2);
 
-        var focusable = container.querySelectorAll(focusableQuery);
+        var focusable = focusableElements || container.querySelectorAll(focusableQuery);
 
         var maxDistance = Infinity;
         var minDistance = maxDistance;
@@ -499,25 +500,29 @@ define(['dom'], function (dom) {
         moveLeft: function (sourceElement, options) {
 
             var container = options ? options.container : null;
-            nav(sourceElement, 0, container);
+            var focusableElements = options ? options.focusableElements : null;
+            nav(sourceElement, 0, container, focusableElements);
 
         },
         moveRight: function (sourceElement, options) {
 
             var container = options ? options.container : null;
-            nav(sourceElement, 1, container);
+            var focusableElements = options ? options.focusableElements : null;
+            nav(sourceElement, 1, container, focusableElements);
 
         },
         moveUp: function (sourceElement, options) {
 
             var container = options ? options.container : null;
-            nav(sourceElement, 2, container);
+            var focusableElements = options ? options.focusableElements : null;
+            nav(sourceElement, 2, container, focusableElements);
 
         },
         moveDown: function (sourceElement, options) {
 
             var container = options ? options.container : null;
-            nav(sourceElement, 3, container);
+            var focusableElements = options ? options.focusableElements : null;
+            nav(sourceElement, 3, container, focusableElements);
 
         },
         sendText: sendText,

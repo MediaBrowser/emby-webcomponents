@@ -715,11 +715,11 @@
             items = {};
             renderPrograms(context, date, channels, programs);
 
+            scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs);
+
             if (focusProgramOnRender) {
                 focusProgram(context, itemId, channelRowId, focusToTimeMs, startTimeOfDayMs);
             }
-
-            scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs);
         }
 
         function scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs) {
@@ -802,11 +802,15 @@
 
         var lastGridScroll = 0;
         var lastHeaderScroll = 0;
+        var scrollXPct = 0;
         function onProgramGridScroll(context, elem, timeslotHeaders) {
 
             if ((new Date().getTime() - lastHeaderScroll) >= 1000) {
                 lastGridScroll = new Date().getTime();
-                nativeScrollTo(timeslotHeaders, elem.scrollLeft, true);
+
+                var scrollLeft = elem.scrollLeft;
+                scrollXPct = (scrollLeft * 100) / elem.scrollWidth;
+                nativeScrollTo(timeslotHeaders, scrollLeft, true);
             }
 
             updateProgramCellsOnScroll(elem, programCells);
@@ -915,33 +919,29 @@
             });
         }
 
-        function getChildren(element) {
+        function getChannelProgramsFocusableElements(container) {
 
-            var nativeResult = element.children;
-            if (nativeResult) {
-                return nativeResult;
-            }
+            var elements = container.querySelectorAll('.programCell');
 
-            var i = 0, node, nodes = element.childNodes, children = [];
-            while ((node = nodes[i++]) != null) {
-                if (node.nodeType === 1) {
-                    children.push(node);
+            var list = [];
+            // add 1 to avoid programs that are out of view to the left
+            var currentScrollXPct = scrollXPct + 1;
+
+            for (var i = 0, length = elements.length; i < length; i++) {
+
+                var elem = elements[i];
+
+                var left = (elem.style.left || '').replace('%', '');
+                left = left ? parseFloat(left) : 0;
+                var width = (elem.style.width || '').replace('%', '');
+                width = width ? parseFloat(width) : 0;
+
+                if ((left + width) >= currentScrollXPct) {
+                    list.push(elem);
                 }
             }
-            return children;
-        }
 
-        function isFirstChild(element) {
-            var children = getChildren(element.parentNode);
-
-            return element === children[0];
-        }
-
-        function isLastChild(element) {
-
-            var children = getChildren(element.parentNode);
-
-            return children.length > 0 && element === children[children.length - 1];
+            return list;
         }
 
         function onInputCommand(e) {
@@ -949,37 +949,69 @@
             var target = e.target;
             var programCell = dom.parentWithClass(target, 'programCell');
             var container;
+            var channelPrograms;
+            var focusableElements;
 
             var scrollX = false;
 
             switch (e.detail.command) {
 
                 case 'up':
-                    container = programCell ? programGrid : null;
-                    if (container && isFirstChild(dom.parentWithClass(programCell, 'channelPrograms'))) {
+                    if (programCell) {
+                        container = programGrid;
+                        channelPrograms = dom.parentWithClass(programCell, 'channelPrograms');
+
+                        var newRow = channelPrograms.previousSibling;
+                        if (newRow) {
+                            focusableElements = getChannelProgramsFocusableElements(newRow);
+                            if (focusableElements.length) {
+                                container = newRow;
+                            } else {
+                                focusableElements = null;
+                            }
+                        } else {
+                            container = null;
+                        }
+                    } else {
                         container = null;
                     }
                     lastFocusDirection = e.detail.command;
 
                     focusManager.moveUp(target, {
-                        container: container
+                        container: container,
+                        focusableElements: focusableElements
                     });
                     break;
                 case 'down':
-                    container = programCell ? programGrid : null;
-                    if (container && isLastChild(dom.parentWithClass(programCell, 'channelPrograms'))) {
+                    if (programCell) {
+                        container = programGrid;
+                        channelPrograms = dom.parentWithClass(programCell, 'channelPrograms');
+
+                        var newRow = channelPrograms.nextSibling;
+                        if (newRow) {
+                            focusableElements = getChannelProgramsFocusableElements(newRow);
+                            if (focusableElements.length) {
+                                container = newRow;
+                            } else {
+                                focusableElements = null;
+                            }
+                        } else {
+                            container = null;
+                        }
+                    } else {
                         container = null;
                     }
                     lastFocusDirection = e.detail.command;
 
                     focusManager.moveDown(target, {
-                        container: container
+                        container: container,
+                        focusableElements: focusableElements
                     });
                     break;
                 case 'left':
                     container = programCell ? dom.parentWithClass(programCell, 'channelPrograms') : null;
                     // allow left outside the channelProgramsContainer when the first child is currently focused
-                    if (container && isFirstChild(programCell)) {
+                    if (container && !programCell.previousSibling) {
                         container = null;
                     }
                     lastFocusDirection = e.detail.command;
@@ -1028,6 +1060,7 @@
             if (lastFocusDirection === 'left' || lastFocusDirection === 'right') {
 
                 if (programCell) {
+
                     scrollHelper.toStart(programGrid, programCell, true, true);
                 }
             }
