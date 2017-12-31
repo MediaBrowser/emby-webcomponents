@@ -715,11 +715,11 @@
             items = {};
             renderPrograms(context, date, channels, programs);
 
-            scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs);
-
             if (focusProgramOnRender) {
                 focusProgram(context, itemId, channelRowId, focusToTimeMs, startTimeOfDayMs);
             }
+
+            scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs);
         }
 
         function scrollProgramGridToTimeMs(context, scrollToTimeMs, startTimeOfDayMs) {
@@ -1058,11 +1058,19 @@
                 }
             }
 
-            if (lastFocusDirection === 'left' || lastFocusDirection === 'right') {
+            if (lastFocusDirection === 'left') {
 
                 if (programCell) {
 
                     scrollHelper.toStart(programGrid, programCell, true, true);
+                }
+            }
+
+            else if (lastFocusDirection === 'right') {
+
+                if (programCell) {
+
+                    scrollHelper.toCenter(programGrid, programCell, true, true);
                 }
             }
 

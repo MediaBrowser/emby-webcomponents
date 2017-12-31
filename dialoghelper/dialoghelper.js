@@ -92,7 +92,7 @@
             }
 
             if (layoutManager.tv) {
-                activeElement.focus();
+                focusManager.focus(activeElement);
             }
 
             if (dlg.getAttribute('data-removeonclose') !== 'false') {
