@@ -510,7 +510,7 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
                 }
                 return '1440P';
             }
-            if (i.Width >= 1900) {
+            if (i.Width >= 1880) {
                 if (i.IsInterlaced) {
                     return '1080i';
                 }

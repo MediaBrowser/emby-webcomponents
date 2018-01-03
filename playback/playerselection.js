@@ -106,7 +106,7 @@
     }
 
 
-    function disconnectFromPlayer() {
+    function disconnectFromPlayer(currentDeviceName) {
 
         if (playbackManager.getSupportedCommands().indexOf('EndSession') !== -1) {
 
@@ -126,7 +126,7 @@
                 dialog({
                     buttons: menuItems,
                     //positionTo: positionTo,
-                    text: globalize.translate('sharedcomponents#ConfirmEndPlayerSession')
+                    text: globalize.translate('sharedcomponents#ConfirmEndPlayerSession', currentDeviceName)
 
                 }).then(function (id) {
                     switch (id) {
@@ -169,9 +169,11 @@
 
         dlg.classList.add('promptDialog');
 
+        var currentDeviceName = (playerInfo.deviceName || playerInfo.name);
+
         html += '<div class="promptDialogContent" style="padding:1.5em;">';
         html += '<h2 style="margin-top:.5em;">';
-        html += (playerInfo.deviceName || playerInfo.name);
+        html += currentDeviceName;
         html += '</h2>';
 
         html += '<div>';
@@ -227,7 +229,7 @@
                 appRouter.showNowPlaying();
             }
             else if (destination === 'disconnectFromPlayer') {
-                disconnectFromPlayer();
+                disconnectFromPlayer(currentDeviceName);
             }
         }, emptyCallback);
     }
