@@ -310,8 +310,8 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             var imageInfo = getCurrentImageInfo();
 
-            require(['sharingmanager'], function (sharingManager) {
-                sharingManager.showMenu(imageInfo);
+            navigator.share({
+                url: imageInfo.url
             });
         }
 

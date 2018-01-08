@@ -1,4 +1,4 @@
-define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser'], function (appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser) {
+define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser', 'actionsheet'], function (appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser, actionsheet) {
     'use strict';
 
     function getCommands(options) {
@@ -421,12 +421,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     }
                 case 'share':
                     {
-                        require(['sharingmanager'], function (sharingManager) {
-                            sharingManager.showMenu({
-                                serverId: serverId,
-                                itemId: itemId
-
-                            }).then(getResolveFunction(resolve, id));
+                        navigator.share({
+                            title: item.Name,
+                            text: item.Overview
                         });
                         break;
                     }
@@ -628,19 +625,15 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             return Promise.reject();
         }
 
-        return new Promise(function (resolve, reject) {
+        return actionsheet.show({
 
-            require(['actionsheet'], function (actionSheet) {
+            items: commands,
+            positionTo: options.positionTo,
 
-                actionSheet.show({
+            resolveOnClick: ['share']
 
-                    items: commands,
-                    positionTo: options.positionTo
-
-                }).then(function (id) {
-                    executeCommand(options.item, id, options).then(resolve);
-                }, reject);
-            });
+        }).then(function (id) {
+            return executeCommand(options.item, id, options);
         });
     }
 

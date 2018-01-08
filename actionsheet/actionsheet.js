@@ -290,8 +290,18 @@
 
                     if (options.resolveOnClick) {
 
-                        resolve(selectedId);
-                        isResolved = true;
+                        if (options.resolveOnClick.indexOf) {
+
+                            if (options.resolveOnClick.indexOf(selectedId) !== -1) {
+
+                                resolve(selectedId);
+                                isResolved = true;
+                            }
+
+                        } else {
+                            resolve(selectedId);
+                            isResolved = true;
+                        }
                     }
 
                     dialogHelper.close(dlg);
