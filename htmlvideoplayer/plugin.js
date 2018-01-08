@@ -957,6 +957,16 @@
         }
 
         function onVideoResize() {
+            if (browser.iOS) {
+
+                // with wkwebview, the new sizes will be delayed for about 500ms
+                setTimeout(resetVideoRendererSize, 500);
+            } else {
+                resetVideoRendererSize();
+            }
+        }
+
+        function resetVideoRendererSize() {
             var renderer = currentAssRenderer;
             if (renderer) {
                 var videoElement = self._mediaElement;

@@ -66,13 +66,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         switch (result.State) {
 
-            case MediaBrowser.ConnectionState.SignedIn:
+            case 'SignedIn':
                 {
                     loading.hide();
                     skinManager.loadUserSkin();
                 }
                 break;
-            case MediaBrowser.ConnectionState.ServerSignIn:
+            case 'ServerSignIn':
                 {
                     result.ApiClient.getPublicUsers().then(function (users) {
 
@@ -84,17 +84,17 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                     });
                 }
                 break;
-            case MediaBrowser.ConnectionState.ServerSelection:
+            case 'ServerSelection':
                 {
                     appRouter.showSelectServer();
                 }
                 break;
-            case MediaBrowser.ConnectionState.ConnectSignIn:
+            case 'ConnectSignIn':
                 {
                     appRouter.showWelcome();
                 }
                 break;
-            case MediaBrowser.ConnectionState.ServerUpdateNeeded:
+            case 'ServerUpdateNeeded':
                 {
                     require(['alert'], function (alert) {
                         alert({
@@ -434,7 +434,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             firstConnectionResult = null;
 
-            if (firstResult.State !== MediaBrowser.ConnectionState.SignedIn && !route.anonymous) {
+            if (firstResult.State !== 'SignedIn' && !route.anonymous) {
 
                 handleConnectionResult(firstResult, loading);
                 return;

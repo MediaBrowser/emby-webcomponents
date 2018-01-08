@@ -255,6 +255,15 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
             case 'brown':
                 // TODO
                 break;
+            case 'repeatnone':
+                playbackManager.setRepeatMode('RepeatNone');
+                break;
+            case 'repeatall':
+                playbackManager.setRepeatMode('RepeatAll');
+                break;
+            case 'repeatone':
+                playbackManager.setRepeatMode('RepeatOne');
+                break;
             default:
                 break;
         }
