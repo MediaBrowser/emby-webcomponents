@@ -105,8 +105,8 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 html += '<div>';
                 html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
-                html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton', false);
-                html += getIcon('keyboard_arrow_right', 'btnSlideshowNext slideshowButton', false);
+                html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle', false);
+                html += getIcon('keyboard_arrow_right', 'btnSlideshowNext slideshowButton hide-mouse-idle', false);
 
                 html += '<div class="topActionButtons">';
                 if (actionButtonsOnTop) {
@@ -117,7 +117,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                         html += getIcon('share', 'btnShare slideshowButton', true);
                     }
                 }
-                html += getIcon('close', 'slideshowButton btnSlideshowExit', false);
+                html += getIcon('close', 'slideshowButton btnSlideshowExit hide-mouse-idle', false);
                 html += '</div>';
 
                 if (!actionButtonsOnTop) {
@@ -229,7 +229,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         function getSwiperSlideHtmlFromSlide(item) {
 
             var html = '';
-            html += '<div class="swiper-slide" data-original="' + item.originalImage + '" data-itemid="' + item.Id + '" data-serverid="' + item.ServerId + '">';
+            html += '<div class="swiper-slide" data-imageurl="' + item.imageUrl + '" data-original="' + item.originalImage + '" data-itemid="' + item.Id + '" data-serverid="' + item.ServerId + '">';
             html += '<img data-src="' + item.imageUrl + '" class="swiper-lazy swiper-slide-img">';
             if (item.title || item.subtitle) {
                 html += '<div class="slideText">';
@@ -287,6 +287,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 if (slide) {
                     return {
                         url: slide.getAttribute('data-original'),
+                        shareUrl: slide.getAttribute('data-imageurl'),
                         itemId: slide.getAttribute('data-itemid'),
                         serverId: slide.getAttribute('data-serverid')
                     };
@@ -311,7 +312,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
             var imageInfo = getCurrentImageInfo();
 
             navigator.share({
-                url: imageInfo.url
+                url: imageInfo.shareUrl
             });
         }
 
@@ -446,7 +447,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 return;
             }
 
-            var onFinish = function() {
+            var onFinish = function () {
                 elem.classList.add('hide');
                 _osdOpen = false;
             };

@@ -100,10 +100,6 @@
     justify-content: flex-end;
 }
 
-.mouseIdle .btnSlideshowPrevious, .mouseIdle .btnSlideshowNext, .mouseIdle .btnSlideshowExit {
-    display: none;
-}
-
 .slideshowExtraButtons {
     margin-left: auto;
     text-align: right;
