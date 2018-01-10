@@ -167,7 +167,7 @@
         }
 
         if (layoutManager.tv) {
-            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
         }
 
         // If any items have an icon, give them all an icon just to make sure they're all lined up evenly

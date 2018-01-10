@@ -90,7 +90,7 @@
         });
     }
 
-    function getDateFromForm(form, element, property) {
+    function getDateValue(form, element, property) {
 
         var val = form.querySelector(element).value;
 
@@ -122,86 +122,81 @@
 
         var form = this;
 
-        try {
-            var item = {
-                Id: currentItem.Id,
-                Name: form.querySelector('#txtName').value,
-                OriginalTitle: form.querySelector('#txtOriginalName').value,
-                ForcedSortName: form.querySelector('#txtSortName').value,
-                CommunityRating: form.querySelector('#txtCommunityRating').value,
-                HomePageUrl: form.querySelector('#txtHomePageUrl').value,
-                CriticRating: form.querySelector('#txtCriticRating').value,
-                IndexNumber: form.querySelector('#txtIndexNumber').value || null,
-                AbsoluteEpisodeNumber: form.querySelector('#txtAbsoluteEpisodeNumber').value,
-                DvdEpisodeNumber: form.querySelector('#txtDvdEpisodeNumber').value,
-                DvdSeasonNumber: form.querySelector('#txtDvdSeasonNumber').value,
-                AirsBeforeSeasonNumber: form.querySelector('#txtAirsBeforeSeason').value,
-                AirsAfterSeasonNumber: form.querySelector('#txtAirsAfterSeason').value,
-                AirsBeforeEpisodeNumber: form.querySelector('#txtAirsBeforeEpisode').value,
-                ParentIndexNumber: form.querySelector('#txtParentIndexNumber').value || null,
-                DisplayOrder: form.querySelector('#selectDisplayOrder').value,
-                Album: form.querySelector('#txtAlbum').value,
-                AlbumArtists: getAlbumArtists(form),
-                ArtistItems: getArtists(form),
-                Overview: form.querySelector('#txtOverview').value,
-                Status: form.querySelector('#selectStatus').value,
-                AirDays: getSelectedAirDays(form),
-                AirTime: form.querySelector('#txtAirTime').value,
-                Genres: editableListViewValues(form.querySelector("#listGenres")),
-                Tags: editableListViewValues(form.querySelector("#listTags")),
-                Studios: editableListViewValues(form.querySelector("#listStudios")).map(function (element) { return { Name: element }; }),
+        var item = {
+            Id: currentItem.Id,
+            Name: form.querySelector('#txtName').value,
+            OriginalTitle: form.querySelector('#txtOriginalName').value,
+            ForcedSortName: form.querySelector('#txtSortName').value,
+            CommunityRating: form.querySelector('#txtCommunityRating').value,
+            HomePageUrl: form.querySelector('#txtHomePageUrl').value,
+            CriticRating: form.querySelector('#txtCriticRating').value,
+            IndexNumber: form.querySelector('#txtIndexNumber').value || null,
+            AbsoluteEpisodeNumber: form.querySelector('#txtAbsoluteEpisodeNumber').value,
+            DvdEpisodeNumber: form.querySelector('#txtDvdEpisodeNumber').value,
+            DvdSeasonNumber: form.querySelector('#txtDvdSeasonNumber').value,
+            AirsBeforeSeasonNumber: form.querySelector('#txtAirsBeforeSeason').value,
+            AirsAfterSeasonNumber: form.querySelector('#txtAirsAfterSeason').value,
+            AirsBeforeEpisodeNumber: form.querySelector('#txtAirsBeforeEpisode').value,
+            ParentIndexNumber: form.querySelector('#txtParentIndexNumber').value || null,
+            DisplayOrder: form.querySelector('#selectDisplayOrder').value,
+            Album: form.querySelector('#txtAlbum').value,
+            AlbumArtists: getAlbumArtists(form),
+            ArtistItems: getArtists(form),
+            Overview: form.querySelector('#txtOverview').value,
+            Status: form.querySelector('#selectStatus').value,
+            AirDays: getSelectedAirDays(form),
+            AirTime: form.querySelector('#txtAirTime').value,
+            Genres: getListValues(form.querySelector("#listGenres")),
+            Tags: getListValues(form.querySelector("#listTags")),
+            Studios: getListValues(form.querySelector("#listStudios")).map(function (element) { return { Name: element }; }),
 
-                PremiereDate: getDateFromForm(form, '#txtPremiereDate', 'PremiereDate'),
-                DateCreated: getDateFromForm(form, '#txtDateAdded', 'DateCreated'),
-                EndDate: getDateFromForm(form, '#txtEndDate', 'EndDate'),
-                ProductionYear: form.querySelector('#txtProductionYear').value,
-                AspectRatio: form.querySelector('#txtOriginalAspectRatio').value,
-                Video3DFormat: form.querySelector('#select3dFormat').value,
+            PremiereDate: getDateValue(form, '#txtPremiereDate', 'PremiereDate'),
+            DateCreated: getDateValue(form, '#txtDateAdded', 'DateCreated'),
+            EndDate: getDateValue(form, '#txtEndDate', 'EndDate'),
+            ProductionYear: form.querySelector('#txtProductionYear').value,
+            AspectRatio: form.querySelector('#txtOriginalAspectRatio').value,
+            Video3DFormat: form.querySelector('#select3dFormat').value,
 
-                OfficialRating: form.querySelector('#selectOfficialRating').value,
-                CustomRating: form.querySelector('#selectCustomRating').value,
-                People: currentItem.People,
-                LockData: form.querySelector("#chkLockData").checked,
-                LockedFields: Array.prototype.filter.call(form.querySelectorAll('.selectLockedField'), function (c) {
-                    return !c.checked;
-                }).map(function (c) {
-                    return c.getAttribute('data-value');
-                })
-            };
+            OfficialRating: form.querySelector('#selectOfficialRating').value,
+            CustomRating: form.querySelector('#selectCustomRating').value,
+            People: currentItem.People,
+            LockData: form.querySelector("#chkLockData").checked,
+            LockedFields: Array.prototype.filter.call(form.querySelectorAll('.selectLockedField'), function (c) {
+                return !c.checked;
+            }).map(function (c) {
+                return c.getAttribute('data-value');
+            })
+        };
 
-            item.ProviderIds = Object.assign({}, currentItem.ProviderIds);
+        item.ProviderIds = Object.assign({}, currentItem.ProviderIds);
 
-            var idElements = form.querySelectorAll('.txtExternalId');
-            Array.prototype.map.call(idElements, function (idElem) {
-                var providerKey = idElem.getAttribute('data-providerkey');
-                item.ProviderIds[providerKey] = idElem.value;
-            });
+        var idElements = form.querySelectorAll('.txtExternalId');
+        Array.prototype.map.call(idElements, function (idElem) {
+            var providerKey = idElem.getAttribute('data-providerkey');
+            item.ProviderIds[providerKey] = idElem.value;
+        });
 
-            item.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
-            item.PreferredMetadataCountryCode = form.querySelector('#selectCountry').value;
+        item.PreferredMetadataLanguage = form.querySelector('#selectLanguage').value;
+        item.PreferredMetadataCountryCode = form.querySelector('#selectCountry').value;
 
-            if (currentItem.Type === "Person") {
+        if (currentItem.Type === "Person") {
 
-                var placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
+            var placeOfBirth = form.querySelector('#txtPlaceOfBirth').value;
 
-                item.ProductionLocations = placeOfBirth ? [placeOfBirth] : [];
-            }
-
-            if (currentItem.Type === "Series") {
-
-                // 600000000
-                var seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
-                item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
-            }
-
-            var tagline = form.querySelector('#txtTagline').value;
-            item.Taglines = tagline ? [tagline] : [];
-
-            submitUpdatedItem(form, item);
-
-        } catch (err) {
-            alert(err);
+            item.ProductionLocations = placeOfBirth ? [placeOfBirth] : [];
         }
+
+        if (currentItem.Type === "Series") {
+
+            // 600000000
+            var seriesRuntime = form.querySelector('#txtSeriesRuntime').value;
+            item.RunTimeTicks = seriesRuntime ? (seriesRuntime * 600000000) : null;
+        }
+
+        var tagline = form.querySelector('#txtTagline').value;
+        item.Taglines = tagline ? [tagline] : [];
+
+        submitUpdatedItem(form, item);
 
         e.preventDefault();
         e.stopPropagation();
@@ -210,25 +205,25 @@
         return false;
     }
 
-    function editableListViewValues(list) {
+    function getListValues(list) {
         return Array.prototype.map.call(list.querySelectorAll('.textValue'), function (el) { return el.textContent; });
     }
 
-    function addElementToEditableListview(source, sortCallback) {
+    function addElementToList(source, sortCallback) {
         require(['prompt'], function (prompt) {
 
             prompt({
                 label: 'Value:'
             }).then(function (text) {
                 var list = dom.parentWithClass(source, 'editableListviewContainer').querySelector('.paperList');
-                var items = editableListViewValues(list);
+                var items = getListValues(list);
                 items.push(text);
                 populateListView(list, items, sortCallback);
             });
         });
     }
 
-    function removeElementFromListview(source) {
+    function removeElementFromList(source) {
         var el = dom.parentWithClass(source, 'listItem');
         el.parentNode.removeChild(el);
     }
@@ -298,13 +293,13 @@
 
         var btnRemoveFromEditorList = dom.parentWithClass(e.target, 'btnRemoveFromEditorList');
         if (btnRemoveFromEditorList) {
-            removeElementFromListview(btnRemoveFromEditorList);
+            removeElementFromList(btnRemoveFromEditorList);
             return;
         }
 
         var btnAddTextItem = dom.parentWithClass(e.target, 'btnAddTextItem');
         if (btnAddTextItem) {
-            addElementToEditableListview(btnAddTextItem);
+            addElementToList(btnAddTextItem);
         }
     }
 
@@ -764,7 +759,7 @@
         } else {
             showElement('.providerSettingsContainer', context);
         }
-        populateInternetProviderSettings(context, item, item.LockedFields);
+        fillMetadataSettings(context, item, item.LockedFields);
 
         context.querySelector('#txtPath').value = item.Path || '';
         context.querySelector('#txtName').value = item.Name || "";
@@ -777,8 +772,8 @@
 
         context.querySelector('#txtCriticRating').value = item.CriticRating || "";
 
-        context.querySelector('#txtIndexNumber').value = ('IndexNumber' in item) ? item.IndexNumber : "";
-        context.querySelector('#txtParentIndexNumber').value = ('ParentIndexNumber' in item) ? item.ParentIndexNumber : "";
+        context.querySelector('#txtIndexNumber').value = item.IndexNumber == null ? '' : item.IndexNumber;
+        context.querySelector('#txtParentIndexNumber').value = item.ParentIndexNumber == null ? '' : item.ParentIndexNumber;
 
         context.querySelector('#txtAbsoluteEpisodeNumber').value = ('AbsoluteEpisodeNumber' in item) ? item.AbsoluteEpisodeNumber : "";
         context.querySelector('#txtDvdEpisodeNumber').value = ('DvdEpisodeNumber' in item) ? item.DvdEpisodeNumber : "";
@@ -971,7 +966,7 @@
         elem.innerHTML = html;
     }
 
-    function generateSliders(fields, currentFields) {
+    function getLockedFieldsHtml(fields, currentFields) {
 
         var html = '';
         for (var i = 0; i < fields.length; i++) {
@@ -988,11 +983,11 @@
         return html;
     }
 
-    function populateInternetProviderSettings(context, item, lockedFields) {
+    function fillMetadataSettings(context, item, lockedFields) {
         var container = context.querySelector('.providerSettingsContainer');
         lockedFields = lockedFields || [];
 
-        var metadatafields = [
+        var lockedFieldsList = [
             { name: globalize.translate('sharedcomponents#Name'), value: "Name" },
             { name: globalize.translate('sharedcomponents#Overview'), value: "Overview" },
             { name: globalize.translate('sharedcomponents#Genres'), value: "Genres" },
@@ -1001,23 +996,23 @@
         ];
 
         if (item.Type === "Person") {
-            metadatafields.push({ name: globalize.translate('sharedcomponents#BirthLocation'), value: "ProductionLocations" });
+            lockedFieldsList.push({ name: globalize.translate('sharedcomponents#BirthLocation'), value: "ProductionLocations" });
         } else {
-            metadatafields.push({ name: globalize.translate('sharedcomponents#ProductionLocations'), value: "ProductionLocations" });
+            lockedFieldsList.push({ name: globalize.translate('sharedcomponents#ProductionLocations'), value: "ProductionLocations" });
         }
 
         if (item.Type === "Series") {
-            metadatafields.push({ name: globalize.translate('Runtime'), value: "Runtime" });
+            lockedFieldsList.push({ name: globalize.translate('Runtime'), value: "Runtime" });
         }
 
-        metadatafields.push({ name: globalize.translate('sharedcomponents#Studios'), value: "Studios" });
-        metadatafields.push({ name: globalize.translate('sharedcomponents#Tags'), value: "Tags" });
+        lockedFieldsList.push({ name: globalize.translate('sharedcomponents#Studios'), value: "Studios" });
+        lockedFieldsList.push({ name: globalize.translate('sharedcomponents#Tags'), value: "Tags" });
 
         var html = '';
 
         html += "<h2>" + globalize.translate('sharedcomponents#HeaderEnabledFields') + "</h2>";
         html += "<p>" + globalize.translate('sharedcomponents#HeaderEnabledFieldsHelp') + "</p>";
-        html += generateSliders(metadatafields, lockedFields);
+        html += getLockedFieldsHtml(lockedFieldsList, lockedFields);
         container.innerHTML = html;
     }
 

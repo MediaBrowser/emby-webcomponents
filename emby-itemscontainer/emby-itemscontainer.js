@@ -133,8 +133,6 @@
         var serverId = el.getAttribute('data-serverid');
         var apiClient = connectionManager.getApiClient(serverId);
 
-        newIndex = Math.max(0, newIndex - 1);
-
         loading.show();
 
         apiClient.ajax({
