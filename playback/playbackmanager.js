@@ -1570,6 +1570,8 @@
             params = params || {};
 
             var liveStreamId = getPlayerData(player).streamInfo.liveStreamId;
+            var lastMediaInfoQuery = getPlayerData(player).streamInfo.lastMediaInfoQuery;
+
             var playSessionId = self.playSessionId(player);
 
             var currentItem = self.currentItem(player);
@@ -1602,6 +1604,7 @@
 
                         var streamInfo = createStreamInfo(apiClient, currentItem.MediaType, currentItem, currentMediaSource, ticks);
                         streamInfo.fullscreen = currentPlayOptions.fullscreen;
+                        streamInfo.lastMediaInfoQuery = lastMediaInfoQuery;
 
                         if (!streamInfo.url) {
                             showPlaybackInfoErrorMessage(self, 'NoCompatibleStream', true);
@@ -3178,7 +3181,29 @@
                 if (streamInfo && streamInfo.started && !streamInfo.ended) {
                     reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
                 }
+
+                if (streamInfo && streamInfo.liveStreamId) {
+
+                    if (new Date().getTime() - (streamInfo.lastMediaInfoQuery || 0) >= 600000) {
+                        getLiveStreamMediaInfo(player, streamInfo, self.currentMediaSource(player), streamInfo.liveStreamId, serverId);
+                    }
+                }
             }
+        }
+
+        function getLiveStreamMediaInfo(player, streamInfo, mediaSource, liveStreamId, serverId) {
+
+            console.log('getLiveStreamMediaInfo');
+
+            streamInfo.lastMediaInfoQuery = new Date().getTime();
+            connectionManager.getApiClient(serverId).getLiveStreamMediaInfo(liveStreamId).then(function (info) {
+
+                mediaSource.MediaStreams = info.MediaStreams;
+                events.trigger(player, 'mediastreamschange');
+
+            }, function () {
+
+            });
         }
 
         self.onAppClose = function () {

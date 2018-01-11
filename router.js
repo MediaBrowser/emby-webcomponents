@@ -816,9 +816,19 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     setBaseRoute();
 
+    function syncNow() {
+        require(['localsync'], function (localSync) {
+            localSync.sync();
+        });
+    }
+
     function invokeShortcut(id) {
 
-        if (id.indexOf('library-') === 0) {
+        if (id === 'backgroundsync') {
+
+            syncNow();
+        }
+        else if (id.indexOf('library-') === 0) {
             id = id.replace('library-', '');
 
             id = id.split('_');
