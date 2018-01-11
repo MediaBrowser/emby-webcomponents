@@ -363,7 +363,7 @@
         var nameText = 'Emby Theater';
         html += '<div class="padded-left padded-right">';
         html += '<p class="sectionTitle-cards">A beautiful app for your TV and large screen tablet. ' + nameText + ' runs on Windows, Xbox One, Raspberry Pi, Samsung Smart TVs, Sony PS4, Web Browsers, and more.</p>';
-        html += '<div class="itemsContainer vertical-wrap">';
+        html += '<div class="itemsContainer vertical-wrap" is="emby-itemscontainer">';
         html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater1.png');
         html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater2.png');
         html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater3.png');
@@ -384,7 +384,7 @@
 
         html += '<div class="padded-left padded-right">';
         html += '<p class="sectionTitle-cards">Enjoy Emby DVR, get free access to Emby apps, and more.</p>';
-        html += '<div class="itemsContainer vertical-wrap">';
+        html += '<div class="itemsContainer vertical-wrap" is="emby-itemscontainer">';
         html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater1.png');
         html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater2.png');
         html += getCard('https://raw.githubusercontent.com/MediaBrowser/Emby.Resources/master/apps/theater3.png');
