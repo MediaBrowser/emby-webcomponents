@@ -81,7 +81,7 @@ html {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
+.paperList, .visualCardBox, .defaultCardBackground, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
     background-color: #222326;
 }
 

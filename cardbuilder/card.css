@@ -77,7 +77,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .3em .38em;
+    margin: .34em .36em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -194,7 +194,6 @@ button {
 }
 
 .cardContent-button {
-    background-color: transparent;
     border: 0 !important;
     padding: 0 !important;
     cursor: pointer;
@@ -204,6 +203,10 @@ button {
     font-family: inherit;
     font-size: inherit;
 }
+
+    .cardContent-button:not(.defaultCardBackground) {
+        background-color: transparent;
+    }
 
 .visualCardBox .cardContent {
     border-bottom-left-radius: 0;
@@ -444,26 +447,6 @@ button {
 
 .cardOverlayButton-texticon-icon {
     font-style: normal;
-}
-
-.defaultCardColor1 {
-    background-color: #009688;
-}
-
-.defaultCardColor2 {
-    background-color: #D32F2F;
-}
-
-.defaultCardColor3 {
-    background-color: #0288D1;
-}
-
-.defaultCardColor4 {
-    background-color: #388E3C;
-}
-
-.defaultCardColor5 {
-    background-color: #F57F17;
 }
 
 .bannerCard {

@@ -89,7 +89,7 @@ html, .skinHeader {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox {
+.paperList, .visualCardBox, .defaultCardBackground {
     background-color: #fff;
 }
 

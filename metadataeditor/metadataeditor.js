@@ -612,10 +612,21 @@
             hideElement('#collapsibleSpecialEpisodeInfo', context);
         }
 
+        if (item.Type === "Person" ||
+            item.Type === "Genre" ||
+            item.Type === "Studio" ||
+            item.Type === "GameGenre" ||
+            item.Type === "MusicGenre" ||
+            item.Type === "TvChannel" ||
+            item.Type === "Book") {
+            hideElement('#peopleCollapsible', context);
+        } else {
+            showElement('#peopleCollapsible', context);
+        }
+
         if (item.Type === "Person" || item.Type === "Genre" || item.Type === "Studio" || item.Type === "GameGenre" || item.Type === "MusicGenre" || item.Type === "TvChannel") {
             hideElement('#fldCommunityRating', context);
             hideElement('#genresCollapsible', context);
-            hideElement('#peopleCollapsible', context);
             hideElement('#studiosCollapsible', context);
 
             if (item.Type === "TvChannel") {
@@ -627,7 +638,6 @@
         } else {
             showElement('#fldCommunityRating', context);
             showElement('#genresCollapsible', context);
-            showElement('#peopleCollapsible', context);
             showElement('#studiosCollapsible', context);
             showElement('#fldOfficialRating', context);
             showElement('#fldCustomRating', context);

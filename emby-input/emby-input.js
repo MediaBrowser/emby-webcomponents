@@ -80,6 +80,16 @@
         dom.addEventListener(this, 'valueset', onChange, {
             passive: true
         });
+
+        if (browser.orsay) {
+            if (this === document.activeElement) {
+                //Make sure the IME pops up if this is the first/default element on the page
+                if (document.attachIME) {
+                    document.attachIME(this);
+                }
+            }
+        }
+
     };
 
     function onChange() {

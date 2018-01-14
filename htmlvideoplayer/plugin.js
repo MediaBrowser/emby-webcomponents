@@ -181,6 +181,7 @@
         var winJsPlaybackItem;
 
         var subtitleTrackIndexToSetOnPlaying;
+        var audioTrackIndexToSetOnPlaying;
 
         var lastCustomTrackMs = 0;
         var currentClock;
@@ -485,14 +486,8 @@
 
             var tracks = getMediaStreamTextTracks(options.mediaSource);
 
-            var currentTrackIndex = -1;
-            for (var i = 0, length = tracks.length; i < length; i++) {
-                if (tracks[i].Index === options.mediaSource.DefaultSubtitleStreamIndex) {
-                    currentTrackIndex = tracks[i].Index;
-                    break;
-                }
-            }
-            subtitleTrackIndexToSetOnPlaying = currentTrackIndex;
+            subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
+            audioTrackIndexToSetOnPlaying = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
 
             self._currentPlayOptions = options;
 
@@ -696,6 +691,10 @@
 
             // If this causes a failure during navigation we end up in an awkward UI state
             setCurrentTrackElement(subtitleTrackIndexToSetOnPlaying);
+
+            if (audioTrackIndexToSetOnPlaying != null && self.canSetAudioStreamIndex()) {
+                self.setAudioStreamIndex(audioTrackIndexToSetOnPlaying);
+            }
         }
 
         function onPlaying(e) {

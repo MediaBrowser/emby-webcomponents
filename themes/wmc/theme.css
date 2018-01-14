@@ -84,7 +84,7 @@ html {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox, .collapseContent {
+.paperList, .visualCardBox, .defaultCardBackground, .collapseContent {
     background-color: #0F3562;
 }
 

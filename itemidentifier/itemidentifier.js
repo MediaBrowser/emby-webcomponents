@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'cardBuilder', 'connectionManager', 'require', 'globalize', 'scrollHelper', 'layoutManager', 'focusManager', 'browser', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'cardStyle'], function (dialogHelper, loading, cardBuilder, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager, browser) {
+﻿define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 'scrollHelper', 'layoutManager', 'focusManager', 'browser', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'cardStyle'], function (dialogHelper, loading, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager, browser) {
     'use strict';
 
     var currentItem;
@@ -211,7 +211,7 @@
             html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + displayUrl + '\');"></div>';
         } else {
 
-            html += '<div class="cardImageContainer coveredImage ' + cardBuilder.getDefaultColorClass(result.Name) + '"><div class="cardText cardCenteredText">' + result.Name + '</div></div>';
+            html += '<div class="cardImageContainer coveredImage defaultCardBackground"><div class="cardText cardCenteredText">' + result.Name + '</div></div>';
         }
         html += '</div>';
         html += '</div>';

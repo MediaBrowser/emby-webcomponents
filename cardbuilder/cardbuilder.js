@@ -693,10 +693,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        function getDefaultColorClass(str) {
-            return 'defaultCardColor' + getDefaultColorIndex(str);
-        }
-
         function getCardTextLines(lines, cssClass, forceLines, isOuterFooter, cardLayout, addRightMargin, maxLines) {
 
             var html = '';
@@ -1272,7 +1268,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (!imgUrl) {
-                cardImageContainerClass += ' ' + getDefaultColorClass(item.Name);
+                cardImageContainerClass += ' defaultCardBackground';
             }
 
             var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
@@ -1525,7 +1521,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (collectionType === 'music') {
                 return '<i class="cardImageIcon md-icon">&#xE310;</i>';
             }
-            if (item.Type === 'Person') {
+            if (item.Type === 'MusicAlbum') {
+                return '<i class="cardImageIcon md-icon">&#xE019;</i>';
+            }
+            if (item.Type === 'MusicArtist' || item.Type === 'Person') {
                 return '<i class="cardImageIcon md-icon">&#xE7FD;</i>';
             }
             if (options.defaultCardImageIcon) {
@@ -1738,7 +1737,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             getCardsHtml: getCardsHtml,
             buildCards: buildCards,
             onUserDataChanged: onUserDataChanged,
-            getDefaultColorClass: getDefaultColorClass,
             onTimerCreated: onTimerCreated,
             onTimerCancelled: onTimerCancelled,
             onSeriesTimerCancelled: onSeriesTimerCancelled
