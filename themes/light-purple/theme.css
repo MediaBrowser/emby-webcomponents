@@ -93,8 +93,28 @@ html, .skinHeader {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox, .defaultCardBackground {
+.paperList, .visualCardBox {
     background-color: #D1C4E9;
+}
+
+.defaultCardBackground1 {
+    background-color: #009688;
+}
+
+.defaultCardBackground2 {
+    background-color: #D32F2F;
+}
+
+.defaultCardBackground3 {
+    background-color: #0288D1;
+}
+
+.defaultCardBackground4 {
+    background-color: #388E3C;
+}
+
+.defaultCardBackground5 {
+    background-color: #F57F17;
 }
 
 .formDialogHeader:not(.formDialogHeader-clear) {

@@ -82,8 +82,28 @@ html {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox, .defaultCardBackground, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
+.paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
     background-color: #222;
+}
+
+.defaultCardBackground1 {
+    background-color: #009688;
+}
+
+.defaultCardBackground2 {
+    background-color: #D32F2F;
+}
+
+.defaultCardBackground3 {
+    background-color: #0288D1;
+}
+
+.defaultCardBackground4 {
+    background-color: #388E3C;
+}
+
+.defaultCardBackground5 {
+    background-color: #F57F17;
 }
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {

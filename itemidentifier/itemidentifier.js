@@ -211,7 +211,7 @@
             html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + displayUrl + '\');"></div>';
         } else {
 
-            html += '<div class="cardImageContainer coveredImage defaultCardBackground"><div class="cardText cardCenteredText">' + result.Name + '</div></div>';
+            html += '<div class="cardImageContainer coveredImage defaultCardBackground1"><div class="cardText cardCenteredText">' + result.Name + '</div></div>';
         }
         html += '</div>';
         html += '</div>';
