@@ -1189,24 +1189,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
         }
 
-        var numRandomColors = 5;
-        function getDefaultColorIndex(str) {
-
-            if (str) {
-                var charIndex = Math.floor(str.length / 2);
-                var character = String(str.substr(charIndex, 1).charCodeAt());
-                var sum = 0;
-                for (var i = 0; i < character.length; i++) {
-                    sum += parseInt(character.charAt(i));
-                }
-                var index = String(sum).substr(-1);
-
-                return (index % numRandomColors) + 1;
-            } else {
-                return getRandomInt(1, numRandomColors);
-            }
-        }
-
         function getDefaultBackgroundClass(str) {
             return 'defaultCardBackground' + getDefaultColorIndex(str);
         }
