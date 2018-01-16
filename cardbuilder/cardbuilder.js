@@ -1190,7 +1190,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         function getDefaultBackgroundClass(str) {
-            return 'defaultCardBackground' + getDefaultColorIndex(str);
+            return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
         }
 
         function buildCard(index, item, apiClient, options) {
