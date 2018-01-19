@@ -301,6 +301,12 @@ html {
     color: #fff;
 }
 
+/* emby-button */
+.emby-button-focusscale:focus {
+    background: #52B54B;
+    color: #fff;
+}
+
 /* emby-tabs */
 .emby-tab-button {
     color: #999;

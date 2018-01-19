@@ -317,6 +317,12 @@ html, .skinHeader {
     color: #fff;
 }
 
+/* emby-button */
+.emby-button-focusscale:focus {
+    background: #E91E63;
+    color: #fff;
+}
+
 /* emby-tabs */
 .emby-tab-button {
     color: #fff;
