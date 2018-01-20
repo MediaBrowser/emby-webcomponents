@@ -350,6 +350,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         newApiClient.normalizeImageOptions = normalizeImageOptions;
 
+        if (browser.iOS) {
+            newApiClient.maxDetectedBitrate = 1000000;
+        }
+
         events.off(newApiClient, 'requestfail', onRequestFail);
         events.on(newApiClient, 'requestfail', onRequestFail);
     }

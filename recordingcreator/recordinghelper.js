@@ -133,11 +133,19 @@
                     type: 'submit'
                 });
 
-                items.push({
-                    name: globalize.translate('sharedcomponents#HeaderCancelRecording'),
-                    id: 'canceltimer',
-                    type: 'cancel'
-                });
+                if (timerStatus === 'InProgress') {
+                    items.push({
+                        name: globalize.translate('sharedcomponents#HeaderStopRecording'),
+                        id: 'canceltimer',
+                        type: 'cancel'
+                    });
+                } else {
+                    items.push({
+                        name: globalize.translate('sharedcomponents#HeaderCancelRecording'),
+                        id: 'canceltimer',
+                        type: 'cancel'
+                    });
+                }
 
                 items.push({
                     name: globalize.translate('sharedcomponents#HeaderCancelSeries'),
@@ -183,7 +191,7 @@
 
     function toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId) {
 
-        return registrationServices.validateFeature('dvr').then(function() {
+        return registrationServices.validateFeature('dvr').then(function () {
             var apiClient = connectionManager.getApiClient(serverId);
 
             var hasTimer = timerId && timerStatus !== 'Cancelled';
