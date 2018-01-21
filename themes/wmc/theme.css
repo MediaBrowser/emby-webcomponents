@@ -318,6 +318,7 @@ html {
 
 .emby-tab-button.emby-button-tv:focus {
     color: #fff;
+    background: transparent;
 }
 
 /* guide */

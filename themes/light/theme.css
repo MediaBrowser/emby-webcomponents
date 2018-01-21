@@ -339,6 +339,7 @@ html, .skinHeader {
 
 .emby-tab-button.emby-button-tv:focus {
     color: #52B54B;
+    background: transparent;
 }
 
 /* guide */

@@ -24,7 +24,7 @@
                 try {
                     var promise = lockOrientation('landscape');
                     if (promise.then) {
-                        promise.then(onOrientationChangeError);
+                        promise.then(onOrientationChangeSuccess, onOrientationChangeError);
                     } else {
                         // returns a boolean
                         orientationLocked = promise;
