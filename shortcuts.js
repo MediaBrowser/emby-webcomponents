@@ -433,7 +433,6 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         on: on,
         off: off,
         onClick: onClick,
-        showContextMenu: showContextMenu,
         getShortcutAttributesHtml: getShortcutAttributesHtml
     };
 

@@ -1,4 +1,4 @@
-﻿define(['itemShortcuts', 'connectionManager', 'playbackManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, connectionManager, playbackManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
+﻿define(['itemShortcuts', 'inputManager', 'connectionManager', 'playbackManager', 'imageLoader', 'layoutManager', 'browser', 'dom', 'loading', 'focusManager', 'serverNotifications', 'events', 'registerElement'], function (itemShortcuts, inputManager, connectionManager, playbackManager, imageLoader, layoutManager, browser, dom, loading, focusManager, serverNotifications, events) {
     'use strict';
 
     var ItemsContainerProtoType = Object.create(HTMLDivElement.prototype);
@@ -36,16 +36,7 @@
         // check for serverId, it won't be present on selectserver
         if (card && card.getAttribute('data-serverid')) {
 
-            //var itemSelectionPanel = card.querySelector('.itemSelectionPanel');
-
-            //if (!itemSelectionPanel) {
-            //    showContextMenu(card, {});
-            //}
-
-            itemShortcuts.showContextMenu(card, {
-                positionTo: target,
-                itemsContainer: itemsContainer
-            });
+            inputManager.trigger('menu', card);
 
             e.preventDefault();
             e.stopPropagation();

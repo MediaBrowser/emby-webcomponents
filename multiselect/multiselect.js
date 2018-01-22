@@ -138,7 +138,7 @@
 
             var btnSelectionPanelOptions = selectionCommandsPanel.querySelector('.btnSelectionPanelOptions');
 
-            btnSelectionPanelOptions.addEventListener('click', showMenuForSelectedItems);
+            dom.addEventListener(btnSelectionPanelOptions, 'click', showMenuForSelectedItems, { passive: true });
         }
     }
 
@@ -171,8 +171,8 @@
                         apiClient.deleteItem(itemId);
                     });
 
-                    Promise.all(promises).then(resolve, function() {
-                        
+                    Promise.all(promises).then(resolve, function () {
+
                         alertText(globalize.translate('sharedcomponents#ErrorDeletingItem')).then(reject, reject);
                     });
                 }, reject);
