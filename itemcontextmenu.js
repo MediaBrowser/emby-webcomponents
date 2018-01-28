@@ -64,7 +64,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             }
         }
 
-        if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist" || item.Type === "MusicGenre" || item.CollectionType === "music") {
+        if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
             if (options.instantMix !== false) {
                 commands.push({
                     name: globalize.translate('sharedcomponents#InstantMix'),

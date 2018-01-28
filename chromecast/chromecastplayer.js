@@ -637,7 +637,7 @@
 
         var targets = [];
 
-        if (this._castPlayer.hasReceivers) {
+        if (this._castPlayer && this._castPlayer.hasReceivers) {
             targets.push(this.getCurrentTargetInfo());
         }
 
