@@ -143,7 +143,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         notifyApp();
     }
 
-    function onWebSocketMessageReceived(e, msg) {
+    function onMessageReceived(e, msg) {
 
         var apiClient = this;
 
@@ -219,8 +219,8 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
 
     function bindEvents(apiClient) {
 
-        events.off(apiClient, "websocketmessage", onWebSocketMessageReceived);
-        events.on(apiClient, "websocketmessage", onWebSocketMessageReceived);
+        events.off(apiClient, "message", onMessageReceived);
+        events.on(apiClient, "message", onMessageReceived);
     }
 
     connectionManager.getApiClients().forEach(bindEvents);

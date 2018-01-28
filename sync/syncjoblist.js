@@ -282,17 +282,13 @@
             startParams += ",true";
         }
 
-        if (apiClient.isWebSocketOpen()) {
-            apiClient.sendWebSocketMessage("SyncJobsStart", startParams);
-        }
+        apiClient.sendMessage("SyncJobsStart", startParams);
     }
 
     function stopListening(listInstance) {
 
         var apiClient = getApiClient(listInstance);
-        if (apiClient.isWebSocketOpen()) {
-            apiClient.sendWebSocketMessage("SyncJobsStop", "");
-        }
+        apiClient.sendMessage("SyncJobsStop", "");
     }
 
     function getApiClient(listInstance) {

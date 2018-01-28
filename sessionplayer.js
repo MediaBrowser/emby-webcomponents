@@ -79,10 +79,7 @@
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        if (apiClient.isWebSocketOpen()) {
-
-            apiClient.sendWebSocketMessage("SessionsStop");
-        }
+        apiClient.sendMessage("SessionsStop");
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;
@@ -121,7 +118,7 @@
 
         var instance = this;
         var apiClient = getCurrentApiClient(instance);
-        if (!apiClient.isWebSocketOpen()) {
+        if (!apiClient.isMessageChannelOpen()) {
 
             apiClient.getSessions().then(function (sessions) {
                 processUpdatedSessions(instance, sessions, apiClient);
@@ -134,10 +131,7 @@
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        if (apiClient.isWebSocketOpen()) {
-
-            apiClient.sendWebSocketMessage("SessionsStart", "100,800");
-        }
+        apiClient.sendMessage("SessionsStart", "100,800");
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;

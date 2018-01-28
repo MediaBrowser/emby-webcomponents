@@ -381,17 +381,12 @@
 
         startParams += "," + jobId;
 
-        if (apiClient.isWebSocketOpen()) {
-            apiClient.sendWebSocketMessage("SyncJobStart", startParams);
-        }
+        apiClient.sendMessage("SyncJobStart", startParams);
     }
 
     function stopListening(apiClient) {
 
-        if (apiClient.isWebSocketOpen()) {
-            apiClient.sendWebSocketMessage("SyncJobStop", "");
-        }
-
+        apiClient.sendMessage("SyncJobStop", "");
     }
 
     function bindEvents(context, jobId, apiClient) {
