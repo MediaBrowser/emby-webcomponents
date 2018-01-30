@@ -57,8 +57,10 @@
         var width = dlg.offsetWidth || 160;
 
         // Account for popup size 
-        pos.top -= height / 2;
-        pos.left -= width / 2;
+        if (!layoutManager.mobile) {
+            pos.top -= height / 2;
+            pos.left -= width / 2;
+        }
 
         // Avoid showing too close to the bottom
         var overflowX = pos.left + width - windowWidth;

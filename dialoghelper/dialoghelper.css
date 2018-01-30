@@ -109,7 +109,7 @@
 
     to {
         opacity: 0;
-        transform: translate3d(0, 30%, 0);
+        transform: translate3d(0, 20%, 0);
     }
 }
 
@@ -169,5 +169,5 @@
 }
 
 .dialogBackdropOpened {
-    opacity: .6;
+    opacity: .5;
 }

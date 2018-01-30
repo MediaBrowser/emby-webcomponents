@@ -558,6 +558,15 @@
         return apiClient.getEndpointInfo().then(function (endpointInfo) {
 
             if (endpointInfo.IsInNetwork) {
+
+                if (!endpointInfo.IsLocal) {
+                    var path = (mediaSource.Path || '').toLowerCase();
+                    if (path.indexOf('localhost') != -1 || path.indexOf('127.0.0.1') != -1) {
+                        // This will only work if the app is on the same machine as the server
+                        return Promise.resolve(false);
+                    }
+                }
+
                 return Promise.resolve(true);
             }
 

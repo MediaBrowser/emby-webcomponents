@@ -392,9 +392,17 @@
             dlg.setAttribute('data-autofocus', 'true');
         }
 
-        var defaultEntryAnimation = 'scaleup';
+        var defaultEntryAnimation;
+        var defaultExitAnimation;
+
+        if (layoutManager.mobile) {
+            defaultEntryAnimation = 'slideup';
+            defaultExitAnimation = 'slidedown';
+        } else {
+            defaultEntryAnimation = 'scaleup';
+            defaultExitAnimation = 'scaledown';
+        }
         var entryAnimation = options.entryAnimation || defaultEntryAnimation;
-        var defaultExitAnimation = 'scaledown';
         var exitAnimation = options.exitAnimation || defaultExitAnimation;
 
         // If it's not fullscreen then lower the default animation speed to make it open really fast
@@ -460,6 +468,9 @@
                     break;
                 case 'slideup':
                     dlg.style.animation = 'slideup ' + entryAnimationDuration + 'ms ease-out normal';
+                    break;
+                case 'slidedown':
+                    dlg.style.animation = 'slidedown ' + entryAnimationDuration + 'ms ease-out normal';
                     break;
                 default:
                     break;
