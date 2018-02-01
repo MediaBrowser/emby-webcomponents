@@ -268,7 +268,9 @@
                 html += '<span style="margin-right:1em;">' + globalize.translate('sharedcomponents#FormatValue', result.Format) + '</span>';
             }
 
-            html += '<span>' + globalize.translate('sharedcomponents#DownloadsValue', result.DownloadCount || 0) + '</span>';
+            if (result.DownloadCount != null) {
+                html += '<span>' + globalize.translate('sharedcomponents#DownloadsValue', result.DownloadCount) + '</span>';
+            }
             html += '</div>';
 
             if (result.Comment) {
