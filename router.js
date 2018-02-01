@@ -355,7 +355,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
                 max /= 8;
                 max *= 1000000;
-                max *= .7;
+                max *= 0.7;
                 max = parseInt(max);
                 return max;
             }
