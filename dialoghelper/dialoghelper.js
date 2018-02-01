@@ -395,13 +395,8 @@
         var defaultEntryAnimation;
         var defaultExitAnimation;
 
-        if (layoutManager.mobile) {
-            defaultEntryAnimation = 'slideup';
-            defaultExitAnimation = 'slidedown';
-        } else {
-            defaultEntryAnimation = 'scaleup';
-            defaultExitAnimation = 'scaledown';
-        }
+        defaultEntryAnimation = 'scaleup';
+        defaultExitAnimation = 'scaledown';
         var entryAnimation = options.entryAnimation || defaultEntryAnimation;
         var exitAnimation = options.exitAnimation || defaultExitAnimation;
 

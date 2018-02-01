@@ -89,7 +89,7 @@ button {
 @media all and (max-width: 50em) {
 
     .cardBox {
-        margin: .28em;
+        margin: .32em .24em;
     }
 }
 

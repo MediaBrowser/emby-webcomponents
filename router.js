@@ -346,12 +346,36 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
+    function getMaxBandwidth() {
+
+        if (navigator.connection) {
+
+            var max = navigator.connection.downlinkMax;
+            if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
+
+                max /= 8;
+                max *= 1000000;
+                max *= .7;
+                max = parseInt(max);
+                return max;
+            }
+        }
+
+        return null;
+    }
+
+    function getMaxBandwidthIOS() {
+        return 800000;
+    }
+
     function onApiClientCreated(e, newApiClient) {
 
         newApiClient.normalizeImageOptions = normalizeImageOptions;
 
         if (browser.iOS) {
-            newApiClient.maxDetectedBitrate = 1000000;
+            newApiClient.getMaxBandwidth = getMaxBandwidthIOS;
+        } else {
+            newApiClient.getMaxBandwidth = getMaxBandwidth;
         }
 
         events.off(newApiClient, 'requestfail', onRequestFail);
