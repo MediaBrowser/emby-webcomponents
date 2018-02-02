@@ -3205,6 +3205,13 @@
             console.log('getLiveStreamMediaInfo');
 
             streamInfo.lastMediaInfoQuery = new Date().getTime();
+
+            var apiClient = connectionManager.getApiClient(serverId);
+
+            if (!apiClient.isMinServerVersion('3.2.70.7')) {
+                return;
+            }
+
             connectionManager.getApiClient(serverId).getLiveStreamMediaInfo(liveStreamId).then(function (info) {
 
                 mediaSource.MediaStreams = info.MediaStreams;
