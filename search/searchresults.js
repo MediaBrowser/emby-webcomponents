@@ -62,7 +62,8 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
-                query.MediaTypes === 'Video') {
+                query.MediaTypes === 'Video' ||
+                query.MediaTypes === 'Photo') {
                 allowSearch = false;
             }
         }
@@ -77,7 +78,8 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
-                query.MediaTypes === 'Video') {
+                query.MediaTypes === 'Video' ||
+                query.MediaTypes === 'Photo') {
                 allowSearch = false;
             }
         }
@@ -103,7 +105,8 @@
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
                 queryIncludeItemTypes === 'Movie' ||
-                query.MediaTypes === 'Video') {
+                query.MediaTypes === 'Video' ||
+                query.MediaTypes === 'Photo') {
                 allowSearch = false;
             }
         }
@@ -440,6 +443,23 @@
                 centerText: true,
                 action: 'play'
 
+        });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            MediaTypes: "Photo"
+
+        }, context, '.photoResults', {
+
+                showParentTitle: false,
+                showTitle: true,
+                overlayText: false,
+                centerText: true
             });
 
         searchType(instance, apiClient, {

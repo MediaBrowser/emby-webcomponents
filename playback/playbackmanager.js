@@ -1048,13 +1048,12 @@
         self.canPlay = function (item) {
 
             var itemType = item.Type;
-            var locationType = item.LocationType;
 
             if (itemType === "MusicGenre" || itemType === "Season" || itemType === "Series" || itemType === "BoxSet" || itemType === "MusicAlbum" || itemType === "MusicArtist" || itemType === "Playlist") {
                 return true;
             }
 
-            if (locationType === "Virtual") {
+            if (item.LocationType === "Virtual") {
                 if (itemType !== "Program") {
                     return false;
                 }

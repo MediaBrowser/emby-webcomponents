@@ -534,7 +534,7 @@
     }
 
     function setFieldVisibilities(context, item) {
-        if (item.Path && item.LocationType !== 'Remote') {
+        if (item.Path) {
             showElement('#fldPath', context);
         } else {
             hideElement('#fldPath', context);
