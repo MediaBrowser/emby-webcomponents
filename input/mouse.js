@@ -15,6 +15,25 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         inputmanager.notifyMouseMove();
     }
 
+    function removeIdleClasses() {
+
+        var classList = document.body.classList;
+
+        classList.remove('mouseIdle');
+        classList.remove('mouseIdle-tv');
+    }
+
+    function addIdleClasses() {
+
+        var classList = document.body.classList;
+
+        classList.add('mouseIdle');
+
+        if (layoutManager.tv) {
+            classList.remove('mouseIdle-tv');
+        }
+    }
+
     var lastPointerMoveData;
     function onPointerMove(e) {
 
@@ -48,7 +67,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
         if (isMouseIdle) {
             isMouseIdle = false;
-            document.body.classList.remove('mouseIdle');
+            removeIdleClasses();
             events.trigger(self, 'mouseactive');
         }
     }
@@ -88,7 +107,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
         if (!isMouseIdle && mouseIdleTime() >= 5000) {
             isMouseIdle = true;
-            document.body.classList.add('mouseIdle');
+            addIdleClasses();
             events.trigger(self, 'mouseidle');
         }
     }
@@ -110,7 +129,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
             mouseInterval = null;
         }
 
-        document.body.classList.remove('mouseIdle');
+        removeIdleClasses();
     }
 
     function initMouse() {

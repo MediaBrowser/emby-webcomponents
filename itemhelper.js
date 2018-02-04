@@ -300,7 +300,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             if (!item.MediaSources || (item.MediaSources.length === 1 && item.MediaSources[0].Type === 'Placeholder')) {
                 return false;
             }
-            if (item.SourceType && item.SourceType !== 'Library') {
+            if (item.EnableMediaSourceDisplay === false) {
+                return false;
+            }
+            if (item.EnableMediaSourceDisplay == null && item.SourceType && item.SourceType !== 'Library') {
                 return false;
             }
 

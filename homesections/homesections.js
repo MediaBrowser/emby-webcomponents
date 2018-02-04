@@ -18,7 +18,7 @@
             case 5:
                 return 'latestmedia';
             case 6:
-                return 'none';
+                return 'latestchannelmedia';
             default:
                 return '';
         }
@@ -145,7 +145,7 @@
             loadLatestLiveTvRecordings(elem, false, apiClient, userId);
         }
         else if (section === 'latestchannelmedia') {
-            return loadLatestChannelMedia(elem, apiClient, userId);
+            return loadLatestChannelItems(elem, apiClient, userId);
 
         } else {
 
@@ -537,52 +537,6 @@
 
             renderLatestSection(frag, apiClient, user, item);
         }
-    }
-
-    function loadLatestChannelMedia(elem, apiClient, userId) {
-
-        var screenWidth = dom.getWindowSize().innerWidth;
-
-        var options = {
-
-            Limit: enableScrollX() ? 12 : (screenWidth >= 2400 ? 10 : (screenWidth >= 1600 ? 10 : (screenWidth >= 1440 ? 8 : (screenWidth >= 800 ? 7 : 6)))),
-            Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-            Filters: "IsUnplayed",
-            UserId: userId,
-            EnableTotalRecordCount: false
-        };
-
-        return apiClient.getJSON(apiClient.getUrl("Channels/Items/Latest", options)).then(function (result) {
-
-            var html = '';
-
-            if (result.Items.length) {
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderLatestChannelMedia') + '</h2>';
-
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-                }
-
-                html += cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: 'auto',
-                    showTitle: true,
-                    centerText: true,
-                    lazy: true,
-                    showDetailsMenu: true,
-                    overlayPlayButton: true
-                });
-
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
-            }
-
-            elem.innerHTML = html;
-            imageLoader.lazyChildren(elem);
-        });
     }
 
     function getRequirePromise(deps) {
@@ -1242,7 +1196,6 @@
             for (var i = 0, length = channels.length; i < length; i++) {
 
                 var channel = channels[i];
-
                 loadLatestChannelItemsFromChannel(elem, apiClient, channel, i);
             }
 
@@ -1272,7 +1225,7 @@
                 html += '<div class="verticalSection">';
 
                 html += '<div class="sectionTitleContainer">';
-                var text = globalize.translate('sharedcomponents#HeaderLatestFrom').replace('{0}', channel.Name);
+                var text = globalize.translate('sharedcomponents#LatestFromLibrary', channel.Name);
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + text + '</h2>';
                 if (!layoutManager.tv) {
                     html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(channel) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
@@ -1396,7 +1349,6 @@
     }
 
     return {
-        loadLatestChannelMedia: loadLatestChannelMedia,
         loadLibraryTiles: loadLibraryTiles,
         loadLatestChannelItems: loadLatestChannelItems,
         getDefaultSection: getDefaultSection,
