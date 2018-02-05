@@ -111,6 +111,8 @@
             firePlaybackEvent(instance, 'statechange', session, apiClient);
             firePlaybackEvent(instance, 'timeupdate', session, apiClient);
             firePlaybackEvent(instance, 'pause', session, apiClient);
+        } else {
+            playbackManager.setDefaultPlayerActive();
         }
     }
 
@@ -191,30 +193,6 @@
 
         events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
             processUpdatedSessions(self, data, apiClient);
-        });
-
-        events.on(serverNotifications, 'SessionEnded', function (e, apiClient, data) {
-            console.log("Server reports another session ended");
-
-            if (getActivePlayerId() === data.Id) {
-                playbackManager.setDefaultPlayerActive();
-            }
-        });
-
-        events.on(serverNotifications, 'PlaybackStart', function (e, apiClient, data) {
-            if (data.DeviceId !== apiClient.deviceId()) {
-                if (getActivePlayerId() === data.Id) {
-                    firePlaybackEvent(self, 'playbackstart', data, apiClient);
-                }
-            }
-        });
-
-        events.on(serverNotifications, 'PlaybackStopped', function (e, apiClient, data) {
-            if (data.DeviceId !== apiClient.deviceId()) {
-                if (getActivePlayerId() === data.Id) {
-                    firePlaybackEvent(self, 'playbackstop', data, apiClient);
-                }
-            }
         });
     }
 

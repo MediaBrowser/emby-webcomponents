@@ -257,6 +257,18 @@
         }
     });
 
+    events.on(playbackManager, 'pairing', function (e) {
+        loading.show();
+    });
+
+    events.on(playbackManager, 'paired', function (e) {
+        loading.hide();
+    });
+
+    events.on(playbackManager, 'pairerror', function (e) {
+        loading.hide();
+    });
+
     return {
         show: showPlayerSelection
     };

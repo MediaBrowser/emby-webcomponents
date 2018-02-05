@@ -847,10 +847,16 @@
                 player.tryPair(targetInfo) :
                 Promise.resolve();
 
+            events.trigger(self, 'pairing');
+
             promise.then(function () {
+
+                events.trigger(self, 'paired');
 
                 setCurrentPlayerInternal(player, targetInfo);
             }, function () {
+
+                events.trigger(self, 'pairerror');
 
                 if (currentPairingId === targetInfo.id) {
                     currentPairingId = null;
