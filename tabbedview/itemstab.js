@@ -1,4 +1,4 @@
-﻿define(['userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'loading'], function (userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager, loading) {
+﻿define(['userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'loading', 'globalize'], function (userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager, loading, globalize) {
     'use strict';
 
     function trySelectValue(instance, scroller, view, value) {
@@ -84,6 +84,27 @@
         });
     }
 
+    function showSortMenu() {
+
+        var instance = this;
+
+        require(['sortMenu'], function (SortMenu) {
+
+            new SortMenu().show({
+
+                settingsKey: instance.getSettingsKey(),
+                settings: instance.getSortValues(),
+                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
+                serverId: instance.apiClient.serverId(),
+                sortOptions: instance.getSortMenuOptions()
+
+            }).then(function () {
+
+                instance.itemsContainer.refreshItems();
+            });
+        });
+    }
+
     function showViewSettingsMenu() {
 
         var instance = this;
@@ -130,6 +151,11 @@
         this.btnFilter = btnFilter;
         if (btnFilter) {
             btnFilter.addEventListener('click', showFilterMenu.bind(this));
+        }
+
+        var btnSort = view.querySelector('.btnSort');
+        if (btnSort) {
+            btnSort.addEventListener('click', showSortMenu.bind(this));
         }
     }
 
@@ -225,6 +251,16 @@
         };
     };
 
+    ItemsTab.prototype.getSortValues = function () {
+
+        var basekey = this.getSettingsKey();
+
+        return {
+            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
+            sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
+        };
+    };
+
     ItemsTab.prototype.getVisibleFilters = function () {
 
         return [
@@ -239,6 +275,97 @@
             'HasThemeSong',
             'HasThemeVideo'
         ];
+    };
+
+    ItemsTab.prototype.getDefaultSortBy = function () {
+
+        return 'SortName';
+    };
+
+    ItemsTab.prototype.getSortMenuOptions = function () {
+
+        var sortBy = [];
+
+        sortBy.push({
+            name: globalize.translate('sharedcomponents#Name'),
+            value: 'SortName'
+        });
+
+        var option = this.getCommunityRatingSortOption();
+
+        if (option) {
+            sortBy.push(option);
+        }
+
+        option = this.getCriticRatingSortOption();
+
+        if (option) {
+            sortBy.push(option);
+        }
+
+        sortBy.push({
+            name: globalize.translate('sharedcomponents#DateAdded'),
+            value: 'DateCreated,SortName'
+        });
+
+        option = this.getDatePlayedSortOption();
+        if (option) {
+            sortBy.push(option);
+        }
+
+        sortBy.push({
+            name: globalize.translate('sharedcomponents#ParentalRating'),
+            value: 'OfficialRating,SortName'
+        });
+
+        option = this.getPlayCountSortOption();
+        if (option) {
+            sortBy.push(option);
+        }
+
+        sortBy.push({
+            name: globalize.translate('sharedcomponents#ReleaseDate'),
+            value: 'PremiereDate,ProductionYear,SortName'
+        });
+
+        sortBy.push({
+            name: globalize.translate('sharedcomponents#Runtime'),
+            value: 'RuntimeTicks,SortName'
+        });
+
+        return sortBy;
+    };
+
+    ItemsTab.prototype.getPlayCountSortOption = function () {
+
+        return {
+            name: globalize.translate('sharedcomponents#PlayCount'),
+            value: 'PlayCount,SortName'
+        };
+    };
+
+    ItemsTab.prototype.getDatePlayedSortOption = function () {
+
+        return {
+            name: globalize.translate('sharedcomponents#DatePlayed'),
+            value: 'DatePlayed,SortName'
+        };
+    };
+
+    ItemsTab.prototype.getCriticRatingSortOption = function () {
+
+        return {
+            name: globalize.translate('sharedcomponents#CriticRating'),
+            value: 'CriticRating,SortName'
+        };
+    };
+
+    ItemsTab.prototype.getCommunityRatingSortOption = function () {
+
+        return {
+            name: globalize.translate('sharedcomponents#CommunityRating'),
+            value: 'CommunityRating,SortName'
+        };
     };
 
     ItemsTab.prototype.getFilterMenuOptions = function () {
