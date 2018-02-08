@@ -256,7 +256,7 @@
         var basekey = this.getSettingsKey();
 
         return {
-            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
+            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getSortMenuOptions()[0].value,
             sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
         };
     };
@@ -286,13 +286,12 @@
 
         var sortBy = [];
 
-        sortBy.push({
-            name: globalize.translate('sharedcomponents#Name'),
-            value: 'SortName'
-        });
+        var option = this.getNameSortOption();
+        if (option) {
+            sortBy.push(option);
+        }
 
-        var option = this.getCommunityRatingSortOption();
-
+        option = this.getCommunityRatingSortOption();
         if (option) {
             sortBy.push(option);
         }
@@ -334,6 +333,14 @@
         });
 
         return sortBy;
+    };
+
+    ItemsTab.prototype.getNameSortOption = function () {
+
+        return {
+            name: globalize.translate('sharedcomponents#Name'),
+            value: 'SortName'
+        };
     };
 
     ItemsTab.prototype.getPlayCountSortOption = function () {
