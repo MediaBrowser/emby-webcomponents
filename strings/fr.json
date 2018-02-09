@@ -183,6 +183,16 @@
     "Artists": "Artistes",
     "ImdbRating": "Note IMDb",
     "CommunityRating": "Note de la communaut\u00e9",
+    "ImdbRatingHighToLow": "C\u00f4te IMDb (\u00e9lev\u00e9 \u00e0 bas)",
+    "CommunityRatingHighToLow": "C\u00f4te de la communaut\u00e9 (\u00e9lev\u00e9 \u00e0 bas)",
+    "RuntimeHighToLow": "Dur\u00e9e (longue \u00e0 courte)",
+    "ReleaseDateHighToLow": "Date de sortie (plus r\u00e9cent au plus ancien)",
+    "ParentalRatingHighToLow": "Classement parental (\u00e9lev\u00e9 \u00e0 faible)",
+    "NameHighToLow": "Nom (z-a)",
+    "DatePlayedHighToLow": "Date de lecture (plus r\u00e9cent au plus ancien)",
+    "DateAddedHighToLow": "Date d'ajout (plus r\u00e9cent au plus ancien)",
+    "PlayCountHighToLow": "Nombre de lectures (\u00e9lev\u00e9 \u00e0 faible)",
+    "CriticRatingHighToLow": "Critic rating (high to low)",
     "LabelCommunityRating": "Note de la communaut\u00e9\u00a0:",
     "LabelCriticRating": "Note des critiques\u00a0:",
     "CriticRating": "Note de la critique",
@@ -656,9 +666,6 @@
     "HeaderFavoriteArtists": "Artistes Favoris",
     "HeaderFavoriteAlbums": "Albums Favoris",
     "HeaderFavoriteSongs": "Chansons Favorites",
-    "HeaderSortOptions": "Options de tri",
     "Ascending": "Croissant",
-    "Descending": "D\u00e9croissant",
-    "LabelSortBy": "Trier par :",
-    "LabelSortOrder": "Ordre de tri :"
+    "Descending": "D\u00e9croissant"
 }

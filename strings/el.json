@@ -183,6 +183,16 @@
     "Artists": "\u039a\u03b1\u03bb\u03bb\u03b9\u03c4\u03ad\u03c7\u03bd\u03b5\u03c2",
     "ImdbRating": "IMDb rating",
     "CommunityRating": "Community rating",
+    "ImdbRatingHighToLow": "IMDb rating (high to low)",
+    "CommunityRatingHighToLow": "Community rating (high to low)",
+    "RuntimeHighToLow": "Runtime (high to low)",
+    "ReleaseDateHighToLow": "Release date (newest to oldest)",
+    "ParentalRatingHighToLow": "Parental rating (high to low)",
+    "NameHighToLow": "Name (z-a)",
+    "DatePlayedHighToLow": "Date played (newest to oldest)",
+    "DateAddedHighToLow": "Date added (newest to oldest)",
+    "PlayCountHighToLow": "Play count (high to low)",
+    "CriticRatingHighToLow": "Critic rating (high to low)",
     "LabelCommunityRating": "\u0392\u03b1\u03b8\u03bc\u03bf\u03bb\u03bf\u03b3\u03af\u03b1 \u039a\u03bf\u03b9\u03bd\u03cc\u03c4\u03b7\u03c4\u03b1\u03c2:",
     "LabelCriticRating": "\u0392\u03b1\u03b8\u03bc\u03bf\u03bb\u03bf\u03b3\u03af\u03b1 \u03ba\u03c1\u03b9\u03c4\u03b9\u03ba\u03ce\u03bd:",
     "CriticRating": "Critic rating",
@@ -656,9 +666,6 @@
     "HeaderFavoriteArtists": "Favorite Artists",
     "HeaderFavoriteAlbums": "Favorite Albums",
     "HeaderFavoriteSongs": "Favorite Songs",
-    "HeaderSortOptions": "Sort Options",
     "Ascending": "Ascending",
-    "Descending": "Descending",
-    "LabelSortBy": "Sort by:",
-    "LabelSortOrder": "Sort order:"
+    "Descending": "Descending"
 }

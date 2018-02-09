@@ -183,6 +183,16 @@
     "Artists": "Artistas",
     "ImdbRating": "IMDb rating",
     "CommunityRating": "Community rating",
+    "ImdbRatingHighToLow": "IMDb rating (high to low)",
+    "CommunityRatingHighToLow": "Community rating (high to low)",
+    "RuntimeHighToLow": "Runtime (high to low)",
+    "ReleaseDateHighToLow": "Release date (newest to oldest)",
+    "ParentalRatingHighToLow": "Parental rating (high to low)",
+    "NameHighToLow": "Name (z-a)",
+    "DatePlayedHighToLow": "Date played (newest to oldest)",
+    "DateAddedHighToLow": "Date added (newest to oldest)",
+    "PlayCountHighToLow": "Play count (high to low)",
+    "CriticRatingHighToLow": "Critic rating (high to low)",
     "LabelCommunityRating": "Calificaci\u00f3n de la comunidad:",
     "LabelCriticRating": "Calificaci\u00f3n de la cr\u00edtica:",
     "CriticRating": "Critic rating",
@@ -656,9 +666,6 @@
     "HeaderFavoriteArtists": "Artistas Favoritos",
     "HeaderFavoriteAlbums": "\u00c1lbumes Favoritos",
     "HeaderFavoriteSongs": "Canciones Favoritas",
-    "HeaderSortOptions": "Sort Options",
     "Ascending": "Ascending",
-    "Descending": "Descending",
-    "LabelSortBy": "Sort by:",
-    "LabelSortOrder": "Sort order:"
+    "Descending": "Descending"
 }

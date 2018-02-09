@@ -183,6 +183,16 @@
     "Artists": "\u0418\u0441\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u0438",
     "ImdbRating": "IMDb rating",
     "CommunityRating": "Community rating",
+    "ImdbRatingHighToLow": "IMDb rating (high to low)",
+    "CommunityRatingHighToLow": "Community rating (high to low)",
+    "RuntimeHighToLow": "Runtime (high to low)",
+    "ReleaseDateHighToLow": "Release date (newest to oldest)",
+    "ParentalRatingHighToLow": "Parental rating (high to low)",
+    "NameHighToLow": "Name (z-a)",
+    "DatePlayedHighToLow": "Date played (newest to oldest)",
+    "DateAddedHighToLow": "Date added (newest to oldest)",
+    "PlayCountHighToLow": "Play count (high to low)",
+    "CriticRatingHighToLow": "Critic rating (high to low)",
     "LabelCommunityRating": "\u041e\u0431\u0449\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u0430\u044f \u043e\u0446\u0435\u043d\u043a\u0430:",
     "LabelCriticRating": "\u041e\u0446\u0435\u043d\u043a\u0430 \u043a\u0440\u0438\u0442\u0438\u043a\u043e\u0432:",
     "CriticRating": "Critic rating",
@@ -656,9 +666,6 @@
     "HeaderFavoriteArtists": "\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u044b\u0435 \u0438\u0441\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u0438",
     "HeaderFavoriteAlbums": "\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u044b\u0435 \u0430\u043b\u044c\u0431\u043e\u043c\u044b",
     "HeaderFavoriteSongs": "\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u044b\u0435 \u043a\u043e\u043c\u043f\u043e\u0437\u0438\u0446\u0438\u0438",
-    "HeaderSortOptions": "Sort Options",
     "Ascending": "Ascending",
-    "Descending": "Descending",
-    "LabelSortBy": "Sort by:",
-    "LabelSortOrder": "Sort order:"
+    "Descending": "Descending"
 }

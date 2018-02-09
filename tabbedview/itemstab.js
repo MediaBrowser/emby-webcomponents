@@ -84,24 +84,48 @@
         });
     }
 
-    function showSortMenu() {
+    function showSortMenu(e) {
 
         var instance = this;
 
-        require(['sortMenu'], function (SortMenu) {
+        var options = instance.getSortMenuOptions();
 
-            new SortMenu().show({
+        var menuItems = [];
 
-                settingsKey: instance.getSettingsKey(),
-                settings: instance.getSortValues(),
-                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
-                serverId: instance.apiClient.serverId(),
-                sortOptions: instance.getSortMenuOptions()
+        for (var i = 0, length = options.length; i < length; i++) {
 
-            }).then(function () {
+            menuItems.push({
+                name: options[i].name,
+                id: options[i].value + '||Ascending'
+            });
 
-                updateSortText(instance);
-                instance.itemsContainer.refreshItems();
+            menuItems.push({
+                name: options[i].reverseName,
+                id: options[i].value + '||Descending'
+            });
+        }
+
+        require(['actionsheet'], function (actionsheet) {
+
+            actionsheet.show({
+                items: menuItems,
+                positionTo: e.target,
+                callback: function (id) {
+
+                    if (id) {
+
+                        var settingsKey = instance.getSettingsKey();
+
+                        id = id.split('||');
+
+                        userSettings.setFilter(settingsKey + '-sortorder', id[1]);
+                        userSettings.setFilter(settingsKey + '-sortby', id[0]);
+
+                        updateSortText(instance);
+
+                        instance.itemsContainer.refreshItems();
+                    }
+                }
             });
         });
     }
@@ -354,6 +378,7 @@
 
         sortBy.push({
             name: globalize.translate('sharedcomponents#DateAdded'),
+            reverseName: globalize.translate('sharedcomponents#DateAddedHighToLow'),
             value: 'DateCreated,SortName'
         });
 
@@ -364,6 +389,7 @@
 
         sortBy.push({
             name: globalize.translate('sharedcomponents#ParentalRating'),
+            reverseName: globalize.translate('sharedcomponents#ParentalRatingHighToLow'),
             value: 'OfficialRating,SortName'
         });
 
@@ -374,11 +400,13 @@
 
         sortBy.push({
             name: globalize.translate('sharedcomponents#ReleaseDate'),
+            reverseName: globalize.translate('sharedcomponents#ReleaseDateHighToLow'),
             value: 'PremiereDate,ProductionYear,SortName'
         });
 
         sortBy.push({
             name: globalize.translate('sharedcomponents#Runtime'),
+            reverseName: globalize.translate('sharedcomponents#RuntimeHighToLow'),
             value: 'RuntimeTicks,SortName'
         });
 
@@ -389,6 +417,7 @@
 
         return {
             name: globalize.translate('sharedcomponents#Name'),
+            reverseName: globalize.translate('sharedcomponents#NameHighToLow'),
             value: 'SortName'
         };
     };
@@ -397,6 +426,7 @@
 
         return {
             name: globalize.translate('sharedcomponents#PlayCount'),
+            reverseName: globalize.translate('sharedcomponents#PlayCountHighToLow'),
             value: 'PlayCount,SortName'
         };
     };
@@ -405,6 +435,7 @@
 
         return {
             name: globalize.translate('sharedcomponents#DatePlayed'),
+            reverseName: globalize.translate('sharedcomponents#DatePlayedHighToLow'),
             value: 'DatePlayed,SortName'
         };
     };
@@ -413,6 +444,7 @@
 
         return {
             name: globalize.translate('sharedcomponents#CriticRating'),
+            reverseName: globalize.translate('sharedcomponents#CriticRatingHighToLow'),
             value: 'CriticRating,SortName'
         };
     };
@@ -421,6 +453,7 @@
 
         return {
             name: globalize.translate('sharedcomponents#CommunityRating'),
+            reverseName: globalize.translate('sharedcomponents#CommunityRatingHighToLow'),
             value: 'CommunityRating,SortName'
         };
     };

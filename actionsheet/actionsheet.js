@@ -133,8 +133,6 @@
 
         if (layoutManager.mobile) {
             dlg.classList.add('actionsheet-xlargeFont');
-        } else if (layoutManager.desktop) {
-            dlg.classList.add('actionsheet-largeFont');
         }
 
         dlg.classList.add('actionSheet');

@@ -183,6 +183,16 @@
     "Artists": "Wykonawcy",
     "ImdbRating": "Ocena IMDb",
     "CommunityRating": "Ocena spo\u0142eczno\u015bci",
+    "ImdbRatingHighToLow": "IMDb rating (high to low)",
+    "CommunityRatingHighToLow": "Community rating (high to low)",
+    "RuntimeHighToLow": "Runtime (high to low)",
+    "ReleaseDateHighToLow": "Release date (newest to oldest)",
+    "ParentalRatingHighToLow": "Parental rating (high to low)",
+    "NameHighToLow": "Name (z-a)",
+    "DatePlayedHighToLow": "Date played (newest to oldest)",
+    "DateAddedHighToLow": "Date added (newest to oldest)",
+    "PlayCountHighToLow": "Play count (high to low)",
+    "CriticRatingHighToLow": "Critic rating (high to low)",
     "LabelCommunityRating": "Ocena spo\u0142eczno\u015bci:",
     "LabelCriticRating": "Ocena krytyk\u00f3w:",
     "CriticRating": "Ocena krytyk\u00f3w",
@@ -656,9 +666,6 @@
     "HeaderFavoriteArtists": "Wykonawcy ulubieni",
     "HeaderFavoriteAlbums": "Albumy ulubione",
     "HeaderFavoriteSongs": "Utwory ulubione",
-    "HeaderSortOptions": "Opcje sortowania",
     "Ascending": "Rosn\u0105co",
-    "Descending": "Malej\u0105co",
-    "LabelSortBy": "Sortuj po:",
-    "LabelSortOrder": "Porz\u0105dek sortowania"
+    "Descending": "Malej\u0105co"
 }
