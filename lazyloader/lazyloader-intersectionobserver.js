@@ -17,7 +17,7 @@ define(['require', 'browser'], function (require, browser) {
         var loadedCount = 0;
         var callback = options.callback;
 
-        observerOptions.rootMargin = "10%";
+        //observerOptions.rootMargin = "10%";
 
         var observerId = 'obs' + new Date().getTime();
 

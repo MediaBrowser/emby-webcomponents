@@ -37,6 +37,7 @@
   "Friday": "Friday",
   "Saturday": "Saturday",
   "Days": "Days",
+  "SortByValue": "Sort by {0}",
   "Photos": "Photos",
   "RecordSeries": "Record series",
   "HeaderCinemaMode": "Cinema Mode",

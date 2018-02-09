@@ -149,10 +149,6 @@
     vertical-align: middle;
 }
 
-.emby-button > span + i {
-    margin-left: .5em;
-}
-
 .paper-icon-button-light {
     position: relative;
     display: inline-flex;

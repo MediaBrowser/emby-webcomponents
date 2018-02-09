@@ -100,6 +100,7 @@
 
             }).then(function () {
 
+                updateSortText(instance);
                 instance.itemsContainer.refreshItems();
             });
         });
@@ -122,6 +123,35 @@
                 instance.itemsContainer.refreshItems();
             });
         });
+    }
+
+    function updateSortText(instance) {
+
+        var btnSortText = instance.btnSortText;
+        if (!btnSortText) {
+            return;
+        }
+
+        var options = instance.getSortMenuOptions();
+        var values = instance.getSortValues();
+
+        var sortBy = values.sortBy;
+
+        for (var i = 0, length = options.length; i < length; i++) {
+
+            if (sortBy === options[i].value) {
+
+                btnSortText.innerHTML = globalize.translate('sharedcomponents#SortByValue', options[i].name);
+                break;
+            }
+        }
+
+        var btnSortIcon = instance.btnSortIcon;
+        if (!btnSortIcon) {
+            return;
+        }
+
+        btnSortIcon.innerHTML = values.sortOrder === 'Descending' ? '&#xE5C7;' : '&#xE5C5;';
     }
 
     function ItemsTab(view, params) {
@@ -157,6 +187,8 @@
         if (btnSort) {
             btnSort.addEventListener('click', showSortMenu.bind(this));
         }
+        this.btnSortText = view.querySelector('.btnSortText');
+        this.btnSortIcon = view.querySelector('.btnSortIcon');
     }
 
     function getSettingValue(key, defaultValue) {
@@ -186,6 +218,7 @@
     ItemsTab.prototype.onResume = function (options) {
 
         if (options && options.refresh) {
+            updateSortText(this);
             loading.show();
         }
 
@@ -442,6 +475,8 @@
             this.alphaPicker.destroy();
             this.alphaPicker = null;
         }
+        this.btnSortText = null;
+        this.btnSortIcon = null;
     };
 
     return ItemsTab;
