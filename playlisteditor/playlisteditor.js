@@ -174,7 +174,7 @@
         html += '<div class="newPlaylistInfo">';
 
         html += '<div class="inputContainer">';
-        var autoFocus = items.length ? '' : ' autofocus';
+        autoFocus = items.length ? '' : ' autofocus';
         html += '<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '"' + autoFocus + ' />';
         html += '</div>';
 

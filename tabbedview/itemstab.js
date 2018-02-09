@@ -120,9 +120,25 @@
 
             }).then(function () {
 
+                updateItemsContainerForViewType(instance);
                 instance.itemsContainer.refreshItems();
             });
         });
+    }
+
+    function updateItemsContainerForViewType(instance) {
+
+        var settings = instance.getViewSettings();
+
+        if (settings.imageType === 'list') {
+
+            instance.itemsContainer.classList.remove('vertical-wrap');
+            instance.itemsContainer.classList.add('vertical-list');
+
+        } else {
+            instance.itemsContainer.classList.add('vertical-wrap');
+            instance.itemsContainer.classList.remove('vertical-list');
+        }
     }
 
     function updateSortText(instance) {
@@ -219,6 +235,7 @@
 
         if (options && options.refresh) {
             updateSortText(this);
+            updateItemsContainerForViewType(this);
             loading.show();
         }
 
