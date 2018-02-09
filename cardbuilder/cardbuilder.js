@@ -501,6 +501,22 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     tag: item.ImageTags.Disc
                 });
 
+            } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
+
+                imgUrl = apiClient.getScaledImageUrl(item.Id, {
+                    type: "Logo",
+                    maxWidth: width,
+                    tag: item.ImageTags.Logo
+                });
+
+            } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
+
+                imgUrl = apiClient.getScaledImageUrl(item.ParentLogoItemId, {
+                    type: "Logo",
+                    maxWidth: width,
+                    tag: item.ParentLogoImageTag
+                });
+
             } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
