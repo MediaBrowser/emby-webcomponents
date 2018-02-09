@@ -170,7 +170,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
             if (alphaPickerButton) {
                 alphaFocusedElement = alphaPickerButton;
-                alphaFocusTimeout = setTimeout(onAlphaFocusTimeout, 100);
+                alphaFocusTimeout = setTimeout(onAlphaFocusTimeout, 600);
             }
         }
 

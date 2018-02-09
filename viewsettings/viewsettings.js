@@ -29,13 +29,24 @@
         }
 
         userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
-    }
+   }
 
     function centerFocus(elem, horiz, on) {
         require(['scrollHelper'], function (scrollHelper) {
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
+    }
+
+    function showIfAllowed(context, selector, visible) {
+
+        var elem = context.querySelector(selector);
+
+        if (visible && !elem.classList.contains('hiddenFromViewSettings')) {
+            elem.classList.remove('hide');
+        } else {
+            elem.classList.add('hide');
+        }
     }
 
     function ViewSettings() {
@@ -79,12 +90,20 @@
                 for (var i = 0, length = settingElements.length; i < length; i++) {
                     if (options.visibleSettings.indexOf(settingElements[i].getAttribute('data-settingname')) === -1) {
                         settingElements[i].classList.add('hide');
+                        settingElements[i].classList.add('hiddenFromViewSettings');
                     } else {
                         settingElements[i].classList.remove('hide');
+                        settingElements[i].classList.remove('hiddenFromViewSettings');
                     }
                 }
 
                 initEditor(dlg, options.settings);
+
+                dlg.querySelector('.selectImageType').addEventListener('change', function () {
+
+                    showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list');
+                    showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list');
+                });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
 
@@ -96,6 +115,8 @@
                 }
 
                 var submitted;
+
+                dlg.querySelector('.selectImageType').dispatchEvent(new CustomEvent('change', {}));
 
                 dlg.querySelector('form').addEventListener('change', function () {
 

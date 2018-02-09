@@ -158,7 +158,7 @@
         });
     }
 
-    function getEditorHtml() {
+    function getEditorHtml(items) {
 
         var html = '';
 
@@ -167,13 +167,15 @@
         html += '<form style="margin:auto;">';
 
         html += '<div class="fldSelectPlaylist selectContainer">';
-        html += '<select is="emby-select" id="selectPlaylistToAddTo" label="' + globalize.translate('sharedcomponents#LabelPlaylist') + '" autofocus></select>';
+        var autoFocus = items.length ? ' autofocus' : '';
+        html += '<select is="emby-select" id="selectPlaylistToAddTo" label="' + globalize.translate('sharedcomponents#LabelPlaylist') + '"' + autoFocus + '></select>';
         html += '</div>';
 
         html += '<div class="newPlaylistInfo">';
 
         html += '<div class="inputContainer">';
-        html += '<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '" />';
+        var autoFocus = items.length ? '' : ' autofocus';
+        html += '<input is="emby-input" type="text" id="txtNewPlaylistName" required="required" label="' + globalize.translate('sharedcomponents#LabelName') + '"' + autoFocus + ' />';
         html += '</div>';
 
         // newPlaylistInfo
@@ -263,7 +265,7 @@
 
         html += '</div>';
 
-        html += getEditorHtml();
+        html += getEditorHtml(items);
 
         dlg.innerHTML = html;
 
