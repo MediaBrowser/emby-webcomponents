@@ -90,9 +90,13 @@
 
         var options = instance.getSortMenuOptions();
 
-        var menuItems = [];
+        var values = this.getSortValues();
+        var current = values.sortBy + '||' + values.sortOrder;
 
-        for (var i = 0, length = options.length; i < length; i++) {
+        var menuItems = [];
+        var i, length;
+
+        for (i = 0, length = options.length; i < length; i++) {
 
             menuItems.push({
                 name: options[i].name,
@@ -105,9 +109,15 @@
             });
         }
 
+        for (i = 0, length = menuItems.length; i < length; i++) {
+
+            menuItems[i].selected = menuItems[i].id === current;
+        }
+
         require(['actionsheet'], function (actionsheet) {
 
             actionsheet.show({
+                title: globalize.translate('sharedcomponents#LabelSortBy'),
                 items: menuItems,
                 positionTo: e.target,
                 callback: function (id) {

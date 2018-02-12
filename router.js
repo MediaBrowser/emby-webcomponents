@@ -294,20 +294,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function normalizeImageOptions(options) {
 
-        var height = screen.availHeight;
-        height = Math.min(height, 1440);
-        var scaleFactor = height / 1080;
-
-        if (Math.abs(height - 1080) < 100) {
-            scaleFactor = 1;
-        }
-
-        if (!layoutManager.tv) {
-            scaleFactor = 1;
-        }
-
-        var appImageScaleFactor = browser.tv ? 0.8 : 1;
-        scaleFactor *= appImageScaleFactor;
+        var scaleFactor = browser.tv ? 0.8 : 1;
 
         var setQuality;
         if (options.maxWidth) {
