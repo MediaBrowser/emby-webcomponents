@@ -678,7 +678,7 @@
                 lazy: true,
                 transition: false,
                 allowBottomPadding: !scrollX,
-                cardClass: scrollX ? 'overflowHomeLibraryCard' : null
+                cardClass: scrollX ? (layoutManager.tv ? 'overflowHomeLibraryCard-tv' : 'overflowHomeLibraryCard') : null
             });
 
             if (scrollX) {

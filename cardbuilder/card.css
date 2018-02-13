@@ -77,13 +77,17 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .34em .36em;
+    margin: .4em .36em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
     contain: layout style;
+}
+
+.layout-tv .cardBox {
+    margin: .4em;
 }
 
 @media all and (max-width: 50em) {
@@ -112,7 +116,7 @@ button {
 }
 
 .cardBox-bottompadded {
-    margin-bottom: 1.9em !important;
+    margin-bottom: 1.84em !important;
 }
 
 .layout-mobile .cardBox-bottompadded {
@@ -613,7 +617,7 @@ button {
 }
 
 .itemsContainer-tv > .backdropCard {
-    width: 20%;
+    width: 25%;
 }
 
 .itemsContainer-tv > .squareCard {
@@ -732,7 +736,7 @@ button {
 }
 
 .itemsContainer-tv > .overflowBackdropCard {
-    width: 18.9vw;
+    width: 23.3vw;
 }
 
 .overflowBackdropCard-textCard {
