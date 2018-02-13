@@ -428,7 +428,7 @@
                 ParentId: parentId
             };
 
-            return apiClient.getJSON(apiClient.getUrl('Users/' + apiClient.getCurrentUserId() + '/Items/Latest', options));
+            return apiClient.getLatestItems(options);
         };
     }
 
@@ -1181,7 +1181,7 @@
             EnableTotalRecordCount: false
         });
 
-        return apiClient.getJSON(apiClient.getUrl("Channels", options)).then(function (result) {
+        return apiClient.getChannels(options).then(function (result) {
 
             var channels = result.Items;
 
@@ -1216,7 +1216,7 @@
             EnableTotalRecordCount: false
         };
 
-        apiClient.getJSON(apiClient.getUrl("Channels/Items/Latest", options)).then(function (result) {
+        apiClient.getLatestChannelItems(options).then(function (result) {
 
             var html = '';
 

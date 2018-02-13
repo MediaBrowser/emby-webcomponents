@@ -93,7 +93,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     return 1;
                 case 'backdrop':
                     if (layoutManager.tv) {
-                        return 100 / 25;
+                        return 100 / 20;
                     }
                     if (screenWidth >= 2500) {
                         return 6;
@@ -184,7 +184,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     break;
                 case 'overflowBackdrop':
                     if (layoutManager.tv) {
-                        return 100 / 23.3;
+                        return 100 / 18.9;
                     }
                     if (isOrientationLandscape) {
                         if (screenWidth >= 1700) {

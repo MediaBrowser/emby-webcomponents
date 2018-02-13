@@ -75,10 +75,10 @@
 
             UserId: apiClient.getCurrentUserId(),
             ParentId: options.parentId,
-            IncludeItemTypes: options.itemTypes.join(','),
+            IncludeItemTypes: options.itemTypes.join(',')
         });
 
-        apiClient.getJSON(apiClient.getUrl('Items/Filters2', filterMenuOptions)).then(function (result) {
+        apiClient.getFilters(filterMenuOptions).then(function (result) {
 
             renderDynamicFilters(context, result, options);
         }, function () {
