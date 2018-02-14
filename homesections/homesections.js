@@ -671,14 +671,13 @@
 
             html += cardBuilder.getCardsHtml({
                 items: userViews,
-                shape: scrollX ? 'overflowBackdrop' : shape,
+                shape: scrollX ? 'overflowSmallBackdrop' : shape,
                 showTitle: true,
                 centerText: true,
                 overlayText: false,
                 lazy: true,
                 transition: false,
-                allowBottomPadding: !scrollX,
-                cardClass: scrollX ? (layoutManager.tv ? 'overflowHomeLibraryCard-tv' : 'overflowHomeLibraryCard') : null
+                allowBottomPadding: !scrollX
             });
 
             if (scrollX) {

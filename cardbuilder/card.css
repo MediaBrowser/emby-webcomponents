@@ -55,7 +55,7 @@ button {
     contain: layout style;
 }
 
-.cardPadder-backdrop, .cardPadder-mixedBackdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop {
+.cardPadder-backdrop, .cardPadder-mixedBackdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop, .cardPadder-overflowSmallBackdrop {
     padding-bottom: 56.25%;
     contain: strict;
 }
@@ -116,7 +116,7 @@ button {
 }
 
 .cardBox-bottompadded {
-    margin-bottom: 1.84em !important;
+    margin-bottom: 1.8em !important;
 }
 
 .layout-mobile .cardBox-bottompadded {
@@ -638,6 +638,10 @@ button {
         width: 72vw;
     }
 
+    .overflowSmallBackdropCard {
+        width: 30vw;
+    }
+
     .overflowSquareCard {
         width: 42vw;
     }
@@ -647,6 +651,10 @@ button {
 
     .overflowBackdropCard {
         width: 23.3vw;
+    }
+
+    .overflowSmallBackdropCard {
+        width: 15.5vw;
     }
 
     .overflowSquareCard, .overflowPortraitCard {
@@ -749,4 +757,8 @@ button {
 
 .itemsContainer-tv > .overflowSquareCard, .itemsContainer-tv > .overflowPortraitCard {
     width: 15.5vw;
+}
+
+.itemsContainer-tv > .overflowSmallBackdropCard {
+    width: 18.9vw;
 }

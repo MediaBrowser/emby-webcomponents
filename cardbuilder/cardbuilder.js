@@ -112,25 +112,35 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                     return 1;
                 case 'smallBackdrop':
-                    if (screenWidth >= 1440) {
-                        return 8;
+                    if (screenWidth >= 1600) {
+                        return 100 / 12.5;
                     }
-                    if (screenWidth >= 1100) {
-                        return 6;
+                    if (screenWidth >= 1400) {
+                        return 100 / 14.2857142857;
                     }
-                    if (screenWidth >= 800) {
+                    if (screenWidth >= 1200) {
+                        return 100 / 16.666666666666666666;
+                    }
+                    if (screenWidth >= 1000) {
                         return 5;
                     }
-                    if (screenWidth >= 600) {
+                    if (screenWidth >= 800) {
                         return 4;
                     }
-                    if (screenWidth >= 540) {
-                        return 3;
+                    if (screenWidth >= 500) {
+                        return 100 / 33.33333333;
                     }
-                    if (screenWidth >= 420) {
-                        return 2;
+                    return 2;
+                case 'overflowSmallBackdrop':
+                    if (layoutManager.tv) {
+                        return 100 / 18.9;
                     }
-                    return 1;
+                    if (isOrientationLandscape) {
+                        return 100 / 15.5;
+                    } else {
+                        return 100 / 30;
+                    }
+                    break;
                 case 'overflowPortrait':
 
                     if (layoutManager.tv) {
