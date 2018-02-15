@@ -52,7 +52,7 @@
         instance.itemsContainer = view.querySelector('.itemsContainer');
 
         instance.alphaPicker = new AlphaPicker({
-            element: view.querySelector('.alphaPicker'),
+            element: instance.alphaPickerElement,
             itemsContainer: instance.itemsContainer,
             itemClass: 'card'
         });
@@ -84,58 +84,45 @@
         });
     }
 
-    function showSortMenu(e) {
+    function updateAlphaPickerState(instance) {
+
+        if (!instance.alphaPicker) {
+            return;
+        }
+
+        var alphaPicker = instance.alphaPickerElement;
+        if (!alphaPicker) {
+            return;
+        }
+        var values = instance.getSortValues();
+
+        if (values.sortBy === 'SortName' && values.sortOrder === 'Ascending') {
+            alphaPicker.classList.remove('hide');
+        } else {
+            alphaPicker.classList.add('hide');
+        }
+    }
+
+    function showSortMenu() {
 
         var instance = this;
 
-        var options = instance.getSortMenuOptions();
+        require(['sortMenu'], function (SortMenu) {
 
-        var values = this.getSortValues();
-        var current = values.sortBy + '||' + values.sortOrder;
+            new SortMenu().show({
 
-        var menuItems = [];
-        var i, length;
+                settingsKey: instance.getSettingsKey(),
+                settings: instance.getSortValues(),
+                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
+                serverId: instance.params.serverId,
+                sortOptions: instance.getSortMenuOptions()
 
-        for (i = 0, length = options.length; i < length; i++) {
+            }).then(function () {
 
-            menuItems.push({
-                name: options[i].name,
-                id: options[i].value + '||Ascending'
-            });
+                updateSortText(instance);
+                updateAlphaPickerState(instance);
 
-            menuItems.push({
-                name: options[i].reverseName,
-                id: options[i].value + '||Descending'
-            });
-        }
-
-        for (i = 0, length = menuItems.length; i < length; i++) {
-
-            menuItems[i].selected = menuItems[i].id === current;
-        }
-
-        require(['actionsheet'], function (actionsheet) {
-
-            actionsheet.show({
-                title: globalize.translate('sharedcomponents#LabelSortBy'),
-                items: menuItems,
-                positionTo: e.target,
-                callback: function (id) {
-
-                    if (id) {
-
-                        var settingsKey = instance.getSettingsKey();
-
-                        id = id.split('||');
-
-                        userSettings.setFilter(settingsKey + '-sortorder', id[1]);
-                        userSettings.setFilter(settingsKey + '-sortby', id[0]);
-
-                        updateSortText(instance);
-
-                        instance.itemsContainer.refreshItems();
-                    }
-                }
+                instance.itemsContainer.refreshItems();
             });
         });
     }
@@ -239,6 +226,7 @@
         }
         this.btnSortText = view.querySelector('.btnSortText');
         this.btnSortIcon = view.querySelector('.btnSortIcon');
+        this.alphaPickerElement = view.querySelector('.alphaPicker');
     }
 
     function getSettingValue(key, defaultValue) {
@@ -282,7 +270,8 @@
 
         if (this.enableAlphaPicker && !this.alphaPicker) {
             initAlphaPicker(this, view);
-        }
+            updateAlphaPickerState(this);
+       }
 
         if (this.enableAlphaNumericShortcuts !== false) {
             this.alphaNumericShortcuts = new AlphaNumericShortcuts({
@@ -537,6 +526,7 @@
         }
         this.btnSortText = null;
         this.btnSortIcon = null;
+        this.alphaPickerElement = null;
     };
 
     return ItemsTab;
