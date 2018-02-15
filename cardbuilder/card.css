@@ -639,7 +639,7 @@ button {
     }
 
     .overflowSmallBackdropCard {
-        width: 30vw;
+        width: 47vw;
     }
 
     .overflowSquareCard {
@@ -654,10 +654,24 @@ button {
     }
 
     .overflowSmallBackdropCard {
-        width: 15.5vw;
+        width: 23.3vw;
     }
 
     .overflowSquareCard, .overflowPortraitCard {
+        width: 15.5vw;
+    }
+}
+
+@media all and (orientation: portrait) and (min-width: 540px) {
+
+    .overflowSmallBackdropCard {
+        width: 30vw;
+    }
+}
+
+@media all and (orientation: landscape) and (min-width: 800px) {
+
+    .overflowSmallBackdropCard {
         width: 15.5vw;
     }
 }

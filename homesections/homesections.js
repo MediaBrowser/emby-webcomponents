@@ -184,7 +184,7 @@
 
         var html = "";
 
-        html += '<div class="verticalSection">';
+        html += '<div class="verticalSection verticalSection-extrabottompadding">';
         html += '<div class="sectionTitleContainer">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
 

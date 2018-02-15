@@ -321,12 +321,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             var quality = 100;
 
-            var isBackdrop = options.type && options.type.toLowerCase() === 'backdrop';
+            var type = options.type || 'Primary';
 
             if (browser.tv || browser.slow) {
-                quality = isBackdrop ? 60 : 50;
+
+                if (browser.chrome) {
+                    // webp support
+                    quality = type === 'Primary' ? 40 : 50;
+                } else {
+                    quality = type === 'Backdrop' ? 60 : 50;
+                }
             } else {
-                quality = isBackdrop ? 70 : 90;
+                quality = type === 'Backdrop' ? 70 : 90;
             }
 
             options.quality = quality;

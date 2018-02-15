@@ -136,9 +136,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         return 100 / 18.9;
                     }
                     if (isOrientationLandscape) {
-                        return 100 / 15.5;
+                        if (screenWidth >= 800) {
+                            return 100 / 15.5;
+                        }
+                        return 100 / 23.3;
                     } else {
-                        return 100 / 30;
+                        if (screenWidth >= 540) {
+                            return 100 / 30;
+                        }
+                        return 100 / 47;
                     }
                     break;
                 case 'overflowPortrait':

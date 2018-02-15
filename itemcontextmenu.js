@@ -363,7 +363,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     }
                 case 'refresh':
                     {
-                        refresh(apiClient, itemId);
+                        refresh(apiClient, item);
                         getResolveFunction(resolve, id)();
                         break;
                     }
@@ -607,12 +607,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
         });
     }
 
-    function refresh(apiClient, itemId) {
+    function refresh(apiClient, item) {
 
         require(['refreshDialog'], function (refreshDialog) {
             new refreshDialog({
-                itemIds: [itemId],
-                serverId: apiClient.serverInfo().Id
+                itemIds: [item.Id],
+                serverId: apiClient.serverInfo().Id,
+                mode: item.Type === 'CollectionFolder' ? 'scan' : null
             }).show();
         });
     }

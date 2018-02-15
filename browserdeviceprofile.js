@@ -766,7 +766,7 @@ define(['browser'], function (browser) {
         var maxH264Level = browser.chromecast ? '42' : '51';
         var h264Profiles = 'high|main|baseline|constrained baseline';
 
-        if (browser.chrome && !browser.chromecast) {
+        if (browser.chrome && !browser.chromecast && !browser.osx) {
             h264Profiles += '|high 10';
         }
 
