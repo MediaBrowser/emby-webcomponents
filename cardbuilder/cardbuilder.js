@@ -880,15 +880,19 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (showOtherText) {
                 if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
 
-                    if (isOuterFooter && item.Type === 'Episode' && item.SeriesName && item.SeriesId) {
+                    if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
 
-                        lines.push(getTextActionButton({
-                            Id: item.SeriesId,
-                            ServerId: item.ServerId,
-                            Name: item.SeriesName,
-                            Type: 'Series',
-                            IsFolder: true
-                        }));
+                        if (item.SeriesId) {
+                            lines.push(getTextActionButton({
+                                Id: item.SeriesId,
+                                ServerId: item.ServerId,
+                                Name: item.SeriesName,
+                                Type: 'Series',
+                                IsFolder: true
+                            }));
+                        } else {
+                            lines.push(item.SeriesName);
+                        }
                     }
                     else {
 
