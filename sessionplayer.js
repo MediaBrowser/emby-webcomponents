@@ -365,6 +365,12 @@
         return state.VolumeLevel;
     };
 
+    SessionPlayer.prototype.isMuted = function () {
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.IsMuted;
+    };
+
     SessionPlayer.prototype.pause = function () {
         sendPlayStateCommand(getCurrentApiClient(this), 'Pause');
     };
