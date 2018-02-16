@@ -18,7 +18,7 @@
             case 5:
                 return 'latestmedia';
             case 6:
-                return 'latestchannelmedia';
+                return 'none';
             default:
                 return '';
         }
@@ -144,10 +144,7 @@
         else if (section === 'latesttvrecordings') {
             loadLatestLiveTvRecordings(elem, false, apiClient, userId);
         }
-        else if (section === 'latestchannelmedia') {
-            return loadLatestChannelItems(elem, apiClient, userId);
-
-        } else {
+        else {
 
             elem.innerHTML = '';
 
@@ -177,7 +174,7 @@
     }
 
     function getPortraitShape() {
-        return enableScrollX() ? 'overflowPortrait' : 'portrait';
+        return enableScrollX() ? 'autooverflow' : 'auto';
     }
 
     function getLibraryButtonsHtml(items) {
@@ -432,11 +429,11 @@
         };
     }
 
-    function getLatestItemsHtmlFn(viewType) {
+    function getLatestItemsHtmlFn(itemType, viewType) {
 
         return function (items) {
 
-            var shape = viewType === 'movies' ?
+            var shape = itemType === 'Channel' || viewType === 'movies' ?
                 getPortraitShape() :
                 viewType === 'music' ?
                     getSquareShape() :
@@ -447,7 +444,7 @@
             return cardBuilder.getCardsHtml({
                 items: items,
                 shape: shape,
-                preferThumb: viewType !== 'movies' && viewType !== 'music' ? 'auto' : null,
+                preferThumb: viewType !== 'movies' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
                 showUnplayedIndicator: false,
                 showChildCountIndicator: true,
                 context: 'home',
@@ -501,7 +498,7 @@
 
         var itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType);
-        itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.CollectionType);
+        itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType);
         itemsContainer.parentContainer = elem;
 
     }
@@ -511,7 +508,6 @@
         elem.classList.remove('verticalSection');
 
         var excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
-        var excludeItemTypes = ['Channel'];
 
         for (var i = 0, length = userViews.length; i < length; i++) {
 
@@ -522,11 +518,6 @@
             }
 
             if (excludeViewTypes.indexOf(item.CollectionType || []) !== -1) {
-                continue;
-            }
-
-            // not implemented yet
-            if (excludeItemTypes.indexOf(item.Type) !== -1) {
                 continue;
             }
 
@@ -1171,96 +1162,6 @@
         itemsContainer.parentContainer = elem;
     }
 
-    function loadLatestChannelItems(elem, apiClient, userId, options) {
-
-        options = Object.assign(options || {}, {
-
-            UserId: userId,
-            SupportsLatestItems: true,
-            EnableTotalRecordCount: false
-        });
-
-        return apiClient.getChannels(options).then(function (result) {
-
-            var channels = result.Items;
-
-            var channelsHtml = channels.map(function (c) {
-
-                return '<div id="channel' + c.Id + '"></div>';
-
-            }).join('');
-
-            elem.innerHTML = channelsHtml;
-
-            for (var i = 0, length = channels.length; i < length; i++) {
-
-                var channel = channels[i];
-                loadLatestChannelItemsFromChannel(elem, apiClient, channel, i);
-            }
-
-        });
-    }
-
-    function loadLatestChannelItemsFromChannel(page, apiClient, channel, index) {
-
-        var screenWidth = dom.getWindowSize().innerWidth;
-
-        var options = {
-
-            Limit: enableScrollX() ? 12 : (screenWidth >= 1600 ? 10 : (screenWidth >= 1440 ? 5 : (screenWidth >= 800 ? 6 : 6))),
-            Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
-            Filters: "IsUnplayed",
-            UserId: apiClient.getCurrentUserId(),
-            ChannelIds: channel.Id,
-            EnableTotalRecordCount: false
-        };
-
-        apiClient.getLatestChannelItems(options).then(function (result) {
-
-            var html = '';
-
-            if (result.Items.length) {
-
-                html += '<div class="verticalSection">';
-
-                html += '<div class="sectionTitleContainer">';
-                var text = globalize.translate('sharedcomponents#LatestFromLibrary', channel.Name);
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + text + '</h2>';
-                if (!layoutManager.tv) {
-                    html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(channel) + '" class="raised raised-mini sectionTitleButton btnMore">' + globalize.translate('sharedcomponents#More') + '</a>';
-                }
-                html += '</div>';
-
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-                }
-
-                html += cardBuilder.getCardsHtml({
-                    items: result.Items,
-                    shape: enableScrollX() ? 'autooverflow' : 'auto',
-                    showTitle: true,
-                    centerText: true,
-                    lazy: true,
-                    showDetailsMenu: true,
-                    overlayPlayButton: true,
-                    allowBottomPadding: !enableScrollX()
-                });
-
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
-                html += '</div>';
-                html += '</div>';
-            }
-
-            var elem = page.querySelector('#channel' + channel.Id + '');
-            elem.innerHTML = html;
-            imageLoader.lazyChildren(elem);
-        });
-    }
-
     function getLatestRecordingsFetchFn(serverId, activeRecordingsOnly) {
 
         return function () {
@@ -1349,7 +1250,6 @@
 
     return {
         loadLibraryTiles: loadLibraryTiles,
-        loadLatestChannelItems: loadLatestChannelItems,
         getDefaultSection: getDefaultSection,
         loadSections: loadSections,
         destroySections: destroySections,
