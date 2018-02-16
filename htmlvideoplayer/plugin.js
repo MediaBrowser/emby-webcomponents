@@ -1577,16 +1577,17 @@
     HtmlVideoPlayer.prototype.getVolume = function () {
         var mediaElement = this._mediaElement;
         if (mediaElement) {
-            return mediaElement.volume * 100;
+
+            return Math.min(Math.round(mediaElement.volume * 100), 100);
         }
     };
 
     HtmlVideoPlayer.prototype.volumeUp = function () {
-        this.setVolume(Math.min(this.getVolume() + 2, 100));
+        this.setVolume(Math.min(this.getVolume() + 1, 100));
     };
 
     HtmlVideoPlayer.prototype.volumeDown = function () {
-        this.setVolume(Math.max(this.getVolume() - 2, 0));
+        this.setVolume(Math.max(this.getVolume() - 1, 0));
     };
 
     HtmlVideoPlayer.prototype.setMute = function (mute) {
