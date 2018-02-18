@@ -10,8 +10,8 @@ define(['visibleinviewport', 'dom'], function (visibleinviewport, dom) {
 
     function resetThresholds() {
 
-        var x = screen.availWidth * .1;
-        var y = screen.availHeight * .1;
+        var x = screen.availWidth * 0.1;
+        var y = screen.availHeight * 0.1;
 
         thresholdX = x;
         thresholdY = y;
