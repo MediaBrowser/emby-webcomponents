@@ -209,6 +209,10 @@ html, .skinHeader {
     background: #f8f8f8;
 }
 
+.listItem-border {
+    border-color: #f8f8f8 !important;
+}
+
 .listItem:focus {
     background: #ddd;
 }

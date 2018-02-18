@@ -644,6 +644,7 @@
         return Promise.resolve(targets);
     };
 
+    // This is a privately used method
     ChromecastPlayer.prototype.getCurrentTargetInfo = function () {
 
         var appName = null;

@@ -182,6 +182,10 @@ html {
     background: rgba(30, 30, 30, .9);
 }
 
+.listItem-border {
+    border-color: rgba(30, 30, 30, .9)!important;
+}
+
 .listItem:focus {
     background: #333;
 }

@@ -29,30 +29,21 @@
     display: flex;
     justify-content: center;
     flex-grow: 1;
-    align-items: center;
-    text-align: center;
     overflow: hidden;
 }
 
 .actionSheetMenuItem {
-    padding: .7em 1.6em;
-    margin: 0;
-    text-transform: none;
-    text-align: inherit;
-    display: flex;
     font-weight: inherit;
-    align-items: center;
-    flex-shrink: 0;
-    background: transparent;
     box-shadow: none;
+    flex-shrink: 0;
 }
 
     .actionSheetMenuItem:focus {
         transform: none !important;
     }
 
-.actionSheetMenuItem-extraspacing {
-    padding: .9em 2em .9em 1.6em;
+.actionsheetListItemBody {
+    padding: .4em 1em .4em .6em !important;
 }
 
 .actionSheetItemText {
@@ -65,17 +56,13 @@
     justify-content: flex-start;
 }
 
-.actionSheetItemSecondaryText {
+.actionSheetItemAsideText {
     opacity: .7;
     font-size: 90%;
     display: flex;
     justify-content: flex-end;
     flex-shrink: 0;
     margin-left: 5em;
-}
-
-.actionSheetItemIcon {
-    margin-right: 1.5em !important;
 }
 
 .actionSheetScroller {
@@ -92,9 +79,15 @@
     width: auto;
 }
 
+.actionsheetDivider {
+    height: .07em;
+    margin: .25em 0;
+    flex-shrink: 0;
+}
+
 .actionSheetTitle {
-    margin: .5em 0 !important;
-    padding: 0 1em;
+    margin: .6em 0 .7em !important;
+    padding: 0 .9em;
     flex-grow: 0;
 }
 
@@ -103,18 +96,17 @@
     flex-grow: 0;
 }
 
+.actionsheetMenuItemIcon {
+    margin: 0 .85em 0 .45em !important;
+    padding: 0 !important;
+}
+
 .actionsheet-xlargeFont {
-    font-size: 112%;
+    font-size: 112%!important;
 }
 
 .btnCloseActionSheet {
     position: fixed;
     top: .75em;
     left: .5em;
-}
-
-.actionsheetDivider {
-    height: .07em;
-    margin: .25em 0;
-    flex-shrink: 0;
 }

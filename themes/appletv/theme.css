@@ -204,6 +204,10 @@ html, .skinHeader {
     background: rgba(0, 0, 0, .1);
 }
 
+.listItem-border {
+    border-color: rgba(0, 0, 0, .1) !important;
+}
+
 .listItem:focus {
     background: rgba(0, 0, 0, .2);
 }

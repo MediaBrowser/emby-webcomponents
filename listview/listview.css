@@ -34,6 +34,11 @@
     width: 100%;
 }
 
+.listItem-border {
+    border-top-width: 1px;
+    border-top-style: solid;
+}
+
 .listItem-largeImage {
     padding: .5em .25em !important;
 }
@@ -192,7 +197,7 @@
 }
 
 .listItem:focus {
-    border-radius: .25em;
+    border-radius: .2em;
 }
 
     .listItem:focus .secondary {

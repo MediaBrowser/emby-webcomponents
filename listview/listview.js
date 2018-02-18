@@ -221,10 +221,11 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             var cssClass = "listItem";
 
             if (options.highlight !== false) {
-                //if (i % 2 === 1) {
-                //    cssClass += ' listItem-odd';
-                //}
                 cssClass += ' listItem-shaded';
+            }
+
+            if (options.border) {
+                cssClass += ' listItem-border';
             }
 
             if (clickEntireItem) {

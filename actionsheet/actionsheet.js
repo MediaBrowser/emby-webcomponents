@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles'], function (dialogHelper, layoutManager, globalize, browser, dom) {
+﻿define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles', 'listViewStyle'], function (dialogHelper, layoutManager, globalize, browser, dom) {
     'use strict';
 
     function getOffsets(elems) {
@@ -126,15 +126,6 @@
             dlg.classList.add('actionsheet-not-fullscreen');
         }
 
-        var extraSpacing = !layoutManager.tv;
-        if (extraSpacing) {
-            dlg.classList.add('actionsheet-extraSpacing');
-        }
-
-        if (layoutManager.mobile) {
-            dlg.classList.add('actionsheet-xlargeFont');
-        }
-
         dlg.classList.add('actionSheet');
 
         if (options.dialogClass) {
@@ -157,7 +148,10 @@
         for (i = 0, length = options.items.length; i < length; i++) {
 
             option = options.items[i];
-            option.icon = option.selected ? 'check' : null;
+
+            if (!option.icon) {
+                option.icon = option.selected ? 'check' : null;
+            }
 
             if (option.icon) {
                 renderIcon = true;
@@ -171,7 +165,7 @@
         // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
         var center = options.title && (!renderIcon /*|| itemsWithIcons.length != options.items.length*/);
 
-        if (center) {
+        if (center || layoutManager.tv) {
             html += '<div class="actionSheetContent actionSheetContent-centered">';
         } else {
             html += '<div class="actionSheetContent">';
@@ -179,15 +173,9 @@
 
         if (options.title) {
 
-            if (layoutManager.tv) {
-                html += '<h1 class="actionSheetTitle">';
-                html += options.title;
-                html += '</h1>';
-            } else {
-                html += '<h2 class="actionSheetTitle">';
-                html += options.title;
-                html += '</h2>';
-            }
+            html += '<h1 class="actionSheetTitle">';
+            html += options.title;
+            html += '</h1>';
         }
         if (options.text) {
             html += '<p class="actionSheetText">';
@@ -201,17 +189,27 @@
         }
         html += '<div class="' + scrollerClassName + ' ' + scrollClassName + '" style="' + style + '">';
 
-        var menuItemClass = 'actionSheetMenuItem';
+        var menuItemClass = 'listItem listItem-button actionSheetMenuItem';
+
+        if (options.shaded) {
+            menuItemClass += '  listItem-shaded';
+        }
+
+        if (options.border) {
+            menuItemClass += '  listItem-border';
+        }
 
         if (options.menuItemClass) {
             menuItemClass += ' ' + options.menuItemClass;
         }
 
-        if (extraSpacing) {
-            menuItemClass += ' actionSheetMenuItem-extraspacing';
+        if (layoutManager.tv) {
+            menuItemClass += ' listItem-focusscale';
         }
 
-        var actionSheetItemTextClass = 'actionSheetItemText';
+        if (layoutManager.mobile) {
+            menuItemClass += ' actionsheet-xlargeFont';
+        }
 
         for (i = 0, length = options.items.length; i < length; i++) {
 
@@ -223,22 +221,38 @@
                 continue;
             }
 
-            var autoFocus = option.selected ? ' autoFocus' : '';
+            var autoFocus = option.selected && layoutManager.tv ? ' autoFocus' : '';
 
             // Check for null in case int 0 was passed in
             var optionId = option.id == null || option.id === '' ? option.value : option.id;
             html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
             if (option.icon) {
-                html += '<i class="actionSheetItemIcon md-icon">' + option.icon + '</i>';
+
+                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon">' + option.icon + '</i>';
             }
             else if (renderIcon && !center) {
-                html += '<i class="actionSheetItemIcon md-icon" style="visibility:hidden;">check</i>';
+                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon" style="visibility:hidden;">check</i>';
             }
-            html += '<div class="' + actionSheetItemTextClass + '">' + (option.name || option.textContent || option.innerText) + '</div>';
+
+            html += '<div class="listItemBody actionsheetListItemBody">';
+
+            html += '<div class="listItemBodyText actionSheetItemText">';
+            html += (option.name || option.textContent || option.innerText);
+            html += '</div>';
 
             if (option.secondaryText) {
-                html += '<div class="actionSheetItemSecondaryText">' + (option.secondaryText) + '</div>';
+                html += '<div class="listItemBodyText secondary">';
+                html += option.secondaryText;
+                html += '</div>';
+            }
+
+            html += '</div>';
+
+            if (option.asideText) {
+                html += '<div class="listItemAside actionSheetItemAsideText">';
+                html += option.asideText;
+                html += '</div>';
             }
 
             html += '</button>';

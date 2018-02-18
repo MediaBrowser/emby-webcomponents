@@ -248,12 +248,20 @@
                     return {
                         name: s.DeviceName,
                         deviceName: s.DeviceName,
+                        deviceType: s.DeviceType,
                         id: s.Id,
                         playerName: name,
                         appName: s.Client,
                         playableMediaTypes: s.PlayableMediaTypes,
                         isLocalPlayer: false,
-                        supportedCommands: s.SupportedCommands
+                        supportedCommands: s.SupportedCommands,
+                        user: s.UserId ? {
+
+                            Id: s.UserId,
+                            Name: s.UserName,
+                            PrimaryImageTag: s.UserPrimaryImageTag
+
+                        } : null
                     };
                 });
 

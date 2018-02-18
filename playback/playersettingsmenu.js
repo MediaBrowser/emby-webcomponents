@@ -20,7 +20,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             var opt = {
                 name: o.name,
                 id: o.bitrate,
-                secondaryText: o.secondaryText
+                asideText: o.secondaryText
             };
 
             if (o.selected) {
@@ -113,7 +113,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             var opt = {
                 name: o.name,
                 id: o.bitrate,
-                secondaryText: o.secondaryText
+                asideText: o.secondaryText
             };
 
             if (o.selected) {
@@ -192,7 +192,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             menuItems.push({
                 name: globalize.translate('sharedcomponents#AspectRatio'),
                 id: 'aspectratio',
-                secondaryText: currentAspectRatio ? currentAspectRatio.name : null
+                asideText: currentAspectRatio ? currentAspectRatio.name : null
             });
         }
 
@@ -202,7 +202,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             menuItems.push({
                 name: globalize.translate('sharedcomponents#Quality'),
                 id: 'quality',
-                secondaryText: secondaryQualityText
+                asideText: secondaryQualityText
             });
         }
 
@@ -213,7 +213,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             menuItems.push({
                 name: globalize.translate('sharedcomponents#RepeatMode'),
                 id: 'repeatmode',
-                secondaryText: repeatMode === 'RepeatNone' ? globalize.translate('sharedcomponents#None') : globalize.translate('sharedcomponents#' + repeatMode)
+                asideText: repeatMode === 'RepeatNone' ? globalize.translate('sharedcomponents#None') : globalize.translate('sharedcomponents#' + repeatMode)
             });
         }
 
@@ -222,7 +222,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             menuItems.push({
                 name: globalize.translate('sharedcomponents#StatsForNerds'),
                 id: 'stats',
-                secondaryText: null
+                asideText: null
             });
         }
 

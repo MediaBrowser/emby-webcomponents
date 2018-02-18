@@ -32,6 +32,51 @@
         // avoid console logs about uncaught promises
     }
 
+    function getTargetSecondaryText(target) {
+
+        if (target.user) {
+
+            return target.user.Name;
+        }
+
+        return null;
+    }
+
+    function getIcon(target) {
+
+        var deviceType = target.deviceType;
+
+        if (!deviceType && target.isLocalPlayer) {
+            if (browser.tv) {
+                deviceType = 'tv';
+            } else if (browser.mobile) {
+                deviceType = 'smartphone';
+            } else {
+                deviceType = 'desktop';
+            }
+        }
+
+        if (!deviceType) {
+            deviceType = 'tv';
+        }
+
+        switch (deviceType) {
+
+            case 'smartphone':
+                return '&#xE32C;';
+            case 'tablet':
+                return '&#xE32F;';
+            case 'tv':
+                return '&#xE333;';
+            case 'cast':
+                return '&#xE307;';
+            case 'desktop':
+                return '&#xE30A;';
+            default:
+                return '&#xE333;';
+        }
+    }
+
     function showPlayerSelection(button) {
 
         var currentPlayerInfo = playbackManager.getPlayerInfo();
@@ -60,7 +105,9 @@
                 return {
                     name: name,
                     id: t.id,
-                    selected: currentPlayerId === t.id
+                    selected: currentPlayerId === t.id,
+                    secondaryText: getTargetSecondaryText(t),
+                    icon: getIcon(t)
                 };
 
             });
@@ -74,7 +121,8 @@
                     items: menuItems,
                     positionTo: button,
 
-                    resolveOnClick: true
+                    resolveOnClick: true,
+                    border: true
                 };
 
                 // Unfortunately we can't allow the url to change or chromecast will throw a security error

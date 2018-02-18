@@ -214,6 +214,10 @@ html, .skinHeader {
     background: #f8f8f8;
 }
 
+.listItem-border {
+    border-color: #f8f8f8 !important;
+}
+
 .progressring-spiner {
     border-color: #673AB7;
 }
