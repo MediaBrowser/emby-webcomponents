@@ -1,4 +1,4 @@
-define(['visibleinviewport', 'browser', 'dom'], function (visibleinviewport, browser, dom) {
+define(['visibleinviewport', 'dom'], function (visibleinviewport, dom) {
     'use strict';
 
     var thresholdX;
@@ -10,13 +10,8 @@ define(['visibleinviewport', 'browser', 'dom'], function (visibleinviewport, bro
 
     function resetThresholds() {
 
-        var x = screen.availWidth;
-        var y = screen.availHeight;
-
-        if (browser.touch) {
-            x *= 1.5;
-            y *= 1.5;
-        }
+        var x = screen.availWidth * .1;
+        var y = screen.availHeight * .1;
 
         thresholdX = x;
         thresholdY = y;

@@ -680,9 +680,9 @@
         return nowPlayingItem;
     }
 
-    function displayPlayerInLocalGroup(player) {
+    function displayPlayerIndividually(player) {
 
-        return player.isLocalPlayer;
+        return !player.isLocalPlayer;
     }
 
     function createTarget(instance, player) {
@@ -702,6 +702,17 @@
         }
 
         return Promise.resolve([createTarget(player)]);
+    }
+
+    function sortPlayerTargets(a, b) {
+
+        var aVal = a.isLocalPlayer ? 0 : 1;
+        var bVal = b.isLocalPlayer ? 0 : 1;
+
+        aVal = aVal.toString() + a.name;
+        bVal = bVal.toString() + b.name;
+
+        return aVal.localeCompare(bVal);
     }
 
     function PlaybackManager() {
@@ -866,48 +877,40 @@
 
         self.getTargets = function () {
 
-            var promises = players.filter(function (p) {
-                return !displayPlayerInLocalGroup(p);
-            }).map(getPlayerTargets);
+            var promises = players.filter(displayPlayerIndividually).map(getPlayerTargets);
 
             return Promise.all(promises).then(function (responses) {
 
-                var targets = [];
+                return connectionManager.currentApiClient().getCurrentUser().then(function (user) {
 
-                targets.push({
-                    name: globalize.translate('sharedcomponents#HeaderMyDevice'),
-                    id: 'localplayer',
-                    playerName: 'localplayer',
-                    playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'],
-                    isLocalPlayer: true,
-                    supportedCommands: self.getSupportedCommands({
-                        isLocalPlayer: true
-                    })
-                });
+                    var targets = [];
 
-                for (var i = 0; i < responses.length; i++) {
+                    targets.push({
+                        name: globalize.translate('sharedcomponents#HeaderMyDevice'),
+                        id: 'localplayer',
+                        playerName: 'localplayer',
+                        playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'],
+                        isLocalPlayer: true,
+                        supportedCommands: self.getSupportedCommands({
+                            isLocalPlayer: true
+                        }),
+                        user: user
+                    });
 
-                    var subTargets = responses[i];
+                    for (var i = 0; i < responses.length; i++) {
 
-                    for (var j = 0; j < subTargets.length; j++) {
+                        var subTargets = responses[i];
 
-                        targets.push(subTargets[j]);
+                        for (var j = 0; j < subTargets.length; j++) {
+
+                            targets.push(subTargets[j]);
+                        }
                     }
 
-                }
+                    targets = targets.sort(sortPlayerTargets);
 
-                targets = targets.sort(function (a, b) {
-
-                    var aVal = a.isLocalPlayer ? 0 : 1;
-                    var bVal = b.isLocalPlayer ? 0 : 1;
-
-                    aVal = aVal.toString() + a.name;
-                    bVal = bVal.toString() + b.name;
-
-                    return aVal.localeCompare(bVal);
+                    return targets;
                 });
-
-                return targets;
             });
         };
 
