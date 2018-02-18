@@ -1583,11 +1583,11 @@
     };
 
     HtmlVideoPlayer.prototype.volumeUp = function () {
-        this.setVolume(Math.min(this.getVolume() + 1, 100));
+        this.setVolume(Math.min(this.getVolume() + 2, 100));
     };
 
     HtmlVideoPlayer.prototype.volumeDown = function () {
-        this.setVolume(Math.max(this.getVolume() - 1, 0));
+        this.setVolume(Math.max(this.getVolume() - 2, 0));
     };
 
     HtmlVideoPlayer.prototype.setMute = function (mute) {

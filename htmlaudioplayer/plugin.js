@@ -488,11 +488,11 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     };
 
     HtmlAudioPlayer.prototype.volumeUp = function () {
-        this.setVolume(Math.min(this.getVolume() + 1, 100));
+        this.setVolume(Math.min(this.getVolume() + 2, 100));
     };
 
     HtmlAudioPlayer.prototype.volumeDown = function () {
-        this.setVolume(Math.max(this.getVolume() - 1, 0));
+        this.setVolume(Math.max(this.getVolume() - 2, 0));
     };
 
     HtmlAudioPlayer.prototype.setMute = function (mute) {

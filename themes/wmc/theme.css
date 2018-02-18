@@ -89,23 +89,23 @@ html {
 }
 
 .defaultCardBackground1 {
-    background-color: #009688;
+    background-color: #d2b019;
 }
 
 .defaultCardBackground2 {
-    background-color: #D32F2F;
+    background-color: #338abb;
 }
 
 .defaultCardBackground3 {
-    background-color: #0288D1;
+    background-color: #6b689d;
 }
 
 .defaultCardBackground4 {
-    background-color: #388E3C;
+    background-color: #dd452b;
 }
 
 .defaultCardBackground5 {
-    background-color: #F57F17;
+    background-color: #5ccea9;
 }
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
