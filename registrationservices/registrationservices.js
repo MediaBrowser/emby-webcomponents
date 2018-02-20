@@ -302,7 +302,7 @@
     }
 
     function showExternalPremiereInfo() {
-        shell.openUrl('https://emby.media/premiere');
+        shell.openUrl(iapManager.getPremiumInfoUrl());
     }
 
     function centerFocus(elem, horiz, on) {

@@ -81,6 +81,10 @@
 
     function onProgramGridClick(e) {
 
+        if (!layoutManager.tv) {
+            return;
+        }
+
         var programCell = dom.parentWithClass(e.target, 'programCell');
         if (programCell) {
 
