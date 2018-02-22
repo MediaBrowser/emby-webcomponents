@@ -141,9 +141,6 @@
         else if (section === 'onnow' || section === 'livetv') {
             return loadOnNow(elem, apiClient, user);
         }
-        else if (section === 'latesttvrecordings') {
-            loadLatestLiveTvRecordings(elem, false, apiClient, userId);
-        }
         else {
 
             elem.innerHTML = '';

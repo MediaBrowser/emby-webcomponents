@@ -491,6 +491,11 @@ define(['browser'], function (browser) {
         if (canPlayH265(videoTestElement, options)) {
             mp4VideoCodecs.push('h265');
             mp4VideoCodecs.push('hevc');
+
+            if (browser.tizen) {
+                hlsVideoCodecs.push('h265');
+                hlsVideoCodecs.push('hevc');
+            }
         }
 
         if (supportsMpeg2Video()) {
