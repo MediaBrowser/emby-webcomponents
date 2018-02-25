@@ -132,6 +132,11 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
             return;
         }
 
+        // Don't put a massive number of Id's onto the query string
+        if (newItems.length > 12) {
+            newItems.length = 12;
+        }
+
         apiClient.getItems(apiClient.getCurrentUserId(), {
 
             Recursive: true,
