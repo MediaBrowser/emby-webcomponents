@@ -1698,6 +1698,7 @@
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.Id,
+                    SortBy: options.shuffle ? 'Random' : null
                 });
             }
             else if (firstItem.Type === "MusicArtist") {
@@ -1706,7 +1707,7 @@
                     ArtistIds: firstItem.Id,
                     Filters: "IsNotFolder",
                     Recursive: true,
-                    SortBy: "SortName",
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: "Audio"
                 });
 
@@ -1718,7 +1719,7 @@
                     Filters: "IsNotFolder",
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
-                    SortBy: "SortName",
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: "Photo,Video",
                     Limit: 500
 
@@ -1748,7 +1749,7 @@
                     Filters: "IsNotFolder",
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
-                    SortBy: "SortName",
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: "Photo,Video",
                     Limit: 500
 
@@ -1760,7 +1761,7 @@
                     GenreIds: firstItem.Id,
                     Filters: "IsNotFolder",
                     Recursive: true,
-                    SortBy: "SortName",
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: "Audio"
                 });
             }
@@ -1772,7 +1773,7 @@
                     Filters: "IsNotFolder",
                     Recursive: true,
                     // These are pre-sorted
-                    SortBy: ['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null,
+                    SortBy: options.shuffle ? 'Random' : (['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null),
                     MediaTypes: "Audio,Video"
 
                 }, queryOptions));
@@ -3604,49 +3605,7 @@
             return player.shuffle(shuffleItem);
         }
 
-        var apiClient = connectionManager.getApiClient(shuffleItem.ServerId);
-
-        var instance = this;
-
-        apiClient.getItem(apiClient.getCurrentUserId(), shuffleItem.Id).then(function (item) {
-
-            var query = {
-                Fields: "MediaSources,Chapters",
-                Limit: 200,
-                Recursive: true,
-                SortBy: "Random"
-            };
-
-            if (item.Type === "MusicArtist") {
-
-                query.MediaTypes = "Audio";
-                query.ArtistIds = item.Id;
-
-            }
-            else if (item.Type === "MusicGenre") {
-
-                query.MediaTypes = "Audio";
-                query.Genres = item.Name;
-
-            }
-            else if (item.IsFolder) {
-                query.ParentId = item.Id;
-
-            }
-            else {
-                return;
-            }
-
-            if (queryOptions) {
-                query = mergePlaybackQueries(query, queryOptions);
-            }
-
-            getItemsForPlayback(item.ServerId, query).then(function (result) {
-
-                instance.play({ items: result.Items });
-
-            });
-        });
+        return this.play({ items: [shuffleItem], shuffle: true });
     };
 
     PlaybackManager.prototype.audioTracks = function (player) {
