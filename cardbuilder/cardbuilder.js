@@ -144,7 +144,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         if (screenWidth >= 540) {
                             return 100 / 30;
                         }
-                        return 100 / 47;
+                        return 100 / 72;
                     }
                     break;
                 case 'overflowPortrait':

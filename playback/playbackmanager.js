@@ -1058,7 +1058,7 @@
 
             var itemType = item.Type;
 
-            if (itemType === "MusicGenre" || itemType === "Season" || itemType === "Series" || itemType === "BoxSet" || itemType === "MusicAlbum" || itemType === "MusicArtist" || itemType === "Playlist") {
+            if (itemType === "PhotoAlbum" || itemType === "MusicGenre" || itemType === "Season" || itemType === "Series" || itemType === "BoxSet" || itemType === "MusicAlbum" || itemType === "MusicArtist" || itemType === "Playlist") {
                 return true;
             }
 
@@ -1738,6 +1738,19 @@
                     options.startIndex = index;
 
                     return Promise.resolve(result);
+
+                });
+            }
+            else if (firstItem.Type === "PhotoAlbum") {
+
+                promise = getItemsForPlayback(serverId, {
+                    ParentId: firstItem.Id,
+                    Filters: "IsNotFolder",
+                    // Setting this to true may cause some incorrect sorting
+                    Recursive: false,
+                    SortBy: "SortName",
+                    MediaTypes: "Photo,Video",
+                    Limit: 500
 
                 });
             }

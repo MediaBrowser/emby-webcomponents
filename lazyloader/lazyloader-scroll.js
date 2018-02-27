@@ -1,4 +1,4 @@
-define(['visibleinviewport', 'dom'], function (visibleinviewport, dom) {
+define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom, browser) {
     'use strict';
 
     var thresholdX;
@@ -10,15 +10,24 @@ define(['visibleinviewport', 'dom'], function (visibleinviewport, dom) {
 
     function resetThresholds() {
 
-        var x = screen.availWidth * 0.1;
-        var y = screen.availHeight * 0.1;
+        var threshold = browser.iOS ? 0.2 : 0.1;
 
-        thresholdX = x;
-        thresholdY = y;
+        thresholdX = screen.availWidth * threshold;
+        thresholdY = screen.availHeight * threshold;
     }
 
-    dom.addEventListener(window, "orientationchange", resetThresholds, { passive: true });
-    dom.addEventListener(window, 'resize', resetThresholds, { passive: true });
+    function resetThresholdsOnTimer() {
+
+        setTimeout(resetThresholds, 500);
+    }
+
+    if (browser.iOS) {
+        dom.addEventListener(window, "orientationchange", resetThresholdsOnTimer, { passive: true });
+        dom.addEventListener(window, 'resize', resetThresholdsOnTimer, { passive: true });
+    } else {
+        dom.addEventListener(window, "orientationchange", resetThresholds, { passive: true });
+        dom.addEventListener(window, 'resize', resetThresholds, { passive: true });
+    }
     resetThresholds();
 
     function isVisible(elem) {
