@@ -720,13 +720,17 @@
 
         if (item.Type === "BoxSet") {
             showElement('#fldDisplayOrder', context);
+            hideElement('.seriesDisplayOrderDescription', context);
 
             context.querySelector('#selectDisplayOrder').innerHTML = '<option value="SortName">' + globalize.translate('sharedcomponents#SortName') + '</option><option value="PremiereDate">' + globalize.translate('sharedcomponents#ReleaseDate') + '</option>';
-            showElement('#collapsibleDisplaySettings', context);
+        } else if (item.Type === "Series") {
+            showElement('#fldDisplayOrder', context);
+            showElement('.seriesDisplayOrderDescription', context);
+
+            context.querySelector('#selectDisplayOrder').innerHTML = '<option value="">' + globalize.translate('sharedcomponents#Aired') + '</option><option value="absolute">' + globalize.translate('sharedcomponents#Absolute') + '</option><option value="dvd">Dvd</option>';
         } else {
             context.querySelector('#selectDisplayOrder').innerHTML = '';
             hideElement('#fldDisplayOrder', context);
-            hideElement('#collapsibleDisplaySettings', context);
         }
     }
 
@@ -798,7 +802,12 @@
             return a.Name;
         }).join(';');
 
-        context.querySelector('#selectDisplayOrder').value = item.DisplayOrder;
+        if (item.Type === 'Series') {
+            context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
+        }
+        else {
+            context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
+        }
 
         context.querySelector('#txtArtist').value = (item.ArtistItems || []).map(function (a) {
             return a.Name;

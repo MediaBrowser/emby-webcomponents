@@ -499,30 +499,33 @@ define(['datetime', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'mater
 
     function getResolutionText(i) {
 
-        if (i.Width) {
+        var width = i.Width;
+        var height = i.Height;
 
-            if (i.Width >= 3800) {
+        if (width && height) {
+
+            if (width >= 3800 || height >= 2000) {
                 return '4K';
             }
-            if (i.Width >= 2500) {
+            if (width >= 2500 || height >= 1400) {
                 if (i.IsInterlaced) {
                     return '1440i';
                 }
                 return '1440P';
             }
-            if (i.Width >= 1880) {
+            if (width >= 1880 || height >= 1000) {
                 if (i.IsInterlaced) {
                     return '1080i';
                 }
                 return '1080P';
             }
-            if (i.Width >= 1200) {
+            if (width >= 1200 || height >= 700) {
                 if (i.IsInterlaced) {
                     return '720i';
                 }
                 return '720P';
             }
-            if (i.Width >= 700) {
+            if (width >= 700 || height >= 400) {
 
                 if (i.IsInterlaced) {
                     return '480i';
