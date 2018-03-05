@@ -258,7 +258,7 @@ html {
     background-color: rgba(82, 181, 75, 0.26);
 }
 
-.emby-checkbox:checked + span + span + .checkboxOutline > .checkboxOutlineTick {
+.emby-checkbox:checked + span + span + .checkboxOutline {
     background-color: #52B54B;
 }
 

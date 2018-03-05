@@ -41,3 +41,7 @@
 .flex-wrap-wrap {
     flex-wrap: wrap;
 }
+
+.align-self-flex-end {
+    align-self: flex-end;
+}

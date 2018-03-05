@@ -57,7 +57,11 @@
             outlineClass += ' ' + customClass;
         }
 
-        labelElement.insertAdjacentHTML('beforeend', '<span class="emby-checkbox-focushelper"></span><span class="' + outlineClass + '"><span class="checkboxOutlineTick"></span></span>');
+        var checkedIcon = this.getAttribute('data-checkedicon') || '&#xE5CA;';
+        var uncheckedIcon = this.getAttribute('data-uncheckedicon') || '';
+        var checkHtml = '<i class="md-icon checkboxIcon checkboxIcon-checked">' + checkedIcon + '</i>';
+        var uncheckedHtml = '<i class="md-icon checkboxIcon checkboxIcon-unchecked">' + uncheckedIcon + '</i>';
+        labelElement.insertAdjacentHTML('beforeend', '<span class="emby-checkbox-focushelper"></span><span class="' + outlineClass + '">' + checkHtml + uncheckedHtml + '</span>');
 
         labelTextElement.classList.add('checkboxLabel');
 

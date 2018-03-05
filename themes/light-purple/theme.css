@@ -277,7 +277,7 @@ html, .skinHeader {
     background-color: rgba(103,58,183, 0.26);
 }
 
-.emby-checkbox:checked + span + span + .checkboxOutline > .checkboxOutlineTick {
+.emby-checkbox:checked + span + span + .checkboxOutline {
     background-color: #673AB7;
 }
 
