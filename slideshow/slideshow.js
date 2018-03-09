@@ -105,8 +105,8 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 html += '<div>';
                 html += '<div class="slideshowSwiperContainer"><div class="swiper-wrapper"></div></div>';
 
-                html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle', false);
-                html += getIcon('keyboard_arrow_right', 'btnSlideshowNext slideshowButton hide-mouse-idle', false);
+                html += getIcon('keyboard_arrow_left', 'btnSlideshowPrevious slideshowButton hide-mouse-idle-tv', false);
+                html += getIcon('keyboard_arrow_right', 'btnSlideshowNext slideshowButton hide-mouse-idle-tv', false);
 
                 html += '<div class="topActionButtons">';
                 if (actionButtonsOnTop) {
@@ -117,7 +117,7 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                         html += getIcon('share', 'btnShare slideshowButton', true);
                     }
                 }
-                html += getIcon('close', 'slideshowButton btnSlideshowExit hide-mouse-idle', false);
+                html += getIcon('close', 'slideshowButton btnSlideshowExit hide-mouse-idle-tv', false);
                 html += '</div>';
 
                 if (!actionButtonsOnTop) {

@@ -62,7 +62,7 @@
                 var html = '';
 
                 html += '<div class="formDialogHeader">';
-                html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+                html += '<button is="paper-icon-button-light" class="btnCancel hide-mouse-idle-tv" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
                 html += '<h3 class="formDialogHeaderTitle">${Sort}</h3>';
 
                 html += '</div>';

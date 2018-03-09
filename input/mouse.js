@@ -140,7 +140,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
             passive: true
         });
 
-        if (layoutManager.tv) {
+        if (!layoutManager.mobile) {
             startMouseInterval();
 
             dom.addEventListener(document, (window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove, {
