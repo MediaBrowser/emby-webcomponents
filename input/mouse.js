@@ -30,7 +30,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         classList.add('mouseIdle');
 
         if (layoutManager.tv) {
-            classList.remove('mouseIdle-tv');
+            classList.add('mouseIdle-tv');
         }
     }
 

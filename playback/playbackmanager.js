@@ -1644,10 +1644,16 @@
 
             playerData.isChangingStream = true;
 
-            if (playerData.streamInfo && playerData.streamInfo.mediaType === "Video") {
+            if (playerData.streamInfo && playSessionId) {
+
                 apiClient.stopActiveEncodings(playSessionId).then(function () {
 
-                    setSrcIntoPlayer(apiClient, player, streamInfo);
+                    // Stop the first transcoding afterwards because the player may still send requests to the original url
+                    var afterSetSrc = function () {
+
+                        apiClient.stopActiveEncodings(playSessionId);
+                    };
+                    setSrcIntoPlayer(apiClient, player, streamInfo).then(afterSetSrc, afterSetSrc);
                 });
 
             } else {
@@ -1657,7 +1663,7 @@
 
         function setSrcIntoPlayer(apiClient, player, streamInfo) {
 
-            player.play(streamInfo).then(function () {
+            return player.play(streamInfo).then(function () {
 
                 var playerData = getPlayerData(player);
 

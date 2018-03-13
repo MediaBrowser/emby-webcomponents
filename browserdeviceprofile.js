@@ -300,7 +300,12 @@ define(['browser'], function (browser) {
                 return null;
             }
 
-            return 40000000;
+            // This is a hack to try and detect chromecast on vizio
+            if (self.screen && self.screen.width >= 3800) {
+                return null;
+            }
+
+            return 30000000;
         }
 
         var isTizenFhd = false;
@@ -341,7 +346,7 @@ define(['browser'], function (browser) {
     return function (options) {
 
         options = options || {};
-        var physicalAudioChannels = options.audioChannels || (browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
+        var physicalAudioChannels = options.audioChannels || (browser.tv || browser.ps4 || browser.xboxOne || browser.chromecast ? 6 : 2);
 
         var bitrateSetting = getMaxBitrate();
 
@@ -417,7 +422,7 @@ define(['browser'], function (browser) {
 
                 // mp3 encoder only supports 2 channels, so only make that preferred if we're only requesting 2 channels
                 // Also apply it for chromecast because it no longer supports AAC 5.1
-                if (physicalAudioChannels <= 2 || browser.chromecast) {
+                if (physicalAudioChannels <= 2) {
                     hlsVideoAudioCodecs.push('mp3');
                 }
             }
@@ -428,10 +433,7 @@ define(['browser'], function (browser) {
                 videoAudioCodecs.push('aac');
             }
 
-            // chromecast no longer supports AAC 5.1
-            if (physicalAudioChannels <= 2 || !browser.chromecast) {
-                hlsVideoAudioCodecs.push('aac');
-            }
+            hlsVideoAudioCodecs.push('aac');
         }
         if (supportsMp3VideoAudio) {
             // PS4 fails to load HLS with mp3 audio
@@ -768,10 +770,10 @@ define(['browser'], function (browser) {
             });
         }
 
-        var maxH264Level = browser.chromecast ? '42' : '51';
+        var maxH264Level = browser.chromecast ? 42 : 51;
         var h264Profiles = 'high|main|baseline|constrained baseline';
 
-        if (browser.chrome && !browser.chromecast && !browser.osx) {
+        if (maxH264Level >= 51 && browser.chrome && !browser.osx) {
             h264Profiles += '|high 10';
         }
 
@@ -793,7 +795,7 @@ define(['browser'], function (browser) {
                 {
                     Condition: 'LessThanEqual',
                     Property: 'VideoLevel',
-                    Value: maxH264Level
+                    Value: maxH264Level.toString()
                 }]
         });
 
@@ -805,15 +807,12 @@ define(['browser'], function (browser) {
                 IsRequired: false
             });
 
-            // Chromecast won't deinterlace, but it can play interlaced h264 without transcoding
-            //if (!browser.chromecast) {
             profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
                 Condition: 'NotEquals',
                 Property: 'IsInterlaced',
                 Value: 'true',
                 IsRequired: false
             });
-            //}
         }
 
         if (maxVideoWidth) {
