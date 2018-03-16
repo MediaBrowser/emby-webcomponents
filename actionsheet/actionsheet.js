@@ -145,17 +145,18 @@
 
         var i, length, option;
         var renderIcon = false;
+        var icons = [];
+        var itemIcon;
         for (i = 0, length = options.items.length; i < length; i++) {
 
             option = options.items[i];
 
-            if (!option.icon) {
-                option.icon = option.selected ? 'check' : null;
-            }
+            itemIcon = option.icon || (option.selected ? 'check' : null);
 
-            if (option.icon) {
+            if (itemIcon) {
                 renderIcon = true;
             }
+            icons.push(itemIcon || '');
         }
 
         if (layoutManager.tv) {
@@ -227,9 +228,11 @@
             var optionId = option.id == null || option.id === '' ? option.value : option.id;
             html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
 
-            if (option.icon) {
+            itemIcon = icons[i];
 
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon">' + option.icon + '</i>';
+            if (itemIcon) {
+
+                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon">' + itemIcon + '</i>';
             }
             else if (renderIcon && !center) {
                 html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon" style="visibility:hidden;">check</i>';
