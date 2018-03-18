@@ -592,7 +592,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function getRequestFile() {
-        var path = window.location.pathname || '';
+        var path = self.location.pathname || '';
 
         var index = path.lastIndexOf('/');
         if (index !== -1) {
@@ -613,7 +613,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return str.lastIndexOf(srch) === srch.length - 1;
     }
 
-    var baseRoute = window.location.href.split('?')[0].replace(getRequestFile(), '');
+    var baseRoute = self.location.href.split('?')[0].replace(getRequestFile(), '');
     // support hashbang
     baseRoute = baseRoute.split('#')[0];
     if (endsWith(baseRoute, '/') && !endsWith(baseRoute, '://')) {
@@ -825,7 +825,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function setBaseRoute() {
-        var baseRoute = window.location.pathname.replace(getRequestFile(), '');
+        var baseRoute = self.location.pathname.replace(getRequestFile(), '');
         if (baseRoute.lastIndexOf('/') === baseRoute.length - 1) {
             baseRoute = baseRoute.substring(0, baseRoute.length - 1);
         }
@@ -845,11 +845,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function invokeShortcut(id) {
 
-        if (id === 'backgroundsync') {
-
-            syncNow();
-        }
-        else if (id.indexOf('library-') === 0) {
+        if (id.indexOf('library-') === 0) {
             id = id.replace('library-', '');
 
             id = id.split('_');

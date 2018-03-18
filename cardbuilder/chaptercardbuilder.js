@@ -93,7 +93,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         var cardScalableClass = 'cardScalable';
 
         if (layoutManager.tv) {
-            var enableFocusTransfrom = !browser.slow && !browser.xboxOne && !browser.edgeUwp;
+            var enableFocusTransfrom = !browser.slow && !browser.edge;
 
             cardScalableClass += ' card-focuscontent';
 
