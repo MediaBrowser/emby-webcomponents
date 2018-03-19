@@ -41,7 +41,7 @@
         var windowHeight = windowSize.innerHeight;
         var windowWidth = windowSize.innerWidth;
 
-        if (windowHeight < 540) {
+        if (windowWidth < 600 || windowHeight < 600) {
             return null;
         }
 
@@ -350,22 +350,13 @@
 
             dialogHelper.open(dlg);
 
-            // Make sure the above open has completed so that we can query offsetWidth and offsetHeight
-            // This was needed in safari, but in chrome this is causing the dialog to change position while animating
-            var setPositions = function () {
-                var pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options, dlg) : null;
+            var pos = options.positionTo && dialogOptions.size !== 'fullscreen' ? getPosition(options, dlg) : null;
 
-                if (pos) {
-                    dlg.style.position = 'fixed';
-                    dlg.style.margin = 0;
-                    dlg.style.left = pos.left + 'px';
-                    dlg.style.top = pos.top + 'px';
-                }
-            };
-            if (browser.safari) {
-                setTimeout(setPositions, 0);
-            } else {
-                setPositions();
+            if (pos) {
+                dlg.style.position = 'fixed';
+                dlg.style.margin = 0;
+                dlg.style.left = pos.left + 'px';
+                dlg.style.top = pos.top + 'px';
             }
         });
     }
