@@ -87,7 +87,7 @@ button {
 }
 
 .layout-tv .cardBox {
-    margin: .4em;
+    margin: .5em;
 }
 
 @media all and (max-width: 50em) {

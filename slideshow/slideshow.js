@@ -525,10 +525,6 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 case 'play':
                 case 'playpause':
                 case 'pause':
-                case 'fastforward':
-                case 'rewind':
-                case 'next':
-                case 'previous':
                     showOsd();
                     break;
                 default:

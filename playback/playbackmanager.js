@@ -2667,6 +2667,18 @@
             return self._playQueueManager.getCurrentPlaylistItemId();
         };
 
+        self.channelUp = function (player) {
+
+            player = player || self._currentPlayer;
+            return self.nextTrack(player);
+        };
+
+        self.channelDown = function (player) {
+
+            player = player || self._currentPlayer;
+            return self.previousTrack(player);
+        };
+
         self.nextTrack = function (player) {
 
             player = player || self._currentPlayer;

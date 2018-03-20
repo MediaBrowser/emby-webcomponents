@@ -121,6 +121,9 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
             case 'menu':
             case 'info':
                 break;
+            case 'nextchapter':
+                playbackManager.nextChapter();
+                break;
             case 'next':
             case 'nexttrack':
                 playbackManager.nextTrack();
@@ -128,6 +131,9 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
             case 'previous':
             case 'previoustrack':
                 playbackManager.previousTrack();
+                break;
+            case 'previouschapter':
+                playbackManager.previousChapter();
                 break;
             case 'guide':
                 appRouter.showGuide();
@@ -150,10 +156,10 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
                 playbackManager.toggleMute();
                 break;
             case 'channelup':
-                playbackManager.nextTrack();
+                playbackManager.channelUp();
                 break;
             case 'channeldown':
-                playbackManager.previousTrack();
+                playbackManager.channelDown();
                 break;
             case 'volumedown':
                 playbackManager.volumeDown();
