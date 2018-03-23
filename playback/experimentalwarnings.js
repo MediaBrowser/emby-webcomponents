@@ -11,11 +11,13 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
 
     function showMessage(text, userSettingsKey, appHostFeature) {
 
-        userSettingsKey += new Date().getMonth();
-
         if (appHost.supports(appHostFeature)) {
             return Promise.resolve();
         }
+
+        var now = +new Date();
+
+        userSettingsKey += now.getFullYear() + '-' + now.getMonth();
 
         if (userSettings.get(userSettingsKey, false) === '1') {
             return Promise.resolve();

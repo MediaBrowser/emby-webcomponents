@@ -10,7 +10,7 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
 
     function resetThresholds() {
 
-        var threshold = browser.iOS ? 0.2 : 0.2;
+        var threshold = 0.2;
 
         thresholdX = screen.availWidth * threshold;
         thresholdY = screen.availHeight * threshold;
