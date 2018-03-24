@@ -87,7 +87,7 @@ button {
 }
 
 .layout-tv .cardBox {
-    margin: .6em;
+    margin: .64em;
 }
 
 @media all and (max-width: 50em) {
@@ -303,7 +303,10 @@ button {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
-    font-size: 93%;
+}
+
+.cardText-secondary {
+    font-size: 84%;
 }
 
 .cardText-first {
@@ -311,7 +314,7 @@ button {
 }
 
 .layout-tv .cardText-first {
-    padding-top: .16em;
+    padding-top: .24em;
 }
 
 .innerCardFooter > .cardText {
@@ -336,10 +339,6 @@ button {
 
 .cardTextCentered {
     text-align: center;
-}
-
-.card:focus .cardText {
-    color: inherit;
 }
 
 .cardText-rightmargin {
