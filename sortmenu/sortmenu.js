@@ -36,7 +36,7 @@
 
         userSettings.setFilter(settingsKey + '-sortorder', context.querySelector('.selectSortOrder').value);
         userSettings.setFilter(settingsKey + '-sortby', context.querySelector('.selectSortBy').value);
-   }
+    }
 
     function SortMenu() {
 
@@ -53,7 +53,11 @@
                     scrollY: false
                 };
 
-                dialogOptions.size = 'fullscreen-border';
+                if (layoutManager.tv) {
+                    dialogOptions.size = 'fullscreen';
+                } else {
+                    dialogOptions.size = 'small';
+                }
 
                 var dlg = dialogHelper.createDialog(dialogOptions);
 

@@ -57,7 +57,7 @@ html, .skinHeader {
 }
 
 .raised, .fab {
-    background: #fff;
+    background: #d8d8d8;
     color: inherit;
 }
 
@@ -67,7 +67,7 @@ html, .skinHeader {
 }
 
 .button-cancel {
-    background: #fff;
+    background: #d8d8d8;
     color: inherit;
 }
 

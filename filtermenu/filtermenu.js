@@ -262,7 +262,11 @@
                     scrollY: false
                 };
 
-                dialogOptions.size = 'fullscreen-border';
+                if (layoutManager.tv) {
+                    dialogOptions.size = 'fullscreen';
+                } else {
+                    dialogOptions.size = 'small';
+                }
 
                 var dlg = dialogHelper.createDialog(dialogOptions);
 

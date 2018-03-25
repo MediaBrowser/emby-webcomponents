@@ -84,7 +84,7 @@
 .selectArrowContainer {
     position: absolute;
     right: .3em;
-    top: .27em;
+    top: .2em;
     color: inherit;
     pointer-events: none;
 }
