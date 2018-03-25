@@ -8,7 +8,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     var self = {};
 
     // seeing slow performance with firefox
-    var enableFade = !browser.slow && !browser.firefox && !browser.edge && !browser.xboxOne;
+    var enableFade = false;
 
     function fillImage(elem, source, enableEffects) {
 

@@ -50,8 +50,8 @@ html {
 }
 
 .raised, .fab {
-    background: #303030;
-    color: #fff;
+    background: #282828;
+    color: rgba(255, 255, 255, .87);
 }
 
 .button-submit {
