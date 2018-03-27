@@ -499,7 +499,7 @@ define(['browser'], function (browser) {
             mp4VideoCodecs.push('h265');
             mp4VideoCodecs.push('hevc');
 
-            if (browser.tizen) {
+            if (browser.tizen || browser.web0s) {
                 hlsVideoCodecs.push('h265');
                 hlsVideoCodecs.push('hevc');
             }

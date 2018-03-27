@@ -62,6 +62,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
+                queryIncludeItemTypes === 'PhotoAlbum' ||
                 query.MediaTypes === 'Video' ||
                 query.MediaTypes === 'Photo') {
                 allowSearch = false;
@@ -78,6 +79,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
+                queryIncludeItemTypes === 'PhotoAlbum' ||
                 query.MediaTypes === 'Video' ||
                 query.MediaTypes === 'Photo') {
                 allowSearch = false;
@@ -104,6 +106,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
+                queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'Movie' ||
                 query.MediaTypes === 'Video' ||
                 query.MediaTypes === 'Photo') {
@@ -443,7 +446,7 @@
                 centerText: true,
                 action: 'play'
 
-        });
+            });
 
         searchType(instance, apiClient, {
             searchTerm: value,
@@ -457,6 +460,22 @@
         }, context, '.photoResults', {
 
                 showParentTitle: false,
+                showTitle: true,
+                overlayText: false,
+                centerText: true
+            });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            IncludeItemTypes: "PhotoAlbum"
+
+        }, context, '.photoAlbumResults', {
+
                 showTitle: true,
                 overlayText: false,
                 centerText: true

@@ -55,7 +55,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
     function supportsAddingToCollection(item) {
 
-        var invalidTypes = ['Person', 'Genre', 'MusicGenre', 'Studio', 'GameGenre', 'BoxSet', 'Playlist', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
+        var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'GameGenre', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer'];
 
         if (item.Type === 'Recording') {
             if (item.Status !== 'Completed') {
