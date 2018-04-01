@@ -81,7 +81,7 @@
         else {
 
             query.Limit = query.Limit || 200;
-            query.Fields = "MediaSources,Chapters";
+            query.Fields = "Chapters";
             query.ExcludeLocationTypes = "Virtual";
             query.EnableTotalRecordCount = false;
             query.CollapseBoxSetItems = false;
@@ -1800,7 +1800,7 @@
                             IsVirtualUnaired: false,
                             IsMissing: false,
                             UserId: apiClient.getCurrentUserId(),
-                            Fields: "MediaSources,Chapters"
+                            Fields: "Chapters"
 
                         }).then(function (episodesResult) {
 
@@ -3604,7 +3604,6 @@
 
         var options = {};
         options.UserId = apiClient.getCurrentUserId();
-        options.Fields = 'MediaSources';
         options.Limit = 200;
 
         var instance = this;

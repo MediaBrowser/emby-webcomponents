@@ -10,7 +10,7 @@
         }
 
         // Doesn't seem to work at all
-        if (browser.tizen || browser.orsay) {
+        if (browser.tizen || browser.orsay || browser.web0s) {
             return false;
         }
 

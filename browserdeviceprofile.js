@@ -82,7 +82,7 @@ define(['browser'], function (browser) {
         var typeString;
 
         if (format === 'flac') {
-            if (browser.tizen || browser.orsay) {
+            if (browser.tizen || browser.orsay || browser.web0s) {
                 return true;
             }
             if (browser.edgeUwp) {
