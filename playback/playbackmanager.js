@@ -397,6 +397,7 @@
         audioStreamIndex,
         subtitleStreamIndex,
         liveStreamId,
+        autoOpenLiveStream,
         enableDirectPlay,
         enableDirectStream,
         allowVideoStreamCopy,
@@ -426,7 +427,7 @@
         var query = {
             UserId: apiClient.getCurrentUserId(),
             StartTimeTicks: startPosition || 0,
-            AutoOpenLiveStream: true
+            autoOpenLiveStream: true
         };
 
         if (audioStreamIndex != null) {
@@ -1613,7 +1614,7 @@
 
                 var currentPlayOptions = currentItem.playOptions || {};
 
-                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, currentMediaSource.Id, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
+                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, currentMediaSource.Id, audioStreamIndex, subtitleStreamIndex, liveStreamId, true, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
 
                     if (validatePlaybackInfoResult(self, result)) {
 
@@ -2316,6 +2317,24 @@
             });
         };
 
+        self.getPlaybackMediaSources = function (item, options) {
+
+            options = options || {};
+            var startPosition = options.startPositionTicks || 0;
+            var mediaType = options.mediaType || item.MediaType;
+            var player = getPlayer(item, options);
+            var apiClient = connectionManager.getApiClient(item.ServerId);
+            var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
+
+            return player.getDeviceProfile(item).then(function (deviceProfile) {
+
+                return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, null, null, null, null, false).then(function (playbackInfoResult) {
+
+                    return playbackInfoResult.MediaSources;
+                });
+            });
+        };
+
         function createStreamInfo(apiClient, type, item, mediaSource, startPosition, forceTranscoding) {
 
             var mediaUrl;
@@ -2509,7 +2528,7 @@
 
         function getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex) {
 
-            return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex).then(function (playbackInfoResult) {
+            return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex, null, true).then(function (playbackInfoResult) {
 
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
 

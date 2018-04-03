@@ -229,10 +229,12 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         }
 
         if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'livetv') {
-            html += '<div class="selectContainer">';
-            html += '<select is="emby-select" class="selectLanding" data-folderid="' + item.Id + '" label="' + globalize.translate('sharedcomponents#LabelDefaultScreen') + '">';
 
-            var userValue = userSettings.get('landing-' + item.Id);
+            var idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
+            html += '<div class="selectContainer">';
+            html += '<select is="emby-select" class="selectLanding" data-folderid="' + idForLanding + '" label="' + globalize.translate('sharedcomponents#LabelDefaultScreen') + '">';
+
+            var userValue = userSettings.get('landing-' + idForLanding);
 
             html += getLandingScreenOptionsHtml(item.CollectionType, userValue);
 
