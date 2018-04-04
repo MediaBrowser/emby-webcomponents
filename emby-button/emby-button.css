@@ -193,7 +193,7 @@
         opacity: .2;
     }
 
-.emby-button-ripple-effect, .paper-icon-button-light-ripple-effect {
+.emby-button-ripple-effect {
     position: absolute;
     border-radius: 50%;
     width: 50px;
