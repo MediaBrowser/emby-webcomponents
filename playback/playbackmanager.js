@@ -393,11 +393,11 @@
         deviceProfile,
         maxBitrate,
         startPosition,
+        isPlayback,
         mediaSourceId,
         audioStreamIndex,
         subtitleStreamIndex,
         liveStreamId,
-        autoOpenLiveStream,
         enableDirectPlay,
         enableDirectStream,
         allowVideoStreamCopy,
@@ -426,9 +426,16 @@
 
         var query = {
             UserId: apiClient.getCurrentUserId(),
-            StartTimeTicks: startPosition || 0,
-            autoOpenLiveStream: true
+            StartTimeTicks: startPosition || 0
         };
+
+        if (isPlayback) {
+            query.IsPlayback = true;
+            query.AutoOpenLiveStream = true;
+        } else {
+            query.IsPlayback = false;
+            query.AutoOpenLiveStream = false;
+        }
 
         if (audioStreamIndex != null) {
             query.AudioStreamIndex = audioStreamIndex;
@@ -1614,7 +1621,7 @@
 
                 var currentPlayOptions = currentItem.playOptions || {};
 
-                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, currentMediaSource.Id, audioStreamIndex, subtitleStreamIndex, liveStreamId, true, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
+                getPlaybackInfo(player, apiClient, currentItem, deviceProfile, maxBitrate, ticks, true, currentMediaSource.Id, audioStreamIndex, subtitleStreamIndex, liveStreamId, params.EnableDirectPlay, params.EnableDirectStream, params.AllowVideoStreamCopy, params.AllowAudioStreamCopy).then(function (result) {
 
                     if (validatePlaybackInfoResult(self, result)) {
 
@@ -2328,7 +2335,7 @@
 
             return player.getDeviceProfile(item).then(function (deviceProfile) {
 
-                return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, null, null, null, null, false).then(function (playbackInfoResult) {
+                return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, false, null, null, null, null).then(function (playbackInfoResult) {
 
                     return playbackInfoResult.MediaSources;
                 });
@@ -2528,7 +2535,7 @@
 
         function getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex) {
 
-            return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, mediaSourceId, audioStreamIndex, subtitleStreamIndex, null, true).then(function (playbackInfoResult) {
+            return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, true, mediaSourceId, audioStreamIndex, subtitleStreamIndex, null).then(function (playbackInfoResult) {
 
                 if (validatePlaybackInfoResult(self, playbackInfoResult)) {
 

@@ -131,9 +131,6 @@
             HomePageUrl: form.querySelector('#txtHomePageUrl').value,
             CriticRating: form.querySelector('#txtCriticRating').value,
             IndexNumber: form.querySelector('#txtIndexNumber').value || null,
-            AbsoluteEpisodeNumber: form.querySelector('#txtAbsoluteEpisodeNumber').value,
-            DvdEpisodeNumber: form.querySelector('#txtDvdEpisodeNumber').value,
-            DvdSeasonNumber: form.querySelector('#txtDvdSeasonNumber').value,
             AirsBeforeSeasonNumber: form.querySelector('#txtAirsBeforeSeason').value,
             AirsAfterSeasonNumber: form.querySelector('#txtAirsAfterSeason').value,
             AirsBeforeEpisodeNumber: form.querySelector('#txtAirsBeforeEpisode').value,
@@ -600,12 +597,6 @@
             hideElement('#fldAlbum', context);
         }
 
-        if (item.Type === "Episode") {
-            showElement('#collapsibleDvdEpisodeInfo', context);
-        } else {
-            hideElement('#collapsibleDvdEpisodeInfo', context);
-        }
-
         if (item.Type === "Episode" && item.ParentIndexNumber === 0) {
             showElement('#collapsibleSpecialEpisodeInfo', context);
         } else {
@@ -789,9 +780,6 @@
         context.querySelector('#txtIndexNumber').value = item.IndexNumber == null ? '' : item.IndexNumber;
         context.querySelector('#txtParentIndexNumber').value = item.ParentIndexNumber == null ? '' : item.ParentIndexNumber;
 
-        context.querySelector('#txtAbsoluteEpisodeNumber').value = ('AbsoluteEpisodeNumber' in item) ? item.AbsoluteEpisodeNumber : "";
-        context.querySelector('#txtDvdEpisodeNumber').value = ('DvdEpisodeNumber' in item) ? item.DvdEpisodeNumber : "";
-        context.querySelector('#txtDvdSeasonNumber').value = ('DvdSeasonNumber' in item) ? item.DvdSeasonNumber : "";
         context.querySelector('#txtAirsBeforeSeason').value = ('AirsBeforeSeasonNumber' in item) ? item.AirsBeforeSeasonNumber : "";
         context.querySelector('#txtAirsAfterSeason').value = ('AirsAfterSeasonNumber' in item) ? item.AirsAfterSeasonNumber : "";
         context.querySelector('#txtAirsBeforeEpisode').value = ('AirsBeforeEpisodeNumber' in item) ? item.AirsBeforeEpisodeNumber : "";

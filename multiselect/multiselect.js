@@ -129,7 +129,7 @@
             html += '<button is="paper-icon-button-light" class="btnCloseSelectionPanel autoSize"><i class="md-icon">close</i></button>';
             html += '<h1 class="itemSelectionCount"></h1>';
 
-            var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
+            var moreIcon = '&#xE5D3;';
             html += '<button is="paper-icon-button-light" class="btnSelectionPanelOptions autoSize" style="margin-left:auto;"><i class="md-icon">' + moreIcon + '</i></button>';
 
             selectionCommandsPanel.innerHTML = html;

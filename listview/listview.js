@@ -423,7 +423,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             html += '<div class="' + cssClass + '">';
 
-            var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
+            var moreIcon = '&#xE5D3;';
 
             html += getTextLinesHtml(textlines, isLargeStyle);
 

@@ -866,7 +866,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (isOuterFooter && options.cardLayout && !layoutManager.tv) {
 
                 if (options.cardFooterAside !== 'none') {
-                    var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
+                    var moreIcon = '&#xE5D3;';
                     html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">' + moreIcon + '</i></button>';
                 }
             }
@@ -1455,23 +1455,18 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var btnCssClass = 'cardOverlayButton itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play" onclick="return false;"><i class="md-icon">&#xE037;</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play" onclick="return false;"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
                 }
 
                 if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play" onclick="return false;"><i class="md-icon">&#xE037;</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play" onclick="return false;"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
                 }
 
                 if (options.overlayMoreButton) {
 
-                    var moreIcon = appHost.moreIcon === 'dots-horiz' ? '&#xE5D3;' : '&#xE5D4;';
+                    var moreIcon = '&#xE5D3;';
 
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu" onclick="return false;"><i class="md-icon">' + moreIcon + '</i></button>';
-                }
-
-                if (options.overlayInfoButton) {
-
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-texticon" data-action="link" onclick="return false;"><i class="cardOverlayButton-texticon-icon">i</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu" onclick="return false;"><i class="md-icon cardOverlayButtonIcon">' + moreIcon + '</i></button>';
                 }
             }
 

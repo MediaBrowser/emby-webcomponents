@@ -409,16 +409,26 @@ button {
 
 .cardOverlayButton {
     color: rgba(255, 255, 255, .76) !important;
-    border-radius: 100em;
     position: absolute;
     bottom: 0;
     right: 0;
-    margin: 0 .35em .65em 0;
+    margin: 0;
     z-index: 1;
-    padding: .5em;
-    background-color: rgba(0,0,0,.7) !important;
-    font-size: 84%;
+    padding: .75em;
+    font-size: 88%;
+    border-radius: 0;
 }
+
+    .cardOverlayButtonIcon {
+        background-color: rgba(0,0,0,.7) !important;
+        border-radius: 100em;
+        width: 1.5em;
+        height: 1.5em;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+
 
 .cardOverlayButton-centered {
     bottom: initial;
@@ -442,15 +452,6 @@ button {
     .cardOverlayButton-centered:hover {
         transform: scale(1.2, 1.2);
     }
-
-.cardOverlayButton-texticon {
-    line-height: 1;
-    background-color: rgba(0,0,0,.4) !important;
-}
-
-.cardOverlayButton-texticon-icon {
-    font-style: normal;
-}
 
 .bannerCard {
     width: 100%;

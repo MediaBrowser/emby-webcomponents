@@ -166,7 +166,7 @@
         if (!layoutManager.tv) {
 
             if (canEdit) {
-                html += '<button type="button" is="paper-icon-button-light" class="btnJobMenu listItemButton"><i class="md-icon">more_vert</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnJobMenu listItemButton"><i class="md-icon">more_horiz</i></button>';
             } else {
                 html += '<button type="button" is="paper-icon-button-light" class="btnCancelJob listItemButton"><i class="md-icon">delete</i></button>';
             }
