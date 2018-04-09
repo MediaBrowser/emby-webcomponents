@@ -213,7 +213,7 @@
                     html += '<div class="verticalSection">';
                     html += '<div class="sectionTitleContainer">';
 
-                    html += '<h1 class="sectionTitle">' + targetName + '</h1>';
+                    html += '<h2 class="sectionTitle">' + targetName + '</h2>';
 
                     html += '</div>';
                     html += '<div class="itemsContainer vertical-list paperList">';

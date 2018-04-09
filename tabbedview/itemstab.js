@@ -188,7 +188,7 @@
             return;
         }
 
-        btnSortIcon.innerHTML = values.sortOrder === 'Descending' ? '&#xE5D8;' : '&#xE5DB;';
+        btnSortIcon.innerHTML = values.sortOrder === 'Descending' ? '&#xE5DB;' : '&#xE5D8;';
     }
 
     function ItemsTab(view, params) {

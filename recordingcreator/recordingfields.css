@@ -3,10 +3,6 @@
     min-width: 10em;
 }
 
-.recordingIcon {
-    font-size: 1.3em !important;
-}
-
 .recordingIcon-active {
     color: #cc3333;
 }

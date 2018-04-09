@@ -419,16 +419,15 @@ button {
     border-radius: 0;
 }
 
-    .cardOverlayButtonIcon {
-        background-color: rgba(0,0,0,.7) !important;
-        border-radius: 100em;
-        width: 1.5em;
-        height: 1.5em;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-    }
-
+.cardOverlayButtonIcon {
+    background-color: rgba(0,0,0,.7) !important;
+    border-radius: 100em;
+    width: 1.5em !important;
+    height: 1.5em !important;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
 
 .cardOverlayButton-centered {
     bottom: initial;

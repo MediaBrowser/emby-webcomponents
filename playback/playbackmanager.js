@@ -197,11 +197,13 @@
         return false;
     }
 
-    function getAutomaticPlayers(instance) {
+    function getAutomaticPlayers(instance, forceLocalPlayer) {
 
-        var player = instance._currentPlayer;
-        if (player && !isAutomaticPlayer(player)) {
-            return [player];
+        if (!forceLocalPlayer) {
+            var player = instance._currentPlayer;
+            if (player && !isAutomaticPlayer(player)) {
+                return [player];
+            }
         }
 
         return instance.getPlayers().filter(isAutomaticPlayer);
@@ -476,6 +478,10 @@
             }
         }
 
+        if (player.getDirectPlayProtocols) {
+            query.DirectPlayProtocols = player.getDirectPlayProtocols();
+        }
+
         return apiClient.getPlaybackInfo(itemId, query, deviceProfile);
     }
 
@@ -590,7 +596,7 @@
 
         if (mediaSource.SupportsDirectPlay || isFolderRip) {
 
-            if (mediaSource.IsRemote && !apphost.supports('remotevideo') && !apphost.supports('remotemedia')) {
+            if (mediaSource.IsRemote && !apphost.supports('remotevideo')) {
                 return Promise.resolve(false);
             }
 
@@ -2243,7 +2249,7 @@
                 promise = Promise.resolve();
             }
 
-            if (!isServerItem(item) || item.MediaType === 'Game') {
+            if (!isServerItem(item) || item.MediaType === 'Game' || item.MediaType === 'Book') {
                 return promise.then(function () {
                     var streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;
@@ -2329,7 +2335,8 @@
             options = options || {};
             var startPosition = options.startPositionTicks || 0;
             var mediaType = options.mediaType || item.MediaType;
-            var player = getPlayer(item, options);
+            // TODO: Remove the true forceLocalPlayer hack
+            var player = getPlayer(item, options, true);
             var apiClient = connectionManager.getApiClient(item.ServerId);
             var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
 
@@ -2342,7 +2349,7 @@
             });
         };
 
-        function createStreamInfo(apiClient, type, item, mediaSource, startPosition, forceTranscoding) {
+        function createStreamInfo(apiClient, type, item, mediaSource, startPosition) {
 
             var mediaUrl;
             var contentType;
@@ -2355,114 +2362,68 @@
             var mediaSourceContainer = (mediaSource.Container || '').toLowerCase();
             var directOptions;
 
-            if (type === 'Video') {
+            if (type === 'Video' || type === 'Audio') {
 
-                contentType = getMimeType('video', mediaSourceContainer);
+                contentType = getMimeType(type.toLowerCase(), mediaSourceContainer);
 
-                if (mediaSource.enableDirectPlay && !forceTranscoding) {
+                if (mediaSource.enableDirectPlay) {
                     mediaUrl = mediaSource.Path;
 
                     playMethod = 'DirectPlay';
 
-                } else {
-
-                    if (mediaSource.SupportsDirectStream && !forceTranscoding) {
-
-                        directOptions = {
-                            Static: true,
-                            mediaSourceId: mediaSource.Id,
-                            deviceId: apiClient.deviceId(),
-                            api_key: apiClient.accessToken()
-                        };
-
-                        if (mediaSource.ETag) {
-                            directOptions.Tag = mediaSource.ETag;
-                        }
-
-                        if (mediaSource.LiveStreamId) {
-                            directOptions.LiveStreamId = mediaSource.LiveStreamId;
-                        }
-
-                        mediaUrl = apiClient.getUrl('Videos/' + item.Id + '/stream.' + mediaSourceContainer, directOptions);
-
-                        playMethod = 'DirectStream';
-                    } else if (mediaSource.SupportsTranscoding) {
-
-                        mediaUrl = apiClient.getUrl(mediaSource.TranscodingUrl);
-
-                        if (mediaSource.TranscodingSubProtocol === 'hls') {
-
-                            contentType = 'application/x-mpegURL';
-
-                        } else {
-
-                            playerStartPositionTicks = null;
-                            contentType = getMimeType('video', mediaSource.TranscodingContainer);
-
-                            if (mediaUrl.toLowerCase().indexOf('copytimestamps=true') === -1) {
-                                transcodingOffsetTicks = startPosition || 0;
-                            }
-                        }
-                    }
                 }
 
-            } else if (type === 'Audio') {
+                else if (mediaSource.StreamUrl) {
 
-                contentType = getMimeType('audio', mediaSourceContainer);
+                    // Only used for audio
+                    playMethod = 'Transcode';
+                    mediaUrl = mediaSource.StreamUrl;
+                }
 
-                if (mediaSource.enableDirectPlay && !forceTranscoding) {
+                else if (mediaSource.SupportsDirectStream) {
 
-                    mediaUrl = mediaSource.Path;
+                    directOptions = {
+                        Static: true,
+                        mediaSourceId: mediaSource.Id,
+                        deviceId: apiClient.deviceId(),
+                        api_key: apiClient.accessToken()
+                    };
 
-                    playMethod = 'DirectPlay';
-
-                } else {
-
-                    if (mediaSource.StreamUrl) {
-
-                        playMethod = 'Transcode';
-                        mediaUrl = mediaSource.StreamUrl;
+                    if (mediaSource.ETag) {
+                        directOptions.Tag = mediaSource.ETag;
                     }
 
-                    else if (mediaSource.SupportsDirectStream && !forceTranscoding) {
+                    if (mediaSource.LiveStreamId) {
+                        directOptions.LiveStreamId = mediaSource.LiveStreamId;
+                    }
 
-                        directOptions = {
-                            Static: true,
-                            mediaSourceId: mediaSource.Id,
-                            deviceId: apiClient.deviceId(),
-                            api_key: apiClient.accessToken()
-                        };
+                    var prefix = type === 'Video' ? 'Videos' : 'Audio';
+                    mediaUrl = apiClient.getUrl(prefix + '/' + item.Id + '/stream.' + mediaSourceContainer, directOptions);
 
-                        if (mediaSource.ETag) {
-                            directOptions.Tag = mediaSource.ETag;
-                        }
+                    playMethod = 'DirectStream';
 
-                        if (mediaSource.LiveStreamId) {
-                            directOptions.LiveStreamId = mediaSource.LiveStreamId;
-                        }
+                } else if (mediaSource.SupportsTranscoding) {
 
-                        mediaUrl = apiClient.getUrl('Audio/' + item.Id + '/stream.' + mediaSourceContainer, directOptions);
+                    mediaUrl = apiClient.getUrl(mediaSource.TranscodingUrl);
 
-                        playMethod = 'DirectStream';
+                    if (mediaSource.TranscodingSubProtocol === 'hls') {
 
-                    } else if (mediaSource.SupportsTranscoding) {
+                        contentType = 'application/x-mpegURL';
 
-                        mediaUrl = apiClient.getUrl(mediaSource.TranscodingUrl);
+                    } else {
 
-                        if (mediaSource.TranscodingSubProtocol === 'hls') {
+                        playerStartPositionTicks = null;
+                        contentType = getMimeType(type.toLowerCase(), mediaSource.TranscodingContainer);
 
-                            contentType = 'application/x-mpegURL';
-                        } else {
-
+                        if (mediaUrl.toLowerCase().indexOf('copytimestamps=true') === -1) {
                             transcodingOffsetTicks = startPosition || 0;
-                            playerStartPositionTicks = null;
-                            contentType = getMimeType('audio', mediaSource.TranscodingContainer);
                         }
                     }
                 }
 
-            } else if (type === 'Game') {
+            } else {
 
+                // All other media types
                 mediaUrl = mediaSource.Path;
                 playMethod = 'DirectPlay';
             }
@@ -2568,10 +2529,10 @@
             });
         }
 
-        function getPlayer(item, playOptions) {
+        function getPlayer(item, playOptions, forceLocalPlayers) {
 
             var serverItem = isServerItem(item);
-            return getAutomaticPlayers(self).filter(function (p) {
+            return getAutomaticPlayers(self, forceLocalPlayers).filter(function (p) {
 
                 if (p.canPlayMediaType(item.MediaType)) {
 

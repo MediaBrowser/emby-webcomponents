@@ -12,10 +12,9 @@
         }
 
         var playState = state.PlayState || {};
+        var resumePositionTicks = playState.PositionTicks || 0;
 
         playbackManager.stop(oldPlayer).then(function () {
-
-            var resumePositionTicks = playState.PositionTicks || 0;
 
             playbackManager.play({
                 ids: [item.Id],
