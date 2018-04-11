@@ -3072,6 +3072,7 @@
             // User started playing something new while existing content is playing
             var promise;
 
+            stopPlaybackProgressTimer(activePlayer);
             unbindStopped(activePlayer);
 
             if (activePlayer === newPlayer) {
