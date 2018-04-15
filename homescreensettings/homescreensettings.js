@@ -209,7 +209,6 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
             html += '<input type="checkbox" is="emby-checkbox" class="chkIncludeInMyMedia" data-folderid="' + item.Id + '"' + (isChecked ? ' checked="checked"' : '') + '/>';
             html += '<span>' + globalize.translate('sharedcomponents#DisplayInMyMedia') + '</span>';
             html += '</label>';
-            html += '<div class="fieldDescription checkboxFieldDescription">' + globalize.translate('sharedcomponents#DisplayInMyMediaHelp') + '</div>';
             html += '</div>';
         }
 

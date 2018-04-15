@@ -149,7 +149,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 itemType === "Person" ||
                 itemType === "Book" ||
                 itemType === "MusicAlbum" ||
-                itemType === "MusicArtist") {
+                itemType === "MusicArtist" ||
+                itemType === "MusicVideo") {
 
                 if (user.Policy.IsAdministrator) {
 

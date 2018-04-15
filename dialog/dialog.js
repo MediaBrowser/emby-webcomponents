@@ -44,7 +44,12 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             dlg.querySelector('.formDialogHeaderTitle').classList.add('hide');
         }
 
-        dlg.querySelector('.text').innerHTML = options.html || options.text || '';
+        var displayText = options.html || options.text || '';
+        dlg.querySelector('.text').innerHTML = displayText;
+
+        if (!displayText) {
+            dlg.querySelector('.dialogContentInner').classList.add('hide');
+        }
 
         var i, length;
         var html = '';

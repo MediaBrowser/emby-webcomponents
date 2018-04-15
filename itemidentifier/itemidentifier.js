@@ -61,9 +61,15 @@
         }
 
         lookupInfo = {
-            SearchInfo: lookupInfo,
-            IncludeDisabledProviders: true
+            SearchInfo: lookupInfo
         };
+
+        if (currentItem && currentItem.Id) {
+            lookupInfo.ItemId = currentItem.Id;
+        }
+        else {
+            lookupInfo.IncludeDisabledProviders = true;
+        }
 
         loading.show();
 
