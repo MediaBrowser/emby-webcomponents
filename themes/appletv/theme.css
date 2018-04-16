@@ -52,6 +52,7 @@ html, .skinHeader {
 /* buttons */
 .paper-icon-button-light:focus {
     color: #52B54B;
+    background-color: rgba(82, 181, 75, 0.2);
 }
 
 .raised, .fab {

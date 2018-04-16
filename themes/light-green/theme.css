@@ -50,9 +50,15 @@ html, .skinHeader {
 /* buttons */
 .paper-icon-button-light:focus {
     color: #52B54B;
+    background-color: rgba(82, 181, 75, 0.2);
 }
 
-.skinHeader-withBackground .paper-icon-button-light:focus, .skinHeader-withBackground .button-link {
+.skinHeader-withBackground .paper-icon-button-light:focus {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.skinHeader-withBackground .button-link {
     color: #fff;
 }
 

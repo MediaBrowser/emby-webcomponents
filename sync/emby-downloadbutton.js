@@ -14,7 +14,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
                 syncDialog.showMenu({
 
                     items: [id],
-                    isLocalSync: true,
+                    mode: 'download',
                     serverId: serverId
 
                 }).then(function () {

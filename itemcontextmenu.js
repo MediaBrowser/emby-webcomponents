@@ -114,6 +114,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             });
         }
 
+        if (itemHelper.canConvert(item, user, connectionManager.getApiClient(item))) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#Convert'),
+                id: 'convert'
+            });
+        }
+
         if (item.CanDelete && options.deleteItem !== false) {
 
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
@@ -150,7 +157,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
             if (options.edit !== false && item.Type !== 'SeriesTimer') {
 
-                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('sharedcomponents#Edit') : globalize.translate('sharedcomponents#EditInfo');
+                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('sharedcomponents#Edit') : globalize.translate('sharedcomponents#EditMetadata');
 
                 commands.push({
                     name: text,
@@ -449,12 +456,25 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                         getResolveFunction(resolve, id)();
                         break;
                     }
+                case 'convert':
+                    {
+                        require(['syncDialog'], function (syncDialog) {
+                            syncDialog.showMenu({
+                                items: [item],
+                                serverId: serverId,
+                                mode: 'convert'
+                            });
+                        });
+                        getResolveFunction(resolve, id)();
+                        break;
+                    }
                 case 'sync':
                     {
                         require(['syncDialog'], function (syncDialog) {
                             syncDialog.showMenu({
                                 items: [item],
-                                serverId: serverId
+                                serverId: serverId,
+                                mode: 'sync'
                             });
                         });
                         getResolveFunction(resolve, id)();
@@ -465,8 +485,8 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                         require(['syncDialog'], function (syncDialog) {
                             syncDialog.showMenu({
                                 items: [item],
-                                isLocalSync: true,
-                                serverId: serverId
+                                serverId: serverId,
+                                mode: 'download'
                             });
                         });
                         getResolveFunction(resolve, id)();

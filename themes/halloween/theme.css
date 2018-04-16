@@ -67,10 +67,12 @@ html {
 /* buttons */
 .paper-icon-button-light:focus {
     color: #FF9100;
+    background-color: rgba(255, 145, 0, 0.2);
 }
 
 .skinHeader-withBackground .paper-icon-button-light:focus {
     color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .raised, .fab {

@@ -44,7 +44,7 @@
 
                 }).then(function () {
 
-                    if (listInstance.options.isLocalSync) {
+                    if (listInstance.options.mode === 'download') {
                         syncNow();
                     }
 
@@ -189,8 +189,8 @@
         var html = '';
         var lastTargetName = '';
 
-        var isLocalSync = listInstance.options.isLocalSync;
-        var showTargetName = !isLocalSync;
+        var mode = listInstance.options.mode;
+        var showTargetName = mode !== 'download';
 
         var hasOpenSection = false;
 
@@ -232,7 +232,7 @@
         var elem = listInstance.options.element.querySelector('.syncJobListContent');
 
         if (!html) {
-            if (isLocalSync) {
+            if (mode === 'download') {
                 html = '<div style="padding:1em .25em;">' + globalize.translate('sharedcomponents#MessageNoDownloadsFound') + '</div>';
             } else {
                 html = '<div style="padding:1em .25em;">' + globalize.translate('sharedcomponents#MessageNoSyncJobsFound') + '</div>';
@@ -256,7 +256,7 @@
             options.UserId = listInstance.options.userId;
         }
 
-        if (listInstance.options.isLocalSync) {
+        if (listInstance.options.mode === 'download') {
             options.TargetId = apiClient.deviceId();
         }
 
@@ -276,7 +276,7 @@
         if (listInstance.options.userId) {
             startParams += "," + listInstance.options.userId;
         }
-        if (listInstance.options.isLocalSync) {
+        if (listInstance.options.mode === 'download') {
             startParams += "," + apiClient.deviceId();
         } else if (listInstance.options.enableRemoteSyncManagement === false) {
             startParams += ",true";
@@ -378,7 +378,7 @@
 
                     serverId: listInstance.options.serverId,
                     jobId: jobId,
-                    isLocalSync: listInstance.options.isLocalSync
+                    mode: listInstance.options.mode
 
                 }).then(function () {
                     fetchData(listInstance);

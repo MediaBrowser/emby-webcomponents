@@ -187,7 +187,7 @@
 
             }).then(function () {
 
-                // TODO this should check editor options.isLocalSync
+                // TODO this should check editor options.mode === 'download'
                 if (appHost.supports('sync')) {
                     syncNow();
                 }
@@ -207,7 +207,7 @@
 
             }).then(function () {
 
-                // TODO this should check editor options.isLocalSync
+                // TODO this should check editor options.mode === 'download'
                 if (appHost.supports('sync')) {
                     syncNow();
                 }
@@ -362,7 +362,7 @@
 
                 }).then(function () {
 
-                    // TODO this should check editor options.isLocalSync
+                    // TODO this should check editor options.mode === 'download'
                     if (appHost.supports('sync')) {
                         syncNow();
                     }

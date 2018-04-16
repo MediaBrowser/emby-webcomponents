@@ -275,6 +275,32 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return true;
         },
 
+        canConvert: function (item, user, apiClient) {
+
+            if (!item.SupportsSync) {
+                return false;
+            }
+
+            if (isLocalItem(item)) {
+                return false;
+            }
+
+            var mediaType = item.MediaType;
+            if (mediaType === 'Book' || mediaType === 'Photo' || mediaType === 'Game' || mediaType === 'Audio') {
+                return false;
+            }
+
+            var type = item.Type;
+            if (item.IsFolder) {
+
+                if (type !== 'Series' && type !== 'Season') {
+                    return false;
+                }
+            }
+
+            return apiClient && apiClient.isMinServerVersion('3.3.1.18');
+        },
+
         canRefreshMetadata: function (item, user) {
 
             if (user.Policy.IsAdministrator) {

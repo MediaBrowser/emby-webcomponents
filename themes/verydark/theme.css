@@ -47,6 +47,7 @@ html {
 /* buttons */
 .paper-icon-button-light:focus {
     color: #52B54B;
+    background-color: rgba(82, 181, 75, 0.2);
 }
 
 .raised, .fab {
@@ -183,7 +184,7 @@ html {
 }
 
 .listItem-border {
-    border-color: rgba(30, 30, 30, .9)!important;
+    border-color: rgba(30, 30, 30, .9) !important;
 }
 
 .listItem:focus {
@@ -363,6 +364,7 @@ html {
     color: #1e1e1e;
     background: #555;
 }
+
 .guide-headerTimeslots {
     color: inherit;
 }
