@@ -298,7 +298,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 }
             }
 
-            return apiClient && apiClient.isMinServerVersion('3.3.1.18');
+            return apiClient && apiClient.isMinServerVersion('3.3.1.20');
         },
 
         canRefreshMetadata: function (item, user) {

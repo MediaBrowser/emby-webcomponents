@@ -703,13 +703,6 @@
                 self._started = true;
                 this.removeAttribute('controls');
 
-                if (self._currentPlayOptions.title) {
-                    self.originalDocumentTitle = document.title;
-                    document.title = self._currentPlayOptions.title;
-                } else {
-                    self.originalDocumentTitle = null;
-                }
-
                 loading.hide();
 
                 htmlMediaHelper.seekOnPlaybackStart(self, e.target, self._currentPlayOptions.playerStartPositionTicks);

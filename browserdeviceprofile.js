@@ -346,7 +346,7 @@ define(['browser'], function (browser) {
     return function (options) {
 
         options = options || {};
-        var physicalAudioChannels = options.audioChannels || (browser.tv || browser.ps4 || browser.xboxOne || browser.chromecast ? 6 : 2);
+        var physicalAudioChannels = options.audioChannels || (browser.tv || browser.ps4 || browser.xboxOne ? 6 : 2);
 
         var bitrateSetting = getMaxBitrate();
 

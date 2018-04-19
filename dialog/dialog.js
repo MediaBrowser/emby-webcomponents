@@ -53,6 +53,8 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
 
         var i, length;
         var html = '';
+        var hasDescriptions = false;
+
         for (i = 0, length = options.buttons.length; i < length; i++) {
 
             var item = options.buttons[i];
@@ -64,10 +66,26 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
                 buttonClass += ' button-' + item.type;
             }
 
+            if (item.description) {
+                hasDescriptions = true;
+            }
+
+            if (hasDescriptions) {
+                buttonClass += ' formDialogFooterItem-vertical formDialogFooterItem-nomarginbottom';
+            }
+
             html += '<button is="emby-button" type="button" class="' + buttonClass + '" data-id="' + item.id + '"' + autoFocus + '>' + item.name + '</button>';
+
+            if (item.description) {
+                html += '<div class="formDialogFooterItem formDialogFooterItem-autosize fieldDescription" style="margin-top:.25em!important;margin-bottom:1.25em!important;">' + item.description + '</div>';
+            }
         }
 
         dlg.querySelector('.formDialogFooter').innerHTML = html;
+
+        if (hasDescriptions) {
+            dlg.querySelector('.formDialogFooter').classList.add('formDialogFooter-vertical');
+        }
 
         var dialogResult;
         function onButtonClick() {

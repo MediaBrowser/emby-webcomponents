@@ -400,11 +400,6 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         destroyShakaPlayer(instance);
         destroyCastPlayer(instance);
 
-        if (instance.originalDocumentTitle) {
-            document.title = instance.originalDocumentTitle;
-            instance.originalDocumentTitle = null;
-        }
-
         var stopInfo = {
             src: instance._currentSrc
         };
