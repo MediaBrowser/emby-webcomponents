@@ -290,12 +290,22 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
 
+            var collectionType = item.CollectionType;
+            if (collectionType === 'livetv') {
+                return false;
+            }
+
             var type = item.Type;
+            if (type === 'Channel') {
+                return false;
+            }
+
             if (item.IsFolder) {
 
-                if (type !== 'Series' && type !== 'Season') {
-                    return false;
-                }
+            }
+
+            if (!user.Policy.EnableSyncTranscoding) {
+                return false;
             }
 
             return apiClient && apiClient.isMinServerVersion('3.3.1.20');

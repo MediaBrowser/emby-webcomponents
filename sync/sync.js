@@ -71,9 +71,11 @@
 
 
     function showSubmissionToast(targetId, apiClient) {
-        var msg = targetId === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadingDots') : globalize.translate('sharedcomponents#SyncJobCreated');
 
-        toast(msg);
+        require(['toast'], function (toast) {
+            var msg = targetId === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadingDots') : globalize.translate('sharedcomponents#SyncJobCreated');
+            toast(msg);
+        });
     }
 
     function syncNow() {
@@ -195,9 +197,9 @@
         var html = '';
 
         var mode = options.mode;
-        var targetContainerClass = mode === 'download' || mode === 'convert' ? ' hide' : '';
+        var targetContainerClass = mode === 'download' ? ' hide' : '';
 
-        var syncTargetLabel = globalize.translate('sharedcomponents#LabelSyncTo');
+        var syncTargetLabel = mode === 'convert' ? globalize.translate('sharedcomponents#LabelConvertTo') : globalize.translate('sharedcomponents#LabelSyncTo');
 
         if (options.readOnlySyncTarget) {
             html += '<div class="inputContainer' + targetContainerClass + '">';
@@ -456,7 +458,9 @@
             }).join(','),
 
             ParentId: options.ParentId,
-            Category: options.Category
+            Category: options.Category,
+            IncludeProviders: options.mode === 'convert' ? 'ConvertSyncProvider' : null,
+            ExcludeProviders: options.mode === 'convert' ? null : 'ConvertSyncProvider'
         });
 
         return dialogOptionsFn().then(function (dialogOptions) {
