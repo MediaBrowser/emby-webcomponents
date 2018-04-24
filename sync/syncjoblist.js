@@ -408,7 +408,7 @@
 
     function showSupporterInfo(context) {
 
-        var html = '<button is="emby-button" class="raised button-accent block btnSyncSupporter" style="margin:1em 0;">';
+        var html = '<button is="emby-button" class="raised button-submit block btnSyncSupporter" style="margin:1em 0;">';
 
         html += '<div>';
         html += globalize.translate('sharedcomponents#HeaderSyncRequiresSub');

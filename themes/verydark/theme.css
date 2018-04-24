@@ -55,15 +55,19 @@ html {
     color: rgba(255, 255, 255, .87);
 }
 
+    .raised:focus, .fab:focus {
+        background: #383838;
+    }
+
 .button-submit {
     background: #52B54B;
     color: #fff;
 }
 
-.button-accent {
-    background: #52B54B;
-    color: #fff;
-}
+    .button-submit:focus {
+        background: #5EC157;
+        color: #fff;
+    }
 
 .checkboxLabel {
     color: inherit;

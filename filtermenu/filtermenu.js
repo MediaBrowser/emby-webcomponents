@@ -46,7 +46,9 @@
         //}
 
         renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
-            var delimeter = '|';
+
+            // Switching from | to ,
+            var delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
             return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
         });
 
@@ -178,7 +180,7 @@
                 genres.push(elems[i].getAttribute('data-filter'));
             }
         }
-        userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join('|'));
+        userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
     }
 
     function setBasicFilter(context, key, elem) {

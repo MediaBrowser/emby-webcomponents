@@ -80,15 +80,19 @@ html {
     color: #fff;
 }
 
+    .raised:focus, .fab:focus {
+        background: #505050;
+    }
+
 .button-submit {
     background: #FF9100;
     color: #fff;
 }
 
-.button-accent {
-    background: #FF9100;
-    color: #fff;
-}
+    .button-submit:focus {
+        background: #FF9D0C;
+        color: #fff;
+    }
 
 .checkboxLabel {
     color: inherit;

@@ -63,20 +63,20 @@ html, .skinHeader {
     color: inherit;
 }
 
+    .raised:focus, .fab:focus {
+        background: #ccc;
+        color: inherit;
+    }
+
 .button-submit {
     background: #E91E63;
     color: #fff;
 }
 
-.button-cancel {
-    background: #d8d8d8;
-    color: inherit;
-}
-
-.button-accent {
-    background: #E91E63;
-    color: #fff;
-}
+    .button-submit:focus {
+        background: #F52A6F;
+        color: #fff;
+    }
 
 .checkboxLabel {
     color: inherit;
