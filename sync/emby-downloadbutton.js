@@ -50,39 +50,39 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
     function updateSyncStatus(button, syncPercent) {
 
-		var icon = button.iconElement;
-		if (!icon){
-			button.iconElement = button.querySelector('i');
-			icon = button.iconElement;
-		}
-		
+        var icon = button.iconElement;
+        if (!icon) {
+            button.iconElement = button.querySelector('i');
+            icon = button.iconElement;
+        }
+
         if (syncPercent != null) {
             button.classList.add('downloadbutton-on');
-			
-			if (icon){
-				icon.classList.add('downloadbutton-icon-on');
-			}
-			
+
+            if (icon) {
+                icon.classList.add('downloadbutton-icon-on');
+            }
+
         } else {
             button.classList.remove('downloadbutton-on');
-			
-			if (icon){
-				icon.classList.remove('downloadbutton-icon-on');
-			}
+
+            if (icon) {
+                icon.classList.remove('downloadbutton-icon-on');
+            }
         }
 
         if ((syncPercent || 0) >= 100) {
             button.classList.add('downloadbutton-complete');
-			
-			if (icon){
-				icon.classList.add('downloadbutton-icon-complete');
-			}
+
+            if (icon) {
+                icon.classList.add('downloadbutton-icon-complete');
+            }
         } else {
             button.classList.remove('downloadbutton-complete');
-			
-			if (icon){
-				icon.classList.remove('downloadbutton-icon-complete');
-			}
+
+            if (icon) {
+                icon.classList.remove('downloadbutton-icon-complete');
+            }
         }
 
         var text;
@@ -147,9 +147,20 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
 
         clearEvents(this);
-		
-		this.iconElement = null;
+
+        this.iconElement = null;
     };
+
+    function fetchAndUpdate(button, item) {
+
+        connectionManager.getApiClient(item.ServerId).getSyncStatus(item.Id).then(function (result) {
+
+            updateSyncStatus(button, result.Progress);
+
+        }, function () {
+
+        });
+    }
 
     EmbyDownloadButtonPrototype.setItem = function (item) {
 
@@ -158,7 +169,8 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             this.setAttribute('data-id', item.Id);
             this.setAttribute('data-serverid', item.ServerId);
 
-            updateSyncStatus(this, item.SyncPercent);
+            fetchAndUpdate(this, item);
+
             bindEvents(this);
 
         } else {

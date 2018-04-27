@@ -202,7 +202,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
 
         var isChecked;
 
-        if (item.CollectionType !== 'livetv') {
+        if (item.Type === 'Channel') {
             isChecked = (user.Configuration.MyMediaExcludes || []).indexOf(item.Id) === -1;
             html += '<div>';
             html += '<label>';

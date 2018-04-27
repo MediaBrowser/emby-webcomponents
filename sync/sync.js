@@ -211,7 +211,7 @@
 
             html += targets.map(function (t) {
 
-                var isSelected = defaultTargetId;
+                var isSelected = defaultTargetId === t.Id;
                 var selectedHtml = isSelected ? ' selected="selected"' : '';
                 return '<option' + selectedHtml + ' value="' + t.Id + '">' + t.Name + '</option>';
 
