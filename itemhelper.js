@@ -304,7 +304,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
             }
 
-            if (!user.Policy.EnableSyncTranscoding) {
+            if (!user.Policy.EnableMediaConversion) {
                 return false;
             }
 
