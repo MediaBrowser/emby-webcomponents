@@ -77,17 +77,13 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .46em;
+    margin: .64em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
     contain: layout style;
-}
-
-.layout-tv .cardBox {
-    margin: .64em;
 }
 
 @media all and (max-width: 50em) {
@@ -307,10 +303,6 @@ button {
 }
 
 .cardText-first {
-    padding-top: .3em;
-}
-
-.layout-tv .cardText-first {
     padding-top: .24em;
 }
 
@@ -406,13 +398,22 @@ button {
 
 .cardOverlayButton {
     color: rgba(255, 255, 255, .76) !important;
-    position: absolute;
-    bottom: 0;
-    right: 0;
     margin: 0;
     z-index: 1;
     padding: .75em;
     font-size: 88%;
+}
+
+.cardOverlayButton-hover {
+    background: transparent;
+    padding: .5em;
+    color: #fff !important;
+}
+
+.cardOverlayButton-br {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 
 .cardOverlayButtonIcon {
@@ -423,6 +424,7 @@ button {
     justify-content: center;
     align-items: center;
     display: flex;
+    font-size: 1.66956521739130434em !important;
 }
 
 .cardOverlayButton-centered {
@@ -438,7 +440,7 @@ button {
     top: 50%;
     left: 50%;
     background-color: rgba(0,0,0,.5) !important;
-    border: 2.4px solid rgba(255,255,255,.6);
+    border: .06em solid rgba(255,255,255,.6);
     padding: .38em !important;
     color: rgba(255, 255, 255, .76);
     transition: transform 200ms ease-out;
@@ -770,4 +772,39 @@ button {
 
 .itemsContainer-tv > .overflowSmallBackdropCard {
     width: 18.9vw;
+}
+
+.cardOverlayTarget {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    display: flex;
+    transition: opacity 160ms ease-in, transform 40ms ease-in;
+    transition-delay: 540ms;
+    transform: scale(0);
+}
+
+.card:hover .cardOverlayTarget {
+    opacity: 1;
+    transform: none;
+}
+
+.cardOverlayFab-primary {
+    font-size: 140%;
+    padding: 0;
+}
+
+    .cardOverlayFab-primary i {
+        border: .08em solid rgba(255,255,255,.6);
+    }
+
+.cardOverlayButtonIcon-hover {
+    background: transparent !important;
 }

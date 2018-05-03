@@ -1,5 +1,5 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'programStyles'],
-    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, itemShortcuts) {
+define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'playbackManager', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'programStyles'],
+    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts) {
         'use strict';
 
         var devicePixelRatio = window.devicePixelRatio || 1;
@@ -1444,7 +1444,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var overlayButtons = '';
-            if (!layoutManager.tv) {
+            if (layoutManager.mobile) {
 
                 var overlayPlayButton = options.overlayPlayButton;
 
@@ -1452,7 +1452,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     overlayPlayButton = item.MediaType === 'Video';
                 }
 
-                var btnCssClass = 'cardOverlayButton itemAction';
+                var btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
                     overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play" onclick="return false;"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
@@ -1591,7 +1591,60 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var contextData = options.context ? (' data-context="' + options.context + '"') : '';
             var parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
 
-            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            var additionalCardContent = '';
+
+            if (layoutManager.desktop) {
+                additionalCardContent += getHoverMenuHtml(item);
+            }
+
+            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+        }
+
+        function getHoverMenuHtml(item) {
+
+            var html = '';
+            html += '<div class="cardOverlayTarget itemAction" data-action="link">';
+
+            var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction';
+
+            if (playbackManager.canPlay(item)) {
+
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+            }
+
+            html += '<div class="cardOverlayButton-br">';
+
+            var moreIcon = '&#xE5D3;';
+
+            //if (itemHelper.canEdit({ Policy: { IsAdministrator: true } }, item)) {
+
+            //    //require(['emby-playstatebutton']);
+            //    html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="edit" onclick="return false;"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE254;</i></button>';
+            //}
+
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu" onclick="return false;"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">' + moreIcon + '</i></button>';
+
+            var userData = item.UserData || {};
+
+            if (itemHelper.canMarkPlayed(item)) {
+
+                require(['emby-playstatebutton']);
+                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5CA;</i></button>';
+            }
+
+            if (itemHelper.canRate(item)) {
+
+                var likes = userData.Likes == null ? '' : userData.Likes;
+
+                require(['emby-ratingbutton']);
+                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
+            }
+
+            html += '</div>';
+
+            html += '</div>';
+
+            return html;
         }
 
         function getCardDefaultText(item, options) {

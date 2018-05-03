@@ -49,7 +49,7 @@
             nextAction = 'remove';
         }
 
-        var listItemClass = 'listItem listItem-shaded';
+        var listItemClass = 'listItem listItem-border';
         if (layoutManager.tv && nextAction) {
             listItemClass += ' btnJobItemMenu';
         }

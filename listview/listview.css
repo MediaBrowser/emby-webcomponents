@@ -35,8 +35,8 @@
 }
 
 .listItem-border {
-    border-top-width: 1px;
-    border-top-style: solid;
+    border-bottom-width: .1em;
+    border-bottom-style: solid;
 }
 
 .listItem-largeImage {
@@ -79,12 +79,6 @@
     padding-left: 0 !important;
 }
 
-.three-line {
-    min-height: 6.3em;
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
 .listItemBodyText {
     margin: 0;
     padding: .2em 0;
@@ -97,10 +91,10 @@
 }
 
 .listItemImage {
-    width: 7.4vh;
-    height: 7.4vh;
-    min-width: 40px;
-    min-height: 40px;
+    width: 4.775em;
+    height: 4.775em;
+    min-width: 2.78em;
+    min-height: 2.78em;
     background-repeat: no-repeat;
     background-size: contain;
     flex-shrink: 0;
@@ -138,7 +132,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 3px;
+    padding: .21em;
 }
 
 @media all and (max-width: 64em) {
@@ -186,7 +180,7 @@
         background-color: #52B54B;
         color: #fff;
         padding: .5em;
-        border-radius: 500px;
+        border-radius: 100em;
     }
 
 .listItemProgressBar {
@@ -213,7 +207,6 @@
     }
 
 .paperList {
-    padding: .5em 0;
     margin: .5em auto;
 }
 
@@ -233,8 +226,8 @@
 }
 
 .listItemIndicators {
-    right: .5vh;
-    top: .5vh;
+    right: .324em;
+    top: .324em;
     position: absolute;
     display: flex;
     align-items: center;

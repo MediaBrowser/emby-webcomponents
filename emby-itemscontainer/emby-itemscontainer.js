@@ -36,7 +36,9 @@
         // check for serverId, it won't be present on selectserver
         if (card && card.getAttribute('data-serverid')) {
 
-            inputManager.trigger('menu', card);
+            inputManager.trigger('menu', {
+                sourceElement: card
+            });
 
             e.preventDefault();
             e.stopPropagation();
@@ -49,28 +51,6 @@
             click: false
         };
     }
-
-    ItemsContainerProtoType.enableHoverMenu = function (enabled) {
-
-        var current = this.hoverMenu;
-
-        if (!enabled) {
-            if (current) {
-                current.destroy();
-                this.hoverMenu = null;
-            }
-            return;
-        }
-
-        if (current) {
-            return;
-        }
-
-        var self = this;
-        require(['itemHoverMenu'], function (ItemHoverMenu) {
-            self.hoverMenu = new ItemHoverMenu(self);
-        });
-    };
 
     ItemsContainerProtoType.enableMultiSelect = function (enabled) {
 
@@ -360,10 +340,6 @@
             }
         }
 
-        if (layoutManager.desktop && this.getAttribute('data-hovermenu') !== 'false') {
-            this.enableHoverMenu(true);
-        }
-
         if (layoutManager.desktop || layoutManager.mobile) {
             if (this.getAttribute('data-multiselect') !== 'false') {
                 this.enableMultiSelect(true);
@@ -393,7 +369,6 @@
 
         clearRefreshInterval(this);
 
-        this.enableHoverMenu(false);
         this.enableMultiSelect(false);
         this.enableDragReordering(false);
         this.removeEventListener('click', onClick);

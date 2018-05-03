@@ -1,6 +1,6 @@
 _:-ms-input-placeholder {
     -ms-appearance: none;
-    height: 32px;
+    height: 2.223em;
     margin: 0;
 }
 
@@ -106,14 +106,6 @@ _:-ms-input-placeholder {
     border: none;
 }
 
-.mdl-slider:focus::-webkit-slider-thumb {
-    box-shadow: 0 0 0 10px rgba(82, 181, 75, 0.26);
-}
-
-.mdl-slider:focus::-moz-range-thumb {
-    box-shadow: 0 0 0 10px rgba(82, 181, 75, 0.26);
-}
-
 .mdl-slider::-ms-thumb {
     -webkit-appearance: none;
     width: 1.8em;
@@ -147,15 +139,15 @@ _:-ms-input-placeholder {
 }
 
 .mdl-slider-ie-container {
-    height: 18px;
+    height: 1.25em;
     overflow: visible;
     border: none;
-    margin: none;
-    padding: none;
+    margin: 0;
+    padding: 0;
 }
 
 .mdl-slider-container {
-    height: 18px;
+    height: 1.25em;
     position: relative;
     background: none;
     display: flex;

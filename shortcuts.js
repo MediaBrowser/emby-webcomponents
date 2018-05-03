@@ -384,7 +384,9 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
         var cmd = e.detail.command;
 
         if (cmd === 'play' || cmd === 'resume' || cmd === 'record' || cmd === 'menu' || cmd === 'info') {
-            var card = dom.parentWithClass(e.target, 'itemAction');
+
+            var target = e.target;
+            var card = dom.parentWithClass(target, 'itemAction') || dom.parentWithAttribute(target, 'data-id');
 
             if (card) {
                 e.preventDefault();

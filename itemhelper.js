@@ -109,6 +109,14 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
+        if (itemType === 'Timer') {
+            return false;
+        }
+
+        if (itemType === 'SeriesTimer') {
+            return false;
+        }
+
         if (item.Type === 'Recording') {
             if (item.Status !== 'Completed') {
                 return false;
@@ -268,14 +276,14 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canRate: function (item) {
 
-            if (item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'SeriesTimer') {
+            if (item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'SeriesTimer' || item.Type === 'CollectionFolder' || item.Type === 'UserView' || item.Type === 'Channel') {
                 return false;
             }
 
             return true;
         },
 
-        canConvert: function (item, user, apiClient) {
+        canConvert: function (item, user) {
 
             if (!item.SupportsSync) {
                 return false;
@@ -300,15 +308,11 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
 
-            if (item.IsFolder) {
-
-            }
-
             if (!user.Policy.EnableMediaConversion) {
                 return false;
             }
 
-            return apiClient && apiClient.isMinServerVersion('3.3.1.20');
+            return true;
         },
 
         canRefreshMetadata: function (item, user) {

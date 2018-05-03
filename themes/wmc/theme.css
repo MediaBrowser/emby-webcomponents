@@ -177,7 +177,7 @@ html {
     color: #fff !important;
 }
 
-.listItem-shaded:nth-child(even), .detailTableBodyRow-shaded:nth-child(even) {
+.detailTableBodyRow-shaded:nth-child(even) {
     background: #1c1c1c;
     background: rgba(0, 0, 0, .3);
 }

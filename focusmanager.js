@@ -74,11 +74,13 @@ define(['dom'], function (dom) {
     function focusableParent(elem) {
 
         while (!isFocusable(elem)) {
-            elem = elem.parentNode;
+            var parent = elem.parentNode;
 
-            if (!elem) {
-                return null;
+            if (!parent) {
+                return elem;
             }
+
+            elem = parent;
         }
 
         return elem;

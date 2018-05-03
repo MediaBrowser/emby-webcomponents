@@ -202,7 +202,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
 
         var isChecked;
 
-        if (item.Type === 'Channel') {
+        if (item.Type === 'Channel' || item.CollectionType === 'boxsets' || item.CollectionType === 'playlists') {
             isChecked = (user.Configuration.MyMediaExcludes || []).indexOf(item.Id) === -1;
             html += '<div>';
             html += '<label>';

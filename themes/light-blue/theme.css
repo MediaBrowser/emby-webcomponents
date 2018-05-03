@@ -205,12 +205,12 @@ html, .skinHeader {
 }
 
 /* listItem */
-.listItem-shaded:nth-child(even), .detailTableBodyRow-shaded:nth-child(even) {
+.detailTableBodyRow-shaded:nth-child(even) {
     background: #f8f8f8;
 }
 
 .listItem-border {
-    border-color: #f8f8f8 !important;
+    border-color: #f0f0f0 !important;
 }
 
 .listItem:focus {

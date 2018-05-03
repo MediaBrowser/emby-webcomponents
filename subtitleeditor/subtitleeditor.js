@@ -115,18 +115,14 @@
 
             html += '<h2>' + globalize.translate('sharedcomponents#MySubtitles') + '</h2>';
 
-            if (layoutManager.tv) {
-                html += '<div class="paperList paperList-clear">';
-            } else {
-                html += '<div class="paperList">';
-            }
+            html += '<div>';
 
             html += subs.map(function (s) {
 
                 var itemHtml = '';
 
                 var tagName = layoutManager.tv ? 'button' : 'div';
-                var className = layoutManager.tv && s.Path ? 'listItem btnDelete' : 'listItem';
+                var className = layoutManager.tv && s.Path ? 'listItem listItem-border btnDelete' : 'listItem listItem-border';
 
                 if (layoutManager.tv) {
                     className += ' listItem-focusscale listItem-button';
@@ -238,15 +234,15 @@
                 }
                 html += '<h2>' + provider + '</h2>';
                 if (layoutManager.tv) {
-                    html += '<div class="paperList paperList-clear">';
+                    html += '<div>';
                 } else {
-                    html += '<div class="paperList">';
+                    html += '<div>';
                 }
                 lastProvider = provider;
             }
 
             var tagName = layoutManager.tv ? 'button' : 'div';
-            var className = layoutManager.tv ? 'listItem btnOptions' : 'listItem';
+            var className = layoutManager.tv ? 'listItem listItem-border btnOptions' : 'listItem listItem-border';
             if (layoutManager.tv) {
                 className += ' listItem-focusscale listItem-button';
             }

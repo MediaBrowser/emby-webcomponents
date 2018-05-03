@@ -192,12 +192,8 @@
 
         var menuItemClass = 'listItem listItem-button actionSheetMenuItem';
 
-        if (options.shaded) {
-            menuItemClass += '  listItem-shaded';
-        }
-
-        if (options.border) {
-            menuItemClass += '  listItem-border';
+        if (options.border || options.shaded) {
+            menuItemClass += ' listItem-border';
         }
 
         if (options.menuItemClass) {

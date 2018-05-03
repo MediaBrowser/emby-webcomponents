@@ -80,7 +80,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
             if (!isMouseIdle) {
                 var parent = focusManager.focusableParent(e.target);
                 if (parent) {
-                    focusManager.focus(e.target);
+                    focusManager.focus(parent);
                 }
             }
         }

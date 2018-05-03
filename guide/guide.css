@@ -407,7 +407,7 @@
 
 .noRubberBanding {
     /* This is needed to combat the rubber banding in iOS */
-    padding-bottom: 100px;
+    padding-bottom: 7em;
 }
 
 .guideDateTabsSlider {

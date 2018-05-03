@@ -220,11 +220,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             var cssClass = "listItem";
 
-            if (options.highlight !== false) {
-                cssClass += ' listItem-shaded';
-            }
-
-            if (options.border) {
+            if (options.border || options.highlight !== false) {
                 cssClass += ' listItem-border';
             }
 
