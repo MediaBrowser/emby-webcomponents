@@ -71,19 +71,32 @@ define(['dom'], function (dom) {
         return false;
     }
 
+    function normalizeFocusable(elem, originalElement) {
+        if (elem) {
+            var tagName = elem.tagName;
+            if (!tagName || tagName === 'HTML' || tagName === 'BODY') {
+                elem = originalElement;
+            }
+        }
+
+        return elem;
+    }
+
     function focusableParent(elem) {
+
+        var originalElement = elem;
 
         while (!isFocusable(elem)) {
             var parent = elem.parentNode;
 
             if (!parent) {
-                return elem;
+                return normalizeFocusable(elem, originalElement);
             }
 
             elem = parent;
         }
 
-        return elem;
+        return normalizeFocusable(elem, originalElement);
     }
 
     // Determines if a focusable element can be focused at a given point in time 

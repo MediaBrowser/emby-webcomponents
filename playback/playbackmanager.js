@@ -2543,7 +2543,7 @@
                         return true;
                     }
 
-                    else if (p.canPlayUrl) {
+                    else if (item.Url && p.canPlayUrl) {
                         return p.canPlayUrl(item.Url);
                     }
                 }
