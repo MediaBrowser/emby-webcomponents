@@ -115,8 +115,11 @@ button {
     margin-bottom: 1.8em !important;
 }
 
-.layout-mobile .cardBox-bottompadded {
-    margin-bottom: 1.2em !important;
+@media all and (max-width: 50em) {
+
+    .cardBox-bottompadded {
+        margin-bottom: 1.2em !important;
+    }
 }
 
 .card:focus {

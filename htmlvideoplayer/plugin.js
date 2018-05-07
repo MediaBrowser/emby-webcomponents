@@ -1397,6 +1397,11 @@
                     list.push('PictureInPicture');
                 }
             }
+        } else if (window.Windows) {
+
+            if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {
+                list.push('PictureInPicture');
+            }
         }
 
         list.push('SetBrightness');
@@ -1456,19 +1461,36 @@
 
     HtmlVideoPlayer.prototype.setPictureInPictureEnabled = function (isEnabled) {
 
-        var video = this._mediaElement;
-        if (video) {
-            if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
-                video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
+        if (window.Windows) {
+
+            this.isPip = isEnabled;
+            if (isEnabled) {
+                Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay);
+            }
+            else {
+                Windows.UI.ViewManagement.ApplicationView.getForCurrentView().tryEnterViewModeAsync(Windows.UI.ViewManagement.ApplicationViewMode.default);
+            }
+        }
+        else {
+            var video = this._mediaElement;
+            if (video) {
+                if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
+                    video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
+                }
             }
         }
     };
 
     HtmlVideoPlayer.prototype.isPictureInPictureEnabled = function () {
 
-        var video = this._mediaElement;
-        if (video) {
-            return video.webkitPresentationMode === "picture-in-picture";
+        if (window.Windows) {
+            return this.isPip || false;
+        }
+        else {
+            var video = this._mediaElement;
+            if (video) {
+                return video.webkitPresentationMode === "picture-in-picture";
+            }
         }
 
         return false;
