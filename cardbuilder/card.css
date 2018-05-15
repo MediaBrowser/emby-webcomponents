@@ -89,7 +89,7 @@ button {
 @media all and (max-width: 50em) {
 
     .cardBox {
-        margin: .32em .24em;
+        margin: .4em;
     }
 }
 
@@ -218,6 +218,7 @@ button {
 
 .cardContent-shadow {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 0 .68em rgba(0,0,0,.3);
 }
 
 .cardImageContainer {
@@ -777,37 +778,37 @@ button {
     width: 18.9vw;
 }
 
-.cardOverlayTarget {
-    position: absolute;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    top: 0;
-    background-color: rgba(0, 0, 0, 0.75);
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+.card-hoverable .cardContent {
+    transition-property: filter;
+    transition-duration: .3s;
+    transition-timing-function: cubic-bezier(.3,0,0,1);
+}
+
+.cardHoverItem {
     opacity: 0;
-    display: flex;
-    transition: opacity 160ms ease-in, transform 40ms ease-in;
-    transition-delay: 540ms;
+    transition: opacity 0.3s ease-in-out, transform 10ms ease-in;
     transform: scale(0);
 }
 
-.card:hover .cardOverlayTarget {
+.card-hoverable:hover .cardHoverItem {
     opacity: 1;
-    transform: none;
+    transition-delay: 0.4s;
+    transform: scale(1);
 }
 
 .cardOverlayFab-primary {
     font-size: 140%;
     padding: 0;
+    width: 3em;
+    height: 3em;
+    margin-top: -1.5em;
+    margin-left: -1.5em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
 }
 
     .cardOverlayFab-primary i {
-        border: .08em solid rgba(255,255,255,.6);
+        border: .08em solid rgba(255,255,255,.9);
+        color: #fff;
     }
-
-.cardOverlayButtonIcon-hover {
-    background: transparent !important;
-}

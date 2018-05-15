@@ -179,7 +179,7 @@
         var html = "";
 
         html += '<div class="verticalSection verticalSection-extrabottompadding">';
-        html += '<div class="sectionTitleContainer">';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
 
         if (!layoutManager.tv) {
@@ -349,7 +349,7 @@
 
         var html = '';
         html += '<div class="verticalSection appInfoSection">';
-        html += '<div class="sectionTitleContainer">';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Emby Theater</h2>';
         html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button>';
         html += '</div>';
@@ -371,7 +371,7 @@
 
         var html = '';
         html += '<div class="verticalSection appInfoSection">';
-        html += '<div class="sectionTitleContainer">';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Emby Premiere</h2>';
         html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button>';
         html += '</div>';
@@ -461,7 +461,7 @@
     function renderLatestSection(elem, apiClient, user, parent) {
 
         var html = '';
-        html += '<div class="sectionTitleContainer padded-left">';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         if (!layoutManager.tv) {
 
             html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(parent, {
@@ -583,7 +583,7 @@
 
             html += '<div class="verticalSection">';
 
-            html += '<div class="sectionTitleContainer padded-left">';
+            html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
             if (!layoutManager.tv) {
 
@@ -642,7 +642,7 @@
 
             html += '<div class="verticalSection">';
 
-            html += '<div class="sectionTitleContainer">';
+            html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
 
             if (!layoutManager.tv) {
@@ -969,7 +969,7 @@
                 elem.classList.remove('verticalSection');
 
                 html += '<div class="verticalSection">';
-                html += '<div class="sectionTitleContainer padded-left">';
+                html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
                 html += '<h2 class="sectionTitle">' + globalize.translate('sharedcomponents#LiveTV') + '</h2>';
 
@@ -1019,7 +1019,7 @@
                 html += '</div>';
 
                 html += '<div class="verticalSection">';
-                html += '<div class="sectionTitleContainer padded-left">';
+                html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
                 if (!layoutManager.tv) {
 
@@ -1119,7 +1119,7 @@
     function loadNextUp(elem, apiClient, userId) {
 
         var html = '';
-        html += '<div class="sectionTitleContainer padded-left">';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
         if (!layoutManager.tv) {
 
             html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('nextup', {
@@ -1214,7 +1214,7 @@
 
         var html = '';
 
-        html += '<div class="sectionTitleContainer">';
+        html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + '</h2>';
         if (!layoutManager.tv) {
             //html += '<a href="livetv.html?tab=3" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('sharedcomponents#More') + '</span></button></a>';

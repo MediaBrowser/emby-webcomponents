@@ -4,7 +4,8 @@ html {
 
 html {
     font-size: 93%;
-    font-size-adjust: .523;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 h1, h2, h3 {
@@ -32,5 +33,5 @@ h3 {
 }
 
 .layout-mobile {
-    font-size: 96%;
+    font-size: 90%;
 }

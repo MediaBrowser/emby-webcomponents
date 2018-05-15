@@ -452,7 +452,18 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('mp2');
         }
 
-        if (browser.tizen || browser.orsay || browser.web0s || options.supportsDts) {
+        var supportsDts = browser.tizen || browser.orsay || browser.web0s || options.supportsDts;
+
+        if (browser.tizen) {
+            var v = tizen.systeminfo.getCapability('http://tizen.org/feature/platform.version');
+
+            // DTS audio not supported in 2018 models (Tizen 4.0)
+            if (v && parseFloat(v) >= parseFloat('4.0')) {
+                supportsDts = false;
+            }
+        }
+
+        if (supportsDts) {
             videoAudioCodecs.push('dca');
             videoAudioCodecs.push('dts');
         }

@@ -1327,6 +1327,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += " " + options.cardClass;
             }
 
+            if (layoutManager.desktop) {
+                className += ' card-hoverable';
+            }
+
             if (!enableFocusTransfrom || !layoutManager.tv) {
                 className += ' card-nofocustransform';
             }
@@ -1603,16 +1607,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         function getHoverMenuHtml(item) {
 
             var html = '';
-            html += '<div class="cardOverlayTarget itemAction" data-action="link">';
 
             var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction';
 
             if (playbackManager.canPlay(item)) {
 
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary cardHoverItem" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
             }
 
-            html += '<div class="cardOverlayButton-br">';
+            html += '<div class="cardHoverItem cardOverlayButton-br">';
 
             var moreIcon = '&#xE5D3;';
 
@@ -1622,8 +1625,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             //    html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="edit" onclick="return false;"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE254;</i></button>';
             //}
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu" onclick="return false;"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">' + moreIcon + '</i></button>';
-
             var userData = item.UserData || {};
 
             if (itemHelper.canMarkPlayed(item)) {
@@ -1632,15 +1633,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5CA;</i></button>';
             }
 
-            if (itemHelper.canRate(item)) {
+            //if (itemHelper.canRate(item)) {
 
-                var likes = userData.Likes == null ? '' : userData.Likes;
+            //    var likes = userData.Likes == null ? '' : userData.Likes;
 
-                require(['emby-ratingbutton']);
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
-            }
+            //    require(['emby-ratingbutton']);
+            //    html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
+            //}
 
-            html += '</div>';
+            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu" onclick="return false;"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">' + moreIcon + '</i></button>';
 
             html += '</div>';
 
