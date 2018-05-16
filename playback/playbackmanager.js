@@ -2319,13 +2319,18 @@
             var mediaType = options.mediaType || item.MediaType;
             var player = getPlayer(item, options);
             var apiClient = connectionManager.getApiClient(item.ServerId);
-            var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
 
-            return player.getDeviceProfile(item).then(function (deviceProfile) {
+            // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
+            return apiClient.getEndpointInfo().then(function () {
 
-                return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, options.mediaSourceId, options.audioStreamIndex, options.subtitleStreamIndex).then(function (mediaSource) {
+                var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
 
-                    return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
+                return player.getDeviceProfile(item).then(function (deviceProfile) {
+
+                    return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, options.mediaSourceId, options.audioStreamIndex, options.subtitleStreamIndex).then(function (mediaSource) {
+
+                        return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
+                    });
                 });
             });
         };
@@ -2338,15 +2343,21 @@
             // TODO: Remove the true forceLocalPlayer hack
             var player = getPlayer(item, options, true);
             var apiClient = connectionManager.getApiClient(item.ServerId);
-            var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
 
-            return player.getDeviceProfile(item).then(function (deviceProfile) {
+            // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
+            return apiClient.getEndpointInfo().then(function () {
 
-                return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, false, null, null, null, null).then(function (playbackInfoResult) {
+                var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
 
-                    return playbackInfoResult.MediaSources;
+                return player.getDeviceProfile(item).then(function (deviceProfile) {
+
+                    return getPlaybackInfo(player, apiClient, item, deviceProfile, maxBitrate, startPosition, false, null, null, null, null).then(function (playbackInfoResult) {
+
+                        return playbackInfoResult.MediaSources;
+                    });
                 });
             });
+
         };
 
         function createStreamInfo(apiClient, type, item, mediaSource, startPosition) {
