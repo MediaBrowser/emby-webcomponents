@@ -675,7 +675,8 @@
                 "DisplayContent",
                 "SetRepeatMode",
                 "EndSession",
-                "PlayMediaSource"
+                "PlayMediaSource",
+                "PlayTrailers"
             ]
         };
     };
@@ -874,6 +875,17 @@
         var state = this.lastPlayerData || {};
         state = state.PlayState || {};
         return state.RepeatMode;
+    };
+
+    ChromecastPlayer.prototype.playTrailers = function (item) {
+
+        this._castPlayer.sendMessage({
+            options: {
+                ItemId: item.Id,
+                ServerId: item.ServerId
+            },
+            command: 'PlayTrailers'
+        });
     };
 
     ChromecastPlayer.prototype.setRepeatMode = function (mode) {

@@ -3480,6 +3480,12 @@
 
     PlaybackManager.prototype.playTrailers = function (item) {
 
+        var player = this._currentPlayer;
+
+        if (player && player.playTrailers) {
+            return player.playTrailers(item);
+        }
+
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         var instance = this;
@@ -3683,7 +3689,8 @@
                 "GoToSearch",
                 "DisplayMessage",
                 "SetRepeatMode",
-                "PlayMediaSource"
+                "PlayMediaSource",
+                "PlayTrailers"
             ];
 
             if (apphost.supports('fullscreenchange')) {

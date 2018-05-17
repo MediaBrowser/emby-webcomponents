@@ -33,6 +33,14 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         }
     }
 
+    function playTrailers(apiClient, itemId) {
+
+        apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
+
+            playbackManager.playTrailers(item);
+        });
+    }
+
     function processGeneralCommand(cmd, apiClient) {
 
         // Full list
@@ -65,6 +73,9 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             case 'PageDown':
                 inputManager.trigger('pagedown');
                 return;
+            case 'PlayTrailers':
+                playTrailers(apiClient, cmd.Arguments.ItemId);
+                break;
             case 'SetRepeatMode':
                 playbackManager.setRepeatMode(cmd.Arguments.RepeatMode);
                 break;

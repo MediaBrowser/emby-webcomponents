@@ -437,6 +437,12 @@
         return state.AudioStreamIndex;
     };
 
+    SessionPlayer.prototype.playTrailers = function (item) {
+        sendCommandByName(this, 'PlayTrailers', {
+            ItemId: item.Id
+        });
+    };
+
     SessionPlayer.prototype.setAudioStreamIndex = function (index) {
         sendCommandByName(this, 'SetAudioStreamIndex', {
             Index: index
