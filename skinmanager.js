@@ -308,7 +308,10 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
 
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
-            link.onload = resolve;
+            link.onload = function () {
+                document.documentElement.classList.remove('preload');
+                resolve();
+            };
 
             link.setAttribute('href', linkUrl);
             document.head.appendChild(link);

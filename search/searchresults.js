@@ -62,6 +62,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
+                queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 query.MediaTypes === 'Video' ||
                 query.MediaTypes === 'Photo') {
@@ -79,6 +80,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
+                queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 query.MediaTypes === 'Video' ||
                 query.MediaTypes === 'Photo') {
@@ -508,6 +510,22 @@
             IncludeItemTypes: "AudioBook"
 
         }, context, '.audioBookResults', {
+
+                showTitle: true,
+                overlayText: false,
+                centerText: true
+            });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            IncludeItemTypes: "Playlist"
+
+        }, context, '.playlistResults', {
 
                 showTitle: true,
                 overlayText: false,

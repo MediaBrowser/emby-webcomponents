@@ -1,4 +1,4 @@
-﻿define(['userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'loading', 'globalize'], function (userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager, loading, globalize) {
+﻿define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'loading', 'globalize'], function (playbackManager, userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager, loading, globalize) {
     'use strict';
 
     function trySelectValue(instance, scroller, view, value) {
@@ -191,6 +191,43 @@
         btnSortIcon.innerHTML = values.sortOrder === 'Descending' ? '&#xE5DB;' : '&#xE5D8;';
     }
 
+    function bindAll(elems, eventName, fn) {
+        for (var i = 0, length = elems.length; i < length; i++) {
+
+            elems[i].addEventListener(eventName, fn);
+        }
+    }
+
+    function play() {
+
+        this.fetchData().then(function (result) {
+            playbackManager.play({
+                items: result.Items || result
+            });
+        });
+    }
+
+    function shuffle() {
+
+        this.fetchData().then(function (result) {
+            playbackManager.play({
+                items: result.Items || result
+            });
+        });
+    }
+
+    function hideOrShowAll(elems, hide) {
+
+        for (var i = 0, length = elems.length; i < length; i++) {
+
+            if (hide) {
+                elems[i].classList.add('hide');
+            } else {
+                elems[i].classList.remove('hide');
+            }
+        }
+    }
+
     function ItemsTab(view, params) {
         this.view = view;
         this.params = params;
@@ -209,24 +246,49 @@
             this.itemsContainer.setAttribute('data-parentid', params.parentId);
         }
 
-        var btnViewSettings = view.querySelector('.btnViewSettings');
-        if (btnViewSettings) {
-            btnViewSettings.addEventListener('click', showViewSettingsMenu.bind(this));
+        var i, length;
+
+        var btnViewSettings = view.querySelectorAll('.btnViewSettings');
+        for (i = 0, length = btnViewSettings.length; i < length; i++) {
+
+            btnViewSettings[i].addEventListener('click', showViewSettingsMenu.bind(this));
         }
 
-        var btnFilter = view.querySelector('.btnFilter');
-        this.btnFilter = btnFilter;
-        if (btnFilter) {
+        var filterButtons = view.querySelectorAll('.btnFilter');
+        this.filterButtons = filterButtons;
+        var hasVisibleFilters = this.getVisibleFilters().length;
+        for (i = 0, length = filterButtons.length; i < length; i++) {
+
+            var btnFilter = filterButtons[i];
             btnFilter.addEventListener('click', showFilterMenu.bind(this));
+
+            if (hasVisibleFilters) {
+                btnFilter.classList.remove('hide');
+            } else {
+                btnFilter.classList.add('hide');
+            }
         }
 
-        var btnSort = view.querySelector('.btnSort');
-        if (btnSort) {
-            btnSort.addEventListener('click', showSortMenu.bind(this));
+        var sortButtons = view.querySelectorAll('.btnSort');
+        this.sortButtons = sortButtons;
+        for (i = 0, length = sortButtons.length; i < length; i++) {
+
+            var sortButton = sortButtons[i];
+            sortButton.addEventListener('click', showSortMenu.bind(this));
+
+            if (params.type !== 'nextup') {
+                sortButton.classList.remove('hide');
+            }
         }
         this.btnSortText = view.querySelector('.btnSortText');
         this.btnSortIcon = view.querySelector('.btnSortIcon');
+
         this.alphaPickerElement = view.querySelector('.alphaPicker');
+
+        hideOrShowAll(view.querySelectorAll('.btnShuffle'), true);
+
+        bindAll(view.querySelectorAll('.btnPlay'), 'click', play.bind(this));
+        bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle.bind(this));
     }
 
     function getSettingValue(key, defaultValue) {
@@ -271,7 +333,7 @@
         if (this.enableAlphaPicker && !this.alphaPicker) {
             initAlphaPicker(this, view);
             updateAlphaPickerState(this);
-       }
+        }
 
         if (this.enableAlphaNumericShortcuts !== false) {
             this.alphaNumericShortcuts = new AlphaNumericShortcuts({
@@ -473,27 +535,34 @@
 
     ItemsTab.prototype.setFilterStatus = function (hasFilters) {
 
-        var btnFilter = this.btnFilter;
-        if (!btnFilter) {
+        this.hasFilters = hasFilters;
+
+        var filterButtons = this.filterButtons;
+        if (!filterButtons.length) {
             return;
         }
 
-        var bubble = btnFilter.querySelector('.filterButtonBubble');
-        if (!bubble) {
+        for (var i = 0, length = filterButtons.length; i < length; i++) {
 
-            if (!hasFilters) {
-                return;
+            var btnFilter = filterButtons[i];
+
+            var bubble = btnFilter.querySelector('.filterButtonBubble');
+            if (!bubble) {
+
+                if (!hasFilters) {
+                    continue;
+                }
+
+                btnFilter.insertAdjacentHTML('afterbegin', '<div class="filterButtonBubble">!</div>');
+                btnFilter.classList.add('btnFilterWithBubble');
+                bubble = btnFilter.querySelector('.filterButtonBubble');
             }
 
-            btnFilter.insertAdjacentHTML('afterbegin', '<div class="filterButtonBubble">!</div>');
-            btnFilter.classList.add('btnFilterWithBubble');
-            bubble = btnFilter.querySelector('.filterButtonBubble');
-        }
-
-        if (hasFilters) {
-            bubble.classList.remove('hide');
-        } else {
-            bubble.classList.add('hide');
+            if (hasFilters) {
+                bubble.classList.remove('hide');
+            } else {
+                bubble.classList.add('hide');
+            }
         }
     };
 
@@ -518,12 +587,13 @@
         this.params = null;
         this.apiClient = null;
         this.scroller = null;
-        this.btnFilter = null;
+        this.filterButtons = null;
 
         if (this.alphaPicker) {
             this.alphaPicker.destroy();
             this.alphaPicker = null;
         }
+        this.sortButtons = null;
         this.btnSortText = null;
         this.btnSortIcon = null;
         this.alphaPickerElement = null;

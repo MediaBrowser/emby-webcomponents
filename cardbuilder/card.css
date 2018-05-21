@@ -86,7 +86,7 @@ button {
     contain: layout style;
 }
 
-@media all and (max-width: 50em) {
+@media (max-width: 50em) {
 
     .cardBox {
         margin: .4em;
@@ -115,7 +115,7 @@ button {
     margin-bottom: 1.8em !important;
 }
 
-@media all and (max-width: 50em) {
+@media (max-width: 50em) {
 
     .cardBox-bottompadded {
         margin-bottom: 1.2em !important;
@@ -486,14 +486,14 @@ button {
     width: 32em;
 }
 
-@media all and (min-width: 400px) {
+@media (min-width: 25em) {
 
     .backdropCard {
         width: 50%;
     }
 }
 
-@media all and (min-width: 500px) {
+@media (min-width: 31.25em) {
 
     .smallBackdropCard {
         width: 33.333333333333333333333333333333%;
@@ -504,19 +504,19 @@ button {
     }
 }
 
-@media all and (min-width: 700px) {
+@media (min-width: 43.75em) {
     .squareCard, .portraitCard {
         width: 25%;
     }
 }
 
-@media all and (min-width: 770px) {
+@media (min-width: 48.125em) {
     .backdropCard {
         width: 33.333333333333333333333333333333%;
     }
 }
 
-@media all and (min-width: 800px) {
+@media (min-width: 50em) {
 
     .bannerCard {
         width: 50%;
@@ -531,7 +531,7 @@ button {
     }
 }
 
-@media all and (min-width: 1000px) {
+@media (min-width: 62.5em) {
 
 
     .smallBackdropCard {
@@ -539,7 +539,7 @@ button {
     }
 }
 
-@media all and (min-width: 1200px) {
+@media (min-width: 75em) {
 
     .backdropCard {
         width: 25%;
@@ -559,7 +559,7 @@ button {
 }
 
 
-@media all and (min-width: 1400px) {
+@media (min-width: 87.5em) {
 
     .squareCard, .portraitCard {
         width: 14.285714285714285714285714285714%;
@@ -570,7 +570,7 @@ button {
     }
 }
 
-@media all and (min-width: 1600px) {
+@media (min-width: 100em) {
 
     .smallBackdropCard {
         width: 12.5%;
@@ -585,21 +585,14 @@ button {
     }
 }
 
-@media all and (min-width: 1920px) {
+@media (min-width: 120em) {
 
     .squareCard, .portraitCard {
         width: 11.111111111111111111111111111111%;
     }
 }
 
-@media all and (min-width: 2100px) {
-
-    .backdropCard {
-        width: 20%;
-    }
-}
-
-@media all and (min-width: 2200px) {
+@media (min-width: 131.25em) {
 
     .bannerCard {
         width: 25%;
@@ -610,7 +603,7 @@ button {
     }
 }
 
-@media all and (min-width: 2500px) {
+@media (min-width: 156.25em) {
 
     .backdropCard {
         width: 16.666666666666666666666666666667%;
@@ -630,7 +623,7 @@ button {
 }
 
 /* Overflow cards */
-@media all and (orientation: portrait) {
+@media (orientation: portrait) {
     .overflowPortraitCard {
         width: 42vw;
     }
@@ -648,7 +641,7 @@ button {
     }
 }
 
-@media all and (orientation: landscape) {
+@media (orientation: landscape) {
 
     .overflowBackdropCard {
         width: 23.3vw;
@@ -663,21 +656,21 @@ button {
     }
 }
 
-@media all and (orientation: portrait) and (min-width: 540px) {
+@media (orientation: portrait) and (min-width: 33.75em) {
 
     .overflowSmallBackdropCard {
         width: 30vw;
     }
 }
 
-@media all and (orientation: landscape) and (min-width: 800px) {
+@media (orientation: landscape) and (min-width: 50em) {
 
     .overflowSmallBackdropCard {
         width: 15.5vw;
     }
 }
 
-@media all and (orientation: landscape) and (min-width: 1700px) {
+@media (orientation: landscape) and (min-width: 106.25em) {
 
     .overflowBackdropCard {
         width: 18.5vw;
@@ -688,13 +681,13 @@ button {
     }
 }
 
-@media all and (orientation: portrait) and (min-width: 400px) {
+@media (orientation: portrait) and (min-width: 25em) {
     .overflowPortraitCard {
         width: 31.5vw;
     }
 }
 
-@media all and (orientation: portrait) and (min-width: 540px) {
+@media (orientation: portrait) and (min-width: 33.75em) {
     .overflowBackdropCard {
         width: 64vw;
     }
@@ -704,13 +697,13 @@ button {
     }
 }
 
-@media all and (orientation: portrait) and (min-width: 640px) {
+@media (orientation: portrait) and (min-width: 40em) {
     .overflowBackdropCard {
         width: 56vw;
     }
 }
 
-@media all and (orientation: portrait) and (min-width: 760px) {
+@media (orientation: portrait) and (min-width: 47.5em) {
 
     .overflowPortraitCard {
         width: 23vw;
@@ -725,7 +718,7 @@ button {
     }
 }
 
-@media all and (orientation: portrait) and (min-width: 1200px) {
+@media (orientation: portrait) and (min-width: 75em) {
 
     .overflowPortraitCard {
         width: 18vw;
@@ -736,7 +729,7 @@ button {
     }
 }
 
-@media all and (orientation: portrait) and (min-width: 1400px) {
+@media (orientation: portrait) and (min-width: 87.5em) {
 
     .overflowPortraitCard {
         width: 15vw;
@@ -751,7 +744,7 @@ button {
     }
 }
 
-@media all and (orientation: portrait) and (min-width: 1800px) {
+@media (orientation: portrait) and (min-width: 112.5em) {
 
     .overflowBackdropCard {
         width: 23.5vw;

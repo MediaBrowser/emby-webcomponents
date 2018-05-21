@@ -184,7 +184,7 @@ define(['browser'], function (browser) {
     }
 
     function supportsVc1() {
-        return browser.orsay || browser.tizen || browser.edgeUwp;
+        return browser.orsay || browser.tizen || browser.edgeUwp || browser.web0s;
     }
 
     function getFlvMseDirectPlayProfile() {
@@ -454,7 +454,7 @@ define(['browser'], function (browser) {
 
         var supportsDts = browser.tizen || browser.orsay || browser.web0s || options.supportsDts;
 
-        if (browser.tizen) {
+        if (self.tizen && self.tizen.systeminfo) {
             var v = tizen.systeminfo.getCapability('http://tizen.org/feature/platform.version');
 
             // DTS audio not supported in 2018 models (Tizen 4.0)
@@ -468,7 +468,7 @@ define(['browser'], function (browser) {
             videoAudioCodecs.push('dts');
         }
 
-        if (browser.tizen || browser.orsay) {
+        if (browser.tizen || browser.orsay || browser.web0s) {
             videoAudioCodecs.push('pcm_s16le');
             videoAudioCodecs.push('pcm_s24le');
         }

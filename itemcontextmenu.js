@@ -9,11 +9,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         var commands = [];
 
-        if (browser.operaTv || browser.web0s) {
-            return commands;
-        }
-
         var user = options.user;
+
+        var restrictOptions = (browser.operaTv || browser.web0s) && !user.Policy.IsAdministrator;
 
         if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
@@ -79,18 +77,20 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             });
         }
 
-        if (itemHelper.supportsAddingToCollection(item)) {
-            commands.push({
-                name: globalize.translate('sharedcomponents#AddToCollection'),
-                id: 'addtocollection'
-            });
-        }
+        if (!restrictOptions) {
+            if (itemHelper.supportsAddingToCollection(item)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#AddToCollection'),
+                    id: 'addtocollection'
+                });
+            }
 
-        if (itemHelper.supportsAddingToPlaylist(item)) {
-            commands.push({
-                name: globalize.translate('sharedcomponents#AddToPlaylist'),
-                id: 'addtoplaylist'
-            });
+            if (itemHelper.supportsAddingToPlaylist(item)) {
+                commands.push({
+                    name: globalize.translate('sharedcomponents#AddToPlaylist'),
+                    id: 'addtoplaylist'
+                });
+            }
         }
 
         if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
@@ -238,12 +238,14 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             });
         }
 
-        if (options.share === true) {
-            if (itemHelper.canShare(item, user)) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#Share'),
-                    id: 'share'
-                });
+        if (!restrictOptions) {
+            if (options.share === true) {
+                if (itemHelper.canShare(item, user)) {
+                    commands.push({
+                        name: globalize.translate('sharedcomponents#Share'),
+                        id: 'share'
+                    });
+                }
             }
         }
 
