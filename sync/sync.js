@@ -180,9 +180,7 @@
 
             require(['emby-checkbox', 'emby-input', 'emby-select'], function () {
 
-                appHost.appInfo().then(function (appInfo) {
-                    renderFormInternal(options, appInfo.deviceId, resolve);
-                });
+                renderFormInternal(options, connectionManager.deviceId(), resolve);
             });
         });
     }

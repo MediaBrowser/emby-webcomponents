@@ -15,7 +15,7 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
             return Promise.resolve();
         }
 
-        var now = +new Date();
+        var now = new Date();
 
         userSettingsKey += now.getFullYear() + '-' + now.getMonth();
 

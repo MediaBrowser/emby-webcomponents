@@ -1,6 +1,6 @@
 html {
     color: #ddd;
-    color: rgba(255, 255, 255, .68);
+    color: rgba(255, 255, 255, .7);
 }
 
 .emby-collapsible-button {
@@ -41,7 +41,7 @@ html {
 }
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(6,6,6,.88);
+        background-color: rgba(0,0,0,.86);
     }
 
 /* buttons */
