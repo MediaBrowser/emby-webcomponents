@@ -190,7 +190,6 @@ button {
     margin: 0 !important;
     /* Needed in safari */
     height: 100%;
-    border-radius: .08em;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     outline: none !important;
     contain: strict;
@@ -785,7 +784,7 @@ button {
 
 .card-hoverable:hover .cardHoverItem {
     opacity: 1;
-    transition-delay: 0.4s;
+    transition-delay: 0.5s;
     transform: scale(1);
 }
 

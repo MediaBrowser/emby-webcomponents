@@ -132,10 +132,6 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             var val = options.url;
             console.log('playing url: ' + val);
 
-            //if (AppInfo.isNativeApp && $.browser.safari) {
-            //    val = val.replace('file://', '');
-            //}
-
             // Convert to seconds
             var seconds = (options.playerStartPositionTicks || 0) / 10000000;
             if (seconds) {

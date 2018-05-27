@@ -299,11 +299,6 @@ html {
     color: rgba(255, 255, 255, .7);
 }
 
-.navMenuDivider {
-    background: #202020;
-    background: rgba(255, 255, 255, .12);
-}
-
 .navMenuOption:hover {
     background: #252528;
 }
