@@ -1,6 +1,7 @@
 html {
     color: #eee;
     color: rgba(255, 255, 255, .9);
+    background-color: #0F3562;
 }
 
 .emby-collapsible-button {

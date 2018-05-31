@@ -37,7 +37,7 @@ html {
     background-color: #282828;
 }
 
-.backgroundContainer {
+html, .backgroundContainer {
     background-color: #282828;
 }
 

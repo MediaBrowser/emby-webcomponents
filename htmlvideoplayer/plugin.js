@@ -1703,7 +1703,8 @@
         var height = rect.height;
         var width = rect.width;
 
-        if (width && height) {
+        // Don't show player dimensions on smart TVs because the app UI could be lower resolution than the video and this causes users to think there is a problem
+        if (width && height && !browser.tv) {
             videoCategory.stats.push({
                 label: 'Player dimensions:',
                 value: width + 'x' + height

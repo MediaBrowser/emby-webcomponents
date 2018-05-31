@@ -432,7 +432,10 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     {
                         navigator.share({
                             title: item.Name,
-                            text: item.Overview
+                            text: item.Overview,
+
+                            // TODO: Make this the server's external url
+                            url: 'https://emby.media'
                         });
                         break;
                     }

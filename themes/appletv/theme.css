@@ -36,6 +36,10 @@ html, .skinHeader {
     background-image: url(../logodark.png);
 }
 
+html {
+    background: #D5E9F2;
+}
+
 .backgroundContainer, .dialog {
     background: #D5E9F2 url(https://github.com/MediaBrowser/Emby.Resources/raw/master/images/wallpaper/atv1-1080.png) no-repeat center center;
     background-size: 100% 100%;

@@ -30,7 +30,7 @@ html {
     background-image: url(../logowhite.png);
 }
 
-.dialog, .backgroundContainer {
+html, .dialog, .backgroundContainer {
     background-color: #181818;
 }
 

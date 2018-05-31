@@ -1,4 +1,4 @@
-define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings) {
+define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings) {
     'use strict';
 
     var currentSkin;
@@ -272,6 +272,22 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
         };
     }
 
+    function onThemeLoaded() {
+        document.documentElement.classList.remove('preload');
+
+
+        try {
+            var color = getComputedStyle(document.querySelector('.skinHeader')).getPropertyValue("background-color");
+
+            if (color) {
+                appHost.setThemeColor(color);
+            }
+        }
+        catch (err) {
+            console.log('Error setting theme color: ' + err);
+        }
+    }
+
     skinManager.setTheme = function (id, context) {
 
         return new Promise(function (resolve, reject) {
@@ -309,7 +325,8 @@ define(['userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globa
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
             link.onload = function () {
-                document.documentElement.classList.remove('preload');
+
+                onThemeLoaded();
                 resolve();
             };
 

@@ -56,7 +56,7 @@ html {
     background-color: #1a1a1a;
 }
 
-.backgroundContainer {
+html, .backgroundContainer {
     background-color: #1a1a1a;
 }
 

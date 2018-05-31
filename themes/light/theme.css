@@ -35,7 +35,7 @@ html, .skinHeader {
     background-image: url(../logowhite.png);
 }
 
-.backgroundContainer {
+html, .backgroundContainer {
     background-color: #f2f2f2;
     /*background-image: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);*/
 }

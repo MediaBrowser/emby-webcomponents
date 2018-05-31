@@ -17,7 +17,7 @@
         }
 
         instance.nextSearchValue = value;
-        instance.searchTimeout = setTimeout(onSearchTimeout.bind(instance), 300);
+        instance.searchTimeout = setTimeout(onSearchTimeout.bind(instance), 400);
     }
 
     function onAlphaValueClicked(e) {
