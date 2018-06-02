@@ -108,12 +108,7 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                         if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
                             executeAction(card, options.positionTo, result.command);
                         }
-                        else if (result.command === 'removefromplaylist' || result.command === 'removefromcollection') {
-                            notifyRefreshNeeded(card, options.itemsContainer);
-                        }
-                        else if (result.command === 'canceltimer') {
-                            notifyRefreshNeeded(card, options.itemsContainer);
-                        } else if (result.updated || result.deleted) {
+                        else if (result.updated || result.deleted) {
                             notifyRefreshNeeded(card, options.itemsContainer);
                         }
                     });

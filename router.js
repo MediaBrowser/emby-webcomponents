@@ -846,11 +846,21 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     function invokeShortcut(id) {
 
         if (id.indexOf('library-') === 0) {
+
             id = id.replace('library-', '');
 
             id = id.split('_');
 
             appRouter.showItem(id[0], id[1]);
+
+        } else if (id.indexOf('item-') === 0) {
+
+            id = id.replace('item-', '');
+
+            id = id.split('_');
+
+            appRouter.showItem(id[0], id[1]);
+
         } else {
 
             id = id.split('_');

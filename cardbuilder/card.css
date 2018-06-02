@@ -217,7 +217,6 @@ button {
 
 .cardContent-shadow {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    box-shadow: 0 0 .68em rgba(0,0,0,.3);
 }
 
 .cardImageContainer {
