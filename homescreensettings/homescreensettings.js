@@ -1,4 +1,4 @@
-define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-checkbox'], function (require, globalize, loading, connectionManager, homeSections, dom, events) {
+define(['require', 'focusManager', 'globalize', 'loading', 'connectionManager', 'homeSections', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-checkbox'], function (require, focusManager, globalize, loading, connectionManager, homeSections, dom, events) {
     "use strict";
 
     var numConfigurableSections = 7;
@@ -483,7 +483,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
                 options.element.querySelector('.btnSave').classList.remove('hide');
             }
 
-            self.loadData();
+            self.loadData(options.autoFocus);
         });
     }
 
@@ -494,7 +494,7 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
         embed(options, this);
     }
 
-    HomeScreenSettings.prototype.loadData = function () {
+    HomeScreenSettings.prototype.loadData = function (autoFocus) {
 
         var self = this;
         var context = self.options.element;
@@ -512,6 +512,10 @@ define(['require', 'globalize', 'loading', 'connectionManager', 'homeSections', 
                 self.dataLoaded = true;
 
                 loadForm(context, user, userSettings, apiClient);
+
+                if (autoFocus) {
+                    focusManager.autoFocus(context);
+                }
             });
         });
     };

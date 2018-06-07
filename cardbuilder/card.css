@@ -783,7 +783,7 @@ button {
 
 .card-hoverable:hover .cardHoverItem {
     opacity: 1;
-    transition-delay: 0.5s;
+    transition-delay: 0.6s;
     transform: scale(1);
 }
 

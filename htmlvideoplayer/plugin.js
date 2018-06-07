@@ -483,6 +483,13 @@
             var tracks = getMediaStreamTextTracks(options.mediaSource);
 
             subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
+            if (subtitleTrackIndexToSetOnPlaying != null && subtitleTrackIndexToSetOnPlaying >= 0) {
+                var initialSubtitleStream = options.mediaSource.MediaStreams[subtitleTrackIndexToSetOnPlaying];
+                if (!initialSubtitleStream || initialSubtitleStream.DeliveryMethod === 'Encode') {
+                    subtitleTrackIndexToSetOnPlaying = -1;
+                }
+            }
+
             audioTrackIndexToSetOnPlaying = options.playMethod === 'Transcode' ? null : options.mediaSource.DefaultAudioStreamIndex;
 
             self._currentPlayOptions = options;
