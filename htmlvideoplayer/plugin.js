@@ -810,8 +810,6 @@
                 self._resizeObserver = null;
             }
 
-            window.removeEventListener('orientationchange', onVideoResize);
-
             if (videoSubtitlesElem) {
                 var subtitlesContainer = videoSubtitlesElem.parentNode;
                 if (subtitlesContainer) {
@@ -918,7 +916,7 @@
             // probably safer to just disable everywhere
             rendererSettings.enableSvg = false;
 
-            require(['libjass', 'ResizeObserver'], function (libjass) {
+            require(['libjass', 'ResizeObserver'], function (libjass, ResizeObserver) {
 
                 libjass.ASS.fromUrl(getTextTrackUrl(track, item)).then(function (ass) {
 
@@ -938,11 +936,9 @@
                                 self._resizeObserver = new ResizeObserver(onVideoResize, {});
                                 self._resizeObserver.observe(videoElement);
                             }
-
-                            window.removeEventListener('orientationchange', onVideoResize);
-                            window.addEventListener('orientationchange', onVideoResize);
                             //clock.pause();
                         } catch (ex) {
+                            //alert(ex);
                         }
                     });
                 }, function () {
@@ -952,6 +948,7 @@
         }
 
         function onVideoResize() {
+
             if (browser.iOS) {
 
                 // with wkwebview, the new sizes will be delayed for about 500ms
@@ -1392,7 +1389,10 @@
         //if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === "function") {
         //    list.push('PictureInPicture');
         //}
-        if (browser.ipad) {
+        if (document.pictureInPictureEnabled) {
+            list.push('PictureInPicture');
+        }
+        else if (browser.ipad) {
 
             // Unfortunately this creates a false positive on devices where its' not actually supported
             if (navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
@@ -1462,9 +1462,24 @@
         return false;
     };
 
+    function onPictureInPictureError(err) {
+        console.log('Picture in picture error: ' + err.toString());
+    }
+
     HtmlVideoPlayer.prototype.setPictureInPictureEnabled = function (isEnabled) {
 
-        if (window.Windows) {
+        var video = this._mediaElement;
+
+        if (document.pictureInPictureEnabled) {
+            if (video) {
+                if (isEnabled) {
+                    video.requestPictureInPicture().catch(onPictureInPictureError);
+                } else {
+                    document.exitPictureInPicture().catch(onPictureInPictureError);
+                }
+            }
+        }
+        else if (window.Windows) {
 
             this.isPip = isEnabled;
             if (isEnabled) {
@@ -1475,7 +1490,6 @@
             }
         }
         else {
-            var video = this._mediaElement;
             if (video) {
                 if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
                     video.webkitSetPresentationMode(isEnabled ? "picture-in-picture" : "inline");
@@ -1486,7 +1500,10 @@
 
     HtmlVideoPlayer.prototype.isPictureInPictureEnabled = function () {
 
-        if (window.Windows) {
+        if (document.pictureInPictureEnabled) {
+            return document.pictureInPictureElement ? true : false;
+        }
+        else if (window.Windows) {
             return this.isPip || false;
         }
         else {
