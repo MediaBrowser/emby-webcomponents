@@ -1598,24 +1598,26 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var additionalCardContent = '';
 
             if (layoutManager.desktop) {
-                additionalCardContent += getHoverMenuHtml(item);
+                additionalCardContent += getHoverMenuHtml(item, action);
             }
 
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
-        function getHoverMenuHtml(item) {
+        function getHoverMenuHtml(item, action) {
 
             var html = '';
+
+            html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
 
             var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction';
 
             if (playbackManager.canPlay(item)) {
 
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary cardHoverItem" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
             }
 
-            html += '<div class="cardHoverItem cardOverlayButton-br">';
+            html += '<div class="cardOverlayButton-br">';
 
             var moreIcon = '&#xE5D3;';
 
@@ -1643,6 +1645,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu" onclick="return false;"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">' + moreIcon + '</i></button>';
 
+            html += '</div>';
             html += '</div>';
 
             return html;

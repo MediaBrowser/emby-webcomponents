@@ -38,7 +38,7 @@
         events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
     }
 
-    function reportPlayback(state, serverId, method, progressEventName) {
+    function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
 
         if (!serverId) {
             // Not a server item
@@ -53,9 +53,39 @@
             info.EventName = progressEventName;
         }
 
+        if (reportPlaylist) {
+            addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
+        }
+
         //console.log(method + '-' + JSON.stringify(info));
         var apiClient = connectionManager.getApiClient(serverId);
         apiClient[method](info);
+    }
+
+    function getPlaylistSync(playbackManagerInstance, player) {
+        player = player || playbackManagerInstance._currentPlayer;
+        if (player && !enableLocalPlaylistManagement(player)) {
+            return player.getPlaylistSync();
+        }
+
+        return playbackManagerInstance._playQueueManager.getPlaylist();
+    }
+
+    function addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId) {
+
+        info.NowPlayingQueue = getPlaylistSync(playbackManagerInstance, player).map(function (i) {
+
+            var itemInfo = {
+                Id: i.Id,
+                PlaylistItemId: i.PlaylistItemId
+            };
+
+            if (i.ServerId !== serverId) {
+                itemInfo.ServerId = i.ServerId;
+            }
+
+            return itemInfo;
+        });
     }
 
     function normalizeName(t) {
@@ -953,6 +983,11 @@
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
+
+                if (player.getPlaylistSync) {
+                    return Promise.resolve(player.getPlaylistSync());
+                }
+
                 return player.getPlaylist();
             }
 
@@ -1952,6 +1987,7 @@
                     state.PlayState.LiveStreamId = mediaSource.LiveStreamId;
                 }
                 state.PlayState.PlaySessionId = self.playSessionId(player);
+                state.PlayState.PlaylistItemId = self.getCurrentPlaylistItemId(player);
             }
 
             if (mediaSource) {
@@ -2866,7 +2902,7 @@
 
             var state = self.getPlayerState(player, streamInfo.item, streamInfo.mediaSource);
 
-            reportPlayback(state, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
+            reportPlayback(self, state, player, true, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
 
             state.IsFirstItem = isFirstItem;
             state.IsFullscreen = fullscreen;
@@ -2898,7 +2934,7 @@
 
             var state = self.getPlayerState(player, item, mediaSource);
 
-            reportPlayback(state, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
+            reportPlayback(self, state, player, true, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
 
             state.IsFirstItem = isFirstItem;
             state.IsFullscreen = fullscreen;
@@ -2939,7 +2975,7 @@
 
                 state.PlayState.PositionTicks = (playerStopInfo.positionMs || 0) * 10000;
 
-                reportPlayback(state, playerStopInfo.item.ServerId, 'reportPlaybackStopped');
+                reportPlayback(self, state, player, true, playerStopInfo.item.ServerId, 'reportPlaybackStopped');
             }
 
             state.NextItem = playbackStopInfo.nextItem;
@@ -3046,7 +3082,7 @@
                 // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
                 streamInfo.ended = true;
 
-                reportPlayback(state, streamInfo.item.ServerId, 'reportPlaybackStopped');
+                reportPlayback(self, state, player, true, streamInfo.item.ServerId, 'reportPlaybackStopped');
             }
 
             state.NextItem = playbackStopInfo.nextItem;
@@ -3102,7 +3138,7 @@
                 bindStopped(activePlayer);
 
                 if (enableLocalPlaylistManagement(activePlayer)) {
-                    reportPlayback(state, serverId, 'reportPlaybackStopped');
+                    reportPlayback(self, state, activePlayer, true, serverId, 'reportPlaybackStopped');
                 }
 
                 events.trigger(self, 'playbackstop', [{
@@ -3147,6 +3183,21 @@
             sendProgressUpdate(player, 'repeatmodechange');
         }
 
+        function onPlaylistItemMove(e) {
+            var player = this;
+            sendProgressUpdate(player, 'playlistitemmove', true);
+        }
+
+        function onPlaylistItemRemove(e) {
+            var player = this;
+            sendProgressUpdate(player, 'playlistitemremove', true);
+        }
+
+        function onPlaylistItemAdd(e) {
+            var player = this;
+            sendProgressUpdate(player, 'playlistitemadd', true);
+        }
+
         function unbindStopped(player) {
 
             events.off(player, 'stopped', onPlaybackStopped);
@@ -3186,6 +3237,9 @@
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);
                 events.on(player, 'repeatmodechange', onRepeatModeChange);
+                events.on(player, 'playlistitemmove', onPlaylistItemMove);
+                events.on(player, 'playlistitemremove', onPlaylistItemRemove);
+                events.on(player, 'playlistitemadd', onPlaylistItemAdd);
             } else if (player.isLocalPlayer) {
 
                 events.on(player, 'itemstarted', onPlaybackStartedFromSelfManagingPlayer);
@@ -3195,6 +3249,9 @@
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);
                 events.on(player, 'repeatmodechange', onRepeatModeChange);
+                events.on(player, 'playlistitemmove', onPlaylistItemMove);
+                events.on(player, 'playlistitemremove', onPlaylistItemRemove);
+                events.on(player, 'playlistitemadd', onPlaylistItemAdd);
             }
 
             if (player.isLocalPlayer) {
@@ -3213,7 +3270,7 @@
 
         pluginManager.ofType('mediaplayer').map(initMediaPlayer);
 
-        function sendProgressUpdate(player, progressEventName) {
+        function sendProgressUpdate(player, progressEventName, reportPlaylist) {
 
             if (!player) {
                 throw new Error('player cannot be null');
@@ -3227,7 +3284,7 @@
                 var streamInfo = getPlayerData(player).streamInfo;
 
                 if (streamInfo && streamInfo.started && !streamInfo.ended) {
-                    reportPlayback(state, serverId, 'reportPlaybackProgress', progressEventName);
+                    reportPlayback(self, state, player, reportPlaylist, serverId, 'reportPlaybackProgress', progressEventName);
                 }
 
                 if (streamInfo && streamInfo.liveStreamId) {

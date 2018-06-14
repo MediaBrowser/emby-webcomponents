@@ -9,7 +9,8 @@ html {
 }
 
 .skinHeader-withBackground {
-    background-color: #1c1c1c;
+    background: #303030;
+    background: linear-gradient(to right,#291A31, #033664, #011432, #141A3A, #291A31);
 }
 
 .skinHeader.semiTransparent {
@@ -23,8 +24,13 @@ html {
     background-image: url(../logowhite.png);
 }
 
-html, .dialog, .backgroundContainer {
+html, .dialog {
     background-color: #181818;
+}
+
+.backgroundContainer {
+    background: #181818 url(bg.jpg) no-repeat center center;
+    background-size: cover;
 }
 
     .backgroundContainer.withBackdrop {
@@ -38,12 +44,12 @@ html, .dialog, .backgroundContainer {
 }
 
 .raised, .fab {
-    background: #2d2d2d;
+    background: rgba(0,0,0,.5);
     color: rgba(255, 255, 255, .87);
 }
 
     .raised:focus, .fab:focus {
-        background: #383838;
+        background: rgba(0,0,0,.7);
     }
 
 .button-submit {
@@ -74,7 +80,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
-    background-color: #222;
+    background-color: rgba(0,0,0,.5);
 }
 
 .defaultCardBackground1 {
@@ -175,11 +181,11 @@ html, .dialog, .backgroundContainer {
 }
 
 .listItem-border {
-    border-color: rgba(36, 36, 36, .9) !important;
+    border-color: rgba(255,255,255,.1) !important;
 }
 
 .listItem:focus {
-    background: #333;
+    background: rgba(0,0,0,.3);
 }
 
 .progressring-spiner {
@@ -222,8 +228,8 @@ html, .dialog, .backgroundContainer {
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #292929;
-    border: .07em solid #292929;
+    background: rgba(0,0,0,.5);
+    border: .07em solid rgba(0,0,0,.3);
 }
 
     .emby-select-withcolor > option {
@@ -336,7 +342,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .programCell-active {
-    background: #1e1e1e !important;
+    background: rgba(0,0,0,.4) !important;
 }
 
 .programCell:focus, .guide-channelHeaderCell:focus {

@@ -128,7 +128,6 @@
             OriginalTitle: form.querySelector('#txtOriginalName').value,
             ForcedSortName: form.querySelector('#txtSortName').value,
             CommunityRating: form.querySelector('#txtCommunityRating').value,
-            HomePageUrl: form.querySelector('#txtHomePageUrl').value,
             CriticRating: form.querySelector('#txtCriticRating').value,
             IndexNumber: form.querySelector('#txtIndexNumber').value || null,
             AirsBeforeSeasonNumber: form.querySelector('#txtAirsBeforeSeason').value,
@@ -654,12 +653,6 @@
             showElement('.overviewContainer', context);
         }
 
-        if (item.Type === "TvChannel") {
-            hideElement('.websiteFieldContainer', context);
-        } else {
-            showElement('.websiteFieldContainer', context);
-        }
-
         if (item.Type === "Person") {
             //todo
             context.querySelector('#txtProductionYear').label(globalize.translate('sharedcomponents#LabelBirthYear'));
@@ -773,7 +766,6 @@
         context.querySelector('#txtTagline').value = (item.Taglines && item.Taglines.length ? item.Taglines[0] : '');
         context.querySelector('#txtSortName').value = item.ForcedSortName || "";
         context.querySelector('#txtCommunityRating').value = item.CommunityRating || "";
-        context.querySelector('#txtHomePageUrl').value = item.HomePageUrl || "";
 
         context.querySelector('#txtCriticRating').value = item.CriticRating || "";
 

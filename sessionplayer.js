@@ -97,23 +97,48 @@
         });
 
         var currentTargetId = getActivePlayerId();
-        // Update existing data
-        //updateSessionInfo(popup, msg.Data);
+
         var session = sessions.filter(function (s) {
             return s.Id === currentTargetId;
         })[0];
 
-        var state = getPlayerState(session);
-        normalizeImages(state, apiClient);
-        instance.lastPlayerData = state;
-
         if (session) {
-            firePlaybackEvent(instance, 'statechange', session, apiClient);
-            firePlaybackEvent(instance, 'timeupdate', session, apiClient);
-            firePlaybackEvent(instance, 'pause', session, apiClient);
+
+            normalizeImages(session, apiClient);
+
+            var eventNames = getChangedEvents(instance.lastPlayerData, session);
+            instance.lastPlayerData = session;
+
+            for (var i = 0, length = eventNames.length; i < length; i++) {
+                events.trigger(instance, eventNames[i], [session]);
+            }
+
         } else {
+
+            instance.lastPlayerData = session;
+
             playbackManager.setDefaultPlayerActive();
         }
+    }
+
+    function getChangedEvents(state1, state2) {
+
+        var names = [];
+
+        if (!state1) {
+            names.push('statechange');
+            names.push('timeupdate');
+            names.push('pause');
+
+            return names;
+        }
+
+        // TODO: Trim these down to prevent the UI from over-refreshing
+        names.push('statechange');
+        names.push('timeupdate');
+        names.push('pause');
+
+        return names;
     }
 
     function onPollIntervalFired() {
@@ -141,11 +166,6 @@
         instance.pollInterval = setInterval(onPollIntervalFired.bind(instance), 5000);
     }
 
-    function getPlayerState(session) {
-
-        return session;
-    }
-
     function normalizeImages(state, apiClient) {
 
         if (state && state.NowPlayingItem) {
@@ -169,17 +189,6 @@
                 item.ServerId = apiClient.serverId();
             }
         }
-    }
-
-    function firePlaybackEvent(instance, name, session, apiClient) {
-
-        var state = getPlayerState(session);
-
-        normalizeImages(state, apiClient);
-
-        instance.lastPlayerData = state;
-
-        events.trigger(instance, name, [state]);
     }
 
     function SessionPlayer() {

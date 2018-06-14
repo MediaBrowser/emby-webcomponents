@@ -77,7 +77,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .64em;
+    margin: .8em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -404,12 +404,6 @@ button {
     z-index: 1;
     padding: .75em;
     font-size: 88%;
-}
-
-.cardOverlayButton-hover {
-    background: transparent;
-    padding: .5em;
-    color: #fff !important;
 }
 
 .cardOverlayButton-br {
@@ -769,26 +763,40 @@ button {
     width: 18.9vw;
 }
 
-.card-hoverable .cardContent {
-    transition-property: filter;
-    transition-duration: .3s;
-    transition-timing-function: cubic-bezier(.3,0,0,1);
-}
-
-.cardHoverItem {
+.cardOverlayContainer {
+    background: radial-gradient(farthest-corner at 50% 50%,rgba(30,30,30,.5) 50%,#2c2c2c 100%);
     opacity: 0;
-    transition: opacity 0.3s ease-in-out, transform 10ms ease-in;
-    transform: scale(0);
+    transition: opacity .2s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    user-select: none;
 }
 
-.card-hoverable:hover .cardHoverItem {
+.card-hoverable :hover .cardOverlayContainer {
     opacity: 1;
-    transition-delay: 0.6s;
-    transform: scale(1);
+}
+
+.cardOverlayButton-hover {
+    opacity: 0;
+    transition: opacity .2s;
+    background: transparent;
+    color: #fff!important;
+    padding: .5em;
+}
+
+.cardOverlayButtonIcon-hover {
+    background: transparent!important;
+}
+
+.card-hoverable:hover .cardOverlayButton-hover {
+    opacity: 1;
 }
 
 .cardOverlayFab-primary {
-    font-size: 140%;
+    font-size: 130%;
     padding: 0;
     width: 3em;
     height: 3em;
@@ -800,6 +808,6 @@ button {
 }
 
     .cardOverlayFab-primary i {
-        border: .08em solid rgba(255,255,255,.9);
+        border: .07em solid rgba(255,255,255,.9);
         color: #fff;
     }
