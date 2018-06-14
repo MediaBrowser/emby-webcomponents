@@ -109,7 +109,9 @@
                 cardBoxCssClass += ' cardBox-focustransform';
             }
 
-            cardBoxCssClass += ' card-focuscontent';
+            if (layoutManager.tv) {
+                cardBoxCssClass += ' card-focuscontent cardBox-withfocuscontent';
+            }
 
             html += '<button type="button" class="' + cssClass + '"';
         } else {

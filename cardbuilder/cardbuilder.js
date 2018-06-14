@@ -474,7 +474,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var cardBoxClass = 'cardBox';
 
             if (enableFocusTransfrom) {
-                cardBoxClass += ' cardBox-focustransform';
+                cardBoxClass += ' cardBox-focustransform cardBox-withfocuscontent';
+            } else {
+                cardBoxClass += ' cardBox-withfocuscontent-large';
             }
 
             if (cardFooterHtml) {
@@ -1370,7 +1372,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (layoutManager.tv) {
 
                 if (enableFocusTransfrom) {
-                    cardBoxClass += ' cardBox-focustransform';
+                    cardBoxClass += ' cardBox-focustransform cardBox-withfocuscontent';
+                } else {
+                    cardBoxClass += ' cardBox-withfocuscontent-large';
                 }
 
                 if (options.cardLayout) {

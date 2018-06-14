@@ -98,8 +98,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             cardScalableClass += ' card-focuscontent';
 
             if (enableFocusTransfrom) {
-                cardBoxCssClass += ' cardBox-focustransform';
+                cardBoxCssClass += ' cardBox-focustransform cardBox-withfocuscontent';
             } else {
+                cardBoxCssClass += ' cardBox-withfocuscontent-large';
                 cardScalableClass += ' card-focuscontent-large';
             }
         }

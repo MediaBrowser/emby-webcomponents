@@ -86,6 +86,14 @@ button {
     contain: layout style;
 }
 
+.cardBox-withfocuscontent {
+    margin: .68em;
+}
+
+.cardBox-withfocuscontent-large {
+    margin: .56em;
+}
+
 @media (max-width: 50em) {
 
     .cardBox {
@@ -95,7 +103,6 @@ button {
 
 .card-focuscontent {
     border: .12em solid transparent;
-    border-radius: .12em;
 }
 
 .card-focuscontent-large {
