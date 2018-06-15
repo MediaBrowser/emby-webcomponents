@@ -77,7 +77,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .8em;
+    margin: .9em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -86,12 +86,12 @@ button {
     contain: layout style;
 }
 
-.cardBox-withfocuscontent {
+/*.cardBox-withfocuscontent {
     margin: .68em;
-}
+}*/
 
 .cardBox-withfocuscontent-large {
-    margin: .56em;
+    margin: .4em;
 }
 
 @media (max-width: 50em) {
@@ -101,12 +101,12 @@ button {
     }
 }
 
-.card-focuscontent {
+/*.card-focuscontent {
     border: .12em solid transparent;
-}
+}*/
 
 .card-focuscontent-large {
-    border-width: .24em;
+    border: .4em solid transparent;
 }
 
 .cardBox-focustransform {
@@ -115,7 +115,7 @@ button {
 }
 
 .card:focus > .cardBox-focustransform {
-    transform: scale(1.16, 1.16);
+    transform: scale(1.18, 1.18);
 }
 
 .cardBox-bottompadded {
