@@ -971,7 +971,7 @@
                 html += '<div class="verticalSection">';
                 html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
-                html += '<h2 class="sectionTitle">' + globalize.translate('sharedcomponents#LiveTV') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#LiveTV') + '</h2>';
 
                 html += '</div>';
 
@@ -983,26 +983,26 @@
                     html += '<div class="padded-left padded-right padded-top focuscontainer-x">';
                 }
 
-                html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a style="margin-left:.8em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId()
 
                 }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Programs') + '</span></a>';
 
-                html += '<a style="margin-left:1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a style="margin-left:1em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'guide'
 
                 }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Guide') + '</span></a>';
 
-                html += '<a style="margin-left:1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a style="margin-left:1em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId()
 
                 }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Recordings') + '</span></a>';
 
-                html += '<a style="margin-left:1em;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a style="margin-left:1em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'dvrschedule'

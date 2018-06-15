@@ -91,7 +91,7 @@ button {
 }*/
 
 .cardBox-withfocuscontent-large {
-    margin: .4em;
+    margin: .5em;
 }
 
 @media (max-width: 50em) {
@@ -225,6 +225,10 @@ button {
 .cardContent-shadow {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
+
+/*.card:focus .cardContent-shadow {
+    box-shadow: 0 .63em 1.26em rgba(0, 0, 0, 0.37);
+}*/
 
 .cardImageContainer {
     display: flex;
@@ -790,12 +794,12 @@ button {
     opacity: 0;
     transition: opacity .2s;
     background: transparent;
-    color: #fff!important;
+    color: #fff !important;
     padding: .5em;
 }
 
 .cardOverlayButtonIcon-hover {
-    background: transparent!important;
+    background: transparent !important;
 }
 
 .card-hoverable:hover .cardOverlayButton-hover {

@@ -276,6 +276,20 @@
             // Subtract to avoid getting programs that are starting when the grid ends
             var nextDay = new Date(date.getTime() + msPerDay - 2000);
 
+            // Normally we'd want to just let responsive css handle this,
+            // but since mobile browsers are often underpowered, 
+            // it can help performance to get them out of the markup
+            var allowIndicators = dom.getWindowSize().innerWidth >= 600;
+
+            var renderOptions = {
+                showHdIcon: allowIndicators && userSettings.get('guide-indicator-hd') === 'true',
+                showLiveIndicator: allowIndicators && userSettings.get('guide-indicator-live') !== 'false',
+                showPremiereIndicator: allowIndicators && userSettings.get('guide-indicator-premiere') !== 'false',
+                showNewIndicator: allowIndicators && userSettings.get('guide-indicator-new') === 'true',
+                showRepeatIndicator: allowIndicators && userSettings.get('guide-indicator-repeat') === 'true',
+                showEpisodeTitle: layoutManager.tv ? false : true
+            };
+
             apiClient.getLiveTvChannels(channelQuery).then(function (channelsResult) {
 
                 var btnPreviousPage = context.querySelector('.btnPreviousPage');
@@ -304,7 +318,9 @@
                     context.querySelector('.guideOptions').classList.add('hide');
                 }
 
-                apiClient.getLiveTvPrograms({
+                var programFields = [];
+
+                var programQuery = {
                     UserId: apiClient.getCurrentUserId(),
                     MaxStartDate: nextDay.toISOString(),
                     MinEndDate: date.toISOString(),
@@ -317,10 +333,19 @@
                     SortBy: "StartDate",
                     EnableTotalRecordCount: false,
                     EnableUserData: false
+                };
 
-                }).then(function (programsResult) {
+                if (renderOptions.showHdIcon) {
+                    programFields.push('IsHD');
+                }
 
-                    renderGuide(context, date, channelsResult.Items, programsResult.Items, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
+                if (programFields.length) {
+                    programQuery.Fields = programFields.join('');
+                }
+
+                apiClient.getLiveTvPrograms(programQuery).then(function (programsResult) {
+
+                    renderGuide(context, date, channelsResult.Items, programsResult.Items, renderOptions, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender);
 
                     hideLoading();
 
@@ -645,21 +670,7 @@
             imageLoader.lazyChildren(channelList);
         }
 
-        function renderPrograms(context, date, channels, programs) {
-
-            // Normally we'd want to just let responsive css handle this,
-            // but since mobile browsers are often underpowered, 
-            // it can help performance to get them out of the markup
-            var allowIndicators = dom.getWindowSize().innerWidth >= 600;
-
-            var options = {
-                showHdIcon: allowIndicators && userSettings.get('guide-indicator-hd') === 'true',
-                showLiveIndicator: allowIndicators && userSettings.get('guide-indicator-live') !== 'false',
-                showPremiereIndicator: allowIndicators && userSettings.get('guide-indicator-premiere') !== 'false',
-                showNewIndicator: allowIndicators && userSettings.get('guide-indicator-new') === 'true',
-                showRepeatIndicator: allowIndicators && userSettings.get('guide-indicator-repeat') === 'true',
-                showEpisodeTitle: layoutManager.tv ? false : true
-            };
+        function renderPrograms(context, date, channels, programs, options) {
 
             var listInfo = {
                 startIndex: 0
@@ -696,7 +707,7 @@
             return (channelIndex * 10000000) + (start.getTime() / 60000);
         }
 
-        function renderGuide(context, date, channels, programs, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
+        function renderGuide(context, date, channels, programs, renderOptions, apiClient, scrollToTimeMs, focusToTimeMs, startTimeOfDayMs, focusProgramOnRender) {
 
             programs.sort(function (a, b) {
                 return getProgramSortOrder(a, channels) - getProgramSortOrder(b, channels);
@@ -717,7 +728,7 @@
             var endDate = new Date(startDate.getTime() + msPerDay);
             context.querySelector('.timeslotHeaders').innerHTML = getTimeslotHeadersHtml(startDate, endDate);
             items = {};
-            renderPrograms(context, date, channels, programs);
+            renderPrograms(context, date, channels, programs, renderOptions);
 
             if (focusProgramOnRender) {
                 focusProgram(context, itemId, channelRowId, focusToTimeMs, startTimeOfDayMs);
