@@ -29,12 +29,13 @@ html, .dialog {
 }
 
 .backgroundContainer {
-    background: #181818 url(bg.jpg) no-repeat center center;
+    background: #033361 url(bg.jpg) no-repeat center center;
     background-size: cover;
 }
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(0,0,0,.86);
+        background: transparent url(bg_transparent.png) no-repeat center center;
+        background-size: cover;
     }
 
 /* buttons */
@@ -216,8 +217,8 @@ html, .dialog {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #292929;
-    border: .07em solid #292929;
+    background: rgba(0,0,0,.5);
+    border: .07em solid rgba(0,0,0,.3);
     border-radius: .15em;
 }
 
