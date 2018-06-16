@@ -29,12 +29,12 @@ html, .dialog {
 }
 
 .backgroundContainer {
-    background: #033361 url(bg.jpg) no-repeat center center;
+    background: #033361 url(bg.jpg) no-repeat center top;
     background-size: cover;
 }
 
     .backgroundContainer.withBackdrop {
-        background: transparent url(bg_transparent1.png) no-repeat center center;
+        background: transparent url(bg_transparent1.png) no-repeat center top;
         background-size: cover;
     }
 
@@ -120,7 +120,7 @@ html, .dialog {
 }
 
 .actionSheetMenuItem:hover {
-    background-color: #222;
+    background-color: rgba(0,0,0, .5);
 }
 
 .toast {
@@ -218,7 +218,7 @@ html, .dialog {
 .emby-input, .emby-textarea {
     color: inherit;
     background: rgba(0,0,0,.5);
-    border: .07em solid rgba(0,0,0,.3);
+    border: .07em solid transparent;
     border-radius: .15em;
 }
 
@@ -230,7 +230,7 @@ html, .dialog {
 .emby-select-withcolor {
     color: inherit;
     background: rgba(0,0,0,.5);
-    border: .07em solid rgba(0,0,0,.3);
+    border: .07em solid transparent;
 }
 
     .emby-select-withcolor > option {
