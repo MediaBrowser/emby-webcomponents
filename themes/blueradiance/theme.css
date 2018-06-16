@@ -34,7 +34,7 @@ html, .dialog {
 }
 
     .backgroundContainer.withBackdrop {
-        background: transparent url(bg_transparent.png) no-repeat center center;
+        background: transparent url(bg_transparent1.png) no-repeat center center;
         background-size: cover;
     }
 

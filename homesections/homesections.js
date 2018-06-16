@@ -989,20 +989,20 @@
 
                 }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Programs') + '</span></a>';
 
-                html += '<a style="margin-left:1em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'guide'
 
                 }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Guide') + '</span></a>';
 
-                html += '<a style="margin-left:1em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
+                html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
 
                     serverId: apiClient.serverId()
 
                 }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Recordings') + '</span></a>';
 
-                html += '<a style="margin-left:1em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'dvrschedule'
