@@ -53,12 +53,16 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             //}
         }
 
+
+
         if (item.IsFolder || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
-            if (options.shuffle !== false) {
-                commands.push({
-                    name: globalize.translate('sharedcomponents#Shuffle'),
-                    id: 'shuffle'
-                });
+            if (item.CollectionType !== 'livetv') {
+                if (options.shuffle !== false) {
+                    commands.push({
+                        name: globalize.translate('sharedcomponents#Shuffle'),
+                        id: 'shuffle'
+                    });
+                }
             }
         }
 

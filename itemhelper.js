@@ -93,6 +93,9 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         if (isLocalItem(item)) {
             return false;
         }
+        if (item.CollectionType === 'livetv') {
+            return false;
+        }
 
         return item.MediaType || item.IsFolder || item.Type === "Genre" || item.Type === "MusicGenre" || item.Type === "MusicArtist";
     }
@@ -318,6 +321,11 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         canRefreshMetadata: function (item, user) {
 
             if (user.Policy.IsAdministrator) {
+
+                var collectionType = item.CollectionType;
+                if (collectionType === 'livetv') {
+                    return false;
+                }
 
                 if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
 
