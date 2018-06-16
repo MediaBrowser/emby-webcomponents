@@ -996,7 +996,7 @@
 
                 }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Guide') + '</span></a>';
 
-                html += '<a style="margin-left:1em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
+                html += '<a style="margin-left:1em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
 
                     serverId: apiClient.serverId()
 

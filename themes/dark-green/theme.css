@@ -402,11 +402,6 @@ html, .backgroundContainer {
     .detailButton-mobile {
         background: #444 !important;
     }
-
-    .detailTrackSelect.emby-select-withcolor {
-        background: #444;
-        border-color: #444;
-    }
 }
 
 /* used by directory picker and other areas */

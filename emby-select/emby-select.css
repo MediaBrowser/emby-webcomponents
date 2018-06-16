@@ -31,7 +31,8 @@
 }
 
     .selectContainer-inline > .emby-select[disabled] {
-        padding: .4em 0 .4em 0;
+        padding-left: 0;
+        padding-right: 0;
     }
 
 .emby-select::-moz-focus-inner {

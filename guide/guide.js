@@ -285,7 +285,7 @@
                 showHdIcon: allowIndicators && userSettings.get('guide-indicator-hd') === 'true',
                 showLiveIndicator: allowIndicators && userSettings.get('guide-indicator-live') !== 'false',
                 showPremiereIndicator: allowIndicators && userSettings.get('guide-indicator-premiere') !== 'false',
-                showNewIndicator: allowIndicators && userSettings.get('guide-indicator-new') === 'true',
+                showNewIndicator: allowIndicators && userSettings.get('guide-indicator-new') !== 'false',
                 showRepeatIndicator: allowIndicators && userSettings.get('guide-indicator-repeat') === 'true',
                 showEpisodeTitle: layoutManager.tv ? false : true
             };
