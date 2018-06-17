@@ -73,6 +73,16 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         return '<button is="paper-icon-button-light" class="autoSize ' + cssClass + '"' + tabIndex + autoFocus + '><i class="md-icon slideshowButtonIcon">' + icon + '</i></button>';
     }
 
+    function setUserScalable(scalable) {
+
+        try {
+            appHost.setUserScalable(scalable);
+        }
+        catch (err) {
+            console.log('error in appHost.setUserScalable: ' + err);
+        }
+    }
+
     return function (options) {
 
         var self = this;
@@ -166,8 +176,11 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
                 }
             }
 
+            setUserScalable(true);
+
             dialogHelper.open(dlg).then(function () {
 
+                setUserScalable(false);
                 stopInterval();
             });
 

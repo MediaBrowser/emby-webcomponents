@@ -33,10 +33,18 @@ html, .dialog {
     background-size: cover;
 }
 
+.backgroundContainer.withBackdrop {
+    background: transparent url(bg_transparent1.png) no-repeat left top;
+    background-size: cover;
+}
+
+@media (orientation: portrait) {
+
     .backgroundContainer.withBackdrop {
-        background: transparent url(bg_transparent1.png) no-repeat center top;
+        background: transparent url(bg_transparent1.png) no-repeat 30% top;
         background-size: cover;
     }
+}
 
 /* buttons */
 .paper-icon-button-light:focus {
