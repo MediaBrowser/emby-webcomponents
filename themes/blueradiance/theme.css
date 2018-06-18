@@ -391,13 +391,6 @@ html, .dialog {
     background: linear-gradient(rgba(0,0,0,0), #181818);
 }
 
-@media all and (min-width: 62.5em) {
-
-    .detailButton-mobile {
-        background: #444 !important;
-    }
-}
-
 /* used by directory picker and other areas */
 .infoBanner {
     color: #ddd;
