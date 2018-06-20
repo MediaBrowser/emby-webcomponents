@@ -73,7 +73,11 @@
     function showSubmissionToast(targetId, apiClient) {
 
         require(['toast'], function (toast) {
-            var msg = targetId === apiClient.deviceId() ? globalize.translate('sharedcomponents#DownloadingDots') : globalize.translate('sharedcomponents#SyncJobCreated');
+
+            var msg = targetId === apiClient.deviceId() ?
+                globalize.translate('sharedcomponents#DownloadingDots') :
+                globalize.translate('sharedcomponents#SyncingDots');
+
             toast(msg);
         });
     }

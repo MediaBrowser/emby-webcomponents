@@ -1,10 +1,11 @@
 ﻿define(['serverNotifications', 'events', 'loading', 'connectionManager', 'imageLoader', 'dom', 'globalize', 'registrationServices', 'layoutManager', 'listViewStyle'], function (serverNotifications, events, loading, connectionManager, imageLoader, dom, globalize, registrationServices, layoutManager) {
     'use strict';
 
-    function onSyncJobsUpdated(e, apiClient, data) {
-
-        var listInstance = this;
-        renderList(listInstance, data, apiClient);
+    function onSyncJobCreated(e, apiClient, data) {
+    }
+    function onSyncJobUpdated(e, apiClient, data) {
+    }
+    function onSyncJobCancelled(e, apiClient, data) {
     }
 
     function refreshList(listInstance, jobs) {
@@ -267,30 +268,6 @@
         });
     }
 
-    function startListening(listInstance) {
-
-        var startParams = "0,1500";
-
-        var apiClient = getApiClient(listInstance);
-
-        if (listInstance.options.userId) {
-            startParams += "," + listInstance.options.userId;
-        }
-        if (listInstance.options.mode === 'download') {
-            startParams += "," + apiClient.deviceId();
-        } else if (listInstance.options.enableRemoteSyncManagement === false) {
-            startParams += ",true";
-        }
-
-        apiClient.sendMessage("SyncJobsStart", startParams);
-    }
-
-    function stopListening(listInstance) {
-
-        var apiClient = getApiClient(listInstance);
-        apiClient.sendMessage("SyncJobsStop", "");
-    }
-
     function getApiClient(listInstance) {
         return connectionManager.getApiClient(listInstance.options.serverId);
     }
@@ -390,9 +367,17 @@
     function syncJobList(options) {
         this.options = options;
 
-        var onSyncJobsUpdatedHandler = onSyncJobsUpdated.bind(this);
-        this.onSyncJobsUpdatedHandler = onSyncJobsUpdatedHandler;
-        events.on(serverNotifications, 'SyncJobs', onSyncJobsUpdatedHandler);
+        var onSyncJobCreatedHandler = onSyncJobCreated.bind(this);
+        this.onSyncJobCreatedHandler = onSyncJobCreatedHandler;
+        events.on(serverNotifications, 'SyncJobCreated', onSyncJobCreatedHandler);
+
+        var onSyncJobCancelledHandler = onSyncJobCancelled.bind(this);
+        this.onSyncJobCancelledHandler = onSyncJobCancelledHandler;
+        events.on(serverNotifications, 'SyncJobCancelled', onSyncJobCancelledHandler);
+
+        var onSyncJobUpdatedHandler = onSyncJobUpdated.bind(this);
+        this.onSyncJobUpdatedHandler = onSyncJobUpdatedHandler;
+        events.on(serverNotifications, 'SyncJobUpdated', onSyncJobUpdatedHandler);
 
         var onClickHandler = onElementClick.bind(this);
         options.element.addEventListener('click', onClickHandler);
@@ -401,7 +386,6 @@
         options.element.innerHTML = '<div class="syncJobListContent"></div>';
 
         fetchData(this);
-        startListening(this);
 
         initSupporterInfo(options.element, getApiClient(this));
     }
@@ -441,11 +425,17 @@
 
     syncJobList.prototype.destroy = function () {
 
-        stopListening(this);
+        var onSyncJobCreatedHandler = this.onSyncJobCreatedHandler;
+        this.onSyncJobCreatedHandler = null;
+        events.off(serverNotifications, 'SyncJobCreated', onSyncJobCreatedHandler);
 
-        var onSyncJobsUpdatedHandler = this.onSyncJobsUpdatedHandler;
-        this.onSyncJobsUpdatedHandler = null;
-        events.off(serverNotifications, 'SyncJobs', onSyncJobsUpdatedHandler);
+        var onSyncJobCancelledHandler = this.onSyncJobCancelledHandler;
+        this.onSyncJobCancelledHandler = null;
+        events.off(serverNotifications, 'SyncJobCancelled', onSyncJobCancelledHandler);
+
+        var onSyncJobUpdatedHandler = this.onSyncJobUpdatedHandler;
+        this.onSyncJobUpdatedHandler = null;
+        events.off(serverNotifications, 'SyncJobUpdated', onSyncJobUpdatedHandler);
 
         var onClickHandler = this.onClickHandler;
         this.onClickHandler = null;
