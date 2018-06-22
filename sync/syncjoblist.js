@@ -2,10 +2,17 @@
     'use strict';
 
     function onSyncJobCreated(e, apiClient, data) {
+        var listInstance = this;
+        fetchData(listInstance);
     }
     function onSyncJobUpdated(e, apiClient, data) {
+        var listInstance = this;
+
+        refreshJob(listInstance, data);
     }
     function onSyncJobCancelled(e, apiClient, data) {
+        var listInstance = this;
+        fetchData(listInstance);
     }
 
     function refreshList(listInstance, jobs) {

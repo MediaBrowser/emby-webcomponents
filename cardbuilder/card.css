@@ -77,7 +77,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .4em;
+    margin: .42em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -755,7 +755,7 @@ button {
 }
 
 .itemsContainer-tv > .overflowBackdropCard {
-    width: 23.3vw;
+    width: 25%;
 }
 
 .overflowBackdropCard-textCard {
@@ -767,11 +767,11 @@ button {
 }
 
 .itemsContainer-tv > .overflowSquareCard, .itemsContainer-tv > .overflowPortraitCard {
-    width: 15.5vw;
+    width: 16.7%
 }
 
 .itemsContainer-tv > .overflowSmallBackdropCard {
-    width: 18.9vw;
+    width: 20.1%;
 }
 
 .cardOverlayContainer {
