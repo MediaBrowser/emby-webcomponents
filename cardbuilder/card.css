@@ -755,7 +755,7 @@ button {
 }
 
 .itemsContainer-tv > .overflowBackdropCard {
-    width: 25%;
+    width: 23.5vw;
 }
 
 .overflowBackdropCard-textCard {
@@ -767,11 +767,11 @@ button {
 }
 
 .itemsContainer-tv > .overflowSquareCard, .itemsContainer-tv > .overflowPortraitCard {
-    width: 16.7%
+    width: 15.6vw;
 }
 
 .itemsContainer-tv > .overflowSmallBackdropCard {
-    width: 20.1%;
+    width: 18.8vw;
 }
 
 .cardOverlayContainer {

@@ -173,7 +173,22 @@ define([], function () {
         if (!dispatch) {
             return;
         }
-        var url = (hashbang && ~location.hash.indexOf('#!')) ? location.hash.substr(2) + location.search : location.pathname + location.search + location.hash;
+
+        var url;
+
+        if (hashbang && ~location.hash.indexOf('#!')) {
+
+            url = location.hash.substr(2);
+
+            var href = location.href.toString();
+            if (href.indexOf('?') >= href.indexOf('#!')) {
+                url += location.search;
+            }
+        }
+        else {
+            url = location.pathname + location.search + location.hash;
+        }
+
         page.replace(url, null, true, dispatch);
     };
 
@@ -217,7 +232,7 @@ define([], function () {
         return ctx;
     };
 
-    page.restorePreviousState = function() {
+    page.restorePreviousState = function () {
 
         prevContext = prevPageContext;
         page.show(prevContext.pathname, prevContext.state, false, true, false);
@@ -333,8 +348,8 @@ define([], function () {
 
     page.dispatch = function (ctx) {
         var prev = prevContext,
-          i = 0,
-          j = 0;
+            i = 0,
+            j = 0;
 
         prevPageContext = prevContext;
         prevContext = ctx;
@@ -533,9 +548,9 @@ define([], function () {
         this.path = (path === '*') ? '(.*)' : path;
         this.method = 'GET';
         this.regexp = pathToRegexp(this.path,
-          this.keys = [],
-          options.sensitive,
-          options.strict);
+            this.keys = [],
+            options.sensitive,
+            options.strict);
     }
 
     /**
@@ -575,9 +590,9 @@ define([], function () {
 
     Route.prototype.match = function (path, params) {
         var keys = this.keys,
-          qsIndex = path.indexOf('?'),
-          pathname = ~qsIndex ? path.slice(0, qsIndex) : path,
-          m = this.regexp.exec(decodeURIComponent(pathname));
+            qsIndex = path.indexOf('?'),
+            pathname = ~qsIndex ? path.slice(0, qsIndex) : path,
+            m = this.regexp.exec(decodeURIComponent(pathname));
 
         if (!m) {
             return false;
