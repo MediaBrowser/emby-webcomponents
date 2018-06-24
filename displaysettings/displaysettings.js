@@ -131,12 +131,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             context.querySelector('.fldDisplayMode').classList.add('hide');
         }
 
-        if (appHost.supports('displaymode') || layoutManager.tv) {
-            context.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
-        } else {
-            context.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
-        }
-
         if (appHost.supports('externallinks')) {
             context.querySelector('.learnHowToContributeContainer').classList.remove('hide');
         } else {
@@ -197,8 +191,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('#chkBackdrops').checked = userSettings.enableBackdrops();
         context.querySelector('#chkSeasonalThemes').checked = userSettings.enableSeasonalThemes();
 
-        context.querySelector('.selectTVHomeScreen').value = userSettings.get('tvhome') || '';
-
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
@@ -230,8 +222,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
         userSettingsInstance.soundEffects(context.querySelector('.selectSoundEffects').value);
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
-
-        userSettingsInstance.set('tvhome', context.querySelector('.selectTVHomeScreen').value);
 
         userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 

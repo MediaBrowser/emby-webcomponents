@@ -93,6 +93,11 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
         var currentOptions;
         var currentIndex;
 
+        // small hack since this is not possible anyway
+        if (browser.chromecast) {
+            options.interactive = false;
+        }
+
         function createElements(options) {
 
             dlg = dialogHelper.createDialog({

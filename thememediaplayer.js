@@ -31,13 +31,16 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
             });
 
         } else {
-
-            if (currentOwnerId) {
-                playbackManager.stop();
-            }
-
-            currentOwnerId = null;
+            stopIfPlaying();
         }
+    }
+
+    function stopIfPlaying() {
+        if (currentOwnerId) {
+            playbackManager.stop();
+        }
+
+        currentOwnerId = null;
     }
 
     function enabled(mediaType) {
@@ -54,10 +57,12 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
     function loadThemeMedia(item) {
 
         if (item.CollectionType) {
+            stopIfPlaying();
             return;
         }
 
         if (excludeTypes.indexOf(item.Type) !== -1) {
+            stopIfPlaying();
             return;
         }
 

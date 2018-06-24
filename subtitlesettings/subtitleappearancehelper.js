@@ -8,6 +8,9 @@ define([], function () {
         if (isCue) {
             switch (settings.textSize || '') {
 
+                case 'smaller':
+                    list.push({ name: 'font-size', value: '.5em' });
+                    break;
                 case 'small':
                     list.push({ name: 'font-size', value: '.7em' });
                     break;
@@ -27,7 +30,10 @@ define([], function () {
         } else {
             switch (settings.textSize || '') {
 
-                case 'small':
+                case 'smaller':
+                    list.push({ name: 'font-size', value: '.8em' });
+                    break;
+               case 'small':
                     list.push({ name: 'font-size', value: 'inherit' });
                     break;
                 case 'larger':

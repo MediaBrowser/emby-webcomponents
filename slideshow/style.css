@@ -1,3 +1,8 @@
+.slideshowDialog {
+    /* Themes may use non-black backgrounds for dialogs, so override that here */
+    background: #000;
+}
+
 .slideshowSwiperContainer, .swiper-wrapper, .swiper-slide {
     background: #000;
 }

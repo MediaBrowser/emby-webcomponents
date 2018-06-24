@@ -1,4 +1,4 @@
-define(['require', 'focusManager', 'globalize', 'loading', 'connectionManager', 'homeSections', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-checkbox'], function (require, focusManager, globalize, loading, connectionManager, homeSections, dom, events) {
+define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loading', 'connectionManager', 'homeSections', 'dom', 'events', 'listViewStyle', 'emby-select', 'emby-checkbox'], function (require, appHost, layoutManager, focusManager, globalize, loading, connectionManager, homeSections, dom, events) {
     "use strict";
 
     var numConfigurableSections = 7;
@@ -194,6 +194,8 @@ define(['require', 'focusManager', 'globalize', 'loading', 'connectionManager', 
                 select.value = userValue;
             }
         }
+
+        context.querySelector('.selectTVHomeScreen').value = userSettings.get('tvhome') || '';
     }
 
     function getPerLibrarySettingsHtml(item, user, userSettings, apiClient) {
@@ -387,6 +389,8 @@ define(['require', 'focusManager', 'globalize', 'loading', 'connectionManager', 
 
         user.Configuration.OrderedViews = orderedViews;
 
+        userSettingsInstance.set('tvhome', context.querySelector('.selectTVHomeScreen').value);
+
         userSettingsInstance.set('homesection0', context.querySelector('#selectHomeSection1').value);
         userSettingsInstance.set('homesection1', context.querySelector('#selectHomeSection2').value);
         userSettingsInstance.set('homesection2', context.querySelector('#selectHomeSection3').value);
@@ -481,6 +485,12 @@ define(['require', 'focusManager', 'globalize', 'loading', 'connectionManager', 
 
             if (options.enableSaveButton) {
                 options.element.querySelector('.btnSave').classList.remove('hide');
+            }
+
+            if (appHost.supports('displaymode') || layoutManager.tv) {
+                options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
+            } else {
+                options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');
             }
 
             self.loadData(options.autoFocus);
