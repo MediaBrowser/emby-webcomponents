@@ -34,6 +34,10 @@
     width: 100%;
 }
 
+.listItem-indexnumberleft {
+    margin-right: 1em;
+}
+
 .listItem-border {
     border-bottom-width: .1em;
     border-bottom-style: solid;
@@ -67,7 +71,7 @@
 
 .listItemBody {
     flex-grow: 1;
-    padding: .8em 1em;
+    padding: .25em 1em;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-direction: column;
@@ -91,8 +95,8 @@
 }
 
 .listItemImage {
-    width: 4.775em;
-    height: 4.775em;
+    width: 4.5em;
+    height: 4.5em;
     min-width: 2.78em;
     min-height: 2.78em;
     background-repeat: no-repeat;

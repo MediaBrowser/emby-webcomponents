@@ -168,6 +168,10 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         return html;
     }
 
+    function getId(item) {
+        return item.Id;
+    }
+
     function getListViewHtml(options) {
 
         var items = options.items;
@@ -185,7 +189,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
         var outerHtml = '';
 
         var enableContentWrapper = options.enableOverview && !layoutManager.tv;
-        var containerAlbumArtists = options.containerAlbumArtists || [];
+        var containerAlbumArtistIds = (options.containerAlbumArtists || []).map(getId);
 
         for (var i = 0, length = items.length; i < length; i++) {
 
@@ -220,7 +224,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
 
             var cssClass = "listItem";
 
-            if (options.border || options.highlight !== false) {
+            if (options.border || (options.highlight !== false && !layoutManager.tv)) {
                 cssClass += ' listItem-border';
             }
 
@@ -310,6 +314,13 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
                 html += '</div>';
             }
 
+            if (options.showIndexNumberLeft) {
+
+                html += '<div class="listItem-indexnumberleft">';
+                html += (item.IndexNumber || '&nbsp;');
+                html += '</div>';
+            }
+
             var textlines = [];
 
             if (options.showProgramDateTime) {
@@ -383,14 +394,22 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             } else {
 
                 var showArtist = options.artist === true;
+                var artistItems = item.ArtistItems;
+
                 if (!showArtist && options.artist !== false) {
-                    showArtist = containerAlbumArtists.length > 1 || (item.Artists || [])[0] !== containerAlbumArtists[0];
+
+                    if (!artistItems || !artistItems.length) {
+                        showArtist = true;
+                    }
+                    else if (artistItems.length > 1 || containerAlbumArtistIds.indexOf(artistItems[0].Id) === -1) {
+                        showArtist = true;
+                    }
                 }
 
                 if (showArtist) {
 
-                    if (item.ArtistItems && item.Type !== 'MusicAlbum') {
-                        textlines.push(item.ArtistItems.map(function (a) {
+                    if (artistItems && item.Type !== 'MusicAlbum') {
+                        textlines.push(artistItems.map(function (a) {
                             return a.Name;
                         }).join(', '));
                     }
