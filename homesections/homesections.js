@@ -66,17 +66,25 @@
                 promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
             }
 
-            Promise.all(promises).then(function () {
+            return Promise.all(promises).then(function () {
 
                 html = '';
-                html += '<div class="verticalSection padded-left padded-right customizeSection hide" style="margin-top:2em;">';
+
+                var style = 'margin-top:2em;';
+
+                if (layoutManager.tv) {
+                    style += 'padding: 0 7.5%;';
+                }
+
+                html += '<div class="verticalSection padded-left padded-right customizeSection hide" style="' + style + '">';
                 html += '<a href="' + appRouter.getRouteUrl('settings') + '" is="emby-linkbutton" class="raised block"><span>' + globalize.translate('sharedcomponents#HeaderCustomizeHomeScreen') + '</span></a>';
                 html += '</div>';
 
                 elem.insertAdjacentHTML('beforeend', html);
 
                 return resume(elem, {
-                    refresh: true
+                    refresh: true,
+                    returnPromise: false
                 });
             });
         });
@@ -117,9 +125,13 @@
             promises.push(elems[i].resume(options));
         }
 
-        return Promise.all(promises).then(function () {
+        var promise = Promise.all(promises).then(function () {
             elem.querySelector('.customizeSection').classList.remove('hide');
         });
+
+        if (!options || options.returnPromise !== false) {
+            return promise;
+        }
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
@@ -195,7 +207,7 @@
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
 
         if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE8B8;</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE5D3;</i></button>';
         }
 
         html += '</div>';
@@ -658,7 +670,7 @@
             html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
 
             if (!layoutManager.tv) {
-                html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE8B8;</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE5D3;</i></button>';
             }
 
             html += '</div>';

@@ -737,6 +737,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (item === 'managedownloads') {
             return 'offline/managedownloads.html';
         }
+        if (item === 'settings') {
+            return 'settings/settings.html';
+        }
 
         return skinManager.getCurrentSkin().getRouteUrl(item, options);
     }

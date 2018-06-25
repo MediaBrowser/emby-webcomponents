@@ -433,7 +433,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             }
 
             if (options.image === false) {
-                cssClass += ' itemAction listItemBody-noleftpadding';
+                cssClass += ' listItemBody-noleftpadding';
             }
 
             html += '<div class="' + cssClass + '">';

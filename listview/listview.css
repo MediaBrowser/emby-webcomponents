@@ -10,7 +10,7 @@
     display: block;
     align-items: center;
     text-align: left;
-    padding: .25em 1em;
+    padding: .25em .25em .25em .5em;
     cursor: pointer;
     overflow: hidden;
 }
@@ -43,10 +43,6 @@
     border-bottom-style: solid;
 }
 
-.listItem-largeImage {
-    padding: .5em .25em !important;
-}
-
 .listItemImage, .listItemIcon, .listItemAside {
     flex-shrink: 0;
 }
@@ -71,7 +67,7 @@
 
 .listItemBody {
     flex-grow: 1;
-    padding: .7em 1em;
+    padding: .7em .75em;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-direction: column;
@@ -80,7 +76,7 @@
 }
 
 .layout-tv .listItemBody {
-    padding: .25em 1em;
+    padding: .25em .75em;
 }
 
 .listItemBody-noleftpadding {
@@ -115,7 +111,7 @@
     width: 19.5vw;
     height: 13vw;
     background-position: center center;
-    margin-right: .5em;
+    margin-right: .75em;
 }
 
 .listItemImageButton {
@@ -153,11 +149,6 @@
 
     .listItemImageButton {
         font-size: 1.02em !important;
-    }
-
-    .listItem-largeImage {
-        padding-right: 0 !important;
-        padding-left: .15em !important;
     }
 
     .listItemBody {
