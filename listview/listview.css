@@ -71,12 +71,16 @@
 
 .listItemBody {
     flex-grow: 1;
-    padding: .25em 1em;
+    padding: .7em 1em;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-direction: column;
     vertical-align: middle;
     justify-content: center;
+}
+
+.layout-tv .listItemBody {
+    padding: .25em 1em;
 }
 
 .listItemBody-noleftpadding {
@@ -95,8 +99,8 @@
 }
 
 .listItemImage {
-    width: 4.5em;
-    height: 4.5em;
+    width: 4em;
+    height: 4em;
     min-width: 2.78em;
     min-height: 2.78em;
     background-repeat: no-repeat;

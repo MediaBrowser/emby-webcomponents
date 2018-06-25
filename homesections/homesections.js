@@ -66,7 +66,14 @@
                 promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
             }
 
-            return Promise.all(promises).then(function () {
+            Promise.all(promises).then(function () {
+
+                html = '';
+                html += '<div class="verticalSection padded-left padded-right customizeSection hide" style="margin-top:2em;">';
+                html += '<a href="' + appRouter.getRouteUrl('settings') + '" is="emby-linkbutton" class="raised block"><span>' + globalize.translate('sharedcomponents#HeaderCustomizeHomeScreen') + '</span></a>';
+                html += '</div>';
+
+                elem.insertAdjacentHTML('beforeend', html);
 
                 return resume(elem, {
                     refresh: true
@@ -104,10 +111,15 @@
 
         var elems = elem.querySelectorAll('.itemsContainer');
         var i, length;
+        var promises = [];
 
         for (i = 0, length = elems.length; i < length; i++) {
-            elems[i].resume(options);
+            promises.push(elems[i].resume(options));
         }
+
+        return Promise.all(promises).then(function () {
+            elem.querySelector('.customizeSection').classList.remove('hide');
+        });
     }
 
     function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
