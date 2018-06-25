@@ -34,7 +34,7 @@ html, .dialog {
 }
 
 .backgroundContainer.withBackdrop {
-    opacity: .94;
+    opacity: .93;
 }
 
 @media (orientation: portrait) {

@@ -67,7 +67,7 @@
 
 .listItemBody {
     flex-grow: 1;
-    padding: .7em .75em;
+    padding: .85em .75em;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-direction: column;
@@ -76,7 +76,7 @@
 }
 
 .layout-tv .listItemBody {
-    padding: .25em .75em;
+    padding: .35em .75em;
 }
 
 .listItemBody-noleftpadding {
@@ -85,7 +85,7 @@
 
 .listItemBodyText {
     margin: 0;
-    padding: .2em 0;
+    padding: .1em 0;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -180,6 +180,7 @@
         color: #fff;
         padding: .5em;
         border-radius: 100em;
+        margin: 0 .2em 0 .4em;
     }
 
 .listItemProgressBar {

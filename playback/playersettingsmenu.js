@@ -196,6 +196,11 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             });
         }
 
+        menuItems.push({
+            name: globalize.translate('sharedcomponents#PlaybackSettings'),
+            id: 'playbacksettings'
+        });
+
         if (user && user.Policy.EnableVideoPlaybackTranscoding) {
             var secondaryQualityText = getQualitySecondaryText(player);
 
@@ -226,6 +231,11 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             });
         }
 
+        menuItems.push({
+            name: globalize.translate('sharedcomponents#SubtitleSettings'),
+            id: 'subtitlesettings'
+        });
+
         return actionsheet.show({
 
             items: menuItems,
@@ -254,6 +264,14 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         });
     }
 
+    function showSubtitleSettings(player, btn) {
+        return Promise.resolve();
+    }
+
+    function showPlaybackSettings(player, btn) {
+        return Promise.resolve();
+    }
+
     function handleSelectedOption(id, options, player) {
 
         switch (id) {
@@ -264,6 +282,10 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
                 return showAspectRatioMenu(player, options.positionTo);
             case 'repeatmode':
                 return showRepeatModeMenu(player, options.positionTo);
+            case 'subtitlesettings':
+                return showSubtitleSettings(player, options.positionTo);
+            case 'playbacksettings':
+                return showPlaybackSettings(player, options.positionTo);
             case 'stats':
                 if (options.onOption) {
                     options.onOption('stats');
