@@ -1,7 +1,8 @@
 define(function () {
     'use strict';
 
-    var addRedirectPrevention = self.dashboardVersion;
+    // hack to work around the server's auto-redirection feature
+    var addRedirectPrevention = self.dashboardVersion != null && self.Dashboard && !self.Dashboard.isConnectMode();
 
     return {
 
