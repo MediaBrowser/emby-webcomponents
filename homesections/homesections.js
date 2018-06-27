@@ -70,7 +70,7 @@
 
                 html = '';
 
-                var style = 'margin-top:2em;';
+                var style = 'margin-top:4em;';
 
                 if (layoutManager.tv) {
                     style += 'padding: 0 7.5%;';

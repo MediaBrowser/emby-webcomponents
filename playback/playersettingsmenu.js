@@ -264,12 +264,23 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         });
     }
 
+    function alertText(text) {
+
+        return new Promise(function (resolve, reject) {
+
+            require(['alert'], function (alert) {
+
+                alert(text).then(resolve);
+            });
+        });
+    }
+
     function showSubtitleSettings(player, btn) {
-        return Promise.resolve();
+        return alertText(globalize.translate('sharedcomponents#SubtitleSettingsIntro'));
     }
 
     function showPlaybackSettings(player, btn) {
-        return Promise.resolve();
+        return alertText(globalize.translate('sharedcomponents#PlaybackSettingsIntro'));
     }
 
     function handleSelectedOption(id, options, player) {
