@@ -487,7 +487,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 options.element.querySelector('.btnSave').classList.remove('hide');
             }
 
-            if (appHost.supports('displaymode') || layoutManager.tv) {
+            if (layoutManager.tv) {
                 options.element.querySelector('.selectTVHomeScreenContainer').classList.remove('hide');
             } else {
                 options.element.querySelector('.selectTVHomeScreenContainer').classList.add('hide');

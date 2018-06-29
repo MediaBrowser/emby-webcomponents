@@ -385,7 +385,7 @@ define(['browser'], function (browser) {
 
         var canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
 
-        if (canPlayAacVideoAudio && browser.chromecast) {
+        if (canPlayAacVideoAudio && browser.chromecast && physicalAudioChannels <= 2) {
             // prioritize this first
             videoAudioCodecs.push('aac');
         }
@@ -823,12 +823,12 @@ define(['browser'], function (browser) {
                 IsRequired: false
             });
 
-            profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
-                Condition: 'NotEquals',
-                Property: 'IsInterlaced',
-                Value: 'true',
-                IsRequired: false
-            });
+            //profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
+            //    Condition: 'NotEquals',
+            //    Property: 'IsInterlaced',
+            //    Value: 'true',
+            //    IsRequired: false
+            //});
         }
 
         if (maxVideoWidth) {
