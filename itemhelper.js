@@ -288,7 +288,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canConvert: function (item, user) {
 
-            if (!item.SupportsSync) {
+            if (!user.Policy.EnableMediaConversion) {
                 return false;
             }
 
@@ -307,11 +307,15 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             var type = item.Type;
-            if (type === 'Channel') {
+            if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program') {
                 return false;
             }
 
-            if (!user.Policy.EnableMediaConversion) {
+            if (item.LocationType === 'Virtual' && !item.IsFolder) {
+                return false;
+            }
+
+            if (item.IsPlaceHolder) {
                 return false;
             }
 

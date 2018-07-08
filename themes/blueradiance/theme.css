@@ -33,15 +33,14 @@ html, .dialog {
     background-size: cover;
 }
 
-.backgroundContainer.withBackdrop {
-    opacity: .93;
-}
+    .backgroundContainer.withBackdrop {
+        opacity: .93;
+    }
 
 @media (orientation: portrait) {
 
-    .backgroundContainer.withBackdrop {
-        background: transparent url(bg_transparent1.png) no-repeat 30% top;
-        background-size: cover;
+    .backgroundContainer {
+        background-position: 30% top;
     }
 }
 
