@@ -270,7 +270,16 @@
             });
         }
 
-        return apiClient.getIntros(firstItem.Id);
+        return apiClient.getIntros(firstItem.Id).then(function (result) {
+
+            return result;
+
+        }, function (err) {
+
+            return Promise.resolve({
+                Items: []
+            });
+        });
     }
 
     function getAudioMaxValues(deviceProfile) {
