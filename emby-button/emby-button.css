@@ -97,11 +97,6 @@
     width: 100%;
 }
 
-.emby-button > i + span {
-    margin-left: .5em;
-    vertical-align: middle;
-}
-
 .paper-icon-button-light {
     position: relative;
     display: inline-flex;

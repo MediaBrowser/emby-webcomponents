@@ -1815,7 +1815,7 @@
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: "Photo,Video",
-                    Limit: 500
+                    Limit: 1000
 
                 });
             }

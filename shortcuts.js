@@ -22,18 +22,39 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
             }
         }
 
+        var itemsContainer = dom.parentWithClass(card, 'itemsContainer');
+        if (itemsContainer && itemsContainer.fetchData) {
+
+            var queryOptions = queue ? { StartIndex: startIndex } : {};
+
+            return itemsContainer.fetchData(queryOptions).then(function (result) {
+
+                if (queue) {
+                    return playbackManager.queue({
+                        items: result.Items
+                    });
+                } else {
+
+                    return playbackManager.play({
+                        items: result.Items,
+                        startIndex: startIndex
+                    });
+                }
+            });
+        }
+
         if (!ids.length) {
             return;
         }
 
         if (queue) {
-            playbackManager.queue({
+            return playbackManager.queue({
                 ids: ids,
                 serverId: serverId
             });
         } else {
 
-            playbackManager.play({
+            return playbackManager.play({
                 ids: ids,
                 serverId: serverId,
                 startIndex: startIndex
