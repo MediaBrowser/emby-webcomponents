@@ -11,7 +11,8 @@
             Recursive: true,
             ImageTypeLimit: 0,
             EnableImages: false,
-            ParentId: instance.options.parentId
+            ParentId: instance.options.parentId,
+            EnableTotalRecordCount: false
         };
 
         apiClient.getItems(apiClient.getCurrentUserId(), options).then(function (result) {
@@ -124,6 +125,30 @@
                 SearchHints: []
             });
         }
+
+        // Convert the search hint query to a regular item query
+        if (apiClient.isMinServerVersion('3.4.1.31')) {
+
+            query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo';
+            query.Recursive = true;
+            query.EnableTotalRecordCount = false;
+            query.ImageTypeLimit = 1;
+
+            var methodName = 'getItems';
+
+            if (!query.IncludeMedia) {
+                if (query.IncludePeople) {
+                    methodName = 'getPeople';
+
+                } else if (query.IncludeArtists) {
+                    methodName = 'getArtists';
+                } 
+            }
+
+            return apiClient[methodName](apiClient.getCurrentUserId(), query);
+        }
+
+        query.UserId = apiClient.getCurrentUserId();
 
         return apiClient.getSearchHints(query);
     }
@@ -535,7 +560,6 @@
 
     function searchType(instance, apiClient, query, context, section, cardOptions) {
 
-        query.UserId = apiClient.getCurrentUserId();
         query.Limit = enableScrollX() ? 24 : 16;
         query.ParentId = instance.options.parentId;
 
@@ -549,7 +573,7 @@
 
         section = context.querySelector(section);
 
-        var items = result.SearchHints;
+        var items = result.Items || result.SearchHints;
 
         var itemsContainer = section.querySelector('.itemsContainer');
 

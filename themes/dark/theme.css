@@ -175,7 +175,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .listItem-border {
-    border-color: rgba(38,38,38, .9) !important;
+    border-color: rgba(34,34,34, .9) !important;
 }
 
 .listItem:focus {

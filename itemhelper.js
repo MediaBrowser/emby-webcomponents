@@ -307,7 +307,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             var type = item.Type;
-            if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program') {
+            if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer') {
                 return false;
             }
 
