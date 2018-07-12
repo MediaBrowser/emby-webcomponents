@@ -623,32 +623,74 @@ button {
     width: 16.666666666666666666666666666667%;
 }
 
-/* Overflow cards */
-@media (orientation: portrait) {
+.overflowBackdropCard {
+    width: 72vw;
+}
+
+.overflowSmallBackdropCard {
+    width: 45.5vw;
+}
+
+.overflowSquareCard, .overflowPortraitCard {
+    width: 40vw;
+}
+
+@media (min-width: 25em) {
     .overflowPortraitCard {
-        width: 42vw;
+        width: 30.3vw;
     }
+}
 
-    .overflowBackdropCard {
-        width: 72vw;
-    }
-
-    .overflowSmallBackdropCard {
-        width: 72vw;
-    }
-
+@media (min-width: 35em) {
     .overflowSquareCard {
-        width: 42vw;
+        width: 30.3vw;
+    }
+}
+
+@media (min-width: 35em) {
+    .overflowBackdropCard, .overflowSmallBackdropCard {
+        width: 45.5vw;
+    }
+}
+
+@media (min-width: 43.75em) {
+    .overflowSquareCard, .overflowPortraitCard {
+        width: 23.3vw;
+    }
+}
+
+@media (min-width: 48.125em) {
+    .overflowBackdropCard, .overflowSmallBackdropCard {
+        width: 30vw;
     }
 }
 
 @media (orientation: landscape) {
-
-    .overflowBackdropCard {
-        width: 23.3vw;
+    .overflowBackdropCard, .overflowSmallBackdropCard {
+        width: 30vw;
     }
 
-    .overflowSmallBackdropCard {
+    .overflowSquareCard, .overflowPortraitCard {
+        width: 23.3vw;
+    }
+}
+
+@media (orientation: landscape) and (min-width: 48.125em) {
+    .overflowBackdropCard, .overflowSmallBackdropCard {
+        width: 23.3vw;
+    }
+}
+
+@media (min-width: 50em) {
+
+    .overflowSquareCard, .overflowPortraitCard {
+        width: 18.4vw;
+    }
+}
+
+@media (min-width: 75em) {
+
+    .overflowBackdropCard, .overflowSmallBackdropCard {
         width: 23.3vw;
     }
 
@@ -657,24 +699,17 @@ button {
     }
 }
 
-@media (orientation: portrait) and (min-width: 33.75em) {
+@media (min-width: 87.5em) {
 
-    .overflowSmallBackdropCard {
-        width: 30vw;
+    .overflowSquareCard, .overflowPortraitCard {
+        width: 13.3vw;
     }
 }
 
-@media (orientation: landscape) and (min-width: 50em) {
+@media (min-width: 100em) {
 
-    .overflowSmallBackdropCard {
-        width: 15.5vw;
-    }
-}
-
-@media (orientation: landscape) and (min-width: 106.25em) {
-
-    .overflowBackdropCard {
-        width: 18.5vw;
+    .overflowBackdropCard, .overflowSmallBackdropCard {
+        width: 18.7vw;
     }
 
     .overflowSquareCard, .overflowPortraitCard {
@@ -682,73 +717,24 @@ button {
     }
 }
 
-@media (orientation: portrait) and (min-width: 25em) {
-    .overflowPortraitCard {
-        width: 31.5vw;
+@media (min-width: 120em) {
+
+    .overflowSquareCard, .overflowPortraitCard {
+        width: 10.3vw;
     }
 }
 
-@media (orientation: portrait) and (min-width: 33.75em) {
-    .overflowBackdropCard {
-        width: 64vw;
-    }
+@media (min-width: 131.25em) {
 
-    .overflowSquareCard {
-        width: 31.5vw;
+    .overflowSquareCard, .overflowPortraitCard {
+        width: 9.3vw;
     }
 }
 
-@media (orientation: portrait) and (min-width: 40em) {
-    .overflowBackdropCard {
-        width: 56vw;
-    }
-}
+@media (min-width: 156.25em) {
 
-@media (orientation: portrait) and (min-width: 47.5em) {
-
-    .overflowPortraitCard {
-        width: 23vw;
-    }
-
-    .overflowBackdropCard {
-        width: 40vw;
-    }
-
-    .overflowSquareCard {
-        width: 23vw;
-    }
-}
-
-@media (orientation: portrait) and (min-width: 75em) {
-
-    .overflowPortraitCard {
-        width: 18vw;
-    }
-
-    .overflowSquareCard {
-        width: 18vw;
-    }
-}
-
-@media (orientation: portrait) and (min-width: 87.5em) {
-
-    .overflowPortraitCard {
-        width: 15vw;
-    }
-
-    .overflowSquareCard {
-        width: 15vw;
-    }
-
-    .overflowBackdropCard {
-        width: 30vw;
-    }
-}
-
-@media (orientation: portrait) and (min-width: 112.5em) {
-
-    .overflowBackdropCard {
-        width: 23.5vw;
+    .overflowBackdropCard, .overflowSmallBackdropCard {
+        width: 15.6vw;
     }
 }
 
