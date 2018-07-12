@@ -87,7 +87,7 @@
 
             if (selectedIndex === -1) {
 
-                selectedIndex = qualityOptions.length 1;
+                selectedIndex = qualityOptions.length - 1;
             }
 
             var currentQualityOption = qualityOptions[selectedIndex];
@@ -141,7 +141,7 @@
 
             if (selectedIndex === -1) {
 
-                selectedIndex = qualityOptions.length 1;
+                selectedIndex = qualityOptions.length - 1;
             }
 
             var currentQualityOption = qualityOptions[selectedIndex];
