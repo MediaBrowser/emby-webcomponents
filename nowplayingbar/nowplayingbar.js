@@ -547,7 +547,12 @@
         if (url !== currentImgUrl) {
             currentImgUrl = url;
             isRefreshing = true;
-            imageLoader.lazyImage(nowPlayingImageElement, url);
+
+            if (url) {
+                imageLoader.lazyImage(nowPlayingImageElement, url);
+            } else {
+                nowPlayingImageElement.style.backgroundImage = '';
+            }
         }
 
         if (nowPlayingItem.Id) {

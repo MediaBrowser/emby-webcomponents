@@ -287,6 +287,7 @@
         // TODO - this could vary per codec and should be done on the server using the entire profile
         var maxAudioSampleRate = null;
         var maxAudioBitDepth = null;
+        var maxAudioBitrate = null;
 
         deviceProfile.CodecProfiles.map(function (codecProfile) {
 
@@ -298,18 +299,22 @@
                     if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioSampleRate') {
                         maxAudioSampleRate = condition.Value;
                     }
+                    if (condition.Condition === 'LessThanEqual' && condition.Property === 'AudioBitrate') {
+                        maxAudioBitrate = condition.Value;
+                    }
                 });
             }
         });
 
         return {
             maxAudioSampleRate: maxAudioSampleRate,
-            maxAudioBitDepth: maxAudioBitDepth
+            maxAudioBitDepth: maxAudioBitDepth,
+            maxAudioBitrate: maxAudioBitrate
         };
     }
 
     var startingPlaySession = new Date().getTime();
-    function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxAudioSampleRate, maxAudioBitDepth, startPosition) {
+    function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxAudioSampleRate, maxAudioBitDepth, maxAudioBitrate, startPosition) {
 
         var url = 'Audio/' + item.Id + '/universal';
 
@@ -317,7 +322,7 @@
         return apiClient.getUrl(url, {
             UserId: apiClient.getCurrentUserId(),
             DeviceId: apiClient.deviceId(),
-            MaxStreamingBitrate: maxBitrate,
+            MaxStreamingBitrate: maxAudioBitrate || maxBitrate,
             Container: directPlayContainers,
             TranscodingContainer: transcodingProfile.Container || null,
             TranscodingProtocol: transcodingProfile.Protocol || null,
@@ -358,7 +363,7 @@
 
         var maxValues = getAudioMaxValues(deviceProfile);
 
-        return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
+        return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, maxValues.maxAudioBitrate, startPosition);
     }
 
     function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
@@ -394,7 +399,7 @@
             var streamUrl;
 
             if (item.MediaType === 'Audio' && !itemHelper.isLocalItem(item)) {
-                streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition);
+                streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, maxValues.maxAudioBitrate, startPosition);
             }
 
             streamUrls.push(streamUrl || '');
