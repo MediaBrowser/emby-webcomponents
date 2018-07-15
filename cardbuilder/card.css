@@ -637,13 +637,13 @@ button {
 
 @media (min-width: 25em) {
     .overflowPortraitCard {
-        width: 30.7vw;
+        width: 31.2vw;
     }
 }
 
 @media (min-width: 35em) {
     .overflowSquareCard {
-        width: 30.7vw;
+        width: 31.2vw;
     }
 }
 

@@ -543,22 +543,69 @@
             setCurrentTrackElement(index);
         };
 
+        function isAudioStreamSupported(stream, deviceProfile) {
+
+            var codec = (stream.Codec || '').toLowerCase();
+
+            if (!codec) {
+                return true;
+            }
+
+            if (!deviceProfile) {
+                // This should never happen
+                return true;
+            }
+
+            var profiles = deviceProfile.DirectPlayProfiles || [];
+
+            return profiles.filter(function (p) {
+
+
+                if (p.Type === 'Video') {
+
+                    if (!p.AudioCodec) {
+                        return true;
+                    }
+
+                    return p.AudioCodec.toLowerCase().indexOf(codec) !== -1;
+                }
+
+                return false;
+
+            }).length > 0;
+        }
+
+        function getSupportedAudioStreams() {
+            var profile = self._lastProfile;
+
+            return getMediaStreamAudioTracks(self._currentPlayOptions.mediaSource).filter(function (stream) {
+                return isAudioStreamSupported(stream, profile);
+            });
+        }
+
         self.setAudioStreamIndex = function (index) {
 
-            var audioStreams = getMediaStreamAudioTracks(self._currentPlayOptions.mediaSource);
+            var streams = getSupportedAudioStreams();
 
-            var audioTrackOffset = -1;
-            var i, length;
+            if (streams.length < 2) {
+                // If there's only one supported stream then trust that the player will handle it on it's own
+                return;
+            }
 
-            for (i = 0, length = audioStreams.length; i < length; i++) {
+            var audioIndex = -1;
+            var i, length, stream;
 
-                if (audioStreams[i].Index === index) {
-                    audioTrackOffset = i;
+            for (i = 0, length = streams.length; i < length; i++) {
+                stream = streams[i];
+
+                audioIndex++;
+
+                if (stream.Index === index) {
                     break;
                 }
             }
 
-            if (audioTrackOffset === -1) {
+            if (audioIndex === -1) {
                 return;
             }
 
@@ -570,9 +617,11 @@
             // https://msdn.microsoft.com/en-us/library/hh772507(v=vs.85).aspx
 
             var elemAudioTracks = elem.audioTracks || [];
+            console.log('found ' + elemAudioTracks.length + ' audio tracks');
+
             for (i = 0, length = elemAudioTracks.length; i < length; i++) {
 
-                if (audioTrackOffset === i) {
+                if (audioIndex === i) {
                     console.log('setting audio track ' + i + ' to enabled');
                     elemAudioTracks[i].enabled = true;
                 } else {
@@ -1373,12 +1422,20 @@
 
     HtmlVideoPlayer.prototype.getDeviceProfile = function (item, options) {
 
+        var instance = this;
+        return getDeviceProfileInternal(item, options).then(function (profile) {
+            instance._lastProfile = profile;
+            return profile;
+        });
+    };
+
+    function getDeviceProfileInternal(item, options) {
         if (appHost.getDeviceProfile) {
             return appHost.getDeviceProfile(item, options);
         }
 
         return getDefaultProfile();
-    };
+    }
 
     var supportedFeatures;
     function getSupportedFeatures() {
@@ -1455,7 +1512,7 @@
 
     HtmlVideoPlayer.prototype.canSetAudioStreamIndex = function (index) {
 
-        if (browser.tizen || browser.orsay || browser.edge || browser.msie) {
+        if (browser.tizen || browser.orsay || browser.edge || browser.msie || browser.web0s || (browser.chrome && browser.windows)) {
             return true;
         }
 

@@ -190,6 +190,7 @@
 
         var platform_match = /(ipad)/.exec(ua) ||
             /(iphone)/.exec(ua) ||
+            /(windows)/.exec(ua) ||
             /(android)/.exec(ua) ||
             [];
 
