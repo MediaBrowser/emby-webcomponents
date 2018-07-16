@@ -129,7 +129,7 @@
         // Convert the search hint query to a regular item query
         if (apiClient.isMinServerVersion('3.4.1.31')) {
 
-            query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo';
+            query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount';
             query.Recursive = true;
             query.EnableTotalRecordCount = false;
             query.ImageTypeLimit = 1;

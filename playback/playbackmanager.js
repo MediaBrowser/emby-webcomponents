@@ -1361,6 +1361,52 @@
             return getPlayerData(player).audioStreamIndex;
         };
 
+        function isAudioStreamSupported(mediaSource, index, deviceProfile) {
+
+            var mediaStream;
+            var i, length;
+            var mediaStreams = mediaSource.MediaStreams;
+
+            for (i = 0, length = mediaStreams.length; i < length; i++) {
+                if (mediaStreams[i].Type === 'Audio' && mediaStreams[i].Index === index) {
+                    mediaStream = mediaStreams[i];
+                    break;
+                }
+            }
+
+            if (!mediaStream) {
+                return false;
+            }
+
+            var codec = (mediaStream.Codec || '').toLowerCase();
+
+            if (!codec) {
+                return false;
+            }
+
+            var profiles = deviceProfile.DirectPlayProfiles || [];
+
+            return profiles.filter(function (p) {
+
+                if (p.Type === 'Video') {
+
+                    if (!p.AudioCodec) {
+                        return true;
+                    }
+
+                    // This is an exclusion filter
+                    if (p.AudioCodec.indexOf('-') === 0) {
+                        return p.AudioCodec.toLowerCase().indexOf(codec) === -1;
+                    }
+
+                    return p.AudioCodec.toLowerCase().indexOf(codec) !== -1;
+                }
+
+                return false;
+
+            }).length > 0;
+        }
+
         self.setAudioStreamIndex = function (index, player) {
 
             player = player || self._currentPlayer;
@@ -1374,8 +1420,19 @@
                 getPlayerData(player).audioStreamIndex = index;
 
             } else {
-                player.setAudioStreamIndex(index);
-                getPlayerData(player).audioStreamIndex = index;
+
+                // See if the player supports the track without transcoding
+                player.getDeviceProfile(self.currentItem(player)).then(function (profile) {
+
+                    if (isAudioStreamSupported(self.currentMediaSource(player), index, profile)) {
+                        player.setAudioStreamIndex(index);
+                        getPlayerData(player).audioStreamIndex = index;
+                    }
+                    else {
+                        changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
+                        getPlayerData(player).audioStreamIndex = index;
+                    }
+                });
             }
         };
 

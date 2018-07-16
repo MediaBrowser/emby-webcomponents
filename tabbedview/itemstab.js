@@ -372,6 +372,7 @@
             IsUnplayed: userSettings.getFilter(basekey + '-filter-IsUnplayed') === 'true',
             IsFavorite: userSettings.getFilter(basekey + '-filter-IsFavorite') === 'true',
             IsResumable: userSettings.getFilter(basekey + '-filter-IsResumable') === 'true',
+            Is4K: userSettings.getFilter(basekey + '-filter-Is4K') === 'true',
             IsHD: userSettings.getFilter(basekey + '-filter-IsHD') === 'true',
             IsSD: userSettings.getFilter(basekey + '-filter-IsSD') === 'true',
             Is3D: userSettings.getFilter(basekey + '-filter-Is3D') === 'true',
