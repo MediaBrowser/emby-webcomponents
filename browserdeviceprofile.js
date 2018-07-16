@@ -732,7 +732,7 @@ define(['browser'], function (browser) {
 
         profile.CodecProfiles = [];
 
-        var supportsSecondaryAudio = browser.tizen || browser.orsay || browser.edge || browser.msie || browser.web0s || (browser.chrome && browser.windows);
+        var supportsSecondaryAudio = browser.tizen || browser.orsay || videoTestElement.audioTracks;
 
         var aacCodecProfileConditions = [];
 

@@ -1512,8 +1512,15 @@
 
     HtmlVideoPlayer.prototype.canSetAudioStreamIndex = function (index) {
 
-        if (browser.tizen || browser.orsay || browser.edge || browser.msie || browser.web0s || (browser.chrome && browser.windows)) {
+        if (browser.tizen || browser.orsay) {
             return true;
+        }
+
+        var video = this._mediaElement;
+        if (video) {
+            if (video.audioTracks) {
+                return true;
+            }
         }
 
         return false;
