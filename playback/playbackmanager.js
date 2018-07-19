@@ -1847,7 +1847,7 @@
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: "Photo,Video",
-                    Limit: 500
+                    Limit: 5000
 
                 }).then(function (result) {
 
@@ -1878,7 +1878,6 @@
                     SortBy: options.shuffle ? 'Random' : 'SortName',
                     MediaTypes: "Photo,Video",
                     Limit: 1000
-
                 });
             }
             else if (firstItem.Type === "MusicGenre") {

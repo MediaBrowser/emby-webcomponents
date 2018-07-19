@@ -564,7 +564,7 @@
 
             // mobile safari doesn't allow contextmenu override
             if (browser.touch && !browser.safari) {
-                element.addEventListener('contextmenu', onTapHold);
+
             } else {
                 dom.addEventListener(element, 'touchstart', onTouchStart, {
                     passive: true

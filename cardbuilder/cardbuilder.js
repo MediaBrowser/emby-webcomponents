@@ -811,6 +811,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
             var titleAdded;
 
+            var serverId = item.ServerId || options.serverId;
+
             if (showOtherText) {
                 if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
 
@@ -819,7 +821,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         if (item.SeriesId) {
                             lines.push(getTextActionButton({
                                 Id: item.SeriesId,
-                                ServerId: item.ServerId,
+                                ServerId: serverId,
                                 Name: item.SeriesName,
                                 Type: 'Series',
                                 IsFolder: true
@@ -869,7 +871,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
                         item.AlbumArtists[0].Type = 'MusicArtist';
                         item.AlbumArtists[0].IsFolder = true;
-                        lines.push(getTextActionButton(item.AlbumArtists[0], null, item.ServerId));
+                        lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
                     } else {
                         lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || ""));
                     }
@@ -960,7 +962,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         lines.push(getTextActionButton({
 
                             Id: item.ChannelId,
-                            ServerId: item.ServerId,
+                            ServerId: serverId,
                             Name: item.ChannelName,
                             Type: 'TvChannel',
                             MediaType: item.MediaType,
@@ -1386,11 +1388,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var overlayButtons = '';
             if (layoutManager.mobile) {
 
-                var overlayPlayButton = options.overlayPlayButton;
+                //var overlayPlayButton = options.overlayPlayButton;
 
-                if (overlayPlayButton == null && !options.overlayMoreButton && !options.overlayInfoButton && !options.cardLayout) {
-                    overlayPlayButton = item.MediaType === 'Video';
-                }
+                //if (overlayPlayButton == null && !options.overlayMoreButton && !options.overlayInfoButton && !options.cardLayout) {
+                //    overlayPlayButton = item.MediaType === 'Video';
+                //}
 
                 var btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
@@ -1398,14 +1400,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
                 }
 
-                if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
-                }
+                //if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
+                //    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+                //}
 
-                if (options.overlayMoreButton) {
+                //if (options.overlayMoreButton) {
 
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon">&#xE5D3;</i></button>';
-                }
+                //    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon">&#xE5D3;</i></button>';
+                //}
             }
 
             if (options.showChildCountIndicator && item.ChildCount) {
@@ -1532,19 +1534,21 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var additionalCardContent = '';
 
             if (layoutManager.desktop) {
-                additionalCardContent += getHoverMenuHtml(item, action);
+                additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
             return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
-        function getHoverMenuHtml(item, action) {
+        function getHoverMenuHtml(item, action, options) {
 
             var html = '';
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
 
             var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction';
+
+            var serverId = item.ServerId || options.serverId;
 
             if (playbackManager.canPlay(item)) {
 
@@ -1564,7 +1568,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (itemHelper.canMarkPlayed(item)) {
 
                 require(['emby-playstatebutton']);
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5CA;</i></button>';
+                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + serverId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5CA;</i></button>';
             }
 
             if (itemHelper.canRate(item)) {
@@ -1572,7 +1576,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var likes = userData.Likes == null ? '' : userData.Likes;
 
                 require(['emby-ratingbutton']);
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
+                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + serverId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
             }
 
             html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5D3;</i></button>';

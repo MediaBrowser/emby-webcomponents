@@ -155,9 +155,9 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return false;
     }
 
-    function setCurrentTimeIfNeeded(element, seconds) {
+    function setCurrentTimeIfNeeded(element, seconds, allowance) {
 
-        if (Math.abs(element.currentTime || 0, seconds) <= 1) {
+        if (Math.abs((element.currentTime || 0) - seconds) >= allowance) {
             element.currentTime = seconds;
         }
     }
@@ -171,14 +171,11 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
             // Appending #t=xxx to the query string doesn't seem to work with HLS
             // For plain video files, not all browsers support it either
-            var delay = browser.safari ? 2500 : 0;
-            if (delay) {
-                setTimeout(function () {
-                    setCurrentTimeIfNeeded(element, seconds);
-                }, delay);
-            } else {
-                setCurrentTimeIfNeeded(element, seconds);
-            }
+            setCurrentTimeIfNeeded(element, seconds, 5);
+
+            setTimeout(function () {
+                setCurrentTimeIfNeeded(element, seconds, 10);
+            }, 2500);
         }
     }
 

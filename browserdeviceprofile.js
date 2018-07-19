@@ -212,15 +212,15 @@ define(['browser'], function (browser) {
         switch (container) {
 
             case 'asf':
-                supported = browser.tizen || browser.orsay || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.edgeUwp || browser.web0s;
                 videoAudioCodecs = [];
                 break;
             case 'avi':
-                supported = browser.tizen || browser.orsay || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.edgeUwp || browser.web0s;
                 break;
             case 'mpg':
             case 'mpeg':
-                supported = browser.edgeUwp || browser.tizen || browser.orsay;
+                supported = browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
                 break;
             case 'flv':
                 supported = browser.tizen || browser.orsay;
@@ -229,6 +229,8 @@ define(['browser'], function (browser) {
                 //}
                 break;
             case '3gp':
+                supported = browser.tizen || browser.orsay || browser.web0s;
+                break;
             case 'mts':
             case 'trp':
             case 'vob':
@@ -236,7 +238,7 @@ define(['browser'], function (browser) {
                 supported = browser.tizen || browser.orsay;
                 break;
             case 'mov':
-                supported = browser.tizen || browser.orsay || browser.chrome || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.chrome || browser.edgeUwp || browser.web0s;
                 videoCodecs.push('h264');
                 break;
             case 'm2ts':

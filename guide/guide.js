@@ -449,7 +449,7 @@
             return '<i class="md-icon programIcon timerIcon">&#xE061;</i>';
         }
 
-        function getChannelProgramsHtml(context, date, channel, programs, options, listInfo) {
+        function getChannelProgramsHtml(context, apiClient, date, channel, programs, options, listInfo) {
 
             var html = '';
 
@@ -469,6 +469,8 @@
             var displayKidsContent = !categories.length || categories.indexOf('kids') !== -1;
             var displaySeriesContent = !categories.length || categories.indexOf('series') !== -1;
             var enableColorCodedBackgrounds = userSettings.get('guide-colorcodedbackgrounds') === 'true';
+
+            var enableLegacyIsNewCheck = !apiClient.isMinServerVersion('3.6.0.0');
 
             var programsFound;
             var now = new Date().getTime();
@@ -573,10 +575,10 @@
                     else if (program.IsPremiere && options.showPremiereIndicator) {
                         indicatorHtml = '<span class="premiereTvProgram guideProgramIndicator">' + globalize.translate('sharedcomponents#Premiere') + '</span>';
                     }
-                    else if (program.IsSeries && !program.IsRepeat && options.showNewIndicator) {
+                    else if (options.showNewIndicator && (program.IsNew || (enableLegacyIsNewCheck && program.IsSeries && !program.IsRepeat))) {
                         indicatorHtml = '<span class="newTvProgram guideProgramIndicator">' + globalize.translate('sharedcomponents#AttributeNew') + '</span>';
                     }
-                    else if (program.IsSeries && program.IsRepeat && options.showRepeatIndicator) {
+                    else if (program.IsRepeat && options.showRepeatIndicator) {
                         indicatorHtml = '<span class="repeatTvProgram guideProgramIndicator">' + globalize.translate('sharedcomponents#Repeat') + '</span>';
                     }
                     html += indicatorHtml || '';
@@ -670,7 +672,7 @@
             imageLoader.lazyChildren(channelList);
         }
 
-        function renderPrograms(context, date, channels, programs, options) {
+        function renderPrograms(context, apiClient, date, channels, programs, options) {
 
             var listInfo = {
                 startIndex: 0
@@ -680,7 +682,7 @@
 
             for (var i = 0, length = channels.length; i < length; i++) {
 
-                html.push(getChannelProgramsHtml(context, date, channels[i], programs, options, listInfo));
+                html.push(getChannelProgramsHtml(context, apiClient, date, channels[i], programs, options, listInfo));
             }
 
             programGrid.innerHTML = html.join('');
@@ -728,7 +730,7 @@
             var endDate = new Date(startDate.getTime() + msPerDay);
             context.querySelector('.timeslotHeaders').innerHTML = getTimeslotHeadersHtml(startDate, endDate);
             items = {};
-            renderPrograms(context, date, channels, programs, renderOptions);
+            renderPrograms(context, apiClient, date, channels, programs, renderOptions);
 
             if (focusProgramOnRender) {
                 focusProgram(context, itemId, channelRowId, focusToTimeMs, startTimeOfDayMs);

@@ -279,7 +279,19 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canRate: function (item) {
 
-            if (item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'SeriesTimer' || item.Type === 'CollectionFolder' || item.Type === 'UserView' || item.Type === 'Channel') {
+            if (item.Type === 'Program' ||
+                item.Type === 'Timer' ||
+                item.Type === 'SeriesTimer' ||
+                item.Type === 'CollectionFolder' ||
+                item.Type === 'UserView' ||
+                item.Type === 'Channel' ||
+                item.Type === 'Season' ||
+                item.Type === 'Studio') {
+                return false;
+            }
+
+            // Could be a stub object like PersonInfo
+            if (!item.UserData) {
                 return false;
             }
 
