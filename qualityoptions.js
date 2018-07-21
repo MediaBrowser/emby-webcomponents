@@ -15,6 +15,8 @@
             qualityOptions.push({ name: '4K - 120 Mbps', maxHeight: 2160, bitrate: 120000000 });
             qualityOptions.push({ name: '4K - 100 Mbps', maxHeight: 2160, bitrate: 100000000 });
             qualityOptions.push({ name: '4K - 80 Mbps', maxHeight: 2160, bitrate: 80000000 });
+            qualityOptions.push({ name: '4K - 60 Mbps', maxHeight: 2160, bitrate: 60000001 });
+            qualityOptions.push({ name: '4K - 40 Mbps', maxHeight: 2160, bitrate: 40000001 });
         }
 
         // Some 1080- videos are reported as 1912?

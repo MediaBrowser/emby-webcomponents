@@ -800,12 +800,6 @@ define(['browser'], function (browser) {
             Codec: 'h264',
             Conditions: [
                 {
-                    Condition: 'NotEquals',
-                    Property: 'IsAnamorphic',
-                    Value: 'true',
-                    IsRequired: false
-                },
-                {
                     Condition: 'EqualsAny',
                     Property: 'VideoProfile',
                     Value: h264Profiles
