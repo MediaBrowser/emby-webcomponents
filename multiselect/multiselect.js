@@ -562,9 +562,8 @@
 
         function initTapHold(element) {
 
-            // mobile safari doesn't allow contextmenu override
-            if (browser.touch && !browser.safari) {
-
+            if (browser.iOS || browser.touch) {
+                // We're using this for the context menu here
             } else {
                 dom.addEventListener(element, 'touchstart', onTouchStart, {
                     passive: true

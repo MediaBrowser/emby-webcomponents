@@ -328,12 +328,140 @@
         this.classList.add('itemsContainer');
     };
 
+    function getTouches(e) {
+
+        return e.changedTouches || e.targetTouches || e.touches;
+    }
+
+    var touchTarget;
+    function onTouchStart(e) {
+
+        var touch = getTouches(e)[0];
+        touchTarget = null;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+
+        if (touch) {
+            this.touchStartX = touch.clientX;
+            this.touchStartY = touch.clientY;
+            var element = touch.target;
+
+            if (element) {
+                var card = dom.parentWithClass(element, 'card');
+
+                if (card) {
+
+                    if (this.touchStartTimeout) {
+                        clearTimeout(this.touchStartTimeout);
+                        this.touchStartTimeout = null;
+                    }
+
+                    touchTarget = card;
+                    this.touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
+                }
+            }
+        }
+    }
+
+    function onTouchMove(e) {
+
+        if (touchTarget) {
+            var touch = getTouches(e)[0];
+            var deltaX;
+            var deltaY;
+
+            if (touch) {
+                var touchEndX = touch.clientX || 0;
+                var touchEndY = touch.clientY || 0;
+                deltaX = Math.abs(touchEndX - (this.touchStartX || 0));
+                deltaY = Math.abs(touchEndY - (this.touchStartY || 0));
+            } else {
+                deltaX = 100;
+                deltaY = 100;
+            }
+            if (deltaX >= 5 || deltaY >= 5) {
+                onMouseOut.call(this, e);
+            }
+        }
+    }
+
+    function onTouchEnd(e) {
+
+        onMouseOut.call(this, e);
+    }
+
+    function onMouseDown(e) {
+
+        if (this.touchStartTimeout) {
+            clearTimeout(this.touchStartTimeout);
+            this.touchStartTimeout = null;
+        }
+
+        touchTarget = e.target;
+        this.touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
+    }
+
+    function onMouseOut(e) {
+
+        if (this.touchStartTimeout) {
+            clearTimeout(this.touchStartTimeout);
+            this.touchStartTimeout = null;
+        }
+        touchTarget = null;
+    }
+
+    function onTouchStartTimerFired() {
+
+        if (!touchTarget) {
+            return;
+        }
+
+        var card = dom.parentWithClass(touchTarget, 'card');
+        touchTarget = null;
+
+        if (card) {
+
+            var emptyFn = function () { };
+            onContextMenu.call(card, { target: card, preventDefault: emptyFn, stopPropagation: emptyFn });
+        }
+    }
+
+    function bindContextMenuEvents(element) {
+
+        // mobile safari doesn't allow contextmenu override
+        if (!browser.iOS) {
+            element.addEventListener('contextmenu', onContextMenu);
+        } else {
+            dom.addEventListener(element, 'touchstart', onTouchStart, {
+                passive: true
+            });
+            dom.addEventListener(element, 'touchmove', onTouchMove, {
+                passive: true
+            });
+            dom.addEventListener(element, 'touchend', onTouchEnd, {
+                passive: true
+            });
+            dom.addEventListener(element, 'touchcancel', onTouchEnd, {
+                passive: true
+            });
+            dom.addEventListener(element, 'mousedown', onMouseDown, {
+                passive: true
+            });
+            dom.addEventListener(element, 'mouseleave', onMouseOut, {
+                passive: true
+            });
+            dom.addEventListener(element, 'mouseup', onMouseOut, {
+                passive: true
+            });
+        }
+    }
+
     ItemsContainerProtoType.attachedCallback = function () {
 
         this.addEventListener('click', onClick);
 
         if (this.getAttribute('data-contextmenu') !== 'false') {
-            this.addEventListener('contextmenu', onContextMenu);
+            bindContextMenuEvents(this);
         }
 
         if (layoutManager.desktop || layoutManager.mobile) {
