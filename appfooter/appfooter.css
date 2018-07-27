@@ -7,7 +7,3 @@
     transition: transform 180ms linear;
     contain: layout style;
 }
-
-    .appfooter.headroom--unpinned {
-        transform: translateY(100%)!important;
-    }

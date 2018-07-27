@@ -3,6 +3,10 @@
 
     function parseISO8601Date(s, toLocal) {
 
+        if (Date.parse) {
+            return new Date(Date.parse(s));
+        }
+
         // parenthese matches:
         // year month day    hours minutes seconds
         // dotmilliseconds

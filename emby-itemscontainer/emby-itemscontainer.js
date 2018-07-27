@@ -354,10 +354,12 @@
                     if (this.touchStartTimeout) {
                         clearTimeout(this.touchStartTimeout);
                         this.touchStartTimeout = null;
+                        this.touchStartTimeoutTime = null;
                     }
 
                     touchTarget = card;
                     this.touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
+                    this.touchStartTimeoutTime = new Date().getTime();
                 }
             }
         }
@@ -387,6 +389,22 @@
 
     function onTouchEnd(e) {
 
+        var touch = getTouches(e)[0];
+
+        if (touch) {
+
+            var time = this.touchStartTimeoutTime;
+
+            if (time) {
+
+                time = new Date().getTime() - time;
+
+                if (time >= 500) {
+                    e.preventDefault();
+                }
+            }
+        }
+
         onMouseOut.call(this, e);
     }
 
@@ -395,10 +413,12 @@
         if (this.touchStartTimeout) {
             clearTimeout(this.touchStartTimeout);
             this.touchStartTimeout = null;
+            this.touchStartTimeoutTime = null;
         }
 
         touchTarget = e.target;
         this.touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
+        this.touchStartTimeoutTime = new Date().getTime();
     }
 
     function onMouseOut(e) {
@@ -406,6 +426,7 @@
         if (this.touchStartTimeout) {
             clearTimeout(this.touchStartTimeout);
             this.touchStartTimeout = null;
+            this.touchStartTimeoutTime = null;
         }
         touchTarget = null;
     }
@@ -422,6 +443,18 @@
         if (card) {
 
             var emptyFn = function () { };
+
+            var focusArea = card.querySelector('.cardContent-mobilefocus');
+            if (focusArea) {
+
+                try {
+                    focusArea.focus();
+                }
+                catch (err) {
+                    console.log('error focusing card mobilefocus');
+                }
+            }
+
             onContextMenu.call(card, { target: card, preventDefault: emptyFn, stopPropagation: emptyFn });
         }
     }
@@ -439,10 +472,10 @@
                 passive: true
             });
             dom.addEventListener(element, 'touchend', onTouchEnd, {
-                passive: true
+                //passive: true
             });
             dom.addEventListener(element, 'touchcancel', onTouchEnd, {
-                passive: true
+                //passive: true
             });
             dom.addEventListener(element, 'mousedown', onMouseDown, {
                 passive: true

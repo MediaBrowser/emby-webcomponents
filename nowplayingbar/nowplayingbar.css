@@ -79,10 +79,6 @@
     z-index: 1;
 }
 
-.headroom--unpinned .nowPlayingBarPositionContainer {
-    display: none;
-}
-
 .noMediaProgress .nowPlayingBarPositionContainer {
     display: none;
 }

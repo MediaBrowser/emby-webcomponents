@@ -1,11 +1,15 @@
 .headroom {
-    transition: transform 140ms linear;
+    transition: transform 140ms ease-out;
 }
 
 .headroom--pinned {
     transform: none;
 }
 
-.headroom--unpinned:not(.headroomDisabled) {
+.headroomDisabled {
+    transform: none !important;
+}
+
+.headroom--unpinned {
     transform: translateY(-100%);
 }

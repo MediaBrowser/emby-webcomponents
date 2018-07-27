@@ -47,7 +47,12 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
     };
 
     function onHeadroomClearedExternally() {
-        this.state = null;
+        this.transform = null;
+    }
+
+    function onHeadroomForceClearedExternally() {
+        this.transform = null;
+        this.setTransform('none');
     }
 
     /**
@@ -59,22 +64,17 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
    * @param {Object} options options for the widget
    */
     function Headroom(elems, options) {
-        options = Object.assign(Headroom.options, options || {});
+
+        options = options || {};
 
         this.lastKnownScrollY = 0;
         this.elems = elems;
 
-        this.scroller = options.scroller;
+        this.scroller = options.scroller || window;
 
         this.debouncer = onScroll.bind(this);
         this.offset = options.offset;
         this.initialised = false;
-
-        this.initialClass = options.initialClass;
-        this.unPinnedClass = options.unPinnedClass;
-        this.pinnedClass = options.pinnedClass;
-
-        this.state = 'clear';
     }
 
     function onScroll() {
@@ -94,10 +94,14 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          */
         init: function () {
 
+            this.onHeadroomClearedExternallyFn = onHeadroomClearedExternally.bind(this);
+            this.onHeadroomForceClearedExternallyFn = onHeadroomForceClearedExternally.bind(this);
+
             if (browser.supportsCssAnimation()) {
                 for (var i = 0, length = this.elems.length; i < length; i++) {
-                    this.elems[i].classList.add(this.initialClass);
-                    this.elems[i].addEventListener('clearheadroom', onHeadroomClearedExternally.bind(this));
+
+                    var elem = this.elems[i];
+                    this.initElem(elem);
                 }
 
                 this.attachEvent();
@@ -109,17 +113,30 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         add: function (elem) {
 
             if (browser.supportsCssAnimation()) {
-                elem.classList.add(this.initialClass);
-                elem.addEventListener('clearheadroom', onHeadroomClearedExternally.bind(this));
+                this.initElem(elem);
                 this.elems.push(elem);
             }
         },
 
+        initElem: function (elem) {
+            elem.classList.add('headroom');
+
+            var onHeadroomClearedExternallyFn = this.onHeadroomClearedExternallyFn;
+            var onHeadroomForceClearedExternallyFn = this.onHeadroomForceClearedExternallyFn;
+
+            elem.addEventListener('clearheadroom', onHeadroomClearedExternallyFn);
+            elem.addEventListener('forceclearheadroom', onHeadroomForceClearedExternallyFn);
+        },
+
         remove: function (elem) {
 
-            elem.classList.remove(this.unPinnedClass);
-            elem.classList.remove(this.initialClass);
-            elem.classList.remove(this.pinnedClass);
+            elem.classList.remove('headroom');
+
+            var onHeadroomClearedExternallyFn = this.onHeadroomClearedExternallyFn;
+            var onHeadroomForceClearedExternallyFn = this.onHeadroomForceClearedExternallyFn;
+
+            elem.removeEventListener('clearheadroom', onHeadroomClearedExternallyFn);
+            elem.removeEventListener('forceclearheadroom', onHeadroomForceClearedExternallyFn);
 
             var i = this.elems.indexOf(elem);
             if (i !== -1) {
@@ -146,9 +163,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
                 var classList = this.elems[i].classList;
 
-                classList.remove(this.unPinnedClass);
-                classList.remove(this.initialClass);
-                classList.remove(this.pinnedClass);
+                classList.remove('headroom');
             }
 
             var scrollEventName = this.scroller.getScrollEventName ? this.scroller.getScrollEventName() : 'scroll';
@@ -179,69 +194,20 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             }
         },
 
-        /**
-         * Unpins the header if it's currently pinned
-         */
-        clear: function () {
+        setTransform: function (value) {
 
-            if (this.state === 'clear') {
+            if (value === this.transform) {
                 return;
             }
 
-            this.state = 'clear';
+            this.transform = value;
 
-            var unpinnedClass = this.unPinnedClass;
-            var pinnedClass = this.pinnedClass;
+            var elems = this.elems;
+            for (var i = 0, length = elems.length; i < length; i++) {
 
-            for (var i = 0, length = this.elems.length; i < length; i++) {
-                var classList = this.elems[i].classList;
+                var elem = elems[i];
 
-                classList.remove(unpinnedClass);
-                //classList.remove(pinnedClass);
-            }
-        },
-
-        /**
-         * Unpins the header if it's currently pinned
-         */
-        pin: function () {
-
-            if (this.state === 'pin') {
-                return;
-            }
-
-            this.state = 'pin';
-
-            var unpinnedClass = this.unPinnedClass;
-            var pinnedClass = this.pinnedClass;
-
-            for (var i = 0, length = this.elems.length; i < length; i++) {
-                var classList = this.elems[i].classList;
-
-                classList.remove(unpinnedClass);
-                classList.add(pinnedClass);
-            }
-        },
-
-        /**
-         * Unpins the header if it's currently pinned
-         */
-        unpin: function () {
-
-            if (this.state === 'unpin') {
-                return;
-            }
-
-            this.state = 'unpin';
-
-            var unpinnedClass = this.unPinnedClass;
-            var pinnedClass = this.pinnedClass;
-
-            for (var i = 0, length = this.elems.length; i < length; i++) {
-                var classList = this.elems[i].classList;
-
-                classList.add(unpinnedClass);
-                //classList.remove(pinnedClass);
+                elem.style.transform = value;
             }
         },
 
@@ -284,18 +250,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         },
 
         /**
-         * determine if it is appropriate to pin
-         * @param  {int} currentScrollY the current y scroll position
-         * @return {bool} true if should pin, false otherwise
-         */
-        shouldPin: function (currentScrollY) {
-            var scrollingUp = currentScrollY < this.lastKnownScrollY,
-                pastOffset = currentScrollY <= this.offset;
-
-            return scrollingUp || pastOffset;
-        },
-
-        /**
          * Handles updating the state of the widget
          */
         update: function () {
@@ -310,38 +264,23 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             var isTv = layoutManager.tv;
 
-            if (currentScrollY <= (isTv ? 120 : 10)) {
-                this.clear();
-            }
-            else if (this.shouldUnpin(currentScrollY)) {
-                this.unpin();
-            }
-            else if (this.shouldPin(currentScrollY)) {
+            var max = isTv ? 130 : 90;
 
-                var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 14;
+            if (currentScrollY <= (isTv ? (max || 170) : 0)) {
+                this.setTransform('none');
+            }
+            else if (!isTv && currentScrollY < lastKnownScrollY) {
+                this.setTransform('none');
+            }
+            else {
 
-                if (currentScrollY && isTv) {
-                    this.unpin();
-                } else if (toleranceExceeded) {
-                    this.clear();
-                }
-            } else if (isTv) {
-                //this.clear();
+                var transformValue = Math.min(max || currentScrollY, currentScrollY);
+
+                this.setTransform('translateY(-' + transformValue + 'px)');
             }
 
             this.lastKnownScrollY = currentScrollY;
         }
-    };
-    /**
-     * Default options
-     * @type {Object}
-     */
-    Headroom.options = {
-        offset: 0,
-        scroller: window,
-        initialClass: 'headroom',
-        unPinnedClass: 'headroom--unpinned',
-        pinnedClass: 'headroom--pinned'
     };
 
     return Headroom;

@@ -1263,11 +1263,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += " " + options.cardClass;
             }
 
-            if (layoutManager.desktop) {
+            var isLayoutTv = layoutManager.tv;
+            var isLayoutDesktop = layoutManager.desktop;
+            var isLayoutMobile = layoutManager.mobile;
+
+            if (isLayoutDesktop) {
                 className += ' card-hoverable';
             }
 
-            if (!enableFocusTransfrom || !layoutManager.tv) {
+            if (!enableFocusTransfrom || !isLayoutTv) {
                 className += ' card-nofocustransform';
             }
 
@@ -1303,7 +1307,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
 
-            if (layoutManager.tv) {
+            if (isLayoutTv) {
 
                 if (enableFocusTransfrom) {
                     cardBoxClass += ' cardBox-focustransform cardBox-withfocuscontent';
@@ -1386,7 +1390,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var overlayButtons = '';
-            if (layoutManager.mobile) {
+            if (isLayoutMobile) {
 
                 //var overlayPlayButton = options.overlayPlayButton;
 
@@ -1425,13 +1429,18 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardContentClass += ' cardContent-shadow';
             }
 
-            if (layoutManager.tv) {
+            if (isLayoutTv) {
 
                 // Don't use the IMG tag with safari because it puts a white border around it
                 cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
                 cardImageContainerClose = '</div>';
             } else {
+
+                if (isLayoutMobile) {
+                    cardImageContainerClass += ' cardContent-mobilefocus';
+                }
+
                 // Don't use the IMG tag with safari because it puts a white border around it
                 cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction lazy" data-src="' + imgUrl + '">') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
@@ -1440,7 +1449,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var cardScalableClass = 'cardScalable';
 
-            if (layoutManager.tv && !options.cardLayout) {
+            if (isLayoutTv && !options.cardLayout) {
 
                 cardScalableClass += ' card-focuscontent';
 
@@ -1492,7 +1501,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerOpen += getCardDefaultText(item, options);
             }
 
-            var tagName = (layoutManager.tv) && !overlayButtons ? 'button' : 'div';
+            var tagName = (isLayoutTv) && !overlayButtons ? 'button' : 'div';
 
             var nameWithPrefix = (item.SortName || item.Name || '');
             var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
@@ -1533,7 +1542,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var additionalCardContent = '';
 
-            if (layoutManager.desktop) {
+            if (isLayoutDesktop) {
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 

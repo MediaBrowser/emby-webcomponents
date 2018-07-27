@@ -67,7 +67,15 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
         }
 
         var apiClient = connectionManager.getApiClient(item.ServerId);
-        apiClient.getThemeMedia(apiClient.getCurrentUserId(), item.Id, true).then(function (themeMediaResult) {
+
+        apiClient.getThemeMedia(item.Id, {
+
+            UserId: apiClient.getCurrentUserId(),
+            InheritFromParent: true,
+            EnableThemeSongs: userSettings.enableThemeSongs(),
+            EnableThemeVideos: userSettings.enableThemeVideos()
+
+        }).then(function (themeMediaResult) {
 
             var ownerId = themeMediaResult.ThemeVideosResult.Items.length ? themeMediaResult.ThemeVideosResult.OwnerId : themeMediaResult.ThemeSongsResult.OwnerId;
 
