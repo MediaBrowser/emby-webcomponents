@@ -10,7 +10,7 @@ define(['dom', 'fullscreenManager'], function (dom, fullscreenManager) {
         return true;
     }
 
-    dom.addEventListener(window, 'dblclick', function (e) {
+    dom.addEventListener(document.querySelector('.skinHeader'), 'dblclick', function (e) {
 
         if (isTargetValid(e.target)) {
             if (fullscreenManager.isFullScreen()) {

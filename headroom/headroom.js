@@ -52,7 +52,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
     function onHeadroomForceClearedExternally() {
         this.transform = null;
-        this.setTransform('none');
+        this.setTransform(0);
     }
 
     /**
@@ -194,13 +194,22 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             }
         },
 
-        setTransform: function (value) {
+        setTransform: function (value, currentScrollY) {
 
             if (value === this.transform) {
                 return;
             }
 
             this.transform = value;
+
+            if (value === 0) {
+                value = 'none';
+            }
+            else if (value === 1) {
+                value = 'translateY(-100%)';
+            }
+
+            //console.log(value + '-' + currentScrollY);
 
             var elems = this.elems;
             for (var i = 0, length = elems.length; i < length; i++) {
@@ -258,25 +267,31 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 return;
             }
 
-            var currentScrollY = this.getScrollY();
-
             var lastKnownScrollY = this.lastKnownScrollY;
 
             var isTv = layoutManager.tv;
 
             var max = isTv ? 130 : 90;
 
-            if (currentScrollY <= (isTv ? (max || 170) : 0)) {
-                this.setTransform('none');
+            var currentScrollY = this.getScrollY()
+
+            if (currentScrollY <= (isTv ? max : 0)) {
+                this.setTransform(0, currentScrollY);
             }
             else if (!isTv && currentScrollY < lastKnownScrollY) {
-                this.setTransform('none');
+                this.setTransform(0, currentScrollY);
             }
             else {
 
-                var transformValue = Math.min(max || currentScrollY, currentScrollY);
+                var transformValue = currentScrollY;
 
-                this.setTransform('translateY(-' + transformValue + 'px)');
+                if (transformValue <= 0) {
+                    transformValue = 0;
+                } else if (transformValue >= max) {
+                    transformValue = 1;
+                }
+
+                this.setTransform(transformValue, currentScrollY);
             }
 
             this.lastKnownScrollY = currentScrollY;

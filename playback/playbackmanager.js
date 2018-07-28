@@ -2114,7 +2114,13 @@
                 throw new Error('player cannot be null');
             }
 
-            var playerTime = Math.floor(10000 * (player || self._currentPlayer).currentTime());
+            var playerTime;
+
+            if (player.isLocalPlayer) {
+                playerTime = Math.floor(10000 * player.currentTime());
+            } else {
+                playerTime = Math.floor(player.currentTime());
+            }
 
             var streamInfo = getPlayerData(player).streamInfo;
             if (streamInfo) {
