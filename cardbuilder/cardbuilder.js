@@ -1438,7 +1438,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             } else {
 
                 if (isLayoutMobile) {
-                    cardImageContainerClass += ' cardContent-mobilefocus';
+                    className += ' card-touchzoom';
                 }
 
                 // Don't use the IMG tag with safari because it puts a white border around it

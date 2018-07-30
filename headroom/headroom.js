@@ -273,7 +273,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             var max = isTv ? 130 : 90;
 
-            var currentScrollY = this.getScrollY()
+            var currentScrollY = this.getScrollY();
 
             if (currentScrollY <= (isTv ? max : 0)) {
                 this.setTransform(0, currentScrollY);

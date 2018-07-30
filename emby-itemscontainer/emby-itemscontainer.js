@@ -333,11 +333,46 @@
         return e.changedTouches || e.targetTouches || e.touches;
     }
 
+    function clearTouchStartTimeout(elem) {
+        if (elem.touchStartTimeout) {
+            clearTimeout(elem.touchStartTimeout);
+            elem.touchStartTimeout = null;
+            elem.touchStartTimeoutTime = null;
+        }
+    }
+
     var touchTarget;
+
+    function clearTouchTarget(container) {
+
+        var target = touchTarget;
+
+        if (!target) {
+            return;
+        }
+
+        touchTarget = null;
+
+        target.classList.remove('card-touchzoomactive');
+
+        dom.removeEventListener(container, 'touchmove', onTouchMove, {
+            passive: true
+        });
+
+        if (!browser.iOS) {
+            dom.removeEventListener(container, 'touchend', onTouchEnd, {
+                passive: true
+            });
+            dom.removeEventListener(container, 'touchcancel', onTouchEnd, {
+                passive: true
+            });
+        }
+    }
+
     function onTouchStart(e) {
 
         var touch = getTouches(e)[0];
-        touchTarget = null;
+        clearTouchTarget(this);
         this.touchStartX = 0;
         this.touchStartY = 0;
 
@@ -351,10 +386,21 @@
 
                 if (card) {
 
-                    if (this.touchStartTimeout) {
-                        clearTimeout(this.touchStartTimeout);
-                        this.touchStartTimeout = null;
-                        this.touchStartTimeoutTime = null;
+                    clearTouchStartTimeout(this);
+
+                    card.classList.add('card-touchzoomactive');
+
+                    dom.addEventListener(this, 'touchmove', onTouchMove, {
+                        passive: true
+                    });
+
+                    if (!browser.iOS) {
+                        dom.addEventListener(this, 'touchend', onTouchEnd, {
+                            passive: true
+                        });
+                        dom.addEventListener(this, 'touchcancel', onTouchEnd, {
+                            passive: true
+                        });
                     }
 
                     touchTarget = card;
@@ -382,63 +428,39 @@
                 deltaY = 100;
             }
             if (deltaX >= 5 || deltaY >= 5) {
-                onMouseOut.call(this, e);
+                clearTouchStartTimeout(this);
+                clearTouchTarget(this);
             }
         }
     }
 
     function onTouchEnd(e) {
 
-        var touch = getTouches(e)[0];
+        if (browser.iOS) {
+            var touch = getTouches(e)[0];
 
-        if (touch) {
+            if (touch) {
 
-            var time = this.touchStartTimeoutTime;
+                var time = this.touchStartTimeoutTime;
 
-            if (time) {
+                if (time) {
 
-                time = new Date().getTime() - time;
+                    time = new Date().getTime() - time;
 
-                if (time >= 500) {
-                    e.preventDefault();
+                    if (time >= 500) {
+                        e.preventDefault();
+                    }
                 }
             }
         }
 
-        onMouseOut.call(this, e);
-    }
-
-    function onMouseDown(e) {
-
-        if (this.touchStartTimeout) {
-            clearTimeout(this.touchStartTimeout);
-            this.touchStartTimeout = null;
-            this.touchStartTimeoutTime = null;
-        }
-
-        touchTarget = e.target;
-        this.touchStartTimeout = setTimeout(onTouchStartTimerFired, 550);
-        this.touchStartTimeoutTime = new Date().getTime();
-    }
-
-    function onMouseOut(e) {
-
-        if (this.touchStartTimeout) {
-            clearTimeout(this.touchStartTimeout);
-            this.touchStartTimeout = null;
-            this.touchStartTimeoutTime = null;
-        }
-        touchTarget = null;
+        clearTouchStartTimeout(this);
+        clearTouchTarget(this);
     }
 
     function onTouchStartTimerFired() {
 
-        if (!touchTarget) {
-            return;
-        }
-
-        var card = dom.parentWithClass(touchTarget, 'card');
-        touchTarget = null;
+        var card = touchTarget;
 
         if (card) {
 
@@ -455,37 +477,32 @@
                 }
             }
 
-            onContextMenu.call(card, { target: card, preventDefault: emptyFn, stopPropagation: emptyFn });
+            // iOS doesn't support the context menu event so we have to trigger it manually here
+            if (browser.iOS) {
+                onContextMenu.call(card, { target: card, preventDefault: emptyFn, stopPropagation: emptyFn });
+            }
         }
     }
 
     function bindContextMenuEvents(element) {
 
         // mobile safari doesn't allow contextmenu override
-        if (!browser.iOS) {
-            element.addEventListener('contextmenu', onContextMenu);
-        } else {
+
+        element.addEventListener('contextmenu', onContextMenu);
+
+        if (browser.touch) {
             dom.addEventListener(element, 'touchstart', onTouchStart, {
                 passive: true
             });
-            dom.addEventListener(element, 'touchmove', onTouchMove, {
-                passive: true
-            });
-            dom.addEventListener(element, 'touchend', onTouchEnd, {
-                //passive: true
-            });
-            dom.addEventListener(element, 'touchcancel', onTouchEnd, {
-                //passive: true
-            });
-            dom.addEventListener(element, 'mousedown', onMouseDown, {
-                passive: true
-            });
-            dom.addEventListener(element, 'mouseleave', onMouseOut, {
-                passive: true
-            });
-            dom.addEventListener(element, 'mouseup', onMouseOut, {
-                passive: true
-            });
+
+            if (browser.iOS) {
+                dom.addEventListener(element, 'touchend', onTouchEnd, {
+                    //passive: true
+                });
+                dom.addEventListener(element, 'touchcancel', onTouchEnd, {
+                    //passive: true
+                });
+            }
         }
     }
 

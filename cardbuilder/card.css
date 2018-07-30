@@ -135,13 +135,14 @@ button {
     font-weight: inherit !important;
 }
 
-.cardContent-mobilefocus {
+.card-touchzoom {
     transition: transform 120ms ease-out;
+    transition-delay: 100ms;
 }
 
-    .cardContent-mobilefocus:focus {
-        transform: scale(.92);
-    }
+.card-touchzoomactive {
+    transform: scale(.92);
+}
 
 .btnCardOptions {
     position: absolute;
@@ -312,7 +313,7 @@ button {
 }
 
 .cardText {
-    padding: .06em .5em;
+    padding: .1em .5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -324,7 +325,7 @@ button {
 }
 
 .cardText-first {
-    padding-top: .24em;
+    padding-top: .3em;
 }
 
 .innerCardFooter > .cardText {
