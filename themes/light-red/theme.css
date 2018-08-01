@@ -168,7 +168,7 @@ html, .backgroundContainer {
 @supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
 
     .appfooter {
-        background: rgba(24,24,24,.7);
+        background: rgba(48,48,48,.7);
         -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
     }

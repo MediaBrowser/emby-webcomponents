@@ -137,7 +137,7 @@ html, .dialog, .backgroundContainer {
 @supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
 
     .appfooter {
-        background: rgba(24,24,24,.7);
+        background: rgba(34,34,34,.7);
         -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
     }

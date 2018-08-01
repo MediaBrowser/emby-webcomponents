@@ -20,8 +20,8 @@ html {
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
 
-    .skinHeader, .appfooter {
-        background: rgba(20,20,20,.7);
+    .appfooter {
+        background: rgba(12,36,80,.7);
         -webkit-backdrop-filter: blur(1.5em);
         backdrop-filter: blur(1.5em);
     }

@@ -8,8 +8,17 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.skinHeader-withBackground, .appfooter {
+.skinHeader-withBackground, .appfooter, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
     background-color: #222222;
+}
+
+@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
+
+    .appfooter {
+        background: rgba(34,34,34,.7);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+    }
 }
 
 .skinHeader.semiTransparent {
@@ -17,15 +26,6 @@ html {
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
-}
-
-@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
-
-    .skinHeader, .appfooter {
-        background: rgba(24,24,24,.7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
-    }
 }
 
 .pageTitleWithDefaultLogo {
@@ -82,7 +82,7 @@ html, .dialog, .backgroundContainer {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
+.paperList, .visualCardBox, .collapseContent {
     background-color: #242424;
 }
 
