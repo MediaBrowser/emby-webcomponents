@@ -85,10 +85,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             cardImageContainer += '<i class="md-icon cardImageIcon">local_movies</i>';
         }
 
-        var nameHtml = '';
-        nameHtml += '<div class="cardText">' + chapter.Name + '</div>';
-        nameHtml += '<div class="cardText">' + datetime.getDisplayRunningTime(chapter.StartPositionTicks) + '</div>';
-
         var cardBoxCssClass = 'cardBox';
         var cardScalableClass = 'cardScalable';
 
@@ -105,7 +101,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             }
         }
 
-        var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainer + '</div><div class="innerCardFooter">' + nameHtml + '</div></div></div></button>';
+        var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainer + '</div></div>';
+
+        html += '<div class="cardText cardTextCentered cardText-first">' + chapter.Name + '</div>';
+        html += '<div class="cardText cardTextCentered cardText-secondary">' + datetime.getDisplayRunningTime(chapter.StartPositionTicks) + '</div>';
+
+        html += '</div></button>';
 
         return html;
     }

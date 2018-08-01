@@ -279,7 +279,10 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 this.setTransform(0, currentScrollY);
             }
             else if (!isTv && currentScrollY < lastKnownScrollY) {
-                this.setTransform(0, currentScrollY);
+
+                if ((currentScrollY + 1) < lastKnownScrollY) {
+                    this.setTransform(0, currentScrollY);
+                }
             }
             else {
 

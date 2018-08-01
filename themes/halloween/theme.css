@@ -481,3 +481,8 @@ html, .backgroundContainer {
 .emby-button:focus:not(.btnUserViewHeader):not(.emby-tab-button) {
     background: #FF9100;
 }
+
+/* emby-slider */
+.emby-slider-background {
+    background: #333;
+}

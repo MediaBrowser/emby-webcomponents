@@ -149,6 +149,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     var themeStyleElement;
     var currentThemeId;
+    var currentThemeSettings;
     function unloadTheme() {
         var elem = themeStyleElement;
         if (elem) {
@@ -156,6 +157,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             elem.parentNode.removeChild(elem);
             themeStyleElement = null;
             currentThemeId = null;
+            currentThemeSettings = null;
         }
     }
 
@@ -222,6 +224,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         var embyWebComponentsBowerPath = 'bower_components/emby-webcomponents';
 
         return {
+            themeSettingsPath: 'text!' + require.toUrl('themes/' + selectedTheme.id + '/theme.json'),
             stylesheetPath: require.toUrl(embyWebComponentsBowerPath + '/themes/' + selectedTheme.id + '/theme.css'),
             themeId: selectedTheme.id
         };
@@ -272,20 +275,22 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         };
     }
 
-    function onThemeLoaded() {
+    function onThemeLoaded(themeInfo) {
+
         document.documentElement.classList.remove('preload');
 
+        require([themeInfo.themeSettingsPath], function (themeSettingsJson) {
 
-        try {
-            var color = getComputedStyle(document.querySelector('.skinHeader')).getPropertyValue("background-color");
+            currentThemeSettings = JSON.parse(themeSettingsJson);
 
-            if (color) {
-                appHost.setThemeColor(color);
+            try {
+
+                appHost.setTheme(currentThemeSettings);
             }
-        }
-        catch (err) {
-            console.log('Error setting theme color: ' + err);
-        }
+            catch (err) {
+                console.log('Error setting theme color: ' + err);
+            }
+        });
     }
 
     skinManager.setTheme = function (id, context) {
@@ -326,7 +331,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             link.setAttribute('type', 'text/css');
             link.onload = function () {
 
-                onThemeLoaded();
+                onThemeLoaded(info);
                 resolve();
             };
 

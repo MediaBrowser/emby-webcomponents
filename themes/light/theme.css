@@ -12,12 +12,14 @@ html, .skinHeader {
     background-color: #eaeaea;
 }
 
-.skinHeader-withBackground {
+.skinHeader-withBackground, .appfooter {
     background-color: #303030;
     color: #ccc;
     color: rgba(255, 255, 255, .87);
+}
+
+.skinHeader-withBackground {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-    /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
 }
 
 .osdHeader {
@@ -154,22 +156,6 @@ html, .backgroundContainer {
     background: #303030;
     color: #fff;
     color: rgba(255, 255, 255, .87);
-}
-
-/* appfooter */
-.appfooter {
-    background: #282828;
-    color: #ccc;
-    color: rgba(255, 255, 255, .78);
-}
-
-@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
-
-    .appfooter-blurred {
-        background: rgba(24,24,24,.7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
-    }
 }
 
 .nowPlayingBarSecondaryText {
@@ -435,3 +421,9 @@ html, .backgroundContainer {
 .card:focus .card-focuscontent {
     border-color: #52B54B;
 }
+
+/* emby-slider */
+.emby-slider-background {
+    background: #333;
+}
+

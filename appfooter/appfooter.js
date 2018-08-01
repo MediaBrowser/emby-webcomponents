@@ -7,11 +7,6 @@
 
         elem.classList.add('appfooter');
 
-        if (!browser.chrome) {
-            // chrome does not display this properly
-            elem.classList.add('appfooter-blurred');
-        }
-
         document.body.appendChild(elem);
 
         return elem;

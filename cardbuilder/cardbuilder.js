@@ -1602,6 +1602,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (collectionType === 'livetv') {
                 return '<i class="cardImageIcon md-icon">&#xE1B2;</i>';
             }
+            if (collectionType === 'playlists') {
+                return '<i class="cardImageIcon md-icon">menu</i>';
+            }
             if (collectionType === 'homevideos' || collectionType === 'photos') {
                 return '<i class="cardImageIcon md-icon">&#xE412;</i>';
             }

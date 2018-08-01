@@ -73,32 +73,31 @@
 
         this.setAttribute('data-embyslider', 'true');
 
-        this.classList.add('mdl-slider');
-        this.classList.add('mdl-js-slider');
+        this.classList.add('emby-slider');
 
         if (browser.noFlex) {
             this.classList.add('slider-no-webkit-thumb');
         }
         if (!layoutManager.mobile) {
-            this.classList.add('mdl-slider-hoverthumb');
+            this.classList.add('emby-slider-hoverthumb');
         }
 
         var containerElement = this.parentNode;
-        containerElement.classList.add('mdl-slider-container');
+        containerElement.classList.add('emby-slider-container');
 
         var htmlToInsert = '';
 
         if (!supportsNativeProgressStyle) {
-            htmlToInsert += '<div class="mdl-slider-background-flex">';
-            htmlToInsert += '<div class="mdl-slider-background-flex-inner">';
+            htmlToInsert += '<div class="emby-slider-background">';
+            htmlToInsert += '<div class="emby-slider-background-inner">';
 
             // the more of these, the more ranges we can display
-            htmlToInsert += '<div class="mdl-slider-background-upper"></div>';
+            htmlToInsert += '<div class="emby-slider-background-upper"></div>';
 
             if (enableWidthWithTransform) {
-                htmlToInsert += '<div class="mdl-slider-background-lower mdl-slider-background-lower-withtransform"></div>';
+                htmlToInsert += '<div class="emby-slider-background-lower emby-slider-background-lower-withtransform"></div>';
             } else {
-                htmlToInsert += '<div class="mdl-slider-background-lower"></div>';
+                htmlToInsert += '<div class="emby-slider-background-lower"></div>';
             }
 
             htmlToInsert += '</div>';
@@ -109,8 +108,8 @@
 
         containerElement.insertAdjacentHTML('beforeend', htmlToInsert);
 
-        this.backgroundLower = containerElement.querySelector('.mdl-slider-background-lower');
-        this.backgroundUpper = containerElement.querySelector('.mdl-slider-background-upper');
+        this.backgroundLower = containerElement.querySelector('.emby-slider-background-lower');
+        this.backgroundUpper = containerElement.querySelector('.emby-slider-background-upper');
         var sliderBubble = containerElement.querySelector('.sliderBubble');
 
         var hasHideClass = sliderBubble.classList.contains('hide');
@@ -237,9 +236,9 @@
         var backgroundLower = this.backgroundLower;
         if (backgroundLower) {
             if (isClear) {
-                backgroundLower.classList.add('mdl-slider-background-lower-clear');
+                backgroundLower.classList.add('emby-slider-background-lower-clear');
             } else {
-                backgroundLower.classList.remove('mdl-slider-background-lower-clear');
+                backgroundLower.classList.remove('emby-slider-background-lower-clear');
             }
         }
     };

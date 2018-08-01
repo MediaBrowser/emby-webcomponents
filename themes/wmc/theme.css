@@ -9,19 +9,18 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.skinHeader {
+.skinHeader, .appfooter {
     color: #ccc;
     color: rgba(255, 255, 255, .78);
 }
 
-.skinHeader-withBackground, .formDialogHeader:not(.formDialogHeader-clear) {
-    background-color: #0C2450;
-    background: linear-gradient(to bottom, #0C2450, #081B3B);
+.skinHeader-withBackground, .formDialogHeader:not(.formDialogHeader-clear), .appfooter, .formDialogFooter:not(.formDialogFooter-clear) {
+    background: #0C2450;
 }
 
 @supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
 
-    .skinHeader-blurred {
+    .skinHeader, .appfooter {
         background: rgba(20,20,20,.7);
         -webkit-backdrop-filter: blur(1.5em);
         backdrop-filter: blur(1.5em);
@@ -133,22 +132,6 @@ html {
     background: #081B3B;
     color: #fff;
     color: rgba(255, 255, 255, .87);
-}
-
-/* appfooter */
-.appfooter, .formDialogFooter:not(.formDialogFooter-clear) {
-    background: #0C2450;
-    background: linear-gradient(to top, #0C2450, #081B3B);
-    color: rgba(255, 255, 255, .78);
-}
-
-@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
-
-    .appfooter-blurred {
-        background: rgba(24,24,24,.7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
-    }
 }
 
 /* Multi-select */
@@ -441,3 +424,9 @@ html {
     -webkit-border-radius: 2px;
     background: rgba(255, 255, 255, .7) no-repeat center;
 }
+
+/* emby-slider */
+.emby-slider-background {
+    background: #333;
+}
+

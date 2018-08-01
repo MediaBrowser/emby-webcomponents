@@ -8,8 +8,8 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.skinHeader-withBackground {
-    background-color: #1f1f1f;
+.skinHeader-withBackground, .appfooter {
+    background-color: #202020;
 }
 
 .skinHeader.semiTransparent {
@@ -17,6 +17,15 @@ html {
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
+}
+
+@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
+
+    .skinHeader, .appfooter {
+        background: rgba(24,24,24,.7);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+    }
 }
 
 .pageTitleWithDefaultLogo {
@@ -120,22 +129,6 @@ html, .dialog, .backgroundContainer {
     background: #303030;
     color: #fff;
     color: rgba(255, 255, 255, .87);
-}
-
-/* appfooter */
-.appfooter {
-    background: #101010;
-    color: #ccc;
-    color: rgba(255, 255, 255, .78);
-}
-
-@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
-
-    .appfooter-blurred {
-        background: rgba(24,24,24,.7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
-    }
 }
 
 /* Multi-select */
@@ -431,4 +424,9 @@ html, .dialog, .backgroundContainer {
 
 .timeslotHeaders-desktop::-webkit-scrollbar {
     height: .7em;
+}
+
+/* emby-slider */
+.emby-slider-background {
+    background: #2a2a2a;
 }

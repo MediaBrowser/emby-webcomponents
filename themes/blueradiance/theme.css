@@ -144,7 +144,7 @@ html, .dialog {
 
 @supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
 
-    .appfooter-blurred {
+    .appfooter {
         background: rgba(24,24,24,.7);
         -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
@@ -445,3 +445,9 @@ html, .dialog {
 .timeslotHeaders-desktop::-webkit-scrollbar {
     height: .7em;
 }
+
+/* emby-slider */
+.emby-slider-background {
+    background: #333;
+}
+
