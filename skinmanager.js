@@ -224,7 +224,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         var embyWebComponentsBowerPath = 'bower_components/emby-webcomponents';
 
         return {
-            themeSettingsPath: 'text!' + require.toUrl('themes/' + selectedTheme.id + '/theme.json'),
+            themeSettingsPath: 'text!./themes/' + selectedTheme.id + '/theme.json',
             stylesheetPath: require.toUrl(embyWebComponentsBowerPath + '/themes/' + selectedTheme.id + '/theme.css'),
             themeId: selectedTheme.id
         };
