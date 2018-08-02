@@ -31,6 +31,7 @@ html, .skinHeader {
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
+    box-shadow: none !important;
 }
 
 .pageTitleWithDefaultLogo {
@@ -424,6 +425,5 @@ html, .backgroundContainer {
 
 /* emby-slider */
 .emby-slider-background {
-    background: #333;
+    background: rgba(0,0,0,.3);
 }
-

@@ -86,6 +86,8 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         requestAnimationFrame(this.rafCallback || (this.rafCallback = this.update.bind(this)));
     }
 
+    var toleranceLevel = browser.iOS ? 14 : 4;
+
     Headroom.prototype = {
         constructor: Headroom,
 
@@ -280,7 +282,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             }
             else if (!isTv && currentScrollY < lastKnownScrollY) {
 
-                var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 4;
+                var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= toleranceLevel;
 
                 if (toleranceExceeded) {
                     this.setTransform(0, currentScrollY);

@@ -354,6 +354,23 @@
         });
     };
 
+    ItemsTab.prototype.refresh = function (options) {
+
+        loading.show();
+
+        var instance = this;
+        var autoFocus = options.autoFocus;
+
+        this.itemsContainer.refreshItems(options).then(function (result) {
+
+            loading.hide();
+
+            if (autoFocus) {
+                focusManager.autoFocus(instance.itemsContainer);
+            }
+        });
+    };
+
     ItemsTab.prototype.getVisibleViewSettings = function () {
 
         return [

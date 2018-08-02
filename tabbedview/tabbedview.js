@@ -1,7 +1,13 @@
-define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager) {
+define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager, inputManager) {
     'use strict';
 
     function onViewDestroy(e) {
+
+        var inputHandler = this.inputHandler;
+        if (inputHandler) {
+            inputManager.off(this.view, onInputCommand);
+            this.inputHandler = null;
+        }
 
         var tabControllers = this.tabControllers;
 
@@ -92,6 +98,28 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         view.addEventListener('viewdestroy', onViewDestroy.bind(this));
     }
 
+    function onInputCommand(e) {
+
+        switch (e.detail.command) {
+
+            case 'refresh':
+                {
+                    var currentTabController = this.currentTabController;
+
+                    if (currentTabController && currentTabController.refresh) {
+
+                        currentTabController.refresh({
+                            refresh: true
+                        });
+                    }
+
+                    break;
+                }
+            default:
+                break;
+        }
+    }
+
     TabbedView.prototype.onResume = function (options) {
 
         this.setTitle();
@@ -105,9 +133,19 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'emby-tabs'], function (
         else if (currentTabController && currentTabController.onResume) {
             currentTabController.onResume({});
         }
+
+        var inputHandler = onInputCommand.bind(this);
+        inputManager.on(window, inputHandler);
+        this.inputHandler = inputHandler;
     };
 
     TabbedView.prototype.onPause = function () {
+
+        var inputHandler = this.inputHandler;
+        if (inputHandler) {
+            inputManager.off(window, onInputCommand);
+            this.inputHandler = null;
+        }
 
         var currentTabController = this.currentTabController;
 
