@@ -83,7 +83,7 @@
 
         var html = globalize.translate('sharedcomponents#SyncJobItemStatus' + status);
 
-        if (job.Status === 'Transferring' || job.Status === 'Converting' || job.Status === 'Completed') {
+        if (job.Status === 'Transferring' || job.Status === 'Converting') {
             html += ' ';
 
             var progress = job.Progress || 0;
