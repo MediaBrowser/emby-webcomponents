@@ -100,7 +100,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
     function showOrHideMissingEpisodesField(context, user, apiClient) {
 
-        if (browser.tizen || browser.web0s) {
+        if (apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816') {
             context.querySelector('.fldDisplayMissingEpisodes').classList.add('hide');
             return;
         }
@@ -161,7 +161,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             context.querySelector('.fldDateTimeLocale').classList.add('hide');
         }
 
-        if (!browser.tizen && !browser.web0s) {
+        if (apiClient.serverId() !== '6da60dd6edfc4508bca2c434d4400816') {
             context.querySelector('.fldSeasonalThemes').classList.remove('hide');
             context.querySelector('.fldBackdrops').classList.remove('hide');
             context.querySelector('.fldThemeSong').classList.remove('hide');

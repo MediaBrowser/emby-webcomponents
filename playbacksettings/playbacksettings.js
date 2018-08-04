@@ -135,7 +135,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
 
     function showOrHideEpisodesField(context, user, apiClient) {
 
-        if (browser.tizen || browser.web0s) {
+        if (apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816') {
             context.querySelector('.fldEpisodeAutoPlay').classList.add('hide');
             return;
         }
@@ -187,7 +187,7 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
             context.querySelector('.fldChromecastQuality').classList.add('hide');
         }
 
-        if (browser.tizen || browser.web0s) {
+        if (apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816') {
             context.querySelector('.fldEnableNextVideoOverlay').classList.add('hide');
         } else {
             context.querySelector('.fldEnableNextVideoOverlay').classList.remove('hide');

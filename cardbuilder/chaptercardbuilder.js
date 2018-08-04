@@ -14,12 +14,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             return i.Type === 'Video';
         })[0] || {};
 
-        var shape = (options.backdropShape || 'backdrop');
+        var shape = (options.backdropShape || 'overflowBackdrop');
 
         if (videoStream.Width && videoStream.Height) {
 
             if ((videoStream.Width / videoStream.Height) <= 1.2) {
-                shape = (options.squareShape || 'square');
+                shape = (options.squareShape || 'overflowSquare');
             }
         }
 

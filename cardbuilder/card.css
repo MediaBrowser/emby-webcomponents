@@ -136,12 +136,12 @@ button {
 }
 
 .card-touchzoom {
-    transition: transform 120ms ease-out;
-    transition-delay: 100ms;
+    transition: transform 100ms ease-out;
+    transition-delay: 80ms;
 }
 
 .card-touchzoomactive {
-    transform: scale(.92);
+    transform: scale(.94);
 }
 
 .btnCardOptions {

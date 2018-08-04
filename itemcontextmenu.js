@@ -11,7 +11,9 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
 
         var user = options.user;
 
-        var restrictOptions = (browser.operaTv || browser.web0s) && !user.Policy.IsAdministrator;
+        var apiClient = connectionManager.getApiClient(item);
+
+        var restrictOptions = (browser.operaTv || browser.web0s) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816' && !user.Policy.IsAdministrator;
 
         if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
@@ -118,7 +120,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
             });
         }
 
-        if (itemHelper.canConvert(item, user, connectionManager.getApiClient(item))) {
+        if (itemHelper.canConvert(item, user, apiClient)) {
             commands.push({
                 name: globalize.translate('sharedcomponents#Convert'),
                 id: 'convert'
