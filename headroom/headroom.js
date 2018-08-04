@@ -210,6 +210,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             else if (value === 1) {
                 value = 'translateY(-100%)';
             }
+            else {
+                value = 'translateY(-' + value + 'px)';
+            }
 
             //console.log(value + '-' + currentScrollY);
 

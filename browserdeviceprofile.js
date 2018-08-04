@@ -7,7 +7,7 @@ define(['browser'], function (browser) {
 
     function canPlayH265(videoTestElement, options) {
 
-        if (browser.tizen || browser.orsay || browser.xboxOne || browser.web0s || options.supportsHevc) {
+        if (browser.tizen || browser.orsay || browser.web0s || options.supportsHevc) {
             return true;
         }
 
@@ -21,12 +21,9 @@ define(['browser'], function (browser) {
             }
         }
 
-        // Unfortunately haven't yet found a canPlayType for proper detection
-        if (browser.iOS && (browser.iOSVersion || 0) >= 11) {
-            return true;
-        }
-
-        return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/hevc; codecs="hevc, aac"').replace(/no/, ''));
+        return !!videoTestElement.canPlayType && (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L0.0"').replace(/no/, '') ||
+            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L0.0"').replace(/no/, '') ||
+            videoTestElement.canPlayType('video/hevc; codecs="hevc, aac"').replace(/no/, ''));
     }
 
     var _supportsTextTracks;
@@ -377,13 +374,7 @@ define(['browser'], function (browser) {
         // Not sure how to test for this
         var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
 
-        var maxVideoWidth = browser.xboxOne ?
-            (self.screen ? self.screen.width : null) :
-            null;
-
-        if (options.maxVideoWidth) {
-            maxVideoWidth = options.maxVideoWidth;
-        }
+        var maxVideoWidth = options.maxVideoWidth;
 
         var canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
 

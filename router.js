@@ -358,7 +358,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function getMaxBandwidthIOS() {
-        return 800000;
+        return 1500000;
     }
 
     function onApiClientCreated(e, newApiClient) {
