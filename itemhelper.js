@@ -135,8 +135,13 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
     function isLocalItem(item) {
 
-        if (item && item.Id && item.Id.indexOf('local') === 0) {
-            return true;
+        if (item) {
+
+            var id = item.Id;
+
+            if (typeof id === 'string' && id.indexOf('local') === 0) {
+                return true;
+            }
         }
 
         return false;
@@ -279,14 +284,17 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canRate: function (item) {
 
-            if (item.Type === 'Program' ||
-                item.Type === 'Timer' ||
-                item.Type === 'SeriesTimer' ||
-                item.Type === 'CollectionFolder' ||
-                item.Type === 'UserView' ||
-                item.Type === 'Channel' ||
-                item.Type === 'Season' ||
-                item.Type === 'Studio') {
+            var itemType = item.Type;
+
+            if (itemType === 'Program' ||
+                itemType === 'Timer' ||
+                itemType === 'SeriesTimer' ||
+                itemType === 'CollectionFolder' ||
+                itemType === 'UserView' ||
+                itemType === 'Channel' ||
+                itemType === 'Season' ||
+                itemType === 'Studio' ||
+                itemType === 'PlaylistsFolder') {
                 return false;
             }
 
