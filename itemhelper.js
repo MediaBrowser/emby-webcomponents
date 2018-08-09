@@ -381,6 +381,36 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             return true;
+        },
+
+        supportsSimilarItems: function (item) {
+
+            var itemType = item.Type;
+
+            return itemType === "Movie" ||
+                itemType === "Trailer" ||
+                itemType === "Series" ||
+                itemType === "Program" ||
+                itemType === "Recording" ||
+                itemType === "Game" ||
+                itemType === "MusicAlbum" ||
+                itemType === "MusicArtist" ||
+                itemType === "Playlist";
+        },
+
+        supportsExtras: function (item) {
+
+            if (item.IsFolder) {
+                return false;
+            }
+
+            if (item.Type === 'TvChannel') {
+                return false;
+            }
+
+            var mediaType = item.MediaType;
+
+            return mediaType === 'Video';
         }
     };
 });

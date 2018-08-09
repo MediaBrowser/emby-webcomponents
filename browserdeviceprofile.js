@@ -5,25 +5,37 @@ define(['browser'], function (browser) {
         return !!(videoTestElement.canPlayType && videoTestElement.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"').replace(/no/, ''));
     }
 
-    function canPlayH265(videoTestElement, options) {
+    function canPlayH265(videoTestElement, protocol) {
 
-        if (browser.tizen || browser.orsay || browser.web0s || options.supportsHevc) {
+        if (browser.tizen || browser.orsay || browser.web0s) {
             return true;
         }
 
-        var userAgent = navigator.userAgent.toLowerCase();
+        // TODO: Check on this
+        if (protocol !== 'hls') {
+            var userAgent = navigator.userAgent.toLowerCase();
 
-        if (browser.chromecast) {
+            if (browser.chromecast) {
 
-            var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
-            if (isChromecastUltra) {
-                return true;
+                var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
+                if (isChromecastUltra) {
+                    return true;
+                }
             }
         }
 
+        if (!!videoTestElement.canPlayType && videoTestElement.canPlayType('video/hevc; codecs="hevc, aac"').replace(/no/, '')) {
+            return true;
+        }
+
+        if (protocol === 'hls') {
+
+            return !!videoTestElement.canPlayType && (videoTestElement.canPlayType('video/mp2t; codecs="hvc1.1.L0.0"').replace(/no/, '') ||
+                videoTestElement.canPlayType('video/mp2t; codecs="hev1.1.L0.0"').replace(/no/, ''));
+        }
+
         return !!videoTestElement.canPlayType && (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L0.0"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L0.0"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/hevc; codecs="hevc, aac"').replace(/no/, ''));
+            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L0.0"').replace(/no/, ''));
     }
 
     var _supportsTextTracks;
@@ -255,7 +267,7 @@ define(['browser'], function (browser) {
             case 'ts':
                 supported = testCanPlayTs();
                 videoCodecs.push('h264');
-                if (canPlayH265(videoTestElement, options)) {
+                if (canPlayH265(videoTestElement)) {
                     videoCodecs.push('h265');
                     videoCodecs.push('hevc');
                 }
@@ -499,14 +511,14 @@ define(['browser'], function (browser) {
             mp4VideoCodecs.push('h264');
             hlsVideoCodecs.push('h264');
         }
-        if (canPlayH265(videoTestElement, options)) {
+        if (canPlayH265(videoTestElement)) {
             mp4VideoCodecs.push('h265');
             mp4VideoCodecs.push('hevc');
+        }
 
-            if (browser.tizen || browser.web0s) {
-                hlsVideoCodecs.push('h265');
-                hlsVideoCodecs.push('hevc');
-            }
+        if (canPlayH265(videoTestElement, 'hls')) {
+            hlsVideoCodecs.push('h265');
+            hlsVideoCodecs.push('hevc');
         }
 
         if (supportsMpeg2Video()) {
