@@ -590,6 +590,25 @@ define(['browser'], function (browser) {
                     AudioCodec: audioFormat
                 });
 
+            }
+            else if (audioFormat === 'aac') {
+
+                // aac container not supported here
+                if (!browser.iOS) {
+                    profile.DirectPlayProfiles.push({
+                        Container: audioFormat,
+                        Type: 'Audio',
+                        AudioCodec: audioFormat
+                    });
+                }
+
+                // aac also appears in the m4a container
+                profile.DirectPlayProfiles.push({
+                    Container: 'm4a',
+                    AudioCodec: audioFormat,
+                    Type: 'Audio'
+                });
+
             } else {
                 profile.DirectPlayProfiles.push({
                     Container: audioFormat === 'webma' ? 'webma,webm' : audioFormat,
@@ -597,8 +616,8 @@ define(['browser'], function (browser) {
                 });
             }
 
-            // aac also appears in the m4a container
-            if (audioFormat === 'aac' || audioFormat === 'alac') {
+            // alac also appears in the m4a container
+            if (audioFormat === 'alac') {
 
                 profile.DirectPlayProfiles.push({
                     Container: 'm4a',

@@ -468,6 +468,7 @@
         }, context, '.songResults', {
 
                 showParentTitle: true,
+                preferArtistTitle: true,
                 showTitle: true,
                 overlayText: false,
                 centerText: true,

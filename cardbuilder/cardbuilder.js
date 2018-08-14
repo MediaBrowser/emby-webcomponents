@@ -868,7 +868,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (showOtherText) {
                 if (options.showParentTitle && parentTitleUnderneath) {
 
-                    if (isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
+                    if (isOuterFooter && options.preferArtistTitle && item.ArtistItems && item.ArtistItems.length) {
+                        item.ArtistItems[0].Type = 'MusicArtist';
+                        item.ArtistItems[0].IsFolder = true;
+                        lines.push(getTextActionButton(item.ArtistItems[0], null, serverId));
+                    } else if (isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
                         item.AlbumArtists[0].Type = 'MusicArtist';
                         item.AlbumArtists[0].IsFolder = true;
                         lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));

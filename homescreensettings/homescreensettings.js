@@ -3,35 +3,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
     var numConfigurableSections = 7;
 
-    function renderViews(page, user, result) {
-
-        var folderHtml = '';
-
-        folderHtml += '<div class="checkboxList">';
-        folderHtml += result.map(function (i) {
-
-            var currentHtml = '';
-
-            var id = 'chkGroupFolder' + i.Id;
-
-            var isChecked = user.Configuration.GroupedFolders.indexOf(i.Id) !== -1;
-
-            var checkedHtml = isChecked ? ' checked="checked"' : '';
-
-            currentHtml += '<label>';
-            currentHtml += '<input type="checkbox" is="emby-checkbox" class="chkGroupFolder" data-folderid="' + i.Id + '" id="' + id + '"' + checkedHtml + '/>';
-            currentHtml += '<span>' + i.Name + '</span>';
-            currentHtml += '</label>';
-
-            return currentHtml;
-
-        }).join('');
-
-        folderHtml += '</div>';
-
-        page.querySelector('.folderGroupList').innerHTML = folderHtml;
-    }
-
     function getLandingScreenOptions(type) {
 
         var list = [];
@@ -280,15 +251,12 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         updateHomeSectionValues(context, userSettings);
 
         var promise1 = apiClient.getUserViews({ IncludeHidden: true }, user.Id);
-        var promise2 = apiClient.getJSON(apiClient.getUrl("Users/" + user.Id + "/GroupingOptions"));
 
-        Promise.all([promise1, promise2]).then(function (responses) {
+        Promise.all([promise1]).then(function (responses) {
 
             renderViewOrder(context, user, responses[0]);
 
             renderPerLibrarySettings(context, user, responses[0].Items, userSettings, apiClient);
-
-            renderViews(context, user, responses[1]);
 
             loading.hide();
         });
@@ -371,11 +339,6 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         });
 
         user.Configuration.MyMediaExcludes = getCheckboxItems(".chkIncludeInMyMedia", context, false).map(function (i) {
-
-            return i.getAttribute('data-folderid');
-        });
-
-        user.Configuration.GroupedFolders = getCheckboxItems(".chkGroupFolder", context, true).map(function (i) {
 
             return i.getAttribute('data-folderid');
         });
