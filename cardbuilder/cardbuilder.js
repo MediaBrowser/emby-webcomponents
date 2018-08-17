@@ -841,7 +841,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             }
 
                         } else {
-                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || "";
+                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || (item.Type === 'Game' ? item.GameSystem : null) || "";
 
                             if (parentTitle || showTitle) {
                                 lines.push(parentTitle);

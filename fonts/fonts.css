@@ -3,7 +3,7 @@ html {
 }
 
 html {
-    font-size: 93%;
+    font-size: 90%;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
 }
@@ -30,8 +30,4 @@ h3 {
 
 .layout-tv {
     font-size: 2.5vh;
-}
-
-.layout-mobile {
-    font-size: 90%;
 }

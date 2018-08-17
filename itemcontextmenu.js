@@ -440,8 +440,7 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                             title: item.Name,
                             text: item.Overview,
 
-                            // TODO: Make this the server's external url
-                            url: 'https://emby.media'
+                            url: apiClient.getUrl('share').replace('/share', '')
                         });
                         break;
                     }
