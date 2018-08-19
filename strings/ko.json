@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Playback settings",
-    "SubtitleSettings": "Subtitle settings",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "Unlock this feature with a small one-time purchase, or with an active Emby Premiere subscription.",
     "MessageUnlockAppWithSupporter": "Unlock this feature with an active Emby Premiere subscription.",
     "MessageToValidateSupporter": "If you have an active Emby Premiere subscription, ensure you've setup Emby Premiere in your Emby Server Dashboard, which you can access by clicking Emby Premiere within the main menu.",
@@ -22,9 +21,13 @@
     "AirDate": "Air date",
     "Played": "\uc7ac\uc0dd\ud568",
     "ButtonOk": "OK",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "\ucde8\uc18c",
     "AccessRestrictedTryAgainLater": "\uc811\uadfc\uc774 \uc81c\ud55c\ub418\uc5c8\uc2b5\ub2c8\ub2e4. \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694.",
     "ButtonGotIt": "\uadf8\ub7f4\uac8c\uc694.",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "\ub2e4\uc2dc \uc2dc\uc791",
     "RecordingCancelled": "\ub179\ud654\uac00 \ucde8\uc18c\ub418\uc5c8\uc2b5\ub2c8\ub2e4.",
     "SeriesCancelled": "\uc2dc\ub9ac\uc988\uac00 \ucde8\uc18c\ub418\uc5c8\uc2b5\ub2c8\ub2e4.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Color transfer",
     "VideoRange": "Video range",
     "SeriesDisplayOrderHelp": "Order episodes by air date, dvd order, or absolute numbering.",
+    "PlaybackSettings": "Playback settings",
+    "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app."
+    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

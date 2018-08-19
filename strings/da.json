@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Playback settings",
-    "SubtitleSettings": "Subtitle settings",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "L\u00e5s op for dette feature med en lille enkeltst\u00e5ende betaling, eller med et aktivt Emby Premiere abonnement.",
     "MessageUnlockAppWithSupporter": "L\u00e5s op for dette feature med et aktivt Emby Premiere abonnement.",
     "MessageToValidateSupporter": "Hvis du har et aktivt Emby Premiere abonnement, skal du v\u00e6re sikker p\u00e5 at Emby Premiere er konfigureret i dit Emby Server-kontrolpanel, som kan tilg\u00e5es ved at klikke p\u00e5 Emby Premiere i hovedmenuen.",
@@ -22,9 +21,13 @@
     "AirDate": "Air date",
     "Played": "Afspillet",
     "ButtonOk": "Ok",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "Annuller",
     "AccessRestrictedTryAgainLater": "Access is currently restricted. Please try again later.",
     "ButtonGotIt": "Forst\u00e5et",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "Genstart",
     "RecordingCancelled": "Optagelse annulleret.",
     "SeriesCancelled": "Serie annulleret.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Color transfer",
     "VideoRange": "Video range",
     "SeriesDisplayOrderHelp": "Order episodes by air date, dvd order, or absolute numbering.",
+    "PlaybackSettings": "Playback settings",
+    "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app."
+    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

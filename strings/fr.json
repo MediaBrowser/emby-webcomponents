@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Param\u00e8tres de lecture",
-    "SubtitleSettings": "Param\u00e8tres des sous-titres",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "D\u00e9verrouillez cette fonctionnalit\u00e9 avec un petit achat unique, ou avec un abonnement Emby Premiere.",
     "MessageUnlockAppWithSupporter": "D\u00e9verrouillez cette fonctionnalit\u00e9 avec un abonnement Emby Premiere.",
     "MessageToValidateSupporter": "Si vous avez un abonnement Emby Premiere, veuillez vous assurer que vous avez configur\u00e9 Emby Premiere dans le tableau de bord de votre serveur Emby auquel vous pouvez acc\u00e9der en cliquant sur Emby Premiere dans le menu principal",
@@ -22,9 +21,13 @@
     "AirDate": "Date de diffusion",
     "Played": "Lu",
     "ButtonOk": "OK",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "Annuler",
     "AccessRestrictedTryAgainLater": "L'acc\u00e8s est actuellement restreint. Veuillez r\u00e9essayer plus tard.",
     "ButtonGotIt": "Compris",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "Red\u00e9marrer",
     "RecordingCancelled": "Enregistrement annul\u00e9.",
     "SeriesCancelled": "S\u00e9rie annul\u00e9e.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Transfert de couleur",
     "VideoRange": "Gamme vid\u00e9o",
     "SeriesDisplayOrderHelp": "Ranger les \u00e9pisodes par date de diffusion, par ordre de DVD ou par num\u00e9ro absolu.",
+    "PlaybackSettings": "Param\u00e8tres de lecture",
+    "SubtitleSettings": "Param\u00e8tres des sous-titres",
     "PlaybackSettingsIntro": "Pour configurer les r\u00e9glages de lecture par d\u00e9faut, arr\u00eatez la lecture de la vid\u00e9o, puis cliquez sur votre ic\u00f4ne utilisateur situ\u00e9e en haut \u00e0 droite dans l'application.",
-    "SubtitleSettingsIntro": "Pour configurer l'apparence des sous-titres et la langue par d\u00e9faut, arr\u00eatez la lecture de la vid\u00e9o, puis cliquez sur votre ic\u00f4ne utilisateur situ\u00e9e en haut \u00e0 droite dans l'application."
+    "SubtitleSettingsIntro": "Pour configurer l'apparence des sous-titres et la langue par d\u00e9faut, arr\u00eatez la lecture de la vid\u00e9o, puis cliquez sur votre ic\u00f4ne utilisateur situ\u00e9e en haut \u00e0 droite dans l'application.",
+    "HeaderFavoritePeople": "Favorite People"
 }

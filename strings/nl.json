@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Playback settings",
-    "SubtitleSettings": "Subtitle settings",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "Ontgrendel deze functie met een kleine eenmalige aankoop, of met een actief Emby Premiere abonnement.",
     "MessageUnlockAppWithSupporter": "Ontgrendel deze functie met een actief Emby Premi\u00e8re abonnement.",
     "MessageToValidateSupporter": "Als u een actieve Emby Premi\u00e8re abonnement heeft, zorg er dan voor dat u deze activeert in uw Emby Server Dashboard door te klikken op Emby Premiere in het hoofdmenu.",
@@ -22,9 +21,13 @@
     "AirDate": "Uitzenddatum",
     "Played": "Afgespeeld",
     "ButtonOk": "Ok",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "Annuleren",
     "AccessRestrictedTryAgainLater": "Toegang is momenteel bepertk, probeer later opnieuw.",
     "ButtonGotIt": "Begrepen",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "Herstart",
     "RecordingCancelled": "Opname geannuleerd.",
     "SeriesCancelled": "Serie geannuleerd.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Kleuroverdracht",
     "VideoRange": "Videobereik",
     "SeriesDisplayOrderHelp": "Afleveringen sorteren op uitzenddatum, DVD-volgorde, of absolute nummering.",
+    "PlaybackSettings": "Playback settings",
+    "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "Om de standaard afspeelinstellingen te configureren, stopt u het afspelen van de video. Vervolgens klikt u op het gebruikersicoon in de rechterbovenhoek van de app.",
-    "SubtitleSettingsIntro": "Om de standaard ondertiteling- en taalinstellingen te configureren, stopt u het afspelen van de video. Vervolgens klikt u op het gebruikersicoon in de rechterbovenhoek van de app."
+    "SubtitleSettingsIntro": "Om de standaard ondertiteling- en taalinstellingen te configureren, stopt u het afspelen van de video. Vervolgens klikt u op het gebruikersicoon in de rechterbovenhoek van de app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

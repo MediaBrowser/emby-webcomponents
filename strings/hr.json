@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Playback settings",
-    "SubtitleSettings": "Subtitle settings",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "Otklju\u010daj ovu mogu\u0107nost s malom jednokratnom kupnjom ili s aktivnom pretplatom Emby Premijere.",
     "MessageUnlockAppWithSupporter": "Otklju\u010daj ovu mogu\u0107nost sa pretplatom Emby Premijere.",
     "MessageToValidateSupporter": "Ako imate aktivnu pretplatu Emby Premijere provjerite dali ste postavili Emby Premijeru u svojoj nadzornoj plo\u010di Emby Server-a kojoj mo\u017eete pristupiti klikom Emby Premijera u glavnom izborniku.",
@@ -22,9 +21,13 @@
     "AirDate": "Air date",
     "Played": "Played",
     "ButtonOk": "U redu",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "Odustani",
     "AccessRestrictedTryAgainLater": "Access is currently restricted. Please try again later.",
     "ButtonGotIt": "Shva\u0107am",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "Ponovo pokreni",
     "RecordingCancelled": "Snimka je otkazana.",
     "SeriesCancelled": "Serija je otkazana.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Color transfer",
     "VideoRange": "Video range",
     "SeriesDisplayOrderHelp": "Order episodes by air date, dvd order, or absolute numbering.",
+    "PlaybackSettings": "Playback settings",
+    "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app."
+    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

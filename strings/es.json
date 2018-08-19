@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Playback settings",
-    "SubtitleSettings": "Subtitle settings",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "Desbloquea esta caracter\u00edstica con una peque\u00f1a compra una vez o con una suscripci\u00f3n a Emby Premiere.",
     "MessageUnlockAppWithSupporter": "Desbloquea esta caracter\u00edstica con una suscripci\u00f3n a Emby Premiere.",
     "MessageToValidateSupporter": "Si tienes una suscripci\u00f3n a Emby Premiere aseg\u00farate de que la has configurado en el Panel de Control de tu servidor Emby en Ayuda -> Emby Premiere.",
@@ -22,9 +21,13 @@
     "AirDate": "Air date",
     "Played": "Reproducido",
     "ButtonOk": "Ok",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "Cancelar",
     "AccessRestrictedTryAgainLater": "El acceso est\u00e1 restringido actualmente. Por favor int\u00e9ntalo m\u00e1s tarde.",
     "ButtonGotIt": "Lo tengo",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "Reiniciar",
     "RecordingCancelled": "Grabaci\u00f3n cancelada.",
     "SeriesCancelled": "Serie cancelada.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Color transfer",
     "VideoRange": "Video range",
     "SeriesDisplayOrderHelp": "Order episodes by air date, dvd order, or absolute numbering.",
+    "PlaybackSettings": "Playback settings",
+    "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app."
+    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

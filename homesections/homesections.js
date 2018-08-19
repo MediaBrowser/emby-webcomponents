@@ -223,43 +223,43 @@
 
             switch (item.CollectionType) {
                 case "movies":
-                    icon = "local_movies";
+                    icon = "&#xE54D;";
                     break;
                 case "music":
-                    icon = "library_music";
+                    icon = "&#xE030;";
                     break;
                 case "photos":
-                    icon = "photo";
+                    icon = "&#xE410;";
                     break;
                 case "livetv":
-                    icon = "live_tv";
+                    icon = "&#xE639;";
                     break;
                 case "tvshows":
-                    icon = "live_tv";
+                    icon = "&#xE639;";
                     break;
                 case "games":
-                    icon = "folder";
+                    icon = "&#xE2C7;";
                     break;
                 case "trailers":
-                    icon = "local_movies";
+                    icon = "&#xE54D;";
                     break;
                 case "homevideos":
-                    icon = "video_library";
+                    icon = "&#xE04A;";
                     break;
                 case "musicvideos":
-                    icon = "video_library";
+                    icon = "&#xE04A;";
                     break;
                 case "books":
-                    icon = "folder";
+                    icon = "&#xE2C7;";
                     break;
                 case "channels":
-                    icon = "folder";
+                    icon = "&#xE2C7;";
                     break;
                 case "playlists":
-                    icon = "folder";
+                    icon = "&#xE2C7;";
                     break;
                 default:
-                    icon = "folder";
+                    icon = "&#xE2C7;";
                     break;
             }
 
@@ -375,7 +375,7 @@
         html += '<div class="verticalSection appInfoSection">';
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Emby Theater</h2>';
-        html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button>';
+        html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">&#xE5CD;</i></button>';
         html += '</div>';
 
         var nameText = 'Emby Theater';
@@ -397,7 +397,7 @@
         html += '<div class="verticalSection appInfoSection">';
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Emby Premiere</h2>';
-        html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">close</i></button>';
+        html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">&#xE5CD;</i></button>';
         html += '</div>';
 
         html += '<div class="padded-left padded-right">';

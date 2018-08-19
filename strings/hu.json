@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Lej\u00e1tsz\u00e1si be\u00e1ll\u00edt\u00e1sok",
-    "SubtitleSettings": "Felirat be\u00e1ll\u00edt\u00e1sok",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "Unlock this feature with a small one-time purchase, or with an active Emby Premiere subscription.",
     "MessageUnlockAppWithSupporter": "Enged\u00e9lyezd ezt a funkci\u00f3t akt\u00edv Emby Premiere el\u0151fizet\u00e9ssel.",
     "MessageToValidateSupporter": "If you have an active Emby Premiere subscription, ensure you've setup Emby Premiere in your Emby Server Dashboard, which you can access by clicking Emby Premiere within the main menu.",
@@ -22,9 +21,13 @@
     "AirDate": "Air date",
     "Played": "Megn\u00e9zett",
     "ButtonOk": "Ok",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "M\u00e9gsem",
     "AccessRestrictedTryAgainLater": "Access is currently restricted. Please try again later.",
     "ButtonGotIt": "\u00c9rtettem",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "\u00dajraind\u00edt\u00e1s",
     "RecordingCancelled": "Recording cancelled.",
     "SeriesCancelled": "Series cancelled.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Color transfer",
     "VideoRange": "Video range",
     "SeriesDisplayOrderHelp": "Order episodes by air date, dvd order, or absolute numbering.",
+    "PlaybackSettings": "Lej\u00e1tsz\u00e1si be\u00e1ll\u00edt\u00e1sok",
+    "SubtitleSettings": "Felirat be\u00e1ll\u00edt\u00e1sok",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app."
+    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

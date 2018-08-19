@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Playback settings",
-    "SubtitleSettings": "Subtitle settings",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "Odemknout tuto funkci pomoc\u00ed jednor\u00e1zov\u00e9 platby, nebo pomoc\u00ed aktivace p\u0159edplatn\u00e9ho Emby Premiere.",
     "MessageUnlockAppWithSupporter": "Odemknout tuto funkci pomoc\u00ed aktivn\u00edho p\u0159edplatn\u00e9ho Emby Premiere.",
     "MessageToValidateSupporter": "Pokud m\u00e1te aktivn\u00ed p\u0159edplatn\u00e9 Emby Premiere, ujist\u011bte se, \u017ee m\u00e1te nastaven Emby Premiere v panelu Nastaven\u00ed pod N\u00e1pov\u011bda -> Emby Premiere.",
@@ -22,9 +21,13 @@
     "AirDate": "Air date",
     "Played": "P\u0159ehr\u00e1no",
     "ButtonOk": "Ok",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "Zru\u0161it",
     "AccessRestrictedTryAgainLater": "P\u0159\u00edstup je v sou\u010dasn\u00e9 dob\u011b omezen. Pros\u00edm zkuste to znovu pozd\u011bji.",
     "ButtonGotIt": "M\u00e1m to",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "Restart",
     "RecordingCancelled": "Nahr\u00e1v\u00e1n\u00ed zru\u0161eno.",
     "SeriesCancelled": "S\u00e9rie zru\u0161ena.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Color transfer",
     "VideoRange": "Video range",
     "SeriesDisplayOrderHelp": "Order episodes by air date, dvd order, or absolute numbering.",
+    "PlaybackSettings": "Playback settings",
+    "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app."
+    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

@@ -132,7 +132,7 @@
 
                 itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
 
-                itemHtml += '<i class="listItemIcon md-icon">closed_caption</i>';
+                itemHtml += '<i class="listItemIcon md-icon">&#xE01c;</i>';
 
                 itemHtml += '<div class="listItemBody two-line">';
 
@@ -149,7 +149,7 @@
 
                 if (!layoutManager.tv) {
                     if (s.Path) {
-                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('sharedcomponents#Delete') + '" class="btnDelete listItemButton"><i class="md-icon">delete</i></button>';
+                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('sharedcomponents#Delete') + '" class="btnDelete listItemButton"><i class="md-icon">&#xE872;</i></button>';
                     }
                 }
 
@@ -249,7 +249,7 @@
 
             html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
 
-            html += '<i class="listItemIcon md-icon">closed_caption</i>';
+            html += '<i class="listItemIcon md-icon">&#xE01c;</i>';
 
             var bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
 

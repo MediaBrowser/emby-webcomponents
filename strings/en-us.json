@@ -20,9 +20,13 @@
   "AirDate": "Air date",
   "Played": "Played",
   "ButtonOk": "Ok",
+  "Users": "Users",
+  "Library": "Library",
+  "Devices": "Devices",
   "ButtonCancel": "Cancel",
   "AccessRestrictedTryAgainLater": "Access is currently restricted. Please try again later.",
   "ButtonGotIt": "Got It",
+  "Dashboard": "Dashboard",
   "ButtonRestart": "Restart",
   "RecordingCancelled": "Recording cancelled.",
   "SeriesCancelled": "Series cancelled.",
@@ -686,5 +690,5 @@
   "SubtitleSettings": "Subtitle settings",
   "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
   "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
-  "HeaderFavoritePeople":  "Favorite People"
+  "HeaderFavoritePeople": "Favorite People"
 }

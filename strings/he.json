@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Playback settings",
-    "SubtitleSettings": "Subtitle settings",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "\u05e0\u05e2\u05d9\u05dc\u05ea \u05ea\u05db\u05d5\u05e0\u05d4 \u05d6\u05d5 \u05e2\u05dd \u05e8\u05db\u05d9\u05e9\u05d4 \u05d7\u05d3 \u05e4\u05e2\u05de\u05d9\u05ea \u05e7\u05d8\u05e0\u05d4, \u05d0\u05d5 \u05e2\u05dd \u05de\u05e0\u05d5\u05d9 \u05e4\u05e2\u05d9\u05dc Premiere \u05d0\u05de\u05d1\u05d9.",
     "MessageUnlockAppWithSupporter": "\u05d1\u05d9\u05d8\u05d5\u05dc \u05e0\u05e2\u05d9\u05dc\u05d4 \u05e9\u05dc \u05ea\u05db\u05d5\u05e0\u05d4 \u05d6\u05d5 \u05e2\u05dd \u05de\u05e0\u05d5\u05d9 \u05e4\u05e2\u05d9\u05dc \u05e9\u05dc Emby Premiere.",
     "MessageToValidateSupporter": "\u05d0\u05dd \u05d9\u05e9 \u05dc\u05da \u05de\u05e0\u05d5\u05d9 \u05e4\u05e2\u05d9\u05dc \u05e9\u05dc Emby Premiere, \u05d5\u05d3\u05d0 \u05e9\u05d4\u05d2\u05d3\u05e8\u05ea \u05d0\u05ea Emby Premiere \u05d1\u05de\u05e8\u05db\u05d6 \u05d4\u05e9\u05dc\u05d9\u05d8\u05d4 \u05e9\u05dc \u200b\u200b\u05d0\u05de\u05d1\u05d9 \u05e9\u05e8\u05ea, \u05e9\u05d1\u05d5 \u05d1\u05d0\u05e4\u05e9\u05e8\u05d5\u05ea\u05da \u05dc\u05d2\u05e9\u05ea \u05e2\u05dc-\u05d9\u05d3\u05d9 \u05dc\u05d7\u05d9\u05e6\u05d4 \u05e2\u05dc Emby Premiere \u05d1\u05ea\u05e4\u05e8\u05d9\u05d8 \u05d4\u05e8\u05d0\u05e9\u05d9.",
@@ -22,9 +21,13 @@
     "AirDate": "Air date",
     "Played": "Played",
     "ButtonOk": "\u05d1\u05e1\u05d3\u05e8",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "\u05d1\u05d8\u05dc",
     "AccessRestrictedTryAgainLater": "Access is currently restricted. Please try again later.",
     "ButtonGotIt": "\u05d4\u05d1\u05e0\u05ea\u05d9",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "\u05d0\u05d9\u05ea\u05d7\u05d5\u05dc",
     "RecordingCancelled": "\u05d1\u05d8\u05dc \u05d4\u05e7\u05dc\u05d8\u05d4",
     "SeriesCancelled": "\u05d1\u05d8\u05dc \u05e1\u05d3\u05e8\u05d5\u05ea",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Color transfer",
     "VideoRange": "Video range",
     "SeriesDisplayOrderHelp": "Order episodes by air date, dvd order, or absolute numbering.",
+    "PlaybackSettings": "Playback settings",
+    "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app."
+    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

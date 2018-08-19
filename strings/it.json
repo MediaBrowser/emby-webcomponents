@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Impostazioni di riproduzione",
-    "SubtitleSettings": "Impostazioni Sottotitoli",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "Sblocca questa funzionalit\u00e0 con un piccolo acquisto singolo, o con un abbonamento Emby Premiere.",
     "MessageUnlockAppWithSupporter": "Sblocca questa funzionalit\u00e0 con un abbonamento Emby Premiere",
     "MessageToValidateSupporter": "Se hai un abbonamento Emby Premiere, assicurati di averlo configurato nel Pannello di Controllo del Server, a cui puoi accedere cliccando su Emby Premiere dal menu principale.",
@@ -22,9 +21,13 @@
     "AirDate": "Data messa in Onda",
     "Played": "Visto",
     "ButtonOk": "Ok",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "Annulla",
     "AccessRestrictedTryAgainLater": "L'accesso \u00e8 attualmente limitato. Si prega di riprovare pi\u00f9 tardi.",
     "ButtonGotIt": "Ho capito",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "Riavvia",
     "RecordingCancelled": "Registrazione annullata.",
     "SeriesCancelled": "Serie TV annullate.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Trasferimento Colore",
     "VideoRange": "Range del Video",
     "SeriesDisplayOrderHelp": "Ordina gli episodi per data messa in onda, ordine dvd o numerazione assoluta.",
+    "PlaybackSettings": "Impostazioni di riproduzione",
+    "SubtitleSettings": "Impostazioni Sottotitoli",
     "PlaybackSettingsIntro": "Per configurare le impostazioni di riproduzione predefinite, interrompi la riproduzione del video, quindi fai clic sull'icona dell'utente nella sezione in alto a destra dell'app.",
-    "SubtitleSettingsIntro": "Per configurare l'aspetto dei sottotitoli e le impostazioni della lingua predefiniti, interrompi la riproduzione del video, quindi fai clic sull'icona dell'utente nella sezione in alto a destra dell'app."
+    "SubtitleSettingsIntro": "Per configurare l'aspetto dei sottotitoli e le impostazioni della lingua predefiniti, interrompi la riproduzione del video, quindi fai clic sull'icona dell'utente nella sezione in alto a destra dell'app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

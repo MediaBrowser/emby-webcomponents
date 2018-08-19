@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Configuraciones de Reproducci\u00f3n",
-    "SubtitleSettings": "Configuraciones de Subtitulos",
+    "Dashboard": "Panel de Control",
     "MessageUnlockAppWithPurchaseOrSupporter": "Desbloquee esta caracter\u00edstica con una peque\u00f1a compra \u00fanica, o con una suscripci\u00f3n activa de Emby Premier.",
     "MessageUnlockAppWithSupporter": "Desbloquee esta caracter\u00edstica con una suscripci\u00f3n activa de Emby Premier.",
     "MessageToValidateSupporter": "Si tiene una subscripci\u00f3n de Emby Premiere activa, aseg\u00farese de que ha configurado Emby Premiere en el Panel de Control del Servidor Emby, al cual puede acceder dando click en Emby Premiere dentro del men\u00fa principal.",
@@ -22,9 +21,13 @@
     "AirDate": "Fecha de emisi\u00f3n",
     "Played": "Reproducido",
     "ButtonOk": "Ok",
+    "Users": "Usuarios",
+    "Library": "Biblioteca",
+    "Devices": "Dispositivos",
     "ButtonCancel": "Cancelar",
     "AccessRestrictedTryAgainLater": "El acceso esta restringido en este momento. Por favor intente de nuevo mas tarde.",
     "ButtonGotIt": "Hecho",
+    "HeaderServerDashboard": "Panel de Control del Servidor",
     "ButtonRestart": "Reiniciar",
     "RecordingCancelled": "Grabaci\u00f3n cancelada.",
     "SeriesCancelled": "Serie cancelada.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Transferencia de color",
     "VideoRange": "Rango de video",
     "SeriesDisplayOrderHelp": "Ordenar los episodios por fecha transmisi\u00f3n, orden del dvd o por su numeraci\u00f3n absoluta.",
+    "PlaybackSettings": "Configuraciones de Reproducci\u00f3n",
+    "SubtitleSettings": "Configuraciones de Subtitulos",
     "PlaybackSettingsIntro": "Para configurar las opciones de reproducci\u00f3n predeterminadas, detenga la reproducci\u00f3n de video. entonces de clic en su icono de usuario en la esquina superior derecha de la aplicaci\u00f3n.",
-    "SubtitleSettingsIntro": "Para configurar la apariencia predeterminada de los subtitulos e idioma, detenga la reproducci\u00f3n de video, entonces de clic en su icono de usuario en la parte superior derecha de la aplicaci\u00f3n."
+    "SubtitleSettingsIntro": "Para configurar la apariencia predeterminada de los subtitulos e idioma, detenga la reproducci\u00f3n de video, entonces de clic en su icono de usuario en la parte superior derecha de la aplicaci\u00f3n.",
+    "HeaderFavoritePeople": "Personas Favoritas"
 }

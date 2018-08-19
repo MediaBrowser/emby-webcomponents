@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Playback settings",
-    "SubtitleSettings": "Subtitle settings",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "L\u00e5s upp denna feature med ett eng\u00e5ngsk\u00f6p, eller med ett aktivt Emby Premium-medlemskap.",
     "MessageUnlockAppWithSupporter": "L\u00e5s upp den h\u00e4r funktionen med en aktiv Emby Premium prenumeration.",
     "MessageToValidateSupporter": "Om du har ett aktivt Emby Premium-medlemskap, se till att du har st\u00e4llt in Emby Premium i Emby Server Dashboard, som du kommer \u00e5t genom att klicka p\u00e5 Emby Premium i huvudmenyn.",
@@ -22,9 +21,13 @@
     "AirDate": "S\u00e4ndningstid",
     "Played": "Visad",
     "ButtonOk": "Ok",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "Avbryt",
     "AccessRestrictedTryAgainLater": "\u00c5tkomst \u00e4r begr\u00e4nsad. F\u00f6rs\u00f6k igen senare.",
     "ButtonGotIt": "Ok",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "Starta om",
     "RecordingCancelled": "Inspelning avbruten.",
     "SeriesCancelled": "Serieinspelningen har avbokats.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Color transfer",
     "VideoRange": "Video range",
     "SeriesDisplayOrderHelp": "Order episodes by air date, dvd order, or absolute numbering.",
+    "PlaybackSettings": "Playback settings",
+    "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app."
+    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

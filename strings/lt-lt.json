@@ -1,6 +1,5 @@
 {
-    "PlaybackSettings": "Playback settings",
-    "SubtitleSettings": "Subtitle settings",
+    "Dashboard": "Dashboard",
     "MessageUnlockAppWithPurchaseOrSupporter": "Atrakinkite \u0161i\u0105 funkcij\u0105 nedideliu vienkartiniu mokes\u010diu arba \u012fsigij\u0119 Emby Premiere prenumerat\u0105.",
     "MessageUnlockAppWithSupporter": "Atrakinkite \u0161i\u0105 funkcij\u0105 \u012fsigij\u0119 Emby Premiere prenumerat\u0105.",
     "MessageToValidateSupporter": "Jei turite aktyvi\u0105 Emby Premiere prenumerat\u0105, sutvarkykite Emby Premiere savo Emby Serverio skydelyje. Tai galite atlikti paspaud\u0117 Emby Premiere u\u017era\u0161\u0105 pagrindiniame meniu.",
@@ -22,9 +21,13 @@
     "AirDate": "Air date",
     "Played": "Played",
     "ButtonOk": "OK",
+    "Users": "Users",
+    "Library": "Library",
+    "Devices": "Devices",
     "ButtonCancel": "At\u0161aukti",
     "AccessRestrictedTryAgainLater": "Access is currently restricted. Please try again later.",
     "ButtonGotIt": "Supratau",
+    "HeaderServerDashboard": "Server Dashboard",
     "ButtonRestart": "I\u0161 naujo",
     "RecordingCancelled": "\u012era\u0161as at\u0161auktas.",
     "SeriesCancelled": "Laida at\u0161aukta.",
@@ -684,6 +687,9 @@
     "ColorTransfer": "Color transfer",
     "VideoRange": "Video range",
     "SeriesDisplayOrderHelp": "Order episodes by air date, dvd order, or absolute numbering.",
+    "PlaybackSettings": "Playback settings",
+    "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app."
+    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderFavoritePeople": "Favorite People"
 }

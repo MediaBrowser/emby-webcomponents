@@ -1833,7 +1833,7 @@
                     ArtistIds: firstItem.Id,
                     Filters: "IsNotFolder",
                     Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    SortBy: options.shuffle ? 'Random' : 'Album,SortName',
                     MediaTypes: "Audio"
                 });
 
@@ -1887,7 +1887,19 @@
                     Filters: "IsNotFolder",
                     Recursive: true,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Audio"
+                    MediaTypes: "Audio",
+                    ParentId: options.parentId
+                });
+            }
+            else if (firstItem.Type === "Genre") {
+
+                promise = getItemsForPlayback(serverId, {
+                    GenreIds: firstItem.Id,
+                    Filters: "IsNotFolder",
+                    Recursive: true,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    MediaTypes: "Video",
+                    ParentId: options.parentId
                 });
             }
             else if (firstItem.IsFolder) {
@@ -3760,7 +3772,11 @@
             return player.shuffle(shuffleItem);
         }
 
-        return this.play({ items: [shuffleItem], shuffle: true });
+        queryOptions = queryOptions || {}; 
+        queryOptions.items = [shuffleItem];
+        queryOptions.shuffle = true;
+
+        return this.play(queryOptions);
     };
 
     PlaybackManager.prototype.audioTracks = function (player) {
