@@ -165,18 +165,8 @@ html, .backgroundContainer {
 
 /* appfooter */
 .appfooter {
-    background: #303030;
-    color: #ccc;
-    color: rgba(255, 255, 255, .78);
-}
-
-@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
-
-    .appfooter {
-        background: rgba(48,48,48,.7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
-    }
+    background: #ffffff;
+    border-top: 1px solid #ddd;
 }
 
 .nowPlayingBarSecondaryText {
@@ -339,10 +329,18 @@ html, .backgroundContainer {
     color: rgba(255, 255, 255, 1);
 }
 
-    .emby-tab-button-active.emby-button-tv {
-        color: #fff;
-        color: rgba(255, 255, 255, 1);
-    }
+.appfooter .emby-tab-button {
+    color: rgba(0, 0, 0, .5);
+}
+
+.appfooter .emby-tab-button-active {
+    color: #52B54B;
+}
+
+.emby-tab-button-active.emby-button-tv {
+    color: #fff;
+    color: rgba(255, 255, 255, 1);
+}
 
 .emby-tab-button.emby-button-tv:focus {
     color: #fff;
@@ -448,6 +446,5 @@ html, .backgroundContainer {
 
 /* emby-slider */
 .emby-slider-background {
-    background: #333;
+    background: rgba(0,0,0,.1);
 }
-

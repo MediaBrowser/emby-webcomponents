@@ -12,13 +12,10 @@ html, .skinHeader {
     background-color: #eaeaea;
 }
 
-.skinHeader-withBackground, .appfooter {
+.skinHeader-withBackground {
     background-color: #303030;
     color: #ccc;
     color: rgba(255, 255, 255, .87);
-}
-
-.skinHeader-withBackground {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
@@ -64,6 +61,7 @@ html, .backgroundContainer {
 
     .raised:focus, .fab:focus {
         background: #ccc;
+        color: inherit;
     }
 
 .button-submit {
@@ -73,6 +71,7 @@ html, .backgroundContainer {
 
     .button-submit:focus {
         background: #5EC157;
+        color: #fff;
     }
 
 .checkboxLabel {
@@ -127,17 +126,13 @@ html, .backgroundContainer {
     color: inherit;
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
+.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
     color: #888;
 }
 
 .actionsheetDivider {
     background: #ddd;
     background: rgba(0, 0, 0, .14);
-}
-
-.fieldDescription {
-    color: #888;
 }
 
 .cardFooter-vibrant .cardText-secondary {
@@ -157,6 +152,12 @@ html, .backgroundContainer {
     background: #303030;
     color: #fff;
     color: rgba(255, 255, 255, .87);
+}
+
+/* appfooter */
+.appfooter {
+    background: #ffffff;
+    border-top: 1px solid #ddd;
 }
 
 .nowPlayingBarSecondaryText {
@@ -318,9 +319,17 @@ html, .backgroundContainer {
     color: #52B54B;
 }
 
-    .emby-tab-button-active.emby-button-tv {
-        color: #fff;
-    }
+.appfooter .emby-tab-button {
+    color: rgba(0, 0, 0, .5);
+}
+
+.appfooter .emby-tab-button-active {
+    color: #52B54B;
+}
+
+.emby-tab-button-active.emby-button-tv {
+    color: #fff;
+}
 
 .emby-tab-button.emby-button-tv:focus {
     color: #52B54B;
@@ -425,5 +434,5 @@ html, .backgroundContainer {
 
 /* emby-slider */
 .emby-slider-background {
-    background: rgba(0,0,0,.3);
+    background: rgba(0,0,0,.1);
 }
