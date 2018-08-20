@@ -636,7 +636,7 @@
     function supportsDirectPlay(apiClient, item, mediaSource) {
 
         // folder rip hacks due to not yet being supported by the stream building engine
-        var isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.VideoType === 'HdDvd';
+        var isFolderRip = mediaSource.VideoType === 'BluRay' || mediaSource.VideoType === 'Dvd' || mediaSource.Container === 'bluray' || mediaSource.Container === 'dvd';
 
         if (mediaSource.SupportsDirectPlay || isFolderRip) {
 

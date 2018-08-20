@@ -99,24 +99,34 @@ html, .backgroundContainer {
     background-color: #fff;
 }
 
+.defaultCardBackground0 {
+    background-color: #fff;
+    color: #000 !important;
+}
+
 .defaultCardBackground1 {
     background-color: #009688;
+    color: #fff !important;
 }
 
 .defaultCardBackground2 {
     background-color: #D32F2F;
+    color: #fff !important;
 }
 
 .defaultCardBackground3 {
     background-color: #0288D1;
+    color: #fff !important;
 }
 
 .defaultCardBackground4 {
     background-color: #388E3C;
+    color: #fff !important;
 }
 
 .defaultCardBackground5 {
     background-color: #F57F17;
+    color: #fff !important;
 }
 
 .formDialogHeader:not(.formDialogHeader-clear) {
@@ -333,10 +343,10 @@ html, .backgroundContainer {
     color: #cc3333;
 }
 
-    .emby-tab-button-active.emby-button-tv {
-        color: #fff;
-        color: rgba(255, 255, 255, 1);
-    }
+.emby-tab-button-active.emby-button-tv {
+    color: #fff;
+    color: rgba(255, 255, 255, 1);
+}
 
 .emby-tab-button.emby-button-tv:focus {
     color: #fff;

@@ -11,7 +11,7 @@
 
         var elem = context.querySelector(selector);
 
-        if (items.length) {
+        if (items && items.length) {
 
             elem.classList.remove('hide');
 
@@ -47,9 +47,14 @@
 
         renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
 
-            // Switching from | to ,
-            var delimeter = (options.settings.GenreIds || '').indexOf('|') === -1 ? ',' : '|';
+            var delimeter = ',';
             return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
+        });
+
+        renderOptions(context, '.studioFilters', 'chkStudioFilter', result.Studios, function (i) {
+
+            var delimeter = ',';
+            return (delimeter + (options.settings.StudioIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
         });
 
         //renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
@@ -105,14 +110,6 @@
             }
         }
 
-        var videoTypes = settings.VideoTypes ? settings.VideoTypes.split(',') : [];
-        elems = context.querySelectorAll('.chkVideoTypeFilter');
-
-        for (i = 0, length = elems.length; i < length; i++) {
-
-            elems[i].checked = videoTypes.indexOf(elems[i].getAttribute('data-filter')) !== -1;
-        }
-
         var seriesStatuses = settings.SeriesStatus ? settings.SeriesStatus.split(',') : [];
         elems = context.querySelectorAll('.chkSeriesStatus');
 
@@ -147,18 +144,6 @@
             }
         }
 
-        // Video type
-        var videoTypes = [];
-        elems = context.querySelectorAll('.chkVideoTypeFilter');
-
-        for (i = 0, length = elems.length; i < length; i++) {
-
-            if (elems[i].checked) {
-                videoTypes.push(elems[i].getAttribute('data-filter'));
-            }
-        }
-        userSettings.setFilter(settingsKey + '-filter-VideoTypes', videoTypes.join(','));
-
         // Series status
         var seriesStatuses = [];
         elems = context.querySelectorAll('.chkSeriesStatus');
@@ -181,6 +166,18 @@
             }
         }
         userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
+
+        // Studios
+        var studios = [];
+        elems = context.querySelectorAll('.chkStudioFilter');
+
+        for (i = 0, length = elems.length; i < length; i++) {
+
+            if (elems[i].checked) {
+                studios.push(elems[i].getAttribute('data-filter'));
+            }
+        }
+        userSettings.setFilter(settingsKey + '-filter-StudioIds', studios.join(','));
     }
 
     function setBasicFilter(context, key, elem) {

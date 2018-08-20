@@ -383,13 +383,8 @@ button {
     }
 
 .cardImageIcon {
-    font-size: 5em;
+    font-size: 4em !important;
     color: inherit;
-}
-
-.cardImageIcon-small {
-    font-size: 3em;
-    margin-bottom: .1em;
 }
 
 .cardIndicators {

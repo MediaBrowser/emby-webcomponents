@@ -90,6 +90,10 @@ html, .dialog {
     background-color: rgba(0,0,0,.5);
 }
 
+.defaultCardBackground0 {
+    background-color: rgba(0,0,0,.5);
+}
+
 .defaultCardBackground1 {
     background-color: #d2b019;
 }
@@ -290,11 +294,11 @@ html, .dialog {
 
 /* main nav drawer */
 .mainDrawer {
-    background-color: #1c1c1c;
+    background-color: rgba(0,0,0,.5);
 }
 
 .navMenuOption:hover {
-    background: #252528;
+    background: rgba(255,255,255,.1);
 }
 
 .navMenuOption-selected {
@@ -434,12 +438,12 @@ html, .dialog {
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #3b3b3b;
+    background-color: rgba(0,0,0,.5);
 }
 
 ::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal {
-    -webkit-border-radius: 2px;
-    background: #888 no-repeat center;
+    -webkit-border-radius: .2em;
+    background: #857371 no-repeat center;
 }
 
 .timeslotHeaders-desktop::-webkit-scrollbar {
@@ -448,6 +452,5 @@ html, .dialog {
 
 /* emby-slider */
 .emby-slider-background {
-    background: #333;
+    background-color: rgba(0,0,0,.5);
 }
-

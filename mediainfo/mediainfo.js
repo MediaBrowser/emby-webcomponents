@@ -569,14 +569,14 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
         })[0] || {};
         var audioStream = getAudioStreamForDisplay(item) || {};
 
-        if (item.VideoType === 'Dvd') {
+        if (item.VideoType === 'Dvd' || item.Container === 'dvd') {
             list.push({
                 type: 'mediainfo',
                 text: 'Dvd'
             });
         }
 
-        if (item.VideoType === 'BluRay') {
+        if (item.VideoType === 'BluRay' || item.Container === 'bluray') {
             list.push({
                 type: 'mediainfo',
                 text: 'BluRay'

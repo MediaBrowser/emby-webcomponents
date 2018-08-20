@@ -78,15 +78,15 @@ define(['connectionManager', 'globalize', 'userSettings', 'apphost'], function (
             return Promise.resolve();
         }
 
-        if (item.VideoType === 'Iso') {
+        if (item.VideoType === 'Iso' || item.Container === 'iso' || item.Container === 'blurayiso' || item.Container === 'dvdiso') {
             return showIsoMessage();
         }
 
-        if (item.VideoType === 'BluRay') {
+        if (item.VideoType === 'BluRay' || item.Container === 'bluray') {
             return showBlurayMessage();
         }
 
-        if (item.VideoType === 'Dvd') {
+        if (item.VideoType === 'Dvd' || item.Container === 'dvd') {
             return showDvdMessage();
         }
 

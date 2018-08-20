@@ -86,6 +86,10 @@ html, .dialog, .backgroundContainer {
     background-color: #242424;
 }
 
+.defaultCardBackground0 {
+    background-color: #242424;
+}
+
 .defaultCardBackground1 {
     background-color: #d2b019;
 }
@@ -203,8 +207,8 @@ html, .dialog, .backgroundContainer {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #292929;
-    border: .07em solid #292929;
+    background: #303030;
+    border: .07em solid #303030;
     border-radius: .15em;
 }
 
@@ -215,8 +219,8 @@ html, .dialog, .backgroundContainer {
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #292929;
-    border: .07em solid #292929;
+    background: #303030;
+    border: .07em solid #303030;
 }
 
     .emby-select-withcolor > option {
