@@ -1,5 +1,12 @@
 {
-    "Dashboard": "Dashboard",
+    "Dashboard": "\u00dcbersicht",
+    "AudioBooks": "H\u00f6rb\u00fccher",
+    "Music": "Musik",
+    "Games": "Spiele",
+    "MusicVideos": "Musikvideos",
+    "MixedContent": "Gemischte Inhalte",
+    "HomeVideos": "Heimvideos",
+    "TVShows": "Serien",
     "MessageUnlockAppWithPurchaseOrSupporter": "Schalte diese Funktion mit einer kleinen einmaligen Geb\u00fchr oder einem aktiven Emby Premium Abo frei.",
     "MessageUnlockAppWithSupporter": "Schalte diese Funktion mit einem aktiven Emby Premium Abo frei.",
     "MessageToValidateSupporter": "Wenn du eine aktive Emby Premiere Mitgliedschaft hast, stelle bitte sicher, dass du diese \u00fcber das Emby Server Dashboard eingerichtet hast (Hauptmenu -> Emby Premiere).",
@@ -21,13 +28,13 @@
     "AirDate": "Ausstrahlungsdatum",
     "Played": "Gesehen",
     "ButtonOk": "Ok",
-    "Users": "Users",
-    "Library": "Library",
-    "Devices": "Devices",
+    "Users": "Benutzer",
+    "Library": "Bibliothek",
+    "Devices": "Ger\u00e4te",
     "ButtonCancel": "Abbrechen",
     "AccessRestrictedTryAgainLater": "Der Zugriff ist derzeit eingeschr\u00e4nkt. Bitte versuche es sp\u00e4ter erneut.",
     "ButtonGotIt": "Verstanden",
-    "HeaderServerDashboard": "Server Dashboard",
+    "HeaderServerDashboard": "Server \u00dcbersicht",
     "ButtonRestart": "Neustart",
     "RecordingCancelled": "Aufzeichnung abgebrochen.",
     "SeriesCancelled": "Serie abgebrochen.",
@@ -691,5 +698,5 @@
     "SubtitleSettings": "Untertiteleinstellungen",
     "PlaybackSettingsIntro": "Um die Wiedergabeeinstellungen zu \u00e4ndern, stoppen Sie die Wiedergabe und klicken Sie auf Ihr Benutzer-Icon in der oberen rechten Ecke der App.",
     "SubtitleSettingsIntro": "Um das Aussehen der Untertitel und die Spracheinstellungen zu \u00e4ndern, stoppen Sie die Wiedergabe und klicken Sie auf Ihr Benutzer-Icon in der oberen rechten Ecke der App.",
-    "HeaderFavoritePeople": "Favorite People"
+    "HeaderFavoritePeople": "Lieblingspersonen"
 }

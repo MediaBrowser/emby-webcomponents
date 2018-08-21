@@ -398,6 +398,15 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 itemType === "Playlist";
         },
 
+        supportsSimilarItemsOnLiveTV: function (item) {
+
+            var itemType = item.Type;
+
+            return itemType === "Movie" ||
+                itemType === "Trailer" ||
+                itemType === "Series";
+        },
+
         supportsExtras: function (item) {
 
             if (item.IsFolder) {
