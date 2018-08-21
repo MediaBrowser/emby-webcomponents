@@ -398,9 +398,13 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 itemType === "Playlist";
         },
 
-        supportsSimilarItemsOnLiveTV: function (item) {
+        supportsSimilarItemsOnLiveTV: function (item, apiClient) {
 
             var itemType = item.Type;
+
+            if (!apiClient.isMinServerVersion('3.6.0.18')) {
+                return false;
+            }
 
             return itemType === "Movie" ||
                 itemType === "Trailer" ||
