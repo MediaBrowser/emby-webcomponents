@@ -13,14 +13,13 @@ html, .skinHeader {
 }
 
 .skinHeader-withBackground {
-    background-color: #303030;
-    color: #ccc;
-    color: rgba(255, 255, 255, .87);
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
 }
 
 .osdHeader {
     box-shadow: none !important;
+    border-bottom: 0;
 }
 
 .skinHeader.semiTransparent {
@@ -29,10 +28,11 @@ html, .skinHeader {
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     box-shadow: none !important;
+    border-bottom: 0;
 }
 
 .pageTitleWithDefaultLogo {
-    background-image: url(../logowhite.png);
+    background-image: url(../logodark.png);
 }
 
 html, .backgroundContainer {
@@ -321,7 +321,7 @@ html, .backgroundContainer {
 /* emby-tabs */
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(0, 0, 0, .5);
 }
 
 .emby-tab-button-active {
