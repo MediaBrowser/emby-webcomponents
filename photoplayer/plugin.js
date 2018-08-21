@@ -3,17 +3,17 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
     function PhotoPlayer() {
 
-        var self = this;
-
-        self.name = 'Photo Player';
-        self.type = 'mediaplayer';
-        self.id = 'photoplayer';
+        this.name = 'Photo Player';
+        this.type = 'mediaplayer';
+        this.id = 'photoplayer';
 
         // Let any players created by plugins take priority
-        self.priority = 1;
+        this.priority = 1;
     }
 
     PhotoPlayer.prototype.play = function (options) {
+
+        var self = this;
 
         return new Promise(function (resolve, reject) {
 
@@ -32,9 +32,78 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 newSlideShow.show();
 
+                self.slideshow = newSlideShow;
+
                 resolve();
             });
         });
+    };
+
+    PhotoPlayer.prototype.stop = function (options) {
+
+        if (this.slideshow) {
+            this.slideshow.hide();
+            this.slideshow = null;
+
+            return new Promise(function (resolve, reject) {
+
+                setTimeout(resolve, 500);
+            });
+        }
+
+        return Promise.resolve();
+    };
+
+    PhotoPlayer.prototype.destroy = function (options) {
+
+        this.stop();
+    };
+
+    PhotoPlayer.prototype.isPlaying = function () {
+
+        return this.slideshow != null;
+    };
+
+    PhotoPlayer.prototype.pause = function () {
+    };
+
+    PhotoPlayer.prototype.unpause = function () {
+    };
+
+    PhotoPlayer.prototype.paused = function () {
+
+        return false;
+    };
+
+    PhotoPlayer.prototype.getVolume = function () {
+
+        return 100;
+    };
+
+    PhotoPlayer.prototype.setVolume = function () {
+
+    };
+
+    PhotoPlayer.prototype.volumeUp = function () {
+    };
+
+    PhotoPlayer.prototype.volumeDown = function () {
+    };
+
+    PhotoPlayer.prototype.setMute = function (mute) {
+
+    };
+
+    PhotoPlayer.prototype.currentTime = function () {
+
+    };
+
+    PhotoPlayer.prototype.duration = function () {
+
+    };
+
+    PhotoPlayer.prototype.isMuted = function () {
+        return false;
     };
 
     PhotoPlayer.prototype.canPlayMediaType = function (mediaType) {

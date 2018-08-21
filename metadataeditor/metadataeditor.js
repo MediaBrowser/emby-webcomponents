@@ -18,7 +18,9 @@
 
     function submitUpdatedItem(form, item) {
 
-        function afterContentTypeUpdated() {
+        var apiClient = getApiClient();
+
+        apiClient.updateItem(item).then(function () {
 
             require(['toast'], function (toast) {
                 toast(globalize.translate('sharedcomponents#MessageItemSaved'));
@@ -26,31 +28,6 @@
 
             loading.hide();
             closeDialog(true);
-        }
-
-        var apiClient = getApiClient();
-
-        apiClient.updateItem(item).then(function () {
-
-            var newContentType = form.querySelector('#selectContentType').value || '';
-
-            if ((metadataEditorInfo.ContentType || '') !== newContentType) {
-
-                apiClient.ajax({
-
-                    url: apiClient.getUrl('Items/' + item.Id + '/ContentType', {
-                        ContentType: newContentType
-                    }),
-
-                    type: 'POST'
-
-                }).then(function () {
-                    afterContentTypeUpdated();
-                });
-
-            } else {
-                afterContentTypeUpdated();
-            }
 
         });
     }
@@ -427,26 +404,6 @@
         }
 
         select.innerHTML = html;
-    }
-
-    function renderContentTypeOptions(context, metadataInfo) {
-
-        if (!metadataInfo.ContentTypeOptions.length) {
-            hideElement('#fldContentType', context);
-        } else {
-            showElement('#fldContentType', context);
-        }
-
-        var html = metadataInfo.ContentTypeOptions.map(function (i) {
-
-
-            return '<option value="' + i.Value + '">' + i.Name + '</option>';
-
-        }).join('');
-
-        var selectEl = context.querySelector('#selectContentType');
-        selectEl.innerHTML = html;
-        selectEl.value = metadataInfo.ContentType || '';
     }
 
     function loadExternalIds(context, item, externalIds) {
@@ -1028,8 +985,6 @@
 
             var languages = metadataEditorInfo.Cultures;
             var countries = metadataEditorInfo.Countries;
-
-            renderContentTypeOptions(context, metadataEditorInfo);
 
             loadExternalIds(context, item, metadataEditorInfo.ExternalIdInfos);
 

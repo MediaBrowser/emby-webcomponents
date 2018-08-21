@@ -733,7 +733,12 @@
             nowPlayingItem.MediaSources = null;
         }
 
-        nowPlayingItem.RunTimeTicks = nowPlayingItem.RunTimeTicks || player.duration() * 10000;
+        if (!nowPlayingItem.RunTimeTicks) {
+            var duration = player.duration();
+            if (duration) {
+                nowPlayingItem.RunTimeTicks = duration * 10000;
+            }
+        }
 
         return nowPlayingItem;
     }
@@ -2145,16 +2150,20 @@
         // Only used internally
         self.getCurrentTicks = getCurrentTicks;
 
-        function playPhotos(items, options, user) {
+        function playPhotosBooksGames(options) {
 
             var playStartIndex = options.startIndex || 0;
-            var player = getPlayer(items[playStartIndex], options);
+
+            var startItem = options.items[playStartIndex];
+
+            var player = getPlayer(startItem, options);
 
             loading.hide();
 
-            options.items = items;
+            return player.play(options).then(function () {
 
-            return player.play(options);
+                onPlaybackStarted(player, options, { item: startItem }, null, false);
+            });
         }
 
         function playWithIntros(items, options, user) {
@@ -2172,11 +2181,6 @@
             if (!firstItem) {
                 showPlaybackInfoErrorMessage(self, 'NoCompatibleStream', false);
                 return Promise.reject();
-            }
-
-            if (firstItem.MediaType === "Photo") {
-
-                return playPhotos(items, options, user);
             }
 
             var apiClient = connectionManager.getApiClient(firstItem.ServerId);
@@ -2373,7 +2377,7 @@
                 promise = Promise.resolve();
             }
 
-            if (!isServerItem(item) || item.MediaType === 'Game' || item.MediaType === 'Book') {
+            if (!isServerItem(item)) {
                 return promise.then(function () {
                     var streamInfo = createStreamInfoFromUrlItem(item);
                     streamInfo.fullscreen = playOptions.fullscreen;
@@ -2387,6 +2391,11 @@
                         self.stop(player);
                     });
                 });
+            }
+
+            if (item.MediaType === "Photo" || item.MediaType === 'Game' || item.MediaType === 'Book') {
+
+                return playPhotosBooksGames(playOptions);
             }
 
             return Promise.all([promise, player.getDeviceProfile(item)]).then(function (responses) {
@@ -2962,7 +2971,7 @@
             }
         }
 
-        function onPlaybackStarted(player, playOptions, streamInfo, mediaSource) {
+        function onPlaybackStarted(player, playOptions, streamInfo, mediaSource, enableProgressTimer) {
 
             if (!player) {
                 throw new Error('player cannot be null');
@@ -2988,19 +2997,26 @@
             var isFirstItem = playOptions.isFirstItem;
             var fullscreen = playOptions.fullscreen;
 
-            var state = self.getPlayerState(player, streamInfo.item, streamInfo.mediaSource);
+            if (enableProgressTimer !== false) {
 
-            reportPlayback(self, state, player, true, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
+                // TODO: Maybe reporting can later be enabled for photos, games, and books
 
-            state.IsFirstItem = isFirstItem;
-            state.IsFullscreen = fullscreen;
-            events.trigger(player, 'playbackstart', [state]);
-            events.trigger(self, 'playbackstart', [player, state]);
+                var state = self.getPlayerState(player, streamInfo.item, streamInfo.mediaSource);
+
+                reportPlayback(self, state, player, true, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
+
+                state.IsFirstItem = isFirstItem;
+                state.IsFullscreen = fullscreen;
+                events.trigger(player, 'playbackstart', [state]);
+                events.trigger(self, 'playbackstart', [player, state]);
+            }
 
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;
 
-            startPlaybackProgressTimer(player);
+            if (enableProgressTimer !== false) {
+                startPlaybackProgressTimer(player);
+            }
         }
 
         function onPlaybackStartedFromSelfManagingPlayer(e, item, mediaSource) {
@@ -3772,7 +3788,7 @@
             return player.shuffle(shuffleItem);
         }
 
-        queryOptions = queryOptions || {}; 
+        queryOptions = queryOptions || {};
         queryOptions.items = [shuffleItem];
         queryOptions.shuffle = true;
 
