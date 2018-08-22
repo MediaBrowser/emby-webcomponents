@@ -36,6 +36,7 @@
 
 .emby-tabs-slider {
     position: relative;
+    white-space: nowrap;
 }
 
 .emby-tab-button-ripple-effect {

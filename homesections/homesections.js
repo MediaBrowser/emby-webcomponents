@@ -375,7 +375,6 @@
         html += '<div class="verticalSection appInfoSection">';
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Emby Theater</h2>';
-        html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">&#xE5CD;</i></button>';
         html += '</div>';
 
         var nameText = 'Emby Theater';
@@ -397,7 +396,6 @@
         html += '<div class="verticalSection appInfoSection">';
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">Discover Emby Premiere</h2>';
-        html += '<button is="paper-icon-button-light" class="sectionTitleButton" onclick="this.parentNode.parentNode.remove();" class="autoSize"><i class="md-icon">&#xE5CD;</i></button>';
         html += '</div>';
 
         html += '<div class="padded-left padded-right">';

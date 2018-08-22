@@ -23,9 +23,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         showSearch: function () {
             skinManager.getCurrentSkin().search();
         },
-        showGenre: function (options) {
-            skinManager.getCurrentSkin().showGenre(options);
-        },
         showGuide: function () {
             skinManager.getCurrentSkin().showGuide({
                 serverId: connectionManager.currentApiClient().serverId()
@@ -37,10 +34,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             });
         },
         showRecordedTV: function () {
-            skinManager.getCurrentSkin().showRecordedTV();
+            invokeShortcut('recordedtv_' + connectionManager.currentApiClient().serverId());
         },
         showFavorites: function () {
-            skinManager.getCurrentSkin().showFavorites();
+            invokeShortcut('favorites_' + connectionManager.currentApiClient().serverId());
         },
         showNowPlaying: function () {
             skinManager.getCurrentSkin().showNowPlaying();
