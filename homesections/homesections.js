@@ -630,6 +630,7 @@
             html += cardBuilder.getCardsHtml({
                 items: items,
                 preferThumb: 'auto',
+                inheritThumb: false,
                 shape: 'autooverflow',
                 overlayText: false,
                 showTitle: true,

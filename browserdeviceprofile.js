@@ -824,12 +824,14 @@ define(['browser'], function (browser) {
                 {
                     Condition: 'EqualsAny',
                     Property: 'VideoProfile',
-                    Value: h264Profiles
+                    Value: h264Profiles,
+                    IsRequired: false
                 },
                 {
                     Condition: 'LessThanEqual',
                     Property: 'VideoLevel',
-                    Value: maxH264Level.toString()
+                    Value: maxH264Level.toString(),
+                    IsRequired: false
                 }]
         });
 
