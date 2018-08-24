@@ -409,7 +409,7 @@
         var basekey = this.getSettingsKey();
 
         return {
-            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getSortMenuOptions()[0].value,
+            sortBy: userSettings.getFilter(basekey + '-sortby') || this.getDefaultSortBy(),
             sortOrder: userSettings.getFilter(basekey + '-sortorder') === 'Descending' ? 'Descending' : 'Ascending'
         };
     };
@@ -440,6 +440,11 @@
         var sortBy = [];
 
         var option = this.getNameSortOption();
+        if (option) {
+            sortBy.push(option);
+        }
+
+        var option = this.getFolderSortOption();
         if (option) {
             sortBy.push(option);
         }
@@ -494,6 +499,11 @@
             name: globalize.translate('sharedcomponents#Name'),
             value: 'SortName'
         };
+    };
+
+    ItemsTab.prototype.getFolderSortOption = function () {
+
+        return null;
     };
 
     ItemsTab.prototype.getPlayCountSortOption = function () {

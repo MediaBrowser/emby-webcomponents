@@ -335,10 +335,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
 
-            if (item.IsPlaceHolder) {
-                return false;
-            }
-
             return true;
         },
 
