@@ -444,7 +444,7 @@
             sortBy.push(option);
         }
 
-        var option = this.getFolderSortOption();
+        option = this.getFolderSortOption();
         if (option) {
             sortBy.push(option);
         }
