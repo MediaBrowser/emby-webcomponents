@@ -31,12 +31,21 @@
     height: 100%;
 }
 
-    .htmlvideoplayer::cue {
-        background-color: transparent;
-        text-shadow: .14em .14em .14em rgba(0, 0, 0, 1);
-        -webkit-font-smoothing: antialiased;
-        font-family: inherit;
-    }
+.htmlvideoplayer-edge {
+    /* Important for playing subtitles with Edge HtmlVideoElement.
+       For mysterious reasons, Edge stops rendering subtitles whe 
+       the cursor property is modified at parent elements.
+       This keeps the cursor constant and prevents inheriting parent values.
+    */
+    cursor: default !important;
+}
+
+.htmlvideoplayer::cue {
+    background-color: transparent;
+    text-shadow: .14em .14em .14em rgba(0, 0, 0, 1);
+    -webkit-font-smoothing: antialiased;
+    font-family: inherit;
+}
 
 .htmlvideoplayer-moveupsubtitles::-webkit-media-text-track-display {
     /*Style the text itself*/

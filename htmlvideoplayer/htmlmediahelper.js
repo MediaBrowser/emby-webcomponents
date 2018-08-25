@@ -185,20 +185,12 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
             return Windows.Storage.StorageFile.getFileFromPathAsync(options.url).then(function (file) {
 
-                var playlist = new Windows.Media.Playback.MediaPlaybackList();
-
-                var source1 = Windows.Media.Core.MediaSource.createFromStorageFile(file);
-                var startTime = (options.playerStartPositionTicks || 0) / 10000;
-                playlist.items.append(new Windows.Media.Playback.MediaPlaybackItem(source1, startTime));
-                elem.src = URL.createObjectURL(playlist, { oneTimeOnly: true });
+                elem.src = URL.createObjectURL(file, { oneTimeOnly: true });
                 return Promise.resolve();
             });
-
-        } else {
-
-            elem.src = src;
         }
 
+        elem.src = src;
         return Promise.resolve();
     }
 
