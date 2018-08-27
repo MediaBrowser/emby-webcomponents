@@ -92,7 +92,7 @@ html, .backgroundContainer {
 
 .paperList {
     background-color: #fff;
-    border: 1px solid #eee;
+    border: 1px solid #e4e4e4;
     border-radius: .25em;
 }
 
@@ -306,7 +306,7 @@ html, .backgroundContainer {
 
 /* main nav drawer */
 .mainDrawer {
-    background: #F5F5F5;
+    background: #f2f2f2;
 }
 
 .navMenuOption:hover {
