@@ -104,33 +104,8 @@ html {
     background-color: rgba(0, 0, 0, .1);
 }
 
-.defaultCardBackground0 {
+.defaultCardBackground0, .defaultCardBackground1, .defaultCardBackground2, .defaultCardBackground3, .defaultCardBackground4, .defaultCardBackground5 {
     background-color: rgba(0, 0, 0, .1);
-}
-
-.defaultCardBackground1 {
-    background-color: #009688;
-    color: #eee !important;
-}
-
-.defaultCardBackground2 {
-    background-color: #D32F2F;
-    color: #eee !important;
-}
-
-.defaultCardBackground3 {
-    background-color: #0288D1;
-    color: #eee !important;
-}
-
-.defaultCardBackground4 {
-    background-color: #388E3C;
-    color: #eee !important;
-}
-
-.defaultCardBackground5 {
-    background-color: #F57F17;
-    color: #eee !important;
 }
 
 .formDialogFooter:not(.formDialogFooter-clear) {

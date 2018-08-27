@@ -1624,6 +1624,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (item.Type === 'MusicArtist' || item.Type === 'Person') {
                 return '<i class="cardImageIcon md-icon">&#xE7FD;</i>';
             }
+            if (item.Type === 'Channel') {
+                return '<i class="cardImageIcon md-icon">&#xE2C7;</i>';
+            }
             if (options.defaultCardImageIcon) {
                 return '<i class="cardImageIcon md-icon">' + options.defaultCardImageIcon + '</i>';
             }
