@@ -2208,6 +2208,8 @@
                 introPlayOptions.items = items;
                 introPlayOptions.startIndex = playStartIndex;
 
+                introPlayOptions.isFirstItem = true;
+
                 return playInternal(items[playStartIndex], introPlayOptions, function () {
 
                     self._playQueueManager.setPlaylist(items);
@@ -2236,12 +2238,6 @@
 
             // Normalize defaults to simplfy checks throughout the process
             normalizePlayOptions(playOptions);
-
-            if (playOptions.isFirstItem) {
-                playOptions.isFirstItem = false;
-            } else {
-                playOptions.isFirstItem = true;
-            }
 
             return runInterceptors(item, playOptions).then(function () {
 
@@ -3010,6 +3006,9 @@
                 events.trigger(player, 'playbackstart', [state]);
                 events.trigger(self, 'playbackstart', [player, state]);
             }
+
+            // Clear this in case the first item gets played again
+            playOptions.isFirstItem = false;
 
             // only used internally as a safeguard to avoid reporting other events to the server before playback start
             streamInfo.started = true;

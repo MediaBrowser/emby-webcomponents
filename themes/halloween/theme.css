@@ -115,6 +115,10 @@ html, .backgroundContainer {
     background-color: #222;
 }
 
+.cardContent-shadow {
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
+
 .defaultCardBackground0 {
     background-color: #242424;
 }

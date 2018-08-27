@@ -231,14 +231,6 @@ button {
     border-bottom-right-radius: 0;
 }
 
-.cardContent-shadow {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-}
-
-/*.card:focus .cardContent-shadow {
-    box-shadow: 0 .63em 1.26em rgba(0, 0, 0, 0.37);
-}*/
-
 .cardImageContainer {
     display: flex;
 }

@@ -95,6 +95,10 @@ html {
     border-color: currentColor;
 }
 
+.cardContent-shadow {
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
+
 .paperList, .visualCardBox {
     background-color: #fff;
     background-color: rgba(0, 0, 0, .1);

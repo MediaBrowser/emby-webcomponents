@@ -65,6 +65,7 @@
                 queryIncludeItemTypes === 'AudioBook' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
+                queryIncludeItemTypes === 'TvChannel' ||
                 query.MediaTypes === 'Video' ||
                 query.MediaTypes === 'Photo') {
                 allowSearch = false;
@@ -83,6 +84,7 @@
                 queryIncludeItemTypes === 'AudioBook' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
+                queryIncludeItemTypes === 'TvChannel' ||
                 query.MediaTypes === 'Video' ||
                 query.MediaTypes === 'Photo') {
                 allowSearch = false;
@@ -95,6 +97,7 @@
             else if (queryIncludeItemTypes === 'Series' ||
                 queryIncludeItemTypes === 'Episode' ||
                 queryIncludeItemTypes === 'LiveTvProgram' ||
+                queryIncludeItemTypes === 'TvChannel' ||
                 queryIncludeItemTypes === 'Movie') {
                 allowSearch = false;
             }
@@ -142,7 +145,7 @@
 
                 } else if (query.IncludeArtists) {
                     methodName = 'getArtists';
-                } 
+                }
             }
 
             return apiClient[methodName](apiClient.getCurrentUserId(), query);
@@ -402,7 +405,7 @@
             IncludeStudios: false,
             IncludeArtists: false,
             MediaTypes: "Video",
-            ExcludeItemTypes: "Movie,Episode"
+            ExcludeItemTypes: "Movie,Episode,TvChannel"
 
         }, context, '.videoResults', {
 
@@ -410,6 +413,27 @@
                 showTitle: true,
                 overlayText: false,
                 centerText: true
+            });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            IncludeItemTypes: "TvChannel"
+
+        }, context, '.channelResults', {
+
+                showParentTitle: false,
+                showTitle: true,
+                overlayText: false,
+                showCurrentProgram: true,
+                showCurrentProgramTime: true,
+                centerText: true,
+                lines: 3,
+                defaultBackground: true
             });
 
         searchType(instance, apiClient, {

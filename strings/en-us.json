@@ -363,6 +363,7 @@
   "CancelSeries": "Cancel series",
   "DoNotRecord": "Do not record",
   "HeaderSeriesOptions": "Series Options",
+  "Channels": "Channels",
   "LabelChannels": "Channels:",
   "ChannelNameOnly": "Channel {0} only",
   "Anytime": "Anytime",

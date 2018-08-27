@@ -96,12 +96,18 @@ html, .backgroundContainer {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox {
-    background-color: #D1C4E9;
+.paperList {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: .25em;
+}
+
+.visualCardBox {
+    background-color: #fff;
 }
 
 .defaultCardBackground0 {
-    background-color: #fff;
+    background-color: #eee;
 }
 
 .defaultCardBackground1 {
@@ -177,7 +183,7 @@ html, .backgroundContainer {
 /* appfooter */
 .appfooter {
     background: #ffffff;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #e4e4e4;
 }
 
 .nowPlayingBarSecondaryText {
@@ -307,11 +313,11 @@ html, .backgroundContainer {
 
 /* main nav drawer */
 .mainDrawer {
-    background: #fff;
+    background: #F5F5F5;
 }
 
 .navMenuOption:hover {
-    background: #f2f2f2;
+    background: #e8e8e8;
 }
 
 .navMenuOption-selected {

@@ -1305,7 +1305,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            if (!imgUrl) {
+            if (options.defaultBackground) {
+                cardImageContainerClass += ' defaultCardBackground defaultCardBackground0';
+            }
+            else if (!imgUrl) {
                 cardImageContainerClass += ' ' + getDefaultBackgroundClass(item.Name);
             }
 

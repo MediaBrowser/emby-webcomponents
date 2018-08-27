@@ -36,7 +36,7 @@ html, .skinHeader {
 }
 
 html, .backgroundContainer {
-    background-color: #f2f2f2;
+    background-color: #fafafa;
     /*background-image: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);*/
 }
 
@@ -99,12 +99,18 @@ html, .backgroundContainer {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox {
+.paperList {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: .25em;
+}
+
+.visualCardBox {
     background-color: #fff;
 }
 
 .defaultCardBackground0 {
-    background-color: #fff;
+    background-color: #eee;
 }
 
 .defaultCardBackground1 {
@@ -175,7 +181,7 @@ html, .backgroundContainer {
 /* appfooter */
 .appfooter {
     background: #ffffff;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #e4e4e4;
 }
 
 .nowPlayingBarSecondaryText {
@@ -309,11 +315,11 @@ html, .backgroundContainer {
 
 /* main nav drawer */
 .mainDrawer {
-    background: #fff;
+    background: #F5F5F5;
 }
 
 .navMenuOption:hover {
-    background: #f2f2f2;
+    background: #e8e8e8;
 }
 
 .navMenuOption-selected {
@@ -416,7 +422,7 @@ html, .backgroundContainer {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #f2f2f2);
+    background: linear-gradient(rgba(0,0,0,0), #fafafa);
 }
 
 /* used by directory picker and other areas */
