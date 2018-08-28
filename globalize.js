@@ -206,11 +206,25 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
         var dictionary = getDictionary(module);
 
-        if (!dictionary) {
-            return key;
+        if (dictionary) {
+
+            var result = dictionary[key];
+            if (result) {
+                return result;
+            }
         }
 
-        return dictionary[key] || key;
+        dictionary = getDictionary('sharedcomponents');
+
+        if (dictionary) {
+
+            var result = dictionary[key];
+            if (result) {
+                return result;
+            }
+        }
+
+        return key;
     }
 
     function replaceAll(str, find, replace) {

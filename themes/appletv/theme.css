@@ -84,7 +84,7 @@ html {
 
 .paperListLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #555;
-    color: rgba(0, 0, 0, .7);
+    color: rgba(0, 0, 0, .6);
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused, .button-link {
@@ -115,7 +115,7 @@ html {
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret, .fieldDescription {
     color: #888;
-    color: rgba(0, 0, 0, .5);
+    color: rgba(0, 0, 0, .6);
 }
 
 .actionsheetDivider {
@@ -164,7 +164,7 @@ html {
 /* alphaPicker */
 .alphaPickerButton {
     color: #555;
-    color: rgba(0, 0, 0, .7);
+    color: rgba(0, 0, 0, .6);
     background-color: transparent;
 }
 
@@ -353,7 +353,7 @@ html {
 
 .guide-date-tab-button {
     color: #555;
-    color: rgba(0, 0, 0, .54);
+    color: rgba(0, 0, 0, .6);
 }
 
     .guide-date-tab-button.emby-tab-button-active {
@@ -410,5 +410,5 @@ html {
 
 /* emby-slider */
 .emby-slider-background {
-    background: #333;
+    background: rgba(0,0,0,.3);
 }

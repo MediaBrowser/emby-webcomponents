@@ -84,7 +84,7 @@
         });
     }
 
-    function updateAlphaPickerState(instance) {
+    function updateAlphaPickerState(instance, numItems) {
 
         if (!instance.alphaPicker) {
             return;
@@ -96,11 +96,26 @@
         }
         var values = instance.getSortValues();
 
-        if (values.sortBy === 'SortName' && values.sortOrder === 'Ascending') {
+        if (numItems == null) {
+            numItems = 100;
+        }
+
+        if (values.sortBy === 'SortName' && values.sortOrder === 'Ascending' && numItems > 40) {
             alphaPicker.classList.remove('hide');
+
+            if (layoutManager.tv) {
+                instance.itemsContainer.parentNode.classList.add('padded-left-withalphapicker');
+            }
+            else {
+                instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
+            }
+
+
         } else {
             alphaPicker.classList.add('hide');
-        }
+            instance.itemsContainer.parentNode.classList.remove('padded-left-withalphapicker');
+            instance.itemsContainer.parentNode.classList.remove('padded-right-withalphapicker');
+      }
     }
 
     function showSortMenu() {
@@ -228,6 +243,17 @@
         }
     }
 
+    function afterRefresh(result) {
+
+        var self = this;
+
+        if (self.totalItemCount == null) {
+            self.totalItemCount = result.Items ? result.Items.length : result.length;
+        }
+
+        updateAlphaPickerState(self, self.totalItemCount);
+    }
+
     function ItemsTab(view, params) {
         this.view = view;
         this.params = params;
@@ -241,6 +267,7 @@
 
         this.itemsContainer.fetchData = this.fetchData.bind(this);
         this.itemsContainer.getItemsHtml = this.getItemsHtml.bind(this);
+        this.itemsContainer.afterRefresh = afterRefresh.bind(this);
 
         if (params.parentId) {
             this.itemsContainer.setAttribute('data-parentid', params.parentId);
@@ -332,7 +359,6 @@
 
         if (this.enableAlphaPicker && !this.alphaPicker) {
             initAlphaPicker(this, view);
-            updateAlphaPickerState(this);
         }
 
         if (this.enableAlphaNumericShortcuts !== false) {

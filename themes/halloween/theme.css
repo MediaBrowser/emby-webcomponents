@@ -30,7 +30,7 @@ html {
 
 .skinHeader {
     color: #ccc;
-    color: rgba(255, 255, 255, .78);
+    color: rgba(255, 255, 255, .87);
 }
 
 .skinHeader-withBackground {
@@ -100,7 +100,7 @@ html, .backgroundContainer {
 
 .paperListLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #bbb;
-    color: rgba(255, 255, 255, .7);
+    color: rgba(255, 255, 255, .6);
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
@@ -145,7 +145,7 @@ html, .backgroundContainer {
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .6);
 }
 
 .actionsheetDivider {
@@ -172,7 +172,7 @@ html, .backgroundContainer {
 .appfooter {
     background: #101010;
     color: #ccc;
-    color: rgba(255, 255, 255, .78);
+    color: rgba(255, 255, 255, .87);
 }
 
 @supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
@@ -202,7 +202,7 @@ html, .backgroundContainer {
 /* alphaPicker */
 .alphaPickerButton {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .6);
     background-color: transparent;
 }
 
@@ -325,7 +325,7 @@ html, .backgroundContainer {
 .mainDrawer {
     background-color: #1c1c1f;
     color: #ccc;
-    color: rgba(255, 255, 255, .7);
+    color: rgba(255, 255, 255, .6);
 }
 
 .navMenuOption:hover {

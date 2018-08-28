@@ -1,6 +1,6 @@
 html {
     color: #ddd;
-    color: rgba(255, 255, 255, .8);
+    color: rgba(255, 255, 255, .87);
 }
 
 .emby-collapsible-button {
@@ -71,7 +71,7 @@ html, .dialog, .backgroundContainer {
 
 .paperListLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #bbb;
-    color: rgba(255, 255, 255, .7);
+    color: rgba(255, 255, 255, .6);
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
@@ -116,7 +116,7 @@ html, .dialog, .backgroundContainer {
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .6);
 }
 
 .actionsheetDivider {
@@ -157,7 +157,7 @@ html, .dialog, .backgroundContainer {
 /* alphaPicker */
 .alphaPickerButton {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .6);
     background-color: transparent;
 }
 
@@ -299,7 +299,7 @@ html, .dialog, .backgroundContainer {
 /* emby-tabs */
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .4);
+    color: rgba(255, 255, 255, .5);
 }
 
 .emby-tab-button-active {

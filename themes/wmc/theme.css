@@ -1,6 +1,6 @@
 html {
     color: #eee;
-    color: rgba(255, 255, 255, .9);
+    color: rgba(255, 255, 255, .87);
     background-color: #0F3562;
 }
 
@@ -11,7 +11,7 @@ html {
 
 .skinHeader, .appfooter {
     color: #ccc;
-    color: rgba(255, 255, 255, .78);
+    color: rgba(255, 255, 255, .87);
 }
 
 .skinHeader-withBackground, .formDialogHeader:not(.formDialogHeader-clear), .appfooter, .formDialogFooter:not(.formDialogFooter-clear) {
@@ -103,7 +103,7 @@ html {
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .6);
 }
 
 .actionsheetDivider {
@@ -140,7 +140,7 @@ html {
 /* alphaPicker */
 .alphaPickerButton {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .6);
     background-color: transparent;
 }
 
@@ -281,7 +281,7 @@ html {
 /* emby-tabs */
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .6);
 }
 
 .emby-tab-button-active {
@@ -415,6 +415,6 @@ html {
 
 /* emby-slider */
 .emby-slider-background {
-    background: #333;
+    background: rgba(0,0,0,.3);
 }
 
