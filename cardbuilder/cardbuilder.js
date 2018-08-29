@@ -827,14 +827,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                                 IsFolder: true
                             }));
                         } else {
-                            lines.push(item.SeriesName);
+                            lines.push(dom.htmlEncode(item.SeriesName));
                         }
                     }
                     else {
 
                         if (isUsingLiveTvNaming(item)) {
 
-                            lines.push(item.Name);
+                            lines.push(dom.htmlEncode(item.Name));
 
                             if (!item.EpisodeTitle) {
                                 titleAdded = true;
@@ -844,7 +844,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || (item.Type === 'Game' ? item.GameSystem : null) || "";
 
                             if (parentTitle || showTitle) {
-                                lines.push(parentTitle);
+                                lines.push(dom.htmlEncode(parentTitle));
                             }
                         }
                     }
@@ -862,7 +862,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     includeParentInfo: options.includeParentInfoInTitle
                 });
 
-                lines.push(name);
+                lines.push(dom.htmlEncode(name));
             }
 
             if (showOtherText) {
@@ -877,7 +877,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         item.AlbumArtists[0].IsFolder = true;
                         lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
                     } else {
-                        lines.push(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || ""));
+                        lines.push(dom.htmlEncode(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || "")));
                     }
                 }
 
@@ -1058,11 +1058,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (layoutManager.tv) {
-                return text;
+                return dom.htmlEncode(text);
             }
 
             var html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" data-action="link">';
-            html += text;
+            html += dom.htmlEncode(text);
             html += '</button>';
 
             return html;

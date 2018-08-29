@@ -1,4 +1,4 @@
-﻿define(['playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'loading', 'globalize'], function (playbackManager, userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager, loading, globalize) {
+﻿define(['layoutManager', 'playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'loading', 'globalize'], function (layoutManager, playbackManager, userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager, loading, globalize) {
     'use strict';
 
     function trySelectValue(instance, scroller, view, value) {
@@ -100,21 +100,25 @@
             numItems = 100;
         }
 
+        var elemWithPadding = instance.itemsContainer.classList.contains('padded-left') ?
+            instance.itemsContainer :
+            instance.itemsContainer.parentNode;
+
         if (values.sortBy === 'SortName' && values.sortOrder === 'Ascending' && numItems > 40) {
             alphaPicker.classList.remove('hide');
 
             if (layoutManager.tv) {
-                instance.itemsContainer.parentNode.classList.add('padded-left-withalphapicker');
+                elemWithPadding.classList.add('padded-left-withalphapicker');
             }
             else {
-                instance.itemsContainer.parentNode.classList.add('padded-right-withalphapicker');
+                elemWithPadding.classList.add('padded-right-withalphapicker');
             }
 
 
         } else {
             alphaPicker.classList.add('hide');
-            instance.itemsContainer.parentNode.classList.remove('padded-left-withalphapicker');
-            instance.itemsContainer.parentNode.classList.remove('padded-right-withalphapicker');
+            elemWithPadding.classList.remove('padded-left-withalphapicker');
+            elemWithPadding.classList.remove('padded-right-withalphapicker');
       }
     }
 

@@ -205,10 +205,11 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     function translateKeyFromModule(key, module) {
 
         var dictionary = getDictionary(module);
+        var result;
 
         if (dictionary) {
 
-            var result = dictionary[key];
+            result = dictionary[key];
             if (result) {
                 return result;
             }
@@ -218,7 +219,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
         if (dictionary) {
 
-            var result = dictionary[key];
+            result = dictionary[key];
             if (result) {
                 return result;
             }
