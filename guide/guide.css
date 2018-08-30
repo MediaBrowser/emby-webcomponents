@@ -58,7 +58,6 @@
 .timeslotHeaders {
     white-space: nowrap;
     font-weight: 500;
-    font-size: 120%;
 }
 
 .programContainer {
@@ -414,17 +413,11 @@
     text-align: center;
 }
 
-.guide-date-tab-button {
-    padding: .3em .7em !important;
-    margin: 0 .3em !important;
-    font-weight: normal;
+.guide-date-tab-button.emby-tab-button-active {
+    border-color: transparent !important;
 }
 
-    .guide-date-tab-button.emby-tab-button-active {
-        border-color: transparent !important;
-    }
-
-    .guide-date-tab-button.emby-button-tv:focus {
-        border-radius: .15em !important;
-        transform: none !important;
-    }
+.guide-date-tab-button.emby-button-tv:focus {
+    border-radius: .15em !important;
+    transform: none !important;
+}
