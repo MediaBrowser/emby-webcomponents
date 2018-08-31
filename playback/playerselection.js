@@ -241,7 +241,7 @@
 
         html += '<button is="emby-button" type="button" class="button-flat btnRemoteControl promptDialogButton">' + globalize.translate('sharedcomponents#HeaderRemoteControl') + '</button>';
         html += '<button is="emby-button" type="button" class="button-flat btnDisconnect promptDialogButton ">' + globalize.translate('sharedcomponents#Disconnect') + '</button>';
-        html += '<button is="emby-button" type="button" class="button-flat btnCancel promptDialogButton">' + globalize.translate('sharedcomponents#ButtonCancel') + '</button>';
+        html += '<button is="emby-button" type="button" class="button-flat btnCancel promptDialogButton">' + globalize.translate('sharedcomponents#Cancel') + '</button>';
         html += '</div>';
 
         html += '</div>';

@@ -197,7 +197,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
                 [
                     {
                         action: 'cancel-install',
-                        title: globalize.translate('sharedcomponents#ButtonCancel'),
+                        title: globalize.translate('sharedcomponents#Cancel'),
                         icon: getIconUrl()
                     }
                 ];

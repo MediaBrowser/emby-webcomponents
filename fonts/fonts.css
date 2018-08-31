@@ -1,5 +1,5 @@
 html {
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica", system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", 'Open Sans', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", 'Open Sans', sans-serif;
 }
 
 html {
@@ -8,9 +8,9 @@ html {
     text-size-adjust: 100%;
 }
 
-h3 {
+h1, h2, h3 {
     /* For better bolding, since Helvetica does not support 500 weight, and 600 is too thick */
-    font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", 'Open Sans', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", 'Open Sans', sans-serif;
 }
 
 h1 {

@@ -1,4 +1,4 @@
-define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost) {
+define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton'], function (dom, itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost) {
     'use strict';
 
     function getIndex(item, options) {
@@ -143,7 +143,7 @@ define(['itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutMan
             } else {
                 html += '<div class="secondary listItemBodyText">';
             }
-            html += (textlines[i] || '&nbsp;');
+            html += dom.htmlEncode(text);
             if (i === 0 && isLargeStyle) {
                 html += '</' + largeTitleTagName + '>';
             } else {

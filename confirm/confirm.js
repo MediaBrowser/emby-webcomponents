@@ -16,7 +16,7 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
         var items = [];
 
         items.push({
-            name: options.cancelText || globalize.translate('sharedcomponents#ButtonCancel'),
+            name: options.cancelText || globalize.translate('sharedcomponents#Cancel'),
             id: 'cancel',
             type: options.primary === 'cancel' ? 'submit' : 'cancel'
         });
