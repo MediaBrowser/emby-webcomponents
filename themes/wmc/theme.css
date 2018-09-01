@@ -418,3 +418,8 @@ html {
     background: rgba(0,0,0,.3);
 }
 
+/* scrollbuttons */
+.scrollbuttoncontainer {
+    color: #000;
+    background: rgba(255,255,255,.9);
+}

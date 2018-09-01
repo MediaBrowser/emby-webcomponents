@@ -1,6 +1,11 @@
 define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
+    function replaceAll(originalString, strReplace, strWith) {
+        var reg = new RegExp(strReplace, 'ig');
+        return originalString.replace(reg, strWith);
+    }
+
     function showDialog(options, template) {
 
         var dialogOptions = {
@@ -44,10 +49,15 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
             dlg.querySelector('.formDialogHeaderTitle').classList.add('hide');
         }
 
-        var displayText = options.html || options.text || '';
-        dlg.querySelector('.text').innerHTML = displayText;
+        if (options.html) {
 
-        if (!displayText) {
+            dlg.querySelector('.text').innerHTML = options.html;
+
+        } else if (options.text) {
+
+            dlg.querySelector('.text').innerText = options.text;
+
+        } else {
             dlg.querySelector('.dialogContentInner').classList.add('hide');
         }
 

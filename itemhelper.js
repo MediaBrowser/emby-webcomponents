@@ -104,7 +104,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         var itemType = item.Type;
 
-        if (itemType === "UserRootFolder" || /*itemType == "CollectionFolder" ||*/ itemType === "UserView") {
+        if (itemType === "UserRootFolder" || itemType == "CollectionFolder" || itemType === "UserView") {
             return false;
         }
 

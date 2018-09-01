@@ -461,3 +461,9 @@ html, .backgroundContainer {
 .emby-slider-background {
     background: rgba(0,0,0,.1);
 }
+
+/* scrollbuttons */
+.scrollbuttoncontainer {
+    color: #fff;
+    background: rgba(0,0,0,.9);
+}

@@ -4,29 +4,15 @@
 
 .scrollbuttoncontainer {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: 10%;
+    bottom: 30%;
     align-items: center;
     justify-content: center;
     z-index: 1;
-    font-size: 3em;
-    color: #fff;
+    font-size: 2.4em;
     display: none;
     overflow: hidden;
-}
-
-.scrollbuttoncontainer-left {
-    background: rgba(20, 20, 20, .5);
-    background: -moz-linear-gradient(left,#000 0,rgba(0,0,0,0) 100%);
-    background: -webkit-linear-gradient(left,#000 0,rgba(0,0,0,0) 100%);
-    background: linear-gradient(to right,#000,rgba(0,0,0,0));
-}
-
-.scrollbuttoncontainer-right {
-    background: rgba(20, 20, 20, .5);
-    background: -moz-linear-gradient(right,#000 0,rgba(0,0,0,0) 100%);
-    background: -webkit-linear-gradient(right,#000 0,rgba(0,0,0,0) 100%);
-    background: linear-gradient(to left,#000,rgba(0,0,0,0));
+    border-radius: .15em;
 }
 
 .emby-scrollbuttons-scroller:hover .scrollbuttoncontainer {
