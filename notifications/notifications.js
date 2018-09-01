@@ -268,7 +268,7 @@ define(['serverNotifications', 'playbackManager', 'events', 'globalize', 'requir
         [
             {
                 action: 'restart',
-                title: globalize.translate('sharedcomponents#ButtonRestart'),
+                title: globalize.translate('sharedcomponents#RestartServer'),
                 icon: getIconUrl()
             }
         ];
