@@ -77,7 +77,6 @@
             preferDisc: preferDisc,
             overlayMoreButton: !layoutManager.tv,
             showTitle: settings.showTitle,
-            showYear: settings.showYear,
             overlayText: !settings.showTitle,
             cardLayout: cardLayout
         });
@@ -94,7 +93,6 @@
 
         // set defaults
         settings.showTitle = settings.showTitle !== false;
-        settings.showYear = settings.showYear !== false;
 
         return settings;
     };
@@ -116,7 +114,6 @@
 
         return [
             'showTitle',
-            'showYear',
             'imageType'
         ];
     };
