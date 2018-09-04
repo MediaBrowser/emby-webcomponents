@@ -337,10 +337,11 @@
 
                 if (renderOptions.showHdIcon) {
                     programFields.push('IsHD');
+                    programFields.push('Width');
                 }
 
                 if (programFields.length) {
-                    programQuery.Fields = programFields.join('');
+                    programQuery.Fields = programFields.join(',');
                 }
 
                 apiClient.getLiveTvPrograms(programQuery).then(function (programsResult) {
@@ -594,7 +595,7 @@
 
                     html += '</div>';
 
-                    if (program.IsHD && options.showHdIcon) {
+                    if (options.showHdIcon && ((program.Width && program.Width >= 1200) || program.IsHD)) {
                         //html += '<i class="guideHdIcon md-icon programIcon">hd</i>';
                         if (layoutManager.tv) {
                             html += '<div class="programIcon guide-programTextIcon guide-programTextIcon-tv">HD</div>';

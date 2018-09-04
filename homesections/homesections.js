@@ -452,29 +452,21 @@
 
         return function (items) {
 
-            var shape = itemType === 'Channel' || viewType === 'movies' ?
-                getPortraitShape() :
-                viewType === 'music' ?
-                    getSquareShape() :
-                    getThumbShape();
-
             var cardLayout = false;
 
             return cardBuilder.getCardsHtml({
                 items: items,
-                shape: shape,
-                preferThumb: viewType !== 'movies' && itemType !== 'Channel' && viewType !== 'music' ? 'auto' : null,
+                shape: viewType === 'tvshows' ? 'overflowBackdrop' : 'autooverflow',
+                preferThumb: 'auto',
                 showUnplayedIndicator: false,
                 showChildCountIndicator: true,
                 context: 'home',
                 overlayText: false,
-                centerText: !cardLayout,
+                centerText: true,
                 overlayPlayButton: viewType !== 'photos',
-                allowBottomPadding: !enableScrollX() && !cardLayout,
-                cardLayout: cardLayout,
                 showTitle: viewType !== 'photos',
                 showYear: viewType === 'movies' || viewType === 'tvshows' || !viewType,
-                showParentTitle: viewType === 'music' || viewType === 'tvshows' || !viewType || (cardLayout && (viewType === 'tvshows')),
+                showParentTitle: viewType === 'music' || viewType === 'tvshows' || !viewType,
                 lines: 2
             });
         };

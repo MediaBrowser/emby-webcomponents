@@ -55,7 +55,7 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
 
         } else if (options.text) {
 
-            dlg.querySelector('.text').innerText = options.text;
+            dlg.querySelector('.text').innerText = replaceAll(options.text || '', '<br/>', '\n');
 
         } else {
             dlg.querySelector('.dialogContentInner').classList.add('hide');
