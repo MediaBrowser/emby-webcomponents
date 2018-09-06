@@ -1,4 +1,13 @@
 {
+    "ButtonGenerateNewPin": "Generate New Pin",
+    "PinExpiredMessage": "The pin code has expired. Please click Generate New Pin to try again.",
+    "ConnectLoginHelp1": "With Emby Connect you can easily access your Emby Server wherever you are and share servers with your family and friends.",
+    "CreatePinErrorMessage": "An error occurred while creating a pin code. Please click Generate New Pin to try again.",
+    "RememberMe": "Lembrar de mim",
+    "Systems": "Systems",
+    "Invitations": "Invitations",
+    "Skip": "Skip",
+    "ConnectPinCodeHeader": "To sign in with Emby Connect, use a mobile device or computer to visit {0} and enter the following pin code:",
     "MessageUnlockAppWithPurchaseOrSupporter": "Desbloqueie esta funcionalidade com uma pequena compra \u00fanica, ou com uma assinatura ativa do Emby Premiere.",
     "MessageUnlockAppWithSupporter": "Desbloqueie esta funcionalidade com uma assinatura ativa do Emby Premiere.",
     "MessageToValidateSupporter": "Se tiver uma assinatura ativa do Emby Premiere, assegure-se que configurou o Emby Premiere no Painel do Servidor Emby, que pode ser acessado clicando Emby Premiere no menu principal.",

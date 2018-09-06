@@ -808,7 +808,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
 
             var lines = [];
-            var parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo';
+            var parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo' || item.Type === 'Game';
             var titleAdded;
 
             var serverId = item.ServerId || options.serverId;
@@ -841,7 +841,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             }
 
                         } else {
-                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || (item.Type === 'Game' ? item.GameSystem : null) || "";
+                            var parentTitle = item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || "";
 
                             if (parentTitle || showTitle) {
                                 lines.push(dom.htmlEncode(parentTitle));
@@ -876,6 +876,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         item.AlbumArtists[0].Type = 'MusicArtist';
                         item.AlbumArtists[0].IsFolder = true;
                         lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
+                    } else if (isOuterFooter && item.GameSystem && item.GameSystemId) {
+                        lines.push(getTextActionButton({
+                            Id: item.GameSystemId,
+                            ServerId: serverId,
+                            Name: item.GameSystem,
+                            Type: 'GameSystem',
+                            IsFolder: true
+                        }));
                     } else {
                         lines.push(dom.htmlEncode(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || "")));
                     }

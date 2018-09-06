@@ -83,6 +83,9 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         if (item.MediaType === 'Photo') {
             return false;
         }
+        if (item.MediaType === 'Game') {
+            return false;
+        }
 
         if (item.Type === 'Recording') {
             if (item.Status !== 'Completed') {
@@ -327,7 +330,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             var type = item.Type;
-            if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer') {
+            if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer' || type === 'GameGenre') {
                 return false;
             }
 

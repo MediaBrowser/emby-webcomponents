@@ -108,12 +108,13 @@
             alphaPicker.classList.remove('hide');
 
             if (layoutManager.tv) {
+                elemWithPadding.classList.remove('padded-right-withalphapicker');
                 elemWithPadding.classList.add('padded-left-withalphapicker');
             }
             else {
+                elemWithPadding.classList.remove('padded-left-withalphapicker');
                 elemWithPadding.classList.add('padded-right-withalphapicker');
             }
-
 
         } else {
             alphaPicker.classList.add('hide');

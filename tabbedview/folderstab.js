@@ -78,7 +78,8 @@
             overlayMoreButton: !layoutManager.tv,
             showTitle: settings.showTitle,
             overlayText: !settings.showTitle,
-            cardLayout: cardLayout
+            cardLayout: cardLayout,
+            context: 'folders'
         });
     };
 

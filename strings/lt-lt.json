@@ -1,4 +1,13 @@
 {
+    "ButtonGenerateNewPin": "Generate New Pin",
+    "PinExpiredMessage": "The pin code has expired. Please click Generate New Pin to try again.",
+    "ConnectLoginHelp1": "With Emby Connect you can easily access your Emby Server wherever you are and share servers with your family and friends.",
+    "CreatePinErrorMessage": "An error occurred while creating a pin code. Please click Generate New Pin to try again.",
+    "RememberMe": "Remember me",
+    "Systems": "Systems",
+    "Invitations": "Invitations",
+    "Skip": "Skip",
+    "ConnectPinCodeHeader": "To sign in with Emby Connect, use a mobile device or computer to visit {0} and enter the following pin code:",
     "MessageUnlockAppWithPurchaseOrSupporter": "Atrakinkite \u0161i\u0105 funkcij\u0105 nedideliu vienkartiniu mokes\u010diu arba \u012fsigij\u0119 Emby Premiere prenumerat\u0105.",
     "MessageUnlockAppWithSupporter": "Atrakinkite \u0161i\u0105 funkcij\u0105 \u012fsigij\u0119 Emby Premiere prenumerat\u0105.",
     "MessageToValidateSupporter": "Jei turite aktyvi\u0105 Emby Premiere prenumerat\u0105, sutvarkykite Emby Premiere savo Emby Serverio skydelyje. Tai galite atlikti paspaud\u0117 Emby Premiere u\u017era\u0161\u0105 pagrindiniame meniu.",
