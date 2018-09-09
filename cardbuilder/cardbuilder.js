@@ -1024,7 +1024,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.showPersonRoleOrType) {
                     if (item.Role) {
-                        lines.push('as ' + item.Role);
+                        lines.push(globalize.translate('sharedcomponents#ActorAsRole', item.Role));
                     }
                     else if (item.Type) {
                         lines.push(globalize.translate('sharedcomponents#' + item.Type));

@@ -21,6 +21,7 @@
   "AirDate": "Air date",
   "Played": "Played",
   "Invitations": "Invitations",
+  "ActorAsRole":  "as {0}",
   "ButtonOk": "Ok",
   "Users": "Users",
   "Library": "Library",

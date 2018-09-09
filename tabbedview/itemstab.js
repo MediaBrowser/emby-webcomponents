@@ -110,17 +110,21 @@
             if (layoutManager.tv) {
                 elemWithPadding.classList.remove('padded-right-withalphapicker');
                 elemWithPadding.classList.add('padded-left-withalphapicker');
+                alphaPicker.classList.add('alphaPicker-fixed-left');
+                alphaPicker.classList.remove('alphaPicker-fixed-right');
             }
             else {
                 elemWithPadding.classList.remove('padded-left-withalphapicker');
                 elemWithPadding.classList.add('padded-right-withalphapicker');
+                alphaPicker.classList.remove('alphaPicker-fixed-left');
+                alphaPicker.classList.add('alphaPicker-fixed-right');
             }
 
         } else {
             alphaPicker.classList.add('hide');
             elemWithPadding.classList.remove('padded-left-withalphapicker');
             elemWithPadding.classList.remove('padded-right-withalphapicker');
-      }
+        }
     }
 
     function showSortMenu() {
