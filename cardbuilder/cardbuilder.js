@@ -477,6 +477,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var imgUrl = null;
             var coverImage = false;
             var uiAspect = null;
+            // .24 as opposed to .2 looks nice for nintendo 64
+            var coverImageTolerance = 0.24;
 
             if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
 
@@ -570,7 +572,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
-                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
+                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= coverImageTolerance;
                     }
                 }
 
@@ -592,7 +594,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
-                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
+                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= coverImageTolerance;
                     }
                 }
             }
@@ -626,7 +628,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (primaryImageAspectRatio) {
                     uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
-                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= 0.2;
+                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= coverImageTolerance;
                     }
                 }
             }

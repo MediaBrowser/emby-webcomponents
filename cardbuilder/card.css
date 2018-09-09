@@ -712,8 +712,12 @@ button {
 
 @media (min-width: 100em) {
 
-    .overflowBackdropCard, .overflowSmallBackdropCard {
+    .overflowBackdropCard {
         width: 18.7vw;
+    }
+
+    .overflowSmallBackdropCard {
+        width: 15.6vw;
     }
 
     .overflowSquareCard, .overflowPortraitCard {
@@ -737,8 +741,12 @@ button {
 
 @media (min-width: 156.25em) {
 
-    .overflowBackdropCard, .overflowSmallBackdropCard {
+    .overflowBackdropCard {
         width: 15.6vw;
+    }
+
+    .overflowSmallBackdropCard {
+        width: 13.3vw;
     }
 }
 
