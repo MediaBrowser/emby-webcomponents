@@ -60,13 +60,18 @@ button {
     contain: strict;
 }
 
-.cardPadder-square, .cardPadder-mixedSquare, .cardPadder-overflowSquare, .overflowSquareCard-textCardPadder {
+.cardPadder-square, .cardPadder-mixedSquare, .cardPadder-overflowSquare {
     padding-bottom: 100%;
     contain: strict;
 }
 
-.cardPadder-portrait, .cardPadder-mixedPortrait, .cardPadder-overflowPortrait, .overflowPortraitCard-textCardPadder {
+.cardPadder-portrait, .cardPadder-mixedPortrait, .cardPadder-overflowPortrait {
     padding-bottom: 150%;
+    contain: strict;
+}
+
+.cardPadder-fourThree, .cardPadder-overflowFourThree {
+    padding-bottom: 75%;
     contain: strict;
 }
 
@@ -187,10 +192,6 @@ button {
 .chapterCardImageContainer {
     background-color: #000;
     border-radius: 0;
-}
-
-.textCardImageContainer {
-    background-color: #333;
 }
 
 .cardContent {
@@ -463,6 +464,10 @@ button {
     width: 50%;
 }
 
+.fourThreeCard {
+    width: 50%;
+}
+
 .squareCard {
     width: 50%;
 }
@@ -499,10 +504,18 @@ button {
     .squareCard, .portraitCard {
         width: 33.333333333333333333333333333333%;
     }
+
+    .fourThreeCard {
+        width: 33.333333333333333333333333333333%;
+    }
 }
 
 @media (min-width: 43.75em) {
     .squareCard, .portraitCard {
+        width: 25%;
+    }
+
+    .fourThreeCard {
         width: 25%;
     }
 }
@@ -534,6 +547,10 @@ button {
     .smallBackdropCard {
         width: 20%;
     }
+
+    .fourThreeCard {
+        width: 20%;
+    }
 }
 
 @media (min-width: 75em) {
@@ -580,6 +597,10 @@ button {
     .squareCard, .portraitCard {
         width: 12.5%;
     }
+
+    .fourThreeCard {
+        width: 16.666666666666666666666666666667%;
+    }
 }
 
 @media (min-width: 120em) {
@@ -598,17 +619,26 @@ button {
     .squareCard, .portraitCard {
         width: 10%;
     }
-}
-
-@media (min-width: 156.25em) {
 
     .backdropCard {
         width: 16.666666666666666666666666666667%;
+    }
+
+    .fourThreeCard {
+        width: 14.285714285714285714285714285714%;
     }
 }
 
 .itemsContainer-tv > .backdropCard {
     width: 25%;
+}
+
+.itemsContainer-tv > .fourThreeCard {
+    width: 20%;
+}
+
+.itemsContainer-tv > .bannerCard {
+    width: 50%;
 }
 
 .itemsContainer-tv > .squareCard {
@@ -631,6 +661,10 @@ button {
     width: 40vw;
 }
 
+.overflowFourThreeCard {
+    width: 40vw;
+}
+
 @media (min-width: 25em) {
     .overflowPortraitCard {
         width: 31.2vw;
@@ -648,6 +682,10 @@ button {
 
     .overflowSmallBackdropCard {
         width: 30vw;
+    }
+
+    .overflowFourThreeCard {
+        width: 31.2vw;
     }
 }
 
@@ -671,10 +709,18 @@ button {
     .overflowSquareCard, .overflowPortraitCard {
         width: 23.3vw;
     }
+
+    .overflowFourThreeCard {
+        width: 31.2vw;
+    }
 }
 
 @media (orientation: landscape) and (min-width: 48.125em) {
     .overflowBackdropCard, .overflowSmallBackdropCard {
+        width: 23.3vw;
+    }
+
+    .overflowFourThreeCard {
         width: 23.3vw;
     }
 }
@@ -701,6 +747,10 @@ button {
     .overflowSquareCard, .overflowPortraitCard {
         width: 15.5vw;
     }
+
+    .overflowFourThreeCard {
+        width: 18.4vw;
+    }
 }
 
 @media (min-width: 87.5em) {
@@ -723,6 +773,10 @@ button {
     .overflowSquareCard, .overflowPortraitCard {
         width: 11.6vw;
     }
+
+    .overflowFourThreeCard {
+        width: 15.5vw;
+    }
 }
 
 @media (min-width: 120em) {
@@ -737,6 +791,10 @@ button {
     .overflowSquareCard, .overflowPortraitCard {
         width: 9.3vw;
     }
+
+    .overflowFourThreeCard {
+        width: 13.3vw;
+    }
 }
 
 @media (min-width: 156.25em) {
@@ -750,16 +808,12 @@ button {
     }
 }
 
+.itemsContainer-tv > .overflowFourThreeCard {
+    width: 18.8vw;
+}
+
 .itemsContainer-tv > .overflowBackdropCard {
     width: 23.5vw;
-}
-
-.overflowBackdropCard-textCard {
-    width: 15.5vw !important;
-}
-
-.overflowBackdropCard-textCardPadder {
-    padding-bottom: 87.75%;
 }
 
 .itemsContainer-tv > .overflowSquareCard, .itemsContainer-tv > .overflowPortraitCard {

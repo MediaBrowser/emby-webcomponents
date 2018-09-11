@@ -51,6 +51,26 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         return 100 / 33.33333333;
                     }
                     return 100 / 33.33333333;
+                case 'fourthree':
+                    if (layoutManager.tv) {
+                        return 100 / 20;
+                    }
+                    if (screenWidth >= 2100) {
+                        return 100 / 14.28571428571;
+                    }
+                    if (screenWidth >= 1600) {
+                        return 100 / 16.66666667;
+                    }
+                    if (screenWidth >= 1000) {
+                        return 100 / 20;
+                    }
+                    if (screenWidth >= 700) {
+                        return 100 / 25;
+                    }
+                    if (screenWidth >= 500) {
+                        return 100 / 33.33333333;
+                    }
+                    return 2;
                 case 'square':
                     if (layoutManager.tv) {
                         return 100 / 16.66666667;
@@ -95,8 +115,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (layoutManager.tv) {
                         return 100 / 25;
                     }
-                    if (screenWidth >= 2500) {
-                        return 6;
+                    if (screenWidth >= 2100) {
+                        return 100 / 16.66666667;
                     }
                     if (screenWidth >= 1600) {
                         return 5;
@@ -131,6 +151,29 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         return 100 / 33.33333333;
                     }
                     return 2;
+                case 'overflowFourThree':
+                    if (layoutManager.tv) {
+                        return 100 / 18.8;
+                    }
+                    if (screenWidth >= 2100) {
+                        return 100 / 13.3;
+                    }
+                    if (screenWidth >= 1600) {
+                        return 100 / 15.5;
+                    }
+                    if (screenWidth >= 1200) {
+                        return 100 / 18.4;
+                    }
+                    if (isOrientationLandscape) {
+                        if (screenWidth >= 770) {
+                            return 100 / 23.3;
+                        }
+                        return 100 / 31.2;
+                    }
+                    if (screenWidth >= 504) {
+                        return 100 / 31.2;
+                    }
+                    return 100 / 40;
                 case 'overflowSmallBackdrop':
                     if (layoutManager.tv) {
                         return 100 / 18.9;
@@ -269,8 +312,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (primaryImageAspectRatio >= 3) {
                         options.shape = 'banner';
                         options.coverImage = true;
-                    } else if (primaryImageAspectRatio >= 1.33) {
+                    } else if (primaryImageAspectRatio >= 1.4) {
                         options.shape = requestedShape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
+                    } else if (primaryImageAspectRatio > 1.2) {
+                        options.shape = requestedShape === 'autooverflow' ? 'overflowFourThree' : 'fourThree';
                     } else if (primaryImageAspectRatio > 0.71) {
                         options.shape = requestedShape === 'autooverflow' ? 'overflowSquare' : 'square';
                     } else {
@@ -458,6 +503,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (shape.indexOf('square') !== -1) {
                     return 1;
                 }
+                if (shape.indexOf('fourthree') !== -1) {
+                    return (4 / 3);
+                }
                 if (shape.indexOf('banner') !== -1) {
                     return (1000 / 185);
                 }
@@ -480,36 +528,38 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             // .24 as opposed to .2 looks nice for nintendo 64
             var coverImageTolerance = 0.24;
 
-            if (options.preferThumb && item.ImageTags && item.ImageTags.Thumb) {
+            var imageTags = item.ImageTags;
+
+            if (options.preferThumb && imageTags && imageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
                     maxWidth: width,
-                    tag: item.ImageTags.Thumb
+                    tag: imageTags.Thumb
                 });
 
-            } else if ((options.preferBanner || shape === 'banner') && item.ImageTags && item.ImageTags.Banner) {
+            } else if ((options.preferBanner || shape === 'banner') && imageTags && imageTags.Banner) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Banner",
                     maxWidth: width,
-                    tag: item.ImageTags.Banner
+                    tag: imageTags.Banner
                 });
 
-            } else if (options.preferDisc && item.ImageTags && item.ImageTags.Disc) {
+            } else if (options.preferDisc && imageTags && imageTags.Disc) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Disc",
                     maxWidth: width,
-                    tag: item.ImageTags.Disc
+                    tag: imageTags.Disc
                 });
 
-            } else if (options.preferLogo && item.ImageTags && item.ImageTags.Logo) {
+            } else if (options.preferLogo && imageTags && imageTags.Logo) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Logo",
                     maxWidth: width,
-                    tag: item.ImageTags.Logo
+                    tag: imageTags.Logo
                 });
 
             } else if (options.preferLogo && item.ParentLogoImageTag && item.ParentLogoItemId) {
@@ -554,7 +604,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     tag: item.ParentBackdropImageTags[0]
                 });
 
-            } else if (item.ImageTags && item.ImageTags.Primary) {
+            } else if (imageTags && imageTags.Primary) {
 
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
@@ -562,7 +612,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     type: "Primary",
                     maxHeight: height,
                     maxWidth: width,
-                    tag: item.ImageTags.Primary
+                    tag: imageTags.Primary
                 });
 
                 if (options.preferThumb && options.showTitle !== false) {
@@ -632,12 +682,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
             }
-            else if (item.Type === 'Season' && item.ImageTags && item.ImageTags.Thumb) {
+            else if (item.Type === 'Season' && imageTags && imageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
                     maxWidth: width,
-                    tag: item.ImageTags.Thumb
+                    tag: imageTags.Thumb
                 });
 
             }
@@ -649,12 +699,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     tag: item.BackdropImageTags[0]
                 });
 
-            } else if (item.ImageTags && item.ImageTags.Thumb) {
+            } else if (imageTags && imageTags.Thumb) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.Id, {
                     type: "Thumb",
                     maxWidth: width,
-                    tag: item.ImageTags.Thumb
+                    tag: imageTags.Thumb
                 });
 
             } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
@@ -759,8 +809,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function isUsingLiveTvNaming(item) {
-            return item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording';
+        function isUsingLiveTvNaming(itemType) {
+
+            return itemType === 'Program' || itemType === 'Timer' || itemType === 'Recording';
         }
 
         function getAirTimeText(item, showAirDateTime, showAirEndTime) {
@@ -792,6 +843,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
 
+            var itemType = item.Type;
+
             var html = '';
 
             if (logoUrl) {
@@ -810,7 +863,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
 
             var lines = [];
-            var parentTitleUnderneath = item.Type === 'MusicAlbum' || item.Type === 'Audio' || item.Type === 'MusicVideo' || item.Type === 'Game';
+            var parentTitleUnderneath = itemType === 'MusicAlbum' || itemType === 'Audio' || itemType === 'MusicVideo' || itemType === 'Game';
             var titleAdded;
 
             var serverId = item.ServerId || options.serverId;
@@ -818,7 +871,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (showOtherText) {
                 if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
 
-                    if (isOuterFooter && item.Type === 'Episode' && item.SeriesName) {
+                    if (isOuterFooter && itemType === 'Episode' && item.SeriesName) {
 
                         if (item.SeriesId) {
                             lines.push(getTextActionButton({
@@ -834,7 +887,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                     else {
 
-                        if (isUsingLiveTvNaming(item)) {
+                        if (isUsingLiveTvNaming(itemType)) {
 
                             lines.push(dom.htmlEncode(item.Name));
 
@@ -887,7 +940,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             IsFolder: true
                         }));
                     } else {
-                        lines.push(dom.htmlEncode(isUsingLiveTvNaming(item) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || "")));
+                        lines.push(dom.htmlEncode(isUsingLiveTvNaming(itemType) ? item.Name : (item.SeriesName || item.Series || item.Album || item.AlbumArtist || item.GameSystem || "")));
                     }
                 }
 
@@ -936,7 +989,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.showYear || options.showSeriesYear) {
 
-                    if (item.Type === 'Series') {
+                    if (itemType === 'Series') {
                         if (item.Status === "Continuing") {
 
                             lines.push(globalize.translate('sharedcomponents#SeriesYearToPresent', item.ProductionYear || ''));
@@ -988,7 +1041,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
 
-                if (options.showCurrentProgram && item.Type === 'TvChannel') {
+                if (options.showCurrentProgram && itemType === 'TvChannel') {
 
                     if (item.CurrentProgram) {
                         lines.push(item.CurrentProgram.Name);
@@ -997,7 +1050,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
 
-                if (options.showCurrentProgramTime && item.Type === 'TvChannel') {
+                if (options.showCurrentProgramTime && itemType === 'TvChannel') {
 
                     if (item.CurrentProgram) {
                         lines.push(getAirTimeText(item.CurrentProgram, false, true) || '');
@@ -1028,8 +1081,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (item.Role) {
                         lines.push(globalize.translate('sharedcomponents#ActorAsRole', item.Role));
                     }
-                    else if (item.Type) {
-                        lines.push(globalize.translate('sharedcomponents#' + item.Type));
+                    else if (itemType) {
+                        lines.push(globalize.translate('sharedcomponents#' + itemType));
                     } else {
                         lines.push('');
                     }
@@ -1083,8 +1136,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var counts = [];
 
             var childText;
+            var itemType = item.Type;
 
-            if (item.Type === 'Playlist') {
+            if (itemType === 'Playlist') {
 
                 childText = '';
 
@@ -1103,7 +1157,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 counts.push(childText);
 
             }
-            else if (item.Type === 'Genre' || item.Type === 'Studio') {
+            else if (itemType === 'Genre' || itemType === 'Studio') {
 
                 if (item.MovieCount) {
 
@@ -1139,7 +1193,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     counts.push(childText);
                 }
 
-            } else if (item.Type === 'GameGenre') {
+            } else if (itemType === 'GameGenre') {
 
                 if (item.GameCount) {
 
@@ -1149,7 +1203,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     counts.push(childText);
                 }
-            } else if (item.Type === 'MusicGenre' || options.context === "MusicArtist") {
+            } else if (itemType === 'MusicGenre' || options.context === "MusicArtist") {
 
                 if (item.AlbumCount) {
 
@@ -1176,7 +1230,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     counts.push(childText);
                 }
 
-            } else if (item.Type === 'Series') {
+            } else if (itemType === 'Series') {
 
                 childText = item.RecursiveItemCount === 1 ?
                     globalize.translate('sharedcomponents#ValueOneEpisode') :
@@ -1231,6 +1285,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function buildCard(index, item, apiClient, options) {
 
+            var itemType = item.Type;
             var action = options.action || 'link';
 
             if (action === 'play' && item.IsFolder) {
@@ -1294,7 +1349,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var forceName = imgInfo.forceName;
 
-            var showTitle = options.showTitle === 'auto' ? true : (options.showTitle || item.Type === 'PhotoAlbum' || item.Type === 'Folder');
+            var showTitle = options.showTitle === 'auto' ? true : (options.showTitle || itemType === 'PhotoAlbum' || itemType === 'Folder');
             var overlayText = options.overlayText;
 
             if (forceName && !options.cardLayout) {
@@ -1310,7 +1365,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (coveredImage) {
                 cardImageContainerClass += ' coveredImage';
 
-                if (item.MediaType === 'Photo' || item.Type === 'PhotoAlbum' || item.Type === 'Folder' || item.ProgramInfo || item.Type === 'Program' || item.Type === 'Recording') {
+                if (item.MediaType === 'Photo' || itemType === 'PhotoAlbum' || itemType === 'Folder' || itemType === 'Program' || itemType === 'Recording' || itemType === 'TvChannel') {
                     cardImageContainerClass += ' coveredImage-noScale';
                 }
             }
@@ -1421,7 +1476,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
                 }
 
-                //if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || item.Type === 'Program') && item.Type !== 'Person') {
+                //if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || itemType === 'Program') && itemType !== 'Person') {
                 //    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
                 //}
 
@@ -1500,7 +1555,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
             }
 
-            if (item.Type === 'CollectionFolder' || item.CollectionType) {
+            if (itemType === 'CollectionFolder' || item.CollectionType) {
                 var refreshClass = item.RefreshProgress || (item.RefreshStatus && virtualFolder.item !== 'Idle') ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                 requireRefreshIndicator();
@@ -1510,7 +1565,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
             }
 
-            //if (item.Type === 'Program' || item.Type === 'Timer') {
+            //if (itemType === 'Program' || itemType === 'Timer') {
             //    cardImageContainerOpen += getProgramIndicators(item);
             //}
 
@@ -1544,7 +1599,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 actionAttribute = '';
             }
 
-            if (item.Type !== 'MusicAlbum' && item.Type !== 'MusicArtist' && item.Type !== 'Audio') {
+            if (itemType !== 'MusicAlbum' && itemType !== 'MusicArtist' && itemType !== 'Audio') {
                 className += ' card-withuserdata';
             }
 
@@ -1563,7 +1618,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
-            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + itemType + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
         function getHoverMenuHtml(item, action, options) {
@@ -1575,6 +1630,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var btnCssClass = 'cardOverlayButton cardOverlayButton-hover itemAction';
 
             var serverId = item.ServerId || options.serverId;
+            var itemType = item.Type;
+            var itemId = item.Id;
 
             if (playbackManager.canPlay(item)) {
 
@@ -1594,7 +1651,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (itemHelper.canMarkPlayed(item)) {
 
                 require(['emby-playstatebutton']);
-                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + serverId + '" data-itemtype="' + item.Type + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5CA;</i></button>';
+                html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + itemId + '" data-serverid="' + serverId + '" data-itemtype="' + itemType + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5CA;</i></button>';
             }
 
             if (itemHelper.canRate(item)) {
@@ -1602,7 +1659,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var likes = userData.Likes == null ? '' : userData.Likes;
 
                 require(['emby-ratingbutton']);
-                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + item.Id + '" data-serverid="' + serverId + '" data-itemtype="' + item.Type + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
+                html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + itemId + '" data-serverid="' + serverId + '" data-itemtype="' + itemType + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
             }
 
             html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5D3;</i></button>';
@@ -1614,6 +1671,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         function getCardDefaultText(item, options) {
+
+            var itemType = item.Type;
 
             var collectionType = item.CollectionType;
             if (collectionType === 'livetv') {
@@ -1631,20 +1690,20 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (collectionType === 'music') {
                 return '<i class="cardImageIcon md-icon">&#xE310;</i>';
             }
-            if (item.Type === 'MusicAlbum') {
+            if (itemType === 'MusicAlbum') {
                 return '<i class="cardImageIcon md-icon">&#xE019;</i>';
             }
-            if (item.Type === 'MusicArtist' || item.Type === 'Person') {
+            if (itemType === 'MusicArtist' || itemType === 'Person') {
                 return '<i class="cardImageIcon md-icon">&#xE7FD;</i>';
             }
-            if (item.Type === 'Channel') {
+            if (itemType === 'Channel') {
                 return '<i class="cardImageIcon md-icon">&#xE2C7;</i>';
             }
             if (options.defaultCardImageIcon) {
                 return '<i class="cardImageIcon md-icon">' + options.defaultCardImageIcon + '</i>';
             }
 
-            var defaultName = isUsingLiveTvNaming(item) ? item.Name : itemHelper.getDisplayName(item);
+            var defaultName = isUsingLiveTvNaming(itemType) ? item.Name : itemHelper.getDisplayName(item);
             return '<div class="cardText cardDefaultText">' + defaultName + '</div>';
         }
 

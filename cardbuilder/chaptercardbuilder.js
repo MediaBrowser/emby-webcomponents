@@ -21,6 +21,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             if ((videoStream.Width / videoStream.Height) <= 1.2) {
                 shape = (options.squareShape || 'overflowSquare');
             }
+            else if ((videoStream.Width / videoStream.Height) <= 1.4) {
+                shape = 'overflowFourThree';
+            }
         }
 
         className += ' ' + shape + 'Card';

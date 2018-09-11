@@ -63,6 +63,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
+                queryIncludeItemTypes === 'Game' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'TvChannel' ||
@@ -82,6 +83,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
+                queryIncludeItemTypes === 'Game' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'TvChannel' ||
@@ -112,6 +114,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'AudioBook' ||
+                queryIncludeItemTypes === 'Game' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'Movie' ||
                 query.MediaTypes === 'Video' ||
@@ -560,6 +563,22 @@
             IncludeItemTypes: "AudioBook"
 
         }, context, '.audioBookResults', {
+
+                showTitle: true,
+                overlayText: false,
+                centerText: true
+            });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            IncludeItemTypes: "Game"
+
+        }, context, '.gameResults', {
 
                 showTitle: true,
                 overlayText: false,
