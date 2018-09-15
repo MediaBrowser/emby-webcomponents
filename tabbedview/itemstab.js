@@ -337,6 +337,7 @@
         return {
             showTitle: userSettings.get(basekey + '-showTitle') !== 'false',
             showYear: userSettings.get(basekey + '-showYear') !== 'false',
+            groupItemsIntoCollections: userSettings.get(basekey + '-groupItemsIntoCollections') === 'true',
             imageType: userSettings.get(basekey + '-imageType') || this.getDefaultImageType()
         };
     };

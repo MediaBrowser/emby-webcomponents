@@ -1,9 +1,7 @@
 <div class="formDialogContent smoothScrollY" style="padding-top:2em;">
     <div class="dialogContentInner dialog-content-centered">
         <form style="margin:auto;">
-
             <div class="verticalSection">
-
                 <div class="selectContainer viewSetting hide" data-settingname="imageType">
                     <select is="emby-select" label="${LabelImageType}" class="selectImageType">
                         <option value="primary">${Primary}</option>
@@ -14,26 +12,31 @@
                         <option value="list">${List}</option>
                     </select>
                 </div>
-
                 <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide chkTitleContainer" data-settingname="showTitle">
                     <label>
                         <input is="emby-checkbox" type="checkbox" />
                         <span>${ShowTitle}</span>
                     </label>
                 </div>
-
                 <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide chkYearContainer" data-settingname="showYear">
                     <label>
                         <input is="emby-checkbox" type="checkbox" />
                         <span>${ShowYear}</span>
                     </label>
                 </div>
-
                 <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide" data-settingname="groupBySeries">
                     <label>
                         <input is="emby-checkbox" type="checkbox" />
                         <span>${GroupBySeries}</span>
                     </label>
+                </div>
+
+                <div class="checkboxContainer checkboxContainer-withDescription viewSetting viewSetting-checkboxContainer hide chkGroupItemsIntoCollections" data-settingname="groupItemsIntoCollections">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" />
+                        <span>${GroupItemsIntoCollections}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${GroupItemsIntoCollectionsHelp}</div>
                 </div>
             </div>
         </form>
