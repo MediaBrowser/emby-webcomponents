@@ -362,6 +362,7 @@
     "ActorAsRole": "est {0}",
     "GroupItemsIntoCollections": "Group items into collections",
     "GroupItemsIntoCollectionsHelp": "Group items based on collections they've been added to. Enabling certain filters or sort orders may automatically disable this.",
+    "HeaderLatestEpisodes": "Latest Episodes",
     "MessageUnlockAppWithPurchaseOrSupporter": "D\u00e9verrouillez cette fonctionnalit\u00e9 avec un petit achat unique, ou avec un abonnement Emby Premiere.",
     "MessageUnlockAppWithSupporter": "D\u00e9verrouillez cette fonctionnalit\u00e9 avec un abonnement Emby Premiere.",
     "MessageToValidateSupporter": "Si vous avez un abonnement Emby Premiere, veuillez vous assurer que vous avez configur\u00e9 Emby Premiere dans le tableau de bord de votre serveur Emby auquel vous pouvez acc\u00e9der en cliquant sur Emby Premiere dans le menu principal",

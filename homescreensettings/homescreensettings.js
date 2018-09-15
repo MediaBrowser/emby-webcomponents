@@ -28,6 +28,11 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('sharedcomponents#Collections'),
                 value: 'collections'
             });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Folders'),
+                value: 'folders'
+            });
         }
         else if (type === 'tvshows') {
 
@@ -40,14 +45,14 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('sharedcomponents#Suggestions'),
                 value: 'suggestions'
             });
-
-            list.push({
-                name: globalize.translate('sharedcomponents#Latest'),
-                value: 'latest'
-            });
             list.push({
                 name: globalize.translate('sharedcomponents#Favorites'),
                 value: 'favorites'
+            });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Folders'),
+                value: 'folders'
             });
         }
         else if (type === 'music') {
@@ -82,6 +87,11 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('sharedcomponents#Genres'),
                 value: 'genres'
             });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Folders'),
+                value: 'folders'
+            });
         }
         else if (type === 'livetv') {
 
@@ -93,6 +103,10 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             list.push({
                 name: globalize.translate('sharedcomponents#Guide'),
                 value: 'guide'
+            });
+            list.push({
+                name: globalize.translate('sharedcomponents#Channels'),
+                value: 'channels'
             });
         }
 
