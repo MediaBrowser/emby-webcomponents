@@ -268,34 +268,6 @@ define(['appSettings', 'events'], function (appsettings, events) {
         enableThemeVideos: true
     };
 
-    UserSettings.prototype.loadQuerySettings = function (key, query) {
-
-        var values = this.get(key);
-
-        if (values) {
-
-            values = JSON.parse(values);
-
-            return Object.assign(query, values);
-        }
-
-        return query;
-    };
-
-    UserSettings.prototype.saveQuerySettings = function (key, query) {
-
-        var values = {};
-
-        if (query.SortBy) {
-            values.SortBy = query.SortBy;
-        }
-        if (query.SortOrder) {
-            values.SortOrder = query.SortOrder;
-        }
-
-        return this.set(key, JSON.stringify(values));
-    };
-
     UserSettings.prototype.getSubtitleAppearanceSettings = function (key) {
 
         key = key || 'localplayersubtitleappearance3';

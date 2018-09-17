@@ -11,7 +11,12 @@
             card = view.querySelector('.card');
 
             if (card) {
-                scroller.toStart(card, false);
+
+                if (scroller) {
+                    scroller.toStart(card, false);
+                } else {
+                    card.querySelector('.cardContent-button').focus();
+                }
                 return;
             }
         }
@@ -19,7 +24,11 @@
         card = view.querySelector('.card[data-prefix^=\'' + value + '\']');
 
         if (card) {
-            scroller.toStart(card, false);
+            if (scroller) {
+                scroller.toStart(card, false);
+            } else {
+                card.querySelector('.cardContent-button').focus();
+            }
             return;
         }
 
@@ -34,7 +43,11 @@
             card = all.length ? all[all.length - 1] : null;
 
             if (card) {
-                scroller.toStart(card, false);
+                if (scroller) {
+                    scroller.toStart(card, false);
+                } else {
+                    card.querySelector('.cardContent-button').focus();
+                }
             }
         }
     }

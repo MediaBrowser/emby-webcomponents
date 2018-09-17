@@ -117,6 +117,7 @@
                 queryIncludeItemTypes === 'Game' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'Movie' ||
+                queryIncludeItemTypes === 'Playlist' ||
                 query.MediaTypes === 'Video' ||
                 query.MediaTypes === 'Photo') {
                 allowSearch = false;
@@ -185,18 +186,16 @@
 
             }, context, '.movieResults', {
 
-                    preferThumb: true,
-                    inheritThumb: false,
-                    shape: (enableScrollX() ? 'overflowPortrait' : 'portrait'),
-                    showParentTitleOrTitle: true,
-                    showTitle: false,
+                    shape: 'autooverflow',
+                    showParentTitle: true,
+                    showTitle: true,
                     centerText: true,
                     coverImage: true,
                     overlayText: false,
                     overlayMoreButton: true,
                     showAirTime: true,
                     showAirDateTime: true,
-                    showChannelName: true
+                    lines: 3
                 });
         } else {
 
@@ -252,18 +251,16 @@
 
             }, context, '.episodeResults', {
 
-                    preferThumb: true,
-                    inheritThumb: false,
-                    shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-                    showParentTitleOrTitle: true,
-                    showTitle: false,
+                    shape: 'autooverflow',
+                    showParentTitle: true,
+                    showTitle: true,
                     centerText: true,
                     coverImage: true,
                     overlayText: false,
                     overlayMoreButton: true,
                     showAirTime: true,
                     showAirDateTime: true,
-                    showChannelName: true
+                    lines: 3
                 });
 
         } else {
@@ -298,18 +295,16 @@
 
         }, context, '.sportsResults', {
 
-                preferThumb: true,
-                inheritThumb: false,
-                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-                showParentTitleOrTitle: true,
-                showTitle: false,
+                shape: 'autooverflow',
+                showParentTitle: true,
+                showTitle: true,
                 centerText: true,
                 coverImage: true,
                 overlayText: false,
                 overlayMoreButton: true,
                 showAirTime: true,
                 showAirDateTime: true,
-                showChannelName: true
+                lines: 3
 
             });
 
@@ -326,18 +321,15 @@
 
         }, context, '.kidsResults', {
 
-                preferThumb: true,
-                inheritThumb: false,
-                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-                showParentTitleOrTitle: true,
-                showTitle: false,
+                shape: 'autooverflow',
+                showParentTitle: true,
+                showTitle: true,
                 centerText: true,
                 coverImage: true,
                 overlayText: false,
                 overlayMoreButton: true,
                 showAirTime: true,
-                showAirDateTime: true,
-                showChannelName: true
+                showAirDateTime: true
 
             });
 
@@ -354,18 +346,16 @@
 
         }, context, '.newsResults', {
 
-                preferThumb: true,
-                inheritThumb: false,
-                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-                showParentTitleOrTitle: true,
-                showTitle: false,
+                shape: 'autooverflow',
+                showParentTitle: true,
+                showTitle: true,
                 centerText: true,
                 coverImage: true,
                 overlayText: false,
                 overlayMoreButton: true,
                 showAirTime: true,
                 showAirDateTime: true,
-                showChannelName: true
+                lines: 3
 
             });
 
@@ -385,18 +375,15 @@
 
         }, context, '.programResults', {
 
-                preferThumb: true,
-                inheritThumb: false,
-                shape: (enableScrollX() ? 'overflowBackdrop' : 'backdrop'),
-                showParentTitleOrTitle: true,
-                showTitle: false,
+                shape: 'autooverflow',
+                showParentTitle: true,
+                showTitle: true,
                 centerText: true,
                 coverImage: true,
                 overlayText: false,
-                overlayMoreButton: true,
                 showAirTime: true,
                 showAirDateTime: true,
-                showChannelName: true
+                lines: 3
 
             });
 
@@ -604,7 +591,7 @@
 
     function searchType(instance, apiClient, query, context, section, cardOptions) {
 
-        query.Limit = enableScrollX() ? 24 : 16;
+        query.Limit = 16;
         query.ParentId = instance.options.parentId;
 
         getSearchHints(instance, apiClient, query).then(function (result) {
@@ -625,19 +612,14 @@
 
             itemsContainer: itemsContainer,
             parentContainer: section,
-            shape: enableScrollX() ? 'autooverflow' : 'auto',
+            shape: 'autooverflow',
             scalable: true,
             overlayText: false,
-            centerText: true,
-            allowBottomPadding: !enableScrollX()
+            centerText: true
 
         }, cardOptions || {}));
 
         section.querySelector('.emby-scroller').scrollToBeginning(true);
-    }
-
-    function enableScrollX() {
-        return true;
     }
 
     function replaceAll(originalString, strReplace, strWith) {
@@ -648,11 +630,6 @@
     function embed(elem, instance, options) {
 
         require(['text!./searchresults.template.html'], function (template) {
-
-            if (!enableScrollX()) {
-                template = replaceAll(template, 'data-horizontal="true"', 'data-horizontal="false"');
-                template = replaceAll(template, 'itemsContainer scrollSlider', 'itemsContainer scrollSlider vertical-wrap');
-            }
 
             var html = globalize.translateDocument(template, 'sharedcomponents');
 
