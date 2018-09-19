@@ -768,10 +768,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var valid = 0;
             var i, length;
+            var currentCssClass = cssClass;
 
             for (i = 0, length = lines.length; i < length; i++) {
 
-                var currentCssClass = cssClass;
+                currentCssClass = cssClass;
                 var text = lines[i];
 
                 if (valid > 0 && isOuterFooter) {
@@ -801,7 +802,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 length = maxLines || Math.min(lines.length, maxLines || lines.length);
 
                 while (valid < length) {
-                    html += "<div class='" + cssClass + "'>&nbsp;</div>";
+
+                    currentCssClass = cssClass;
+                    if (valid > 0 && isOuterFooter) {
+                        currentCssClass += ' cardText-secondary';
+                    }
+
+                    html += "<div class='" + currentCssClass + "'>&nbsp;</div>";
                     valid++;
                 }
             }

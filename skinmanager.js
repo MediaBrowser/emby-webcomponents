@@ -141,6 +141,15 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         });
     }
 
+    function mapRoute(route) {
+
+        if (!currentSkin) {
+            return route;
+        }
+
+        return pluginManager.mapRoute(currentSkin, route);
+    }
+
     events.on(userSettings, 'change', function (e, name) {
         if (name === 'skin' || name === 'language') {
             loadUserSkin();
@@ -174,7 +183,8 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         getCurrentSkin: getCurrentSkin,
         loadSkin: loadSkin,
         loadUserSkin: loadUserSkin,
-        getThemes: getThemes
+        getThemes: getThemes,
+        mapRoute: mapRoute
     };
 
     function onRegistrationSuccess() {

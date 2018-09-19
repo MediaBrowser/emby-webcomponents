@@ -45,17 +45,20 @@
         //    result.Tags.length = Math.min(result.Tags.length, 50);
         //}
 
-        renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
+        if (options.itemTypes.join(',') !== 'Episode') {
 
-            var delimeter = ',';
-            return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
-        });
+            renderOptions(context, '.genreFilters', 'chkGenreFilter', result.Genres, function (i) {
 
-        renderOptions(context, '.studioFilters', 'chkStudioFilter', result.Studios, function (i) {
+                var delimeter = ',';
+                return (delimeter + (options.settings.GenreIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
+            });
 
-            var delimeter = ',';
-            return (delimeter + (options.settings.StudioIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
-        });
+            renderOptions(context, '.studioFilters', 'chkStudioFilter', result.Studios, function (i) {
+
+                var delimeter = ',';
+                return (delimeter + (options.settings.StudioIds || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
+            });
+        }
 
         //renderOptions(context, '.officialRatingFilters', 'chkOfficialRatingFilter', result.OfficialRatings, function (i) {
         //    var delimeter = '|';
