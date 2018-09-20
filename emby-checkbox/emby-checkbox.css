@@ -120,17 +120,6 @@
     margin: .5em 0;
 }
 
-.checkboxList-verticalwrap {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-    .checkboxList-verticalwrap > .emby-checkbox-label {
-        display: inline-flex;
-        margin: .3em 0 .3em 0;
-        width: 12em;
-    }
-
 .checkboxList-paperList {
     padding: 1em !important;
 }

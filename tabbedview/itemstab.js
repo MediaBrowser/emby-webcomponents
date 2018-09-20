@@ -52,6 +52,34 @@
         }
     }
 
+    function page(offset) {
+
+        var startIndex = this.startIndex || 0;
+
+        var newStartIndex = Math.max(0, startIndex + offset);
+
+        if (newStartIndex !== startIndex) {
+
+            this.startIndex = newStartIndex;
+
+            this.itemsContainer.refreshItems();
+        }
+    }
+
+    function nextPage() {
+
+        var instance = this;
+
+        page.call(instance, 100);
+    }
+
+    function previousPage() {
+
+        var instance = this;
+
+        page.call(instance, -100);
+    }
+
     function onAlphaValueChanged() {
 
         var value = this.alphaPicker.value();
@@ -92,6 +120,7 @@
 
             }).then(function () {
 
+                instance.startIndex = 0;
                 instance.itemsContainer.refreshItems();
             });
         });
@@ -159,6 +188,8 @@
                 updateSortText(instance);
                 updateAlphaPickerState(instance);
 
+                instance.startIndex = 0;
+
                 instance.itemsContainer.refreshItems();
             });
         });
@@ -179,6 +210,9 @@
             }).then(function () {
 
                 updateItemsContainerForViewType(instance);
+
+                instance.startIndex = 0;
+
                 instance.itemsContainer.refreshItems();
             });
         });
@@ -274,6 +308,13 @@
         }
 
         updateAlphaPickerState(self, self.totalItemCount);
+
+        var startIndex = self.startIndex || 0;
+        var previousPageButtons = self.previousPageButtons;
+        for (var i = 0, length = previousPageButtons.length; i < length; i++) {
+
+            previousPageButtons[i].disabled = startIndex <= 0;
+        }
     }
 
     function ItemsTab(view, params) {
@@ -316,6 +357,20 @@
             } else {
                 btnFilter.classList.add('hide');
             }
+        }
+
+        var nextPageButtons = view.querySelectorAll('.btnNextPage');
+        this.nextPageButtons = nextPageButtons;
+        for (i = 0, length = nextPageButtons.length; i < length; i++) {
+
+            nextPageButtons[i].addEventListener('click', nextPage.bind(this));
+        }
+
+        var previousPageButtons = view.querySelectorAll('.btnPreviousPage');
+        this.previousPageButtons = previousPageButtons;
+        for (i = 0, length = previousPageButtons.length; i < length; i++) {
+
+            previousPageButtons[i].addEventListener('click', previousPage.bind(this));
         }
 
         var sortButtons = view.querySelectorAll('.btnSort');
@@ -656,6 +711,8 @@
         this.apiClient = null;
         this.scroller = null;
         this.filterButtons = null;
+        this.nextPageButtons = null;
+        this.previousPageButtons = null;
 
         if (this.alphaPicker) {
             this.alphaPicker.destroy();
@@ -665,6 +722,7 @@
         this.btnSortText = null;
         this.btnSortIcon = null;
         this.alphaPickerElement = null;
+        this.startIndex = null;
     };
 
     return ItemsTab;

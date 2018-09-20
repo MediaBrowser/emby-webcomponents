@@ -1,5 +1,5 @@
 .backdropContainer {
-    contain: layout style size;
+    contain: style size;
 }
 
 .backdropImage {
@@ -11,7 +11,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    contain: layout style;
+    contain: strict;
 }
 
 .backdropImageFadeIn {

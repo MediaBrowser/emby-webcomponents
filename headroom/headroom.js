@@ -83,7 +83,10 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             return;
         }
 
-        requestAnimationFrame(this.rafCallback || (this.rafCallback = this.update.bind(this)));
+        if (!this.ticking) {
+            requestAnimationFrame(this.rafCallback || (this.rafCallback = this.update.bind(this)));
+            this.ticking = true;
+        }
     }
 
     var toleranceLevel = browser.iOS ? 14 : 4;
@@ -272,13 +275,19 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 return;
             }
 
+            var currentScrollY = this.getScrollY();
+
+            // Ignore if out of bounds (iOS rubber band effect)
+            if (currentScrollY < 0) {
+                this.ticking = false;
+                return;
+            }
+
             var lastKnownScrollY = this.lastKnownScrollY;
 
             var isTv = layoutManager.tv;
 
             var max = isTv ? 130 : 90;
-
-            var currentScrollY = this.getScrollY();
 
             if (currentScrollY <= (isTv ? max : 0)) {
                 this.setTransform(0, currentScrollY);
@@ -305,6 +314,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             }
 
             this.lastKnownScrollY = currentScrollY;
+            this.ticking = false;
         }
     };
 
