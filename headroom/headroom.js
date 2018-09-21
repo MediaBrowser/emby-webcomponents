@@ -12,40 +12,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
     var requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame;
 
-    /**
-     * Handles debouncing of events via requestAnimationFrame
-     * @see http://www.html5rocks.com/en/tutorials/speed/animations/
-     * @param {Function} callback The callback to handle whichever event
-     */
-    function Debouncer(callback) {
-        this.callback = callback;
-        this.ticking = false;
-    }
-    Debouncer.prototype = {
-        constructor: Debouncer,
-
-        /**
-         * dispatches the event to the supplied callback
-         * @private
-         */
-        update: function () {
-            if (this.callback) {
-                this.callback();
-            }
-            this.ticking = false;
-        },
-
-        /**
-         * Attach this as the event listeners
-         */
-        handleEvent: function () {
-            if (!this.ticking) {
-                requestAnimationFrame(this.rafCallback || (this.rafCallback = this.update.bind(this)));
-                this.ticking = true;
-            }
-        }
-    };
-
     function onHeadroomClearedExternally() {
         this.transform = null;
     }
@@ -72,7 +38,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         this.scroller = options.scroller || window;
 
-        this.debouncer = onScroll.bind(this);
+        this.debouncer = this.update.bind(this);
         this.offset = options.offset;
         this.initialised = false;
     }
@@ -83,10 +49,13 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             return;
         }
 
-        if (!this.ticking) {
-            requestAnimationFrame(this.rafCallback || (this.rafCallback = this.update.bind(this)));
-            this.ticking = true;
-        }
+        this.update();
+        //return;
+
+        //if (!this.ticking) {
+        //    requestAnimationFrame(this.rafCallback || (this.rafCallback = this.update.bind(this)));
+        //    this.ticking = true;
+        //}
     }
 
     var toleranceLevel = browser.iOS ? 14 : 4;

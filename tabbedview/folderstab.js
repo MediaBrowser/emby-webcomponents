@@ -22,7 +22,8 @@
             Fields: "PrimaryImageAspectRatio,BasicSyncInfo,SortName",
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Disc",
-            StartIndex: 0,
+            StartIndex: this.startIndex || 0,
+            Limit: this.nextPageButtons.length ? 100 : null,
             ParentId: parentId
         };
 

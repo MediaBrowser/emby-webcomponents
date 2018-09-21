@@ -304,16 +304,28 @@
         var self = this;
 
         if (self.totalItemCount == null) {
+
             self.totalItemCount = result.Items ? result.Items.length : result.length;
         }
 
+        var totalRecordCount = result.TotalRecordCount;
         updateAlphaPickerState(self, self.totalItemCount);
 
         var startIndex = self.startIndex || 0;
+        var i, length;
+
         var previousPageButtons = self.previousPageButtons;
-        for (var i = 0, length = previousPageButtons.length; i < length; i++) {
+        for (i = 0, length = previousPageButtons.length; i < length; i++) {
 
             previousPageButtons[i].disabled = startIndex <= 0;
+        }
+
+        if (totalRecordCount != null) {
+            var nextPageButtons = self.nextPageButtons;
+            for (i = 0, length = nextPageButtons.length; i < length; i++) {
+
+                nextPageButtons[i].disabled = startIndex + 100 > totalRecordCount;
+            }
         }
     }
 
