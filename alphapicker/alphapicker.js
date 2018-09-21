@@ -104,6 +104,8 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
         var self = this;
         this.options = options;
 
+        this.valueChangeEvent = layoutManager.tv ? null : 'click';
+
         var element = options.element;
         var itemsContainer = options.itemsContainer;
         var itemClass = options.itemClass;
@@ -193,6 +195,8 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         self.enabled = function (enabled) {
 
+            var fn;
+
             if (enabled) {
 
                 if (itemsContainer) {
@@ -203,10 +207,14 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
                     element.addEventListener('click', onAlphaPickerInKeyboardModeClick);
                 }
 
-                if (options.valueChangeEvent !== 'click') {
+                if (self.valueChangeEvent !== 'click') {
                     element.addEventListener('focus', onAlphaPickerFocusIn, true);
                 } else {
-                    element.addEventListener('click', onAlphaPickerClick.bind(this));
+
+                    fn = onAlphaPickerClick.bind(this);
+                    element.onAlphaPickerClickFn = fn;
+
+                    element.addEventListener('click', fn);
                 }
 
             } else {
@@ -217,7 +225,12 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
                 element.removeEventListener('click', onAlphaPickerInKeyboardModeClick);
                 element.removeEventListener('focus', onAlphaPickerFocusIn, true);
-                element.removeEventListener('click', onAlphaPickerClick.bind(this));
+
+                fn = element.onAlphaPickerClickFn;
+                if (fn) {
+                    element.removeEventListener('click', fn);
+                    element.onAlphaPickerClickFn = null;
+                }
             }
         };
 
@@ -318,6 +331,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
         this.enabled(false);
         element.classList.remove('focuscontainer-x');
         this.options = null;
+        this.valueChangeEvent = null;
     };
 
     return AlphaPicker;

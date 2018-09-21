@@ -3,6 +3,17 @@
 
     function trySelectValue(instance, scroller, view, value) {
 
+        if (instance.enablePaging()) {
+
+            value = value === '#' ? null : value;
+
+            if (value !== instance.NameStartsWithOrGreater) {
+                instance.NameStartsWithOrGreater = value;
+                instance.itemsContainer.refreshItems();
+            }
+            return;
+        }
+
         var card;
 
         // If it's the symbol just pick the first card
@@ -61,6 +72,10 @@
         if (newStartIndex !== startIndex) {
 
             this.startIndex = newStartIndex;
+
+            if (this.enablePaging()) {
+                window.scrollTo(0, 0);
+            }
 
             this.itemsContainer.refreshItems();
         }
@@ -121,6 +136,8 @@
             }).then(function () {
 
                 instance.startIndex = 0;
+                instance.NameStartsWithOrGreater = null;
+
                 instance.itemsContainer.refreshItems();
             });
         });
@@ -189,6 +206,7 @@
                 updateAlphaPickerState(instance);
 
                 instance.startIndex = 0;
+                instance.NameStartsWithOrGreater = null;
 
                 instance.itemsContainer.refreshItems();
             });
@@ -212,6 +230,7 @@
                 updateItemsContainerForViewType(instance);
 
                 instance.startIndex = 0;
+                instance.NameStartsWithOrGreater = null;
 
                 instance.itemsContainer.refreshItems();
             });
@@ -348,6 +367,8 @@
             this.itemsContainer.setAttribute('data-parentid', params.parentId);
         }
 
+        this.enableAlphaNumericShortcuts = this.itemsContainer.getAttribute('data-alphanumericshortcuts') === 'true';
+
         var i, length;
 
         var btnViewSettings = view.querySelectorAll('.btnViewSettings');
@@ -407,9 +428,6 @@
         bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle.bind(this));
     }
 
-    function getSettingValue(key, defaultValue) {
-    }
-
     ItemsTab.prototype.getViewSettings = function () {
 
         var basekey = this.getSettingsKey();
@@ -451,7 +469,7 @@
             initAlphaPicker(this, view);
         }
 
-        if (this.enableAlphaNumericShortcuts !== false) {
+        if (this.enableAlphaNumericShortcuts) {
             this.alphaNumericShortcuts = new AlphaNumericShortcuts({
                 itemsContainer: this.itemsContainer
             });
@@ -740,6 +758,7 @@
         this.btnSortIcon = null;
         this.alphaPickerElement = null;
         this.startIndex = null;
+        this.NameStartsWithOrGreater = null;
     };
 
     return ItemsTab;

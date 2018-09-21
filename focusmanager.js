@@ -36,11 +36,14 @@ define(['dom'], function (dom) {
         return null;
     }
 
-    function focus(element) {
+    function focus(element, options) {
 
         try {
+
+            options = options || {};
+
             element.focus({
-                preventScroll: true
+                preventScroll: options.preventScroll !== false
             });
         } catch (err) {
             console.log('Error in focusManager.autoFocus: ' + err);

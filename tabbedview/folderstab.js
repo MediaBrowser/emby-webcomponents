@@ -24,7 +24,8 @@
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Disc",
             StartIndex: this.startIndex || 0,
             Limit: this.nextPageButtons.length ? 100 : null,
-            ParentId: parentId
+            ParentId: parentId,
+            NameStartsWithOrGreater: this.NameStartsWithOrGreater
         };
 
         var queryFilters = [];

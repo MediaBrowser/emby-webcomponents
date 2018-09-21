@@ -1,4 +1,4 @@
-﻿define(['dom', 'focusManager'], function (dom, focusManager) {
+﻿define(['dom', 'focusManager', 'css!./alphanumericshortcuts'], function (dom, focusManager) {
     'use strict';
 
     var inputDisplayElement;
@@ -96,7 +96,14 @@
         }
 
         if (focusElem) {
-            focusManager.focus(focusElem);
+
+            if (focusElem.tagName !== 'BUTTON') {
+                focusElem = focusElem.querySelector('.cardContent-button') || focusElem.querySelector('button') || focusElem;
+            }
+
+            focusManager.focus(focusElem, {
+                preventScroll: false
+            });
         }
     }
 
