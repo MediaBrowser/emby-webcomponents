@@ -646,6 +646,11 @@
         };
     };
 
+    ItemsTab.prototype.enablePaging = function () {
+
+        return this.nextPageButtons.length;
+    };
+
     ItemsTab.prototype.getCommunityRatingSortOption = function () {
 
         return {
