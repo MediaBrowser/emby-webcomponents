@@ -1,5 +1,14 @@
-﻿define(['layoutManager', 'playbackManager', 'userSettings', 'alphaPicker', 'alphaNumericShortcuts', 'connectionManager', 'focusManager', 'loading', 'globalize'], function (layoutManager, playbackManager, userSettings, AlphaPicker, AlphaNumericShortcuts, connectionManager, focusManager, loading, globalize) {
+﻿define(['layoutManager', 'playbackManager', 'userSettings', 'alphaPicker', 'connectionManager', 'focusManager', 'loading', 'globalize'], function (layoutManager, playbackManager, userSettings, AlphaPicker, connectionManager, focusManager, loading, globalize) {
     'use strict';
+
+    function initAlphaNumericShortcuts(instance) {
+
+        require(['alphaNumericShortcuts'], function (AlphaNumericShortcuts) {
+            instance.alphaNumericShortcuts = new AlphaNumericShortcuts({
+                itemsContainer: instance.itemsContainer
+            });
+        });
+    }
 
     function trySelectValue(instance, scroller, view, value) {
 
@@ -367,8 +376,6 @@
             this.itemsContainer.setAttribute('data-parentid', params.parentId);
         }
 
-        this.enableAlphaNumericShortcuts = this.itemsContainer.getAttribute('data-alphanumericshortcuts') === 'true';
-
         var i, length;
 
         var btnViewSettings = view.querySelectorAll('.btnViewSettings');
@@ -420,6 +427,8 @@
         this.btnSortText = view.querySelector('.btnSortText');
         this.btnSortIcon = view.querySelector('.btnSortIcon');
 
+        this.enableAlphaNumericShortcuts = this.itemsContainer.getAttribute('data-alphanumericshortcuts') === 'true' && !layoutManager.mobile && !this.enablePaging();
+
         this.alphaPickerElement = view.querySelector('.alphaPicker');
 
         hideOrShowAll(view.querySelectorAll('.btnShuffle'), true);
@@ -470,9 +479,8 @@
         }
 
         if (this.enableAlphaNumericShortcuts) {
-            this.alphaNumericShortcuts = new AlphaNumericShortcuts({
-                itemsContainer: this.itemsContainer
-            });
+
+            initAlphaNumericShortcuts(this);
         }
 
         var instance = this;

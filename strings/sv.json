@@ -74,7 +74,7 @@
     "KeepDownload": "Beh\u00e5ll nedladdning",
     "ScanForNewAndUpdatedFiles": "S\u00f6k efter nya och uppdaterade filer",
     "DirectStreamHelp2": "Direktstr\u00f6mning av en fil anv\u00e4nder v\u00e4ldigt lite resurser av CPU'n utan att bildkvaliteten f\u00f6rs\u00e4mras.",
-    "MediaIsBeingConverted": "Media h\u00e5ller p\u00e5 att konverteras till ett format som \u00e4r kompatibelt med enheten som ska anv\u00e4ndas.",
+    "MediaIsBeingConverted": "Konvertering p\u00e5g\u00e5r, i realtid till ett format som \u00e4r kompatibelt med enheten som spelar upp det.",
     "DirectStreamHelp1": "Inneh\u00e5llet \u00e4r kompatibelt med enheten vad g\u00e4ller uppl\u00f6sning och mediatyp (H.264, AC3, etc.) men det \u00e4r en inkompatibel beh\u00e5llare (.mkv, .avi, .wmv etc.). Videofilen kommer att packas om i realtid innan den str\u00f6mmas till enheten.",
     "StatsForNerds": "Statistik f\u00f6r n\u00f6rdar",
     "LabelReasonForTranscoding": "Orsak f\u00f6r omkodning:",

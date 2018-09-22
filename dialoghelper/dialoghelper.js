@@ -401,7 +401,7 @@
         var exitAnimation = options.exitAnimation || defaultExitAnimation;
 
         // If it's not fullscreen then lower the default animation speed to make it open really fast
-        var entryAnimationDuration = options.entryAnimationDuration || (options.size !== 'fullscreen' ? 180 : 280);
+        var entryAnimationDuration = options.entryAnimationDuration || (options.size !== 'fullscreen' ? 140 : 280);
         var exitAnimationDuration = options.exitAnimationDuration || (options.size !== 'fullscreen' ? 120 : 220);
 
         dlg.animationConfig = {

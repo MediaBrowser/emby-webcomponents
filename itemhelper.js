@@ -80,6 +80,9 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         if (item.Type === 'SeriesTimer') {
             return false;
         }
+        if (item.Type === 'PlaylistsFolder') {
+            return false;
+        }
         if (item.MediaType === 'Photo') {
             return false;
         }
@@ -107,7 +110,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         var itemType = item.Type;
 
-        if (itemType === "UserRootFolder" || itemType === "CollectionFolder" || itemType === "UserView") {
+        if (itemType === "UserRootFolder" || itemType === "CollectionFolder" || itemType === "UserView" || itemType === "PlaylistsFolder") {
             return false;
         }
 
@@ -192,7 +195,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
 
-            if (itemType === 'UserView') {
+            if (itemType === 'CollectionFolder' || itemType === 'UserView') {
                 if (user.Policy.IsAdministrator) {
 
                     return true;
@@ -330,7 +333,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             var type = item.Type;
-            if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer' || type === 'GameGenre') {
+            if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer' || type === 'GameGenre' || type === 'PlaylistsFolder') {
                 return false;
             }
 
@@ -350,7 +353,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                     return false;
                 }
 
-                if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
+                if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && item.Type !== 'PlaylistsFolder' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
 
                     if (!isLocalItem(item)) {
                         return true;

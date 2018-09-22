@@ -51,13 +51,13 @@
 
     to {
         opacity: 0;
-        transform: scale(.5);
+        transform: scale(.8);
     }
 }
 
 @keyframes scaleup {
     from {
-        transform: scale(.5);
+        transform: scale(.8);
         opacity: 0;
     }
 
