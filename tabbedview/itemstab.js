@@ -474,6 +474,11 @@
             scroller.resume();
         }
 
+        var itemsContainer = this.itemsContainer;
+        if (itemsContainer && itemsContainer.resume) {
+            itemsContainer.resume();
+        }
+
         if (this.enableAlphaPicker && !this.alphaPicker) {
             initAlphaPicker(this, view);
         }
@@ -737,6 +742,11 @@
         var scroller = this.scroller;
         if (scroller && scroller.pause) {
             scroller.pause();
+        }
+
+        var itemsContainer = this.itemsContainer;
+        if (itemsContainer && itemsContainer.pause) {
+            itemsContainer.pause();
         }
 
         var alphaNumericShortcuts = this.alphaNumericShortcuts;

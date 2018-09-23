@@ -24,17 +24,20 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             skinManager.getCurrentSkin().search();
         },
         showGuide: function () {
-            skinManager.getCurrentSkin().showGuide({
-                serverId: connectionManager.currentApiClient().serverId()
-            });
+            appRouter.show(appRouter.getRouteUrl('livetv', {
+                serverId: connectionManager.currentApiClient().serverId(),
+                section: 'guide'
+            }));
         },
         showLiveTV: function () {
-            skinManager.getCurrentSkin().showLiveTV({
+            appRouter.show(appRouter.getRouteUrl('livetv', {
                 serverId: connectionManager.currentApiClient().serverId()
-            });
+            }));
         },
         showRecordedTV: function () {
-            invokeShortcut('recordedtv_' + connectionManager.currentApiClient().serverId());
+            appRouter.show(appRouter.getRouteUrl('recordedtv', {
+                serverId: connectionManager.currentApiClient().serverId()
+            }));
         },
         showFavorites: function () {
             invokeShortcut('favorites_' + connectionManager.currentApiClient().serverId());

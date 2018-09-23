@@ -274,7 +274,6 @@
                                     });
                                 });
                                 hideSelections();
-                                dispatchNeedsRefresh();
                                 break;
                             case 'playlist':
                                 require(['playlistEditor'], function (playlistEditor) {
@@ -284,12 +283,10 @@
                                     });
                                 });
                                 hideSelections();
-                                dispatchNeedsRefresh();
                                 break;
                             case 'delete':
                                 deleteItems(apiClient, items).then(dispatchNeedsRefresh);
                                 hideSelections();
-                                dispatchNeedsRefresh();
                                 break;
                             case 'groupvideos':
                                 combineVersions(apiClient, items);
@@ -299,24 +296,22 @@
                                     apiClient.markPlayed(apiClient.getCurrentUserId(), itemId);
                                 });
                                 hideSelections();
-                                dispatchNeedsRefresh();
                                 break;
                             case 'markunplayed':
                                 items.forEach(function (itemId) {
                                     apiClient.markUnplayed(apiClient.getCurrentUserId(), itemId);
                                 });
                                 hideSelections();
-                                dispatchNeedsRefresh();
                                 break;
                             case 'refresh':
                                 require(['refreshDialog'], function (refreshDialog) {
                                     new refreshDialog({
                                         itemIds: items,
                                         serverId: serverId
+
                                     }).show();
                                 });
                                 hideSelections();
-                                dispatchNeedsRefresh();
                                 break;
                             case 'sync':
                                 require(['syncDialog'], function (syncDialog) {
@@ -330,7 +325,6 @@
                                     });
                                 });
                                 hideSelections();
-                                dispatchNeedsRefresh();
                                 break;
                             case 'synclocal':
                                 require(['syncDialog'], function (syncDialog) {
@@ -345,7 +339,6 @@
                                     });
                                 });
                                 hideSelections();
-                                dispatchNeedsRefresh();
                                 break;
                             default:
                                 break;
@@ -361,16 +354,20 @@
 
         var elems = [];
 
-        [].forEach.call(selectedElements, function (i) {
+        var selectedElems = selectedElements;
 
-            var container = dom.parentWithAttribute(i, 'is', 'emby-itemscontainer');
+        var i, length;
+        for (i = 0, length = selectedElems.length; i < length; i++) {
+
+            var selectedElem = selectedElems[i];
+            var container = dom.parentWithAttribute(selectedElem, 'is', 'emby-itemscontainer');
 
             if (container && elems.indexOf(container) === -1) {
                 elems.push(container);
             }
-        });
+        }
 
-        for (var i = 0, length = elems.length; i < length; i++) {
+        for (i = 0, length = elems.length; i < length; i++) {
             elems[i].notifyRefreshNeeded(true);
         }
     }
@@ -397,8 +394,12 @@
         }).then(function () {
 
             loading.hide();
-            hideSelections();
             dispatchNeedsRefresh();
+            hideSelections();
+
+        }, function () {
+            loading.hide();
+            hideSelections();
         });
     }
 

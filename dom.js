@@ -36,10 +36,10 @@ define([], function () {
 
     function parentWithAttribute(elem, name, value) {
 
-        while ((value ? elem.getAttribute(name) !== value : !elem.getAttribute(name))) {
+        while ((value ? elem.getAttribute(name) !== value : !elem.hasAttribute(name))) {
             elem = elem.parentNode;
 
-            if (!elem || !elem.getAttribute) {
+            if (!elem || !elem.getAttribute || !elem.hasAttribute) {
                 return null;
             }
         }
