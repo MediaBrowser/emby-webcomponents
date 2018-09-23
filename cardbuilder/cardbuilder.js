@@ -1003,8 +1003,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                         } else {
 
-                            if (item.EndDate && item.ProductionYear) {
-                                lines.push(item.ProductionYear + ' - ' + datetime.parseISO8601Date(item.EndDate).getFullYear());
+                            var endYear = item.EndDate ? datetime.parseISO8601Date(item.EndDate).getFullYear() : null;
+
+                            if (endYear && item.ProductionYear && endYear !== item.ProductionYear) {
+                                lines.push(item.ProductionYear + ' - ' + endYear);
                             } else {
                                 lines.push(item.ProductionYear || '');
                             }

@@ -203,7 +203,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
                         var endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
 
                         if (endYear !== item.ProductionYear) {
-                            text += "-" + datetime.parseISO8601Date(item.EndDate).getFullYear();
+                            text += " - " + datetime.parseISO8601Date(item.EndDate).getFullYear();
                         }
 
                     }
