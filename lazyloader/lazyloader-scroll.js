@@ -44,6 +44,8 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
         }
     }
 
+    var enableTimeoutHack = browser.edge || browser.safari;
+
     function unveilElementsInternal(instance, callback) {
 
         var unveiledElements = [];
@@ -130,6 +132,12 @@ define(['visibleinviewport', 'dom', 'browser'], function (visibleinviewport, dom
         });
 
         unveil();
+
+        // This is helping resolve issues with initial visibility in both edge and safari
+        // 0 is fine for safari, but needed 100 for edge
+        if (enableTimeoutHack) {
+            setTimeout(unveil, 100);
+        }
     }
 
     function LazyLoader(options) {

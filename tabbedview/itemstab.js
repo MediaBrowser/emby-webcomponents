@@ -23,31 +23,31 @@
             return;
         }
 
-        var card;
+        var selectableItem;
 
         // If it's the symbol just pick the first card
         if (value === '#') {
 
-            card = view.querySelector('.card');
+            selectableItem = view.querySelector('.card,.listItem');
 
-            if (card) {
+            if (selectableItem) {
 
                 if (scroller) {
-                    scroller.toStart(card, false);
+                    scroller.toStart(selectableItem, false);
                 } else {
-                    card.querySelector('.cardContent-button').focus();
+                    (selectableItem.querySelector('.cardContent-button') || selectableItem).focus();
                 }
                 return;
             }
         }
 
-        card = view.querySelector('.card[data-prefix^=\'' + value + '\']');
+        selectableItem = view.querySelector('*[data-prefix^=\'' + value + '\']');
 
-        if (card) {
+        if (selectableItem) {
             if (scroller) {
-                scroller.toStart(card, false);
+                scroller.toStart(selectableItem, false);
             } else {
-                card.querySelector('.cardContent-button').focus();
+                (selectableItem.querySelector('.cardContent-button') || selectableItem).focus();
             }
             return;
         }
@@ -59,14 +59,14 @@
         if (index < values.length - 2) {
             trySelectValue(instance, scroller, view, values[index + 1]);
         } else {
-            var all = view.querySelectorAll('.card');
-            card = all.length ? all[all.length - 1] : null;
+            var all = view.querySelectorAll('.card,.listItem');
+            selectableItem = all.length ? all[all.length - 1] : null;
 
-            if (card) {
+            if (selectableItem) {
                 if (scroller) {
-                    scroller.toStart(card, false);
+                    scroller.toStart(selectableItem, false);
                 } else {
-                    card.querySelector('.cardContent-button').focus();
+                    (selectableItem.querySelector('.cardContent-button') || selectableItem).focus();
                 }
             }
         }
@@ -119,7 +119,7 @@
         instance.alphaPicker = new AlphaPicker({
             element: instance.alphaPickerElement,
             itemsContainer: instance.itemsContainer,
-            itemClass: 'card'
+            itemClass: ['card', 'listItem']
         });
 
         instance.alphaPicker.on('alphavaluechanged', onAlphaValueChanged.bind(instance));

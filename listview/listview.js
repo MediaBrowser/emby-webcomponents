@@ -257,7 +257,14 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
                 cssClass += ' listItem-withContentWrapper';
             }
 
-            html += '<' + outerTagName + ' class="' + cssClass + '"' + playlistItemId + ' data-action="' + action + '" data-isfolder="' + item.IsFolder + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + '>';
+            var nameWithPrefix = (item.SortName || item.Name || '');
+            var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
+
+            if (prefix) {
+                prefix = prefix.toUpperCase();
+            }
+
+            html += '<' + outerTagName + ' class="' + cssClass + '"' + playlistItemId + ' data-prefix="' + prefix + '" data-action="' + action + '" data-isfolder="' + item.IsFolder + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + '>';
 
             if (enableContentWrapper) {
 

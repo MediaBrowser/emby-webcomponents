@@ -4,6 +4,7 @@
     var currentContext;
     var metadataEditorInfo;
     var currentItem;
+    var hasChanges;
 
     function isDialog() {
         return currentContext.classList.contains('dialog');
@@ -21,6 +22,8 @@
         var apiClient = getApiClient();
 
         apiClient.updateItem(item).then(function () {
+
+            hasChanges = true;
 
             require(['toast'], function (toast) {
                 toast(globalize.translate('sharedcomponents#MessageItemSaved'));
@@ -982,6 +985,7 @@
             metadataEditorInfo = responses[1];
 
             currentItem = item;
+            hasChanges = false;
 
             var languages = metadataEditorInfo.Cultures;
             var countries = metadataEditorInfo.Countries;
@@ -1048,7 +1052,12 @@
                     centerFocus(dlg.querySelector('.formDialogContent'), false, false);
                 }
 
-                resolve();
+                if (hasChanges) {
+                    resolve();
+                }
+                else {
+                    reject();
+                }
             });
 
             currentContext = dlg;

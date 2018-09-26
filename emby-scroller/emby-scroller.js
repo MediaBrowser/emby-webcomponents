@@ -18,9 +18,9 @@
             }
 
         }, {
-            capture: true,
-            passive: true
-        });
+                capture: true,
+                passive: true
+            });
     }
 
     ScrollerProtoType.scrollToBeginning = function () {
@@ -81,22 +81,24 @@
         }
     };
 
+    var navSelector = '.card,.listItem';
     function onInputCommand(e) {
 
         var cmd = e.detail.command;
 
         if (cmd === 'end') {
-            focusManager.focusLast(this, '.' + this.getAttribute('data-navcommands'));
+
+            focusManager.focusLast(this, navSelector);
             e.preventDefault();
             e.stopPropagation();
         }
         else if (cmd === 'pageup') {
-            focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), -12);
+            focusManager.moveFocus(e.target, this, navSelector, -12);
             e.preventDefault();
             e.stopPropagation();
         }
         else if (cmd === 'pagedown') {
-            focusManager.moveFocus(e.target, this, '.' + this.getAttribute('data-navcommands'), 12);
+            focusManager.moveFocus(e.target, this, navSelector, 12);
             e.preventDefault();
             e.stopPropagation();
         }
