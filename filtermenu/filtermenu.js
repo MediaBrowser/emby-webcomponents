@@ -82,7 +82,7 @@
 
         apiClient.getStudios(apiClient.getCurrentUserId(), query).then(function (result) {
 
-            renderList(context.querySelector('.tagFilters'), result.Items, options, 'Tags', '|');
+            renderList(context.querySelector('.studioFilters'), result.Items, options, 'StudiosIds', ',');
 
         }, handleQueryError);
     }
@@ -128,7 +128,7 @@
 
         apiClient.getStudios(apiClient.getCurrentUserId(), query).then(function (result) {
 
-            renderList(context.querySelector('.studioFilters'), result.Items, options, 'StudioIds', ',');
+            renderList(context.querySelector('.tagFilters'), result.Items, options, 'Tags', ',');
         });
     }
 
@@ -209,6 +209,20 @@
             studios.push(elem.value);
         }
         userSettings.setFilter(settingsKey + '-filter-StudioIds', studios.join(','));
+
+        var tags = [];
+        elem = context.querySelector('.selectTags');
+        if (elem.value) {
+            tags.push(elem.value);
+        }
+        userSettings.setFilter(settingsKey + '-filter-Tags', tags.join('|'));
+
+        var officalRatings = [];
+        elem = context.querySelector('.selectOfficialRating');
+        if (elem.value) {
+            officalRatings.push(elem.value);
+        }
+        userSettings.setFilter(settingsKey + '-filter-OfficialRatings', officalRatings.join('|'));
     }
 
     function setBasicFilter(context, key, elem) {
