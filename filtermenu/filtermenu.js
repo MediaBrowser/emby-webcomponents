@@ -80,14 +80,14 @@
             IncludeItemTypes: options.itemTypes.join(',')
         });
 
-        apiClient.getStudios(apiClient.getCurrentUserId(), query).then(function (result) {
+        apiClient.getTags(apiClient.getCurrentUserId(), query).then(function (result) {
 
             renderList(context.querySelector('.studioFilters'), result.Items, options, 'StudiosIds', ',');
 
         }, handleQueryError);
     }
 
-    function loadParentalRatings(context, options) {
+    function loadOfficialRatings(context, options) {
 
         var apiClient = connectionManager.getApiClient(options.serverId);
 
@@ -103,9 +103,9 @@
             IncludeItemTypes: options.itemTypes.join(',')
         });
 
-        apiClient.getStudios(apiClient.getCurrentUserId(), query).then(function (result) {
+        apiClient.getOfficialRatings(apiClient.getCurrentUserId(), query).then(function (result) {
 
-            renderList(context.querySelector('.parentalRatingFilters'), result.Items, options, 'OfficialRatings', '|');
+            renderList(context.querySelector('.officialRatingFilters'), result.Items, options, 'OfficialRatings', '|');
 
         }, handleQueryError);
     }
@@ -341,7 +341,7 @@
                 loadGenres(dlg, options);
                 loadStudios(dlg, options);
                 loadTags(dlg, options);
-                loadParentalRatings(dlg, options);
+                loadOfficialRatings(dlg, options);
 
                 bindCheckboxInput(dlg, true);
 
