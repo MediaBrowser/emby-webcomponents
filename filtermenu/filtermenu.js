@@ -25,8 +25,8 @@
         }).join('');
 
         var prefix = anySelected ?
-            '<option value="">' + globalize.translate('All') + '</option>' :
-            '<option value="" selected>' + globalize.translate('All') + '</option>';
+            '<option value=""></option>' :
+            '<option value="" selected></option>';
 
         container.querySelector('select').innerHTML = prefix + html;
 
@@ -80,9 +80,9 @@
             IncludeItemTypes: options.itemTypes.join(',')
         });
 
-        apiClient.getTags(apiClient.getCurrentUserId(), query).then(function (result) {
+        apiClient.getStudios(apiClient.getCurrentUserId(), query).then(function (result) {
 
-            renderList(context.querySelector('.studioFilters'), result.Items, options, 'StudiosIds', ',');
+            renderList(context.querySelector('.studioFilters'), result.Items, options, 'StudioIds', ',');
 
         }, handleQueryError);
     }
@@ -126,9 +126,9 @@
             IncludeItemTypes: options.itemTypes.join(',')
         });
 
-        apiClient.getStudios(apiClient.getCurrentUserId(), query).then(function (result) {
+        apiClient.getTags(apiClient.getCurrentUserId(), query).then(function (result) {
 
-            renderList(context.querySelector('.tagFilters'), result.Items, options, 'Tags', ',');
+            renderList(context.querySelector('.tagFilters'), result.Items, options, 'Tags', '|');
         });
     }
 
