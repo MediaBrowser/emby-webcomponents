@@ -547,7 +547,10 @@
             HasSpecialFeature: userSettings.getFilter(basekey + '-filter-HasSpecialFeature'),
             HasThemeSong: userSettings.getFilter(basekey + '-filter-HasThemeSong'),
             HasThemeVideo: userSettings.getFilter(basekey + '-filter-HasThemeVideo'),
-            GenreIds: userSettings.getFilter(basekey + '-filter-GenreIds')
+            GenreIds: userSettings.getFilter(basekey + '-filter-GenreIds'),
+            StudioIds: userSettings.getFilter(basekey + '-filter-StudioIds'),
+            Tags: userSettings.getFilter(basekey + '-filter-Tags'),
+            OfficialRatings: userSettings.getFilter(basekey + '-filter-OfficialRatings')
         };
     };
 

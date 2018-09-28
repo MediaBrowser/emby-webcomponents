@@ -1,4 +1,4 @@
-﻿define(['connectionManager', 'cardBuilder', 'registrationServices', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (connectionManager, cardBuilder, registrationServices, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
+﻿define(['browser', 'connectionManager', 'cardBuilder', 'registrationServices', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (browser, connectionManager, cardBuilder, registrationServices, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
     'use strict';
 
     function getDefaultSection(index) {
@@ -263,7 +263,7 @@
                     break;
             }
 
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon">' + icon + '</i><span>' + item.Name + '</span></a>';
+            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon">' + icon + '</i><span style="margin-left:.5em;">' + item.Name + '</span></a>';
         }
 
         html += '</div>';
@@ -274,29 +274,34 @@
 
     function loadlibraryButtons(elem, apiClient, user, userSettings, userViews) {
 
-        return Promise.all([getAppInfo(apiClient), getDownloadsSectionHtml(apiClient, user, userSettings)]).then(function (responses) {
-
-            var infoHtml = responses[0];
-            var downloadsHtml = responses[1];
+        return getDownloadsSectionHtml(apiClient, user, userSettings).then(function (downloadsHtml) {
 
             elem.classList.remove('verticalSection');
-
-            var html = getLibraryButtonsHtml(userViews);
-
-            elem.innerHTML = html + downloadsHtml + infoHtml;
+            elem.innerHTML = getLibraryButtonsHtml(userViews) + downloadsHtml + '<div class="verticalSection appInfoSection hide"></div>';
 
             bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
 
-            if (infoHtml) {
-                bindAppInfoEvents(elem);
-            }
             imageLoader.lazyChildren(elem);
+
+            getAppInfo(apiClient).then(function (infoHtml) {
+
+                if (infoHtml) {
+
+                    elem = elem.querySelector('.appInfoSection');
+                    elem.innerHTML = infoHtml;
+                    elem.classList.remove('hide');
+
+                    bindAppInfoEvents(elem);
+                    imageLoader.lazyChildren(elem);
+                }
+
+            });
         });
     }
 
     function bindAppInfoEvents(elem) {
 
-        elem.querySelector('.appInfoSection').addEventListener('click', function (e) {
+        elem.addEventListener('click', function (e) {
 
             if (dom.parentWithClass(e.target, 'card')) {
                 registrationServices.showPremiereInfo();
@@ -313,6 +318,10 @@
     }
 
     function getAppInfo(apiClient) {
+
+        if (browser.orsay) {
+            return Promise.resolve('');
+        }
 
         var frequency = 172800000;
 
@@ -690,20 +699,27 @@
             html += '</div>';
         }
 
-        return Promise.all([getAppInfo(apiClient), getDownloadsSectionHtml(apiClient, user, userSettings)]).then(function (responses) {
+        return getDownloadsSectionHtml(apiClient, user, userSettings).then(function (downloadsHtml) {
 
-            var infoHtml = responses[0];
-            var downloadsHtml = responses[1];
-
-            elem.innerHTML = html + downloadsHtml + infoHtml;
+            elem.innerHTML = html + downloadsHtml + '<div class="verticalSection appInfoSection hide"></div>';
 
             bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
 
-            if (infoHtml) {
-                bindAppInfoEvents(elem);
-            }
-
             imageLoader.lazyChildren(elem);
+
+            getAppInfo(apiClient).then(function (infoHtml) {
+
+                if (infoHtml) {
+
+                    elem = elem.querySelector('.appInfoSection');
+                    elem.innerHTML = infoHtml;
+                    elem.classList.remove('hide');
+
+                    bindAppInfoEvents(elem);
+                    imageLoader.lazyChildren(elem);
+                }
+
+            });
         });
     }
 

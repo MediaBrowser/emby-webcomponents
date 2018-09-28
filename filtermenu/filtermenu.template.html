@@ -21,6 +21,7 @@
                     </label>
                 </div>
             </div>
+
             <div class="verticalSection viewSetting focuscontainer-x" data-settingname="SeriesStatus">
                 <h2 class="checkboxListLabel">${HeaderSeriesStatus}</h2>
                 <div class="checkboxList">
@@ -34,11 +35,31 @@
                     </label>
                 </div>
             </div>
-            <div class="verticalSection hide genreFilters focuscontainer-x">
-                <h2 class="checkboxListLabel">${Genres}</h2>
-                <div class="checkboxList filterOptions">
+
+            <div class="verticalSection hide genreFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectGenre" label="${LabelGenres}"></select>
                 </div>
             </div>
+
+            <div class="verticalSection hide studioFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectStudio" label="${LabelStudios}"></select>
+                </div>
+            </div>
+
+            <div class="verticalSection hide tagFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectTags" label="${LabelTags}"></select>
+                </div>
+            </div>
+
+            <div class="verticalSection hide parentalRatingFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectRatingFilters" label="${LabelParentalRatings}"></select>
+                </div>
+            </div>
+
             <div class="verticalSection hide studioFilters focuscontainer-x">
                 <h2 class="checkboxListLabel">${Studios}</h2>
                 <div class="checkboxList filterOptions">

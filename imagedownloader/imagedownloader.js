@@ -1,4 +1,4 @@
-﻿define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'imageLoader', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'paper-icon-button-light', 'emby-linkbutton', 'formDialogStyle', 'cardStyle'], function (loading, appHost, dialogHelper, connectionManager, imageLoader, browser, layoutManager, scrollHelper, globalize, require) {
+﻿define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'paper-icon-button-light', 'emby-linkbutton', 'formDialogStyle', 'cardStyle'], function (loading, appHost, dialogHelper, connectionManager, browser, layoutManager, scrollHelper, globalize, require) {
     'use strict';
 
     var currentItemId;
@@ -8,7 +8,7 @@
     var hasChanges = false;
 
     // These images can be large and we're seeing memory problems in safari
-    var browsableImagePageSize = browser.slow ? 6 : 30;
+    var browsableImagePageSize = browser.slow ? 6 : 15;
 
     var browsableImageStartIndex = 0;
     var browsableImageType = 'Primary';
@@ -72,7 +72,6 @@
 
         var availableImagesList = page.querySelector('.availableImagesList');
         availableImagesList.innerHTML = html;
-        imageLoader.lazyChildren(availableImagesList);
 
         var btnNextPage = page.querySelector('.btnNextPage');
         var btnPreviousPage = page.querySelector('.btnPreviousPage');
@@ -219,10 +218,10 @@
         html += '<div class="cardContent">';
 
         if (layoutManager.tv || !appHost.supports('externallinks')) {
-            html += '<div class="cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></div>';
+            html += '<div class="cardImageContainer" style="background-image:url(' + getDisplayUrl(image.Url, apiClient) + ');background-position:center bottom;"></div>';
         }
         else {
-            html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer lazy" data-src="' + getDisplayUrl(image.Url, apiClient) + '" style="background-position:center bottom;"></a>';
+            html += '<a is="emby-linkbutton" target="_blank" href="' + getDisplayUrl(image.Url, apiClient) + '" class="button-link cardImageContainer" style="background-image:url(' + getDisplayUrl(image.Url, apiClient) + ');background-position:center bottom;"></a>';
         }
 
         html += '</div>';
