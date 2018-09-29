@@ -1,6 +1,39 @@
 define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'material-icons', 'css!./mediainfo.css', 'programStyles', 'emby-linkbutton'], function (datetime, connectionManager, globalize, appRouter, itemHelper, indicators) {
     'use strict';
 
+    function addLeadingZeros(number, count) {
+        var res = number + "";
+        while (res.length < count) { res = "0" + res; }
+        return res;
+    }
+
+    function getHumanReadableRuntime(ticks) {
+
+        var days = Math.trunc(ticks / 864000000000);
+        var hours = Math.trunc((ticks % 864000000000) / 36000000000);
+        var mins = Math.trunc((ticks % 36000000000) / 600000000);
+
+        var parts = [];
+
+        if (days) {
+            parts.push(days + 'd');
+        }
+
+        if (hours) {
+            parts.push(hours + 'h');
+        }
+
+        if (mins) {
+            parts.push(mins + 'm');
+        }
+
+        if (!parts.length) {
+            return datetime.getDisplayRunningTime(ticks);
+        }
+
+        return parts.join(' ');
+    }
+
     function getTimerIndicator(item) {
 
         var status;
@@ -122,17 +155,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
             }
 
             if (item.RunTimeTicks) {
-                miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
-            }
-        }
-
-        else if (item.Type === "PhotoAlbum" || item.Type === "BoxSet") {
-
-            count = item.ChildCount;
-
-            if (count) {
-
-                miscInfo.push(globalize.translate('sharedcomponents#ItemCount', count));
+                miscInfo.push(getHumanReadableRuntime(item.RunTimeTicks));
             }
         }
 
@@ -301,11 +324,8 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
                 miscInfo.push(datetime.getDisplayRunningTime(item.RunTimeTicks));
 
             } else {
-                minutes = item.RunTimeTicks / 600000000;
 
-                minutes = minutes || 1;
-
-                miscInfo.push(Math.round(minutes) + " mins");
+                miscInfo.push(getHumanReadableRuntime(item.RunTimeTicks));
             }
         }
 

@@ -44,48 +44,45 @@
 
     function loadSections(elem, apiClient, user, userSettings) {
 
-        return getUserViews(apiClient, user.Id).then(function (userViews) {
+        var i, length;
+        var sectionCount = 7;
 
-            var i, length;
-            var sectionCount = 7;
+        var html = '';
+        for (i = 0, length = sectionCount; i < length; i++) {
 
-            var html = '';
-            for (i = 0, length = sectionCount; i < length; i++) {
+            html += '<div class="verticalSection section' + i + '"></div>';
+        }
 
-                html += '<div class="verticalSection section' + i + '"></div>';
+        elem.innerHTML = html;
+        elem.classList.add('homeSectionsContainer');
+
+        var promises = [];
+        var sections = getAllSectionsToShow(userSettings, sectionCount);
+
+        for (i = 0, length = sections.length; i < length; i++) {
+
+            promises.push(loadSection(elem, apiClient, user, userSettings, sections, i));
+        }
+
+        return Promise.all(promises).then(function () {
+
+            html = '';
+
+            var style = 'margin-top:4em;';
+
+            if (layoutManager.tv) {
+                style += 'padding: 0 7.5%;';
             }
 
-            elem.innerHTML = html;
-            elem.classList.add('homeSectionsContainer');
+            html += '<div class="verticalSection padded-left padded-right customizeSection hide" style="' + style + '">';
+            html += '<a href="' + appRouter.getRouteUrl('settings') + '" is="emby-linkbutton" class="raised block"><span>' + globalize.translate('sharedcomponents#HeaderCustomizeHomeScreen') + '</span></a>';
+            html += '</div>';
 
-            var promises = [];
-            var sections = getAllSectionsToShow(userSettings, sectionCount);
+            elem.insertAdjacentHTML('beforeend', html);
 
-            for (i = 0, length = sections.length; i < length; i++) {
-
-                promises.push(loadSection(elem, apiClient, user, userSettings, userViews, sections, i));
-            }
-
-            return Promise.all(promises).then(function () {
-
-                html = '';
-
-                var style = 'margin-top:4em;';
-
-                if (layoutManager.tv) {
-                    style += 'padding: 0 7.5%;';
-                }
-
-                html += '<div class="verticalSection padded-left padded-right customizeSection hide" style="' + style + '">';
-                html += '<a href="' + appRouter.getRouteUrl('settings') + '" is="emby-linkbutton" class="raised block"><span>' + globalize.translate('sharedcomponents#HeaderCustomizeHomeScreen') + '</span></a>';
-                html += '</div>';
-
-                elem.insertAdjacentHTML('beforeend', html);
-
-                return resume(elem, {
-                    refresh: true,
-                    returnPromise: false
-                });
+            return resume(elem, {
+                refresh: true,
+                returnPromise: false
             });
         });
     }
@@ -132,9 +129,11 @@
         if (!options || options.returnPromise !== false) {
             return promise;
         }
+
+        return promises[0];
     }
 
-    function loadSection(page, apiClient, user, userSettings, userViews, allSections, index) {
+    function loadSection(page, apiClient, user, userSettings, allSections, index) {
 
         var section = allSections[index];
         var userId = user.Id;
@@ -142,13 +141,13 @@
         var elem = page.querySelector('.section' + index);
 
         if (section === 'latestmedia') {
-            loadRecentlyAdded(elem, apiClient, user, userViews);
+            return loadRecentlyAdded(elem, apiClient, user);
         }
         else if (section === 'librarytiles' || section === 'smalllibrarytiles' || section === 'smalllibrarytiles-automobile' || section === 'librarytiles-automobile') {
-            return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', userViews, allSections);
+            return loadLibraryTiles(elem, apiClient, user, userSettings, 'smallBackdrop', allSections);
         }
         else if (section === 'librarybuttons') {
-            return loadlibraryButtons(elem, apiClient, user, userSettings, userViews, allSections);
+            return loadlibraryButtons(elem, apiClient, user, userSettings, allSections);
         }
         else if (section === 'resume') {
             loadResumeVideo(elem, apiClient, userId);
@@ -272,29 +271,32 @@
         return html;
     }
 
-    function loadlibraryButtons(elem, apiClient, user, userSettings, userViews) {
+    function loadlibraryButtons(elem, apiClient, user, userSettings) {
 
-        return getDownloadsSectionHtml(apiClient, user, userSettings).then(function (downloadsHtml) {
+        return getUserViews(apiClient, user.Id).then(function (userViews) {
 
-            elem.classList.remove('verticalSection');
-            elem.innerHTML = getLibraryButtonsHtml(userViews) + downloadsHtml + '<div class="verticalSection appInfoSection hide"></div>';
+            return getDownloadsSectionHtml(apiClient, user, userSettings).then(function (downloadsHtml) {
 
-            bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
+                elem.classList.remove('verticalSection');
+                elem.innerHTML = getLibraryButtonsHtml(userViews) + downloadsHtml + '<div class="verticalSection appInfoSection hide"></div>';
 
-            imageLoader.lazyChildren(elem);
+                bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
 
-            getAppInfo(apiClient).then(function (infoHtml) {
+                imageLoader.lazyChildren(elem);
 
-                if (infoHtml) {
+                getAppInfo(apiClient).then(function (infoHtml) {
 
-                    elem = elem.querySelector('.appInfoSection');
-                    elem.innerHTML = infoHtml;
-                    elem.classList.remove('hide');
+                    if (infoHtml) {
 
-                    bindAppInfoEvents(elem);
-                    imageLoader.lazyChildren(elem);
-                }
+                        elem = elem.querySelector('.appInfoSection');
+                        elem.innerHTML = infoHtml;
+                        elem.classList.remove('hide');
 
+                        bindAppInfoEvents(elem);
+                        imageLoader.lazyChildren(elem);
+                    }
+
+                });
             });
         });
     }
@@ -523,31 +525,34 @@
 
     }
 
-    function loadRecentlyAdded(elem, apiClient, user, userViews) {
+    function loadRecentlyAdded(elem, apiClient, user) {
 
-        elem.classList.remove('verticalSection');
+        return getUserViews(apiClient, user.Id).then(function (userViews) {
 
-        var excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
+            elem.classList.remove('verticalSection');
 
-        for (var i = 0, length = userViews.length; i < length; i++) {
+            var excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels'];
 
-            var item = userViews[i];
+            for (var i = 0, length = userViews.length; i < length; i++) {
 
-            if (user.Configuration.LatestItemsExcludes.indexOf(item.Id) !== -1) {
-                continue;
+                var item = userViews[i];
+
+                if (user.Configuration.LatestItemsExcludes.indexOf(item.Id) !== -1) {
+                    continue;
+                }
+
+                if (excludeViewTypes.indexOf(item.CollectionType || []) !== -1) {
+                    continue;
+                }
+
+                var frag = document.createElement('div');
+                frag.classList.add('verticalSection');
+                frag.classList.add('hide');
+                elem.appendChild(frag);
+
+                renderLatestSection(frag, apiClient, user, item);
             }
-
-            if (excludeViewTypes.indexOf(item.CollectionType || []) !== -1) {
-                continue;
-            }
-
-            var frag = document.createElement('div');
-            frag.classList.add('verticalSection');
-            frag.classList.add('hide');
-            elem.appendChild(frag);
-
-            renderLatestSection(frag, apiClient, user, item);
-        }
+        });
     }
 
     function getRequirePromise(deps) {
@@ -654,71 +659,74 @@
         });
     }
 
-    function loadLibraryTiles(elem, apiClient, user, userSettings, shape, userViews, allSections) {
+    function loadLibraryTiles(elem, apiClient, user, userSettings, shape, allSections) {
 
-        elem.classList.remove('verticalSection');
+        return getUserViews(apiClient, user.Id).then(function (userViews) {
 
-        var html = '';
+            elem.classList.remove('verticalSection');
 
-        var scrollX = !layoutManager.desktop;
+            var html = '';
 
-        if (userViews.length) {
+            var scrollX = !layoutManager.desktop;
 
-            html += '<div class="verticalSection">';
+            if (userViews.length) {
 
-            html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
-            html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
+                html += '<div class="verticalSection">';
 
-            if (!layoutManager.tv) {
-                html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE5D3;</i></button>';
-            }
+                html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
 
-            html += '</div>';
-
-            if (scrollX) {
-                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
-            } else {
-                html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-            }
-
-            html += cardBuilder.getCardsHtml({
-                items: userViews,
-                shape: scrollX ? 'overflowSmallBackdrop' : shape,
-                showTitle: true,
-                centerText: true,
-                overlayText: false,
-                lazy: true,
-                transition: false,
-                allowBottomPadding: !scrollX
-            });
-
-            if (scrollX) {
-                html += '</div>';
-            }
-            html += '</div>';
-            html += '</div>';
-        }
-
-        return getDownloadsSectionHtml(apiClient, user, userSettings).then(function (downloadsHtml) {
-
-            elem.innerHTML = html + downloadsHtml + '<div class="verticalSection appInfoSection hide"></div>';
-
-            bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
-
-            imageLoader.lazyChildren(elem);
-
-            getAppInfo(apiClient).then(function (infoHtml) {
-
-                if (infoHtml) {
-
-                    elem = elem.querySelector('.appInfoSection');
-                    elem.innerHTML = infoHtml;
-                    elem.classList.remove('hide');
-
-                    bindAppInfoEvents(elem);
-                    imageLoader.lazyChildren(elem);
+                if (!layoutManager.tv) {
+                    html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE5D3;</i></button>';
                 }
 
+                html += '</div>';
+
+                if (scrollX) {
+                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true"><div is="emby-itemscontainer" class="scrollSlider focuscontainer-x padded-left padded-right">';
+                } else {
+                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+                }
+
+                html += cardBuilder.getCardsHtml({
+                    items: userViews,
+                    shape: scrollX ? 'overflowSmallBackdrop' : shape,
+                    showTitle: true,
+                    centerText: true,
+                    overlayText: false,
+                    lazy: true,
+                    transition: false,
+                    allowBottomPadding: !scrollX
+                });
+
+                if (scrollX) {
+                    html += '</div>';
+                }
+                html += '</div>';
+                html += '</div>';
+            }
+
+            return getDownloadsSectionHtml(apiClient, user, userSettings).then(function (downloadsHtml) {
+
+                elem.innerHTML = html + downloadsHtml + '<div class="verticalSection appInfoSection hide"></div>';
+
+                bindHomeScreenSettingsIcon(elem, apiClient, user.Id, userSettings);
+
+                imageLoader.lazyChildren(elem);
+
+                getAppInfo(apiClient).then(function (infoHtml) {
+
+                    if (infoHtml) {
+
+                        elem = elem.querySelector('.appInfoSection');
+                        elem.innerHTML = infoHtml;
+                        elem.classList.remove('hide');
+
+                        bindAppInfoEvents(elem);
+                        imageLoader.lazyChildren(elem);
+                    }
+
+                });
             });
         });
     }
@@ -974,15 +982,14 @@
 
         var userId = user.Id;
 
-        promises.push(apiClient.getLiveTvRecommendedPrograms({
+        promises.push(apiClient.getLiveTvChannels({
 
             userId: apiClient.getCurrentUserId(),
-            IsAiring: true,
             limit: 1,
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Thumb,Backdrop",
             EnableTotalRecordCount: false,
-            Fields: "ChannelInfo,PrimaryImageAspectRatio"
+            EnableImages: false,
+            EnableUserData: false
 
         }));
 

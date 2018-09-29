@@ -14,19 +14,22 @@
 
         var html = items.map(function (i) {
 
-            var selected = (delimeter + (value || '') + delimeter).indexOf(delimeter + i.Id + delimeter) !== -1;
+            var itemId = i.Id || i.Name;
+            var selected = (delimeter + (value || '') + delimeter).indexOf(delimeter + itemId + delimeter) !== -1;
 
             var selectedHtml = selected && !anySelected ? ' selected' : '';
             if (selected) {
                 anySelected = true;
             }
-            return '<option value="' + i.Id + '"' + selectedHtml + '>' + i.Name + '</option>';
+            return '<option value="' + itemId + '"' + selectedHtml + '>' + i.Name + '</option>';
 
         }).join('');
 
+        var allText = layoutManager.tv ? globalize.translate('All') : '';
+
         var prefix = anySelected ?
-            '<option value=""></option>' :
-            '<option value="" selected></option>';
+            '<option value="">' + allText + '</option>' :
+            '<option value="" selected>' + allText + '</option>';
 
         container.querySelector('select').innerHTML = prefix + html;
 
@@ -217,12 +220,12 @@
         }
         userSettings.setFilter(settingsKey + '-filter-Tags', tags.join('|'));
 
-        var officalRatings = [];
+        var OfficialRatings = [];
         elem = context.querySelector('.selectOfficialRating');
         if (elem.value) {
-            officalRatings.push(elem.value);
+            OfficialRatings.push(elem.value);
         }
-        userSettings.setFilter(settingsKey + '-filter-OfficialRatings', officalRatings.join('|'));
+        userSettings.setFilter(settingsKey + '-filter-OfficialRatings', OfficialRatings.join('|'));
     }
 
     function setBasicFilter(context, key, elem) {
