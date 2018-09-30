@@ -25,7 +25,7 @@
 
         }).join('');
 
-        var allText = layoutManager.tv ? globalize.translate('All') : '';
+        var allText = globalize.translate('All');
 
         var prefix = anySelected ?
             '<option value="">' + allText + '</option>' :

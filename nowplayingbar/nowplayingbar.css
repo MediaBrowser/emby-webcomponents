@@ -4,6 +4,7 @@
     height: 100%;
     flex-grow: 1;
     overflow: hidden;
+    max-width: 40%;
 }
 
 /* Now playing bar */
@@ -134,15 +135,15 @@
     .toggleRepeatButton {
         display: none;
     }
+
+    .nowPlayingBarInfoContainer {
+        max-width: none;
+    }
 }
 
 @media all and (min-width: 50em) {
 
     .nowPlayingBarRight .playPauseButton {
         display: none;
-    }
-
-    .nowPlayingBarInfoContainer {
-        max-width: 40%;
     }
 }
