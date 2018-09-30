@@ -77,6 +77,13 @@
         });
     };
 
+    ItemsContainerProtoType.showMultiSelect = function (childElement) {
+
+        var card = dom.parentWithAttribute(childElement, 'data-id');
+
+        this.multiSelect.showSelections(card);
+    };
+
     function onDrop(evt, itemsContainer) {
 
         var el = evt.item;

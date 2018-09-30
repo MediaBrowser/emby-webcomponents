@@ -1,4 +1,4 @@
-define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'globalize', 'loading', 'dom', 'recordingHelper'], function (playbackManager, inputManager, connectionManager, appRouter, globalize, loading, dom, recordingHelper) {
+define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'globalize', 'loading', 'dom', 'recordingHelper'], function (layoutManager, playbackManager, inputManager, connectionManager, appRouter, globalize, loading, dom, recordingHelper) {
     'use strict';
 
     function playAllFromHere(card, serverId, queue) {
@@ -120,7 +120,8 @@ define(['playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'gl
                         queueAllFromHere: !item.IsFolder,
                         playlistId: playlistId,
                         collectionId: collectionId,
-                        user: user
+                        user: user,
+                        multiSelect: layoutManager.mobile
 
                     }, options || {})).then(function (result) {
 

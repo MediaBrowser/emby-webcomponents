@@ -596,6 +596,8 @@
             container.addEventListener('click', onContainerClick);
         }
 
+        self.showSelections = showSelections;
+
         self.onContainerClick = onContainerClick;
 
         self.destroy = function () {

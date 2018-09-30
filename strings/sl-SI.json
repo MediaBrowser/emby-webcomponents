@@ -375,6 +375,7 @@
     "LabelTags": "Tags:",
     "LabelStudios": "Studios:",
     "LabelParentalRatings": "Parental ratings:",
+    "MultiSelect": "Multi-select",
     "MessageUnlockAppWithPurchaseOrSupporter": "Omogo\u010dite to funkcionalnost z enkratnim nakupom ali z aktivno naro\u010dnino Emby Premiere.",
     "MessageUnlockAppWithSupporter": "Omogo\u010dite to funkcionalnost z aktivno naro\u010dnino Emby Premiere.",
     "MessageToValidateSupporter": "If you have an active Emby Premiere subscription, ensure you've setup Emby Premiere in your Emby Server Dashboard, which you can access by clicking Emby Premiere within the main menu.",

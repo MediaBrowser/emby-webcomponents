@@ -1,4 +1,4 @@
-define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser', 'actionsheet'], function (appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser, actionsheet) {
+define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser', 'actionsheet'], function (dom, appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser, actionsheet) {
     'use strict';
 
     function getCommands(options) {
@@ -211,6 +211,13 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                     id: 'record'
                 });
             }
+        }
+
+        if (options.multiSelect) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#MultiSelect'),
+                id: 'multiselect'
+            });
         }
 
         if (item.Type === 'Program' && options.record !== false) {
@@ -539,11 +546,21 @@ define(['apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 
                 case 'cancelseriestimer':
                     deleteSeriesTimer(apiClient, item, resolve, id);
                     break;
+                case 'multiselect':
+                    showMultiSelect(apiClient, item, options);
+                    getResolveFunction(resolve, id)();
+                    break;
                 default:
                     reject();
                     break;
             }
         });
+    }
+
+    function showMultiSelect(apiClient, item, options) {
+
+        var itemsContainer = dom.parentWithClass(options.positionTo, 'itemsContainer');
+        itemsContainer.showMultiSelect(options.positionTo);
     }
 
     function deleteTimer(apiClient, item, resolve, command) {
