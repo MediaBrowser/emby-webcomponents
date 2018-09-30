@@ -170,7 +170,9 @@
 
         var player = this;
 
-        hideMediaControls();
+        if (!state.NextItem) {
+            hideMediaControls();
+        }
     }
 
     function releaseCurrentPlayer() {
