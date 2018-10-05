@@ -189,6 +189,33 @@
         }, handleQueryError);
     }
 
+    function loadYears(context, options) {
+
+        var apiClient = connectionManager.getApiClient(options.serverId);
+
+        if (!apiClient.isMinServerVersion('3.6.0.53')) {
+            return Promise.resolve();
+        }
+
+        var query = Object.assign(options.filterMenuOptions, {
+
+            SortBy: "SortName",
+            SortOrder: "Ascending",
+            Recursive: options.Recursive == null ? true : options.Recursive,
+            EnableTotalRecordCount: false,
+            EnableImages: false,
+            EnableUserData: false,
+            ParentId: options.parentId,
+            IncludeItemTypes: options.itemTypes.join(',')
+        });
+
+        apiClient.getYears(apiClient.getCurrentUserId(), query).then(function (result) {
+
+            renderList(context.querySelector('.yearFilters'), result.Items, options, 'Years', ',');
+
+        }, handleQueryError);
+    }
+
     function loadContainers(context, options) {
 
         var apiClient = connectionManager.getApiClient(options.serverId);
@@ -303,6 +330,13 @@
             containers.push(elem.value);
         }
         userSettings.setFilter(settingsKey + '-filter-Containers', containers.join(','));
+
+        var years = [];
+        elem = context.querySelector('.selectYears');
+        if (elem.value) {
+            years.push(elem.value);
+        }
+        userSettings.setFilter(settingsKey + '-filter-Years', years.join(','));
 
         var OfficialRatings = [];
         elem = context.querySelector('.selectOfficialRating');
@@ -454,6 +488,7 @@
                 loadOfficialRatings(dlg, options);
                 loadPlayState(dlg, options);
                 loadContainers(dlg, options);
+                loadYears(dlg, options);
 
                 bindCheckboxInput(dlg, true);
 

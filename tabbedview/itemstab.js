@@ -551,7 +551,8 @@
             StudioIds: userSettings.getFilter(basekey + '-filter-StudioIds'),
             Tags: userSettings.getFilter(basekey + '-filter-Tags'),
             Containers: userSettings.getFilter(basekey + '-filter-Containers'),
-            OfficialRatings: userSettings.getFilter(basekey + '-filter-OfficialRatings')
+            OfficialRatings: userSettings.getFilter(basekey + '-filter-OfficialRatings'),
+            Years: userSettings.getFilter(basekey + '-filter-Years')
         };
     };
 
