@@ -40,6 +40,63 @@
         }
     }
 
+    function loadPlayState(context, options) {
+
+        var anySelected = false;
+        var menuItems = [];
+
+        if (options.visibleSettings.indexOf('IsPlayed') !== -1) {
+            menuItems.push({
+                name: globalize.translate('Played'),
+                value: 'IsPlayed'
+            });
+        }
+        if (options.visibleSettings.indexOf('IsUnplayed') !== -1) {
+            menuItems.push({
+                name: globalize.translate('Unplayed'),
+                value: 'IsUnplayed'
+            });
+        }
+        if (options.visibleSettings.indexOf('IsResumable') !== -1) {
+            menuItems.push({
+                name: globalize.translate('ContinuePlaying'),
+                value: 'IsResumable'
+            });
+        }
+
+        var html = menuItems.map(function (m) {
+
+            var optionSelected = !anySelected && (options.settings[m.value] || false);
+            var selectedHtml = '';
+            if (optionSelected) {
+                anySelected = true;
+                selectedHtml = ' selected';
+            }
+
+            return '<option value="' + m.value + '" ' + selectedHtml + '>' + m.name + '</option>';
+
+        }).join('');
+
+        var allText = globalize.translate('All');
+
+        var prefix = anySelected ?
+            '<option value="">' + allText + '</option>' :
+            '<option value="" selected>' + allText + '</option>';
+
+        context.querySelector('.selectPlaystate').innerHTML = prefix + html;
+
+        if (menuItems.length) {
+            context.querySelector('.playstateFilters').classList.remove('hide');
+        } else {
+            context.querySelector('.playstateFilters').classList.add('hide');
+        }
+    }
+
+    function handleQueryError() {
+
+        // For older servers
+    }
+
     function loadGenres(context, options) {
 
         var apiClient = connectionManager.getApiClient(options.serverId);
@@ -59,12 +116,8 @@
         apiClient.getGenres(apiClient.getCurrentUserId(), query).then(function (result) {
 
             renderList(context.querySelector('.genreFilters'), result.Items, options, 'GenreIds', ',');
-        });
-    }
 
-    function handleQueryError() {
-
-        // For older servers
+        }, handleQueryError);
     }
 
     function loadStudios(context, options) {
@@ -132,7 +185,31 @@
         apiClient.getTags(apiClient.getCurrentUserId(), query).then(function (result) {
 
             renderList(context.querySelector('.tagFilters'), result.Items, options, 'Tags', '|');
+
+        }, handleQueryError);
+    }
+
+    function loadContainers(context, options) {
+
+        var apiClient = connectionManager.getApiClient(options.serverId);
+
+        var query = Object.assign(options.filterMenuOptions, {
+
+            SortBy: "SortName",
+            SortOrder: "Ascending",
+            Recursive: options.Recursive == null ? true : options.Recursive,
+            EnableTotalRecordCount: false,
+            EnableImages: false,
+            EnableUserData: false,
+            ParentId: options.parentId,
+            IncludeItemTypes: options.itemTypes.join(',')
         });
+
+        apiClient.getContainers(apiClient.getCurrentUserId(), query).then(function (result) {
+
+            renderList(context.querySelector('.containerFilters'), result.Items, options, 'Containers', ',');
+
+        }, handleQueryError);
     }
 
     function initEditor(context, settings) {
@@ -220,12 +297,42 @@
         }
         userSettings.setFilter(settingsKey + '-filter-Tags', tags.join('|'));
 
+        var containers = [];
+        elem = context.querySelector('.selectContainers');
+        if (elem.value) {
+            containers.push(elem.value);
+        }
+        userSettings.setFilter(settingsKey + '-filter-Containers', containers.join(','));
+
         var OfficialRatings = [];
         elem = context.querySelector('.selectOfficialRating');
         if (elem.value) {
             OfficialRatings.push(elem.value);
         }
         userSettings.setFilter(settingsKey + '-filter-OfficialRatings', OfficialRatings.join('|'));
+
+        setPlaystateFilters(context, settingsKey);
+    }
+
+    function setPlaystateFilters(context, settingsKey) {
+
+        var selectPlaystate = context.querySelector('.selectPlaystate');
+        var options = selectPlaystate.options;
+        var value = selectPlaystate.value;
+
+        for (var i = 0, length = options.length; i < length; i++) {
+
+            var optionValue = options[i].value;
+            if (optionValue === value) {
+                if (optionValue) {
+                    userSettings.setFilter(settingsKey + '-filter-' + optionValue, true);
+                }
+            } else {
+                if (optionValue) {
+                    userSettings.setFilter(settingsKey + '-filter-' + optionValue, null);
+                }
+            }
+        }
     }
 
     function setBasicFilter(context, key, elem) {
@@ -345,6 +452,8 @@
                 loadStudios(dlg, options);
                 loadTags(dlg, options);
                 loadOfficialRatings(dlg, options);
+                loadPlayState(dlg, options);
+                loadContainers(dlg, options);
 
                 bindCheckboxInput(dlg, true);
 

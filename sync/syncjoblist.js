@@ -111,7 +111,7 @@
             listItemClass += ' btnJobMenu';
         }
 
-        var canEdit = (job.ItemCount || 1) > 1 || job.Status === 'Queued';
+        var canEdit = true; //// (job.ItemCount || 1) > 1 || job.Status === 'Queued';
         html += '<' + tagName + typeAttribute + ' class="' + listItemClass + '" data-canedit="' + canEdit + '" data-id="' + job.Id + '" data-status="' + job.Status + '">';
 
         var imgUrl;
@@ -145,7 +145,7 @@
         textLines.push(name);
 
         if (job.ItemCount === 1) {
-            //textLines.push(globalize.translate('sharedcomponents#ValueOneItem'));
+            textLines.push(globalize.translate('sharedcomponents#ValueOneItem'));
         } else {
             textLines.push(globalize.translate('sharedcomponents#ItemCount', job.ItemCount));
         }
@@ -365,6 +365,9 @@
                     mode: listInstance.options.mode
 
                 }).then(function () {
+                    fetchData(listInstance);
+                }, function () {
+                    // also update on rejection - just to be sure
                     fetchData(listInstance);
                 });
             });

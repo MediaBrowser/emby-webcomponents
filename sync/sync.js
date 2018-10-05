@@ -229,20 +229,28 @@
             html += '</div>';
         }
 
+        var settingsDisabled = false;
+
+        if (options.readOnlySyncTarget && dialogOptions.Options.indexOf('UnwatchedOnly') === -1 && dialogOptions.Options.indexOf('SyncNewContent') === -1 && dialogOptions.Options.indexOf('ItemLimit') === -1) {
+
+            // for non-dynamic sync-jobs and non-new it doesn't make any sense to allow modifying any settings
+            settingsDisabled = true;
+        }
+
         html += '<div class="fldProfile selectContainer hide">';
-        html += '<select is="emby-select" id="selectProfile" label="' + globalize.translate('sharedcomponents#LabelProfile') + '">';
+        html += '<select is="emby-select" id="selectProfile" ' + (settingsDisabled ? 'disabled' : '') + '  label="' + globalize.translate('sharedcomponents#LabelProfile') + '">';
         html += '</select>';
         html += '<div class="fieldDescription profileDescription"></div>';
         html += '</div>';
 
         html += '<div class="fldQuality selectContainer hide">';
-        html += '<select is="emby-select" id="selectQuality" required="required" label="' + globalize.translate('sharedcomponents#LabelQuality') + '">';
+        html += '<select is="emby-select" id="selectQuality" required="required" ' + (settingsDisabled ? 'disabled' : '') + '  label="' + globalize.translate('sharedcomponents#LabelQuality') + '">';
         html += '</select>';
         html += '<div class="fieldDescription qualityDescription"></div>';
         html += '</div>';
 
         html += '<div class="fldBitrate inputContainer hide">';
-        html += '<input is="emby-input" type="number" step=".1" min=".1" id="txtBitrate" label="' + globalize.translate('sharedcomponents#LabelBitrateMbps') + '"/>';
+        html += '<input is="emby-input" type="number" step=".1" min=".1" ' + (settingsDisabled ? 'readonly' : '') + ' id="txtBitrate" label="' + globalize.translate('sharedcomponents#LabelBitrateMbps') + '"/>';
         html += '</div>';
 
         if (dialogOptions.Options.indexOf('UnwatchedOnly') !== -1) {

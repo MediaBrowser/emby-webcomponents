@@ -323,6 +323,10 @@
                 renderJob(context, job, options);
                 loading.hide();
             });
+        }, function(error) {
+            // typically this happens when the job no longer exists
+            loading.hide();
+            dialogHelper.close(context);
         });
 
         apiClient.getJSON(apiClient.getUrl('Sync/JobItems', {
@@ -334,6 +338,10 @@
 
             renderJobItems(context, result.Items, apiClient);
             loading.hide();
+        }, function(error) {
+            // typically this happens when the job no longer exists
+            loading.hide();
+            dialogHelper.close(context);
         });
     }
 
@@ -371,22 +379,12 @@
                     dialogHelper.close(context);
                 });
             });
+        }, function(error) {
+            // typically this happens when the job no longer exists
+            loading.hide();
+            dialogHelper.close(context);
         });
 
-    }
-
-    function startListening(apiClient, jobId) {
-
-        var startParams = "0,1500";
-
-        startParams += "," + jobId;
-
-        apiClient.sendMessage("SyncJobStart", startParams);
-    }
-
-    function stopListening(apiClient) {
-
-        apiClient.sendMessage("SyncJobStop", "");
     }
 
     function bindEvents(context, jobId, apiClient) {
@@ -469,8 +467,27 @@
             scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
         }
 
-        function onSyncJobMessage(e, apiClient, msg) {
-            loadJobInfo(dlg, msg.Job, msg.JobItems, apiClient);
+        function onSyncJobMessage(e, apiClient, job) {
+            if (String(job.Id) === id) {
+
+                apiClient.getJSON(apiClient.getUrl('Sync/JobItems', {
+
+                    JobId: id,
+                    AddMetadata: true
+
+                })).then(function (result) {
+
+                    renderJobItems(dlg, result.Items, apiClient);
+                    loading.hide();
+                }, function(error) {
+                    // typically this happens when the job no longer exists
+                    loading.hide();
+                    ////dialogHelper.close(context);
+                });
+
+
+                ////loadJobInfo(dlg, msg.Job, msg.JobItems, apiClient);
+            }
         }
 
         loadJob(dlg, id, apiClient);
@@ -478,13 +495,13 @@
 
         var promise = dialogHelper.open(dlg);
 
-        startListening(apiClient, id);
-        events.on(serverNotifications, "SyncJob", onSyncJobMessage);
+        ////startListening(apiClient, id);
+        events.on(serverNotifications, 'SyncJobUpdated', onSyncJobMessage);
 
         return promise.then(function () {
 
-            stopListening(apiClient);
-            events.off(serverNotifications, "SyncJob", onSyncJobMessage);
+            ////stopListening(apiClient);
+            events.off(serverNotifications, 'SyncJobUpdated', onSyncJobMessage);
 
             if (layoutManager.tv) {
                 scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);

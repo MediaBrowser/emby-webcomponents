@@ -3,22 +3,46 @@
         <form style="margin:auto;">
             <div class="verticalSection basicFilterSection focuscontainer-x" style="margin-top:2em;">
                 <div class="checkboxList">
-                    <label class="viewSetting simpleFilter" data-settingname="IsUnplayed">
-                        <input type="checkbox" is="emby-checkbox" />
-                        <span>${Unplayed}</span>
-                    </label>
-                    <label class="viewSetting simpleFilter" data-settingname="IsPlayed">
-                        <input type="checkbox" is="emby-checkbox" />
-                        <span>${Played}</span>
-                    </label>
                     <label class="viewSetting simpleFilter" data-settingname="IsFavorite">
                         <input type="checkbox" is="emby-checkbox" />
                         <span>${Favorite}</span>
                     </label>
-                    <label class="viewSetting simpleFilter" data-settingname="IsResumable">
-                        <input type="checkbox" is="emby-checkbox" />
-                        <span>${ContinueWatching}</span>
-                    </label>
+                </div>
+            </div>
+
+            <div class="verticalSection hide playstateFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectPlaystate" label="${LabelPlaystate}"></select>
+                </div>
+            </div>
+            <div class="verticalSection hide genreFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectGenre" label="${LabelGenre}"></select>
+                </div>
+            </div>
+            <div class="verticalSection hide officialRatingFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectOfficialRating" label="${LabelParentalRating}"></select>
+                </div>
+            </div>
+            <div class="verticalSection hide studioFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectStudio" label="${LabelStudio}"></select>
+                </div>
+            </div>
+            <div class="verticalSection hide studioFilters focuscontainer-x">
+                <h2 class="checkboxListLabel">${Studios}</h2>
+                <div class="checkboxList filterOptions">
+                </div>
+            </div>
+            <div class="verticalSection hide tagFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectTags" label="${LabelTag}"></select>
+                </div>
+            </div>
+            <div class="verticalSection hide containerFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectContainers" label="${LabelContainer}"></select>
                 </div>
             </div>
 
@@ -33,36 +57,6 @@
                         <input type="checkbox" is="emby-checkbox" class="chkSeriesStatus" data-filter="Ended" />
                         <span>${Ended}</span>
                     </label>
-                </div>
-            </div>
-
-            <div class="verticalSection hide genreFilters" style="margin-top:1.5em;">
-                <div class="selectContainer">
-                    <select is="emby-select" class="selectGenre" label="${LabelGenres}"></select>
-                </div>
-            </div>
-
-            <div class="verticalSection hide studioFilters" style="margin-top:1.5em;">
-                <div class="selectContainer">
-                    <select is="emby-select" class="selectStudio" label="${LabelStudios}"></select>
-                </div>
-            </div>
-
-            <div class="verticalSection hide tagFilters" style="margin-top:1.5em;">
-                <div class="selectContainer">
-                    <select is="emby-select" class="selectTags" label="${LabelTags}"></select>
-                </div>
-            </div>
-
-            <div class="verticalSection hide officialRatingFilters" style="margin-top:1.5em;">
-                <div class="selectContainer">
-                    <select is="emby-select" class="selectOfficialRating" label="${LabelParentalRatings}"></select>
-                </div>
-            </div>
-
-            <div class="verticalSection hide studioFilters focuscontainer-x">
-                <h2 class="checkboxListLabel">${Studios}</h2>
-                <div class="checkboxList filterOptions">
                 </div>
             </div>
             <div class="verticalSection viewSetting focuscontainer-x" data-settingname="VideoType">
