@@ -236,55 +236,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
-    var msgTimeout;
-    var forcedLogoutMsg;
-    function onForcedLogoutMessageTimeout() {
-
-        var msg = forcedLogoutMsg;
-        forcedLogoutMsg = null;
-
-        if (msg) {
-            require(['alert'], function (alert) {
-                alert(msg);
-            });
-        }
-    }
-
-    function showForcedLogoutMessage(msg) {
-
-        forcedLogoutMsg = msg;
-        if (msgTimeout) {
-            clearTimeout(msgTimeout);
-        }
-
-        msgTimeout = setTimeout(onForcedLogoutMessageTimeout, 100);
-    }
-
-    function onRequestFail(e, data) {
-
-        var apiClient = this;
-
-        if (data.status === 401) {
-            if (data.errorCode === "ParentalControl") {
-
-                var isCurrentAllowed = currentRouteInfo ? (currentRouteInfo.route.anonymous || currentRouteInfo.route.startup) : true;
-
-                // Bounce to the login screen, but not if a password entry fails, obviously
-                if (!isCurrentAllowed) {
-
-                    showForcedLogoutMessage(globalize.translate('sharedcomponents#AccessRestrictedTryAgainLater'));
-
-                    if (connectionManager.isLoggedIntoConnect()) {
-                        appRouter.showConnectLogin();
-                    } else {
-                        appRouter.showLocalLogin(apiClient.serverId());
-                    }
-                }
-
-            }
-        }
-    }
-
     function onBeforeExit(e) {
 
         if (browser.web0s) {
@@ -357,6 +308,14 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return null;
     }
 
+    function onNetworkChanged() {
+        connectionManager.onNetworkChanged();
+    }
+
+    if (appHost.supports('multiserver') && navigator.connection) {
+        navigator.connection.addEventListener('change', onNetworkChanged);
+    }
+
     function getMaxBandwidthIOS() {
         return 1500000;
     }
@@ -370,9 +329,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         } else {
             newApiClient.getMaxBandwidth = getMaxBandwidth;
         }
-
-        events.off(newApiClient, 'requestfail', onRequestFail);
-        events.on(newApiClient, 'requestfail', onRequestFail);
     }
 
     function initApiClient(apiClient) {

@@ -111,7 +111,7 @@
             triggerBeforeTabChange(tabs, index, previousIndex);
 
             // If toCenter is called syncronously within the click event, it sometimes ends up canceling it
-            setTimeout(function () {
+            //setTimeout(function () {
 
                 tabs.selectedTabIndex = index;
 
@@ -121,7 +121,7 @@
                         previousIndex: previousIndex
                     }
                 }));
-            }, 120);
+            //}, 120);
 
             if (tabs.scroller) {
                 tabs.scroller.toCenter(tabButton, false);

@@ -495,6 +495,34 @@ html, .backgroundContainer {
     background: #333;
 }
 
+.emby-slider {
+    color: #FF9100;
+}
+
+    .emby-slider::-moz-range-track {
+        background: #444;
+    }
+
+    .emby-slider::-moz-range-progress {
+        background: #FF9100;
+    }
+
+    .emby-slider::-webkit-slider-thumb {
+        background: #FF9100;
+    }
+
+    .emby-slider::-moz-range-thumb {
+        background: #FF9100;
+    }
+
+    .emby-slider::-ms-thumb {
+        background: #FF9100;
+    }
+
+.emby-slider-background-lower {
+    background-color: #FF9100;
+}
+
 /* scrollbuttons */
 .scrollbuttoncontainer {
     color: #000;

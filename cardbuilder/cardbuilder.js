@@ -526,7 +526,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var coverImage = false;
             var uiAspect = null;
             // .24 as opposed to .2 looks nice for nintendo 64
-            var coverImageTolerance = 0.24;
+            var coverImageTolerance = 0.28;
 
             var imageTags = item.ImageTags;
 

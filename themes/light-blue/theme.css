@@ -464,6 +464,34 @@ html, .backgroundContainer {
     background: rgba(0,0,0,.1);
 }
 
+.emby-slider {
+    color: #2196F3;
+}
+
+    .emby-slider::-moz-range-track {
+        background: #444;
+    }
+
+    .emby-slider::-moz-range-progress {
+        background: #2196F3;
+    }
+
+    .emby-slider::-webkit-slider-thumb {
+        background: #2196F3;
+    }
+
+    .emby-slider::-moz-range-thumb {
+        background: #2196F3;
+    }
+
+    .emby-slider::-ms-thumb {
+        background: #2196F3;
+    }
+
+.emby-slider-background-lower {
+    background-color: #2196F3;
+}
+
 /* scrollbuttons */
 .scrollbuttoncontainer {
     color: #fff;

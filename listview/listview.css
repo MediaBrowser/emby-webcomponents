@@ -119,7 +119,7 @@
     justify-self: center;
     margin: auto;
     color: rgba(255, 255, 255, .6);
-    font-size: 1.6em;
+    font-size: 1.5em;
     background: transparent;
     transition: transform 200ms ease-out;
     display: flex;
@@ -218,6 +218,13 @@
     font-size: 88%;
     margin-bottom: 1em;
     margin-top: .2em;
+}
+
+@media all and (max-width: 64em) {
+
+    .listItemImageButton {
+        font-size: 1.02em !important;
+    }
 }
 
 @media all and (max-width: 50em) {
