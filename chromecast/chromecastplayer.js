@@ -801,7 +801,7 @@
 
     ChromecastPlayer.prototype.volumeDown = function () {
 
-        var volume = this._castPlayer.currentVolume - .02;
+        var volume = this._castPlayer.currentVolume - 0.02;
 
         this.setVolume(volume * 100);
     };
@@ -819,7 +819,7 @@
 
     ChromecastPlayer.prototype.volumeUp = function () {
 
-        var volume = this._castPlayer.currentVolume + .02;
+        var volume = this._castPlayer.currentVolume + 0.02;
 
         this.setVolume(volume * 100);
     };
