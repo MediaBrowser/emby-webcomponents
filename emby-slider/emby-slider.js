@@ -79,7 +79,8 @@
             this.classList.add('slider-no-webkit-thumb');
         }
         if (!layoutManager.mobile) {
-            this.classList.add('emby-slider-hoverthumb');
+            this.classList.add('emby-slider-smallthumb');
+			this.classList.add('emby-slider-hoverthumb');
         }
 
         var containerElement = this.parentNode;

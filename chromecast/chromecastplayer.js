@@ -81,6 +81,8 @@
         this.errorHandler = this.onError.bind(this);
         this.mediaStatusUpdateHandler = this.onMediaStatusUpdate.bind(this);
 
+        this.currentVolume = 1;
+
         this.initializeCastPlayer();
     };
 
@@ -447,12 +449,15 @@
 
         if (!this.currentMediaSession) {
             //console.log('this.currentMediaSession is null');
-            return;
+            //return;
         }
 
         if (!mute) {
 
-            this.session.setReceiverVolumeLevel((vol || 1),
+            var newVolume = vol;
+            this.currentVolume = newVolume;
+
+            this.session.setReceiverVolumeLevel(newVolume,
                 this.mediaCommandSuccessCallback.bind(this),
                 this.errorHandler);
         }
@@ -468,6 +473,16 @@
      */
     CastPlayer.prototype.mute = function () {
         this.setReceiverVolume(true);
+    };
+
+    /**
+     * Mute CC
+     */
+    CastPlayer.prototype.unMute = function () {
+
+        var newVolume = this.currentVolume || 1;
+
+        this.setReceiverVolume(false, newVolume);
     };
 
     /**
@@ -690,6 +705,11 @@
         }
 
         data = data || this.lastPlayerData;
+
+        if (data) {
+            data.VolumeLevel = this._castPlayer.currentVolume * 100;
+        }
+
         this.lastPlayerData = data;
 
         normalizeImages(data);
@@ -781,10 +801,9 @@
 
     ChromecastPlayer.prototype.volumeDown = function () {
 
-        this._castPlayer.sendMessage({
-            options: {},
-            command: 'VolumeDown'
-        });
+        var volume = this._castPlayer.currentVolume - .02;
+
+        this.setVolume(volume * 100);
     };
 
     ChromecastPlayer.prototype.endSession = function () {
@@ -800,10 +819,9 @@
 
     ChromecastPlayer.prototype.volumeUp = function () {
 
-        this._castPlayer.sendMessage({
-            options: {},
-            command: 'VolumeUp'
-        });
+        var volume = this._castPlayer.currentVolume + .02;
+
+        this.setVolume(volume * 100);
     };
 
     ChromecastPlayer.prototype.setVolume = function (vol) {
@@ -811,12 +829,7 @@
         vol = Math.min(vol, 100);
         vol = Math.max(vol, 0);
 
-        this._castPlayer.sendMessage({
-            options: {
-                volume: vol
-            },
-            command: 'SetVolume'
-        });
+        this._castPlayer.setReceiverVolume(false, vol / 100);
     };
 
     ChromecastPlayer.prototype.unpause = function () {
@@ -857,18 +870,10 @@
 
     ChromecastPlayer.prototype.setMute = function (isMuted) {
 
-        var castPlayer = this._castPlayer;
-
         if (isMuted) {
-            castPlayer.sendMessage({
-                options: {},
-                command: 'Mute'
-            });
+            this._castPlayer.mute();
         } else {
-            castPlayer.sendMessage({
-                options: {},
-                command: 'Unmute'
-            });
+            this._castPlayer.unMute();
         }
     };
 
