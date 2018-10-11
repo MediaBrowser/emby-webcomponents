@@ -65,7 +65,7 @@
 }
 
 .videoIndicator {
-    background: rgba(30,30,30,.6);
+    background: rgba(30,30,30,.7);
     border-radius: 100em;
     display: -webkit-flex;
     display: flex;

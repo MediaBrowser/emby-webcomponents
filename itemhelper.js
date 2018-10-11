@@ -63,7 +63,9 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
         }
 
-        return !item.CollectionType && invalidTypes.indexOf(item.Type) === -1 && item.MediaType !== 'Photo' && !isLocalItem(item);
+        // Check ParentId to filter out owned items (for now)
+        // https://emby.media/community/index.php?/topic/63827-add-movie-extras-to-playlists
+        return !item.CollectionType && invalidTypes.indexOf(item.Type) === -1 && item.MediaType !== 'Photo' && !isLocalItem(item) && item.ParentId;
     }
 
     function supportsAddingToPlaylist(item) {
@@ -100,6 +102,12 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
         if (item.CollectionType === 'livetv') {
+            return false;
+        }
+
+        // Check ParentId to filter out owned items (for now)
+        // https://emby.media/community/index.php?/topic/63827-add-movie-extras-to-playlists
+        if (!item.ParentId) {
             return false;
         }
 

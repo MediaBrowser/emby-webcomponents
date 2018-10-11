@@ -760,16 +760,6 @@ define(['browser'], function (browser) {
 
         var aacCodecProfileConditions = [];
 
-        // Handle he-aac not supported
-        if (!videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.5"').replace(/no/, '')) {
-            // TODO: This needs to become part of the stream url in order to prevent stream copy
-            aacCodecProfileConditions.push({
-                Condition: 'NotEquals',
-                Property: 'AudioProfile',
-                Value: 'HE-AAC'
-            });
-        }
-
         if (!supportsSecondaryAudio) {
             aacCodecProfileConditions.push({
                 Condition: 'Equals',
