@@ -94,6 +94,15 @@ define(['appStorage', 'events'], function (appStorage, events) {
         return this.get('syncOnlyOnWifi') !== 'false';
     };
 
+    AppSettings.prototype.syncWhenRoaming = function (val) {
+
+        if (val != null) {
+            this.set('syncWhenRoaming', val.toString());
+        }
+
+        return this.get('syncWhenRoaming') !== 'false';
+    };
+
     AppSettings.prototype.syncPath = function (val) {
 
         if (val != null) {

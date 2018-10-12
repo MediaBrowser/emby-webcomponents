@@ -312,7 +312,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         connectionManager.onNetworkChanged();
     }
 
-    if (appHost.supports('multiserver') && navigator.connection) {
+    if (appHost.supports('multiserver') && navigator.connection && navigator.connection.addEventListener) {
         navigator.connection.addEventListener('change', onNetworkChanged);
     }
 

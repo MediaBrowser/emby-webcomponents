@@ -52,10 +52,6 @@
             return false;
         }
 
-        if (browser.edge) {
-            return true;
-        }
-
         if (browser.iOS) {
             // works in the browser but not the native app
             if ((browser.iosVersion || 10) < 10) {
