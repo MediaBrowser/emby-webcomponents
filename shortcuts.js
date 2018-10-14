@@ -285,17 +285,15 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
         }
 
         else if (action === 'edit') {
-            getItem(target).then(function (item) {
-                editItem(item, serverId);
-            });
+            editItem(item.Id, type, serverId);
         }
 
         else if (action === 'playtrailer') {
-            getItem(target).then(playTrailer);
+            playTrailer(item.Id, serverId);
         }
 
         else if (action === 'addtoplaylist') {
-            getItem(target).then(addToPlaylist);
+            addToPlaylist(item.Id, serverId);
         }
 
         else if (action === 'custom') {
@@ -312,27 +310,27 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
         }
     }
 
-    function addToPlaylist(item) {
+    function addToPlaylist(itemId, serverId) {
         require(['playlistEditor'], function (playlistEditor) {
 
             new playlistEditor().show({
-                items: [item.Id],
-                serverId: item.ServerId
+                items: [itemId],
+                serverId: serverId
 
             });
         });
     }
 
-    function playTrailer(item) {
+    function playTrailer(itemId, serverId) {
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(serverId);
 
-        apiClient.getLocalTrailers(apiClient.getCurrentUserId(), item.Id).then(function (trailers) {
+        apiClient.getLocalTrailers(apiClient.getCurrentUserId(), itemId).then(function (trailers) {
             playbackManager.play({ items: trailers });
         });
     }
 
-    function editItem(item, serverId) {
+    function editItem(itemId, itemType, serverId) {
 
         var apiClient = connectionManager.getApiClient(serverId);
 
@@ -340,22 +338,32 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
             var serverId = apiClient.serverInfo().Id;
 
-            if (item.Type === 'Timer') {
-                if (item.ProgramId) {
-                    require(['recordingCreator'], function (recordingCreator) {
-
-                        recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
-                    });
-                } else {
-                    require(['recordingEditor'], function (recordingEditor) {
-
-                        recordingEditor.show(item.Id, serverId).then(resolve, reject);
-                    });
-                }
+            if (itemType === 'Timer') {
+                editTimer(itemId, serverId);
             } else {
                 require(['metadataEditor'], function (metadataEditor) {
 
-                    metadataEditor.show(item.Id, serverId).then(resolve, reject);
+                    metadataEditor.show(itemId, serverId).then(resolve, reject);
+                });
+            }
+        });
+    }
+
+    function editTimer(itemId, serverId) {
+
+        var apiClient = connectionManager.getApiClient(serverId);
+
+        return apiClient.getLiveTvTimer(itemId).then(function (item) {
+
+            if (item.ProgramId) {
+                require(['recordingCreator'], function (recordingCreator) {
+
+                    recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
+                });
+            } else {
+                require(['recordingEditor'], function (recordingEditor) {
+
+                    recordingEditor.show(itemId, serverId).then(resolve, reject);
                 });
             }
         });

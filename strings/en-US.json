@@ -85,6 +85,8 @@
   "HeaderCinemaMode": "Cinema Mode",
   "HeaderCloudSync": "Cloud Sync",
   "Downloads": "Downloads",
+  "InternalStorage": "Internal storage",
+  "ExternalStorage": "External storage",
   "HeaderMyDownloads": "My Downloads",
   "HeaderOfflineDownloads": "Offline Media",
   "HeaderOfflineDownloadsDescription": "Download media to your devices for easy offline use.",
