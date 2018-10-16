@@ -162,7 +162,7 @@
     "HeaderSecondsValue": "{0} sekunder",
     "HeaderNextEpisodePlayingInValue": "N\u00e4sta avsnitt b\u00f6rjar om {0}",
     "ErrorConnectServerUnreachable": "Det uppstod ett fel vid utf\u00f6randet av beg\u00e4ran. Din server kan inte ansluta till v\u00e5r Emby Connect Server p\u00e5 {0}. S\u00e4kerst\u00e4ll att din server har en aktiv internetanslutning och att kommunikation till\u00e5ts i eventuell brandv\u00e4gg eller s\u00e4kerhetsprogramvara som du har installerad.",
-    "ContainerBitrateExceedsLimit": "Medians bithastighet \u00f6verskrider begr\u00e4nsningen",
+    "ContainerBitrateExceedsLimit": "Bithastighet \u00f6verskrider gr\u00e4nsen.",
     "AudioBitDepthNotSupported": "Ljudets bitdjup st\u00f6ds inte",
     "VideoProfileNotSupported": "Videoprofilen st\u00f6ds inte",
     "VideoFramerateNotSupported": "Videons bildhastighet st\u00f6ds inte",
