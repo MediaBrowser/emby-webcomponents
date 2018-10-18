@@ -696,7 +696,8 @@
                     overlayText: false,
                     lazy: true,
                     transition: false,
-                    allowBottomPadding: !scrollX
+                    allowBottomPadding: !scrollX,
+                    hoverPlayButton: false
                 });
 
                 if (scrollX) {

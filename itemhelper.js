@@ -203,7 +203,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
 
-            if (itemType === 'CollectionFolder' || itemType === 'UserView') {
+            if (itemType === 'CollectionFolder' || itemType === 'UserView' || itemType === 'PlaylistsFolder') {
                 if (user.Policy.IsAdministrator) {
 
                     return true;

@@ -1126,7 +1126,16 @@
 
             var itemType = item.Type;
 
-            if (itemType === "PhotoAlbum" || itemType === "MusicGenre" || itemType === "Season" || itemType === "Series" || itemType === "BoxSet" || itemType === "MusicAlbum" || itemType === "MusicArtist" || itemType === "Playlist") {
+            if (itemType === "PhotoAlbum" ||
+                itemType === "MusicGenre" ||
+                itemType === "Season" ||
+                itemType === "Series" ||
+                itemType === "BoxSet" ||
+                itemType === "MusicAlbum" ||
+                itemType === "MusicArtist" ||
+                itemType === "Playlist" ||
+                itemType === "PlaylistsFolder" ||
+                itemType === "CollectionFolder") {
                 return true;
             }
 

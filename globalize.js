@@ -4,6 +4,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     var allTranslations = {};
     var currentCulture;
     var currentDateTimeCulture;
+    var currentLocales;
 
     function getCurrentLocale() {
 
@@ -12,6 +13,10 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     function getCurrentDateTimeLocale() {
         return currentDateTimeCulture;
+    }
+
+    function getCurrentLocales() {
+        return currentLocales;
     }
 
     function getDefaultLanguage() {
@@ -46,6 +51,8 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         culture = culture || getDefaultLanguage();
 
         currentCulture = normalizeLocaleName(culture);
+
+        currentLocales = [currentCulture];
 
         var dateTimeCulture;
         try {
@@ -305,6 +312,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         defaultModule: defaultModule,
         getCurrentLocale: getCurrentLocale,
         getCurrentDateTimeLocale: getCurrentDateTimeLocale,
+        getCurrentLocales: getCurrentDateTimeLocale,
         register: register
     };
 });

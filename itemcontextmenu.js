@@ -59,7 +59,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (item.IsFolder || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
             if (item.CollectionType !== 'livetv') {
-                if (options.shuffle !== false) {
+                if (canPlay && options.shuffle !== false) {
                     commands.push({
                         name: globalize.translate('sharedcomponents#Shuffle'),
                         id: 'shuffle'

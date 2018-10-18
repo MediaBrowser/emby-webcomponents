@@ -1642,7 +1642,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var itemType = item.Type;
             var itemId = item.Id;
 
-            if (playbackManager.canPlay(item)) {
+            if (playbackManager.canPlay(item) && options.hoverPlayButton !== false) {
 
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
             }
