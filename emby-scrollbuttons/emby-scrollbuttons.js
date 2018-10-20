@@ -1,4 +1,4 @@
-﻿define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'registerElement', 'paper-icon-button-light'], function (layoutManager, dom) {
+﻿define(['layoutManager', 'dom', 'css!./emby-scrollbuttons', 'paper-icon-button-light'], function (layoutManager, dom) {
     'use strict';
 
     var EmbyScrollButtonsPrototype = Object.create(HTMLDivElement.prototype);

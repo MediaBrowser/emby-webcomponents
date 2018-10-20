@@ -934,6 +934,8 @@ var index = (function () {
     return ResizeObserver;
 })();
 
+window.ResizeObserver = ResizeObserver;
+
 return index;
 
 })));

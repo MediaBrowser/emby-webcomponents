@@ -961,7 +961,7 @@
             // probably safer to just disable everywhere
             rendererSettings.enableSvg = false;
 
-            require(['libjass', 'ResizeObserver'], function (libjass, ResizeObserver) {
+            require(['libjass'], function (libjass) {
 
                 getTextTrackUrl(track, item).then(function (textTrackUrl) {
 
