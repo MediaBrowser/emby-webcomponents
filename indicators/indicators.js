@@ -99,14 +99,9 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '';
     }
 
-    function enablePlayedIndicator(item) {
-
-        return itemHelper.canMarkPlayed(item);
-    }
-
     function getPlayedIndicator(item) {
 
-        if (enablePlayedIndicator(item)) {
+        if (itemHelper.canMarkPlayed(item)) {
 
             var userData = item.UserData || {};
 
@@ -114,8 +109,10 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
                 return '<div class="countIndicator indicator">' + userData.UnplayedItemCount + '</div>';
             }
 
-            if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
-                return '<div class="playedIndicator indicator"><i class="md-icon indicatorIcon">&#xE5CA;</i></div>';
+            if (!item.IsFolder) {
+                if (userData.PlayedPercentage && userData.PlayedPercentage >= 100 || (userData.Played)) {
+                    return '<div class="playedIndicator indicator"><i class="md-icon indicatorIcon">&#xE5CA;</i></div>';
+                }
             }
         }
 
@@ -274,7 +271,6 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         getChildCountIndicatorHtml: getChildCountIndicatorHtml,
         enableProgressIndicator: enableProgressIndicator,
         getTimerIndicator: getTimerIndicator,
-        enablePlayedIndicator: enablePlayedIndicator,
         getSyncIndicator: getSyncIndicator,
         getTypeIndicator: getTypeIndicator,
         getMissingIndicator: getMissingIndicator

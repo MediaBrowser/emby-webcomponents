@@ -82,7 +82,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .5em;
+    margin: .55em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -98,12 +98,12 @@ button {
 @media (min-width: 50em) {
 
     .cardBox {
-        margin: .92em;
+        margin: 1.04em;
     }
 }
 
 .cardBox-withfocuscontent-large {
-    margin: .4em;
+    margin: .54em;
 }
 
 /*.card-focuscontent {

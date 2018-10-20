@@ -1543,6 +1543,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             cardBoxClose = '</div>';
             cardScalableClose = '</div>';
 
+            cardImageContainerOpen += indicators.getTypeIndicator(item);
+
             var indicatorsHtml = '';
 
             if (options.missingIndicator !== false) {
@@ -1552,17 +1554,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             indicatorsHtml += indicators.getSyncIndicator(item);
             indicatorsHtml += indicators.getTimerIndicator(item);
 
-            indicatorsHtml += indicators.getTypeIndicator(item);
-
-            if (options.showGroupCount) {
-
-                indicatorsHtml += indicators.getChildCountIndicatorHtml(item, {
-                    minCount: 1
-                });
-            }
-            else {
-                indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
-            }
+            indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
 
             if (itemType === 'CollectionFolder' || item.CollectionType) {
                 var refreshClass = item.RefreshProgress || (item.RefreshStatus && virtualFolder.item !== 'Idle') ? '' : ' class="hide"';
