@@ -73,6 +73,10 @@ html, .backgroundContainer {
         color: inherit;
     }
 
+.detailButton-mobile-icon {
+    border-color: rgba(0,0,0,.3);
+}
+
 .button-submit {
     background: #52B54B;
     color: #fff;

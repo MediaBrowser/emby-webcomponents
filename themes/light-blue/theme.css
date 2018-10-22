@@ -69,6 +69,10 @@ html, .backgroundContainer {
     color: #fff;
 }
 
+.detailButton-mobile-icon {
+    border-color: rgba(0,0,0,.3);
+}
+
 .raised:focus, .fab:focus {
     background: #ccc;
     color: inherit;

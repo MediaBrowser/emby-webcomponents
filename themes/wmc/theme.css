@@ -62,6 +62,10 @@ html {
         background: #143451;
     }
 
+.detailButton-mobile-icon {
+    border-color: rgba(255, 255, 255, .3);
+}
+
 .button-submit {
     background: #52B54B;
     color: #fff;

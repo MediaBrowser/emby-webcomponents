@@ -66,6 +66,10 @@ html, .dialog, .backgroundContainer {
         background: #3b3b3b;
     }
 
+.detailButton-mobile-icon {
+    border-color: rgba(255, 255, 255, .3);
+}
+
 .button-submit {
     background: #cc3333;
     color: #fff;
