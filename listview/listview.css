@@ -139,6 +139,30 @@
     padding: .21em;
 }
 
+@media all and (max-width: 64em) {
+
+    .listItemImage-large {
+        width: 33.75vw;
+        height: 22.5vw;
+        margin-right: 0 !important;
+    }
+
+    .listItemImageButton {
+        font-size: 1.02em !important;
+    }
+
+    .listItemBody {
+        padding-left: .75em;
+    }
+}
+
+@media all and (max-width: 50em) {
+
+    .listItemBody {
+        padding-right: .5em;
+    }
+}
+
 .listItemImage-large-tv {
     width: 30vw !important;
     height: 20vw !important;
@@ -218,13 +242,6 @@
     font-size: 88%;
     margin-bottom: 1em;
     margin-top: .2em;
-}
-
-@media all and (max-width: 64em) {
-
-    .listItemImageButton {
-        font-size: 1.02em !important;
-    }
 }
 
 @media all and (max-width: 50em) {

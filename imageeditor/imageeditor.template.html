@@ -8,46 +8,51 @@
 <div class="formDialogContent">
     <div class="dialogContentInner">
 
-        <div id="imagesContainer">
-            <div class="imageEditor-buttons first-imageEditor-buttons">
-                <h2 style="margin:0;">${Images}</h2>
-                <button type="button" is="emby-button" class="btnBrowseAllImages fab mini autoSize" style="margin-left: 1em;">
+        <div id="imagesContainer" class="verticalSection">
+
+            <div class="sectionTitleContainer sectionTitleContainer-cards">
+
+                <h2 class="sectionTitle sectionTitle-cards">${Images}</h2>
+                <button type="button" is="paper-icon-button-light" class="btnBrowseAllImages sectionTitleIconButton">
                     <i class="md-icon">&#xE8B6;</i>
                 </button>
-                <button type="button" is="emby-button" class="btnOpenUploadMenu fab mini hide" style="margin-left: .5em;">
+                <button type="button" is="paper-icon-button-light" class="btnOpenUploadMenu sectionTitleIconButton hide">
                     <i class="md-icon">&#xE145;</i>
                 </button>
             </div>
+
             <div id="images" class="itemsContainer vertical-wrap">
             </div>
-            <br />
         </div>
 
-        <div id="backdropsContainer" class="hide">
-            <div class="imageEditor-buttons">
-                <h2 style="margin:0;">${Backdrops}</h2>
-                <button type="button" is="emby-button" class="btnBrowseAllImages fab mini autoSize" style="margin-left: 1em;" data-imagetype="Backdrop">
+        <div id="backdropsContainer" class="verticalSection hide">
+            <div class="sectionTitleContainer sectionTitleContainer-cards">
+
+                <h2 class="sectionTitle sectionTitle-cards">${Backdrops}</h2>
+                <button type="button" is="paper-icon-button-light" class="btnBrowseAllImages sectionTitleIconButton" data-imagetype="Backdrop">
                     <i class="md-icon">&#xE8B6;</i>
                 </button>
-                <button type="button" is="emby-button" class="btnOpenUploadMenu fab mini hide" style="margin-left: .5em;" data-imagetype="Backdrop">
+                <button type="button" is="paper-icon-button-light" class="btnOpenUploadMenu sectionTitleIconButton hide" data-imagetype="Backdrop">
                     <i class="md-icon">&#xE145;</i>
                 </button>
             </div>
+
             <div id="backdrops" class="itemsContainer vertical-wrap">
             </div>
-            <br />
         </div>
 
-        <div id="screenshotsContainer" class="hide">
-            <div class="imageEditor-buttons">
-                <h2 style="margin: 0;">${Screenshots}</h2>
-                <button type="button" is="emby-button" class="btnBrowseAllImages fab mini autoSize" style="margin-left: 1em;" data-imagetype="Screenshot">
+        <div id="screenshotsContainer" class="verticalSection hide">
+            <div class="sectionTitleContainer sectionTitleContainer-cards">
+
+                <h2 class="sectionTitle sectionTitle-cards">${Screenshots}</h2>
+                <button type="button" is="paper-icon-button-light" class="btnBrowseAllImages sectionTitleIconButton" data-imagetype="Screenshot">
                     <i class="md-icon">&#xE8B6;</i>
                 </button>
-                <button type="button" is="emby-button" class="btnOpenUploadMenu fab mini hide" style="margin-left: .5em;" data-imagetype="Screenshot">
+                <button type="button" is="paper-icon-button-light" class="btnOpenUploadMenu sectionTitleIconButton hide" data-imagetype="Screenshot">
                     <i class="md-icon">&#xE145;</i>
                 </button>
             </div>
+
             <div id="screenshots" class="itemsContainer vertical-wrap">
             </div>
         </div>

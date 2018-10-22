@@ -27,14 +27,13 @@
     /* Disable webkit tap highlighting */
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     text-decoration: none;
-
     /* Not crazy about this but it normalizes heights between anchors and buttons */
     line-height: 1.35;
 }
 
-.emby-button::-moz-focus-inner {
-    border: 0;
-}
+    .emby-button::-moz-focus-inner {
+        border: 0;
+    }
 
 .button-flat {
     background: transparent;
@@ -49,10 +48,6 @@
     margin: 0;
     padding: 0;
     vertical-align: initial;
-}
-
-.button-link-inline {
-    display: inline;
 }
 
 .button-link:hover {
@@ -88,6 +83,12 @@
     justify-content: center;
     text-align: center;
 }
+
+    .fab > i {
+        /* This is to make the button perfectly round */
+        width: 1em;
+        height: 1em;
+    }
 
 .emby-button.block {
     display: block;
