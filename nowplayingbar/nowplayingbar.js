@@ -573,6 +573,11 @@
 
         //console.log('nowplaying event: ' + e.type);
 
+        if (state.IsFullscreen === false) {
+            hideNowPlayingBar();
+            return;
+        }
+
         var player = this;
 
         onStateChanged.call(player, e, state);

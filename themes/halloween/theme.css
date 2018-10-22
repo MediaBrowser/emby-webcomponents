@@ -19,7 +19,7 @@ h2 {
 }
 
 html {
-    color: #eee;
+    color: #ddd;
     color: rgba(255, 255, 255, .87);
 }
 
@@ -28,17 +28,17 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.skinHeader {
-    color: #ccc;
-    color: rgba(255, 255, 255, .87);
+.skinHeader-withBackground, .appfooter, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
+    background-color: #252525;
 }
 
-.skinHeader-withBackground {
-    background-color: #202020;
-}
+@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
 
-.osdHeader {
-    box-shadow: none !important;
+    .appfooter {
+        background: rgba(34,34,34,.7);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+    }
 }
 
 .skinHeader.semiTransparent {
@@ -52,16 +52,12 @@ html {
     background-image: url(../logowhite.png);
 }
 
-.dialog {
-    background-color: #1a1a1a;
-}
-
-html, .backgroundContainer {
-    background-color: #1a1a1a;
+html, .dialog, .backgroundContainer {
+    background-color: #1d1d1d;
 }
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(12,12,12, .9);
+        background-color: rgba(0,0,0,.86);
     }
 
 /* buttons */
@@ -70,18 +66,13 @@ html, .backgroundContainer {
     background-color: rgba(255, 145, 0, 0.2);
 }
 
-.skinHeader-withBackground .paper-icon-button-light:focus {
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
 .raised, .fab {
-    background: #404040;
-    color: #fff;
+    background: #333;
+    color: rgba(255, 255, 255, .87);
 }
 
     .raised:focus, .fab:focus {
-        background: #505050;
+        background: #3b3b3b;
     }
 
 .button-submit {
@@ -111,12 +102,12 @@ html, .backgroundContainer {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
-    background-color: #222;
+.paperList, .visualCardBox, .collapseContent {
+    background-color: #272727;
 }
 
 .defaultCardBackground0 {
-    background-color: #242424;
+    background-color: #272727;
 }
 
 .defaultCardBackground1 {
@@ -155,29 +146,13 @@ html, .backgroundContainer {
 }
 
 .actionSheetMenuItem:hover {
-    background-color: #222;
+    background-color: #272727;
 }
 
 .toast {
-    background: #303030;
+    background: #333;
     color: #fff;
     color: rgba(255, 255, 255, .87);
-}
-
-/* appfooter */
-.appfooter {
-    background: #101010;
-    color: #ccc;
-    color: rgba(255, 255, 255, .87);
-}
-
-@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
-
-    .appfooter {
-        background: rgba(34,34,34,.7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
-    }
 }
 
 /* Multi-select */
@@ -217,11 +192,11 @@ html, .backgroundContainer {
 }
 
 .listItem-border {
-    border-color: rgba(30, 30, 30, .9) !important;
+    border-color: rgba(34,34,34, .9) !important;
 }
 
 .listItem:focus {
-    background: #333;
+    background: #363636;
 }
 
 .progressring-spiner {
@@ -252,8 +227,8 @@ html, .backgroundContainer {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #262626;
-    border: .07em solid #262626;
+    background: #333;
+    border: .07em solid #333;
     border-radius: .15em;
 }
 
@@ -264,8 +239,8 @@ html, .backgroundContainer {
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #262626;
-    border: .07em solid #262626;
+    background: #333;
+    border: .07em solid #333;
 }
 
     .emby-select-withcolor > option {
@@ -319,9 +294,7 @@ html, .backgroundContainer {
 
 /* main nav drawer */
 .mainDrawer {
-    background-color: #1c1c1f;
-    color: #ccc;
-    color: rgba(255, 255, 255, .6);
+    background-color: #1c1c1c;
 }
 
 .navMenuOption:hover {
@@ -360,7 +333,7 @@ html, .backgroundContainer {
 
 /* guide */
 .guide-channelHeaderCell, .channelPrograms, .programCell {
-    border-color: #282828;
+    border-color: rgba(255,255,255,.05);
 }
 
 .programCell-sports {
@@ -403,21 +376,21 @@ html, .backgroundContainer {
 }
 
     .guide-date-tab-button.emby-tab-button-active {
-        color: #52B54B;
+        color: #FF9100;
     }
 
     .guide-date-tab-button:focus {
-        color: #52B54B;
+        color: #FF9100;
     }
 
     .guide-date-tab-button.emby-button-tv:focus {
-        background-color: #52B54B;
+        background-color: #FF9100;
         color: #fff;
     }
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #191919);
+    background: linear-gradient(rgba(0,0,0,0), #1d1d1d);
 }
 
 /* used by directory picker and other areas */
@@ -450,6 +423,10 @@ html, .backgroundContainer {
 }
 
 /* cards */
+.cardContent-shadow {
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
+
 .card:focus .card-focuscontent {
     border-color: #FF9100;
 }
@@ -461,7 +438,7 @@ html, .backgroundContainer {
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #3b3b3b;
+    background-color: #3e3e3e;
 }
 
 ::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal {
@@ -469,22 +446,13 @@ html, .backgroundContainer {
     background: #888 no-repeat center;
 }
 
-/* horizontal home header buttons */
-.btnUserViewHeader:focus {
-    color: #FF9100 !important;
-}
-
-    .btnUserViewHeader:focus .userViewButtonText {
-        border-bottom-color: #FF9100 !important;
-    }
-
-.emby-button:focus:not(.btnUserViewHeader):not(.emby-tab-button) {
-    background: #FF9100;
+.timeslotHeaders-desktop::-webkit-scrollbar {
+    height: .7em;
 }
 
 /* emby-slider */
 .emby-slider-background {
-    background: #333;
+    background: #2d2d2d;
 }
 
 .emby-slider {

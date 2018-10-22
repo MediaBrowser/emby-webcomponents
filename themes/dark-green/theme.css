@@ -13,6 +13,19 @@ html {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
+.appfooter {
+    background: #252525;
+}
+
+@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
+
+    .appfooter {
+        background: rgba(34,34,34,.7);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+    }
+}
+
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
@@ -26,7 +39,7 @@ html {
 }
 
 html, .dialog, .backgroundContainer {
-    background-color: #1a1a1a;
+    background-color: #1d1d1d;
 }
 
     .backgroundContainer.withBackdrop {
@@ -45,12 +58,12 @@ html, .dialog, .backgroundContainer {
 }
 
 .raised, .fab {
-    background: #303030;
+    background: #333;
     color: rgba(255, 255, 255, .87);
 }
 
     .raised:focus, .fab:focus {
-        background: #383838;
+        background: #3b3b3b;
     }
 
 .button-submit {
@@ -81,11 +94,11 @@ html, .dialog, .backgroundContainer {
 }
 
 .paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
-    background-color: #242424;
+    background-color: #272727;
 }
 
 .defaultCardBackground0 {
-    background-color: #242424;
+    background-color: #272727;
 }
 
 .defaultCardBackground1 {
@@ -124,27 +137,13 @@ html, .dialog, .backgroundContainer {
 }
 
 .actionSheetMenuItem:hover {
-    background-color: #242424;
+    background-color: #272727;
 }
 
 .toast {
-    background: #303030;
+    background: #333;
     color: #fff;
     color: rgba(255, 255, 255, .87);
-}
-
-/* appfooter */
-.appfooter {
-    background: #222;
-}
-
-@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
-
-    .appfooter {
-        background: rgba(34,34,34,.7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
-    }
 }
 
 /* Multi-select */
@@ -188,7 +187,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .listItem:focus {
-    background: #333;
+    background: #363636;
 }
 
 .progressring-spiner {
@@ -219,8 +218,8 @@ html, .dialog, .backgroundContainer {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #303030;
-    border: .07em solid #303030;
+    background: #333;
+    border: .07em solid #333;
     border-radius: .15em;
 }
 
@@ -231,8 +230,8 @@ html, .dialog, .backgroundContainer {
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #303030;
-    border: .07em solid #303030;
+    background: #333;
+    border: .07em solid #333;
 }
 
     .emby-select-withcolor > option {
@@ -382,7 +381,7 @@ html, .dialog, .backgroundContainer {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #1a1a1a);
+    background: linear-gradient(rgba(0,0,0,0), #1d1d1d);
 }
 
 /* used by directory picker and other areas */
@@ -415,6 +414,10 @@ html, .dialog, .backgroundContainer {
 }
 
 /* cards */
+.cardContent-shadow {
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
+
 .card:focus .card-focuscontent {
     border-color: #52B54B;
 }
@@ -426,7 +429,7 @@ html, .dialog, .backgroundContainer {
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #3b3b3b;
+    background-color: #3e3e3e;
 }
 
 ::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal {
@@ -440,7 +443,7 @@ html, .dialog, .backgroundContainer {
 
 /* emby-slider */
 .emby-slider-background {
-    background: #2a2a2a;
+    background: #2d2d2d;
 }
 
 .emby-slider {

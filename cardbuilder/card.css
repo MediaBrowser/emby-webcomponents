@@ -82,7 +82,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .55em;
+    margin: .53em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
