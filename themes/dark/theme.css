@@ -9,15 +9,15 @@ html {
 }
 
 .skinHeader-withBackground, .appfooter, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
-    background-color: #252525;
+    background-color: #282828;
 }
 
-@supports ( (backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px)) ) {
+@supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em)) ) {
 
     .appfooter {
         background: rgba(34,34,34,.7);
-        -webkit-backdrop-filter: blur(20px);
-        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(1.25em);
+        backdrop-filter: blur(1.25em);
     }
 }
 
@@ -33,7 +33,7 @@ html {
 }
 
 html, .dialog, .backgroundContainer {
-    background-color: #1d1d1d;
+    background-color: #202020;
 }
 
     .backgroundContainer.withBackdrop {
@@ -88,7 +88,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .paperList, .visualCardBox, .collapseContent, .defaultCardBackground0 {
-    background-color: rgba(60,60,60,.2);
+    background-color: rgba(60,60,60,.3);
 }
 
 .defaultCardBackground1 {
@@ -371,7 +371,7 @@ html, .dialog, .backgroundContainer {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #1d1d1d);
+    background: linear-gradient(rgba(0,0,0,0), #202020);
 }
 
 /* used by directory picker and other areas */
@@ -423,7 +423,7 @@ html, .dialog, .backgroundContainer {
 }
 
 ::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal {
-    -webkit-border-radius: 2px;
+    -webkit-border-radius: .1em;
     background: rgba(255,255,255,.4) no-repeat center;
 }
 
