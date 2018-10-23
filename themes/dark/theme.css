@@ -54,7 +54,6 @@ html, .dialog, .backgroundContainer {
 
     .raised:focus, .fab:focus {
         background-color: rgba(90,90,90,.5);
-        background: #3b3b3b;
     }
 
 .detailButton-mobile-icon {
@@ -420,12 +419,12 @@ html, .dialog, .backgroundContainer {
 }
 
 ::-webkit-scrollbar-track-piece {
-    background-color: #3e3e3e;
+    background-color: rgba(255,255,255,.14);
 }
 
 ::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal {
     -webkit-border-radius: 2px;
-    background: #888 no-repeat center;
+    background: rgba(255,255,255,.4) no-repeat center;
 }
 
 .timeslotHeaders-desktop::-webkit-scrollbar {
