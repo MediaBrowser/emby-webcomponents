@@ -59,10 +59,12 @@ html, .dialog, .backgroundContainer {
 
 .raised, .fab {
     background: #333;
+    background-color: rgba(60,60,60,.7);
     color: rgba(255, 255, 255, .87);
 }
 
     .raised:focus, .fab:focus {
+        background-color: rgba(90,90,90,.5);
         background: #3b3b3b;
     }
 
@@ -97,12 +99,12 @@ html, .dialog, .backgroundContainer {
     border-color: currentColor;
 }
 
-.paperList, .visualCardBox, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear), .collapseContent {
+.formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
     background-color: #272727;
 }
 
-.defaultCardBackground0 {
-    background-color: #272727;
+.paperList, .visualCardBox, .defaultCardBackground0, .collapseContent {
+    background-color: rgba(60,60,60,.2);
 }
 
 .defaultCardBackground1 {
@@ -447,7 +449,7 @@ html, .dialog, .backgroundContainer {
 
 /* emby-slider */
 .emby-slider-background {
-    background: #2d2d2d;
+    background: rgba(255,255,255,.1);
 }
 
 .emby-slider {

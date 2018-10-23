@@ -159,7 +159,7 @@ html {
 }
 
 .listItem-border {
-    border-color: rgba(0, 0, 0, .3) !important;
+    border-color: rgba(255,255,255, .1) !important;
 }
 
 .listItem:focus {
