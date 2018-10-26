@@ -80,12 +80,12 @@ html, .dialog, .backgroundContainer {
     border-color: rgba(255, 255, 255, .3);
 }
 
-.button-submit {
+.button-submit:not(.emby-button-tv) {
     background: #FF9100;
     color: #fff;
 }
 
-    .button-submit:focus {
+    .button-submit:not(.emby-button-tv):focus {
         background: #FF9D0C;
         color: #fff;
     }

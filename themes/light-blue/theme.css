@@ -64,11 +64,6 @@ html, .backgroundContainer {
     color: inherit;
 }
 
-.button-submit:focus {
-    background: #5EC157;
-    color: #fff;
-}
-
 .detailButton-mobile-icon {
     border-color: rgba(0,0,0,.3);
 }
@@ -78,12 +73,12 @@ html, .backgroundContainer {
     color: inherit;
 }
 
-.button-submit {
+.button-submit:not(.emby-button-tv) {
     background: #2196F3;
     color: #fff;
 }
 
-    .button-submit:focus {
+    .button-submit:not(.emby-button-tv):focus {
         background: #2DA2FF;
         color: #fff;
     }

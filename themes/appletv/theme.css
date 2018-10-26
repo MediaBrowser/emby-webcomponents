@@ -73,12 +73,12 @@ html {
     border-color: rgba(0, 0, 0, .3);
 }
 
-.button-submit {
+.button-submit:not(.emby-button-tv) {
     background: #52B54B;
     color: #fff;
 }
 
-    .button-submit:focus {
+    .button-submit:not(.emby-button-tv):focus {
         background: #5EC157;
     }
 

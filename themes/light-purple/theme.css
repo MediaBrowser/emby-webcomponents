@@ -73,12 +73,12 @@ html, .backgroundContainer {
     border-color: rgba(0,0,0,.3);
 }
 
-.button-submit {
+.button-submit:not(.emby-button-tv) {
     background: #673AB7;
     color: #fff;
 }
 
-    .button-submit:focus {
+    .button-submit:not(.emby-button-tv):focus {
         background: #7346C3;
         color: #fff;
     }

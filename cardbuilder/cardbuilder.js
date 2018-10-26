@@ -23,22 +23,23 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             switch (shape) {
 
                 case 'portrait':
+                case 'square':
                     if (layoutManager.tv) {
                         return 100 / 16.66666667;
                     }
-                    if (screenWidth >= 2200) {
+                    if (screenWidth >= 2100) {
                         return 100 / 10;
                     }
-                    if (screenWidth >= 1920) {
+                    if (screenWidth >= 1760) {
                         return 100 / 11.1111111111;
                     }
                     if (screenWidth >= 1600) {
                         return 100 / 12.5;
                     }
-                    if (screenWidth >= 1400) {
+                    if (screenWidth >= 1320) {
                         return 100 / 14.28571428571;
                     }
-                    if (screenWidth >= 1200) {
+                    if (screenWidth >= 1120) {
                         return 100 / 16.66666667;
                     }
                     if (screenWidth >= 800) {
@@ -71,35 +72,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         return 100 / 33.33333333;
                     }
                     return 2;
-                case 'square':
-                    if (layoutManager.tv) {
-                        return 100 / 16.66666667;
-                    }
-                    if (screenWidth >= 2200) {
-                        return 100 / 10;
-                    }
-                    if (screenWidth >= 1920) {
-                        return 100 / 11.1111111111;
-                    }
-                    if (screenWidth >= 1600) {
-                        return 100 / 12.5;
-                    }
-                    if (screenWidth >= 1400) {
-                        return 100 / 14.28571428571;
-                    }
-                    if (screenWidth >= 1200) {
-                        return 100 / 16.66666667;
-                    }
-                    if (screenWidth >= 800) {
-                        return 5;
-                    }
-                    if (screenWidth >= 700) {
-                        return 4;
-                    }
-                    if (screenWidth >= 500) {
-                        return 100 / 33.33333333;
-                    }
-                    return 2;
                 case 'banner':
                     if (screenWidth >= 2200) {
                         return 100 / 25;
@@ -115,10 +87,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (layoutManager.tv) {
                         return 100 / 25;
                     }
-                    if (screenWidth >= 2100) {
+                    if (screenWidth >= 1920) {
                         return 100 / 16.66666667;
                     }
-                    if (screenWidth >= 1600) {
+                    if (screenWidth >= 1520) {
                         return 5;
                     }
                     if (screenWidth >= 1200) {
@@ -190,55 +162,35 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         return 100 / 72;
                     }
                     break;
+                case 'overflowSquare':
                 case 'overflowPortrait':
 
                     if (layoutManager.tv) {
                         return 100 / 15.5;
                     }
-                    if (isOrientationLandscape) {
-                        if (screenWidth >= 1700) {
-                            return 100 / 11.6;
-                        }
-                        return 100 / 15.5;
-                    } else {
-                        if (screenWidth >= 1400) {
-                            return 100 / 15;
-                        }
-                        if (screenWidth >= 1200) {
-                            return 100 / 18;
-                        }
-                        if (screenWidth >= 760) {
-                            return 100 / 23;
-                        }
-                        if (screenWidth >= 400) {
-                            return 100 / 31.5;
-                        }
-                        return 100 / 42;
+                    if (screenWidth >= 2100) {
+                        return 100 / 9.3;
                     }
-                    break;
-                case 'overflowSquare':
-                    if (layoutManager.tv) {
+                    if (screenWidth >= 1920) {
+                        return 100 / 10.3;
+                    }
+                    if (screenWidth >= 1600) {
+                        return 100 / 11.6;
+                    }
+                    if (screenWidth >= 1400) {
+                        return 100 / 13.3;
+                    }
+                    if (screenWidth >= 1200) {
                         return 100 / 15.5;
                     }
+                    if (screenWidth >= 800) {
+                        return 100 / 18.4;
+                    }
+
                     if (isOrientationLandscape) {
-                        if (screenWidth >= 1700) {
-                            return 100 / 11.6;
-                        }
-                        return 100 / 15.5;
+                        return 100 / 23.3;
                     } else {
-                        if (screenWidth >= 1400) {
-                            return 100 / 15;
-                        }
-                        if (screenWidth >= 1200) {
-                            return 100 / 18;
-                        }
-                        if (screenWidth >= 760) {
-                            return 100 / 23;
-                        }
-                        if (screenWidth >= 540) {
-                            return 100 / 31.5;
-                        }
-                        return 100 / 42;
+                        return 100 / 40;
                     }
                     break;
                 case 'overflowBackdrop':
