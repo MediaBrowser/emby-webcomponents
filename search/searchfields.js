@@ -33,7 +33,11 @@
             txtSearch.value = val.length ? val.substring(0, val.length - 1) : '';
 
         } else {
-            txtSearch.value += value;
+
+            if (txtSearch.maxLength === -1 || txtSearch.value.length < txtSearch.maxLength) {
+                txtSearch.value += value;
+            }
+
         }
 
         txtSearch.dispatchEvent(new CustomEvent('input', {

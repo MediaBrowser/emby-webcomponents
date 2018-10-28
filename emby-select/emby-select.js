@@ -119,13 +119,18 @@
         if (!browser.firefox) {
             this.classList.add('emby-select-withcolor');
 
-			if (layoutManager.tv) {
+            if (layoutManager.tv) {
                 this.classList.add('emby-select-tv-withcolor');
-			}
+            }
         }
 
         if (layoutManager.tv) {
             this.classList.add('emby-select-focusscale');
+            this.classList.add('emby-select-tv');
+
+            if (this.classList.contains('emby-select-inline')) {
+                this.classList.add('emby-select-tv-inline');
+            }
         }
 
         this.addEventListener('mousedown', onMouseDown);
@@ -145,12 +150,21 @@
 
         var label = this.ownerDocument.createElement('label');
         label.innerHTML = this.getAttribute('label') || '';
+
+        var arrowContainerClass = 'selectArrowContainer';
+
+        if (this.classList.contains('emby-select-inline')) {
+            label.classList.add('selectLabel-inline');
+
+            arrowContainerClass += ' selectArrowContainer-inline';
+        }
+
         label.classList.add('selectLabel');
         label.htmlFor = this.id;
         this.parentNode.insertBefore(label, this);
 
         if (this.classList.contains('emby-select-withcolor')) {
-            this.parentNode.insertAdjacentHTML('beforeend', '<div class="selectArrowContainer"><div style="visibility:hidden;">0</div><i class="selectArrow md-icon">&#xE313;</i></div>');
+            this.parentNode.insertAdjacentHTML('beforeend', '<div class="' + arrowContainerClass + '"><div style="visibility:hidden;">0</div><i class="selectArrow md-icon">&#xE313;</i></div>');
         }
     };
 

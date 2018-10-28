@@ -216,7 +216,7 @@ html, .backgroundContainer {
 }
 
 .listItem-border {
-    border-color: #f0f0f0 !important;
+    border-color: rgba(0,0,0,.1) !important;
 }
 
 .listItem:focus {
