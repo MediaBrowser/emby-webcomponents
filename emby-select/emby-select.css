@@ -27,7 +27,6 @@
 
 .emby-select-inline {
     font-size: inherit;
-    padding: .3em 1.9em .3em .5em;
 }
 
     .emby-select-inline[disabled] {
@@ -100,7 +99,7 @@
 
 .selectArrowContainer-inline {
     top: initial;
-    bottom: .24em;
+    bottom: .38em;
     font-size: 90%;
 }
 

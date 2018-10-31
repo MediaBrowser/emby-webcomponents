@@ -2062,6 +2062,11 @@
                 PlayState: {}
             };
 
+            var currentPlayOptions = item ? item.playOptions : null;
+            if (currentPlayOptions) {
+                state.IsFullscreen = currentPlayOptions.fullscreen;
+            }
+
             if (player) {
 
                 state.PlayState.VolumeLevel = player.getVolume();
@@ -3000,7 +3005,6 @@
 
             self._playNextAfterEnded = true;
             var isFirstItem = playOptions.isFirstItem;
-            var fullscreen = playOptions.fullscreen;
 
             if (enableProgressTimer !== false) {
 
@@ -3011,7 +3015,6 @@
                 reportPlayback(self, state, player, true, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
 
                 state.IsFirstItem = isFirstItem;
-                state.IsFullscreen = fullscreen;
                 events.trigger(player, 'playbackstart', [state]);
                 events.trigger(self, 'playbackstart', [player, state]);
             }
@@ -3034,7 +3037,6 @@
 
             var playOptions = item.playOptions || {};
             var isFirstItem = playOptions.isFirstItem;
-            var fullscreen = playOptions.fullscreen;
 
             playOptions.isFirstItem = false;
 
@@ -3049,7 +3051,6 @@
             reportPlayback(self, state, player, true, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
 
             state.IsFirstItem = isFirstItem;
-            state.IsFullscreen = fullscreen;
             events.trigger(player, 'playbackstart', [state]);
             events.trigger(self, 'playbackstart', [player, state]);
 

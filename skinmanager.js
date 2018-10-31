@@ -251,7 +251,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         var month = date.getMonth();
         var day = date.getDate();
 
-        if (month === 9 && day >= 30) {
+        if (month === 9 && day >= 31) {
             return 'halloween';
         }
 
@@ -367,13 +367,13 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         }
 
         if (!browser.mobile && userSettings.enableThemeSongs()) {
-            if (lastSound === 0) {
+            /*if (lastSound === 0) {
 
                 if (themeResources.themeSong) {
                     playSound(themeResources.themeSong);
                 }
 
-            } else if ((new Date().getTime() - lastSound) > 30000) {
+            } else*/ if ((new Date().getTime() - lastSound) > 30000) {
                 if (themeResources.effect) {
                     playSound(themeResources.effect);
                 }

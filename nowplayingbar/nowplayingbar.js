@@ -573,11 +573,6 @@
 
         //console.log('nowplaying event: ' + e.type);
 
-        if (state.IsFullscreen === false) {
-            hideNowPlayingBar();
-            return;
-        }
-
         var player = this;
 
         onStateChanged.call(player, e, state);
@@ -649,6 +644,11 @@
 
         //console.log('nowplaying event: ' + e.type);
         var player = this;
+
+        if (state.IsFullscreen === false) {
+            hideNowPlayingBar();
+            return;
+        }
 
         if (!state.NowPlayingItem || layoutManager.tv) {
             hideNowPlayingBar();

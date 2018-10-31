@@ -9,16 +9,14 @@
     <div class="dialogContentInner">
         <div class="flex align-items-center justify-content-center flex-wrap-wrap" style="margin: 2em 0;">
 
-            <div style="margin: 0;">
-                <label for="selectImageProvider" style="display: inline-block;">${LabelSource}</label>
-                <select id="selectImageProvider" style="padding-left:.5em;padding-right:0;display: inline-block;width:auto!important;">
+            <div class="selectContainer">
+                <select is="emby-select" id="selectImageProvider" label="${LabelSource}">
                     <option value="">${All}</option>
                 </select>
             </div>
 
-            <div style="margin-left:1em;">
-                <label for="selectBrowsableImageType" style="display: inline-block;">${LabelType}</label>
-                <select id="selectBrowsableImageType" style="padding-left:.5em;padding-right:0;display: inline-block;width:auto!important;">
+            <div class="selectContainer" style="margin-left:1em;">
+                <select is="emby-select" id="selectBrowsableImageType" label="${LabelType}">
                     <option value="Primary">${Primary}</option>
                     <option value="Art">${Art}</option>
                     <option value="Backdrop">${Backdrop}</option>
@@ -32,11 +30,13 @@
                     <option value="Thumb">${Thumb}</option>
                 </select>
             </div>
-            <div class="availableImagesPaging" style="margin-left:1em;"></div>
+
             <label style="margin: 0 0 0 1em;width:auto;">
                 <input id="chkAllLanguages" type="checkbox" is="emby-checkbox" />
                 <span>${AllLanguages}</span>
             </label>
+
+            <div class="availableImagesPaging" style="margin-left:1em;"></div>
         </div>
 
         <div class="availableImagesList vertical-wrap centered"></div>
