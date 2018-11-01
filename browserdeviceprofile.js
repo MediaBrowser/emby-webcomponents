@@ -331,7 +331,7 @@ define(['browser'], function (browser) {
         }
 
         return browser.ps4 ? 8000000 :
-            (browser.xboxOne ? 12000000 :
+            (browser.xboxOne && !browser.edgeUwp ? 12000000 :
                 (browser.edgeUwp ? null :
                     (browser.tizen && isTizenFhd ? 20000000 : null)));
     }

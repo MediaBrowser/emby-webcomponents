@@ -383,12 +383,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function enableHistory() {
 
-        //if (browser.edgeUwp) {
-        //    return false;
-        //}
-
         // shows status bar on navigation
-        if (browser.xboxOne) {
+        if (browser.xboxOne && !browser.edgeUwp) {
             return false;
         }
 
