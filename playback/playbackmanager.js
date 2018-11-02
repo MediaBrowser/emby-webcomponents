@@ -46,8 +46,18 @@
             return;
         }
 
+        if (state.IsFullscreen === false) {
+            return false;
+        }
+
         var info = Object.assign({}, state.PlayState);
         info.ItemId = state.NowPlayingItem.Id;
+
+        if (!info.ItemId) {
+            // Not a server item
+            // We can expand on this later and possibly report them
+            return;
+        }
 
         if (progressEventName) {
             info.EventName = progressEventName;

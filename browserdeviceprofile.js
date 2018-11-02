@@ -132,7 +132,8 @@ define(['browser'], function (browser) {
 
             // chrome says probably, but seeing failures
             if (browser.chrome) {
-                return false;
+                // return false;
+                // let's re-evaluate - the telegraph road sample never starts playing
             }
             typeString = 'audio/' + format;
 

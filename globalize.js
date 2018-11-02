@@ -312,7 +312,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         defaultModule: defaultModule,
         getCurrentLocale: getCurrentLocale,
         getCurrentDateTimeLocale: getCurrentDateTimeLocale,
-        getCurrentLocales: getCurrentDateTimeLocale,
+        getCurrentLocales: getCurrentLocales,
         register: register
     };
 });
