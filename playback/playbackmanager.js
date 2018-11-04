@@ -2174,7 +2174,7 @@
         // Only used internally
         self.getCurrentTicks = getCurrentTicks;
 
-        function playPhotosBooksGames(options) {
+        function playPhotos(options) {
 
             var playStartIndex = options.startIndex || 0;
 
@@ -2187,6 +2187,24 @@
             return player.play(options).then(function () {
 
                 onPlaybackStarted(player, options, { item: startItem }, null, false);
+            });
+        }
+
+        function playBooksGames(options) {
+
+            var playStartIndex = options.startIndex || 0;
+
+            var startItem = options.items[playStartIndex];
+
+            var player = getPlayer(startItem, options);
+
+            loading.hide();
+
+            var playOptions = { item: startItem, mediaType: startItem.MediaType };
+
+            return player.play(playOptions).then(function () {
+
+                onPlaybackStarted(player, options, playOptions, null, false);
             });
         }
 
@@ -2413,9 +2431,14 @@
                 });
             }
 
-            if (item.MediaType === "Photo" || item.MediaType === 'Game' || item.MediaType === 'Book') {
+            if (item.MediaType === "Photo") {
 
-                return playPhotosBooksGames(playOptions);
+                return playPhotos(playOptions);
+            }
+
+            if (item.MediaType === 'Game' || item.MediaType === 'Book') {
+
+                return playBooksGames(playOptions);
             }
 
             return Promise.all([promise, player.getDeviceProfile(item)]).then(function (responses) {

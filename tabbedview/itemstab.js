@@ -119,7 +119,8 @@
         instance.alphaPicker = new AlphaPicker({
             element: instance.alphaPickerElement,
             itemsContainer: instance.itemsContainer,
-            itemClass: ['card', 'listItem']
+            itemClass: ['card', 'listItem'],
+            prefixes: instance.apiClient.isMinServerVersion('3.6.0.60') ? [] : null
         });
 
         instance.alphaPicker.on('alphavaluechanged', onAlphaValueChanged.bind(instance));
@@ -145,7 +146,6 @@
             }).then(function () {
 
                 instance.startIndex = 0;
-                instance.NameStartsWithOrGreater = null;
 
                 instance.itemsContainer.refreshItems();
             });
@@ -187,6 +187,8 @@
                 alphaPicker.classList.remove('alphaPicker-fixed-left');
                 alphaPicker.classList.add('alphaPicker-fixed-right');
             }
+
+            instance.refreshPrefixes();
 
         } else {
             alphaPicker.classList.add('hide');
@@ -436,6 +438,209 @@
         bindAll(view.querySelectorAll('.btnPlay'), 'click', play.bind(this));
         bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle.bind(this));
     }
+
+    ItemsTab.prototype.refreshPrefixes = function () {
+
+        var instance = this;
+
+        this.getPrefixes().then(function (prefixes) {
+            instance.alphaPicker.setPrefixes(prefixes);
+        });
+    };
+
+    ItemsTab.prototype.getPrefixes = function () {
+
+        var queryInfo = this.getQueryInfo(false);
+
+        var apiClient = this.apiClient;
+
+        var query = queryInfo.query;
+        query.SortBy = null;
+        query.SortOrder = null;
+        query.StartIndex = null;
+        query.Limit = null;
+        query.Fields = null;
+        query.EnableImageTypes = null;
+        query.ImageTypeLimit = null;
+        query.NameStartsWithOrGreater = null;
+
+        query.IncludeItemTypes = this.getPrefixQueryIncludeItemTypes().join(',');
+
+        return apiClient.getPrefixes(apiClient.getCurrentUserId(), query).then(function (result) {
+            return result.map(function (i) {
+                return i.Name;
+            });
+        });
+    };
+
+    ItemsTab.prototype.getPrefixQueryIncludeItemTypes = function () {
+
+        return this.getQueryIncludeItemTypes();
+    };
+
+    ItemsTab.prototype.getQueryIncludeItemTypes = function () {
+
+        return this.getItemTypes();
+    };
+
+    ItemsTab.prototype.getBaseQuery = function () {
+
+        var parentId = this.params.parentId;
+
+        var sortValues = this.getSortValues();
+
+        var fields = "PrimaryImageAspectRatio,BasicSyncInfo,MediaSourceCount";
+        if (!layoutManager.mobile) {
+            // needed for alpha-numeric shortcuts
+            fields += ",SortName";
+        }
+
+        var query = {
+            SortBy: sortValues.sortBy,
+            SortOrder: sortValues.sortOrder,
+            IncludeItemTypes: this.getQueryIncludeItemTypes().join(','),
+            Recursive: true,
+            Fields: fields,
+            ImageTypeLimit: 1,
+            EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Disc",
+            StartIndex: this.startIndex || 0,
+            Limit: this.enablePaging() ? 100 : null,
+            ParentId: parentId,
+            NameStartsWithOrGreater: this.NameStartsWithOrGreater
+        };
+
+        return query;
+    };
+
+    ItemsTab.prototype.getQueryInfo = function (enableFilters) {
+
+        var query = this.getBaseQuery();
+
+        var queryFilters = [];
+        var hasFilters;
+
+        if (this.mode === 'unwatched') {
+            queryFilters.push("IsUnplayed");
+        }
+        else if (this.mode === 'favorites') {
+            queryFilters.push("IsFavorite");
+        }
+
+        if (enableFilters !== false) {
+            var filters = this.getFilters();
+
+            if (filters.SeriesStatus) {
+                query.SeriesStatus = filters.SeriesStatus;
+                hasFilters = true;
+            }
+
+            if (filters.IsPlayed) {
+                queryFilters.push("IsPlayed");
+                hasFilters = true;
+            }
+            if (filters.IsUnplayed) {
+                queryFilters.push("IsUnplayed");
+                hasFilters = true;
+            }
+            if (filters.IsFavorite) {
+                queryFilters.push("IsFavorite");
+                hasFilters = true;
+            }
+            if (filters.IsResumable) {
+                queryFilters.push("IsResumable");
+                hasFilters = true;
+            }
+
+            if (filters.Containers) {
+                hasFilters = true;
+                query.Containers = filters.Containers;
+            }
+
+            if (filters.GenreIds) {
+                hasFilters = true;
+                query.GenreIds = filters.GenreIds;
+            }
+
+            if (filters.OfficialRatings) {
+                hasFilters = true;
+                query.OfficialRatings = filters.OfficialRatings;
+            }
+
+            if (filters.StudioIds) {
+                hasFilters = true;
+                query.StudioIds = filters.StudioIds;
+            }
+
+            if (filters.Tags) {
+                hasFilters = true;
+                query.Tags = filters.Tags;
+            }
+
+            if (filters.Years) {
+                hasFilters = true;
+                query.Years = filters.Years;
+            }
+
+            if (filters.Is4K) {
+                query.Is4K = true;
+                hasFilters = true;
+            }
+            if (filters.IsHD) {
+                query.IsHD = true;
+                hasFilters = true;
+            }
+            if (filters.IsSD) {
+                query.IsHD = false;
+                hasFilters = true;
+            }
+            if (filters.Is3D) {
+                query.Is3D = true;
+                hasFilters = true;
+            }
+            if (filters.HasSubtitles) {
+                query.HasSubtitles = true;
+                hasFilters = true;
+            }
+            if (filters.HasTrailer) {
+                query.HasTrailer = true;
+                hasFilters = true;
+            }
+            if (filters.HasSpecialFeature) {
+                query.HasSpecialFeature = true;
+                hasFilters = true;
+            }
+            if (filters.HasThemeSong) {
+                query.HasThemeSong = true;
+                hasFilters = true;
+            }
+            if (filters.HasThemeVideo) {
+                query.HasThemeVideo = true;
+                hasFilters = true;
+            }
+        }
+
+        query.Filters = queryFilters.length ? queryFilters.join(',') : null;
+
+        var settings = this.getViewSettings();
+        if (settings.groupItemsIntoCollections) {
+            query.GroupItemsIntoCollections = true;
+        }
+
+        return {
+            query: query,
+            hasFilters: hasFilters
+        };
+    };
+
+    ItemsTab.prototype.fetchData = function () {
+
+        var queryInfo = this.getQueryInfo();
+
+        this.setFilterStatus(queryInfo.hasFilters);
+
+        var apiClient = this.apiClient;
+        return apiClient.getItems(apiClient.getCurrentUserId(), queryInfo.query);
+    };
 
     ItemsTab.prototype.getViewSettings = function () {
 

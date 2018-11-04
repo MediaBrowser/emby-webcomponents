@@ -10,16 +10,22 @@
 
     Object.assign(FoldersTab.prototype, ItemsTab.prototype);
 
-    FoldersTab.prototype.fetchData = function () {
+    FoldersTab.prototype.getBaseQuery = function () {
 
         var parentId = this.params.parentId;
 
         var sortValues = this.getSortValues();
 
+        var fields = "PrimaryImageAspectRatio,BasicSyncInfo,MediaSourceCount";
+        if (!layoutManager.mobile) {
+            // needed for alpha-numeric shortcuts
+            fields += ",SortName";
+        }
+
         var query = {
             SortBy: sortValues.sortBy,
             SortOrder: sortValues.sortOrder,
-            Fields: "PrimaryImageAspectRatio,BasicSyncInfo,SortName",
+            Fields: fields,
             ImageTypeLimit: 1,
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Disc",
             StartIndex: this.startIndex || 0,
@@ -28,17 +34,7 @@
             NameStartsWithOrGreater: this.NameStartsWithOrGreater
         };
 
-        var queryFilters = [];
-        var hasFilters;
-
-        var filters = this.getFilters();
-
-        query.Filters = queryFilters.length ? queryFilters.join(',') : null;
-
-        this.setFilterStatus(hasFilters);
-
-        var apiClient = this.apiClient;
-        return apiClient.getItems(apiClient.getCurrentUserId(), query);
+        return query;
     };
 
     FoldersTab.prototype.getItemsHtml = function (items) {

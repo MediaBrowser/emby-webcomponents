@@ -11,8 +11,10 @@
 
 .alphaPicker-fixed {
     position: fixed;
-    bottom: 5.5em;
+    top: 8em;
+    bottom: 1em;
     z-index: 999999;
+    justify-content: center;
 }
 
 .alphaPickerRow {
@@ -44,10 +46,6 @@
 }
 
 @media all and (max-height: 50em) {
-
-    .alphaPicker-fixed {
-        bottom: 5em;
-    }
 
     .alphaPickerButton-vertical {
         padding-top: 1px !important;
@@ -90,6 +88,7 @@
 
 .alphaPicker-vertical.alphaPicker-tv {
     font-size: 86%;
+    top: 12em;
 }
 
 .alphaPickerButton-tv.alphaPickerButton-vertical {

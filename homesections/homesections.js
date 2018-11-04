@@ -668,7 +668,7 @@
             var html = '';
 
             var scrollX = !layoutManager.desktop;
-            scrollX = true;
+
             if (userViews.length) {
 
                 html += '<div class="verticalSection">';

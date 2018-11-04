@@ -63,9 +63,33 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
         }
 
+        if (item.CollectionType) {
+            return false;
+        }
+
+        if (invalidTypes.indexOf(item.Type) !== -1) {
+            return false;
+        }
+
+        if (isLocalItem(item)) {
+            return false;
+        }
+
+        if (item.MediaType === 'Photo') {
+            return false;
+        }
+
+        if (item.IsFolder || item.Type === "MusicArtist") {
+            return true;
+        }
+
         // Check ParentId to filter out owned items (for now)
         // https://emby.media/community/index.php?/topic/63827-add-movie-extras-to-playlists
-        return !item.CollectionType && invalidTypes.indexOf(item.Type) === -1 && item.MediaType !== 'Photo' && !isLocalItem(item) && item.ParentId;
+        if (!item.ParentId) {
+            return false;
+        }
+
+        return true;
     }
 
     function supportsAddingToPlaylist(item) {
@@ -105,13 +129,17 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
+        if (item.IsFolder || item.Type === "Genre" || item.Type === "MusicGenre" || item.Type === "MusicArtist") {
+            return true;
+        }
+
         // Check ParentId to filter out owned items (for now)
         // https://emby.media/community/index.php?/topic/63827-add-movie-extras-to-playlists
         if (!item.ParentId) {
             return false;
         }
 
-        return item.MediaType || item.IsFolder || item.Type === "Genre" || item.Type === "MusicGenre" || item.Type === "MusicArtist";
+        return item.MediaType;
     }
 
     function canEdit(user, item) {

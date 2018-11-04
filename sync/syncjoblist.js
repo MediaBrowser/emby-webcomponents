@@ -396,41 +396,6 @@
         options.element.innerHTML = '<div class="syncJobListContent"></div>';
 
         fetchData(this);
-
-        initSupporterInfo(options.element, getApiClient(this));
-    }
-
-    function showSupporterInfo(context) {
-
-        var html = '<button is="emby-button" class="raised button-submit block btnSyncSupporter" style="margin:1em 0;">';
-
-        html += '<div>';
-        html += globalize.translate('sharedcomponents#HeaderSyncRequiresSub');
-        html += '</div>';
-        html += '<div style="margin-top:.5em;">';
-        html += globalize.translate('sharedcomponents#LearnMore');
-        html += '</div>';
-
-        html += '</button';
-
-        context.insertAdjacentHTML('afterbegin', html);
-
-        context.querySelector('.btnSyncSupporter').addEventListener('click', function () {
-
-            registrationServices.validateFeature('sync');
-        });
-
-    }
-
-    function initSupporterInfo(context, apiClient) {
-
-        registrationServices.validateFeature('sync',
-            {
-                showDialog: false
-
-            }).catch(function () {
-                showSupporterInfo(context, apiClient);
-            });
     }
 
     syncJobList.prototype.destroy = function () {

@@ -68,18 +68,14 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
         }
 
         html += '<div class="' + rowClassName + '">';
+
         if (options.mode === 'keyboard') {
             // space_bar icon
             html += '<button data-value=" " is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="md-icon alphaPickerButtonIcon">&#xE256;</i></button>';
-        } else {
-            letters = ['#'];
+
+            letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
             html += mapLetters(letters, vertical).join('');
-        }
 
-        letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-        html += mapLetters(letters, vertical).join('');
-
-        if (options.mode === 'keyboard') {
             // backspace icon
             html += '<button data-value="backspace" is="paper-icon-button-light" class="' + alphaPickerButtonClassName + '"><i class="md-icon alphaPickerButtonIcon">&#xE14A;</i></button>';
             html += '</div>';
@@ -89,12 +85,33 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
             html += '<br/>';
             html += mapLetters(letters, vertical).join('');
             html += '</div>';
+
+            setInnerHtml(element, html);
         } else {
+
+            html += mapLetters(options.prefixes || getDefaultListPrefixes(), vertical).join('');
+
             html += '</div>';
+            setInnerHtml(element, html);
+        }
+    }
+
+    function getListPrefixes(options) {
+
+        if (options.getPrefixes) {
+            return options.getPrefixes().catch(getDefaultListPrefixes);
         }
 
-        element.innerHTML = html;
+        return Promise.resolve(getDefaultListPrefixes());
+    }
 
+    function getDefaultListPrefixes() {
+
+        return ['#', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    }
+
+    function setInnerHtml(element, html) {
+        element.innerHTML = html;
         element.classList.add('focusable');
         element.focus = focus;
     }
@@ -303,6 +320,21 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         var element = this.options.element;
         element.style.visibility = visible ? 'visible' : 'hidden';
+    };
+
+    AlphaPicker.prototype.setPrefixes = function (prefixes) {
+
+        var element = this.options.element;
+        var vertical = element.classList.contains('alphaPicker-vertical');
+        var html = mapLetters(prefixes, vertical).join('');
+
+        var value = this.value();
+
+        element.querySelector('.alphaPickerRow').innerHTML = html;
+
+        if (value) {
+            this.value(value, false);
+        }
     };
 
     AlphaPicker.prototype.values = function () {
