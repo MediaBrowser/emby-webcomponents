@@ -414,9 +414,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             if (item.EnableMediaSourceDisplay === false) {
                 return false;
             }
-            if (item.EnableMediaSourceDisplay == null && item.SourceType && item.SourceType !== 'Library') {
-                return false;
-            }
 
             return true;
         },

@@ -62,7 +62,6 @@
                 queryIncludeItemTypes === 'MusicAlbum' ||
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
-                queryIncludeItemTypes === 'AudioBook' ||
                 queryIncludeItemTypes === 'Game' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
@@ -82,7 +81,6 @@
                 queryIncludeItemTypes === 'MusicAlbum' ||
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
-                queryIncludeItemTypes === 'AudioBook' ||
                 queryIncludeItemTypes === 'Game' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
@@ -113,7 +111,6 @@
                 queryIncludeItemTypes === 'MusicAlbum' ||
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
-                queryIncludeItemTypes === 'AudioBook' ||
                 queryIncludeItemTypes === 'Game' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'Movie' ||
@@ -538,22 +535,6 @@
                 overlayText: false,
                 centerText: true
 
-            });
-
-        searchType(instance, apiClient, {
-            searchTerm: value,
-            IncludePeople: false,
-            IncludeMedia: true,
-            IncludeGenres: false,
-            IncludeStudios: false,
-            IncludeArtists: false,
-            IncludeItemTypes: "AudioBook"
-
-        }, context, '.audioBookResults', {
-
-                showTitle: true,
-                overlayText: false,
-                centerText: true
             });
 
         searchType(instance, apiClient, {

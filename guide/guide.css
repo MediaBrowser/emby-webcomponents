@@ -173,13 +173,7 @@
 
 @media all and (min-width:50em) {
     .channelsContainer, .guide-channelTimeslotHeader {
-        width: 14vw;
-    }
-}
-
-@media all and (min-width:80em) {
-    .channelsContainer, .guide-channelTimeslotHeader {
-        width: 12vw;
+        width: 12em;
     }
 }
 
@@ -351,7 +345,7 @@
     }
 }
 
-@media all and (max-width: 62.5em) {
+@media all and (max-width: 50em) {
 
     .guideChannelNumber {
         display: none;

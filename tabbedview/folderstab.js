@@ -16,10 +16,15 @@
 
         var sortValues = this.getSortValues();
 
-        var fields = "PrimaryImageAspectRatio,BasicSyncInfo,MediaSourceCount";
+        var fields = "BasicSyncInfo,MediaSourceCount";
         if (!layoutManager.mobile) {
             // needed for alpha-numeric shortcuts
             fields += ",SortName";
+        }
+
+        var settings = this.getViewSettings();
+        if (settings.imageType === 'primary') {
+            fields += ",PrimaryImageAspectRatio";
         }
 
         var query = {
