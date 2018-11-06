@@ -66,8 +66,8 @@
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'TvChannel' ||
-                query.MediaTypes === 'Video' ||
-                query.MediaTypes === 'Photo') {
+                queryIncludeItemTypes === 'Video' ||
+                queryIncludeItemTypes === 'Photo') {
                 allowSearch = false;
             }
         }
@@ -85,8 +85,8 @@
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'TvChannel' ||
-                query.MediaTypes === 'Video' ||
-                query.MediaTypes === 'Photo') {
+                queryIncludeItemTypes === 'Video' ||
+                queryIncludeItemTypes === 'Photo') {
                 allowSearch = false;
             }
         }
@@ -115,8 +115,8 @@
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'Movie' ||
                 queryIncludeItemTypes === 'Playlist' ||
-                query.MediaTypes === 'Video' ||
-                query.MediaTypes === 'Photo') {
+                queryIncludeItemTypes === 'Video' ||
+                queryIncludeItemTypes === 'Photo') {
                 allowSearch = false;
             }
         }
@@ -391,8 +391,7 @@
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            MediaTypes: "Video",
-            ExcludeItemTypes: "Movie,Episode,TvChannel"
+            IncludeItemTypes: "Video"
 
         }, context, '.videoResults', {
 
@@ -494,7 +493,7 @@
             IncludeGenres: false,
             IncludeStudios: false,
             IncludeArtists: false,
-            MediaTypes: "Photo"
+            IncludeItemTypes: "Photo"
 
         }, context, '.photoResults', {
 
