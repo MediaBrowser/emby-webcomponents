@@ -5,9 +5,14 @@
 
 .mediaInfoText {
     padding: .22em .5em;
+    -webkit-border-radius: .25em;
     border-radius: .25em;
     font-size: 92%;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
     white-space: nowrap;
     margin: 0 .5em 0 0;
@@ -29,8 +34,14 @@
 }
 
 .starRatingContainer {
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
     justify-content: center;
     vertical-align: middle;
     padding-top: 0;
@@ -47,9 +58,14 @@
     padding-left: 1.5em;
     background-position: left center;
     background-repeat: no-repeat;
+    -webkit-background-size: auto 1.2em;
     background-size: auto 1.2em;
     min-height: 1.2em;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
 }
 
@@ -64,6 +80,7 @@
 .mediaInfoProgramAttribute {
     text-transform: uppercase;
     padding: .16em .6em;
+    -webkit-border-radius: .15em;
     border-radius: .15em;
     font-size: 80%;
 }
@@ -80,9 +97,16 @@
     padding: 0 .6em;
     height: 1.3em;
     line-height: 1.8em;
+    display: -webkit-box;
+    display: -webkit-flex;
     display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
     align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
     justify-content: center;
+    -webkit-border-radius: .1em;
     border-radius: .1em;
     font-size: 96%;
 }

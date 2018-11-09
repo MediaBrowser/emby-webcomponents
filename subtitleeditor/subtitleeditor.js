@@ -136,8 +136,12 @@
 
                 itemHtml += '<div class="listItemBody two-line">';
 
-                itemHtml += '<div>';
+                itemHtml += '<div class="listItemBodyText">';
                 itemHtml += s.DisplayTitle || '';
+                itemHtml += '</div>';
+
+                itemHtml += '<div class="listItemBodyText secondary">';
+                itemHtml += (s.Codec || '').toUpperCase();
                 itemHtml += '</div>';
 
                 if (s.Path) {

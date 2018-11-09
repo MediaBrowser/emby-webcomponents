@@ -9,29 +9,34 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
 
     function getHumanReadableRuntime(ticks) {
 
-        var days = Math.trunc(ticks / 864000000000);
-        var hours = Math.trunc((ticks % 864000000000) / 36000000000);
-        var mins = Math.trunc((ticks % 36000000000) / 600000000);
+        try {
+            var days = Math.trunc(ticks / 864000000000);
+            var hours = Math.trunc((ticks % 864000000000) / 36000000000);
+            var mins = Math.trunc((ticks % 36000000000) / 600000000);
 
-        var parts = [];
+            var parts = [];
 
-        if (days) {
-            parts.push(days + 'd');
+            if (days) {
+                parts.push(days + 'd');
+            }
+
+            if (hours) {
+                parts.push(hours + 'h');
+            }
+
+            if (mins) {
+                parts.push(mins + 'm');
+            }
+
+            if (!parts.length) {
+                return datetime.getDisplayRunningTime(ticks);
+            }
+
+            return parts.join(' ');
         }
-
-        if (hours) {
-            parts.push(hours + 'h');
-        }
-
-        if (mins) {
-            parts.push(mins + 'm');
-        }
-
-        if (!parts.length) {
+        catch (err) {
             return datetime.getDisplayRunningTime(ticks);
         }
-
-        return parts.join(' ');
     }
 
     function getTimerIndicator(item) {

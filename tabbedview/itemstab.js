@@ -14,6 +14,7 @@
 
         if (instance.enablePaging()) {
 
+            instance.startIndex = 0;
             instance.itemsContainer.refreshItems();
             return;
         }
