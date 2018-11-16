@@ -210,7 +210,6 @@
             }).then(function () {
 
                 updateSortText(instance);
-                updateAlphaPickerState(instance);
 
                 instance.startIndex = 0;
 
@@ -331,7 +330,11 @@
 
         var self = this;
 
-        if (self.totalItemCount == null) {
+        if (result.TotalRecordCount != null) {
+            self.totalItemCount = result.TotalRecordCount;
+        }
+
+        else if (self.totalItemCount == null) {
 
             self.totalItemCount = result.Items ? result.Items.length : result.length;
         }

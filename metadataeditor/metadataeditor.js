@@ -72,25 +72,18 @@
 
     function getDateValue(form, element, property) {
 
-        var val = form.querySelector(element).value;
+        var elem = form.querySelector(element);
+        var offsetMs = new Date().getTimezoneOffset() * 60 * 1000;
+
+        var val = elem.valueAsNumber;
+        if (val) {
+            return new Date(val + offsetMs).toISOString();
+        }
+
+        val = form.querySelector(element).value;
 
         if (!val) {
             return null;
-        }
-
-        if (currentItem[property]) {
-
-            var date = datetime.parseISO8601Date(currentItem[property], true);
-
-            var parts = date.toISOString().split('T');
-
-            // If the date is the same, preserve the time
-            if (parts[0].indexOf(val) === 0) {
-
-                var iso = parts[1];
-
-                val += 'T' + iso;
-            }
         }
 
         return val;
@@ -678,6 +671,19 @@
         }
     }
 
+    function pad(num, size) {
+        var s = num + "";
+        while (s.length < size) {
+            s = "0" + s;
+        }
+        return s;
+    }
+
+    function toLocalIsoString(date) {
+
+        return date.getFullYear() + '-' + pad(date.getMonth() + 1, 2) + '-' + pad(date.getDate(), 2);
+    }
+
     function fillItemInfo(context, item, parentalRatingOptions) {
 
         var select = context.querySelector('#selectOfficialRating');
@@ -759,7 +765,7 @@
             try {
                 date = datetime.parseISO8601Date(item.DateCreated, true);
 
-                context.querySelector('#txtDateAdded').value = date.toISOString().slice(0, 10);
+                context.querySelector('#txtDateAdded').value = toLocalIsoString(date);
             } catch (e) {
                 context.querySelector('#txtDateAdded').value = '';
             }
@@ -771,7 +777,7 @@
             try {
                 date = datetime.parseISO8601Date(item.PremiereDate, true);
 
-                context.querySelector('#txtPremiereDate').value = date.toISOString().slice(0, 10);
+                context.querySelector('#txtPremiereDate').value = toLocalIsoString(date);
             } catch (e) {
                 context.querySelector('#txtPremiereDate').value = '';
             }
@@ -783,7 +789,7 @@
             try {
                 date = datetime.parseISO8601Date(item.EndDate, true);
 
-                context.querySelector('#txtEndDate').value = date.toISOString().slice(0, 10);
+                context.querySelector('#txtEndDate').value = toLocalIsoString(date);
             } catch (e) {
                 context.querySelector('#txtEndDate').value = '';
             }
