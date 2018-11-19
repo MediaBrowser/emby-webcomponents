@@ -141,9 +141,7 @@
 
             }).then(function () {
 
-                instance.startIndex = 0;
-
-                instance.itemsContainer.refreshItems();
+                refreshAfterSettingsChange(instance);
             });
         });
     }
@@ -211,13 +209,7 @@
 
                 updateSortText(instance);
 
-                instance.startIndex = 0;
-
-                if (instance.enablePaging() && instance.alphaPicker) {
-                    instance.alphaPicker.value(null, false);
-                }
-
-                instance.itemsContainer.refreshItems();
+                refreshAfterSettingsChange(instance);
             });
         });
     }
@@ -238,11 +230,21 @@
 
                 updateItemsContainerForViewType(instance);
 
-                instance.startIndex = 0;
-
-                instance.itemsContainer.refreshItems();
+                refreshAfterSettingsChange(instance);
             });
         });
+    }
+
+    function refreshAfterSettingsChange(instance) {
+
+        instance.totalItemCount = null;
+        instance.startIndex = 0;
+
+        if (instance.alphaPicker && instance.enablePaging()) {
+            instance.alphaPicker.value(null, false);
+        }
+
+        instance.itemsContainer.refreshItems();
     }
 
     function updateItemsContainerForViewType(instance) {
@@ -330,16 +332,15 @@
 
         var self = this;
 
-        if (result.TotalRecordCount != null) {
-            self.totalItemCount = result.TotalRecordCount;
+        if (self.totalItemCount == null) {
+
+            if (result.TotalRecordCount != null) {
+                self.totalItemCount = result.TotalRecordCount;
+            } else {
+                self.totalItemCount = result.Items ? result.Items.length : result.length;
+            }
         }
 
-        else if (self.totalItemCount == null) {
-
-            self.totalItemCount = result.Items ? result.Items.length : result.length;
-        }
-
-        var totalRecordCount = result.TotalRecordCount;
         updateAlphaPickerState(self, self.totalItemCount);
 
         var startIndex = self.startIndex || 0;
@@ -351,6 +352,7 @@
             previousPageButtons[i].disabled = startIndex <= 0;
         }
 
+        var totalRecordCount = result.TotalRecordCount;
         if (totalRecordCount != null) {
             var nextPageButtons = self.nextPageButtons;
             for (i = 0, length = nextPageButtons.length; i < length; i++) {
@@ -1001,6 +1003,7 @@
         this.alphaPickerElement = null;
         this.startIndex = null;
         this.prefixesLoaded = null;
+        this.totalItemCount = null;
     };
 
     return ItemsTab;

@@ -154,6 +154,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
+        if (itemType === 'Genre' || itemType === 'MusicGenre' || itemType === 'GameGenre' || itemType === 'Studio') {
+            return false;
+        }
+
         if (itemType === 'Timer') {
             return false;
         }
@@ -231,12 +235,20 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
 
-            if (itemType === 'CollectionFolder' || itemType === 'UserView' || itemType === 'PlaylistsFolder') {
-                if (user.Policy.IsAdministrator) {
+            if (itemType === 'CollectionFolder' || itemType === 'UserView' || itemType === 'PlaylistsFolder' ||
+                itemType === 'Genre' || itemType === 'MusicGenre' || itemType === 'GameGenre' || itemType === 'Studio') {
 
-                    return true;
+                if (!isLocalItem(item)) {
+                    if (user.Policy.IsAdministrator) {
+
+                        return true;
+                    }
+
+                    return false;
                 }
+            }
 
+            if (itemType === 'Genre' || itemType === 'MusicGenre' || itemType === 'GameGenre' || itemType === 'Studio') {
                 return false;
             }
 
@@ -246,7 +258,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 }
             }
 
-            return itemType !== 'Timer' && itemType !== 'SeriesTimer' && canEdit(user, item) && !isLocalItem(item);
+            return canEdit(user, item);
         },
 
         canSync: function (user, item) {

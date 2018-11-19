@@ -42,28 +42,21 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'emby-ta
         var currentTabIndex = parseInt(params.tab || this.getDefaultTabIndex(params.parentId));
         this.initialTabIndex = currentTabIndex;
 
-        function validateTabLoad(index) {
-
-            return self.validateTabLoad ? self.validateTabLoad(index) : Promise.resolve();
-        }
-
         function loadTab(index, previousIndex) {
 
-            validateTabLoad(index).then(function () {
-                self.getTabController(index).then(function (controller) {
+            self.getTabController(index).then(function (controller) {
 
-                    var refresh = !controller.refreshed;
+                var refresh = !controller.refreshed;
 
-                    controller.onResume({
-                        autoFocus: previousIndex == null && layoutManager.tv,
-                        refresh: refresh
-                    });
-
-                    controller.refreshed = true;
-
-                    currentTabIndex = index;
-                    self.currentTabController = controller;
+                controller.onResume({
+                    autoFocus: previousIndex == null && layoutManager.tv,
+                    refresh: refresh
                 });
+
+                controller.refreshed = true;
+
+                currentTabIndex = index;
+                self.currentTabController = controller;
             });
         }
 

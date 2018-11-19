@@ -178,8 +178,7 @@
                 IncludeArtists: false,
                 IncludeItemTypes: "LiveTvProgram",
                 IsMovie: true,
-                IsKids: false,
-                IsNews: false
+                IsKids: false
 
             }, context, '.movieResults', {
 
