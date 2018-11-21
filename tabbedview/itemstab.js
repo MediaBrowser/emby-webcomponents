@@ -808,6 +808,19 @@
         return 'SortName';
     };
 
+    function compareByName(a, b) {
+        if (a.name < b.name)
+            return -1;
+        if (a.name > b.name)
+            return 1;
+        return 0;
+    }
+
+    ItemsTab.prototype.sortOptionsByName = function (options) {
+
+        options.sort(compareByName);
+    };
+
     ItemsTab.prototype.getSortMenuOptions = function () {
 
         var sortBy = [];
@@ -862,6 +875,8 @@
             name: globalize.translate('sharedcomponents#Runtime'),
             value: 'Runtime,SortName'
         });
+
+        this.sortOptionsByName(sortBy);
 
         return sortBy;
     };

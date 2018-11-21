@@ -210,6 +210,8 @@
   "TryMultiSelectMessage": "To edit multiple media items, just click and hold any poster and select the items you want to manage. Try it!",
   "HeaderConfirmRecordingCancellation": "Confirm Recording Cancellation",
   "MessageConfirmRecordingCancellation": "Cancel recording?",
+  "Album": "Album",
+  "AlbumArtist": "Album artist",
   "Error": "Error",
   "VoiceInput": "Voice Input",
   "LabelContentType": "Content type:",
