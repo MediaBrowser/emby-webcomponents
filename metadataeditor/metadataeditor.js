@@ -495,6 +495,12 @@
             hideElement('#fldOriginalName', context);
         }
 
+        if (item.Type === "Audio") {
+            hideElement('#fldSortName', context);
+        } else {
+            showElement('#fldSortName', context);
+        }
+
         if (item.Type === "Series") {
             showElement('#fldSeriesRuntime', context);
         } else {
