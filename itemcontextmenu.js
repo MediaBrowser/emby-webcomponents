@@ -23,7 +23,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                 });
             }
 
-            if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'TvChannel') {
+            if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'Recording' && item.Type !== 'TvChannel') {
                 commands.push({
                     name: globalize.translate('sharedcomponents#PlayAllFromHere'),
                     id: 'playallfromhere'
@@ -100,13 +100,6 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         }
 
         if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
-            commands.push({
-                name: globalize.translate('sharedcomponents#CancelRecording'),
-                id: 'canceltimer'
-            });
-        }
-
-        if ((item.Type === 'Recording' && item.Status === 'InProgress') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
                 name: globalize.translate('sharedcomponents#CancelRecording'),
                 id: 'canceltimer'
@@ -260,6 +253,13 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                     });
                 }
             }
+        }
+
+        if ((item.Type === 'Recording' && item.Status === 'InProgress') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+            commands.push({
+                name: globalize.translate('sharedcomponents#StopRecording'),
+                id: 'canceltimer'
+            });
         }
 
         if (options.sync !== false) {

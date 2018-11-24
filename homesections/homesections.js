@@ -1024,7 +1024,8 @@
 
                 html += '<a style="margin-left:.8em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
-                    serverId: apiClient.serverId()
+                    serverId: apiClient.serverId(),
+                    section: 'programs'
 
                 }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Programs') + '</span></a>';
 
