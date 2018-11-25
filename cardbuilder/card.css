@@ -82,7 +82,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .53em;
+    margin: .5em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -130,7 +130,7 @@ button {
 @media (max-width: 50em) {
 
     .cardBox-bottompadded {
-        margin-bottom: 1.2em !important;
+        margin-bottom: 1.3em !important;
     }
 }
 

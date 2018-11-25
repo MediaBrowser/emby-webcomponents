@@ -186,7 +186,6 @@
                     showParentTitle: true,
                     showTitle: true,
                     centerText: true,
-                    coverImage: true,
                     overlayText: false,
                     overlayMoreButton: true,
                     showAirTime: true,
@@ -251,7 +250,6 @@
                     showParentTitle: true,
                     showTitle: true,
                     centerText: true,
-                    coverImage: true,
                     overlayText: false,
                     overlayMoreButton: true,
                     showAirTime: true,
@@ -272,7 +270,6 @@
 
             }, context, '.episodeResults', {
 
-                    coverImage: true,
                     showTitle: true,
                     showParentTitle: true
                 });
@@ -295,7 +292,6 @@
                 showParentTitle: true,
                 showTitle: true,
                 centerText: true,
-                coverImage: true,
                 overlayText: false,
                 overlayMoreButton: true,
                 showAirTime: true,
@@ -321,7 +317,6 @@
                 showParentTitle: true,
                 showTitle: true,
                 centerText: true,
-                coverImage: true,
                 overlayText: false,
                 overlayMoreButton: true,
                 showAirTime: true,
@@ -346,7 +341,6 @@
                 showParentTitle: true,
                 showTitle: true,
                 centerText: true,
-                coverImage: true,
                 overlayText: false,
                 overlayMoreButton: true,
                 showAirTime: true,
@@ -375,7 +369,6 @@
                 showParentTitle: true,
                 showTitle: true,
                 centerText: true,
-                coverImage: true,
                 overlayText: false,
                 showAirTime: true,
                 showAirDateTime: true,
@@ -431,7 +424,6 @@
 
         }, context, '.peopleResults', {
 
-                coverImage: true,
                 showTitle: true
             });
 
@@ -444,7 +436,6 @@
             IncludeArtists: true
 
         }, context, '.artistResults', {
-                coverImage: true,
                 showTitle: true
             });
 

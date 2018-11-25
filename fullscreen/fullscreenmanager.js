@@ -10,7 +10,9 @@ define(['events', 'dom'], function (events, dom) {
         element = element || document.documentElement;
 
         if (element.requestFullscreen) {
-            element.requestFullscreen();
+            element.requestFullscreen({
+                navigationUI: 'hide'
+            });
             return;
         } else if (element.mozRequestFullScreen) {
             element.mozRequestFullScreen();

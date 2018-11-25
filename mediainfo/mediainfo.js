@@ -366,9 +366,9 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
         if (item.CriticRating && options.criticRating !== false) {
 
             if (item.CriticRating >= 60) {
-                html += '<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingFresh">' + item.CriticRating + '</div>';
+                html += '<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingFresh">' + item.CriticRating + '%</div>';
             } else {
-                html += '<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingRotten">' + item.CriticRating + '</div>';
+                html += '<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingRotten">' + item.CriticRating + '%</div>';
             }
         }
 
