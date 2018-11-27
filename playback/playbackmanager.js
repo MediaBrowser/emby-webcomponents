@@ -1857,7 +1857,7 @@
                     ArtistIds: firstItem.Id,
                     Filters: "IsNotFolder",
                     Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'Album,SortName',
+                    SortBy: options.shuffle ? 'Random' : 'Album,ParentIndexNumber,IndexNumber',
                     MediaTypes: "Audio"
                 });
 
@@ -1900,7 +1900,6 @@
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Photo,Video",
                     Limit: 1000
                 });
             }
@@ -1910,8 +1909,7 @@
                     GenreIds: firstItem.Id,
                     Filters: "IsNotFolder",
                     Recursive: true,
-                    SortBy: options.shuffle ? 'Random' : 'SortName',
-                    MediaTypes: "Audio",
+                    SortBy: options.shuffle ? 'Random' : 'Album,ParentIndexNumber,IndexNumber',
                     ParentId: options.parentId
                 });
             }
@@ -1934,8 +1932,7 @@
                     Filters: "IsNotFolder",
                     Recursive: true,
                     // These are pre-sorted
-                    SortBy: options.shuffle ? 'Random' : (['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null),
-                    MediaTypes: "Audio,Video"
+                    SortBy: options.shuffle ? 'Random' : (['BoxSet', 'MusicAlbum'].indexOf(firstItem.Type) === -1 ? 'SortName' : null)
 
                 }, queryOptions));
             }

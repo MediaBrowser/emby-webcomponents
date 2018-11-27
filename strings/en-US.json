@@ -755,5 +755,6 @@
   "MultiSelect": "Multi-select",
   "HeaderLoginSettings": "Login Settings",
   "LabelRememberLogin": "Remember login:",
-  "LabelAutomaticallySignOut": "Automatically sign out:"
+  "LabelAutomaticallySignOut": "Automatically sign out:",
+  "BetaTesterMessage": "Thank you for being an Emby beta tester! Please leave feedback in the {0}Testing Area of the Emby Community{1}."
 }

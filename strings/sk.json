@@ -5,6 +5,7 @@
     "LabelAutomaticallySignOut": "Automaticky odhl\u00e1si\u0165:",
     "Album": "Album",
     "AlbumArtist": "Album artist",
+    "BetaTesterMessage": "Thank you for being an Emby beta tester! Please leave feedback in the {0}Testing Area of the Emby Community{1}.",
     "MessageUnlockAppWithPurchaseOrSupporter": "Unlock this feature with a small one-time purchase, or with an active Emby Premiere subscription.",
     "MessageUnlockAppWithSupporter": "Unlock this feature with an active Emby Premiere subscription.",
     "MessageToValidateSupporter": "If you have an active Emby Premiere subscription, ensure you've setup Emby Premiere in your Emby Server Dashboard, which you can access by clicking Emby Premiere within the main menu.",
