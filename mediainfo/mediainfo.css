@@ -95,8 +95,6 @@
 .mediaInfoOfficialRating {
     border: .09em solid currentColor;
     padding: 0 .6em;
-    height: 1.3em;
-    line-height: 1.8em;
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;

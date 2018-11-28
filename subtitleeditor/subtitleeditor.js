@@ -403,7 +403,7 @@
         var items = [];
 
         items.push({
-            name: Globalize.translate('sharedcomponents#Download'),
+            name: globalize.translate('sharedcomponents#Download'),
             id: 'download'
         });
 

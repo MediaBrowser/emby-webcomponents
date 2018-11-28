@@ -384,7 +384,7 @@
     "LiveBroadcasts": "\u017div\u00e9 vysielania",
     "Premieres": "Premi\u00e9ry",
     "RepeatEpisodes": "Repeat episodes",
-    "DvrSubscriptionRequired": "Emby DVR requires an active Emby Premiere subscription.",
+    "DvrSubscriptionRequired": "Emby Live TV & DVR require an active {0}Emby Premiere subscription{1}.",
     "HeaderCancelRecording": "Zru\u0161i\u0165 nahr\u00e1vanie",
     "CancelRecording": "Zru\u0161i\u0165 nahr\u00e1vanie",
     "HeaderKeepRecording": "Pokra\u010dova\u0165 v nahr\u00e1van\u00ed",

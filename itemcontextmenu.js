@@ -273,14 +273,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
             commands.push({
-                name: Globalize.translate('sharedcomponents#ViewAlbum'),
+                name: globalize.translate('sharedcomponents#ViewAlbum'),
                 id: 'album'
             });
         }
 
         if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
             commands.push({
-                name: Globalize.translate('sharedcomponents#ViewArtist'),
+                name: globalize.translate('sharedcomponents#ViewArtist'),
                 id: 'artist'
             });
         }

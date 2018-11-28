@@ -384,7 +384,7 @@
     "LiveBroadcasts": "Live broadcasts",
     "Premieres": "\u041f\u0440\u0435\u043c\u0438\u0435\u0440\u0438",
     "RepeatEpisodes": "Repeat episodes",
-    "DvrSubscriptionRequired": "Emby DVR requires an active Emby Premiere subscription.",
+    "DvrSubscriptionRequired": "Emby Live TV & DVR require an active {0}Emby Premiere subscription{1}.",
     "HeaderCancelRecording": "Cancel Recording",
     "CancelRecording": "Cancel recording",
     "HeaderKeepRecording": "Keep Recording",
