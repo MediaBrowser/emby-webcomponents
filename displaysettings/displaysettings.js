@@ -294,6 +294,11 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
             }
 
             self.loadData(options.autoFocus);
+
+            var featurePremiereInfo = options.element.querySelectorAll('.featurePremiereInfo');
+            for (var i = 0, length = featurePremiereInfo.length; i < length; i++) {
+                featurePremiereInfo[i].innerHTML = globalize.translate('FeatureRequiresEmbyPremiere', '', '');
+            }
         });
     }
 
