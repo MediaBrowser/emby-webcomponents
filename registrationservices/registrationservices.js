@@ -727,7 +727,10 @@
             iapManager.isUnlockedByDefault(feature).then(function () {
                 isCurrentDialogRejected = false;
                 cancelInAppPurchase();
-                resolve();
+
+                if (resolve) {
+                    resolve();
+                }
             });
         }
     }

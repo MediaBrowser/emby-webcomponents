@@ -26,13 +26,13 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
         if (!button.classList.contains('playstatebutton-played')) {
 
-            apiClient.markPlayed(apiClient.getCurrentUserId(), id, new Date());
+            apiClient.markPlayed(apiClient.getCurrentUserId(), id);
 
             setState(button, true);
 
         } else {
 
-            apiClient.markUnplayed(apiClient.getCurrentUserId(), id, new Date());
+            apiClient.markUnplayed(apiClient.getCurrentUserId(), id);
 
             setState(button, false);
         }

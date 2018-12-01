@@ -92,7 +92,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
 
                 if (item.EndDate) {
                     date = datetime.parseISO8601Date(item.EndDate);
-                    text += ' - ' + datetime.getDisplayTime(date);
+                    text += ' &ndash; ' + datetime.getDisplayTime(date);
                 }
 
                 miscInfo.push(text);
@@ -231,7 +231,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
                         var endYear = datetime.parseISO8601Date(item.EndDate).getFullYear();
 
                         if (endYear !== item.ProductionYear) {
-                            text += " - " + datetime.parseISO8601Date(item.EndDate).getFullYear();
+                            text += " &ndash; " + datetime.parseISO8601Date(item.EndDate).getFullYear();
                         }
 
                     }

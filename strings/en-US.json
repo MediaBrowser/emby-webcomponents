@@ -205,8 +205,6 @@
   "MarkUnplayed": "Mark unplayed",
   "GroupVersions": "Group versions",
   "PleaseSelectTwoItems": "Please select at least two items.",
-  "TryMultiSelect": "Try Multi-Select",
-  "TryMultiSelectMessage": "To edit multiple media items, just click and hold any poster and select the items you want to manage. Try it!",
   "HeaderConfirmRecordingCancellation": "Confirm Recording Cancellation",
   "MessageConfirmRecordingCancellation": "Cancel recording?",
   "Album": "Album",

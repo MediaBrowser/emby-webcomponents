@@ -789,7 +789,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (item.EndDate && showAirEndTime) {
                         date = datetime.parseISO8601Date(item.EndDate);
-                        airTimeText += ' - ' + datetime.getDisplayTime(date);
+                        airTimeText += ' &ndash; ' + datetime.getDisplayTime(date);
                     }
                 }
                 catch (e) {
@@ -958,7 +958,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                             var endYear = item.EndDate ? datetime.parseISO8601Date(item.EndDate).getFullYear() : null;
 
                             if (endYear && item.ProductionYear && endYear !== item.ProductionYear) {
-                                lines.push(item.ProductionYear + ' - ' + endYear);
+                                lines.push(item.ProductionYear + ' &ndash; ' + endYear);
                             } else {
                                 lines.push(item.ProductionYear || '');
                             }
