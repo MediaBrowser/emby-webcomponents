@@ -187,6 +187,7 @@ button {
     /* This is only needed for scalable cards */
     height: 100%;
     contain: strict;
+    border-radius: .145em;
 }
 
 .chapterCardImageContainer {

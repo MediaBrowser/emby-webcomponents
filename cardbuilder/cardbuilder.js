@@ -341,60 +341,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     apiClient = connectionManager.getApiClient(lastServerId);
                 }
 
-                if (options.indexBy) {
-                    var newIndexValue = '';
-
-                    if (options.indexBy === 'PremiereDate') {
-                        if (item.PremiereDate) {
-                            try {
-
-                                newIndexValue = datetime.toLocaleDateString(datetime.parseISO8601Date(item.PremiereDate), { weekday: 'long', month: 'long', day: 'numeric' });
-
-                            } catch (err) {
-                            }
-                        }
-                    }
-
-                    else if (options.indexBy === 'ProductionYear') {
-                        newIndexValue = item.ProductionYear;
-                    }
-
-                    else if (options.indexBy === 'CommunityRating') {
-                        newIndexValue = item.CommunityRating ? (Math.floor(item.CommunityRating) + (item.CommunityRating % 1 >= 0.5 ? 0.5 : 0)) + '+' : null;
-                    }
-
-                    if (newIndexValue !== currentIndexValue) {
-
-                        if (hasOpenRow) {
-                            html += '</div>';
-                            hasOpenRow = false;
-                            itemsInRow = 0;
-                        }
-
-                        if (hasOpenSection) {
-
-                            html += '</div>';
-
-                            if (isVertical) {
-                                html += '</div>';
-                            }
-                            hasOpenSection = false;
-                        }
-
-                        if (isVertical) {
-                            html += '<div class="verticalSection">';
-                        } else {
-                            html += '<div class="horizontalSection">';
-                        }
-                        html += '<' + sectionTitleTagName + ' class="sectionTitle">' + newIndexValue + '</' + sectionTitleTagName + '>';
-                        if (isVertical) {
-                            html += '<div class="itemsContainer vertical-wrap">';
-                        }
-                        currentIndexValue = newIndexValue;
-                        hasOpenSection = true;
-                    }
-                }
-
                 if (options.rows && itemsInRow === 0) {
 
                     if (hasOpenRow) {
@@ -812,11 +758,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var showOtherText = isOuterFooter ? !overlayText : overlayText;
 
-            if (isOuterFooter && options.cardLayout && layoutManager.mobile) {
+            if (isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== false) {
 
-                if (options.cardFooterAside !== 'none') {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
-                }
+                html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
             }
 
             var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
@@ -903,31 +847,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
 
-                if (options.showItemCounts) {
-
-                    var itemCountHtml = getItemCountsHtml(options, item);
-
-                    lines.push(itemCountHtml);
-                }
-
                 if (options.textLines) {
                     var additionalLines = options.textLines(item);
                     for (var i = 0, length = additionalLines.length; i < length; i++) {
                         lines.push(additionalLines[i]);
                     }
-                }
-
-                if (options.showSongCount) {
-
-                    var songLine = '';
-
-                    if (item.SongCount) {
-                        songLine = item.SongCount === 1 ?
-                            globalize.translate('sharedcomponents#ValueOneSong') :
-                            globalize.translate('sharedcomponents#ValueSongCount', item.SongCount);
-                    }
-
-                    lines.push(songLine);
                 }
 
                 if (options.showPremiereDate) {
@@ -946,7 +870,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
 
-                if (options.showYear || options.showSeriesYear) {
+                if (options.showYear) {
 
                     if (itemType === 'Series') {
                         if (item.Status === "Continuing") {
@@ -1090,117 +1014,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             html += '</button>';
 
             return html;
-        }
-
-        function getItemCountsHtml(options, item) {
-
-            var counts = [];
-
-            var childText;
-            var itemType = item.Type;
-
-            if (itemType === 'Playlist') {
-
-                childText = '';
-
-                if (item.RunTimeTicks) {
-
-                    var minutes = item.RunTimeTicks / 600000000;
-
-                    minutes = minutes || 1;
-
-                    childText += globalize.translate('sharedcomponents#ValueMinutes', Math.round(minutes));
-
-                } else {
-                    childText += globalize.translate('sharedcomponents#ValueMinutes', 0);
-                }
-
-                counts.push(childText);
-
-            }
-            else if (itemType === 'Genre' || itemType === 'Studio') {
-
-                if (item.MovieCount) {
-
-                    childText = item.MovieCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneMovie') :
-                        globalize.translate('sharedcomponents#ValueMovieCount', item.MovieCount);
-
-                    counts.push(childText);
-                }
-
-                if (item.SeriesCount) {
-
-                    childText = item.SeriesCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneSeries') :
-                        globalize.translate('sharedcomponents#ValueSeriesCount', item.SeriesCount);
-
-                    counts.push(childText);
-                }
-                if (item.EpisodeCount) {
-
-                    childText = item.EpisodeCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneEpisode') :
-                        globalize.translate('sharedcomponents#ValueEpisodeCount', item.EpisodeCount);
-
-                    counts.push(childText);
-                }
-                if (item.GameCount) {
-
-                    childText = item.GameCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneGame') :
-                        globalize.translate('sharedcomponents#ValueGameCount', item.GameCount);
-
-                    counts.push(childText);
-                }
-
-            } else if (itemType === 'GameGenre') {
-
-                if (item.GameCount) {
-
-                    childText = item.GameCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneGame') :
-                        globalize.translate('sharedcomponents#ValueGameCount', item.GameCount);
-
-                    counts.push(childText);
-                }
-            } else if (itemType === 'MusicGenre' || options.context === "MusicArtist") {
-
-                if (item.AlbumCount) {
-
-                    childText = item.AlbumCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneAlbum') :
-                        globalize.translate('sharedcomponents#ValueAlbumCount', item.AlbumCount);
-
-                    counts.push(childText);
-                }
-                if (item.SongCount) {
-
-                    childText = item.SongCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneSong') :
-                        globalize.translate('sharedcomponents#ValueSongCount', item.SongCount);
-
-                    counts.push(childText);
-                }
-                if (item.MusicVideoCount) {
-
-                    childText = item.MusicVideoCount === 1 ?
-                        globalize.translate('sharedcomponents#ValueOneMusicVideo') :
-                        globalize.translate('sharedcomponents#ValueMusicVideoCount', item.MusicVideoCount);
-
-                    counts.push(childText);
-                }
-
-            } else if (itemType === 'Series') {
-
-                childText = item.RecursiveItemCount === 1 ?
-                    globalize.translate('sharedcomponents#ValueOneEpisode') :
-                    globalize.translate('sharedcomponents#ValueEpisodeCount', item.RecursiveItemCount);
-
-                counts.push(childText);
-            }
-
-            return counts.join(', ');
         }
 
         function getProgramIndicators(item) {
@@ -1396,11 +1209,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 innerCardFooter += '</div>';
 
                 progressHtml = '';
-            }
-
-            var mediaSourceCount = item.MediaSourceCount || 1;
-            if (mediaSourceCount > 1) {
-                innerCardFooter += '<div class="mediaSourceIndicator">' + mediaSourceCount + '</div>';
             }
 
             var outerCardFooter = '';

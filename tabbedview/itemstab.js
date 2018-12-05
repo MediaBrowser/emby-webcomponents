@@ -514,7 +514,7 @@
             Recursive: true,
             Fields: fields,
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Disc",
+            EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Disc,Logo",
             StartIndex: this.startIndex || 0,
             Limit: this.enablePaging() ? 100 : null,
             ParentId: parentId

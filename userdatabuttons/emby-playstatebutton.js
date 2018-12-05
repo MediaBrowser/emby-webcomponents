@@ -80,13 +80,9 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
         }
     }
 
-    function setTitle(button, itemType) {
+    function setTitle(button) {
 
-        if (itemType !== 'AudioBook' && itemType !== 'AudioPodcast') {
-            button.title = globalize.translate('sharedcomponents#Watched');
-        } else {
-            button.title = globalize.translate('sharedcomponents#Played');
-        }
+        button.title = globalize.translate('sharedcomponents#Played');
 
         var text = button.querySelector('.button-text');
         if (text) {
@@ -131,7 +127,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
 
             setState(this, this.getAttribute('data-played') === 'true', false);
             bindEvents(this);
-            setTitle(this, this.getAttribute('data-type'));
+            setTitle(this);
         }
     };
 
@@ -157,7 +153,7 @@ define(['connectionManager', 'serverNotifications', 'events', 'globalize', 'emby
             setState(this, played);
             bindEvents(this);
 
-            setTitle(this, item.Type);
+            setTitle(this);
 
         } else {
 

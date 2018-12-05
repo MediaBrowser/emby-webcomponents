@@ -8,61 +8,6 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
             return item.ParentIndexNumber == null ? '' : globalize.translate('sharedcomponents#ValueDiscNumber', item.ParentIndexNumber);
         }
 
-        var sortBy = (options.sortBy || '').toLowerCase();
-        var code, name;
-
-        if (sortBy.indexOf('sortname') === 0) {
-
-            if (item.Type === 'Episode') {
-                return '';
-            }
-
-            // SortName
-            name = (item.SortName || item.Name || '?')[0].toUpperCase();
-
-            code = name.charCodeAt(0);
-            if (code < 65 || code > 90) {
-                return '#';
-            }
-
-            return name.toUpperCase();
-        }
-        if (sortBy.indexOf('officialrating') === 0) {
-
-            return item.OfficialRating || globalize.translate('sharedcomponents#Unrated');
-        }
-        if (sortBy.indexOf('communityrating') === 0) {
-
-            if (item.CommunityRating == null) {
-                return globalize.translate('sharedcomponents#Unrated');
-            }
-
-            return Math.floor(item.CommunityRating);
-        }
-        if (sortBy.indexOf('criticrating') === 0) {
-
-            if (item.CriticRating == null) {
-                return globalize.translate('sharedcomponents#Unrated');
-            }
-
-            return Math.floor(item.CriticRating);
-        }
-        if (sortBy.indexOf('albumartist') === 0) {
-
-            // SortName
-            if (!item.AlbumArtist) {
-                return '';
-            }
-
-            name = item.AlbumArtist[0].toUpperCase();
-
-            code = name.charCodeAt(0);
-            if (code < 65 || code > 90) {
-                return '#';
-            }
-
-            return name.toUpperCase();
-        }
         return '';
     }
 

@@ -305,31 +305,30 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canMarkPlayed: function (item) {
 
-            if (item.Type === 'Program') {
+            if (item.SupportsResume) {
+                return true;
+            }
+
+            var itemType = item.Type;
+            var mediaType = item.MediaType;
+
+            if (itemType === 'Program') {
                 return false;
             }
 
-            if (item.MediaType === 'Video') {
-                if (item.Type !== 'TvChannel') {
+            if (mediaType === 'Video') {
+                if (itemType !== 'TvChannel') {
                     return true;
                 }
             }
 
-            else if (item.MediaType === 'Audio') {
-                if (item.Type === 'AudioPodcast') {
-                    return true;
-                }
-                if (item.Type === 'AudioBook') {
-                    return true;
-                }
-            }
-
-            if (item.Type === "Series" ||
-                item.Type === "Season" ||
-                item.Type === "BoxSet" ||
-                item.MediaType === "Game" ||
-                item.MediaType === "Book" ||
-                item.MediaType === "Recording") {
+            if (itemType === "AudioBook" ||
+                itemType === "Series" ||
+                itemType === "Season" ||
+                itemType === "BoxSet" ||
+                mediaType === "Game" ||
+                mediaType === "Book" ||
+                mediaType === "Recording") {
                 return true;
             }
 
@@ -421,9 +420,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
             if (!item.MediaSources || (item.MediaSources.length === 1 && item.MediaSources[0].Type === 'Placeholder')) {
-                return false;
-            }
-            if (item.EnableMediaSourceDisplay === false) {
                 return false;
             }
 

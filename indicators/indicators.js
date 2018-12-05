@@ -1,21 +1,6 @@
 define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], function (datetime, itemHelper) {
     'use strict';
 
-    function enableProgressIndicator(item) {
-
-        if (item.MediaType === 'Video') {
-            if (item.Type !== 'TvChannel') {
-                return true;
-            }
-        }
-
-        if (item.Type === 'AudioBook' || item.Type === 'AudioPodcast') {
-            return true;
-        }
-
-        return false;
-    }
-
     function getProgressHtml(pct, options) {
 
         var containerClass = 'itemProgressBar';
@@ -52,7 +37,9 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
         var pct;
 
-        if (enableProgressIndicator(item) && item.Type !== "Recording") {
+        var itemType = item.Type;
+
+        if (itemType !== "Recording") {
 
             var userData = options ? (options.userData || item.UserData) : item.UserData;
             if (userData) {
@@ -65,7 +52,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
             }
         }
 
-        if ((item.Type === 'Program' || item.Type === 'Timer' || item.Type === 'Recording') && item.StartDate && item.EndDate) {
+        if ((itemType === 'Program' || itemType === 'Timer' || itemType === 'Recording') && item.StartDate && item.EndDate) {
 
             var startDate = 0;
             var endDate = 1;
@@ -90,7 +77,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
             if (pct > 0 && pct < 100) {
 
-                var isRecording = item.Type === 'Timer' || item.Type === 'Recording' || item.TimerId;
+                var isRecording = itemType === 'Timer' || itemType === 'Recording' || item.TimerId;
 
                 return getAutoTimeProgressHtml(pct, options, isRecording, startDate, endDate);
             }
@@ -101,20 +88,18 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
     function getPlayedIndicator(item) {
 
-        if (itemHelper.canMarkPlayed(item)) {
+        var userData = item.UserData;
 
-            var userData = item.UserData;
+        if (userData) {
 
-            if (userData) {
-                if (userData.UnplayedItemCount) {
-                    return '<div class="countIndicator indicator">' + userData.UnplayedItemCount + '</div>';
+            if (userData.Played && itemHelper.canMarkPlayed(item)) {
+                if (!item.IsFolder || item.Type === 'MusicAlbum') {
+                    return '<div class="playedIndicator indicator"><i class="md-icon indicatorIcon">&#xE5CA;</i></div>';
                 }
+            }
 
-                if (!item.IsFolder) {
-                    if (userData.Played) {
-                        return '<div class="playedIndicator indicator"><i class="md-icon indicatorIcon">&#xE5CA;</i></div>';
-                    }
-                }
+            if (userData.UnplayedItemCount && itemHelper.canMarkPlayed(item)) {
+                return '<div class="countIndicator indicator">' + userData.UnplayedItemCount + '</div>';
             }
         }
 
@@ -145,14 +130,16 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
         var status;
 
-        if (item.Type === 'SeriesTimer') {
+        var itemType = item.Type;
+
+        if (itemType === 'SeriesTimer') {
             return '<i class="md-icon timerIndicator indicatorIcon">&#xE062;</i>';
         }
         else if (item.TimerId || item.SeriesTimerId) {
 
             status = item.Status || 'Cancelled';
         }
-        else if (item.Type === 'Timer') {
+        else if (itemType === 'Timer') {
 
             status = item.Status;
         }
@@ -185,15 +172,17 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
     function getTypeIndicator(item) {
 
-        if (item.Type === 'Video') {
+        var itemType = item.Type;
+
+        if (itemType === 'Video') {
 
             return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE04B;</i></div>';
         }
-        if (item.Type === 'Folder' || item.Type === 'PhotoAlbum') {
+        if (itemType === 'Folder' || itemType === 'PhotoAlbum') {
 
             return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE2C7;</i></div>';
         }
-        if (item.Type === 'Photo') {
+        if (itemType === 'Photo') {
 
             return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE410;</i></div>';
             //return '<div class="indicator videoIndicator"><i class="md-icon indicatorIcon">&#xE412;</i></div>';
@@ -271,7 +260,6 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         getProgressBarHtml: getProgressBarHtml,
         getPlayedIndicatorHtml: getPlayedIndicator,
         getChildCountIndicatorHtml: getChildCountIndicatorHtml,
-        enableProgressIndicator: enableProgressIndicator,
         getTimerIndicator: getTimerIndicator,
         getSyncIndicator: getSyncIndicator,
         getTypeIndicator: getTypeIndicator,

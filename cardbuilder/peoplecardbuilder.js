@@ -7,7 +7,7 @@ define(['cardBuilder'], function (cardBuilder) {
             cardLayout: false,
             centerText: true,
             showTitle: true,
-            cardFooterAside: 'none',
+            cardFooterAside: false,
             showPersonRoleOrType: true,
             cardCssClass: 'personCard',
             defaultCardImageIcon: '&#xE7FD;'
