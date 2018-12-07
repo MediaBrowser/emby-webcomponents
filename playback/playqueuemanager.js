@@ -170,6 +170,7 @@
         return {
             result: 'moved',
             playlistItemId: playlistItemId,
+            oldIndex: oldIndex,
             newIndex: newIndex
         };
     };
