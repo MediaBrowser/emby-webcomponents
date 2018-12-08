@@ -78,10 +78,6 @@
 
             this.startIndex = newStartIndex;
 
-            if (this.enablePaging()) {
-                window.scrollTo(0, 0);
-            }
-
             this.itemsContainer.refreshItems();
         }
     }
@@ -331,6 +327,10 @@
     function afterRefresh(result) {
 
         var self = this;
+
+        if (this.enablePaging()) {
+            window.scrollTo(0, 0);
+        }
 
         if (self.totalItemCount == null) {
 

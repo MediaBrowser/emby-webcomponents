@@ -1924,6 +1924,18 @@
                     ParentId: options.parentId
                 });
             }
+            else if (firstItem.Type === 'MusicAlbum') {
+
+                promise = getItemsForPlayback(serverId, mergePlaybackQueries({
+
+                    ParentId: firstItem.Id,
+                    Filters: "IsNotFolder",
+                    Recursive: true,
+                    // These are pre-sorted
+                    SortBy: options.shuffle ? 'Random' : connectionManager.getApiClient(firstItem.ServerId).isMinServerVersion('3.6') ? null : 'SortName'
+
+                }, queryOptions));
+            }
             else if (firstItem.IsFolder) {
 
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
@@ -1932,7 +1944,7 @@
                     Filters: "IsNotFolder",
                     Recursive: true,
                     // These are pre-sorted
-                    SortBy: options.shuffle ? 'Random' : (['BoxSet', 'MusicAlbum'].indexOf(firstItem.Type) === -1 ? 'SortName' : null)
+                    SortBy: options.shuffle ? 'Random' : (['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null)
 
                 }, queryOptions));
             }

@@ -653,7 +653,12 @@
                         type: "Primary"
                     });
 
-                    html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
+                    // Edge seems to have a problem lazy loading these
+                    if (browser.edge) {
+                        html += '<div class="guideChannelImage" style="background-image:url(' + url + ');"></div>';
+                    } else {
+                        html += '<div class="guideChannelImage lazy" data-src="' + url + '"></div>';
+                    }
                 }
 
                 if (channel.ChannelNumber) {
