@@ -33,7 +33,7 @@ define(['css!./toast'], function () {
         document.body.appendChild(elem);
 
         // force a reflow
-        elem.offsetHeight;
+        void elem.offsetHeight;
 
         elem.classList.add('toastVisible');
 
