@@ -516,18 +516,6 @@
         return state.NowPlayingItem != null;
     };
 
-    SessionPlayer.prototype.isPlayingVideo = function () {
-        var state = this.lastPlayerData || {};
-        state = state.NowPlayingItem || {};
-        return state.MediaType === 'Video';
-    };
-
-    SessionPlayer.prototype.isPlayingAudio = function () {
-        var state = this.lastPlayerData || {};
-        state = state.NowPlayingItem || {};
-        return state.MediaType === 'Audio';
-    };
-
     SessionPlayer.prototype.getPlaylist = function () {
         return Promise.resolve([]);
     };

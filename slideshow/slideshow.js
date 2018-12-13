@@ -1,4 +1,4 @@
-define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'loading', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (dialogHelper, inputmanager, connectionManager, layoutManager, focusManager, browser, appHost, loading) {
+define(['events', 'dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'focusManager', 'browser', 'apphost', 'loading', 'css!./style', 'material-icons', 'paper-icon-button-light'], function (events, dialogHelper, inputmanager, connectionManager, layoutManager, focusManager, browser, appHost, loading) {
     'use strict';
 
     function getImageUrl(item, options, apiClient) {
@@ -374,6 +374,8 @@ define(['dialogHelper', 'inputManager', 'connectionManager', 'layoutManager', 'f
 
             inputmanager.off(window, onInputCommand);
             document.removeEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
+
+            events.trigger(self, 'closed');
         }
 
         function startInterval(options) {

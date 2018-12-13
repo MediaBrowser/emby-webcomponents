@@ -1080,19 +1080,29 @@
             return player != null && player.currentSrc() != null;
         };
 
-        self.isPlayingMediaType = function (mediaType, player) {
+        self.isPlayingMediaType = function (mediaTypes, player) {
+
             player = player || self._currentPlayer;
+
+            if (!Array.isArray(mediaTypes)) {
+                mediaTypes = [mediaTypes];
+            }
 
             if (player) {
                 if (player.isPlaying) {
-                    return player.isPlaying(mediaType);
+
+                    return mediaTypes.filter(function (mediaType) {
+                        return player.isPlaying(mediaType);
+                    }).length > 0;
                 }
             }
 
             if (self.isPlaying(player)) {
                 var playerData = getPlayerData(player);
 
-                return playerData.streamInfo.mediaType === mediaType;
+                var currentMediaType = playerData.streamInfo.mediaType;
+
+                return currentMediaType && mediaTypes.indexOf(currentMediaType) !== -1;
             }
 
             return false;
@@ -1106,19 +1116,15 @@
                 return false;
             }
 
-            return mediaTypes.filter(function (mediaType) {
-
-                return self.isPlayingMediaType(mediaType, player);
-
-            }).length > 0;
+            return self.isPlayingMediaType(mediaTypes, player);
         };
 
         self.isPlayingVideo = function (player) {
-            return self.isPlayingMediaType('Video', player);
+            return self.isPlayingMediaType(['Video'], player);
         };
 
         self.isPlayingAudio = function (player) {
-            return self.isPlayingMediaType('Audio', player);
+            return self.isPlayingMediaType(['Audio'], player);
         };
 
         self.getPlayers = function () {
@@ -3228,7 +3234,7 @@
 
             state.NextMediaType = nextMediaType;
 
-            if (isServerItem(streamInfo.item)) {
+            if (streamInfo && isServerItem(streamInfo.item)) {
 
                 if (player.supportsProgress === false && state.PlayState && !state.PlayState.PositionTicks) {
                     state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;

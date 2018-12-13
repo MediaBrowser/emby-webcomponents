@@ -142,7 +142,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         return item.MediaType;
     }
 
-    function canEdit(user, item) {
+    function canEditInternal(user, item) {
 
         var itemType = item.Type;
 
@@ -176,7 +176,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
-        return user.Policy.IsAdministrator;
+        return true;
     }
 
     function isLocalItem(item) {
@@ -225,7 +225,24 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         },
 
-        canEdit: canEdit,
+        canEdit: function (user, item) {
+
+            return canEditInternal(user, item) && user.Policy.IsAdministrator;
+        },
+
+        canEditSubtitles: function (user, item) {
+
+            if (user.Policy.EnableSubtitleDownloading || user.Policy.EnableSubtitleManagement) {
+                return canEditInternal(user, item);
+            }
+
+            if (user.Policy.EnableSubtitleDownloading == null && user.Policy.EnableSubtitleManagement == null) {
+                return canEditInternal(user, item) && user.Policy.IsAdministrator;
+            }
+
+            return false;
+
+        },
 
         canEditImages: function (user, item) {
 
@@ -258,7 +275,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 }
             }
 
-            return canEdit(user, item);
+            return canEditInternal(user, item) && user.Policy.IsAdministrator;
         },
 
         canSync: function (user, item) {

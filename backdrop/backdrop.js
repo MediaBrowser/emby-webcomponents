@@ -306,7 +306,7 @@
 
     function onRotationInterval() {
 
-        if (playbackManager.isPlayingLocally(['Video'])) {
+        if (playbackManager.isPlayingLocally(['Video', 'Game', 'Book', 'Photo'])) {
             return;
         }
 

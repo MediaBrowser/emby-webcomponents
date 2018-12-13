@@ -24,6 +24,11 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 name: globalize.translate('sharedcomponents#Favorites'),
                 value: 'favorites'
             });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Genres'),
+                value: 'genres'
+            });
             list.push({
                 name: globalize.translate('sharedcomponents#Collections'),
                 value: 'collections'
@@ -48,6 +53,11 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             list.push({
                 name: globalize.translate('sharedcomponents#Favorites'),
                 value: 'favorites'
+            });
+
+            list.push({
+                name: globalize.translate('sharedcomponents#Genres'),
+                value: 'genres'
             });
 
             list.push({

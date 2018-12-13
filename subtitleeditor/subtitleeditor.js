@@ -100,7 +100,7 @@
         });
     }
 
-    function fillSubtitleList(context, item) {
+    function fillSubtitleList(context, item, user) {
 
         var streams = item.MediaStreams || [];
 
@@ -151,9 +151,11 @@
                 itemHtml += '</a>';
                 itemHtml += '</div>';
 
-                if (!layoutManager.tv) {
-                    if (s.Path) {
-                        itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('sharedcomponents#Delete') + '" class="btnDelete listItemButton"><i class="md-icon">&#xE872;</i></button>';
+                if (user.Policy.EnableSubtitleManagement || (user.Policy.EnableSubtitleManagement == null && user.Policy.IsAdministrator)) {
+                    if (!layoutManager.tv) {
+                        if (s.Path) {
+                            itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('sharedcomponents#Delete') + '" class="btnDelete listItemButton"><i class="md-icon">&#xE872;</i></button>';
+                        }
                     }
                 }
 
@@ -331,22 +333,31 @@
 
             currentItem = item;
 
-            fillSubtitleList(context, item);
-            var file = item.Path || '';
-            var index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
-            if (index > -1) {
-                file = file.substring(index + 1);
-            }
+            apiClient.getCurrentUser().then(function (user) {
 
-            if (file) {
-                context.querySelector('.pathValue').innerHTML = file;
-                context.querySelector('.originalFile').classList.remove('hide');
-            } else {
-                context.querySelector('.pathValue').innerHTML = '';
-                context.querySelector('.originalFile').classList.add('hide');
-            }
+                if (user.Policy.EnableSubtitleDownloading || (user.Policy.EnableSubtitleDownloading == null && user.Policy.IsAdministrator)) {
+                    context.querySelector('.subtitleSearchContainer').classList.remove('hide');
+                } else {
+                    context.querySelector('.subtitleSearchContainer').classList.add('hide');
+                }
 
-            loading.hide();
+                fillSubtitleList(context, item, user);
+                var file = item.Path || '';
+                var index = Math.max(file.lastIndexOf('/'), file.lastIndexOf('\\'));
+                if (index > -1) {
+                    file = file.substring(index + 1);
+                }
+
+                if (file) {
+                    context.querySelector('.pathValue').innerHTML = file;
+                    context.querySelector('.originalFile').classList.remove('hide');
+                } else {
+                    context.querySelector('.pathValue').innerHTML = '';
+                    context.querySelector('.originalFile').classList.add('hide');
+                }
+
+                loading.hide();
+            });
         }
 
         if (typeof itemId === 'string') {

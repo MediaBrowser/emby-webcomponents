@@ -960,18 +960,6 @@
         return state.NowPlayingItem != null;
     };
 
-    ChromecastPlayer.prototype.isPlayingVideo = function () {
-        var state = this.lastPlayerData || {};
-        state = state.NowPlayingItem || {};
-        return state.MediaType === 'Video';
-    };
-
-    ChromecastPlayer.prototype.isPlayingAudio = function () {
-        var state = this.lastPlayerData || {};
-        state = state.NowPlayingItem || {};
-        return state.MediaType === 'Audio';
-    };
-
     ChromecastPlayer.prototype.currentTime = function (val) {
 
         if (val != null) {

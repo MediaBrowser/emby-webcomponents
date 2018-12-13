@@ -175,7 +175,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
-        if (canEdit) {
+        if (itemHelper.canEditSubtitles(user, item)) {
 
             if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
                 if (options.editSubtitles !== false) {

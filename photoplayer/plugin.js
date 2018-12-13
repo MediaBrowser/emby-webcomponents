@@ -32,11 +32,17 @@ define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackMa
 
                 newSlideShow.show();
 
+                events.on(newSlideShow, 'closed', self.onSlideShowClosed.bind(self));
+
                 self.slideshow = newSlideShow;
 
                 resolve();
             });
         });
+    };
+
+    PhotoPlayer.prototype.onSlideShowClosed = function () {
+        events.trigger(this, 'stopped');
     };
 
     PhotoPlayer.prototype.stop = function (options) {

@@ -15,6 +15,7 @@
         if (instance.enablePaging()) {
 
             instance.startIndex = 0;
+            instance.scrollOnNextRefresh = true;
             instance.itemsContainer.refreshItems();
             return;
         }
@@ -78,6 +79,7 @@
 
             this.startIndex = newStartIndex;
 
+            this.scrollOnNextRefresh = true;
             this.itemsContainer.refreshItems();
         }
     }
@@ -240,6 +242,8 @@
             instance.alphaPicker.value(null, false);
         }
 
+        instance.scrollOnNextRefresh = true;
+
         instance.itemsContainer.refreshItems();
     }
 
@@ -326,27 +330,27 @@
 
     function afterRefresh(result) {
 
-        var self = this;
-
-        if (this.enablePaging()) {
+        if (this.enablePaging() && this.scrollOnNextRefresh) {
             window.scrollTo(0, 0);
         }
 
-        if (self.totalItemCount == null) {
+        this.scrollOnNextRefresh = false;
+
+        if (this.totalItemCount == null) {
 
             if (result.TotalRecordCount != null) {
-                self.totalItemCount = result.TotalRecordCount;
+                this.totalItemCount = result.TotalRecordCount;
             } else {
-                self.totalItemCount = result.Items ? result.Items.length : result.length;
+                this.totalItemCount = result.Items ? result.Items.length : result.length;
             }
         }
 
-        updateAlphaPickerState(self, self.totalItemCount);
+        updateAlphaPickerState(this, this.totalItemCount);
 
-        var startIndex = self.startIndex || 0;
+        var startIndex = this.startIndex || 0;
         var i, length;
 
-        var previousPageButtons = self.previousPageButtons;
+        var previousPageButtons = this.previousPageButtons;
         for (i = 0, length = previousPageButtons.length; i < length; i++) {
 
             previousPageButtons[i].disabled = startIndex <= 0;
@@ -354,7 +358,7 @@
 
         var totalRecordCount = result.TotalRecordCount;
         if (totalRecordCount != null) {
-            var nextPageButtons = self.nextPageButtons;
+            var nextPageButtons = this.nextPageButtons;
             for (i = 0, length = nextPageButtons.length; i < length; i++) {
 
                 nextPageButtons[i].disabled = startIndex + 100 > totalRecordCount;
@@ -440,6 +444,8 @@
 
         bindAll(view.querySelectorAll('.btnPlay'), 'click', play.bind(this));
         bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle.bind(this));
+
+        this.scrollOnNextRefresh = true;
     }
 
     ItemsTab.prototype.refreshPrefixes = function () {
@@ -1022,6 +1028,7 @@
         this.startIndex = null;
         this.prefixesLoaded = null;
         this.totalItemCount = null;
+        this.scrollOnNextRefresh = null;
     };
 
     return ItemsTab;

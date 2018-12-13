@@ -1,10 +1,10 @@
 {
-    "Tracks": "Tracks",
+    "Tracks": "Stopy",
     "HeaderLoginSettings": "Login Settings",
     "LabelRememberLogin": "Remember login:",
-    "LabelAutomaticallySignOut": "Automatically sign out:",
+    "LabelAutomaticallySignOut": "Automaticky odhl\u00e1sit:",
     "Album": "Album",
-    "AlbumArtist": "Album artist",
+    "AlbumArtist": "Um\u011blec alba",
     "BetaTesterMessage": "Thank you for being an Emby beta tester! Please leave feedback in the {0}Testing Area of the Emby Community{1}.",
     "MessageUnlockAppWithPurchaseOrSupporter": "Odemknout tuto funkci pomoc\u00ed jednor\u00e1zov\u00e9 platby, nebo pomoc\u00ed aktivace p\u0159edplatn\u00e9ho Emby Premiere.",
     "MessageUnlockAppWithSupporter": "Odemknout tuto funkci pomoc\u00ed aktivn\u00edho p\u0159edplatn\u00e9ho Emby Premiere.",

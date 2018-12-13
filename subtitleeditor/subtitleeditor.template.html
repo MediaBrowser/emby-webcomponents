@@ -9,23 +9,24 @@
     <div class="dialogContentInner dialog-content-centered">
 
         <div class="subtitleList" style="margin-bottom:2em;"></div>
-        <h2>${SearchForSubtitles}</h2>
 
-        <p style="margin: 1.5em 0;" class="originalFile"><span class="originalSubtitleFileLabel secondaryText"></span><span class="pathValue"></span></p>
-
-        <form class="subtitleSearchForm" style="max-width: none;">
-            <div class="flex align-items-center">
-                <div class="selectContainer flex-grow" style="margin-bottom: 0;">
-                    <select is="emby-select" id="selectLanguage" required="required" label="${LabelLanguage}" autofocus></select>
+        <div class="subtitleSearchContainer hide">
+            <h2>${SearchForSubtitles}</h2>
+            <p style="margin: 1.5em 0;" class="originalFile"><span class="originalSubtitleFileLabel secondaryText"></span><span class="pathValue"></span></p>
+            <form class="subtitleSearchForm" style="max-width: none;">
+                <div class="flex align-items-center">
+                    <div class="selectContainer flex-grow" style="margin-bottom: 0;">
+                        <select is="emby-select" id="selectLanguage" required="required" label="${LabelLanguage}" autofocus></select>
+                    </div>
+                    <button type="submit" is="paper-icon-button-light" title="${Search}" class="btnSearchSubtitles flex-shrink-zero emby-select-iconbutton"><i class="md-icon">&#xE8B6;</i></button>
                 </div>
-                <button type="submit" is="paper-icon-button-light" title="${Search}" class="btnSearchSubtitles flex-shrink-zero emby-select-iconbutton"><i class="md-icon">&#xE8B6;</i></button>
+                <button is="emby-button" type="submit" class="raised btnSubmit block button-submit">${Search}</button>
+            </form>
+            <br />
+            <div class="subtitleResults"></div>
+            <div class="noSearchResults hide">
+                ${NoSubtitleSearchResultsFound}
             </div>
-            <button is="emby-button" type="submit" class="raised btnSubmit block button-submit">${Search}</button>
-        </form>
-        <br />
-        <div class="subtitleResults"></div>
-        <div class="noSearchResults hide">
-            ${NoSubtitleSearchResultsFound}
         </div>
     </div>
 </div>

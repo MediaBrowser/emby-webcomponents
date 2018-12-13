@@ -8,14 +8,14 @@ define(['css!./toast'], function () {
         }, 300);
     }
 
-    function animateRemove(elem) {
+    function animateRemove(elem, timeoutMs) {
 
         setTimeout(function () {
 
             elem.classList.remove('toastVisible');
             remove(elem);
 
-        }, 3300);
+        }, timeoutMs + 300);
     }
 
     return function (options) {
@@ -32,11 +32,11 @@ define(['css!./toast'], function () {
 
         document.body.appendChild(elem);
 
-        setTimeout(function () {
-            elem.classList.add('toastVisible');
+        // force a reflow
+        elem.offsetHeight;
 
-            animateRemove(elem);
+        elem.classList.add('toastVisible');
 
-        }, 300);
+        animateRemove(elem, options.timeoutMs || 3000);
     };
 });
