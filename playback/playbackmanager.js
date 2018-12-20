@@ -1632,7 +1632,7 @@
             }
             else if (!currentStream && newStream) {
 
-                if (getDeliveryMethod(newStream) === 'External') {
+                if (getDeliveryMethod(newStream) === 'External' || getDeliveryMethod(newStream) === 'Hls') {
                     selectedTrackElementIndex = index;
                 } else if (getDeliveryMethod(newStream) === 'Embed' && currentPlayMethod !== 'Transcode') {
                     selectedTrackElementIndex = index;
@@ -1646,11 +1646,11 @@
 
                 // Switching tracks
                 // We can handle this clientside if the new track is external or the new track is embedded and we're not transcoding
-                if (getDeliveryMethod(newStream) === 'External' || (getDeliveryMethod(newStream) === 'Embed' && currentPlayMethod !== 'Transcode')) {
+                if (getDeliveryMethod(newStream) === 'External' || getDeliveryMethod(newStream) === 'Hls' || (getDeliveryMethod(newStream) === 'Embed' && currentPlayMethod !== 'Transcode')) {
                     selectedTrackElementIndex = index;
 
                     // But in order to handle this client side, if the previous track is being added via transcoding, we'll have to remove it
-                    if (getDeliveryMethod(currentStream) !== 'External' && getDeliveryMethod(currentStream) !== 'Embed') {
+                    if (getDeliveryMethod(currentStream) !== 'External' && getDeliveryMethod(currentStream) !== 'Hls' && getDeliveryMethod(currentStream) !== 'Embed') {
                         changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
                     }
                 } else {

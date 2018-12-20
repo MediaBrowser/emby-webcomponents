@@ -57,14 +57,9 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return false;
     }
 
-    function enableHlsJsPlayer(runTimeTicks, mediaType) {
+    function enableHlsJsPlayer(runTimeTicks, mediaType, hasHlsTextTracks) {
 
         if (window.MediaSource == null) {
-            return false;
-        }
-
-        // hls.js is only in beta. needs more testing.
-        if (browser.iOS) {
             return false;
         }
 
@@ -86,9 +81,20 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
 
             // simple playback should use the native support
             if (runTimeTicks) {
-                //if (!browser.edge) {
-                return false;
+
+                if (mediaType === 'Audio') {
+                    return false;
+                }
+
+                // allow hlsjs for video due to vtt in hls subtitle support
+                //if (!hasHlsTextTracks) {
+                //    return false;
                 //}
+
+                // already supports vtt in hls
+                if (browser.edge) {
+                    return false;
+                }
             }
 
             //return false;

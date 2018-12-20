@@ -33,6 +33,9 @@
             if (track.DeliveryMethod === 'Embed') {
                 return true;
             }
+            if (track.DeliveryMethod === 'Hls') {
+                return true;
+            }
         }
 
         if (browser.firefox) {
@@ -84,7 +87,7 @@
         });
     }
 
-    function getMediaStreamTextTracks(mediaSource) {
+    function getMediaStreamSubtitleTracks(mediaSource) {
 
         return mediaSource.MediaStreams.filter(function (s) {
             return s.Type === 'Subtitle';
@@ -278,8 +281,7 @@
                         url: url
                     },
                         {
-                            seekType: 'range',
-                            lazyLoad: false
+                            seekType: 'range'
                         });
 
                     flvPlayer.attachMediaElement(elem);
@@ -466,6 +468,15 @@
             };
         }
 
+        function containsHlsTextTracks(tracks) {
+
+            return tracks.filter(function (t) {
+
+                return t.DeliveryMethod === 'Hls';
+
+            }).length > 0;
+        }
+
         function setCurrentSrc(elem, options) {
 
             elem.removeEventListener('error', onError);
@@ -483,7 +494,7 @@
             htmlMediaHelper.destroyFlvPlayer(self);
             htmlMediaHelper.destroyCastPlayer(self);
 
-            var tracks = getMediaStreamTextTracks(options.mediaSource);
+            var tracks = getMediaStreamSubtitleTracks(options.mediaSource);
 
             subtitleTrackIndexToSetOnPlaying = options.mediaSource.DefaultSubtitleStreamIndex == null ? -1 : options.mediaSource.DefaultSubtitleStreamIndex;
             if (subtitleTrackIndexToSetOnPlaying != null && subtitleTrackIndexToSetOnPlaying >= 0) {
@@ -502,7 +513,13 @@
                 elem.crossOrigin = crossOrigin;
             }
 
-            return getTracksHtml(tracks, options.item, options.mediaSource).then(function (tracksHtml) {
+            tracks = tracks.filter(function (s) {
+                return s.IsTextSubtitleStream && s.Codec !== 'ass' && s.Codec !== 'ssa';
+            });
+
+            var hasHlsTextTracks = containsHlsTextTracks(tracks);
+
+            return getTracksHtml(tracks, options.item, options.mediaSource, hasHlsTextTracks).then(function (tracksHtml) {
 
                 /*if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
     
@@ -515,9 +532,11 @@
 
                     setTracks(elem, tracksHtml);
                     return setCurrentSrcChromecast(self, elem, options, val);
-                } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
+                } else if (htmlMediaHelper.enableHlsJsPlayer(options.mediaSource.RunTimeTicks, 'Video', hasHlsTextTracks) && val.indexOf('.m3u8') !== -1) {
 
-                    setTracks(elem, tracksHtml);
+                    if (!hasHlsTextTracks) {
+                        setTracks(elem, tracksHtml);
+                    }
 
                     return setSrcWithHlsJs(self, elem, options, val);
 
@@ -646,6 +665,11 @@
             var src = self._currentSrc;
 
             if (elem) {
+
+                // prevent the subs from possibly being left on-screen
+                if (browser.firefox) {
+                    self.setSubtitleStreamIndex(-1);
+                }
 
                 if (src) {
                     elem.pause();
@@ -949,16 +973,7 @@
 
             var rendererSettings = {};
 
-            if (browser.ps4) {
-                // Text outlines are not rendering very well
-                rendererSettings.enableSvg = false;
-            }
-            else if (browser.edge || browser.msie) {
-                // svg not rendering at all
-                rendererSettings.enableSvg = false;
-            }
-
-            // probably safer to just disable everywhere
+            // Safer to just disable this everywhere
             rendererSettings.enableSvg = false;
 
             require(['libjass'], function (libjass) {
@@ -1028,10 +1043,6 @@
             // This is unfortunate, but we're unable to remove the textTrack that gets added via addTextTrack
             if (browser.firefox) {
                 return true;
-            }
-
-            if (browser.edge) {
-                return false;
             }
 
             if (browser.iOS) {
@@ -1205,7 +1216,7 @@
 
             console.log('Setting new text track index to: ' + streamIndex);
 
-            var mediaStreamTextTracks = getMediaStreamTextTracks(self._currentPlayOptions.mediaSource);
+            var mediaStreamTextTracks = getMediaStreamSubtitleTracks(self._currentPlayOptions.mediaSource);
 
             var track = streamIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
                 return t.Index === streamIndex;
@@ -1231,10 +1242,12 @@
             var expectedId = 'textTrack' + streamIndex;
             var elem = self._mediaElement;
 
-            // Hide all first
-            for (var i = 0; i < elem.textTracks.length; i++) {
+            var elemTextTracks = elem.textTracks;
 
-                var tt = elem.textTracks[i];
+            // Hide all first
+            for (var i = 0; i < elemTextTracks.length; i++) {
+
+                var tt = elemTextTracks[i];
 
                 if (tt.id === expectedId) {
                     targetIndex = i;
@@ -1243,13 +1256,24 @@
                 tt.mode = 'disabled';
             }
 
-            if (targetIndex < 0 && (browser.msie || browser.edge)) {
-                targetIndex = streamIndex === -1 || !track ? -1 : mediaStreamTextTracks.indexOf(track);
+            if (targetIndex < 0) {
+
+                mediaStreamTextTracks = mediaStreamTextTracks.filter(function (s) {
+                    return s.IsTextSubtitleStream && s.Codec !== 'ass' && s.Codec !== 'ssa';
+                });
+
+                if (track && track.DeliveryMethod === 'Hls') {
+                    targetIndex = mediaStreamTextTracks.indexOf(track);
+                }
+
+                else if (browser.msie || browser.edge) {
+                    targetIndex = streamIndex === -1 || !track ? -1 : mediaStreamTextTracks.indexOf(track);
+                }
             }
 
-            if (targetIndex >= 0 && targetIndex < elem.textTracks.length) {
+            if (targetIndex >= 0 && targetIndex < elemTextTracks.length) {
 
-                var textTrack = elem.textTracks[targetIndex];
+                var textTrack = elemTextTracks[targetIndex];
 
                 textTrack.mode = 'showing';
             }

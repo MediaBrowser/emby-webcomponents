@@ -483,7 +483,8 @@
     }
 
     function setFieldVisibilities(context, item) {
-        if (item.Path && item.EnableMediaSourceDisplay !== false) {
+
+        if (item.Path) {
             showElement('#fldPath', context);
         } else {
             hideElement('#fldPath', context);

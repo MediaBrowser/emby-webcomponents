@@ -54,7 +54,7 @@ define(['browser'], function (browser) {
     }
 
     var _canPlayHls;
-    function canPlayHls(src) {
+    function canPlayHls() {
 
         if (_canPlayHls == null) {
             _canPlayHls = canPlayNativeHls() || canPlayHlsWithMSE();
@@ -656,6 +656,8 @@ define(['browser'], function (browser) {
 
         var hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls() ? true : false;
 
+        var supportsVttInHls = options.enableVttInHls && (browser.edge || canPlayHlsWithMSE());
+
         if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
 
@@ -732,7 +734,8 @@ define(['browser'], function (browser) {
                 Protocol: 'hls',
                 MaxAudioChannels: physicalAudioChannels.toString(),
                 MinSegments: browser.iOS || browser.osx ? '2' : '1',
-                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames
+                BreakOnNonKeyFrames: hlsBreakOnNonKeyFrames,
+                ManifestSubtitles: supportsVttInHls ? 'vtt' : null
             });
         }
 
@@ -913,6 +916,13 @@ define(['browser'], function (browser) {
         // External vtt or burn in
         profile.SubtitleProfiles = [];
         if (supportsTextTracks()) {
+
+            if (canPlayHls() && supportsVttInHls) {
+                profile.SubtitleProfiles.push({
+                    Format: 'vtt',
+                    Method: 'Hls'
+                });
+            }
 
             profile.SubtitleProfiles.push({
                 Format: 'vtt',
