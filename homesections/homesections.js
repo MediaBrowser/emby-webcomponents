@@ -108,9 +108,7 @@
             promises.push(elems[i].resume(options));
         }
 
-        var promise = Promise.all(promises).then(function () {
-            elem.querySelector('.customizeSection').classList.remove('hide');
-        });
+        var promise = Promise.all(promises);
 
         if (!options || options.returnPromise !== false) {
             return promise;

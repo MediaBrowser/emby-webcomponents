@@ -189,6 +189,11 @@ define(['events', 'dialogHelper', 'inputManager', 'connectionManager', 'layoutMa
                 stopInterval();
             });
 
+            // This dialog doesn't focus anything when it opens, so add this to prevent focus from staying on the previous element
+            if (document.activeElement) {
+                document.activeElement.blur();
+            }
+
             inputmanager.on(window, onInputCommand);
             document.addEventListener((window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove);
 

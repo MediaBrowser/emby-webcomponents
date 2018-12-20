@@ -96,16 +96,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 break;
             case 'ServerUpdateNeeded':
                 {
-                    require(['alert'], function (alert) {
-                        alert({
-
-                            text: globalize.translate('sharedcomponents#ServerUpdateNeeded', 'https://emby.media'),
-                            html: globalize.translate('sharedcomponents#ServerUpdateNeeded', '<a href="https://emby.media">https://emby.media</a>')
-
-                        }).then(function () {
-                            appRouter.showSelectServer();
-                        });
-                    });
+                    appRouter.showSelectServer();
                 }
                 break;
             default:

@@ -2600,8 +2600,8 @@
                     }
 
                     var prefix = type === 'Video' ? 'Videos' : 'Audio';
-                    mediaUrl = apiClient.getUrl(prefix + '/' + item.Id + '/stream.' + mediaSourceContainer, directOptions);
-
+                    var directStreamContainer = mediaSourceContainer.toLowerCase().replace('m4v', 'mp4');
+                    mediaUrl = apiClient.getUrl(prefix + '/' + item.Id + '/stream.' + directStreamContainer, directOptions);
                     playMethod = 'DirectStream';
 
                 } else if (mediaSource.SupportsTranscoding) {

@@ -124,6 +124,12 @@ define(['browser'], function (browser) {
             return false;
         }
 
+        if (format === 'alac') {
+            if (browser.iOS || browser.osx) {
+                return true;
+            }
+        }
+
         if (format === 'webma') {
             typeString = 'audio/webm';
         } else if (format === 'mp2') {

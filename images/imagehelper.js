@@ -183,7 +183,9 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
 
         for (var i = 0, length = items.length; i < length; i++) {
 
-            var ratio = items[i].PrimaryImageAspectRatio || 0;
+            var item = items[i];
+            var imageItem = item.ProgramInfo || item;
+            var ratio = imageItem.PrimaryImageAspectRatio || 0;
 
             if (!ratio) {
                 continue;
