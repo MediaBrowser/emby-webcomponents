@@ -75,10 +75,6 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                 return true;
             }
 
-            if (browser.edge && mediaType === 'Video') {
-                //return true;
-            }
-
             // simple playback should use the native support
             if (runTimeTicks) {
 
@@ -92,7 +88,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                 //}
 
                 // already supports vtt in hls
-                if (browser.edge) {
+                if (browser.edge || browser.web0s || browser.chromecast) {
                     return false;
                 }
             }

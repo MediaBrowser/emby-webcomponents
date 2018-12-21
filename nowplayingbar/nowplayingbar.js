@@ -655,7 +655,7 @@
             return;
         }
 
-        if (player.isLocalPlayer && state.NowPlayingItem && state.NowPlayingItem.MediaType === 'Video') {
+        if (player.isLocalPlayer && state.NowPlayingItem && state.NowPlayingItem.MediaType !== 'Audio') {
             hideNowPlayingBar();
             return;
         }

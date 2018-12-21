@@ -656,7 +656,7 @@ define(['browser'], function (browser) {
 
         var hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls() ? true : false;
 
-        var supportsVttInHls = options.enableVttInHls && (browser.edge || canPlayHlsWithMSE());
+        var supportsVttInHls = options.enableVttInHls && (browser.edge || canPlayHlsWithMSE()) && !browser.web0s && !browser.chromecast;
 
         if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
