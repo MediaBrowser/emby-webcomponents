@@ -176,13 +176,6 @@ _:-ms-input-placeholder {
     background-color: transparent;
 }
 
-.emby-slider-background-lower-withtransform {
-    width: 100%;
-    /*transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);*/
-    transform-origin: left center;
-    transform: scaleX(0);
-}
-
 .emby-slider-background-upper {
     /*transition: left 0.18s cubic-bezier(0.4, 0, 0.2, 1), width 0.18s cubic-bezier(0.4, 0, 0.2, 1);*/
     background: #666;

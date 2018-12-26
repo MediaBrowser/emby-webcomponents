@@ -99,14 +99,19 @@
             return;
         }
 
+        var isVideo = item.MediaType === 'Video';
+
+        if (!isVideo && item.MediaType !== 'Audio') {
+            hideMediaControls();
+            return;
+        }
+
         var playState = state.PlayState || {};
 
         var parts = nowPlayingHelper.getNowPlayingNames(item);
 
         var artist = parts.length === 1 ? '' : parts[0].text;
         var title = parts[parts.length - 1].text;
-
-        var isVideo = item.MediaType === 'Video';
 
         // Switch these two around for video
         if (isVideo && parts.length > 1) {

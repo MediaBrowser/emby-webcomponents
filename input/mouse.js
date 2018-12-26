@@ -136,10 +136,10 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
         stopMouseInterval();
 
-        if (layoutManager.desktop) {
-            removeIdleClasses();
-        } else {
+        if (layoutManager.tv) {
             addIdleClasses();
+        } else {
+            removeIdleClasses();
         }
 
         dom.removeEventListener(document, (window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove, {

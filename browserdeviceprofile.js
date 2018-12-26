@@ -109,6 +109,11 @@ define(['browser'], function (browser) {
         }
 
         else if (format === 'opus') {
+
+            if (browser.web0s) {
+                return false;
+            }
+
             typeString = 'audio/ogg; codecs="opus"';
 
             if (document.createElement('audio').canPlayType(typeString).replace(/no/, '')) {
@@ -656,7 +661,7 @@ define(['browser'], function (browser) {
 
         var hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls() ? true : false;
 
-        var supportsVttInHls = options.enableVttInHls && (browser.edge || canPlayHlsWithMSE()) && !browser.web0s && !browser.chromecast;
+        var supportsVttInHls = options.enableVttInHls && (browser.edge || canPlayHlsWithMSE()) && !browser.web0s && !browser.chromecast && !browser.tizen && !browser.orsay && !browser.operaTv;
 
         if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({

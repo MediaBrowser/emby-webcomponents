@@ -88,7 +88,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                 //}
 
                 // already supports vtt in hls
-                if (browser.edge || browser.web0s || browser.chromecast) {
+                if (browser.edge || browser.web0s || browser.chromecast || browser.ps4) {
                     return false;
                 }
             }

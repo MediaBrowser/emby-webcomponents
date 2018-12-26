@@ -6,8 +6,6 @@
     var supportsNativeProgressStyle = browser.firefox;
     var supportsValueSetOverride = false;
 
-    var enableWidthWithTransform;
-
     if (Object.getOwnPropertyDescriptor && Object.defineProperty) {
 
         var descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
@@ -30,12 +28,8 @@
             if (backgroundLower) {
                 var fraction = (value - range.min) / (range.max - range.min);
 
-                if (enableWidthWithTransform) {
-                    backgroundLower.style.transform = 'scaleX(' + (fraction) + ')';
-                } else {
-                    fraction *= 100;
-                    backgroundLower.style.width = fraction + '%';
-                }
+                fraction *= 100;
+                backgroundLower.style.width = fraction + '%';
             }
         });
     }
@@ -67,10 +61,6 @@
             return;
         }
 
-        if (enableWidthWithTransform == null) {
-            //enableWidthWithTransform = browser.supportsCssAnimation();
-        }
-
         this.setAttribute('data-embyslider', 'true');
 
         this.classList.add('emby-slider');
@@ -95,11 +85,7 @@
             // the more of these, the more ranges we can display
             htmlToInsert += '<div class="emby-slider-background-upper"></div>';
 
-            if (enableWidthWithTransform) {
-                htmlToInsert += '<div class="emby-slider-background-lower emby-slider-background-lower-withtransform"></div>';
-            } else {
-                htmlToInsert += '<div class="emby-slider-background-lower"></div>';
-            }
+            htmlToInsert += '<div class="emby-slider-background-lower"></div>';
 
             htmlToInsert += '</div>';
             htmlToInsert += '</div>';

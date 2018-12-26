@@ -3054,18 +3054,18 @@
             self._playNextAfterEnded = true;
             var isFirstItem = playOptions.isFirstItem;
 
+            var state = self.getPlayerState(player, streamInfo.item, streamInfo.mediaSource);
+
             if (enableProgressTimer !== false) {
 
                 // TODO: Maybe reporting can later be enabled for photos, games, and books
 
-                var state = self.getPlayerState(player, streamInfo.item, streamInfo.mediaSource);
-
                 reportPlayback(self, state, player, true, state.NowPlayingItem.ServerId, 'reportPlaybackStart');
-
-                state.IsFirstItem = isFirstItem;
-                events.trigger(player, 'playbackstart', [state]);
-                events.trigger(self, 'playbackstart', [player, state]);
             }
+
+            state.IsFirstItem = isFirstItem;
+            events.trigger(player, 'playbackstart', [state]);
+            events.trigger(self, 'playbackstart', [player, state]);
 
             // Clear this in case the first item gets played again
             playOptions.isFirstItem = false;
