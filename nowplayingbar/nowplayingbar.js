@@ -300,7 +300,7 @@
 
         lastPlayerState = state;
 
-        var playerInfo = playbackManager.getPlayerInfo();
+        var playerInfo = playbackManager.getPlayerInfo(player);
 
         var playState = state.PlayState || {};
 

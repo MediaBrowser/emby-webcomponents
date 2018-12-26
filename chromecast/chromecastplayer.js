@@ -1041,10 +1041,6 @@
         return mediaType === 'audio' || mediaType === 'video';
     };
 
-    ChromecastPlayer.prototype.canQueueMediaType = function (mediaType) {
-        return this.canPlayMediaType(mediaType);
-    };
-
     ChromecastPlayer.prototype.queue = function (options) {
         this.playWithCommand(options, 'PlayLast');
     };

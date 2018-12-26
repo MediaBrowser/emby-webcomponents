@@ -73,7 +73,7 @@
     }
 
     function getPlaylistSync(playbackManagerInstance, player) {
-        player = player || playbackManagerInstance._currentPlayer;
+
         if (player && !enableLocalPlaylistManagement(player)) {
             return player.getPlaylistSync();
         }
@@ -858,9 +858,9 @@
             return data.streamInfo ? data.streamInfo.playSessionId : null;
         };
 
-        self.getPlayerInfo = function () {
+        self.getPlayerInfo = function (player) {
 
-            var player = self._currentPlayer;
+            player = player || self._currentPlayer;
 
             if (!player) {
                 return null;
@@ -3890,9 +3890,9 @@
 
     PlaybackManager.prototype.getSupportedCommands = function (player) {
 
-        player = player || this._currentPlayer || { isLocalPlayer: true };
+        player = player || this._currentPlayer;
 
-        if (player.isLocalPlayer) {
+        if (!player || player.isLocalPlayer) {
             // Full list
             // https://github.com/MediaBrowser/MediaBrowser/blob/master/MediaBrowser.Model/Session/GeneralCommand.cs
             var list = [
@@ -3919,7 +3919,7 @@
                 list.push('ToggleFullscreen');
             }
 
-            if (player.supports) {
+            if (player && player.supports) {
                 if (player.supports('PictureInPicture')) {
                     list.push('PictureInPicture');
                 }
@@ -3934,7 +3934,7 @@
             return list;
         }
 
-        var info = this.getPlayerInfo();
+        var info = this.getPlayerInfo(player);
         return info ? info.supportedCommands : [];
     };
 

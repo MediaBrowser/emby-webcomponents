@@ -330,10 +330,6 @@
         return mediaType === 'audio' || mediaType === 'video';
     };
 
-    SessionPlayer.prototype.canQueueMediaType = function (mediaType) {
-        return this.canPlayMediaType(mediaType);
-    };
-
     SessionPlayer.prototype.stop = function () {
         sendPlayStateCommand(getCurrentApiClient(this), 'stop');
     };
