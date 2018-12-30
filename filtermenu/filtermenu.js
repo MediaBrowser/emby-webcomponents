@@ -239,6 +239,75 @@
         }, handleQueryError);
     }
 
+    function loadAudioCodecs(context, options) {
+
+        var apiClient = connectionManager.getApiClient(options.serverId);
+
+        var query = Object.assign(options.filterMenuOptions, {
+
+            SortBy: "SortName",
+            SortOrder: "Ascending",
+            Recursive: options.Recursive == null ? true : options.Recursive,
+            EnableTotalRecordCount: false,
+            EnableImages: false,
+            EnableUserData: false,
+            ParentId: options.parentId,
+            IncludeItemTypes: options.itemTypes.join(',')
+        });
+
+        apiClient.getAudioCodecs(apiClient.getCurrentUserId(), query).then(function (result) {
+
+            renderList(context.querySelector('.audioCodecFilters'), result.Items, options, 'AudioCodecs', ',');
+
+        }, handleQueryError);
+    }
+
+    function loadVideoCodecs(context, options) {
+
+        var apiClient = connectionManager.getApiClient(options.serverId);
+
+        var query = Object.assign(options.filterMenuOptions, {
+
+            SortBy: "SortName",
+            SortOrder: "Ascending",
+            Recursive: options.Recursive == null ? true : options.Recursive,
+            EnableTotalRecordCount: false,
+            EnableImages: false,
+            EnableUserData: false,
+            ParentId: options.parentId,
+            IncludeItemTypes: options.itemTypes.join(',')
+        });
+
+        apiClient.getVideoCodecs(apiClient.getCurrentUserId(), query).then(function (result) {
+
+            renderList(context.querySelector('.videoCodecFilters'), result.Items, options, 'VideoCodecs', ',');
+
+        }, handleQueryError);
+    }
+
+    function loadSubtitleCodecs(context, options) {
+
+        var apiClient = connectionManager.getApiClient(options.serverId);
+
+        var query = Object.assign(options.filterMenuOptions, {
+
+            SortBy: "SortName",
+            SortOrder: "Ascending",
+            Recursive: options.Recursive == null ? true : options.Recursive,
+            EnableTotalRecordCount: false,
+            EnableImages: false,
+            EnableUserData: false,
+            ParentId: options.parentId,
+            IncludeItemTypes: options.itemTypes.join(',')
+        });
+
+        apiClient.getSubtitleCodecs(apiClient.getCurrentUserId(), query).then(function (result) {
+
+            renderList(context.querySelector('.subtitleCodecFilters'), result.Items, options, 'SubtitleCodecs', ',');
+
+        }, handleQueryError);
+    }
+
     function initEditor(context, settings) {
 
         context.querySelector('form').addEventListener('submit', onSubmit);
@@ -330,6 +399,27 @@
             containers.push(elem.value);
         }
         userSettings.setFilter(settingsKey + '-filter-Containers', containers.join(','));
+
+        var codecs = [];
+        elem = context.querySelector('.selectAudioCodecs');
+        if (elem.value) {
+            codecs.push(elem.value);
+        }
+        userSettings.setFilter(settingsKey + '-filter-AudioCodecs', codecs.join(','));
+
+        codecs = [];
+        elem = context.querySelector('.selectVideoCodecs');
+        if (elem.value) {
+            codecs.push(elem.value);
+        }
+        userSettings.setFilter(settingsKey + '-filter-VideoCodecs', codecs.join(','));
+
+        codecs = [];
+        elem = context.querySelector('.selectSubtitleCodecs');
+        if (elem.value) {
+            codecs.push(elem.value);
+        }
+        userSettings.setFilter(settingsKey + '-filter-SubtitleCodecs', codecs.join(','));
 
         var years = [];
         elem = context.querySelector('.selectYears');
@@ -482,13 +572,36 @@
                 }
 
                 initEditor(dlg, options.settings);
-                loadGenres(dlg, options);
-                loadStudios(dlg, options);
-                loadTags(dlg, options);
-                loadOfficialRatings(dlg, options);
+
                 loadPlayState(dlg, options);
-                loadContainers(dlg, options);
-                loadYears(dlg, options);
+
+                if (options.visibleSettings.indexOf('Genres') !== -1) {
+                    loadGenres(dlg, options);
+                }
+                if (options.visibleSettings.indexOf('Studios') !== -1) {
+                    loadStudios(dlg, options);
+                }
+                if (options.visibleSettings.indexOf('Tags') !== -1) {
+                    loadTags(dlg, options);
+                }
+                if (options.visibleSettings.indexOf('OfficialRatings') !== -1) {
+                    loadOfficialRatings(dlg, options);
+                }
+                if (options.visibleSettings.indexOf('Containers') !== -1) {
+                    loadContainers(dlg, options);
+                }
+                if (options.visibleSettings.indexOf('Years') !== -1) {
+                    loadYears(dlg, options);
+                }
+                if (options.visibleSettings.indexOf('AudioCodecs') !== -1) {
+                    loadAudioCodecs(dlg, options);
+                }
+                if (options.visibleSettings.indexOf('VideoCodecs') !== -1) {
+                    loadVideoCodecs(dlg, options);
+                }
+                if (options.visibleSettings.indexOf('SubtitleCodecs') !== -1) {
+                    loadSubtitleCodecs(dlg, options);
+                }
 
                 bindCheckboxInput(dlg, true);
 

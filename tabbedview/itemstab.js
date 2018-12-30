@@ -578,6 +578,21 @@
                 query.Containers = filters.Containers;
             }
 
+            if (filters.AudioCodecs) {
+                hasFilters = true;
+                query.AudioCodecs = filters.AudioCodecs;
+            }
+
+            if (filters.VideoCodecs) {
+                hasFilters = true;
+                query.VideoCodecs = filters.VideoCodecs;
+            }
+
+            if (filters.SubtitleCodecs) {
+                hasFilters = true;
+                query.SubtitleCodecs = filters.SubtitleCodecs;
+            }
+
             if (filters.GenreIds) {
                 hasFilters = true;
                 query.GenreIds = filters.GenreIds;
@@ -778,6 +793,9 @@
             StudioIds: userSettings.getFilter(basekey + '-filter-StudioIds'),
             Tags: userSettings.getFilter(basekey + '-filter-Tags'),
             Containers: userSettings.getFilter(basekey + '-filter-Containers'),
+            AudioCodecs: userSettings.getFilter(basekey + '-filter-AudioCodecs'),
+            VideoCodecs: userSettings.getFilter(basekey + '-filter-VideoCodecs'),
+            SubtitleCodecs: userSettings.getFilter(basekey + '-filter-SubtitleCodecs'),
             OfficialRatings: userSettings.getFilter(basekey + '-filter-OfficialRatings'),
             Years: userSettings.getFilter(basekey + '-filter-Years')
         };
@@ -795,18 +813,7 @@
 
     ItemsTab.prototype.getVisibleFilters = function () {
 
-        return [
-            'IsUnplayed',
-            'IsPlayed',
-            'IsFavorite',
-            'IsResumable',
-            'VideoType',
-            'HasSubtitles',
-            'HasTrailer',
-            'HasSpecialFeature',
-            'HasThemeSong',
-            'HasThemeVideo'
-        ];
+        return [];
     };
 
     ItemsTab.prototype.getDefaultSortBy = function () {

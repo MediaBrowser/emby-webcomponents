@@ -9,7 +9,6 @@
                     </label>
                 </div>
             </div>
-
             <div class="verticalSection hide playstateFilters" style="margin-top:1.5em;">
                 <div class="selectContainer">
                     <select is="emby-select" class="selectPlaystate" label="${LabelPlaystate}"></select>
@@ -30,11 +29,7 @@
                     <select is="emby-select" class="selectStudio" label="${LabelStudio}"></select>
                 </div>
             </div>
-            <div class="verticalSection hide studioFilters focuscontainer-x">
-                <h2 class="checkboxListLabel">${Studios}</h2>
-                <div class="checkboxList filterOptions">
-                </div>
-            </div>
+
             <div class="verticalSection hide tagFilters" style="margin-top:1.5em;">
                 <div class="selectContainer">
                     <select is="emby-select" class="selectTags" label="${LabelTag}"></select>
@@ -48,6 +43,24 @@
             <div class="verticalSection hide containerFilters" style="margin-top:1.5em;">
                 <div class="selectContainer">
                     <select is="emby-select" class="selectContainers" label="${LabelContainer}"></select>
+                </div>
+            </div>
+
+            <div class="verticalSection hide videoCodecFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectVideoCodecs" label="${LabelVideoCodec}"></select>
+                </div>
+            </div>
+
+            <div class="verticalSection hide audioCodecFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectAudioCodecs" label="${LabelAudioCodec}"></select>
+                </div>
+            </div>
+
+            <div class="verticalSection hide subtitleCodecFilters" style="margin-top:1.5em;">
+                <div class="selectContainer">
+                    <select is="emby-select" class="selectSubtitleCodecs" label="${LabelSubtitleCodec}"></select>
                 </div>
             </div>
 

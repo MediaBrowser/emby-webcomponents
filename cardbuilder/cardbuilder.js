@@ -820,7 +820,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     includeParentInfo: options.includeParentInfoInTitle
                 });
 
-                lines.push(dom.htmlEncode(name));
+                lines.push(getTextActionButton(item, name, serverId));
             }
 
             if (showOtherText) {
