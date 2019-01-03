@@ -45,8 +45,8 @@
 
             if (value) {
                 hasId = true;
+                lookupInfo.ProviderIds[txtLookupId[i].getAttribute('data-providerkey')] = value;
             }
-            lookupInfo.ProviderIds[txtLookupId[i].getAttribute('data-providerkey')] = value;
         }
 
         if (!hasId && !lookupInfo.Name) {

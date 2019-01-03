@@ -248,6 +248,28 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return Math.round(shapeWidth);
         }
 
+        function getDefaultShape(items, requestedShape) {
+
+            var firstItem = items[0];
+
+            if (firstItem) {
+                switch (firstItem.Type) {
+
+                    case 'Movie':
+                    case 'SeriesTimer':
+                        return requestedShape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
+                    case 'Episode':
+                    case 'Program':
+                    case 'Video':
+                        return requestedShape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
+                    default:
+                        break;
+                }
+            }
+
+            return requestedShape === 'autooverflow' ? 'overflowSquare' : 'square';
+        }
+
         function setCardData(items, options) {
 
             options.shape = options.shape || "auto";
@@ -276,7 +298,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (!options.shape) {
-                    options.shape = options.defaultShape || (requestedShape === 'autooverflow' ? 'overflowSquare' : 'square');
+                    options.shape = options.defaultShape || getDefaultShape(items, requestedShape);
                 }
             }
 
@@ -331,6 +353,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var i, length;
 
+            var uiAspect = getDesiredAspect(options.shape);
+
             for (i = 0, length = items.length; i < length; i++) {
 
                 var item = items[i];
@@ -352,7 +376,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     hasOpenRow = true;
                 }
 
-                html += buildCard(i, item, apiClient, options);
+                html += buildCard(i, item, apiClient, options, uiAspect);
 
                 itemsInRow++;
 
@@ -411,7 +435,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return null;
         }
 
-        function getCardImageUrl(item, apiClient, options, shape) {
+        function getCardImageUrl(item, apiClient, options, shape, uiAspect) {
 
             var imageItem = item.ProgramInfo || item;
             item = imageItem;
@@ -422,7 +446,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var forceName = false;
             var imgUrl = null;
             var coverImage = false;
-            var uiAspect = null;
+
             // .24 as opposed to .2 looks nice for nintendo 64
             var coverImageTolerance = 0.28;
 
@@ -518,7 +542,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (primaryImageAspectRatio) {
-                    uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
                         coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= coverImageTolerance;
                     }
@@ -540,7 +563,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (primaryImageAspectRatio) {
-                    uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
                         coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= coverImageTolerance;
                     }
@@ -574,7 +596,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 });
 
                 if (primaryImageAspectRatio) {
-                    uiAspect = getDesiredAspect(shape);
                     if (uiAspect) {
                         coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= coverImageTolerance;
                     }
@@ -1009,7 +1030,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 return dom.htmlEncode(text);
             }
 
-            var html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton" data-action="link">';
+            var html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton cardTextActionButton" data-action="link">';
             html += dom.htmlEncode(text);
             html += '</button>';
 
@@ -1057,7 +1078,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
         }
 
-        function buildCard(index, item, apiClient, options) {
+        function buildCard(index, item, apiClient, options, uiAspect) {
 
             var itemType = item.Type;
             var action = options.action || 'link';
@@ -1071,26 +1092,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var shape = options.shape;
-
-            if (shape === 'mixed') {
-
-                shape = null;
-
-                var primaryImageAspectRatio = item.PrimaryImageAspectRatio;
-
-                if (primaryImageAspectRatio) {
-
-                    if (primaryImageAspectRatio >= 1.33) {
-                        shape = 'mixedBackdrop';
-                    } else if (primaryImageAspectRatio > 0.71) {
-                        shape = 'mixedSquare';
-                    } else {
-                        shape = 'mixedPortrait';
-                    }
-                }
-
-                shape = shape || 'mixedSquare';
-            }
 
             var className = 'card';
 
@@ -1118,7 +1119,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' card-nofocustransform';
             }
 
-            var imgInfo = getCardImageUrl(item, apiClient, options, shape);
+            var imgInfo = getCardImageUrl(item, apiClient, options, shape, uiAspect);
             var imgUrl = imgInfo.imgUrl;
 
             var forceName = imgInfo.forceName;

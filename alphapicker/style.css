@@ -25,7 +25,9 @@
 }
 
 .alphaPickerRow-vertical {
-    flex-direction: column;
+    display: block;
+    overflow: hidden;
+    column-count: 1;
 }
 
 .alphaPickerButton {
@@ -101,6 +103,7 @@
     display: flex;
     justify-content: center;
     text-align: center;
+    break-inside: avoid;
 }
 
 .alphaPickerButtonIcon {

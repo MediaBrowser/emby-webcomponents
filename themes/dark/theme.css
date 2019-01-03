@@ -83,7 +83,7 @@ html, .dialog, .backgroundContainer {
     color: inherit;
 }
 
-.paperListLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
+.inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #bbb;
     color: rgba(255, 255, 255, .6);
 }

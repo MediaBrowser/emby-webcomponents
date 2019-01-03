@@ -940,7 +940,6 @@
             showChannelName: false,
             showAirDateTime: false,
             showAirEndTime: true,
-            defaultShape: getThumbShape(),
             lines: 3,
             overlayPlayButton: true
         });

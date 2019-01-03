@@ -214,13 +214,13 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
 
         // If really close to 2:3 (poster image), just return 2:3
         var aspect2x3 = 2 / 3;
-        if (Math.abs(aspect2x3 - result) <= 0.15) {
+        if (Math.abs(aspect2x3 - result) <= 0.1666667) {
             return aspect2x3;
         }
 
         // If really close to 16:9 (episode image), just return 16:9
         var aspect16x9 = 16 / 9;
-        if (Math.abs(aspect16x9 - result) <= 0.2) {
+        if (Math.abs(aspect16x9 - result) <= 0.222222) {
             return aspect16x9;
         }
 
@@ -230,7 +230,7 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
         }
 
         // If really close to 1 (square image), just return 1
-        if (Math.abs(1 - result) <= 0.15) {
+        if (Math.abs(1 - result) <= 0.1666667) {
             return 1;
         }
 

@@ -567,13 +567,10 @@
             setCurrentTrackElement(index);
         };
 
-        function isAudioStreamSupported(stream, deviceProfile) {
+        function isAudioStreamSupported(stream, mediaSource, deviceProfile) {
 
-            var codec = (stream.Codec || '').toLowerCase();
-
-            if (!codec) {
-                return true;
-            }
+            var audioCodec = (stream.Codec || '').toLowerCase();
+            var container = (mediaSource.Container || '').toLowerCase();
 
             if (!deviceProfile) {
                 // This should never happen
@@ -584,14 +581,19 @@
 
             return profiles.filter(function (p) {
 
-
                 if (p.Type === 'Video') {
 
-                    if (!p.AudioCodec) {
-                        return true;
+                    if (p.Container && p.Container.toLowerCase().split(',').indexOf(container) === -1) {
+                        // container not applicable to the current DirectPlayProfile
+                        return false;
                     }
 
-                    return p.AudioCodec.toLowerCase().indexOf(codec) !== -1;
+                    if (p.AudioCodec && p.AudioCodec.toLowerCase().split(',').indexOf(audioCodec) === -1) {
+                        // container not applicable to the current DirectPlayProfile
+                        return false;
+                    }
+
+                    return true;
                 }
 
                 return false;
@@ -600,10 +602,12 @@
         }
 
         function getSupportedAudioStreams() {
-            var profile = self._lastProfile;
 
-            return getMediaStreamAudioTracks(self._currentPlayOptions.mediaSource).filter(function (stream) {
-                return isAudioStreamSupported(stream, profile);
+            var profile = self._lastProfile;
+            var mediaSource = self._currentPlayOptions.mediaSource;
+
+            return getMediaStreamAudioTracks(mediaSource).filter(function (stream) {
+                return isAudioStreamSupported(stream, mediaSource, profile);
             });
         }
 
@@ -641,6 +645,12 @@
             // https://msdn.microsoft.com/en-us/library/hh772507(v=vs.85).aspx
 
             var elemAudioTracks = elem.audioTracks || [];
+
+            if (elemAudioTracks.length < 2) {
+                // The element only has a single track, so there's nothing to change here
+                return;
+            }
+
             console.log('found ' + elemAudioTracks.length + ' audio tracks');
 
             for (i = 0, length = elemAudioTracks.length; i < length; i++) {

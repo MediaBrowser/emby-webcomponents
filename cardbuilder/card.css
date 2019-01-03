@@ -55,17 +55,17 @@ button {
     contain: layout style;
 }
 
-.cardPadder-backdrop, .cardPadder-mixedBackdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop, .cardPadder-overflowSmallBackdrop {
+.cardPadder-backdrop, .cardPadder-smallBackdrop, .cardPadder-overflowBackdrop, .cardPadder-overflowSmallBackdrop {
     padding-bottom: 56.25%;
     contain: strict;
 }
 
-.cardPadder-square, .cardPadder-mixedSquare, .cardPadder-overflowSquare {
+.cardPadder-square, .cardPadder-overflowSquare {
     padding-bottom: 100%;
     contain: strict;
 }
 
-.cardPadder-portrait, .cardPadder-mixedPortrait, .cardPadder-overflowPortrait {
+.cardPadder-portrait, .cardPadder-overflowPortrait {
     padding-bottom: 150%;
     contain: strict;
 }
@@ -314,6 +314,11 @@ button {
     text-align: left;
 }
 
+.cardTextCentered {
+    text-align: center;
+    padding: .1em .25em;
+}
+
 .cardText-secondary {
     font-size: 88%;
 }
@@ -342,10 +347,6 @@ button {
     background-position: center center;
 }
 
-.cardTextCentered {
-    text-align: center;
-}
-
 .cardText-rightmargin {
     margin-right: 2em;
 }
@@ -372,9 +373,15 @@ button {
     justify-content: center;*/
 }
 
-    .textActionButton:hover {
-        text-decoration: underline;
-    }
+.cardTextActionButton {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.textActionButton:hover {
+    text-decoration: underline;
+}
 
 .cardImageIcon {
     font-size: 4em !important;
@@ -475,18 +482,6 @@ button {
 
 .portraitCard {
     width: 33.333333333333333333333333333333%;
-}
-
-.mixedPortraitCard {
-    width: 12em;
-}
-
-.mixedSquareCard {
-    width: 18em;
-}
-
-.mixedBackdropCard {
-    width: 32em;
 }
 
 @media (min-width: 25em) {

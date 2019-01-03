@@ -109,6 +109,9 @@
             EnableTotalRecordCount: false,
             EnableImages: false,
             EnableUserData: false,
+            GenreIds: options.GenreIds,
+            PersonIds: options.PersonIds,
+            StudioIds: options.StudioIds,
             ParentId: options.parentId,
             IncludeItemTypes: options.itemTypes.join(',')
         });
@@ -132,6 +135,9 @@
             EnableTotalRecordCount: false,
             EnableImages: false,
             EnableUserData: false,
+            GenreIds: options.GenreIds,
+            PersonIds: options.PersonIds,
+            StudioIds: options.StudioIds,
             ParentId: options.parentId,
             IncludeItemTypes: options.itemTypes.join(',')
         });
@@ -155,6 +161,9 @@
             EnableTotalRecordCount: false,
             EnableImages: false,
             EnableUserData: false,
+            GenreIds: options.GenreIds,
+            PersonIds: options.PersonIds,
+            StudioIds: options.StudioIds,
             ParentId: options.parentId,
             IncludeItemTypes: options.itemTypes.join(',')
         });
@@ -178,6 +187,9 @@
             EnableTotalRecordCount: false,
             EnableImages: false,
             EnableUserData: false,
+            GenreIds: options.GenreIds,
+            PersonIds: options.PersonIds,
+            StudioIds: options.StudioIds,
             ParentId: options.parentId,
             IncludeItemTypes: options.itemTypes.join(',')
         });
@@ -205,6 +217,9 @@
             EnableTotalRecordCount: false,
             EnableImages: false,
             EnableUserData: false,
+            GenreIds: options.GenreIds,
+            PersonIds: options.PersonIds,
+            StudioIds: options.StudioIds,
             ParentId: options.parentId,
             IncludeItemTypes: options.itemTypes.join(',')
         });
@@ -228,6 +243,9 @@
             EnableTotalRecordCount: false,
             EnableImages: false,
             EnableUserData: false,
+            GenreIds: options.GenreIds,
+            PersonIds: options.PersonIds,
+            StudioIds: options.StudioIds,
             ParentId: options.parentId,
             IncludeItemTypes: options.itemTypes.join(',')
         });
@@ -251,6 +269,9 @@
             EnableTotalRecordCount: false,
             EnableImages: false,
             EnableUserData: false,
+            GenreIds: options.GenreIds,
+            PersonIds: options.PersonIds,
+            StudioIds: options.StudioIds,
             ParentId: options.parentId,
             IncludeItemTypes: options.itemTypes.join(',')
         });
@@ -274,6 +295,9 @@
             EnableTotalRecordCount: false,
             EnableImages: false,
             EnableUserData: false,
+            GenreIds: options.GenreIds,
+            PersonIds: options.PersonIds,
+            StudioIds: options.StudioIds,
             ParentId: options.parentId,
             IncludeItemTypes: options.itemTypes.join(',')
         });
@@ -297,6 +321,9 @@
             EnableTotalRecordCount: false,
             EnableImages: false,
             EnableUserData: false,
+            GenreIds: options.GenreIds,
+            PersonIds: options.PersonIds,
+            StudioIds: options.StudioIds,
             ParentId: options.parentId,
             IncludeItemTypes: options.itemTypes.join(',')
         });

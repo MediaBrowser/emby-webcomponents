@@ -91,7 +91,7 @@ html, .backgroundContainer {
     color: inherit;
 }
 
-.paperListLabel, .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
+.inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #555;
 }
 
