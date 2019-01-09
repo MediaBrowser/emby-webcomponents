@@ -757,6 +757,6 @@
     "LabelRememberLogin": "Zapamatovat p\u0159ihl\u00e1\u0161en\u00ed",
     "LabelAutomaticallySignOut": "Automaticky odhl\u00e1sit:",
     "BetaTesterMessage": "D\u011bkujeme, \u017ee jste beta tester Emby serveru! Zp\u011btnou vazbu zanechte pros\u00edm na {0}. Testovac\u00ed prostor Emby komunity {1}.",
-    "HardwareAccelerated": "Hardware accelerated",
+    "HardwareAccelerated": "Hardwarov\u00e1 akcelerace",
     "Software": "Software"
 }

@@ -30,9 +30,9 @@
     "LabelContainer": "Contenedor:",
     "LabelTag": "Etiqueta:",
     "LabelYear": "A\u00f1o:",
-    "LabelAudioCodec": "Audio codec:",
-    "LabelVideoCodec": "Video codec:",
-    "LabelSubtitleCodec": "Subtitle codec:",
+    "LabelAudioCodec": "Codec de audio:",
+    "LabelVideoCodec": "Codec de video:",
+    "LabelSubtitleCodec": "Codec de subtitulos:",
     "LabelParentalRating": "Clasificaci\u00f3n parental:",
     "BecauseYouLikeValue": "Porque te gust\u00f3 {0}",
     "BecauseYouWatchedValue": "Porque viste {0}",
@@ -757,6 +757,6 @@
     "LabelRememberLogin": "Recordar inicio de sesi\u00f3n:",
     "LabelAutomaticallySignOut": "Cerrar sesi\u00f3n autom\u00e1ticamente:",
     "BetaTesterMessage": "\u00a1Gracias por evaluar las versiones beta de Emby! Por favor deja tu retroalimentaci\u00f3n en el {0} \u00c1rea de Pruebas de la Comunidad Emby{1}.",
-    "HardwareAccelerated": "Hardware accelerated",
+    "HardwareAccelerated": "Acelerado por Hardware",
     "Software": "Software"
 }

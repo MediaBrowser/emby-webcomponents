@@ -15,7 +15,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         if (args.TimeoutMs) {
 
             require(['toast'], function (toast) {
-                toast({ title: args.Header, text: args.Text, timeoutMs: args.TimeoutMs });
+                toast({ title: args.Header, text: args.Text, timeoutMs: parseInt(args.TimeoutMs) });
             });
 
         }

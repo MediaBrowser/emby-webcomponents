@@ -30,9 +30,9 @@
     "LabelContainer": "Beh\u00e5llare:",
     "LabelTag": "Tagg:",
     "LabelYear": "\u00c5r:",
-    "LabelAudioCodec": "Audio codec:",
-    "LabelVideoCodec": "Video codec:",
-    "LabelSubtitleCodec": "Subtitle codec:",
+    "LabelAudioCodec": "Ljudkodek:",
+    "LabelVideoCodec": "Videokodek:",
+    "LabelSubtitleCodec": "Undertextkodek:",
     "LabelParentalRating": "\u00c5ldersgr\u00e4ns:",
     "BecauseYouLikeValue": "Eftersom du gillar {0}",
     "BecauseYouWatchedValue": "Eftersom du har sett {0}",
@@ -757,6 +757,6 @@
     "LabelRememberLogin": "Kom ih\u00e5g inloggning:",
     "LabelAutomaticallySignOut": "Logga ut automatiskt:",
     "BetaTesterMessage": "Tack f\u00f6r att du betatestar Emby! L\u00e4mna g\u00e4rna feedback i {0}testdelen av forumet{1}",
-    "HardwareAccelerated": "Hardware accelerated",
-    "Software": "Software"
+    "HardwareAccelerated": "H\u00e5rdvaruaccelererad",
+    "Software": "Mjukvaruacceleration"
 }

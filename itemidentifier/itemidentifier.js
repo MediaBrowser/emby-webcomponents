@@ -384,6 +384,15 @@
                     scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
                 }
 
+                if (item.Path) {
+                    dlg.querySelector('.itemPathContainer').classList.remove('hide');
+                }
+                else {
+                    dlg.querySelector('.itemPathContainer').classList.add('hide');
+                }
+
+                dlg.querySelector('.itemPath').innerHTML = item.Path || '';
+
                 dialogHelper.open(dlg);
 
                 dlg.querySelector('.popupIdentifyForm').addEventListener('submit', function (e) {

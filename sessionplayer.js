@@ -316,12 +316,12 @@
 
     SessionPlayer.prototype.queue = function (options) {
 
-        sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
+        sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
     };
 
     SessionPlayer.prototype.queueNext = function (options) {
 
-        sendPlayCommand(getCurrentApiClient(this), options, 'PlayLast');
+        sendPlayCommand(getCurrentApiClient(this), options, 'PlayNext');
     };
 
     SessionPlayer.prototype.canPlayMediaType = function (mediaType) {
