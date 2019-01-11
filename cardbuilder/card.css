@@ -224,10 +224,6 @@ button {
     font-size: inherit;
 }
 
-    .cardContent-button:not(.defaultCardBackground) {
-        background-color: transparent;
-    }
-
 .visualCardBox .cardContent {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;

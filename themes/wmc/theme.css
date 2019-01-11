@@ -97,14 +97,6 @@ html {
     background-color: #0F3562;
 }
 
-.cardContent-shadow {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-}
-
-.defaultCardBackground0, .defaultCardBackground1, .defaultCardBackground2, .defaultCardBackground3, .defaultCardBackground4, .defaultCardBackground5 {
-    background-color: #0F3562;
-}
-
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
     color: #999;
     color: rgba(255, 255, 255, .6);
@@ -396,6 +388,18 @@ html {
 /* cards */
 .card:focus .card-focuscontent {
     border-color: #fff;
+}
+
+.cardContent-shadow {
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+}
+
+.cardContent-button {
+    background-color: transparent;
+}
+
+.defaultCardBackground0, .defaultCardBackground1, .defaultCardBackground2, .defaultCardBackground3, .defaultCardBackground4, .defaultCardBackground5 {
+    background-color: #0F3562;
 }
 
 /* scrollbars */

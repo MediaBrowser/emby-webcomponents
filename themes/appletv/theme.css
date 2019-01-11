@@ -99,16 +99,8 @@ html {
     border-color: currentColor;
 }
 
-.cardContent-shadow {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-}
-
 .paperList, .visualCardBox {
     background-color: #fff;
-    background-color: rgba(0, 0, 0, .1);
-}
-
-.defaultCardBackground0, .defaultCardBackground1, .defaultCardBackground2, .defaultCardBackground3, .defaultCardBackground4, .defaultCardBackground5 {
     background-color: rgba(0, 0, 0, .1);
 }
 
@@ -410,6 +402,18 @@ html {
 /* cards */
 .card:focus .card-focuscontent {
     border-color: #52B54B;
+}
+
+.cardContent-button {
+    background-color: transparent;
+}
+
+.defaultCardBackground0, .defaultCardBackground1, .defaultCardBackground2, .defaultCardBackground3, .defaultCardBackground4, .defaultCardBackground5 {
+    background-color: rgba(0, 0, 0, .1);
+}
+
+.cardContent-shadow {
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
 /* emby-slider */

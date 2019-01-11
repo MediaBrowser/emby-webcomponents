@@ -567,47 +567,13 @@
             setCurrentTrackElement(index);
         };
 
-        function isAudioStreamSupported(stream, mediaSource, deviceProfile) {
-
-            var audioCodec = (stream.Codec || '').toLowerCase();
-            var container = (mediaSource.Container || '').toLowerCase();
-
-            if (!deviceProfile) {
-                // This should never happen
-                return true;
-            }
-
-            var profiles = deviceProfile.DirectPlayProfiles || [];
-
-            return profiles.filter(function (p) {
-
-                if (p.Type === 'Video') {
-
-                    if (p.Container && p.Container.toLowerCase().split(',').indexOf(container) === -1) {
-                        // container not applicable to the current DirectPlayProfile
-                        return false;
-                    }
-
-                    if (p.AudioCodec && p.AudioCodec.toLowerCase().split(',').indexOf(audioCodec) === -1) {
-                        // container not applicable to the current DirectPlayProfile
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                return false;
-
-            }).length > 0;
-        }
-
         function getSupportedAudioStreams() {
 
             var profile = self._lastProfile;
             var mediaSource = self._currentPlayOptions.mediaSource;
 
             return getMediaStreamAudioTracks(mediaSource).filter(function (stream) {
-                return isAudioStreamSupported(stream, mediaSource, profile);
+                return playbackManager.isAudioStreamSupported(stream, mediaSource, profile);
             });
         }
 

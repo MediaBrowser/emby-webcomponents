@@ -1391,7 +1391,7 @@
             return getPlayerData(player).audioStreamIndex;
         };
 
-        function isAudioStreamSupported(mediaSource, index, deviceProfile) {
+        function isAudioStreamIndexSupported(mediaSource, index, deviceProfile) {
 
             var mediaStream;
             var i, length;
@@ -1408,10 +1408,17 @@
                 return false;
             }
 
-            var codec = (mediaStream.Codec || '').toLowerCase();
+            return self.isAudioStreamSupported(mediaStream, mediaSource, deviceProfile);
+        }
 
-            if (!codec) {
-                return false;
+        self.isAudioStreamSupported = function (stream, mediaSource, deviceProfile) {
+
+            var audioCodec = (stream.Codec || '').toLowerCase();
+            var container = (mediaSource.Container || '').toLowerCase();
+
+            if (!deviceProfile) {
+                // This should never happen
+                return true;
             }
 
             var profiles = deviceProfile.DirectPlayProfiles || [];
@@ -1420,22 +1427,23 @@
 
                 if (p.Type === 'Video') {
 
-                    if (!p.AudioCodec) {
-                        return true;
+                    if (p.Container && p.Container.toLowerCase().split(',').indexOf(container) === -1) {
+                        // container not applicable to the current DirectPlayProfile
+                        return false;
                     }
 
-                    // This is an exclusion filter
-                    if (p.AudioCodec.indexOf('-') === 0) {
-                        return p.AudioCodec.toLowerCase().indexOf(codec) === -1;
+                    if (p.AudioCodec && p.AudioCodec.toLowerCase().split(',').indexOf(audioCodec) === -1) {
+                        // container not applicable to the current DirectPlayProfile
+                        return false;
                     }
 
-                    return p.AudioCodec.toLowerCase().indexOf(codec) !== -1;
+                    return true;
                 }
 
                 return false;
 
             }).length > 0;
-        }
+        };
 
         self.setAudioStreamIndex = function (index, player) {
 
@@ -1454,7 +1462,7 @@
                 // See if the player supports the track without transcoding
                 player.getDeviceProfile(self.currentItem(player)).then(function (profile) {
 
-                    if (isAudioStreamSupported(self.currentMediaSource(player), index, profile)) {
+                    if (isAudioStreamIndexSupported(self.currentMediaSource(player), index, profile)) {
                         player.setAudioStreamIndex(index);
                         getPlayerData(player).audioStreamIndex = index;
                     }

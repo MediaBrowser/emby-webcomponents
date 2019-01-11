@@ -1,4 +1,4 @@
-define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager, inputManager) {
+define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'connectionManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager, inputManager, connectionManager) {
     'use strict';
 
     function onViewDestroy(e) {
@@ -25,6 +25,7 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'emby-ta
         this.params = null;
         this.currentTabController = null;
         this.initialTabIndex = null;
+        this.item = null;
     }
 
     function onBeforeTabChange() {
@@ -113,9 +114,34 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'emby-ta
         }
     }
 
+    function refreshItem(instance) {
+
+        if (instance.item) {
+            // currently there's no real need to refresh this just for the title
+            onItemRefreshed.call(instance, instance.item);
+            return;
+        }
+
+        var params = instance.params;
+        var apiClient = connectionManager.getApiClient(params.serverId);
+
+        apiClient.getItem(apiClient.getCurrentUserId(), params.parentId).then(onItemRefreshed.bind(instance));
+    }
+
+    function onItemRefreshed(item) {
+        this.item = item;
+        this.setTitle();
+    }
+
     TabbedView.prototype.onResume = function (options) {
 
-        this.setTitle();
+        var params = this.params;
+        if (params.serverId && params.parentId) {
+            refreshItem(this);
+        } else {
+            this.setTitle();
+        }
+
         backdrop.clear();
 
         var currentTabController = this.currentTabController;
@@ -148,7 +174,14 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'emby-ta
     };
 
     TabbedView.prototype.setTitle = function () {
-        Emby.Page.setTitle('');
+        Emby.Page.setTitle(this.getTitle());
+    };
+
+    TabbedView.prototype.getTitle = function () {
+
+        var item = this.item;
+
+        return item ? item.Name : '';
     };
 
     return TabbedView;

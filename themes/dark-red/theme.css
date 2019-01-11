@@ -102,28 +102,8 @@ html, .dialog, .backgroundContainer {
     background-color: #272727;
 }
 
-.paperList, .visualCardBox, .defaultCardBackground0, .collapseContent {
+.paperList, .visualCardBox, .collapseContent {
     background-color: rgba(60,60,60,.3);
-}
-
-.defaultCardBackground1 {
-    background-color: #d2b019;
-}
-
-.defaultCardBackground2 {
-    background-color: #338abb;
-}
-
-.defaultCardBackground3 {
-    background-color: #6b689d;
-}
-
-.defaultCardBackground4 {
-    background-color: #dd452b;
-}
-
-.defaultCardBackground5 {
-    background-color: #5ccea9;
 }
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
@@ -425,6 +405,34 @@ html, .dialog, .backgroundContainer {
 
 .card:focus .card-focuscontent {
     border-color: #cc3333;
+}
+
+.cardContent-button {
+    background-color: transparent;
+}
+
+.defaultCardBackground0 {
+    background-color: rgba(60,60,60,.3);
+}
+
+.defaultCardBackground1 {
+    background-color: #d2b019;
+}
+
+.defaultCardBackground2 {
+    background-color: #338abb;
+}
+
+.defaultCardBackground3 {
+    background-color: #6b689d;
+}
+
+.defaultCardBackground4 {
+    background-color: #dd452b;
+}
+
+.defaultCardBackground5 {
+    background-color: #5ccea9;
 }
 
 /* scrollbars */

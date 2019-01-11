@@ -110,35 +110,6 @@ html, .backgroundContainer {
     background-color: #fff;
 }
 
-.defaultCardBackground0 {
-    background-color: #eee;
-}
-
-.defaultCardBackground1 {
-    background-color: #009688;
-    color: #fff !important;
-}
-
-.defaultCardBackground2 {
-    background-color: #D32F2F;
-    color: #fff !important;
-}
-
-.defaultCardBackground3 {
-    background-color: #0288D1;
-    color: #fff !important;
-}
-
-.defaultCardBackground4 {
-    background-color: #388E3C;
-    color: #fff !important;
-}
-
-.defaultCardBackground5 {
-    background-color: #F57F17;
-    color: #fff !important;
-}
-
 .formDialogHeader:not(.formDialogHeader-clear) {
     background-color: #673AB7;
     color: #fff;
@@ -354,10 +325,10 @@ html, .backgroundContainer {
     color: #673AB7;
 }
 
-    .emby-tab-button-active.emby-button-tv {
-        color: #fff;
-        color: rgba(255, 255, 255, 1);
-    }
+.emby-tab-button-active.emby-button-tv {
+    color: #fff;
+    color: rgba(255, 255, 255, 1);
+}
 
 .emby-tab-button.emby-button-tv:focus {
     color: #fff;
@@ -463,6 +434,39 @@ html, .backgroundContainer {
 
 .card:focus .card-focuscontent {
     border-color: #673AB7;
+}
+
+.cardContent-button {
+    background-color: transparent;
+}
+
+.defaultCardBackground0 {
+    background-color: #eee;
+}
+
+.defaultCardBackground1 {
+    background-color: #009688;
+    color: #fff !important;
+}
+
+.defaultCardBackground2 {
+    background-color: #D32F2F;
+    color: #fff !important;
+}
+
+.defaultCardBackground3 {
+    background-color: #0288D1;
+    color: #fff !important;
+}
+
+.defaultCardBackground4 {
+    background-color: #388E3C;
+    color: #fff !important;
+}
+
+.defaultCardBackground5 {
+    background-color: #F57F17;
+    color: #fff !important;
 }
 
 /* emby-slider */

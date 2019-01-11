@@ -65,7 +65,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 value: 'folders'
             });
         }
-        else if (type === 'music') {
+        else if (type === 'music' || type === 'audiobooks') {
 
             list.push({
                 name: globalize.translate('sharedcomponents#Suggestions'),
@@ -224,7 +224,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             html = '<div class="checkboxListContainer">' + html + '</div>';
         }
 
-        if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'livetv') {
+        if (item.CollectionType === 'movies' || item.CollectionType === 'tvshows' || item.CollectionType === 'music' || item.CollectionType === 'audiobooks' || item.CollectionType === 'livetv') {
 
             var idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
             html += '<div class="selectContainer">';

@@ -94,10 +94,6 @@ html, .dialog {
     background-color: rgba(0,0,0,.5);
 }
 
-.defaultCardBackground0, .defaultCardBackground1, .defaultCardBackground2, .defaultCardBackground3, .defaultCardBackground4, .defaultCardBackground5 {
-    background-color: rgba(0,0,0,.5);
-}
-
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
     color: #999;
     color: rgba(255, 255, 255, .6);
@@ -417,6 +413,14 @@ html, .dialog {
 
 .card:focus .card-focuscontent {
     border-color: #52B54B;
+}
+
+.cardContent-button {
+    background-color: transparent;
+}
+
+.defaultCardBackground0, .defaultCardBackground1, .defaultCardBackground2, .defaultCardBackground3, .defaultCardBackground4, .defaultCardBackground5 {
+    background-color: rgba(0,0,0,.5);
 }
 
 /* scrollbars */
