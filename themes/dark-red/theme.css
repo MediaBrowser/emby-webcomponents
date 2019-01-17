@@ -399,16 +399,16 @@ html, .dialog, .backgroundContainer {
 }
 
 /* cards */
-.cardContent-shadow {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-}
-
 .card:focus .card-focuscontent {
     border-color: #cc3333;
 }
 
 .cardContent-button {
     background-color: transparent;
+}
+
+.cardContent-shadow {
+    background-color: rgba(60,60,60,.3);
 }
 
 .defaultCardBackground0 {

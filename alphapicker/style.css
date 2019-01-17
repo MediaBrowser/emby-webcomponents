@@ -11,7 +11,7 @@
 
 .alphaPicker-fixed {
     position: fixed;
-    top: 8em;
+    top: 9em;
     bottom: 1em;
     z-index: 999999;
     justify-content: center;
@@ -66,11 +66,6 @@
 
     .alphaPicker-vertical {
         font-size: 90%;
-    }
-
-    .alphaPickerButton-vertical {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
     }
 }
 

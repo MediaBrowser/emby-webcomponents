@@ -35,9 +35,13 @@
             EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Disc",
             StartIndex: this.startIndex || 0,
             Limit: this.nextPageButtons.length ? 100 : null,
-            ParentId: parentId,
-            NameStartsWithOrGreater: this.NameStartsWithOrGreater
+            ParentId: parentId
         };
+
+        var alphaPicker = this.alphaPicker;
+        if (alphaPicker) {
+            query.NameStartsWithOrGreater = alphaPicker.value();
+        }
 
         return query;
     };

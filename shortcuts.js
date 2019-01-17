@@ -130,6 +130,9 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
                         if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
                             executeAction(card, options.positionTo, result.command);
                         }
+                        else if (result.command === 'addtoplaylist' || result.command === 'addtocollection') {
+                            // generally no need to refresh lists after doing this
+                        }
                         else if (result.updated || result.deleted) {
                             notifyRefreshNeeded(card, options.itemsContainer);
                         }

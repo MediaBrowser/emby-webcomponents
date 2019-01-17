@@ -67,6 +67,7 @@
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'TvChannel' ||
                 queryIncludeItemTypes === 'Video' ||
+                queryIncludeItemTypes === 'MusicVideo' ||
                 queryIncludeItemTypes === 'Photo') {
                 allowSearch = false;
             }
@@ -86,6 +87,7 @@
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'TvChannel' ||
                 queryIncludeItemTypes === 'Video' ||
+                queryIncludeItemTypes === 'MusicVideo' ||
                 queryIncludeItemTypes === 'Photo') {
                 allowSearch = false;
             }
@@ -116,6 +118,7 @@
                 queryIncludeItemTypes === 'Movie' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'Video' ||
+                queryIncludeItemTypes === 'MusicVideo' ||
                 queryIncludeItemTypes === 'Photo') {
                 allowSearch = false;
             }
@@ -386,6 +389,23 @@
             IncludeItemTypes: "Video"
 
         }, context, '.videoResults', {
+
+                showParentTitle: true,
+                showTitle: true,
+                overlayText: false,
+                centerText: true
+            });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            IncludeItemTypes: "MusicVideo"
+
+        }, context, '.musicVideoResults', {
 
                 showParentTitle: true,
                 showTitle: true,
