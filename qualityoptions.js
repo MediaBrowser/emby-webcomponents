@@ -113,6 +113,7 @@
         qualityOptions.push({ name: '2 Mbps', bitrate: 2000000 });
         qualityOptions.push({ name: '1.5 Mbps', bitrate: 1500000 });
         qualityOptions.push({ name: '1 Mbps', bitrate: 1000000 });
+        qualityOptions.push({ name: '512 kbps', bitrate: 512000 });
         qualityOptions.push({ name: '320 kbps', bitrate: 320000 });
         qualityOptions.push({ name: '256 kbps', bitrate: 256000 });
         qualityOptions.push({ name: '192 kbps', bitrate: 192000 });

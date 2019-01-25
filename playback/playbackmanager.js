@@ -1938,6 +1938,17 @@
                     ParentId: options.parentId
                 });
             }
+            else if (firstItem.Type === "Studio") {
+
+                promise = getItemsForPlayback(serverId, {
+                    StudioIds: firstItem.Id,
+                    Filters: "IsNotFolder",
+                    Recursive: true,
+                    SortBy: options.shuffle ? 'Random' : 'SortName',
+                    MediaTypes: "Video",
+                    ParentId: options.parentId
+                });
+            }
             else if (firstItem.Type === 'MusicAlbum') {
 
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({

@@ -84,7 +84,7 @@
     border-radius: .2em;
 }
 
-    .emby-select-withcolor:not(.emby-select-tv-inline) {
+    .emby-select-withcolor {
         -webkit-appearance: none;
         appearance: none;
     }

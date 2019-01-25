@@ -353,7 +353,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
                     if (!artistItems || !artistItems.length) {
                         showArtist = true;
                     }
-                    else if (artistItems.length > 1 || containerAlbumArtistIds.length > 1 || (containerAlbumArtistIds.length === 1 && containerAlbumArtistIds.indexOf(artistItems[0].Id) === -1)) {
+                    else if (artistItems.length > 1 || containerAlbumArtistIds.length !== 1 || containerAlbumArtistIds.indexOf(artistItems[0].Id) === -1) {
                         showArtist = true;
                     }
                 }
