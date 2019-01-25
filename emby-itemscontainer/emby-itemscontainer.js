@@ -161,6 +161,17 @@
                     return onDrop(evt, self);
                 }
             });
+
+            // Fix for https://github.com/SortableJS/Sortable/issues/1319
+            if (browser.iOS) {
+                self.sortable.el.addEventListener('touchstart', function(e) {
+
+                    let element = e.target;
+                    if (element && element.matches(".listViewDragHandle")) {
+                        e.preventDefault();
+                    }
+                });
+            }
         });
     };
 
