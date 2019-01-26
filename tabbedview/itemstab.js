@@ -309,7 +309,11 @@
 
     function shuffle() {
 
-        this.fetchData().then(function (result) {
+        this.fetchData({
+
+            SortBy: 'Random'
+
+        }).then(function (result) {
             playbackManager.play({
                 items: result.Items || result
             });
@@ -364,6 +368,9 @@
                 nextPageButtons[i].disabled = startIndex + 100 > totalRecordCount;
             }
         }
+
+        hideOrShowAll(this.view.querySelectorAll('.btnPlay'), !totalRecordCount);
+        hideOrShowAll(this.view.querySelectorAll('.btnShuffle'), !totalRecordCount);
     }
 
     function ItemsTab(view, params) {
@@ -439,8 +446,6 @@
         this.enableAlphaNumericShortcuts = this.itemsContainer.getAttribute('data-alphanumericshortcuts') === 'true' && !layoutManager.mobile && !this.enablePaging();
 
         this.alphaPickerElement = view.querySelector('.alphaPicker');
-
-        hideOrShowAll(view.querySelectorAll('.btnShuffle'), true);
 
         bindAll(view.querySelectorAll('.btnPlay'), 'click', play.bind(this));
         bindAll(view.querySelectorAll('.btnShuffle'), 'click', shuffle.bind(this));
@@ -669,14 +674,17 @@
         };
     };
 
-    ItemsTab.prototype.fetchData = function () {
+    ItemsTab.prototype.fetchData = function (baseQuery) {
 
         var queryInfo = this.getQueryInfo();
 
         this.setFilterStatus(queryInfo.hasFilters);
 
         var apiClient = this.apiClient;
-        return apiClient.getItems(apiClient.getCurrentUserId(), queryInfo.query);
+
+        var query = Object.assign(queryInfo.query, baseQuery || {});
+
+        return apiClient.getItems(apiClient.getCurrentUserId(), query);
     };
 
     ItemsTab.prototype.getViewSettings = function () {

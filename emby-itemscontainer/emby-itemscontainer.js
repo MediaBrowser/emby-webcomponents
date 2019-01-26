@@ -131,6 +131,13 @@
         });
     }
 
+    function onContainerTouchStart(e) {
+        var element = e.target;
+        if (element && element.classList.contains("listViewDragHandle")) {
+            e.preventDefault();
+        }
+    }
+
     ItemsContainerProtoType.enableDragReordering = function (enabled) {
 
         var current = this.sortable;
@@ -164,13 +171,7 @@
 
             // Fix for https://github.com/SortableJS/Sortable/issues/1319
             if (browser.iOS) {
-                self.sortable.el.addEventListener('touchstart', function(e) {
-
-                    let element = e.target;
-                    if (element && element.matches(".listViewDragHandle")) {
-                        e.preventDefault();
-                    }
-                });
+                self.sortable.el.addEventListener('touchstart', onContainerTouchStart);
             }
         });
     };

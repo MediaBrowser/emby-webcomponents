@@ -691,6 +691,26 @@
         return date.getFullYear() + '-' + pad(date.getMonth() + 1, 2) + '-' + pad(date.getDate(), 2);
     }
 
+    function toLocalIsoDateTimeString(date) {
+
+        var offsetMs = new Date().getTimezoneOffset() * 60 * 1000;
+
+        var normalizedDate = new Date(date.getTime() - offsetMs);
+
+        return normalizedDate.toISOString();
+    }
+
+    function setDateValue(field, date) {
+
+        if (typeof field.valueAsNumber === 'undefined') {
+            field.value = toLocalIsoString(date);
+        }
+        else {
+            var offsetMs = new Date().getTimezoneOffset() * 60 * 1000;
+            field.valueAsNumber = date.getTime() - offsetMs;
+        }
+    }
+
     function fillItemInfo(context, item, parentalRatingOptions) {
 
         var select = context.querySelector('#selectOfficialRating');
@@ -772,7 +792,7 @@
             try {
                 date = datetime.parseISO8601Date(item.DateCreated, true);
 
-                context.querySelector('#txtDateAdded').value = toLocalIsoString(date);
+                setDateValue(context.querySelector('#txtDateAdded'), date);
             } catch (e) {
                 context.querySelector('#txtDateAdded').value = '';
             }
@@ -784,7 +804,8 @@
             try {
                 date = datetime.parseISO8601Date(item.PremiereDate, true);
 
-                context.querySelector('#txtPremiereDate').value = toLocalIsoString(date);
+                setDateValue(context.querySelector('#txtPremiereDate'), date);
+
             } catch (e) {
                 context.querySelector('#txtPremiereDate').value = '';
             }
@@ -796,7 +817,8 @@
             try {
                 date = datetime.parseISO8601Date(item.EndDate, true);
 
-                context.querySelector('#txtEndDate').value = toLocalIsoString(date);
+                setDateValue(context.querySelector('#txtEndDate'), date);
+
             } catch (e) {
                 context.querySelector('#txtEndDate').value = '';
             }
