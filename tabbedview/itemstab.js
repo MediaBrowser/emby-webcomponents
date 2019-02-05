@@ -1,4 +1,4 @@
-﻿define(['layoutManager', 'playbackManager', 'userSettings', 'alphaPicker', 'connectionManager', 'focusManager', 'loading', 'globalize'], function (layoutManager, playbackManager, userSettings, AlphaPicker, connectionManager, focusManager, loading, globalize) {
+﻿define(['layoutManager', 'playbackManager', 'userSettings', 'alphaPicker', 'connectionManager', 'focusManager', 'loading', 'globalize', 'browser'], function (layoutManager, playbackManager, userSettings, AlphaPicker, connectionManager, focusManager, loading, globalize, browser) {
     'use strict';
 
     function initAlphaNumericShortcuts(instance) {
@@ -370,7 +370,7 @@
         }
 
         hideOrShowAll(this.view.querySelectorAll('.btnPlay'), !totalRecordCount);
-        hideOrShowAll(this.view.querySelectorAll('.btnShuffle'), !totalRecordCount);
+        hideOrShowAll(this.view.querySelectorAll('.btnShuffle'), !(totalRecordCount && this.supportsShuffle()));
     }
 
     function ItemsTab(view, params) {
@@ -489,6 +489,11 @@
                 return i.Name;
             });
         });
+    };
+
+    ItemsTab.prototype.supportsShuffle = function () {
+
+        return !(browser.web0s && !this.apiClient.isMinServerVersion('4.1'));
     };
 
     ItemsTab.prototype.getPrefixQueryIncludeItemTypes = function () {

@@ -1,4 +1,4 @@
-define([], function () {
+define(['browser'], function (browser) {
     'use strict';
 
     function LazyLoader(options) {
@@ -13,7 +13,10 @@ define([], function () {
         var loadedCount = 0;
         var callback = options.callback;
 
-        observerOptions.rootMargin = "50%";
+        if (!browser.edge) {
+            // this is causing it to not work at all
+            observerOptions.rootMargin = "50%";
+        }
 
         var observerId = 'obs' + new Date().getTime();
 

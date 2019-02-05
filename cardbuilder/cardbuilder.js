@@ -285,7 +285,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (primaryImageAspectRatio >= 3) {
                         options.shape = 'banner';
-                        options.coverImage = true;
                     } else if (primaryImageAspectRatio >= 1.4) {
                         options.shape = requestedShape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
                     } else if (primaryImageAspectRatio > 1.2) {

@@ -13,7 +13,8 @@
     position: fixed;
     top: 9em;
     bottom: 1em;
-    z-index: 999999;
+    /* If this value is ever increased, make sure to test it with the appfooter active */
+    z-index: 1;
     justify-content: center;
 }
 

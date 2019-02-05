@@ -642,11 +642,6 @@
 
             if (elem) {
 
-                // prevent the subs from possibly being left on-screen
-                if (browser.firefox) {
-                    self.setSubtitleStreamIndex(-1);
-                }
-
                 if (src) {
                     elem.pause();
                 }
