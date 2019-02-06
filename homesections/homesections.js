@@ -860,7 +860,7 @@
     function loadResumeAudio(elem, apiClient, userId) {
 
         var html = '';
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueWatching') + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueListening') + '</h2>';
 
         if (enableScrollX()) {
             html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="audioplayback,markplayed">';
