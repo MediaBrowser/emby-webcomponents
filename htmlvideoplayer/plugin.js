@@ -450,10 +450,20 @@
             self._castPlayer.playWhenHaveEnoughData();
         }
 
+        function onMediaManagerError(event) {
+            console.log('media manager onError: ' + event);
+
+            setTimeout(function () {
+                htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
+            }, 1000);
+        }
+
         function initMediaManager() {
 
             mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager);
             mediaManager.onLoad = onMediaManagerLoadMedia.bind(self);
+
+            mediaManager.onError = onMediaManagerError.bind(self);
 
             //mediaManager.defaultOnPlay = mediaManager.onPlay.bind(mediaManager);
             //mediaManager.onPlay = function (event) {
@@ -1775,12 +1785,8 @@
         };
         categories.push(videoCategory);
 
-        var rect = mediaElement.getBoundingClientRect ? mediaElement.getBoundingClientRect() : {};
-        var height = rect.height;
-        var width = rect.width;
-
-        height = mediaElement.videoHeight;
-        width = mediaElement.videoWidth;
+        var height = mediaElement.videoHeight;
+        var width = mediaElement.videoWidth;
 
         if (width && height) {
             videoCategory.stats.push({

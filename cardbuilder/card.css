@@ -858,7 +858,18 @@ button {
     user-select: none;
 }
 
-.card-hoverable :hover .cardOverlayContainer {
+.chkCardSelectContainer {
+    font-size: 68%;
+    width: auto !important;
+    margin: .125em 0 0 .25em !important;
+    height: 2.2em !important;
+}
+
+    .chkCardSelectContainer .checkboxOutline {
+        border-color: rgba(255,255,255,.8) !important;
+    }
+
+.card-hoverable:hover .cardOverlayContainer {
     opacity: 1;
 }
 

@@ -1394,6 +1394,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var itemType = item.Type;
             var itemId = item.Id;
 
+            if (options.multiSelect !== false) {
+                require(['emby-checkbox']);
+                html += '<label data-action="multiselect" data-id="' + itemId + '" data-serverid="' + serverId + '"  class="chkCardSelectContainer cardOverlayButton cardOverlayButton-hover itemAction"><input class="chkCardSelect" is="emby-checkbox" type="checkbox" data-focushelper="false" /></label>';
+            }
+
             if (playbackManager.canPlay(item) && options.hoverPlayButton !== false) {
 
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';

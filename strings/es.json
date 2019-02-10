@@ -104,7 +104,7 @@
     "HeaderBecomeProjectSupporter": "Consigue Emby Premiere",
     "LabelEmailAddress": "Direcci\u00f3n de correo",
     "PromoConvertRecordingsToStreamingFormat": "Automatically convert recordings to a streaming friendly format with Emby Premiere. Recordings will be converted on the fly to MP4 or MKV, based on Emby server settings.",
-    "FeatureRequiresEmbyPremiere": "Esta caracter\u00edstica necesita una suscripci\u00f3n a Emby Premiere.",
+    "FeatureRequiresEmbyPremiere": "Esta caracter\u00edstica necesita una suscripci\u00f3n {0} a Emby Premiere{1}.",
     "HeaderConvertYourRecordings": "Convert Your Recordings",
     "Record": "Grabar",
     "Save": "Grabar",

@@ -299,6 +299,11 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
             addToPlaylist(item.Id, serverId);
         }
 
+        else if (action === 'multiselect') {
+            var itemsContainer = dom.parentWithClass(card, 'itemsContainer');
+            itemsContainer.showMultiSelect(dom.parentWithClass(card, 'card'));
+        }
+
         else if (action === 'custom') {
 
             var customAction = target.getAttribute('data-customaction');

@@ -33,3 +33,7 @@
 .withMultiSelect {
     position: relative;
 }
+
+    .withMultiSelect .cardOverlayContainer {
+        opacity: 0 !important;
+    }

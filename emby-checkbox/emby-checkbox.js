@@ -61,9 +61,19 @@
         var uncheckedIcon = this.getAttribute('data-uncheckedicon') || '';
         var checkHtml = '<i class="md-icon checkboxIcon checkboxIcon-checked">' + checkedIcon + '</i>';
         var uncheckedHtml = '<i class="md-icon checkboxIcon checkboxIcon-unchecked">' + uncheckedIcon + '</i>';
-        labelElement.insertAdjacentHTML('beforeend', '<span class="emby-checkbox-focushelper"></span><span class="' + outlineClass + '">' + checkHtml + uncheckedHtml + '</span>');
 
-        labelTextElement.classList.add('checkboxLabel');
+        var focusHelperHtml = '';
+        if (this.getAttribute('data-focushelper') !== 'false') {
+            focusHelperHtml += '<span class="emby-checkbox-focushelper"></span>';
+        }
+
+        focusHelperHtml += '<span class="' + outlineClass + '">' + checkHtml + uncheckedHtml + '</span>';
+
+        labelElement.insertAdjacentHTML('beforeend', focusHelperHtml);
+
+        if (labelTextElement) {
+            labelTextElement.classList.add('checkboxLabel');
+        }
 
         this.addEventListener('keydown', onKeyDown);
 
