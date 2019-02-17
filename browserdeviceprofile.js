@@ -621,12 +621,14 @@ define(['browser'], function (browser) {
                     Type: 'Audio'
                 });
 
-                // aac also appears in the m4a container
-                profile.DirectPlayProfiles.push({
-                    Container: 'mp4',
-                    AudioCodec: audioFormat,
-                    Type: 'Audio'
-                });
+                // aac also appears in the m4b container
+                if (!browser.firefox) {
+                    profile.DirectPlayProfiles.push({
+                        Container: 'mp4',
+                        AudioCodec: audioFormat,
+                        Type: 'Audio'
+                    });
+                }
 
             } else {
                 profile.DirectPlayProfiles.push({

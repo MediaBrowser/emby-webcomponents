@@ -79,10 +79,10 @@
 
 .mediaInfoProgramAttribute {
     text-transform: uppercase;
-    padding: .16em .6em;
+    padding: .2em .6em;
     -webkit-border-radius: .15em;
     border-radius: .15em;
-    font-size: 80%;
+    font-size: 82%;
 }
 
 .closedCaptionMediaInfoText {

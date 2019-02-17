@@ -406,17 +406,18 @@ html, .dialog {
     color: #4285F4;
 }
 
-/* cards */
-.cardContent-shadow {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-}
-
 .card:focus .card-focuscontent {
     border-color: #52B54B;
 }
 
 .cardContent-button {
     background-color: transparent;
+}
+
+/* cards */
+.cardContent-shadow {
+    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    background-color: rgba(0,0,0,.5);
 }
 
 .defaultCardBackground0, .defaultCardBackground1, .defaultCardBackground2, .defaultCardBackground3, .defaultCardBackground4, .defaultCardBackground5 {

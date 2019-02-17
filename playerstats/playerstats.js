@@ -261,6 +261,13 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
             });
         }
 
+        if (videoStream.AverageFrameRate || videoStream.RealFrameRate) {
+            sessionStats.push({
+                label: 'Video framerate:',
+                value: (videoStream.AverageFrameRate || videoStream.RealFrameRate) + ' fps'
+            });
+        }
+
         var audioInfos = [];
 
         if (audioCodec) {
