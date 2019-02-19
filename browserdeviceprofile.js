@@ -622,7 +622,7 @@ define(['browser'], function (browser) {
                 });
 
                 // aac also appears in the m4b container
-                if (!browser.firefox) {
+                if (!browser.firefox && !browser.msie) {
                     profile.DirectPlayProfiles.push({
                         Container: 'mp4',
                         AudioCodec: audioFormat,

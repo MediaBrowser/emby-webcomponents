@@ -57,7 +57,7 @@
 
         if (browser.iOS) {
             // works in the browser but not the native app
-            if ((browser.iosVersion || 10) < 10) {
+            if ((browser.iOSVersion || 10) < 10) {
                 return false;
             }
         }
@@ -191,6 +191,7 @@
         var audioTrackIndexToSetOnPlaying;
 
         var currentClock;
+        var currentSubtitlesOctopus;
         var currentAssRenderer;
         var customTrackIndex = -1;
 
@@ -901,6 +902,12 @@
             currentClock = null;
             self._currentAspectRatio = null;
 
+            var subtitlesOctopus = currentSubtitlesOctopus;
+            if (subtitlesOctopus) {
+                subtitlesOctopus.dispose();
+            }
+            currentSubtitlesOctopus = null;
+
             var renderer = currentAssRenderer;
             if (renderer) {
                 renderer.setEnabled(false);
@@ -948,6 +955,25 @@
             destroyCustomTrack(videoElement);
             customTrackIndex = track.Index;
             renderTracksEvents(videoElement, track, item);
+        }
+
+        function renderWithSubtitlesOctopus(videoElement, track, item) {
+
+            require(['SubtitlesOctopus'], function () {
+
+                getTextTrackUrl(track, item).then(function (textTrackUrl) {
+
+                    currentSubtitlesOctopus = new SubtitlesOctopus({
+                        video: videoElement,
+                        subUrl: textTrackUrl,
+                        workerUrl: appRouter.baseUrl() + '/bower_components/javascriptsubtitlesoctopus/dist/subtitles-octopus-worker.js',
+                        fonts: requiresExternalFontDownload(track) ? [appRouter.baseUrl() + '/bower_components/javascriptsubtitlesoctopus/dist/subfont.ttf'] : [],
+                        onError: function () {
+                            htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
+                        }
+                    });
+                });
+            });
         }
 
         function renderWithLibjass(videoElement, track, item) {
@@ -1099,13 +1125,50 @@
             });
         }
 
+        function isCanvasSupported() {
+            var elem = document.createElement('canvas');
+            return !!(elem.getContext && elem.getContext('2d'));
+        }
+
+        function isWebWorkerSupported() {
+
+            return !!window.Worker;
+        }
+
+        function requiresExternalFontDownload(track) {
+
+            var language = (track.Language || '').toLowerCase();
+
+            return ['dut', 'eng', 'fin', 'fre', 'ger', 'heb', 'hun', 'ita', 'nor', 'pol', 'por', 'rus', 'spa', 'swe'].indexOf(language) === -1;
+        }
+
+        function renderAssSsa(videoElement, track, item) {
+
+            if (isWebWorkerSupported() && isCanvasSupported() && (browser.iOSVersion || 11) >= 11) {
+
+                if (!requiresExternalFontDownload(track) || browser.edgeUwp) {
+                    renderWithSubtitlesOctopus(videoElement, track, item);
+                    return;
+                }
+
+                var savedEndPointInfo = connectionManager.getApiClient(item.ServerId).getSavedEndpointInfo() || {};
+
+                if (savedEndPointInfo.IsInNetwork && !browser.mobile && !browser.tv) {
+                    renderWithSubtitlesOctopus(videoElement, track, item);
+                    return;
+                }
+            }
+
+            renderWithLibjass(videoElement, track, item);
+        }
+
         function renderTracksEvents(videoElement, track, item) {
 
             if (!itemHelper.isLocalItem(item) || track.IsExternal) {
                 var format = (track.Codec || '').toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
                     // libjass is needed here
-                    renderWithLibjass(videoElement, track, item);
+                    renderAssSsa(videoElement, track, item);
                     return;
                 }
             }

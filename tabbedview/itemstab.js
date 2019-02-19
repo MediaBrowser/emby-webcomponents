@@ -493,7 +493,7 @@
 
     ItemsTab.prototype.supportsShuffle = function () {
 
-        return !(browser.web0s && !this.apiClient.isMinServerVersion('4.1'));
+        return true;
     };
 
     ItemsTab.prototype.getPrefixQueryIncludeItemTypes = function () {

@@ -257,9 +257,7 @@
 
             html += '<i class="listItemIcon md-icon">&#xE01c;</i>';
 
-            var bodyClass = result.Comment || result.IsHashMatch ? 'three-line' : 'two-line';
-
-            html += '<div class="listItemBody ' + bodyClass + '">';
+            html += '<div class="listItemBody">';
 
             //html += '<a class="btnViewSubtitle" href="#" data-subid="' + result.Id + '">';
 
@@ -279,8 +277,15 @@
                 html += '<div class="secondary listItemBodyText">' + (result.Comment) + '</div>';
             }
 
-            if (result.IsHashMatch) {
-                html += '<div class="secondary listItemBodyText"><div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('sharedcomponents#PerfectMatch') + '</div></div>';
+            if (result.IsHashMatch || result.IsForced) {
+                html += '<div class="secondary listItemBodyText">';
+                if (result.IsForced) {
+                    html += '<div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('sharedcomponents#Forced') + '</div>';
+                }
+                if (result.IsHashMatch) {
+                    html += '<div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('sharedcomponents#HashMatch') + '</div>';
+                }
+                html += '</div>';
             }
 
             //html += '</a>';
