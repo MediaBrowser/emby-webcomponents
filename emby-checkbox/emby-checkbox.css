@@ -127,13 +127,3 @@
 .checkboxListLabel {
     margin-bottom: .25em;
 }
-
-@-webkit-keyframes repaintChrome {
-    from {
-        padding: 0;
-    }
-
-    to {
-        padding: 0;
-    }
-}

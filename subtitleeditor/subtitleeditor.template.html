@@ -12,17 +12,32 @@
 
         <div class="subtitleSearchContainer hide">
             <h2>${SearchForSubtitles}</h2>
-            <p style="margin: 1.5em 0;" class="originalFile"><span class="originalSubtitleFileLabel secondaryText"></span><span class="pathValue"></span></p>
+            <p class="originalFile secondaryText"></p>
             <form class="subtitleSearchForm" style="max-width: none;">
-                <div class="flex align-items-center">
-                    <div class="selectContainer flex-grow" style="margin-bottom: 0;">
+                <div class="flex align-items-center" style="margin-bottom:1.8em;">
+                    <div style="margin-bottom:0;" class="selectContainer flex-grow">
                         <select is="emby-select" id="selectLanguage" required="required" label="${LabelLanguage}" autofocus></select>
                     </div>
                     <button type="submit" is="paper-icon-button-light" title="${Search}" class="btnSearchSubtitles flex-shrink-zero emby-select-iconbutton"><i class="md-icon">&#xE8B6;</i></button>
                 </div>
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkRequireHashMatch" />
+                        <span>${RequireHashMatch}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${RequireHashMatchHelp}</div>
+                </div>
+                <div class="checkboxContainer checkboxContainer-withDescription">
+                    <label>
+                        <input is="emby-checkbox" type="checkbox" id="chkForcedOnly" />
+                        <span>${SearchForForcedSubtitlesOnly}</span>
+                    </label>
+                    <div class="fieldDescription checkboxFieldDescription">${SearchForForcedSubtitlesOnlyHelp}</div>
+                </div>
+
                 <button is="emby-button" type="submit" class="raised btnSubmit block button-submit">${Search}</button>
             </form>
-            <br />
+
             <div class="subtitleResults"></div>
             <div class="noSearchResults hide">
                 ${NoSubtitleSearchResultsFound}

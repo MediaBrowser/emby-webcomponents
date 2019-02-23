@@ -25,14 +25,11 @@
 
         var elem = this.parentNode;
 
-        elem.style.webkitAnimationName = 'repaintChrome';
-        elem.style.webkitAnimationDelay = (loading === true ? '500ms' : '');
-        elem.style.webkitAnimationDuration = '10ms';
-        elem.style.webkitAnimationIterationCount = '1';
+        elem.classList.add('forceRefresh');
 
         setTimeout(function () {
-            elem.style.webkitAnimationName = '';
-        }, (loading === true ? 520 : 20));
+            elem.classList.remove('forceRefresh')
+        }, 20);
     }
 
     EmbyCheckboxPrototype.attachedCallback = function () {

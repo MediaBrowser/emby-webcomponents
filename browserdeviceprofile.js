@@ -24,6 +24,10 @@ define(['browser'], function (browser) {
             }
         }
 
+        if (browser.ps4) {
+            return false;
+        }
+
         if (!!videoTestElement.canPlayType && videoTestElement.canPlayType('video/hevc; codecs="hevc, aac"').replace(/no/, '')) {
             return true;
         }

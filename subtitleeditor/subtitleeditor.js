@@ -128,17 +128,15 @@
                     className += ' listItem-focusscale listItem-button';
                 }
 
-                className += ' listItem-noborder';
-
                 itemHtml += '<' + tagName + ' class="' + className + '" data-index="' + s.Index + '">';
 
-                itemHtml += '<i class="listItemIcon md-icon">&#xE01c;</i>';
+                itemHtml += '<i class="listItemIcon md-icon listItemIcon-transparent">&#xE01c;</i>';
 
                 itemHtml += '<div class="listItemBody two-line">';
 
-                itemHtml += '<div class="listItemBodyText">';
+                itemHtml += '<h3 class="listItemBodyText">';
                 itemHtml += s.DisplayTitle || '';
-                itemHtml += '</div>';
+                itemHtml += '</h3>';
 
                 itemHtml += '<div class="listItemBodyText secondary">';
                 itemHtml += (s.Codec || '').toUpperCase();
@@ -255,7 +253,7 @@
 
             html += '<' + tagName + ' class="' + className + '" data-subid="' + result.Id + '">';
 
-            html += '<i class="listItemIcon md-icon">&#xE01c;</i>';
+            html += '<i class="listItemIcon md-icon listItemIcon-transparent">&#xE01c;</i>';
 
             html += '<div class="listItemBody">';
 
@@ -322,7 +320,12 @@
         loading.show();
 
         var apiClient = connectionManager.getApiClient(currentItem.ServerId);
-        var url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language);
+        var url = apiClient.getUrl('Items/' + currentItem.Id + '/RemoteSearch/Subtitles/' + language, {
+
+            IsPerfectMatch: context.querySelector('#chkRequireHashMatch').checked,
+            IsForced: context.querySelector('#chkForcedOnly').checked || null
+
+        });
 
         apiClient.getJSON(url).then(function (results) {
 
@@ -354,10 +357,10 @@
                 }
 
                 if (file) {
-                    context.querySelector('.pathValue').innerHTML = file;
+                    context.querySelector('.originalFile').innerHTML = file;
                     context.querySelector('.originalFile').classList.remove('hide');
                 } else {
-                    context.querySelector('.pathValue').innerHTML = '';
+                    context.querySelector('.originalFile').innerHTML = '';
                     context.querySelector('.originalFile').classList.add('hide');
                 }
 
@@ -475,8 +478,6 @@
             dlg.classList.add('subtitleEditorDialog');
 
             dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
-
-            dlg.querySelector('.originalSubtitleFileLabel').innerHTML = globalize.translate('sharedcomponents#File');
 
             dlg.querySelector('.subtitleSearchForm').addEventListener('submit', onSearchSubmit);
 
