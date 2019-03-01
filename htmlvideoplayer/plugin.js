@@ -1144,7 +1144,9 @@
 
         function renderAssSsa(videoElement, track, item) {
 
-            if (isWebWorkerSupported() && isCanvasSupported() && (browser.iOSVersion || 11) >= 11) {
+            // excluding edgeUwp for now due to a random_device error that is crashing the app
+            // this is seen in the console in the edge browser but doesn't appear to cause any major problem
+            if (isWebWorkerSupported() && isCanvasSupported() && (browser.iOSVersion || 11) >= 11 && !browser.edgeUwp) {
 
                 if (!requiresExternalFontDownload(track) || browser.edgeUwp) {
                     renderWithSubtitlesOctopus(videoElement, track, item);

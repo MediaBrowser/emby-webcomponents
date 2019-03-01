@@ -28,7 +28,7 @@
         elem.classList.add('forceRefresh');
 
         setTimeout(function () {
-            elem.classList.remove('forceRefresh')
+            elem.classList.remove('forceRefresh');
         }, 20);
     }
 

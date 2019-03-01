@@ -2705,7 +2705,7 @@
 
                 tracks.push({
                     url: textStreamUrl,
-                    language: (textStream.Language || 'und'),
+                    language: textStream.Language,
                     isDefault: textStream.Index === mediaSource.DefaultSubtitleStreamIndex,
                     index: textStream.Index,
                     format: textStream.Codec

@@ -121,7 +121,7 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
                         playlistId: playlistId,
                         collectionId: collectionId,
                         user: user,
-                        multiSelect: layoutManager.mobile
+                        multiSelect: layoutManager.mobile && card.getAttribute('data-multiselect') !== 'false'
 
                     }, options || {})).then(function (result) {
 

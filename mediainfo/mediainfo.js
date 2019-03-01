@@ -148,7 +148,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
         var text, date, minutes;
         var count;
 
-        var showFolderRuntime = item.Type === "MusicAlbum" || item.MediaType === 'MusicArtist' || item.MediaType === 'Playlist' || item.MediaType === 'MusicGenre';
+        var showFolderRuntime = item.Type === "MusicAlbum" || item.Type === 'MusicArtist' || item.Type === 'Playlist' || item.Type === 'MusicGenre';
 
         if (showFolderRuntime) {
 
@@ -160,7 +160,9 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
             }
 
             if (item.RunTimeTicks) {
-                miscInfo.push(getHumanReadableRuntime(item.RunTimeTicks));
+                if (item.MediaType === 'Playlist') {
+                    miscInfo.push(getHumanReadableRuntime(item.RunTimeTicks));
+                }
             }
         }
 
@@ -241,6 +243,47 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
                 }
 
                 miscInfo.push(text);
+            }
+        }
+
+        if (item.Type === 'Series') {
+
+            var studioHtml = '';
+
+            if (item.Status === 'Continuing') {
+                if (item.AirDays && item.AirDays.length) {
+                    studioHtml += item.AirDays.length === 7 ? globalize.translate('Daily') : item.AirDays.map(function (a) {
+                        return globalize.translate(a + "s");
+
+                    }).join(',');
+                }
+
+                if (item.AirTime) {
+                    studioHtml += ' ' + item.AirTime;
+                }
+            }
+
+            if (item.Studios.length) {
+
+                var studio = item.Studios[0];
+
+                if (studioHtml) {
+                    studioHtml += ' on ';
+                }
+
+                studioHtml += '<a style="color:inherit;" class="button-link" is="emby-linkbutton" href="' + appRouter.getRouteUrl({
+
+                    Name: studio.Name,
+                    Type: 'Studio',
+                    ServerId: item.ServerId,
+                    Id: studio.Id
+
+                }) + '">' + studio.Name + '</a>';
+            }
+
+
+            if (studioHtml) {
+                miscInfo.push(studioHtml);
             }
         }
 
@@ -334,11 +377,21 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
             }
         }
 
-        if (item.OfficialRating && item.Type !== "Season" && item.Type !== "Episode") {
+        if (item.OfficialRating) {
             miscInfo.push({
                 text: item.OfficialRating,
-                cssClass: 'mediaInfoOfficialRating'
+                cssClass: 'mediaInfoOfficialRating defaultCardBackground0'
             });
+        }
+
+        if (item.Type === 'Series' && item.ChildCount) {
+
+            if (item.ChildCount > 1) {
+
+                miscInfo.push(globalize.translate('NumberSeasonsValue', item.ChildCount));
+            } else {
+                miscInfo.push(globalize.translate('OneSeason'));
+            }
         }
 
         if (item.Video3DFormat) {
@@ -353,15 +406,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
             miscInfo.push(item.Container);
         }
 
-        html += miscInfo.map(function (m) {
-            return getMediaInfoItem(m);
-        }).join('');
-
         html += getStarIconsHtml(item);
-
-        if (item.HasSubtitles && options.subtitles !== false) {
-            html += '<div class="mediaInfoItem mediaInfoText closedCaptionMediaInfoText">CC</div>';
-        }
 
         if (item.CriticRating && options.criticRating !== false) {
 
@@ -370,6 +415,14 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
             } else {
                 html += '<div class="mediaInfoItem mediaInfoCriticRating mediaInfoCriticRatingRotten">' + item.CriticRating + '%</div>';
             }
+        }
+
+        html += miscInfo.map(function (m) {
+            return getMediaInfoItem(m);
+        }).join('');
+
+        if (item.HasSubtitles && options.subtitles !== false) {
+            html += '<div class="mediaInfoItem mediaInfoText closedCaptionMediaInfoText">CC</div>';
         }
 
         if (options.endsAt !== false) {

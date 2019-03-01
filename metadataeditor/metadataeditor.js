@@ -1010,6 +1010,16 @@
         container.innerHTML = html;
     }
 
+    function checkDateTimeInput(type) {
+        var input = document.createElement('input');
+        input.setAttribute('type', type);
+
+        var notADateValue = 'not-a-date';
+        input.setAttribute('value', notADateValue);
+
+        return (input.value !== notADateValue);
+    }
+
     function reload(context, itemId, serverId) {
 
         loading.show();
@@ -1031,6 +1041,11 @@
             populateCountries(context.querySelector('#selectCountry'), countries);
 
             setFieldVisibilities(context, item);
+
+            if (!checkDateTimeInput('datetime-local')) {
+                context.querySelector('#txtDateAdded').setAttribute('type', 'date');
+            }
+
             fillItemInfo(context, item, metadataEditorInfo.ParentalRatingOptions);
 
             if (item.MediaType === "Video" && item.Type !== "Episode" && item.Type !== "TvChannel") {
@@ -1048,6 +1063,26 @@
             var fn = on ? 'on' : 'off';
             scrollHelper.centerFocus[fn](elem, horiz);
         });
+    }
+
+    function fillDayText(context) {
+
+        var elems = context.querySelectorAll('.dayText');
+
+        var date = new Date();
+
+        while (date.getDay() > 0) {
+            date.setDate(date.getDate() - 1);
+        }
+
+        for (var i = 0, length = elems.length; i < length; i++) {
+
+
+            elems[i].innerHTML = datetime.toLocaleDateString(date, {
+                weekday: 'long'
+            });
+            date.setDate(date.getDate() + 1);
+        }
     }
 
     function show(itemId, serverId, resolve, reject) {
@@ -1075,6 +1110,8 @@
             html += globalize.translateDocument(template, 'sharedcomponents');
 
             dlg.innerHTML = html;
+
+            fillDayText(dlg);
 
             if (layoutManager.tv) {
                 centerFocus(dlg.querySelector('.formDialogContent'), false, true);

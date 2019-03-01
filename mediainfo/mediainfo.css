@@ -93,18 +93,9 @@
 }
 
 .mediaInfoOfficialRating {
-    border: .09em solid currentColor;
-    padding: 0 .6em;
-    display: -webkit-box;
-    display: -webkit-flex;
+    padding: .3em .8em;
     display: flex;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
     align-items: center;
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
     justify-content: center;
-    -webkit-border-radius: .1em;
-    border-radius: .1em;
-    font-size: 96%;
+    border-radius: .25em;
 }
