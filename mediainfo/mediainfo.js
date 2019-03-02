@@ -145,26 +145,9 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
 
         var miscInfo = [];
         options = options || {};
-        var text, date, minutes;
-        var count;
+        var text, date;
 
         var showFolderRuntime = item.Type === "MusicAlbum" || item.Type === 'MusicArtist' || item.Type === 'Playlist' || item.Type === 'MusicGenre';
-
-        if (showFolderRuntime) {
-
-            count = item.SongCount || item.ChildCount;
-
-            if (count) {
-
-                miscInfo.push(globalize.translate('sharedcomponents#TrackCount', count));
-            }
-
-            if (item.RunTimeTicks) {
-                if (item.MediaType === 'Playlist') {
-                    miscInfo.push(getHumanReadableRuntime(item.RunTimeTicks));
-                }
-            }
-        }
 
         if ((item.Type === "Episode" || item.MediaType === 'Photo') && options.originalAirDate !== false) {
 
@@ -384,13 +367,34 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
             });
         }
 
+        if (showFolderRuntime) {
+
+            var count = item.SongCount || item.ChildCount;
+
+            if (count) {
+
+                if (count === 1) {
+                    miscInfo.push(globalize.translate('OneTrack'));
+                }
+                else {
+                    miscInfo.push(globalize.translate('sharedcomponents#TrackCount', count));
+                }
+            }
+
+            if (item.RunTimeTicks) {
+                if (item.Type === 'Playlist') {
+                    miscInfo.push(getHumanReadableRuntime(item.RunTimeTicks));
+                }
+            }
+        }
+
         if (item.Type === 'Series' && item.ChildCount) {
 
-            if (item.ChildCount > 1) {
+            if (item.ChildCount === 1) {
 
-                miscInfo.push(globalize.translate('NumberSeasonsValue', item.ChildCount));
-            } else {
                 miscInfo.push(globalize.translate('OneSeason'));
+            } else {
+                miscInfo.push(globalize.translate('NumberSeasonsValue', item.ChildCount));
             }
         }
 
