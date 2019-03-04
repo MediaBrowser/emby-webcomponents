@@ -874,22 +874,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
 
-                if (options.showPremiereDate) {
-
-                    if (item.PremiereDate) {
-                        try {
-
-                            lines.push(getPremiereDateText(item));
-
-                        } catch (err) {
-                            lines.push('');
-
-                        }
-                    } else {
-                        lines.push('');
-                    }
-                }
-
                 if (options.showYear) {
 
                     if (itemType === 'Series') {
@@ -1317,7 +1301,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
 
             if (itemType === 'CollectionFolder' || item.CollectionType) {
-                var refreshClass = item.RefreshProgress || (item.RefreshStatus && virtualFolder.item !== 'Idle') ? '' : ' class="hide"';
+                var refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                 requireRefreshIndicator();
             }

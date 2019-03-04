@@ -1,14 +1,6 @@
 define(['playbackManager', 'itemHelper'], function (playbackManager, itemHelper) {
     "use strict";
 
-    function getRequirePromise(deps) {
-
-        return new Promise(function (resolve, reject) {
-
-            require(deps, resolve);
-        });
-    }
-
     function validatePlayback(options) {
 
         var feature = 'playback';
@@ -23,7 +15,9 @@ define(['playbackManager', 'itemHelper'], function (playbackManager, itemHelper)
             }
         }
 
-        return getRequirePromise(["registrationServices"]).then(function (registrationServices) {
+        return require(["registrationServices"]).then(function (deps) {
+
+            var registrationServices = deps[0];
 
             return registrationServices.validateFeature(feature, options).then(function (result) {
 

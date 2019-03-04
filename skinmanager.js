@@ -7,13 +7,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
         return currentSkin;
     }
 
-    function getRequirePromise(deps) {
-        return new Promise(function (resolve, reject) {
-
-            require(deps, resolve);
-        });
-    }
-
     function loadSkin(id) {
 
         var newSkin = pluginManager.plugins().filter(function (p) {
@@ -44,7 +37,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
             console.log('Loading skin dependencies');
 
-            return getRequirePromise(deps).then(function () {
+            return require(deps).then(function () {
 
                 console.log('Skin dependencies loaded');
 
@@ -197,7 +190,10 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     function isRegistered() {
 
-        getRequirePromise(['registrationServices']).then(function (registrationServices) {
+        require(['registrationServices']).then(function (deps) {
+
+            var registrationServices = deps[0];
+
             registrationServices.validateFeature('themes', {
 
                 showDialog: false

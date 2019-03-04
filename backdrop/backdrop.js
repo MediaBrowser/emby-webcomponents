@@ -108,6 +108,8 @@
         return backdropContainer;
     }
 
+    var hasExternalBackdrop;
+    var currentLoadingBackdrop;
     function clearBackdrop(clearAll) {
 
         clearRotation();
@@ -133,6 +135,7 @@
         }
         return backgroundContainer;
     }
+    var hasInternalBackdrop;
     function setBackgroundContainerBackgroundEnabled() {
 
         if (hasInternalBackdrop || hasExternalBackdrop) {
@@ -142,13 +145,11 @@
         }
     }
 
-    var hasInternalBackdrop;
     function internalBackdrop(enabled) {
         hasInternalBackdrop = enabled;
         setBackgroundContainerBackgroundEnabled();
     }
 
-    var hasExternalBackdrop;
     function externalBackdrop(enabled) {
         hasExternalBackdrop = enabled;
         setBackgroundContainerBackgroundEnabled();
@@ -158,7 +159,6 @@
         return Math.floor(Math.random() * (max - min) + min);
     }
 
-    var currentLoadingBackdrop;
     function setBackdropImage(url) {
 
         if (currentLoadingBackdrop) {

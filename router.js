@@ -158,6 +158,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
+    var currentViewLoadRequest;
+    var currentRouteInfo;
+
     function cancelCurrentLoadRequest() {
         var currentRequest = currentViewLoadRequest;
         if (currentRequest) {
@@ -165,7 +168,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
-    var currentViewLoadRequest;
+    var isHandlingBackToDefault;
+    var isDummyBackToHome;
+
     function sendRouteToViewManager(ctx, next, route, controllerFactory) {
 
         if (isDummyBackToHome && route.type === 'home') {
@@ -491,9 +496,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return Promise.resolve();
     }
 
-    var isHandlingBackToDefault;
-    var isDummyBackToHome;
-
     function handleBackToDefault() {
 
         if (!appHost.supports('exitmenu') && appHost.supports('exit')) {
@@ -617,6 +619,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
         return page.canGoBack();
     }
+
+    var resolveOnNextShow;
+
     function show(path, options) {
 
         if (path.indexOf('/') !== 0 && path.indexOf('://') === -1) {
@@ -642,7 +647,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
-    var resolveOnNextShow;
     document.addEventListener('viewshow', function () {
         var resolve = resolveOnNextShow;
         if (resolve) {
@@ -651,7 +655,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     });
 
-    var currentRouteInfo;
     function current() {
         return currentRouteInfo ? currentRouteInfo.route : null;
     }

@@ -55,6 +55,7 @@ define([], function () {
     var prevContext;
 
     var prevPageContext;
+    var backStack = [];
 
     /**
      * Register `path` with callback `fn()`,
@@ -132,6 +133,43 @@ define([], function () {
         }
         base = path;
     };
+
+    /**
+   * Handle "populate" events.
+   */
+
+    var onpopstate = (function () {
+        var loaded = false;
+        if ('undefined' === typeof window) {
+            return;
+        }
+        if (document.readyState === 'complete') {
+            loaded = true;
+        } else {
+            window.addEventListener('load', function () {
+                setTimeout(function () {
+                    loaded = true;
+                }, 0);
+            });
+        }
+        return function onpopstate(e) {
+            if (!loaded) {
+                return;
+            }
+            if (ignorePopState(e)) {
+                return;
+            }
+            if (e.state) {
+                var path = e.state.path;
+                page.replace(path, e.state, null, null, true);
+            } else {
+                page.show(location.pathname + location.hash, undefined, undefined, false, true);
+            }
+        };
+    })();
+    /**
+     * Handle "click" events.
+     */
 
     /**
      * Bind with the given `options`.
@@ -486,7 +524,6 @@ define([], function () {
      */
 
     page.Context = Context;
-    var backStack = [];
 
     /**
    * Push state.
@@ -635,43 +672,6 @@ define([], function () {
         history.pushState(state, title, url);
         previousPopState = state;
     };
-
-    /**
-   * Handle "populate" events.
-   */
-
-    var onpopstate = (function () {
-        var loaded = false;
-        if ('undefined' === typeof window) {
-            return;
-        }
-        if (document.readyState === 'complete') {
-            loaded = true;
-        } else {
-            window.addEventListener('load', function () {
-                setTimeout(function () {
-                    loaded = true;
-                }, 0);
-            });
-        }
-        return function onpopstate(e) {
-            if (!loaded) {
-                return;
-            }
-            if (ignorePopState(e)) {
-                return;
-            }
-            if (e.state) {
-                var path = e.state.path;
-                page.replace(path, e.state, null, null, true);
-            } else {
-                page.show(location.pathname + location.hash, undefined, undefined, false, true);
-            }
-        };
-    })();
-    /**
-     * Handle "click" events.
-     */
 
     function onclick(e, checkWhich) {
 

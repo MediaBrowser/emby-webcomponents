@@ -17,15 +17,6 @@ define(function () {
         return importedCss.indexOf(url) !== -1;
     }
 
-    function removeFromLoadHistory(url) {
-
-        url = url.toLowerCase();
-
-        importedCss = importedCss.filter(function (c) {
-            return url.indexOf(c.toLowerCase()) === -1;
-        });
-    }
-
     requireCss.load = function (cssId, req, load, config) {
 
         // Somehow if the url starts with /css, require will get all screwed up since this extension is also called css
@@ -43,6 +34,13 @@ define(function () {
         }
 
         if (!isLoaded(url)) {
+
+            var linkUrl = url;
+
+            if (config.urlArgs) {
+                linkUrl += config.urlArgs(cssId, url);
+            }
+
             importedCss.push(url);
 
             var link = document.createElement('link');
@@ -51,23 +49,11 @@ define(function () {
             link.setAttribute('type', 'text/css');
             link.onload = load;
 
-            var linkUrl = url;
-
-            if (config.urlArgs) {
-                linkUrl += config.urlArgs(cssId, url);
-            }
             link.setAttribute('href', linkUrl);
             document.head.appendChild(link);
+
         } else {
             load();
-        }
-    };
-
-    window.requireCss = {
-        removeStylesheet: function (stylesheet) {
-
-            stylesheet.parentNode.removeChild(stylesheet);
-            removeFromLoadHistory(stylesheet.href);
         }
     };
 

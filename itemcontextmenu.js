@@ -200,7 +200,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (item.TimerId) {
                 commands.push({
-                    name: Globalize.translate('sharedcomponents#ManageRecording'),
+                    name: globalize.translate('sharedcomponents#ManageRecording'),
                     id: 'record'
                 });
             }
@@ -217,7 +217,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (!item.TimerId) {
                 commands.push({
-                    name: Globalize.translate('sharedcomponents#Record'),
+                    name: globalize.translate('sharedcomponents#Record'),
                     id: 'record'
                 });
             }

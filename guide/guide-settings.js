@@ -87,20 +87,6 @@
         }
     }
 
-    function onSortByChange() {
-        var newValue = this.value;
-        if (this.checked) {
-            var changed = options.query.SortBy !== newValue;
-
-            options.query.SortBy = newValue.replace('_', ',');
-            options.query.StartIndex = 0;
-
-            if (options.callback && changed) {
-                options.callback();
-            }
-        }
-    }
-
     function showEditor(options) {
 
         return new Promise(function (resolve, reject) {

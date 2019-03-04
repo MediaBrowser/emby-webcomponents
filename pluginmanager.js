@@ -62,7 +62,7 @@ define(['events'], function (events) {
                 var paths = {};
                 paths[plugin.id] = plugin.baseUrl;
 
-                requirejs.config({
+                require.config({
                     waitSeconds: 0,
                     paths: paths
                 });

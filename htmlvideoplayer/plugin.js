@@ -253,7 +253,7 @@
 
             if (browser.msie) {
                 if (options.playMethod === 'Transcode' && !window.MediaSource) {
-                    alert('Playback of this content is not supported in Internet Explorer. For a better experience, try a modern browser such as Microsoft Edge, Google Chrome, Firefox or Opera.');
+                    window.alert('Playback of this content is not supported in Internet Explorer. For a better experience, try a modern browser such as Microsoft Edge, Google Chrome, Firefox or Opera.');
                     return Promise.reject();
                 }
             }
@@ -1323,6 +1323,34 @@
 
                 textTrack.mode = 'showing';
             }
+        }
+
+        // Credit: https://gist.github.com/niyazpk/f8ac616f181f6042d1e0
+        function replaceQueryString(uri, key, value) {
+            // remove the hash part before operating on the uri
+            var i = uri.indexOf('#');
+            var hash = i === -1 ? '' : uri.substr(i);
+            uri = i === -1 ? uri : uri.substr(0, i);
+
+            var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+            var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+
+            if (!value) {
+                // remove key-value pair if value is empty
+                uri = uri.replace(new RegExp("([?&]?)" + key + "=[^&]*", "i"), '');
+                if (uri.slice(-1) === '?') {
+                    uri = uri.slice(0, -1);
+                }
+                // replace first occurrence of & by ? if no ? is present
+                if (uri.indexOf('?') === -1) {
+                    uri = uri.replace(/&/, '?');
+                }
+            } else if (uri.match(re)) {
+                uri = uri.replace(re, '$1' + key + "=" + value + '$2');
+            } else {
+                uri = uri + separator + key + "=" + value;
+            }
+            return uri + hash;
         }
 
         function updateTextStreamUrls(startPositionTicks) {

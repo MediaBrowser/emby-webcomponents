@@ -78,19 +78,22 @@
             var camel = prop.replace(/-([a-z]|[0-9])/ig, function (all, letter) {
                 return (letter + '').toUpperCase();
             });
-            // Check if the property is supported
-            var support = (camel in el.style);
             // Create test element
             var el = document.createElement('div');
-            // Assign the property and value to invoke
-            // the CSS interpreter
-            el.style.cssText = prop + ':' + value;
-            // Ensure both the property and value are
-            // supported and return
-            return support && (el.style[camel] !== '');
+            // Check if the property is supported
+            var support = (camel in el.style);
+            if (support) {
+                // Assign the property and value to invoke
+                // the CSS interpreter
+                el.style.cssText = prop + ':' + value;
+                // Ensure both the property and value are
+                // supported and return
+                return el.style[camel] !== '';
+            }
         } catch (err) {
-            return false;
         }
+
+        return false;
     }
 
     function hasKeyboard(browser) {

@@ -6,6 +6,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
     var currentUrls = [];
     var pageContainerCount = 3;
     var selectedPageIndex = -1;
+    var onBeforeChange;
 
     function enableAnimation() {
 
@@ -194,7 +195,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
         });
     }
 
-    var onBeforeChange;
     function setOnBeforeChange(fn) {
         onBeforeChange = fn;
     }

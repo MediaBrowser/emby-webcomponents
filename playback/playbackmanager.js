@@ -1696,9 +1696,9 @@
             if (player && !enableLocalPlaylistManagement(player) && player.seekRelative) {
 
                 if (player.isLocalPlayer) {
-                    return player.seekRelative((ticks || 0) / 10000);
+                    return player.seekRelative((offsetTicks || 0) / 10000);
                 } else {
-                    return player.seekRelative(ticks);
+                    return player.seekRelative(offsetTicks);
                 }
             }
 

@@ -1,16 +1,10 @@
 define(['connectionManager', 'globalize'], function (connectionManager, globalize) {
     "use strict";
 
-    function getRequirePromise(deps) {
-
-        return new Promise(function (resolve, reject) {
-
-            require(deps, resolve);
-        });
-    }
-
     function showErrorMessage() {
-        return getRequirePromise(['alert']).then(function (alert) {
+        return require(['alert']).then(function (deps) {
+
+            var alert = deps[0];
 
             return alert(globalize.translate('sharedcomponents#MessagePlayAccessRestricted')).then(function () {
                 return Promise.reject();

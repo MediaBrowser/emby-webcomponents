@@ -364,14 +364,18 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
         return apiClient.getLiveTvTimer(itemId).then(function (item) {
 
             if (item.ProgramId) {
-                require(['recordingCreator'], function (recordingCreator) {
+                return require(['recordingCreator']).then(function (objects) {
 
-                    recordingCreator.show(item.ProgramId, serverId).then(resolve, reject);
+                    var recordingCreator = objects[0];
+                    return recordingCreator.show(item.ProgramId, serverId);
                 });
-            } else {
-                require(['recordingEditor'], function (recordingEditor) {
 
-                    recordingEditor.show(itemId, serverId).then(resolve, reject);
+            } else {
+
+                return require(['recordingEditor']).then(function (objects) {
+
+                    var recordingEditor = objects[0];
+                    return recordingEditor.show(itemId, serverId);
                 });
             }
         });

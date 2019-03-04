@@ -539,16 +539,10 @@
         });
     }
 
-    function getRequirePromise(deps) {
-
-        return new Promise(function (resolve, reject) {
-
-            require(deps, resolve);
-        });
-    }
-
     function showHomeScreenSettings(elem, options) {
-        return getRequirePromise(['homescreenSettingsDialog']).then(function (homescreenSettingsDialog) {
+        return require(['homescreenSettingsDialog']).then(function (deps) {
+
+            var homescreenSettingsDialog = deps[0];
 
             return homescreenSettingsDialog.show(options).then(function () {
 
