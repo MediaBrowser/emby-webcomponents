@@ -302,6 +302,9 @@
     browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
     browser.iOS = browser.ipad || browser.iphone || browser.ipod;
 
+    browser.customElements = ('customElements' in self);
+    browser.customBuiltInElements = browser.customElements && !browser.iOS && !browser.safari;
+
     if (browser.iOS) {
         browser.iOSVersion = iOSversion();
         browser.iOSVersion = browser.iOSVersion[0] + (browser.iOSVersion[1] / 10);

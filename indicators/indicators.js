@@ -14,7 +14,13 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
         return '<div class="' + containerClass + '"><div class="itemProgressBarForeground" style="width:' + pct + '%;"></div></div>';
     }
 
+    var progressBarRequired;
     function getAutoTimeProgressHtml(pct, options, isRecording, start, end) {
+
+        if (!progressBarRequired) {
+            progressBarRequired = true;
+            require(['emby-progressbar']);
+        }
 
         var containerClass = 'itemProgressBar';
 
@@ -213,48 +219,6 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
         return '';
     }
-
-    var ProgressBarPrototype = Object.create(HTMLDivElement.prototype);
-
-    function onAutoTimeProgress() {
-
-        var start = parseInt(this.getAttribute('data-starttime'));
-        var end = parseInt(this.getAttribute('data-endtime'));
-
-        var now = new Date().getTime();
-        var total = end - start;
-        var pct = 100 * ((now - start) / total);
-
-        pct = Math.min(100, pct);
-        pct = Math.max(0, pct);
-
-        var itemProgressBarForeground = this.querySelector('.itemProgressBarForeground');
-        itemProgressBarForeground.style.width = pct + '%';
-    }
-
-    ProgressBarPrototype.attachedCallback = function () {
-
-        if (this.timeInterval) {
-            clearInterval(this.timeInterval);
-        }
-
-        if (this.getAttribute('data-automode') === 'time') {
-            this.timeInterval = setInterval(onAutoTimeProgress.bind(this), 60000);
-        }
-    };
-
-    ProgressBarPrototype.detachedCallback = function () {
-
-        if (this.timeInterval) {
-            clearInterval(this.timeInterval);
-            this.timeInterval = null;
-        }
-    };
-
-    document.registerElement('emby-progressbar', {
-        prototype: ProgressBarPrototype,
-        extends: 'div'
-    });
 
     return {
         getProgressBarHtml: getProgressBarHtml,

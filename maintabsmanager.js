@@ -139,7 +139,8 @@
 
             var index = 0;
 
-            var indexAttribute = selectedIndex == null ? '' : (' data-index="' + selectedIndex + '"');
+            // set initial index to -1, then trigger later to ensure all event handlers get run
+            var indexAttribute = selectedIndex == null ? '' : (' data-index="-1"');
             var tabsHtml = '<div is="emby-tabs"' + indexAttribute + ' class="tabs-viewmenubar"><div class="emby-tabs-slider">' + getTabsFn().map(function (t) {
 
                 var tabClass = 'emby-tab-button';
