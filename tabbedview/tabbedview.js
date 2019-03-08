@@ -77,11 +77,12 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'connect
             loadTab(newIndex, previousIndex);
         }
 
-        self.setTabs = function () {
-            mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, onBeforeTabChange, onTabChange, true);
-        };
-
         view.addEventListener('viewbeforehide', this.onPause.bind(this));
+
+        view.addEventListener('viewbeforeshow', function (e) {
+
+            mainTabsManager.setTabs(view, currentTabIndex, self.getTabs, getTabContainers, onBeforeTabChange, onTabChange, false);
+        });
 
         view.addEventListener('viewshow', function (e) {
 
@@ -145,9 +146,10 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'connect
 
         var currentTabController = this.currentTabController;
 
-        this.setTabs();
-
-        if (currentTabController && currentTabController.onResume) {
+        if (!currentTabController) {
+            mainTabsManager.selectedTabIndex(this.initialTabIndex);
+        }
+        else if (currentTabController && currentTabController.onResume) {
             currentTabController.onResume({});
         }
 
