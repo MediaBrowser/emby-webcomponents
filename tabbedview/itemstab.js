@@ -1,4 +1,4 @@
-﻿define(['layoutManager', 'playbackManager', 'userSettings', 'alphaPicker', 'connectionManager', 'focusManager', 'loading', 'globalize', 'browser'], function (layoutManager, playbackManager, userSettings, AlphaPicker, connectionManager, focusManager, loading, globalize, browser) {
+﻿define(['layoutManager', 'cardBuilder', 'playbackManager', 'userSettings', 'alphaPicker', 'connectionManager', 'focusManager', 'loading', 'globalize', 'browser'], function (layoutManager, cardBuilder, playbackManager, userSettings, AlphaPicker, connectionManager, focusManager, loading, globalize, browser) {
     'use strict';
 
     function initAlphaNumericShortcuts(instance) {
@@ -491,6 +491,67 @@
         });
     };
 
+    ItemsTab.prototype.getItemsHtml = function (items) {
+
+        var settings = this.getViewSettings();
+
+        if (settings.imageType === 'list') {
+            return listView.getListViewHtml({
+                items: items
+            });
+        }
+
+        return cardBuilder.getCardsHtml(items, this.getCardOptions(items, settings));
+    };
+
+    ItemsTab.prototype.getCardOptions = function (items, settings) {
+
+        var shape;
+        var preferThumb;
+        var preferDisc;
+        var preferLogo;
+
+        if (settings.imageType === 'banner') {
+            shape = 'banner';
+        }
+        else if (settings.imageType === 'disc') {
+            shape = 'square';
+            preferDisc = true;
+        }
+        else if (settings.imageType === 'logo') {
+            shape = 'square';
+            preferLogo = true;
+        }
+        else if (settings.imageType === 'thumb') {
+            shape = 'backdrop';
+            preferThumb = true;
+        } else {
+            shape = 'auto';
+        }
+
+        var parentId = this.params.parentId;
+
+        return {
+            items: items,
+            shape: shape,
+            centerText: true,
+            preferThumb: preferThumb,
+            preferDisc: preferDisc,
+            preferLogo: preferLogo,
+            overlayMoreButton: !layoutManager.tv,
+            showTitle: settings.showTitle,
+            showYear: settings.showYear,
+            overlayText: !settings.showTitle,
+            context: this.getContext(),
+            parentId: parentId
+        };
+    };
+
+    ItemsTab.prototype.getContext = function () {
+
+        return null;
+    };
+
     ItemsTab.prototype.supportsShuffle = function () {
 
         return true;
@@ -696,9 +757,12 @@
 
         var basekey = this.getSettingsKey();
 
+        var visibleViewSettings = this.getVisibleViewSettings();
+        var showYearVisible = visibleViewSettings.indexOf('showYear') !== -1;
+
         return {
             showTitle: userSettings.get(basekey + '-showTitle') !== 'false',
-            showYear: userSettings.get(basekey + '-showYear') !== 'false',
+            showYear: showYearVisible ? userSettings.get(basekey + '-showYear') !== 'false' : false,
             groupItemsIntoCollections: userSettings.get(basekey + '-groupItemsIntoCollections') === 'true',
             imageType: userSettings.get(basekey + '-imageType') || this.getDefaultImageType()
         };

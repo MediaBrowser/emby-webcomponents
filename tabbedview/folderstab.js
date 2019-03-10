@@ -46,48 +46,9 @@
         return query;
     };
 
-    FoldersTab.prototype.getItemsHtml = function (items) {
+    FoldersTab.prototype.getContext = function () {
 
-        var settings = this.getViewSettings();
-
-        if (settings.imageType === 'list') {
-            return listView.getListViewHtml({
-                items: items
-            });
-        }
-
-        var shape;
-        var preferThumb;
-        var preferDisc;
-
-        if (settings.imageType === 'banner') {
-            shape = 'banner';
-        }
-        else if (settings.imageType === 'disc') {
-            shape = 'square';
-            preferDisc = true;
-        }
-        else if (settings.imageType === 'thumb') {
-            shape = 'backdrop';
-            preferThumb = true;
-        } else {
-            shape = 'auto';
-        }
-
-        var cardLayout = false;
-
-        return cardBuilder.getCardsHtml(items, {
-            items: items,
-            shape: shape,
-            centerText: !cardLayout,
-            preferThumb: preferThumb,
-            preferDisc: preferDisc,
-            overlayMoreButton: !layoutManager.tv,
-            showTitle: settings.showTitle,
-            overlayText: !settings.showTitle,
-            cardLayout: cardLayout,
-            context: 'folders'
-        });
+        return 'folders';
     };
 
     FoldersTab.prototype.getSettingsKey = function () {
