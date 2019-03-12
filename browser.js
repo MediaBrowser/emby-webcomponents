@@ -303,7 +303,7 @@
     browser.iOS = browser.ipad || browser.iphone || browser.ipod;
 
     browser.customElements = ('customElements' in self);
-    browser.customBuiltInElements = browser.customElements && !browser.iOS && !browser.safari;
+    browser.customBuiltInElements = browser.customElements && !browser.iOS && !browser.safari && customElements.upgrade;
 
     if (browser.iOS) {
         browser.iOSVersion = iOSversion();

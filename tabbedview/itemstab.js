@@ -1,4 +1,4 @@
-﻿define(['layoutManager', 'cardBuilder', 'playbackManager', 'userSettings', 'alphaPicker', 'connectionManager', 'focusManager', 'loading', 'globalize', 'browser'], function (layoutManager, cardBuilder, playbackManager, userSettings, AlphaPicker, connectionManager, focusManager, loading, globalize, browser) {
+﻿define(['layoutManager', 'cardBuilder', 'listView', 'playbackManager', 'userSettings', 'alphaPicker', 'connectionManager', 'focusManager', 'loading', 'globalize', 'browser'], function (layoutManager, cardBuilder, listView, playbackManager, userSettings, AlphaPicker, connectionManager, focusManager, loading, globalize, browser) {
     'use strict';
 
     function initAlphaNumericShortcuts(instance) {

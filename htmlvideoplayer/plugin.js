@@ -1534,21 +1534,16 @@
         var list = [];
 
         var video = document.createElement('video');
-        //if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode('picture-in-picture') && typeof video.webkitSetPresentationMode === "function") {
-        //    list.push('PictureInPicture');
-        //}
+        if (video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
+            // Unfortunately this creates a false positive on devices where its' not actually supported
+            if (!browser.ipad || navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
+                list.push('PictureInPicture');
+            }
+        }
         if (document.pictureInPictureEnabled) {
             list.push('PictureInPicture');
         }
-        else if (browser.ipad) {
-
-            // Unfortunately this creates a false positive on devices where its' not actually supported
-            if (navigator.userAgent.toLowerCase().indexOf('os 9') === -1) {
-                if (video.webkitSupportsPresentationMode && video.webkitSupportsPresentationMode && typeof video.webkitSetPresentationMode === "function") {
-                    list.push('PictureInPicture');
-                }
-            }
-        } else if (window.Windows) {
+        else if (window.Windows) {
 
             if (Windows.UI.ViewManagement.ApplicationView.getForCurrentView().isViewModeSupported(Windows.UI.ViewManagement.ApplicationViewMode.compactOverlay)) {
                 list.push('PictureInPicture');
