@@ -505,6 +505,10 @@
                 dialogHelper.close(dlg);
             });
 
+            if (apiClient.isMinServerVersion('4.1')) {
+                dlg.querySelector('.fldForcedOnly').classList.remove('hide');
+            }
+
             return new Promise(function (resolve, reject) {
 
                 dlg.addEventListener('close', function () {
