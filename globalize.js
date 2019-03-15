@@ -5,6 +5,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
     var currentCulture;
     var currentDateTimeCulture;
     var currentLocales;
+    var allStrings = {};
 
     function getCurrentLocale() {
 
@@ -86,7 +87,16 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
         return loadTranslation(translationInfo.translations, culture).then(function (dictionary) {
 
-            translationInfo.dictionaries[culture] = dictionary;
+            translationInfo.dictionaries[culture] = true;
+
+            if (dictionary) {
+
+                if (allStrings[culture]) {
+                    allStrings[culture] = Object.assign(dictionary, allStrings[culture] || {});
+                } else {
+                    allStrings[culture] = dictionary;
+                }
+            }
         });
     }
 
@@ -116,19 +126,9 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         return lower;
     }
 
-    function getDictionary(module) {
+    function getDictionary() {
 
-        if (!module) {
-            module = defaultModule();
-        }
-
-        var translations = allTranslations[module];
-
-        if (!translations) {
-            return {};
-        }
-
-        return translations.dictionaries[getCurrentLocale()];
+        return allStrings[getCurrentLocale()];
     }
 
     function register(options) {
@@ -185,12 +185,12 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
                 if (this.status < 400) {
                     resolve(JSON.parse(this.response));
                 } else {
-                    resolve({});
+                    resolve();
                 }
             };
 
             xhr.onerror = function () {
-                resolve({});
+                resolve();
             };
             xhr.send();
         });
@@ -198,35 +198,11 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
 
     function translateKey(key) {
 
-        var parts = key.split('#');
-        var module;
-
-        if (parts.length > 1) {
-            module = parts[0];
-            key = parts[1];
-        }
-
-        return translateKeyFromModule(key, module);
-    }
-
-    function translateKeyFromModule(key, module) {
-
-        var dictionary = getDictionary(module);
-        var result;
+        var dictionary = getDictionary();
 
         if (dictionary) {
 
-            result = dictionary[key];
-            if (result) {
-                return result;
-            }
-        }
-
-        dictionary = getDictionary('sharedcomponents');
-
-        if (dictionary) {
-
-            result = dictionary[key];
+            var result = dictionary[key];
             if (result) {
                 return result;
             }
@@ -253,15 +229,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         return val;
     }
 
-    function translateHtml(html, module) {
-
-        if (!module) {
-            module = defaultModule();
-        }
-
-        if (!module) {
-            throw new Error('module cannot be null or empty');
-        }
+    function translateHtml(html) {
 
         var startIndex = html.indexOf('${');
 
@@ -277,21 +245,10 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         }
 
         var key = html.substring(startIndex, endIndex);
-        var val = translateKeyFromModule(key, module);
+        var val = translateKey(key);
 
         html = html.replace('${' + key + '}', val);
-        return translateHtml(html, module);
-    }
-
-    var _defaultModule;
-    function defaultModule(val) {
-
-        if (val) {
-
-            _defaultModule = val;
-        }
-
-        return _defaultModule;
+        return translateHtml(html);
     }
 
     updateCurrentCulture();
@@ -309,7 +266,6 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         translateDocument: translateHtml,
         translateHtml: translateHtml,
         loadStrings: loadStrings,
-        defaultModule: defaultModule,
         getCurrentLocale: getCurrentLocale,
         getCurrentDateTimeLocale: getCurrentDateTimeLocale,
         getCurrentLocales: getCurrentLocales,

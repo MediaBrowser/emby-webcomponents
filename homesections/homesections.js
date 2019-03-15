@@ -187,7 +187,7 @@
 
         html += '<div class="verticalSection verticalSection-extrabottompadding">';
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
 
         if (!layoutManager.tv) {
             html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE5D3;</i></button>';
@@ -479,13 +479,13 @@
 
             }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name);
+            html += globalize.translate('LatestFromLibrary', parent.Name);
             html += '</h2>';
             html += '<i class="md-icon">&#xE5CC;</i>';
             html += '</a>';
 
         } else {
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#LatestFromLibrary', parent.Name) + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LatestFromLibrary', parent.Name) + '</h2>';
         }
         html += '</div>';
 
@@ -595,7 +595,7 @@
 
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('downloads') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
-                html += globalize.translate('sharedcomponents#HeaderMyDownloads');
+                html += globalize.translate('HeaderMyDownloads');
                 html += '</h2>';
                 html += '<i class="md-icon">&#xE5CC;</i>';
                 html += '</a>';
@@ -603,7 +603,7 @@
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('managedownloads') + '" class="sectionTitleIconButton"><i class="md-icon">&#xE8B8;</i></a>';
 
             } else {
-                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#HeaderMyDownloads') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderMyDownloads') + '</h2>';
             }
             html += '</div>';
 
@@ -652,7 +652,7 @@
                 html += '<div class="verticalSection">';
 
                 html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
-                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderMyMedia') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
 
                 if (!layoutManager.tv) {
                     html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon">&#xE5D3;</i></button>';
@@ -771,7 +771,7 @@
     function loadResumeVideo(elem, apiClient, userId) {
 
         var html = '';
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueWatching') + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
 
         if (enableScrollX()) {
             html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="videoplayback,markplayed">';
@@ -854,7 +854,7 @@
     function loadResumeAudio(elem, apiClient, userId) {
 
         var html = '';
-        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('sharedcomponents#HeaderContinueListening') + '</h2>';
+        html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueListening') + '</h2>';
 
         if (enableScrollX()) {
             html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="audioplayback,markplayed">';
@@ -986,7 +986,7 @@
                 html += '<div class="verticalSection">';
                 html += '<div class="sectionTitleContainer sectionTitleContainer-cards padded-left">';
 
-                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#LiveTV') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('LiveTV') + '</h2>';
 
                 html += '</div>';
 
@@ -1003,27 +1003,27 @@
                     serverId: apiClient.serverId(),
                     section: 'programs'
 
-                }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Programs') + '</span></a>';
+                }) + '" class="raised"><span>' + globalize.translate('Programs') + '</span></a>';
 
                 html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'guide'
 
-                }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Guide') + '</span></a>';
+                }) + '" class="raised"><span>' + globalize.translate('Guide') + '</span></a>';
 
                 html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('recordedtv', {
 
                     serverId: apiClient.serverId()
 
-                }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Recordings') + '</span></a>';
+                }) + '" class="raised"><span>' + globalize.translate('Recordings') + '</span></a>';
 
                 html += '<a style="margin-left:.5em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
                     serverId: apiClient.serverId(),
                     section: 'dvrschedule'
 
-                }) + '" class="raised"><span>' + globalize.translate('sharedcomponents#Schedule') + '</span></a>';
+                }) + '" class="raised"><span>' + globalize.translate('Schedule') + '</span></a>';
 
                 html += '</div>';
 
@@ -1046,13 +1046,13 @@
 
                     }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
-                    html += globalize.translate('sharedcomponents#HeaderOnNow');
+                    html += globalize.translate('HeaderOnNow');
                     html += '</h2>';
                     html += '<i class="md-icon">&#xE5CC;</i>';
                     html += '</a>';
 
                 } else {
-                    html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#HeaderOnNow') + '</h2>';
+                    html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderOnNow') + '</h2>';
                 }
                 html += '</div>';
 
@@ -1082,9 +1082,9 @@
                 elem.classList.add('padded-right');
                 elem.classList.add('padded-bottom');
 
-                html += '<h2 class="sectionTitle">' + globalize.translate('sharedcomponents#LiveTvRequiresUnlock') + '</h2>';
+                html += '<h2 class="sectionTitle">' + globalize.translate('LiveTvRequiresUnlock') + '</h2>';
                 html += '<button is="emby-button" type="button" class="raised button-submit block btnUnlock">';
-                html += '<span>' + globalize.translate('sharedcomponents#HeaderBecomeProjectSupporter') + '</span>';
+                html += '<span>' + globalize.translate('HeaderBecomeProjectSupporter') + '</span>';
                 html += '</button>';
 
                 elem.innerHTML = html;
@@ -1144,13 +1144,13 @@
 
             }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
-            html += globalize.translate('sharedcomponents#HeaderNextUp');
+            html += globalize.translate('HeaderNextUp');
             html += '</h2>';
             html += '<i class="md-icon">&#xE5CC;</i>';
             html += '</a>';
 
         } else {
-            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('sharedcomponents#HeaderNextUp') + '</h2>';
+            html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderNextUp') + '</h2>';
         }
         html += '</div>';
 
@@ -1224,17 +1224,17 @@
     function loadLatestLiveTvRecordings(elem, activeRecordingsOnly, apiClient, userId) {
 
         var title = activeRecordingsOnly ?
-            globalize.translate('sharedcomponents#HeaderActiveRecordings') :
-            globalize.translate('sharedcomponents#HeaderLatestRecordings');
+            globalize.translate('HeaderActiveRecordings') :
+            globalize.translate('HeaderLatestRecordings');
 
         var html = '';
 
         html += '<div class="sectionTitleContainer sectionTitleContainer-cards">';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + title + '</h2>';
         if (!layoutManager.tv) {
-            //html += '<a href="livetv.html?tab=3" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('sharedcomponents#More') + '</span></button></a>';
+            //html += '<a href="livetv.html?tab=3" class="clearLink" style="margin-left:2em;"><button is="emby-button" type="button" class="raised more mini"><span>' + globalize.translate('More') + '</span></button></a>';
             //html += '<button data-href="" type="button" is="emby-button" class="raised raised-mini sectionTitleButton btnMore">';
-            //html += '<span>' + globalize.translate('sharedcomponents#More') + '</span>';
+            //html += '<span>' + globalize.translate('More') + '</span>';
             //html += '</button>';
         }
         html += '</div>';

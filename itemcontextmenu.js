@@ -18,14 +18,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (canPlay && item.MediaType !== 'Photo') {
             if (options.play !== false) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Play'),
+                    name: globalize.translate('Play'),
                     id: 'resume'
                 });
             }
 
             if (options.playAllFromHere && item.Type !== 'Program' && item.Type !== 'Recording' && item.Type !== 'TvChannel') {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#PlayAllFromHere'),
+                    name: globalize.translate('PlayAllFromHere'),
                     id: 'playallfromhere'
                 });
             }
@@ -35,21 +35,21 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (options.queue !== false) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#AddToPlayQueue'),
+                    name: globalize.translate('AddToPlayQueue'),
                     id: 'queue'
                 });
             }
 
             if (options.queue !== false) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#PlayNext'),
+                    name: globalize.translate('PlayNext'),
                     id: 'queuenext'
                 });
             }
 
             //if (options.queueAllFromHere) {
             //    commands.push({
-            //        name: globalize.translate('sharedcomponents#QueueAllFromHere'),
+            //        name: globalize.translate('QueueAllFromHere'),
             //        id: 'queueallfromhere'
             //    });
             //}
@@ -61,7 +61,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             if (item.CollectionType !== 'livetv') {
                 if (canPlay && options.shuffle !== false) {
                     commands.push({
-                        name: globalize.translate('sharedcomponents#Shuffle'),
+                        name: globalize.translate('Shuffle'),
                         id: 'shuffle'
                     });
                 }
@@ -71,7 +71,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
             if (options.instantMix !== false && !itemHelper.isLocalItem(item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#InstantMix'),
+                    name: globalize.translate('InstantMix'),
                     id: 'instantmix'
                 });
             }
@@ -86,14 +86,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (!restrictOptions) {
             if (itemHelper.supportsAddingToCollection(item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#AddToCollection'),
+                    name: globalize.translate('AddToCollection'),
                     id: 'addtocollection'
                 });
             }
 
             if (itemHelper.supportsAddingToPlaylist(item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#AddToPlaylist'),
+                    name: globalize.translate('AddToPlaylist'),
                     id: 'addtoplaylist'
                 });
             }
@@ -101,21 +101,21 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
-                name: globalize.translate('sharedcomponents#CancelRecording'),
+                name: globalize.translate('CancelRecording'),
                 id: 'canceltimer'
             });
         }
 
         if ((item.Type === 'SeriesTimer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
-                name: globalize.translate('sharedcomponents#CancelSeries'),
+                name: globalize.translate('CancelSeries'),
                 id: 'cancelseriestimer'
             });
         }
 
         if (itemHelper.canConvert(item, user, apiClient)) {
             commands.push({
-                name: globalize.translate('sharedcomponents#Convert'),
+                name: globalize.translate('Convert'),
                 id: 'convert'
             });
         }
@@ -124,12 +124,12 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Delete'),
+                    name: globalize.translate('Delete'),
                     id: 'delete'
                 });
             } else {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#DeleteMedia'),
+                    name: globalize.translate('DeleteMedia'),
                     id: 'delete'
                 });
             }
@@ -137,7 +137,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (item.CanDownload && appHost.supports('filedownload')) {
             commands.push({
-                name: globalize.translate('sharedcomponents#Download'),
+                name: globalize.translate('Download'),
                 id: 'download'
             });
         }
@@ -145,7 +145,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (appHost.supports('sync') && options.syncLocal !== false) {
             if (itemHelper.canSync(user, item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Download'),
+                    name: globalize.translate('Download'),
                     id: 'synclocal'
                 });
             }
@@ -156,7 +156,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (options.edit !== false && item.Type !== 'SeriesTimer') {
 
-                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('sharedcomponents#Edit') : globalize.translate('sharedcomponents#EditMetadata');
+                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
 
                 commands.push({
                     name: text,
@@ -169,7 +169,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (options.editImages !== false) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#EditImages'),
+                    name: globalize.translate('EditImages'),
                     id: 'editimages'
                 });
             }
@@ -180,7 +180,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
                 if (options.editSubtitles !== false) {
                     commands.push({
-                        name: globalize.translate('sharedcomponents#EditSubtitles'),
+                        name: globalize.translate('EditSubtitles'),
                         id: 'editsubtitles'
                     });
                 }
@@ -190,7 +190,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (options.identify !== false) {
             if (itemHelper.canIdentify(user, item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Identify'),
+                    name: globalize.translate('Identify'),
                     id: 'identify'
                 });
             }
@@ -200,7 +200,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (item.TimerId) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#ManageRecording'),
+                    name: globalize.translate('ManageRecording'),
                     id: 'record'
                 });
             }
@@ -208,7 +208,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (options.multiSelect) {
             commands.push({
-                name: globalize.translate('sharedcomponents#MultiSelect'),
+                name: globalize.translate('MultiSelect'),
                 id: 'multiselect'
             });
         }
@@ -217,7 +217,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (!item.TimerId) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Record'),
+                    name: globalize.translate('Record'),
                     id: 'record'
                 });
             }
@@ -225,21 +225,21 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (itemHelper.canRefreshMetadata(item, user)) {
             commands.push({
-                name: globalize.translate('sharedcomponents#RefreshMetadata'),
+                name: globalize.translate('RefreshMetadata'),
                 id: 'refresh'
             });
         }
 
         if (item.PlaylistItemId && options.playlistId) {
             commands.push({
-                name: globalize.translate('sharedcomponents#RemoveFromPlaylist'),
+                name: globalize.translate('RemoveFromPlaylist'),
                 id: 'removefromplaylist'
             });
         }
 
         if (options.collectionId) {
             commands.push({
-                name: globalize.translate('sharedcomponents#RemoveFromCollection'),
+                name: globalize.translate('RemoveFromCollection'),
                 id: 'removefromcollection'
             });
         }
@@ -248,7 +248,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             if (options.share === true) {
                 if (itemHelper.canShare(item, user)) {
                     commands.push({
-                        name: globalize.translate('sharedcomponents#Share'),
+                        name: globalize.translate('Share'),
                         id: 'share'
                     });
                 }
@@ -257,7 +257,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if ((item.Type === 'Recording' && item.Status === 'InProgress') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
-                name: globalize.translate('sharedcomponents#StopRecording'),
+                name: globalize.translate('StopRecording'),
                 id: 'canceltimer'
             });
         }
@@ -265,7 +265,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (options.sync !== false) {
             if (itemHelper.canSync(user, item)) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Sync'),
+                    name: globalize.translate('Sync'),
                     id: 'sync'
                 });
             }
@@ -273,14 +273,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
             commands.push({
-                name: globalize.translate('sharedcomponents#ViewAlbum'),
+                name: globalize.translate('ViewAlbum'),
                 id: 'album'
             });
         }
 
         if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
             commands.push({
-                name: globalize.translate('sharedcomponents#ViewArtist'),
+                name: globalize.translate('ViewArtist'),
                 id: 'artist'
             });
         }

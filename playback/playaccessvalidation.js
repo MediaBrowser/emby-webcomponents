@@ -6,7 +6,7 @@ define(['connectionManager', 'globalize'], function (connectionManager, globaliz
 
             var alert = deps[0];
 
-            return alert(globalize.translate('sharedcomponents#MessagePlayAccessRestricted')).then(function () {
+            return alert(globalize.translate('MessagePlayAccessRestricted')).then(function () {
                 return Promise.reject();
             });
         });

@@ -33,7 +33,7 @@
 
         require(['confirm'], function (confirm) {
 
-            var msg = globalize.translate('sharedcomponents#ConfirmRemoveDownload');
+            var msg = globalize.translate('ConfirmRemoveDownload');
 
             confirm({
 
@@ -81,7 +81,7 @@
             status = 'Synced';
         }
 
-        var html = globalize.translate('sharedcomponents#SyncJobItemStatus' + status);
+        var html = globalize.translate('SyncJobItemStatus' + status);
 
         if (job.Status === 'Transferring' || job.Status === 'Converting') {
             html += ' ';
@@ -145,9 +145,9 @@
         textLines.push(name);
 
         if (job.ItemCount === 1) {
-            textLines.push(globalize.translate('sharedcomponents#ValueOneItem'));
+            textLines.push(globalize.translate('ValueOneItem'));
         } else {
-            textLines.push(globalize.translate('sharedcomponents#ItemCount', job.ItemCount));
+            textLines.push(globalize.translate('ItemCount', job.ItemCount));
         }
 
         html += '<div class="listItemBody three-line">';
@@ -241,9 +241,9 @@
 
         if (!html) {
             if (mode === 'download') {
-                html = '<div style="padding:1em .25em;">' + globalize.translate('sharedcomponents#MessageNoDownloadsFound') + '</div>';
+                html = '<div style="padding:1em .25em;">' + globalize.translate('MessageNoDownloadsFound') + '</div>';
             } else {
-                html = '<div style="padding:1em .25em;">' + globalize.translate('sharedcomponents#MessageNoSyncJobsFound') + '</div>';
+                html = '<div style="padding:1em .25em;">' + globalize.translate('MessageNoSyncJobsFound') + '</div>';
             }
         }
 
@@ -289,12 +289,12 @@
 
         if (item.getAttribute('data-canedit') === 'true') {
             menuItems.push({
-                name: globalize.translate('sharedcomponents#Edit'),
+                name: globalize.translate('Edit'),
                 id: 'edit'
             });
         }
 
-        var txt = globalize.translate('sharedcomponents#RemoveDownload');
+        var txt = globalize.translate('RemoveDownload');
 
         menuItems.push({
             name: txt,

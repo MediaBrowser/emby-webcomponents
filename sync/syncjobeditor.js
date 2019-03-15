@@ -91,10 +91,10 @@
         } else {
             html += '<div class="secondary listItemBodyText">';
         }
-        html += globalize.translate('sharedcomponents#SyncJobItemStatus' + jobItem.Status);
+        html += globalize.translate('SyncJobItemStatus' + jobItem.Status);
         if (jobItem.Status === 'Synced' && jobItem.IsMarkedForRemoval) {
             html += '<br/>';
-            html += globalize.translate('sharedcomponents#RemovingFromDevice');
+            html += globalize.translate('RemovingFromDevice');
         }
         html += '</div>';
 
@@ -127,7 +127,7 @@
 
         var html = '';
 
-        html += '<h1>' + globalize.translate('sharedcomponents#Items') + '</h1>';
+        html += '<h1>' + globalize.translate('Items') + '</h1>';
 
         html += '<div class="paperList">';
 
@@ -224,9 +224,9 @@
 
             confirm({
 
-                text: globalize.translate('sharedcomponents#ConfirmRemoveDownload'),
-                confirmText: globalize.translate('sharedcomponents#RemoveDownload'),
-                cancelText: globalize.translate('sharedcomponents#KeepDownload'),
+                text: globalize.translate('ConfirmRemoveDownload'),
+                confirmText: globalize.translate('RemoveDownload'),
+                cancelText: globalize.translate('KeepDownload'),
                 primary: 'cancel'
 
             }).then(callback);
@@ -239,9 +239,9 @@
 
             confirm({
 
-                text: globalize.translate('sharedcomponents#ConfirmRemoveDownload'),
-                confirmText: globalize.translate('sharedcomponents#RemoveDownload'),
-                cancelText: globalize.translate('sharedcomponents#KeepDownload'),
+                text: globalize.translate('ConfirmRemoveDownload'),
+                confirmText: globalize.translate('RemoveDownload'),
+                cancelText: globalize.translate('KeepDownload'),
                 primary: 'cancel'
 
             }).then(callback);
@@ -421,11 +421,11 @@
         html += '<div class="formDialogHeader">';
         html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
         html += '<h3 class="formDialogHeaderTitle">';
-        html += globalize.translate('sharedcomponents#Sync');
+        html += globalize.translate('Sync');
         html += '</h3>';
 
         if (appHost.supports('externallinks')) {
-            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" is="emby-linkbutton" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('sharedcomponents#Help') + '</span></a>';
+            html += '<a href="https://github.com/MediaBrowser/Wiki/wiki/Sync" target="_blank" is="emby-linkbutton" class="button-link lnkHelp" style="margin-top:0;display:inline-block;vertical-align:middle;margin-left:auto;"><i class="md-icon">info</i><span>' + globalize.translate('Help') + '</span></a>';
         }
 
         html += '</div>';
@@ -440,7 +440,7 @@
         html += '<div class="jobItems"></div>';
 
         html += '<div class="formDialogFooter">';
-        html += '<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem"><span>' + globalize.translate('sharedcomponents#Save') + '</span></button>';
+        html += '<button is="emby-button" type="submit" class="raised button-submit block formDialogFooterItem"><span>' + globalize.translate('Save') + '</span></button>';
         html += '</div>';
 
         html += '</form>';

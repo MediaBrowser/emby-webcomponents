@@ -52,12 +52,12 @@
                 html += '<div class="formDialogContent smoothScrollY">';
                 html += '<div class="dialogContentInner dialog-content-centered">';
 
-                html += '<h1>' + globalize.translate('sharedcomponents#HeaderDiscoverEmbyPremiere') + '</h1>';
+                html += '<h1>' + globalize.translate('HeaderDiscoverEmbyPremiere') + '</h1>';
 
-                html += '<p>' + globalize.translate('sharedcomponents#MessageDidYouKnowCinemaMode') + '</p>';
-                html += '<p>' + globalize.translate('sharedcomponents#MessageDidYouKnowCinemaMode2') + '</p>';
+                html += '<p>' + globalize.translate('MessageDidYouKnowCinemaMode') + '</p>';
+                html += '<p>' + globalize.translate('MessageDidYouKnowCinemaMode2') + '</p>';
 
-                html += '<h1 style="margin-top:1.5em;">' + globalize.translate('sharedcomponents#HeaderBenefitsEmbyPremiere') + '</h1>';
+                html += '<h1 style="margin-top:1.5em;">' + globalize.translate('HeaderBenefitsEmbyPremiere') + '</h1>';
 
                 html += '<div class="paperList">';
                 html += getSubscriptionBenefits().map(getSubscriptionBenefitHtml).join('');
@@ -67,13 +67,13 @@
 
                 html += '<div class="formDialogFooter">';
 
-                html += '<button is="emby-button" type="button" class="raised button-submit block btnGetPremiere block formDialogFooterItem" autoFocus><span>' + globalize.translate('sharedcomponents#HeaderBecomeProjectSupporter') + '</span></button>';
+                html += '<button is="emby-button" type="button" class="raised button-submit block btnGetPremiere block formDialogFooterItem" autoFocus><span>' + globalize.translate('HeaderBecomeProjectSupporter') + '</span></button>';
 
                 var seconds = 11;
 
-                html += '<div class="continueTimeText formDialogFooterItem" style="margin: 1.5em 0 .5em;">' + globalize.translate('sharedcomponents#ContinueInSecondsValue', seconds) + '</div>';
+                html += '<div class="continueTimeText formDialogFooterItem" style="margin: 1.5em 0 .5em;">' + globalize.translate('ContinueInSecondsValue', seconds) + '</div>';
 
-                html += '<button is="emby-button" type="button" class="raised button-cancel block btnContinue block formDialogFooterItem hide"><span>' + globalize.translate('sharedcomponents#Continue') + '</span></button>';
+                html += '<button is="emby-button" type="button" class="raised button-cancel block btnContinue block formDialogFooterItem hide"><span>' + globalize.translate('Continue') + '</span></button>';
 
                 html += '</div>';
 
@@ -91,7 +91,7 @@
                         dlg.querySelector('.continueTimeText').classList.add('hide');
                         dlg.querySelector('.btnContinue').classList.remove('hide');
                     } else {
-                        dlg.querySelector('.continueTimeText').innerHTML = globalize.translate('sharedcomponents#ContinueInSecondsValue', seconds);
+                        dlg.querySelector('.continueTimeText').innerHTML = globalize.translate('ContinueInSecondsValue', seconds);
                     }
 
                 }, 1000);
@@ -266,7 +266,7 @@
                     return alertPromise.then(function () {
 
                         var dialogOptions = {
-                            title: globalize.translate('sharedcomponents#HeaderUnlockFeature'),
+                            title: globalize.translate('HeaderUnlockFeature'),
                             feature: feature
                         };
 
@@ -328,10 +328,10 @@
             return html;
         }
 
-        html += '<h1>' + globalize.translate('sharedcomponents#HeaderTermsOfPurchase') + '</h1>';
+        html += '<h1>' + globalize.translate('HeaderTermsOfPurchase') + '</h1>';
 
-        termsOfPurchase.push('<a is="emby-linkbutton" class="button-link" href="https://emby.media/privacy" target="_blank">' + globalize.translate('sharedcomponents#PrivacyPolicy') + '</a>');
-        termsOfPurchase.push('<a is="emby-linkbutton" class="button-link" href="https://emby.media/terms" target="_blank">' + globalize.translate('sharedcomponents#TermsOfUse') + '</a>');
+        termsOfPurchase.push('<a is="emby-linkbutton" class="button-link" href="https://emby.media/privacy" target="_blank">' + globalize.translate('PrivacyPolicy') + '</a>');
+        termsOfPurchase.push('<a is="emby-linkbutton" class="button-link" href="https://emby.media/terms" target="_blank">' + globalize.translate('TermsOfUse') + '</a>');
 
         html += '<ul>';
         html += termsOfPurchase.map(getPurchaseTermHtml).join('');
@@ -374,15 +374,15 @@
         html += '<p style="margin-top:1.5em;">';
 
         if (unlockableProductInfo) {
-            html += globalize.translate('sharedcomponents#MessageUnlockAppWithPurchaseOrSupporter');
+            html += globalize.translate('MessageUnlockAppWithPurchaseOrSupporter');
         }
         else {
-            html += globalize.translate('sharedcomponents#MessageUnlockAppWithSupporter');
+            html += globalize.translate('MessageUnlockAppWithSupporter');
         }
         html += '</p>';
 
         html += '<p style="margin:1.5em 0 2em;">';
-        html += globalize.translate('sharedcomponents#MessageToValidateSupporter');
+        html += globalize.translate('MessageToValidateSupporter');
         html += '</p>';
 
         var hasProduct = false;
@@ -401,9 +401,9 @@
         if (unlockableProductInfo) {
 
             hasProduct = true;
-            var unlockText = globalize.translate('sharedcomponents#ButtonUnlockWithPurchase');
+            var unlockText = globalize.translate('ButtonUnlockWithPurchase');
             if (unlockableProductInfo.price) {
-                unlockText = globalize.translate('sharedcomponents#ButtonUnlockPrice', unlockableProductInfo.price);
+                unlockText = globalize.translate('ButtonUnlockPrice', unlockableProductInfo.price);
             }
             html += '<p>';
             html += '<button is="emby-button" type="button" class="raised secondary block btnPurchase" data-featureid="' + unlockableProductInfo.id + '"><span>' + unlockText + '</span></button>';
@@ -415,7 +415,7 @@
         html += '</p>';
 
         if (subscriptionOptions.length) {
-            html += '<h1 style="margin-top:1.5em;">' + globalize.translate('sharedcomponents#HeaderBenefitsEmbyPremiere') + '</h1>';
+            html += '<h1 style="margin-top:1.5em;">' + globalize.translate('HeaderBenefitsEmbyPremiere') + '</h1>';
 
             html += '<div class="paperList" style="margin-bottom:1em;">';
             html += getSubscriptionBenefits().map(getSubscriptionBenefitHtml).join('');
@@ -424,7 +424,7 @@
 
         if (dialogOptions.feature === 'playback') {
             html += '<p>';
-            html += '<button is="emby-button" type="button" class="raised button-cancel block btnPlayMinute"><span>' + globalize.translate('sharedcomponents#ButtonPlayOneMinute') + '</span></button>';
+            html += '<button is="emby-button" type="button" class="raised button-cancel block btnPlayMinute"><span>' + globalize.translate('ButtonPlayOneMinute') + '</span></button>';
             html += '</p>';
         }
 
@@ -504,41 +504,41 @@
         var list = [];
 
         list.push({
-            name: globalize.translate('sharedcomponents#HeaderFreeApps'),
+            name: globalize.translate('HeaderFreeApps'),
             icon: '&#xE5CA;',
-            text: globalize.translate('sharedcomponents#FreeAppsFeatureDescription')
+            text: globalize.translate('FreeAppsFeatureDescription')
         });
 
         if (appHost.supports('sync')) {
             list.push({
-                name: globalize.translate('sharedcomponents#HeaderOfflineDownloads'),
+                name: globalize.translate('HeaderOfflineDownloads'),
                 icon: '&#xE2C4;',
-                text: globalize.translate('sharedcomponents#HeaderOfflineDownloadsDescription')
+                text: globalize.translate('HeaderOfflineDownloadsDescription')
             });
         }
 
         list.push({
-            name: globalize.translate('sharedcomponents#LiveTV'),
+            name: globalize.translate('LiveTV'),
             icon: '&#xE639;',
-            text: globalize.translate('sharedcomponents#LiveTvFeatureDescription')
+            text: globalize.translate('LiveTvFeatureDescription')
         });
 
         list.push({
             name: 'Emby DVR',
             icon: '&#xE1B2;',
-            text: globalize.translate('sharedcomponents#DvrFeatureDescription')
+            text: globalize.translate('DvrFeatureDescription')
         });
 
         list.push({
-            name: globalize.translate('sharedcomponents#HeaderCinemaMode'),
+            name: globalize.translate('HeaderCinemaMode'),
             icon: '&#xE02C;',
-            text: globalize.translate('sharedcomponents#CinemaModeFeatureDescription')
+            text: globalize.translate('CinemaModeFeatureDescription')
         });
 
         list.push({
-            name: globalize.translate('sharedcomponents#HeaderCloudSync'),
+            name: globalize.translate('HeaderCloudSync'),
             icon: '&#xE627;',
-            text: globalize.translate('sharedcomponents#CloudSyncFeatureDescription')
+            text: globalize.translate('CloudSyncFeatureDescription')
         });
 
         return list;
@@ -622,16 +622,16 @@
         html += '<div class="dialogContentInner dialog-content-centered">';
 
         html += '<p style="margin:2em 0;">';
-        html += globalize.translate('sharedcomponents#HowDidYouPay');
+        html += globalize.translate('HowDidYouPay');
         html += '</p>';
 
         html += '<p>';
-        html += '<button is="emby-button" type="button" class="raised button-cancel block btnRestoreSub"><span>' + globalize.translate('sharedcomponents#IHaveEmbyPremiere') + '</span></button>';
+        html += '<button is="emby-button" type="button" class="raised button-cancel block btnRestoreSub"><span>' + globalize.translate('IHaveEmbyPremiere') + '</span></button>';
         html += '</p>';
 
         if (unlockableProductInfo) {
             html += '<p>';
-            html += '<button is="emby-button" type="button" class="raised button-cancel block btnRestoreUnlock"><span>' + globalize.translate('sharedcomponents#IPurchasedThisApp') + '</span></button>';
+            html += '<button is="emby-button" type="button" class="raised button-cancel block btnRestoreUnlock"><span>' + globalize.translate('IPurchasedThisApp') + '</span></button>';
             html += '</p>';
         }
 
@@ -656,7 +656,7 @@
 
             dialogHelper.close(dlg);
             alertText({
-                text: globalize.translate('sharedcomponents#MessageToValidateSupporter'),
+                text: globalize.translate('MessageToValidateSupporter'),
                 title: 'Emby Premiere'
             });
 
@@ -696,7 +696,7 @@
 
                 prompt({
 
-                    label: globalize.translate('sharedcomponents#LabelEmailAddress')
+                    label: globalize.translate('LabelEmailAddress')
 
                 }).then(resolve, reject);
             });

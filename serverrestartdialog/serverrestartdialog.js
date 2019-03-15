@@ -94,9 +94,9 @@
         //    dialogHelper.close(dlg);
         //});
 
-        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('sharedcomponents#HeaderRestartingEmbyServer');
+        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('HeaderRestartingEmbyServer');
 
-        dlg.querySelector('.text').innerHTML = globalize.translate('sharedcomponents#RestartPleaseWaitMessage');
+        dlg.querySelector('.text').innerHTML = globalize.translate('RestartPleaseWaitMessage');
 
         var i, length;
         var html = '';

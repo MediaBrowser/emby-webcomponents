@@ -37,11 +37,11 @@
         if (program.SeriesTimerId) {
             parent.querySelector('.btnManageSeriesRecording').classList.remove('hide');
             parent.querySelector('.seriesRecordingButton .recordingIcon').classList.add('recordingIcon-active');
-            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#CancelSeries');
+            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('CancelSeries');
         } else {
             parent.querySelector('.btnManageSeriesRecording').classList.add('hide');
             parent.querySelector('.seriesRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
-            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#RecordSeries');
+            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('RecordSeries');
         }
 
         if (program.TimerId && program.Status !== 'Cancelled') {
@@ -49,15 +49,15 @@
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.add('recordingIcon-active');
 
             if (program.Status === 'InProgress') {
-                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#StopRecording');
+                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('StopRecording');
             } else {
-                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#DoNotRecord');
+                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('DoNotRecord');
             }
 
         } else {
             parent.querySelector('.btnManageRecording').classList.add('hide');
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
-            parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('sharedcomponents#Record');
+            parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('Record');
         }
     }
 
@@ -255,7 +255,7 @@
 
             if (this.SeriesTimerId) {
                 apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {
-                    sendToast(globalize.translate('sharedcomponents#RecordingCancelled'));
+                    sendToast(globalize.translate('RecordingCancelled'));
                     fetchData(self);
                 });
             }

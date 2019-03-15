@@ -883,7 +883,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (itemType === 'Series') {
                         if (item.Status === "Continuing") {
 
-                            lines.push(globalize.translate('sharedcomponents#SeriesYearToPresent', item.ProductionYear || ''));
+                            lines.push(globalize.translate('SeriesYearToPresent', item.ProductionYear || ''));
 
                         } else {
 
@@ -955,7 +955,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (options.showSeriesTimerTime) {
                     if (item.RecordAnyTime) {
 
-                        lines.push(globalize.translate('sharedcomponents#Anytime'));
+                        lines.push(globalize.translate('Anytime'));
                     } else {
                         lines.push(datetime.getDisplayTime(item.StartDate));
                     }
@@ -963,19 +963,19 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.showSeriesTimerChannel) {
                     if (item.RecordAnyChannel) {
-                        lines.push(globalize.translate('sharedcomponents#AllChannels'));
+                        lines.push(globalize.translate('AllChannels'));
                     }
                     else {
-                        lines.push(item.ChannelName || globalize.translate('sharedcomponents#OneChannel'));
+                        lines.push(item.ChannelName || globalize.translate('OneChannel'));
                     }
                 }
 
                 if (options.showPersonRoleOrType) {
                     if (item.Role) {
-                        lines.push(globalize.translate('sharedcomponents#ActorAsRole', item.Role));
+                        lines.push(globalize.translate('ActorAsRole', item.Role));
                     }
                     else if (itemType) {
-                        lines.push(globalize.translate('sharedcomponents#' + itemType));
+                        lines.push(globalize.translate('' + itemType));
                     } else {
                         lines.push('');
                     }
@@ -1031,17 +1031,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var html = '';
 
             if (item.IsLive) {
-                html += '<div class="liveTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#Live') + '</div>';
+                html += '<div class="liveTvProgram programAttributeIndicator">' + globalize.translate('Live') + '</div>';
             }
 
             if (item.IsPremiere) {
-                html += '<div class="premiereTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#Premiere') + '</div>';
+                html += '<div class="premiereTvProgram programAttributeIndicator">' + globalize.translate('Premiere') + '</div>';
             }
             else if (item.IsSeries && !item.IsRepeat) {
-                html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#AttributeNew') + '</div>';
+                html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('AttributeNew') + '</div>';
             }
             //else if (item.IsRepeat) {
-            //    html += '<div class="repeatTvProgram programAttributeIndicator">' + globalize.translate('sharedcomponents#Repeat') + '</div>';
+            //    html += '<div class="repeatTvProgram programAttributeIndicator">' + globalize.translate('Repeat') + '</div>';
             //}
 
             if (html) {

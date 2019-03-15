@@ -705,8 +705,8 @@
 
         require(['alert'], function (alert) {
             alert({
-                text: globalize.translate('sharedcomponents#PlaybackError' + errorCode),
-                title: globalize.translate('sharedcomponents#HeaderPlaybackError')
+                text: globalize.translate('PlaybackError' + errorCode),
+                title: globalize.translate('HeaderPlaybackError')
             }).then(function () {
 
                 if (playNextTrack) {
@@ -959,7 +959,7 @@
                     var targets = [];
 
                     targets.push({
-                        name: globalize.translate('sharedcomponents#HeaderMyDevice'),
+                        name: globalize.translate('HeaderMyDevice'),
                         id: 'localplayer',
                         playerName: 'localplayer',
                         playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'],

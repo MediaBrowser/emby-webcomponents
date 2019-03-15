@@ -74,7 +74,7 @@
     FoldersTab.prototype.getFolderSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#Folders'),
+            name: globalize.translate('Folders'),
             value: 'IsFolder,SortName'
         };
     };

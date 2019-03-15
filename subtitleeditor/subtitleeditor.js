@@ -56,7 +56,7 @@
             hasChanges = true;
 
             require(['toast'], function (toast) {
-                toast(globalize.translate('sharedcomponents#MessageDownloadQueued'));
+                toast(globalize.translate('MessageDownloadQueued'));
             });
 
             focusManager.autoFocus(context);
@@ -65,15 +65,15 @@
 
     function deleteLocalSubtitle(context, index) {
 
-        var msg = globalize.translate('sharedcomponents#MessageAreYouSureDeleteSubtitles');
+        var msg = globalize.translate('MessageAreYouSureDeleteSubtitles');
 
         require(['confirm'], function (confirm) {
 
             confirm({
 
-                title: globalize.translate('sharedcomponents#ConfirmDeletion'),
+                title: globalize.translate('ConfirmDeletion'),
                 text: msg,
-                confirmText: globalize.translate('sharedcomponents#Delete'),
+                confirmText: globalize.translate('Delete'),
                 primary: 'cancel'
 
             }).then(function () {
@@ -113,7 +113,7 @@
 
         if (subs.length) {
 
-            html += '<h2>' + globalize.translate('sharedcomponents#MySubtitles') + '</h2>';
+            html += '<h2>' + globalize.translate('MySubtitles') + '</h2>';
 
             html += '<div>';
 
@@ -152,7 +152,7 @@
                 if (user.Policy.EnableSubtitleManagement || (user.Policy.EnableSubtitleManagement == null && user.Policy.IsAdministrator)) {
                     if (!layoutManager.tv) {
                         if (s.Path) {
-                            itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('sharedcomponents#Delete') + '" class="btnDelete listItemButton"><i class="md-icon">&#xE872;</i></button>';
+                            itemHtml += '<button is="paper-icon-button-light" data-index="' + s.Index + '" title="' + globalize.translate('Delete') + '" class="btnDelete listItemButton"><i class="md-icon">&#xE872;</i></button>';
                         }
                     }
                 }
@@ -263,11 +263,11 @@
             html += '<div class="secondary listItemBodyText">';
 
             if (result.Format) {
-                html += '<span style="margin-right:1em;">' + globalize.translate('sharedcomponents#FormatValue', result.Format) + '</span>';
+                html += '<span style="margin-right:1em;">' + globalize.translate('FormatValue', result.Format) + '</span>';
             }
 
             if (result.DownloadCount != null) {
-                html += '<span>' + globalize.translate('sharedcomponents#DownloadsValue', result.DownloadCount) + '</span>';
+                html += '<span>' + globalize.translate('DownloadsValue', result.DownloadCount) + '</span>';
             }
             html += '</div>';
 
@@ -278,10 +278,10 @@
             if (result.IsHashMatch || result.IsForced) {
                 html += '<div class="secondary listItemBodyText">';
                 if (result.IsForced) {
-                    html += '<div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('sharedcomponents#Forced') + '</div>';
+                    html += '<div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('Forced') + '</div>';
                 }
                 if (result.IsHashMatch) {
-                    html += '<div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('sharedcomponents#HashMatch') + '</div>';
+                    html += '<div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('HashMatch') + '</div>';
                 }
                 html += '</div>';
             }
@@ -422,7 +422,7 @@
         var items = [];
 
         items.push({
-            name: globalize.translate('sharedcomponents#Download'),
+            name: globalize.translate('Download'),
             id: 'download'
         });
 

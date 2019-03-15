@@ -10,112 +10,112 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         if (type === 'movies') {
 
             list.push({
-                name: globalize.translate('sharedcomponents#Movies'),
+                name: globalize.translate('Movies'),
                 value: 'movies',
                 isDefault: true
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Suggestions'),
+                name: globalize.translate('Suggestions'),
                 value: 'suggestions'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Favorites'),
+                name: globalize.translate('Favorites'),
                 value: 'favorites'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Genres'),
+                name: globalize.translate('Genres'),
                 value: 'genres'
             });
             list.push({
-                name: globalize.translate('sharedcomponents#Collections'),
+                name: globalize.translate('Collections'),
                 value: 'collections'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Folders'),
+                name: globalize.translate('Folders'),
                 value: 'folders'
             });
         }
         else if (type === 'tvshows') {
 
             list.push({
-                name: globalize.translate('sharedcomponents#Shows'),
+                name: globalize.translate('Shows'),
                 value: 'shows',
                 isDefault: true
             });
             list.push({
-                name: globalize.translate('sharedcomponents#Suggestions'),
+                name: globalize.translate('Suggestions'),
                 value: 'suggestions'
             });
             list.push({
-                name: globalize.translate('sharedcomponents#Favorites'),
+                name: globalize.translate('Favorites'),
                 value: 'favorites'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Genres'),
+                name: globalize.translate('Genres'),
                 value: 'genres'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Folders'),
+                name: globalize.translate('Folders'),
                 value: 'folders'
             });
         }
         else if (type === 'music' || type === 'audiobooks') {
 
             list.push({
-                name: globalize.translate('sharedcomponents#Suggestions'),
+                name: globalize.translate('Suggestions'),
                 value: 'suggestions',
                 isDefault: true
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Albums'),
+                name: globalize.translate('Albums'),
                 value: 'albums'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#HeaderAlbumArtists'),
+                name: globalize.translate('HeaderAlbumArtists'),
                 value: 'albumartists'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Artists'),
+                name: globalize.translate('Artists'),
                 value: 'artists'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Playlists'),
+                name: globalize.translate('Playlists'),
                 value: 'playlists'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Genres'),
+                name: globalize.translate('Genres'),
                 value: 'genres'
             });
 
             list.push({
-                name: globalize.translate('sharedcomponents#Folders'),
+                name: globalize.translate('Folders'),
                 value: 'folders'
             });
         }
         else if (type === 'livetv') {
 
             list.push({
-                name: globalize.translate('sharedcomponents#Suggestions'),
+                name: globalize.translate('Suggestions'),
                 value: 'suggestions',
                 isDefault: true
             });
             list.push({
-                name: globalize.translate('sharedcomponents#Guide'),
+                name: globalize.translate('Guide'),
                 value: 'guide'
             });
             list.push({
-                name: globalize.translate('sharedcomponents#Channels'),
+                name: globalize.translate('Channels'),
                 value: 'channels'
             });
         }
@@ -157,8 +157,8 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
             currentHtml += '</div>';
 
-            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemUp btnViewItemMove autoSize" title="' + globalize.translate('sharedcomponents#Up') + '"><i class="md-icon">&#xE316;</i></button>';
-            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemDown btnViewItemMove autoSize" title="' + globalize.translate('sharedcomponents#Down') + '"><i class="md-icon">&#xE313;</i></button>';
+            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemUp btnViewItemMove autoSize" title="' + globalize.translate('Up') + '"><i class="md-icon">&#xE316;</i></button>';
+            currentHtml += '<button type="button" is="paper-icon-button-light" class="btnViewItemDown btnViewItemMove autoSize" title="' + globalize.translate('Down') + '"><i class="md-icon">&#xE313;</i></button>';
 
             currentHtml += '</div>';
 
@@ -204,7 +204,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             html += '<div>';
             html += '<label>';
             html += '<input type="checkbox" is="emby-checkbox" class="chkIncludeInMyMedia" data-folderid="' + item.Id + '"' + (isChecked ? ' checked="checked"' : '') + '/>';
-            html += '<span>' + globalize.translate('sharedcomponents#DisplayInMyMedia') + '</span>';
+            html += '<span>' + globalize.translate('DisplayInMyMedia') + '</span>';
             html += '</label>';
             html += '</div>';
         }
@@ -215,7 +215,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
             isChecked = user.Configuration.LatestItemsExcludes.indexOf(item.Id) === -1;
             html += '<label class="fldIncludeInLatest">';
             html += '<input type="checkbox" is="emby-checkbox" class="chkIncludeInLatest" data-folderid="' + item.Id + '"' + (isChecked ? ' checked="checked"' : '') + '/>';
-            html += '<span>' + globalize.translate('sharedcomponents#DisplayInOtherHomeScreenSections') + '</span>';
+            html += '<span>' + globalize.translate('DisplayInOtherHomeScreenSections') + '</span>';
             html += '</label>';
         }
 
@@ -228,7 +228,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
 
             var idForLanding = item.CollectionType === 'livetv' ? item.CollectionType : item.Id;
             html += '<div class="selectContainer">';
-            html += '<select is="emby-select" class="selectLanding" data-folderid="' + idForLanding + '" label="' + globalize.translate('sharedcomponents#LabelDefaultScreen') + '">';
+            html += '<select is="emby-select" class="selectLanding" data-folderid="' + idForLanding + '" label="' + globalize.translate('LabelDefaultScreen') + '">';
 
             var userValue = userSettings.get('landing-' + idForLanding);
 
@@ -406,7 +406,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
                 loading.hide();
                 if (enableSaveConfirmation) {
                     require(['toast'], function (toast) {
-                        toast(globalize.translate('sharedcomponents#SettingsSaved'));
+                        toast(globalize.translate('SettingsSaved'));
                     });
                 }
 
@@ -461,7 +461,7 @@ define(['require', 'apphost', 'layoutManager', 'focusManager', 'globalize', 'loa
         require(['text!./homescreensettings.template.html'], function (template) {
 
             for (var i = 1; i <= numConfigurableSections; i++) {
-                template = template.replace('{section' + i + 'label}', globalize.translate('sharedcomponents#LabelHomeScreenSectionValue', i));
+                template = template.replace('{section' + i + 'label}', globalize.translate('LabelHomeScreenSectionValue', i));
             }
 
             options.element.innerHTML = globalize.translateDocument(template, 'sharedcomponents');

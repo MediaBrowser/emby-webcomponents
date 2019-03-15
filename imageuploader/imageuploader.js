@@ -13,14 +13,14 @@
         switch (evt.target.error.code) {
             case evt.target.error.NOT_FOUND_ERR:
                 require(['toast'], function (toast) {
-                    toast(globalize.translate('sharedcomponents#MessageFileReadError'));
+                    toast(globalize.translate('MessageFileReadError'));
                 });
                 break;
             case evt.target.error.ABORT_ERR:
                 break; // noop
             default:
                 require(['toast'], function (toast) {
-                    toast(globalize.translate('sharedcomponents#MessageFileReadError'));
+                    toast(globalize.translate('MessageFileReadError'));
                 });
                 break;
         }

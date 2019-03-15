@@ -18,13 +18,13 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
         }
 
         var message = result.IsNewUserInvitation ?
-            globalize.translate('sharedcomponents#MessageInvitationSentToNewUser', result.GuestDisplayName) :
-            globalize.translate('sharedcomponents#MessageInvitationSentToUser', result.GuestDisplayName);
+            globalize.translate('MessageInvitationSentToNewUser', result.GuestDisplayName) :
+            globalize.translate('MessageInvitationSentToUser', result.GuestDisplayName);
 
         return alert({
 
             text: message,
-            title: globalize.translate('sharedcomponents#HeaderInvitationSent')
+            title: globalize.translate('HeaderInvitationSent')
 
         }).then(resolvePromise, resolvePromise);
     }
@@ -60,14 +60,14 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
             else if (statusCode === 404) {
                 // User doesn't exist
                 return alert({
-                    text: globalize.translate('sharedcomponents#GuestUserNotFound')
+                    text: globalize.translate('GuestUserNotFound')
                 }).then(rejectPromise, rejectPromise);
 
             } else if ((statusCode || 0) >= 500) {
 
                 // Unable to reach connect server ?
                 return alert({
-                    text: globalize.translate('sharedcomponents#ErrorReachingEmbyConnect')
+                    text: globalize.translate('ErrorReachingEmbyConnect')
                 }).then(rejectPromise, rejectPromise);
 
             } else {
@@ -85,12 +85,12 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
         var html;
 
         if (appHost.supports('externallinks')) {
-            html = globalize.translate('sharedcomponents#ErrorAddingGuestAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
-            html += '<br/><br/>' + globalize.translate('sharedcomponents#ErrorAddingGuestAccount2', 'apps@emby.media');
+            html = globalize.translate('ErrorAddingGuestAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
+            html += '<br/><br/>' + globalize.translate('ErrorAddingGuestAccount2', 'apps@emby.media');
         }
 
-        var text = globalize.translate('sharedcomponents#ErrorAddingGuestAccount1', 'https://emby.media/connect');
-        text += '\n\n' + globalize.translate('sharedcomponents#ErrorAddingGuestAccount2', 'apps@emby.media');
+        var text = globalize.translate('ErrorAddingGuestAccount1', 'https://emby.media/connect');
+        text += '\n\n' + globalize.translate('ErrorAddingGuestAccount2', 'apps@emby.media');
 
         return alert({
             text: text,
@@ -100,7 +100,7 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
 
     function showConnectServerUnreachableErrorMessage() {
 
-        var text = globalize.translate('sharedcomponents#ErrorConnectServerUnreachable', 'https://connect.emby.media');
+        var text = globalize.translate('ErrorConnectServerUnreachable', 'https://connect.emby.media');
 
         return alert({
             text: text
@@ -118,15 +118,15 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
         else if (username) {
 
             if (appHost.supports('externallinks')) {
-                html = globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
-                html += '<br/><br/>' + globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount2', 'apps@emby.media');
+                html = globalize.translate('ErrorAddingEmbyConnectAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
+                html += '<br/><br/>' + globalize.translate('ErrorAddingEmbyConnectAccount2', 'apps@emby.media');
             }
 
-            text = globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount1', 'https://emby.media/connect');
-            text += '\n\n' + globalize.translate('sharedcomponents#ErrorAddingEmbyConnectAccount2', 'apps@emby.media');
+            text = globalize.translate('ErrorAddingEmbyConnectAccount1', 'https://emby.media/connect');
+            text += '\n\n' + globalize.translate('ErrorAddingEmbyConnectAccount2', 'apps@emby.media');
 
         } else {
-            html = text = globalize.translate('sharedcomponents#DefaultErrorMessage');
+            html = text = globalize.translate('DefaultErrorMessage');
         }
 
         return alert({
@@ -153,8 +153,8 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
             }).then(function () {
 
                 return alert({
-                    text: globalize.translate('sharedcomponents#MessageEmbyAccontRemoved'),
-                    title: globalize.translate('sharedcomponents#HeaderEmbyAccountRemoved'),
+                    text: globalize.translate('MessageEmbyAccontRemoved'),
+                    title: globalize.translate('HeaderEmbyAccountRemoved'),
 
                 }).catch(resolvePromise);
 
@@ -167,7 +167,7 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
                 }
 
                 return alert({
-                    text: globalize.translate('sharedcomponents#ErrorRemovingEmbyConnectAccount')
+                    text: globalize.translate('ErrorRemovingEmbyConnectAccount')
 
                 }).then(rejectPromise);
             });
@@ -186,11 +186,11 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
 
             }).then(function (result) {
 
-                var msgKey = result.IsPending ? 'sharedcomponents#MessagePendingEmbyAccountAdded' : 'sharedcomponents#MessageEmbyAccountAdded';
+                var msgKey = result.IsPending ? 'MessagePendingEmbyAccountAdded' : 'MessageEmbyAccountAdded';
 
                 return alert({
                     text: globalize.translate(msgKey),
-                    title: globalize.translate('sharedcomponents#HeaderEmbyAccountAdded'),
+                    title: globalize.translate('HeaderEmbyAccountAdded'),
 
                 }).catch(resolvePromise);
 

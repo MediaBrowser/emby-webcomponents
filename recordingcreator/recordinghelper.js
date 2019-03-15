@@ -14,7 +14,7 @@
                     return apiClient.createLiveTvSeriesTimer(timerDefaults).then(function () {
 
                         loading.hide();
-                        sendToast(globalize.translate('sharedcomponents#SeriesRecordingScheduled'));
+                        sendToast(globalize.translate('SeriesRecordingScheduled'));
                     });
                 });
             } else {
@@ -36,10 +36,10 @@
 
                 confirm({
 
-                    text: globalize.translate('sharedcomponents#MessageConfirmRecordingCancellation'),
+                    text: globalize.translate('MessageConfirmRecordingCancellation'),
                     primary: 'cancel',
-                    confirmText: globalize.translate('sharedcomponents#HeaderCancelRecording'),
-                    cancelText: globalize.translate('sharedcomponents#HeaderKeepRecording')
+                    confirmText: globalize.translate('HeaderCancelRecording'),
+                    cancelText: globalize.translate('HeaderKeepRecording')
 
                 }).then(function () {
 
@@ -61,10 +61,10 @@
 
                 confirm({
 
-                    text: globalize.translate('sharedcomponents#MessageConfirmRecordingCancellation'),
+                    text: globalize.translate('MessageConfirmRecordingCancellation'),
                     primary: 'cancel',
-                    confirmText: globalize.translate('sharedcomponents#HeaderCancelSeries'),
-                    cancelText: globalize.translate('sharedcomponents#HeaderKeepSeries')
+                    confirmText: globalize.translate('HeaderCancelSeries'),
+                    cancelText: globalize.translate('HeaderKeepSeries')
 
                 }).then(function () {
 
@@ -74,7 +74,7 @@
                     apiClient.cancelLiveTvSeriesTimer(timerId).then(function () {
 
                         require(['toast'], function (toast) {
-                            toast(globalize.translate('sharedcomponents#SeriesCancelled'));
+                            toast(globalize.translate('SeriesCancelled'));
                         });
 
                         loading.hide();
@@ -92,7 +92,7 @@
 
             if (hideLoading !== false) {
                 loading.hide();
-                sendToast(globalize.translate('sharedcomponents#RecordingCancelled'));
+                sendToast(globalize.translate('RecordingCancelled'));
             }
         });
     }
@@ -109,7 +109,7 @@
             return promise.then(function () {
 
                 loading.hide();
-                sendToast(globalize.translate('sharedcomponents#RecordingScheduled'));
+                sendToast(globalize.translate('RecordingScheduled'));
             });
         });
     }
@@ -128,34 +128,34 @@
                 var items = [];
 
                 items.push({
-                    name: globalize.translate('sharedcomponents#HeaderKeepRecording'),
+                    name: globalize.translate('HeaderKeepRecording'),
                     id: 'cancel',
                     type: 'submit'
                 });
 
                 if (timerStatus === 'InProgress') {
                     items.push({
-                        name: globalize.translate('sharedcomponents#HeaderStopRecording'),
+                        name: globalize.translate('HeaderStopRecording'),
                         id: 'canceltimer',
                         type: 'cancel'
                     });
                 } else {
                     items.push({
-                        name: globalize.translate('sharedcomponents#HeaderCancelRecording'),
+                        name: globalize.translate('HeaderCancelRecording'),
                         id: 'canceltimer',
                         type: 'cancel'
                     });
                 }
 
                 items.push({
-                    name: globalize.translate('sharedcomponents#HeaderCancelSeries'),
+                    name: globalize.translate('HeaderCancelSeries'),
                     id: 'cancelseriestimer',
                     type: 'cancel'
                 });
 
                 dialog({
 
-                    text: globalize.translate('sharedcomponents#MessageConfirmRecordingCancellation'),
+                    text: globalize.translate('MessageConfirmRecordingCancellation'),
                     buttons: items
 
                 }).then(function (result) {
@@ -174,7 +174,7 @@
                         apiClient.cancelLiveTvSeriesTimer(seriesTimerId).then(function () {
 
                             require(['toast'], function (toast) {
-                                toast(globalize.translate('sharedcomponents#SeriesCancelled'));
+                                toast(globalize.translate('SeriesCancelled'));
                             });
 
                             loading.hide();

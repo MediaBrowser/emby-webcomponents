@@ -50,7 +50,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
                 }).then(function () {
 
-                    globalize.defaultModule(newSkin.id);
                     return loadSkinHeader(newSkin);
                 });
             });

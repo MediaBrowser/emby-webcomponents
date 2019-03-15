@@ -51,7 +51,7 @@
 
         if (!hasId && !lookupInfo.Name) {
             require(['toast'], function (toast) {
-                toast(globalize.translate('sharedcomponents#PleaseEnterNameOrId'));
+                toast(globalize.translate('PleaseEnterNameOrId'));
             });
             return;
         }
@@ -317,7 +317,7 @@
 
                 html += '<div class="inputContainer">';
 
-                var idLabel = globalize.translate('sharedcomponents#LabelDynamicExternalId').replace('{0}', idInfo.Name);
+                var idLabel = globalize.translate('LabelDynamicExternalId').replace('{0}', idInfo.Name);
 
                 var value = providerIds[idInfo.Key] || '';
 
@@ -340,7 +340,7 @@
 
             page.querySelector('.identifyProviderIds').innerHTML = html;
 
-            page.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('sharedcomponents#Identify');
+            page.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('Identify');
         });
     }
 
@@ -506,7 +506,7 @@
             dlg.querySelector('#txtLookupYear').value = itemYear;
         }
 
-        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('sharedcomponents#Search');
+        dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('Search');
     }
 
     return {

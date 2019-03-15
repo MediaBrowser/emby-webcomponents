@@ -278,7 +278,7 @@
 
             if (sortBy === options[i].value) {
 
-                btnSortText.innerHTML = globalize.translate('sharedcomponents#SortByValue', options[i].name);
+                btnSortText.innerHTML = globalize.translate('SortByValue', options[i].name);
                 break;
             }
         }
@@ -940,7 +940,7 @@
         }
 
         sortBy.push({
-            name: globalize.translate('sharedcomponents#DateAdded'),
+            name: globalize.translate('DateAdded'),
             value: 'DateCreated,SortName'
         });
 
@@ -950,7 +950,7 @@
         }
 
         sortBy.push({
-            name: globalize.translate('sharedcomponents#ParentalRating'),
+            name: globalize.translate('ParentalRating'),
             value: 'OfficialRating,SortName'
         });
 
@@ -960,12 +960,12 @@
         }
 
         sortBy.push({
-            name: globalize.translate('sharedcomponents#ReleaseDate'),
+            name: globalize.translate('ReleaseDate'),
             value: 'PremiereDate,ProductionYear,SortName'
         });
 
         sortBy.push({
-            name: globalize.translate('sharedcomponents#Runtime'),
+            name: globalize.translate('Runtime'),
             value: 'Runtime,SortName'
         });
 
@@ -977,7 +977,7 @@
     ItemsTab.prototype.getNameSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#Name'),
+            name: globalize.translate('Name'),
             value: 'SortName'
         };
     };
@@ -990,7 +990,7 @@
     ItemsTab.prototype.getPlayCountSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#PlayCount'),
+            name: globalize.translate('PlayCount'),
             value: 'PlayCount,SortName'
         };
     };
@@ -998,7 +998,7 @@
     ItemsTab.prototype.getDatePlayedSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#DatePlayed'),
+            name: globalize.translate('DatePlayed'),
             value: 'DatePlayed,SortName'
         };
     };
@@ -1006,7 +1006,7 @@
     ItemsTab.prototype.getCriticRatingSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#CriticRating'),
+            name: globalize.translate('CriticRating'),
             value: 'CriticRating,SortName'
         };
     };
@@ -1019,7 +1019,7 @@
     ItemsTab.prototype.getCommunityRatingSortOption = function () {
 
         return {
-            name: globalize.translate('sharedcomponents#CommunityRating'),
+            name: globalize.translate('CommunityRating'),
             value: 'CommunityRating,SortName'
         };
     };

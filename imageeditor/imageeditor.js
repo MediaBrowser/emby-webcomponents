@@ -134,7 +134,7 @@
 
         html += '<div class="cardFooter visualCardBox-cardFooter">';
 
-        html += '<h3 class="cardText cardTextCentered" style="margin:0;">' + globalize.translate('sharedcomponents#' + image.ImageType) + '</h3>';
+        html += '<h3 class="cardText cardTextCentered" style="margin:0;">' + globalize.translate('' + image.ImageType) + '</h3>';
 
         html += '<div class="cardText cardText-secondary cardTextCentered">';
         if (image.Width && image.Height) {
@@ -150,24 +150,24 @@
             if (image.ImageType === "Backdrop") {
 
                 if (index > 0) {
-                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('sharedcomponents#MoveLeft') + '"><i class="md-icon">chevron_left</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex - 1) + '" title="' + globalize.translate('MoveLeft') + '"><i class="md-icon">chevron_left</i></button>';
                 } else {
-                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('sharedcomponents#MoveLeft') + '"><i class="md-icon">chevron_left</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveLeft') + '"><i class="md-icon">chevron_left</i></button>';
                 }
 
                 if (index < numImages - 1) {
-                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('sharedcomponents#MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="btnMoveImage autoSize" data-imagetype="' + image.ImageType + '" data-index="' + image.ImageIndex + '" data-newindex="' + (image.ImageIndex + 1) + '" title="' + globalize.translate('MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
                 } else {
-                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('sharedcomponents#MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="autoSize" disabled title="' + globalize.translate('MoveRight') + '"><i class="md-icon">chevron_right</i></button>';
                 }
             }
             else {
                 if (imageProviders.length) {
-                    html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('sharedcomponents#Search') + '"><i class="md-icon">search</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" class="btnSearchImages autoSize" title="' + globalize.translate('Search') + '"><i class="md-icon">search</i></button>';
                 }
             }
 
-            html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : "null") + '" class="btnDeleteImage autoSize" title="' + globalize.translate('sharedcomponents#Delete') + '"><i class="md-icon">delete</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" data-imagetype="' + image.ImageType + '" data-index="' + (image.ImageIndex != null ? image.ImageIndex : "null") + '" class="btnDeleteImage autoSize" title="' + globalize.translate('Delete') + '"><i class="md-icon">delete</i></button>';
             html += '</div>';
         }
 
@@ -198,8 +198,8 @@
 
             confirm({
 
-                text: globalize.translate('sharedcomponents#ConfirmDeleteImage'),
-                confirmText: globalize.translate('sharedcomponents#Delete'),
+                text: globalize.translate('ConfirmDeleteImage'),
+                confirmText: globalize.translate('Delete'),
                 primary: 'cancel'
 
             }).then(afterConfirm);
@@ -215,7 +215,7 @@
         }, function () {
 
             require(['alert'], function (alert) {
-                alert(globalize.translate('sharedcomponents#DefaultErrorMessage'));
+                alert(globalize.translate('DefaultErrorMessage'));
             });
         });
     }
@@ -299,21 +299,21 @@
             var commands = [];
 
             commands.push({
-                name: globalize.translate('sharedcomponents#Delete'),
+                name: globalize.translate('Delete'),
                 id: 'delete'
             });
 
             if (type === 'Backdrop') {
                 if (index > 0) {
                     commands.push({
-                        name: globalize.translate('sharedcomponents#MoveLeft'),
+                        name: globalize.translate('MoveLeft'),
                         id: 'moveleft'
                     });
                 }
 
                 if (index < numImages - 1) {
                     commands.push({
-                        name: globalize.translate('sharedcomponents#MoveRight'),
+                        name: globalize.translate('MoveRight'),
                         id: 'moveright'
                     });
                 }
@@ -321,7 +321,7 @@
 
             if (providerCount) {
                 commands.push({
-                    name: globalize.translate('sharedcomponents#Search'),
+                    name: globalize.translate('Search'),
                     id: 'search'
                 });
             }

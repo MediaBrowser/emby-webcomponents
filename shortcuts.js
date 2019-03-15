@@ -240,7 +240,7 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
                     ids: [playableItemId],
                     serverId: serverId
                 });
-                sendToast(globalize.translate('sharedcomponents#MediaQueued'));
+                sendToast(globalize.translate('MediaQueued'));
             } else {
                 playbackManager.queue({
                     ids: [playableItemId],

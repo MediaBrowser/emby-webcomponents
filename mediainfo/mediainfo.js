@@ -168,16 +168,16 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
         if (item.Type === 'SeriesTimer') {
             if (item.RecordAnyTime) {
 
-                miscInfo.push(globalize.translate('sharedcomponents#Anytime'));
+                miscInfo.push(globalize.translate('Anytime'));
             } else {
                 miscInfo.push(datetime.getDisplayTime(item.StartDate));
             }
 
             if (item.RecordAnyChannel) {
-                miscInfo.push(globalize.translate('sharedcomponents#AllChannels'));
+                miscInfo.push(globalize.translate('AllChannels'));
             }
             else {
-                miscInfo.push(item.ChannelName || globalize.translate('sharedcomponents#OneChannel'));
+                miscInfo.push(item.ChannelName || globalize.translate('OneChannel'));
             }
         }
 
@@ -202,7 +202,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
         if (options.year !== false && item.ProductionYear && item.Type === "Series") {
 
             if (item.Status === "Continuing") {
-                miscInfo.push(globalize.translate('sharedcomponents#SeriesYearToPresent', item.ProductionYear));
+                miscInfo.push(globalize.translate('SeriesYearToPresent', item.ProductionYear));
 
             }
             else if (item.ProductionYear) {
@@ -278,22 +278,22 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
 
                 if (item.IsLive) {
                     miscInfo.push({
-                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem liveTvProgram">' + globalize.translate('sharedcomponents#Live') + '</div>'
+                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem liveTvProgram">' + globalize.translate('Live') + '</div>'
                     });
                 }
                 else if (item.IsPremiere) {
                     miscInfo.push({
-                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem premiereTvProgram">' + globalize.translate('sharedcomponents#Premiere') + '</div>'
+                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem premiereTvProgram">' + globalize.translate('Premiere') + '</div>'
                     });
                 }
                 else if (item.IsNew || (item.IsSeries && !item.IsRepeat && !connectionManager.getApiClient(item.ServerId).isMinServerVersion('3.6.0.0'))) {
                     miscInfo.push({
-                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">' + globalize.translate('sharedcomponents#AttributeNew') + '</div>'
+                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">' + globalize.translate('AttributeNew') + '</div>'
                     });
                 }
                 else if (item.IsRepeat) {
                     miscInfo.push({
-                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem repeatTvProgram">' + globalize.translate('sharedcomponents#Repeat') + '</div>'
+                        html: '<div class="mediaInfoProgramAttribute mediaInfoItem repeatTvProgram">' + globalize.translate('Repeat') + '</div>'
                     });
                 }
             }
@@ -317,7 +317,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
 
                 try {
                     date = datetime.parseISO8601Date(item.PremiereDate);
-                    text = globalize.translate('sharedcomponents#OriginalAirDateValue', datetime.toLocaleDateString(date));
+                    text = globalize.translate('OriginalAirDateValue', datetime.toLocaleDateString(date));
                     miscInfo.push(text);
                 }
                 catch (e) {
@@ -377,7 +377,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
                     miscInfo.push(globalize.translate('OneTrack'));
                 }
                 else {
-                    miscInfo.push(globalize.translate('sharedcomponents#TrackCount', count));
+                    miscInfo.push(globalize.translate('TrackCount', count));
                 }
             }
 
@@ -451,7 +451,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
                 endDate = new Date(endDate);
 
                 var displayTime = datetime.getDisplayTime(endDate);
-                return globalize.translate('sharedcomponents#EndsAtValue', displayTime);
+                return globalize.translate('EndsAtValue', displayTime);
             }
         }
 
@@ -468,7 +468,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
         if (includeText === false) {
             return displayTime;
         }
-        return globalize.translate('sharedcomponents#EndsAtValue', displayTime);
+        return globalize.translate('EndsAtValue', displayTime);
     }
 
     function getMediaInfoItem(m, cssClass) {
@@ -731,7 +731,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
 
             list.push({
                 type: 'added',
-                text: globalize.translate('sharedcomponents#AddedOnValue', datetime.toLocaleDateString(dateCreated) + ' ' + datetime.getDisplayTime(dateCreated))
+                text: globalize.translate('AddedOnValue', datetime.toLocaleDateString(dateCreated) + ' ' + datetime.getDisplayTime(dateCreated))
             });
         }
 
