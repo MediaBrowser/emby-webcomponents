@@ -164,6 +164,8 @@
                 title = globalize.translate('HeaderDeleteItems');
             }
 
+            msg += '\n\n' + globalize.translate('AreYouSureToContinue');
+
             require(['confirm'], function (confirm) {
 
                 confirm(msg, title).then(function () {

@@ -22,31 +22,42 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
         var title = globalize.translate('HeaderDeleteItem');
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
-        return confirm({
+        return apiClient.getDeleteInfo(itemId).then(function (deleteInfo) {
 
-            title: title,
-            text: msg,
-            confirmText: globalize.translate('Delete'),
-            primary: 'cancel'
+            if (deleteInfo.Paths.length) {
 
-        }).then(function () {
+                msg += '\n\n' + globalize.translate('FollowingFilesWillBeDeleted') + '\n' + deleteInfo.Paths.join('\n');
+            }
 
-            return apiClient.deleteItem(itemId).then(function () {
+            msg += '\n\n' + globalize.translate('AreYouSureToContinue');
 
-                if (options.navigate) {
-                    if (parentId) {
-                        appRouter.showItem(parentId, serverId);
-                    } else {
-                        appRouter.goHome();
+            return confirm({
+
+                title: title,
+                text: msg,
+                confirmText: globalize.translate('Delete'),
+                primary: 'cancel'
+
+            }).then(function () {
+
+                return apiClient.deleteItem(itemId).then(function () {
+
+                    if (options.navigate) {
+                        if (parentId) {
+                            appRouter.showItem(parentId, serverId);
+                        } else {
+                            appRouter.goHome();
+                        }
                     }
-                }
-            }, function (err) {
 
-                var result = function () {
-                    return Promise.reject(err);
-                };
+                }, function (err) {
 
-                return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
+                    var result = function () {
+                        return Promise.reject(err);
+                    };
+
+                    return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
+                });
             });
         });
     }
