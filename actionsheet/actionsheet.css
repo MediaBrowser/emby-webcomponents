@@ -78,6 +78,7 @@
     max-height: 64%;
     max-width: 60%;
     width: auto;
+    margin: 1em 0 !important;
 }
 
 .actionsheetDivider {
@@ -103,7 +104,7 @@
 }
 
 .actionsheet-xlargeFont {
-    font-size: 112%!important;
+    font-size: 112% !important;
 }
 
 .btnCloseActionSheet {
