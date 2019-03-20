@@ -19,7 +19,7 @@
 // #      LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // #      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // #      THE SOFTWARE.
-require(['apphost'], function (appHost) {
+require([], function () {
     "use strict";
 
     var _GAMEPAD_A_BUTTON_INDEX = 0,
@@ -180,15 +180,9 @@ require(['apphost'], function (appHost) {
         times[key] = new Date().getTime();
     }
 
-    var isElectron = navigator.userAgent.toLowerCase().indexOf('electron') !== -1;
     function allowInput() {
 
-        // This would be nice but always seems to return true with electron
-        if (!isElectron && document.hidden) {
-            return false;
-        }
-
-        if (appHost.getWindowState() === 'Minimized') {
+        if (document.visibilityState === 'hidden') {
             return false;
         }
 
