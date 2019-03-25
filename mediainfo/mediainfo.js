@@ -246,7 +246,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
                 }
             }
 
-            if (item.Studios.length) {
+            if (item.Studios && item.Studios.length) {
 
                 var studio = item.Studios[0];
 

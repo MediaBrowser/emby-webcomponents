@@ -488,6 +488,31 @@
             }).length > 0;
         }
 
+        function checkFailedPlayback(elem) {
+
+            var playbackStartedTimerId;
+
+            var onPlaybackStalled = function () {
+                elem.removeEventListener('stalled', onPlaybackStalled);
+                htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
+            };
+
+            var onPlaybackStarted = function () {
+                clearTimeout(playbackStartedTimerId);
+                elem.removeEventListener('stalled', onPlaybackStalled);
+                elem.removeEventListener('loadeddata', onPlaybackStarted);
+            };
+
+            // Stalled before loadeddata means we have failed to load
+            // This might be quicker than waiting for the timer to expire
+            elem.addEventListener('stalled', onPlaybackStalled);
+            elem.addEventListener('loadeddata', onPlaybackStarted);
+
+            // It is possible that we don't stall, but also never see loadeddata
+            // Make sure we eventually force a fail
+            playbackStartedTimerId = setTimeout(onPlaybackStalled, 10000);
+        }
+
         function setCurrentSrc(elem, options) {
 
             elem.removeEventListener('error', onError);
@@ -562,6 +587,10 @@
                     elem.autoplay = true;
 
                     return htmlMediaHelper.applySrc(elem, val, options).then(function () {
+
+                        if (browser.web0s && options.playMethod === 'DirectStream') {
+                            checkFailedPlayback(elem);
+                        }
 
                         setTracks(elem, tracksHtml);
 

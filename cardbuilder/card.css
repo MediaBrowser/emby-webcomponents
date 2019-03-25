@@ -98,12 +98,12 @@ button {
 @media (min-width: 50em) {
 
     .cardBox {
-        margin: 1.04em;
+        margin: 1em;
     }
 }
 
 .cardBox-withfocuscontent-large {
-    margin: .54em;
+    margin: .5em;
 }
 
 /*.card-focuscontent {
