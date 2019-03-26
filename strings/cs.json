@@ -633,7 +633,7 @@
     "MessageEmbyAccontRemoved": "\u00da\u010det Emby byl odstran\u011bn pro tohoto u\u017eivatele.",
     "HeaderInvitationSent": "Pozv\u00e1nka odesl\u00e1na",
     "Offline": "Offline",
-    "SignUp": "Sign up",
+    "HeaderSignUp": "Sign Up",
     "ServerDownloadMessage": "To download and install the free Emby Server visit {0}",
     "ServerDownloadMessageWithoutLink": "To download and install the free Emby Server visit the Emby website.",
     "MessageInvitationSentToUser": "E-mail byl odesl\u00e1n na adresu {0} a p\u0159ijmut\u00edm t\u00e9to pozvn\u00e1nky akceptujete va\u0161\u00ed pozv\u00e1nku ke sd\u00edlen\u00ed.",

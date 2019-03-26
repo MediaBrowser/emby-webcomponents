@@ -633,7 +633,7 @@
     "MessageEmbyAccontRemoved": "Se ha eliminado la cuenta de Emby para este usuario.",
     "HeaderInvitationSent": "Invitaci\u00f3n enviada",
     "Offline": "Offline",
-    "SignUp": "Sign up",
+    "HeaderSignUp": "Sign Up",
     "ServerDownloadMessage": "To download and install the free Emby Server visit {0}",
     "ServerDownloadMessageWithoutLink": "To download and install the free Emby Server visit the Emby website.",
     "MessageInvitationSentToUser": "Se le ha enviado un correo a {0}, invit\u00e1ndolo a que acepte lo que has compartido.",

@@ -633,7 +633,7 @@
   "MessageEmbyAccontRemoved": "The Emby account has been removed from this user.",
   "HeaderInvitationSent": "Invitation Sent",
   "Offline": "Offline",
-  "SignUp": "Sign up",
+  "HeaderSignUp": "Sign Up",
   "ServerDownloadMessage": "To download and install the free Emby Server visit {0}",
   "ServerDownloadMessageWithoutLink": "To download and install the free Emby Server visit the Emby website.",
   "MessageInvitationSentToUser": "An email has been sent to {0}, inviting them to accept your sharing invitation.",
