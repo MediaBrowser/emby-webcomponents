@@ -354,12 +354,7 @@
 
                     // Try to load a manifest.
                     // This is an asynchronous process.
-                    player.load(url).then(function () {
-
-                        // This runs if the asynchronous load is successful.
-                        resolve();
-
-                    }, reject);
+                    player.load(url).then(resolve, reject);
 
                     self._shakaPlayer = player;
 
@@ -557,14 +552,14 @@
 
             return getTracksHtml(tracks, options.item, options.mediaSource, hasHlsTextTracks).then(function (tracksHtml) {
 
-                /*if (htmlMediaHelper.enableHlsShakaPlayer(options.item, options.mediaSource, 'Video') && val.indexOf('.m3u8') !== -1) {
-    
+                if (htmlMediaHelper.enableHlsShakaPlayer(options.mediaSource.RunTimeTicks, 'Video') && val.indexOf('.m3u8') !== -1) {
+
                     setTracks(elem, tracksHtml);
-    
+
                     return setSrcWithShakaPlayer(self, elem, options, val);
-    
-                } else*/
-                if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
+
+                }
+                else if (browser.chromecast && val.indexOf('.m3u8') !== -1 && options.mediaSource.RunTimeTicks) {
 
                     setTracks(elem, tracksHtml);
                     return setCurrentSrcChromecast(self, elem, options, val);
