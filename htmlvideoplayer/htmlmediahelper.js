@@ -207,13 +207,18 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         elem.addEventListener('error', onErrorFn);
     }
 
+    function onPlayPromiseResolved(e) {
+        this.removeAttribute('controls');
+        return Promise.resolve();
+    }
+
     function playWithPromise(elem, onErrorFn) {
 
         try {
             var promise = elem.play();
             if (promise && promise.then) {
                 // Chrome now returns a promise
-                return promise.catch(function (e) {
+                return promise.then(onPlayPromiseResolved.bind(elem), function (e) {
 
                     var errorName = (e.name || '').toLowerCase();
                     // safari uses aborterror
