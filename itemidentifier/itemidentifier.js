@@ -215,14 +215,16 @@
 
         html += '<div class="cardContent searchImage">';
 
+        // The background-size:contain; is temporary until a better way is found, due to tvdb
         if (result.ImageUrl) {
             var displayUrl = getSearchImageDisplayUrl(result.ImageUrl, result.SearchProviderName);
 
-            html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + displayUrl + '\');"></div>';
+            html += '<div class="cardImageContainer coveredImage coveredImage-noScale" style="background-size:contain;background-image:url(\'' + displayUrl + '\');"></div>';
         } else {
 
-            html += '<div class="cardImageContainer coveredImage defaultCardBackground defaultCardBackground1"><div class="cardText cardCenteredText">' + result.Name + '</div></div>';
+            html += '<div class="cardImageContainer coveredImage coveredImage-noScale defaultCardBackground defaultCardBackground1" style="background-size:contain;"><div class="cardText cardCenteredText">' + result.Name + '</div></div>';
         }
+
         html += '</div>';
         html += '</div>';
 

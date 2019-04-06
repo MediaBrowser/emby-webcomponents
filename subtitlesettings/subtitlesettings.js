@@ -23,7 +23,6 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
         appearanceSettings.textSize = context.querySelector('#selectTextSize').value;
         appearanceSettings.dropShadow = context.querySelector('#selectDropShadow').value;
-        appearanceSettings.font = context.querySelector('#selectFont').value;
         appearanceSettings.textBackground = context.querySelector('#inputTextBackground').value;
         appearanceSettings.textColor = context.querySelector('#inputTextColor').value;
 
@@ -51,7 +50,6 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
             context.querySelector('#selectDropShadow').value = appearanceSettings.dropShadow || '';
             context.querySelector('#inputTextBackground').value = appearanceSettings.textBackground || 'transparent';
             context.querySelector('#inputTextColor').value = appearanceSettings.textColor || '#ffffff';
-            context.querySelector('#selectFont').value = appearanceSettings.font || '';
 
             context.querySelector('#selectSubtitleBurnIn').value = appSettings.get('subtitleburnin') || '';
 
@@ -158,7 +156,6 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
             options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
             options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
             options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
-            options.element.querySelector('#selectFont').addEventListener('change', onAppearanceFieldChange);
             options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
             options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);
 

@@ -33,7 +33,7 @@ define([], function () {
                 case 'smaller':
                     list.push({ name: 'font-size', value: '.8em' });
                     break;
-               case 'small':
+                case 'small':
                     list.push({ name: 'font-size', value: 'inherit' });
                     break;
                 case 'larger':
@@ -82,37 +82,7 @@ define([], function () {
             list.push({ name: 'color', value: textColor });
         }
 
-        switch (settings.font || '') {
-
-            case 'typewriter':
-                list.push({ name: 'font-family', value: '"Courier New",monospace' });
-                list.push({ name: 'font-variant', value: 'none' });
-                break;
-            case 'print':
-                list.push({ name: 'font-family', value: 'Georgia,Times New Roman,Arial,Helvetica,serif' });
-                list.push({ name: 'font-variant', value: 'none' });
-                break;
-            case 'console':
-                list.push({ name: 'font-family', value: 'Consolas,Lucida Console,Menlo,Monaco,monospace' });
-                list.push({ name: 'font-variant', value: 'none' });
-                break;
-            case 'cursive':
-                list.push({ name: 'font-family', value: 'Lucida Handwriting,Brush Script MT,Segoe Script,cursive,Quintessential,system-ui,-apple-system,BlinkMacSystemFont,sans-serif' });
-                list.push({ name: 'font-variant', value: 'none' });
-                break;
-            case 'casual':
-                list.push({ name: 'font-family', value: 'Gabriola,Segoe Print,Comic Sans MS,Chalkboard,Short Stack,system-ui,-apple-system,BlinkMacSystemFont,sans-serif' });
-                list.push({ name: 'font-variant', value: 'none' });
-                break;
-            case 'smallcaps':
-                list.push({ name: 'font-family', value: 'Copperplate Gothic,Copperplate Gothic Bold,Copperplate,system-ui,-apple-system,BlinkMacSystemFont,sans-serif' });
-                list.push({ name: 'font-variant', value: 'small-caps' });
-                break;
-            default:
-                list.push({ name: 'font-family', value: 'inherit' });
-                list.push({ name: 'font-variant', value: 'none' });
-                break;
-        }
+        list.push({ name: 'font-family', value: 'inherit' });
 
         return list;
     }
