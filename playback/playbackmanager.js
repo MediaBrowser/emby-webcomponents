@@ -38,16 +38,20 @@
         events.trigger(playbackManagerInstance, 'playerchange', [newPlayer, newTarget, previousPlayer]);
     }
 
+    function returnResolve() {
+        return Promise.resolve();
+    }
+
     function reportPlayback(playbackManagerInstance, state, player, reportPlaylist, serverId, method, progressEventName) {
 
         if (!serverId) {
             // Not a server item
             // We can expand on this later and possibly report them
-            return;
+            return Promise.resolve();
         }
 
         if (state.IsFullscreen === false) {
-            return false;
+            return Promise.resolve();
         }
 
         var info = Object.assign({}, state.PlayState);
@@ -56,7 +60,7 @@
         if (!info.ItemId) {
             // Not a server item
             // We can expand on this later and possibly report them
-            return;
+            return Promise.resolve();
         }
 
         if (progressEventName) {
@@ -69,7 +73,7 @@
 
         //console.log(method + '-' + JSON.stringify(info));
         var apiClient = connectionManager.getApiClient(serverId);
-        apiClient[method](info);
+        return apiClient[method](info).catch(returnResolve);
     }
 
     function getPlaylistSync(playbackManagerInstance, player) {
@@ -3261,7 +3265,6 @@
 
                 // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
                 streamInfo.ended = true;
-
                 reportPlayback(self, state, player, true, streamInfo.item.ServerId, 'reportPlaybackStopped');
             }
 
@@ -3315,11 +3318,10 @@
 
             return promise.then(function () {
 
-                bindStopped(activePlayer);
+                // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
+                getPlayerData(activePlayer).streamInfo.ended = true;
 
-                if (enableLocalPlaylistManagement(activePlayer)) {
-                    reportPlayback(self, state, activePlayer, true, serverId, 'reportPlaybackStopped');
-                }
+                bindStopped(activePlayer);
 
                 events.trigger(self, 'playbackstop', [{
                     player: activePlayer,
@@ -3327,6 +3329,10 @@
                     nextItem: newItem,
                     nextMediaType: newItem.MediaType
                 }]);
+
+                if (enableLocalPlaylistManagement(activePlayer)) {
+                    return reportPlayback(self, state, activePlayer, true, serverId, 'reportPlaybackStopped');
+                }
             });
         }
 

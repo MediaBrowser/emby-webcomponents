@@ -174,8 +174,6 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        var userAgent = navigator.userAgent.toLowerCase();
-
         // Unfortunately there's no real way to detect mkv support
         if (browser.chrome) {
 
@@ -183,6 +181,8 @@ define(['browser'], function (browser) {
             if (browser.operaTv) {
                 return false;
             }
+
+            var userAgent = navigator.userAgent.toLowerCase();
 
             // Filter out browsers based on chromium that don't support mkv
             if (userAgent.indexOf('vivaldi') !== -1 || userAgent.indexOf('opera') !== -1) {

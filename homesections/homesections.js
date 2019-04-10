@@ -489,10 +489,14 @@
         }
         html += '</div>';
 
+        var monitor = parent.CollectionType === 'music' || parent.CollectionType === 'audiobooks' ?
+            'markplayed' :
+            'videoplayback,markplayed';
+
         if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right">';
+            html += '<div data-parentid="' + parent.Id + '" is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="' + monitor + '">';
         } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
+            html += '<div data-parentid="' + parent.Id + '" is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="' + monitor + '">';
         }
 
         if (enableScrollX()) {
