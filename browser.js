@@ -132,6 +132,14 @@
         }
     }
 
+    function tizenVersion() {
+        if (self.tizen && self.tizen.systeminfo) {
+            var v = tizen.systeminfo.getCapability('http://tizen.org/feature/platform.version');
+
+            return parseFloat(v);
+        }
+    }
+
     var _supportsCssAnimation;
     var _supportsCssAnimationWithPrefix;
     function supportsCssAnimation(allowPrefix) {
@@ -273,6 +281,10 @@
 
     if (!browser.tizen) {
         browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
+    }
+
+    if (browser.tizen) {
+        browser.sdkVersion = tizenVersion();
     }
 
     if (browser.edgeUwp) {

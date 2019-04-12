@@ -55,6 +55,10 @@
             return false;
         }
 
+        if (browser.web0s && browser.sdkVersion && browser.sdkVersion < 3.0) {
+            return false;
+        }
+
         if (browser.iOS) {
             // works in the browser but not the native app
             if ((browser.iOSVersion || 10) < 10) {
@@ -1076,6 +1080,10 @@
                 return true;
             }
 
+            if (browser.web0s && browser.sdkVersion && browser.sdkVersion < 3.0) {
+                return true;
+            }
+
             if (browser.iOS) {
                 var userAgent = navigator.userAgent.toLowerCase();
                 // works in the browser but not the native app
@@ -1283,6 +1291,18 @@
         }
 
         function setCurrentTrackElement(streamIndex) {
+
+            if (browser.web0s && browser.sdkVersion && browser.sdkVersion < 3.0) {
+
+                if (self._currentPlayOptions.playMethod === 'DirectStream' || self._currentPlayOptions.playMethod === 'DirectPlay') {
+
+                    var mediaSource = self._currentPlayOptions.mediaSource;
+
+                    if (mediaSource.Container === 'mkv') {
+                        streamIndex = -1;
+                    }
+                }
+            }
 
             console.log('Setting new text track index to: ' + streamIndex);
 

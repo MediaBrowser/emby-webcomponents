@@ -661,7 +661,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     includeParentInfo: options.includeParentInfoInTitle
                 });
 
-                lines.push(getTextActionButton(item, name, serverId));
+                lines.push(getTextActionButton(item, name, serverId, options.parentId));
             }
 
             if (showOtherText) {
@@ -828,7 +828,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getTextActionButton(item, text, serverId) {
+        function getTextActionButton(item, text, serverId, parentId) {
 
             if (!text) {
                 text = itemHelper.getDisplayName(item);
@@ -838,8 +838,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 return dom.htmlEncode(text);
             }
 
-            var html = '<button ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton cardTextActionButton" data-action="link">';
-            html += dom.htmlEncode(text);
+            text = dom.htmlEncode(text);
+
+            var parentIdData = parentId ? (' data-parentid="' + parentId + '"') : '';
+
+            var html = '<button' + parentIdData + ' title="' + text + '" ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton cardTextActionButton" data-action="link">';
+            html += text;
             html += '</button>';
 
             return html;
