@@ -201,15 +201,15 @@ define(['browser'], function (browser) {
     }
 
     function testCanPlayTs() {
-        return browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
+        return browser.tizen || browser.orsay || browser.web0s || browser.netcast || browser.edgeUwp;
     }
 
     function supportsMpeg2Video() {
-        return browser.orsay || browser.tizen || browser.edgeUwp || browser.web0s;
+        return browser.orsay || browser.tizen || browser.edgeUwp || browser.web0s || browser.netcast;
     }
 
     function supportsVc1() {
-        return browser.orsay || browser.tizen || browser.edgeUwp || browser.web0s;
+        return browser.orsay || browser.tizen || browser.edgeUwp || browser.web0s || browser.netcast;
     }
 
     function getFlvMseDirectPlayProfile() {
@@ -237,11 +237,11 @@ define(['browser'], function (browser) {
         switch (container) {
 
             case 'asf':
-                supported = browser.tizen || browser.orsay || browser.edgeUwp || browser.web0s;
+                supported = browser.tizen || browser.orsay || browser.edgeUwp || browser.web0s || browser.netcast;
                 videoAudioCodecs = [];
                 break;
             case 'avi':
-                supported = browser.tizen || browser.orsay || browser.edgeUwp || browser.web0s;
+                supported = browser.tizen || browser.orsay || browser.edgeUwp || browser.web0s || browser.netcast;
                 break;
             case 'mpg':
             case 'mpeg':
@@ -277,7 +277,7 @@ define(['browser'], function (browser) {
                 }
                 break;
             case 'wmv':
-                supported = browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp;
+                supported = browser.tizen || browser.orsay || browser.web0s || browser.netcast || browser.edgeUwp;
                 videoAudioCodecs = [];
                 break;
             case 'ts':
@@ -674,7 +674,7 @@ define(['browser'], function (browser) {
 
         var hlsBreakOnNonKeyFrames = browser.iOS || browser.osx || browser.edge || !canPlayNativeHls() ? true : false;
 
-        var supportsVttInHls = options.enableVttInHls && (browser.edge || canPlayHlsWithMSE()) && !browser.web0s && !browser.chromecast && !browser.tizen && !browser.orsay && !browser.operaTv;
+        var supportsVttInHls = options.enableVttInHls && (browser.edge || canPlayHlsWithMSE()) && !browser.web0s && !browser.netcast && !browser.chromecast && !browser.tizen && !browser.orsay && !browser.operaTv;
 
         if (canPlayHls() && browser.enableHlsAudio !== false) {
             profile.TranscodingProfiles.push({
@@ -853,7 +853,7 @@ define(['browser'], function (browser) {
                 }]
         });
 
-        if (!browser.edgeUwp && !browser.tizen && !browser.orsay && !browser.web0s) {
+        if (!browser.edgeUwp && !browser.tizen && !browser.orsay && !browser.web0s && !browser.netcast) {
             //profile.CodecProfiles[profile.CodecProfiles.length - 1].Conditions.push({
             //    Condition: 'NotEquals',
             //    Property: 'IsAVC',

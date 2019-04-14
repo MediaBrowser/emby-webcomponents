@@ -38,7 +38,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
 
         // The native players on these devices support seeking live streams, no need to use hls.js here
-        if (browser.tizen || browser.web0s) {
+        if (browser.tizen || browser.web0s || browser.netcast) {
             return false;
         }
 
@@ -65,7 +65,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
 
         // The native players on these devices support seeking live streams, no need to use hls.js here
-        if (browser.tizen || browser.web0s) {
+        if (browser.tizen || browser.web0s || browser.netcast) {
             return false;
         }
 
@@ -94,7 +94,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                 //}
 
                 // already supports vtt in hls
-                if (browser.web0s || browser.chromecast || browser.ps4) {
+                if (browser.web0s || browser.netcast || browser.chromecast || browser.ps4) {
                     return false;
                 }
             }

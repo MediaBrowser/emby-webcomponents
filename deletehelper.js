@@ -42,7 +42,10 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
 
                 return apiClient.deleteItem(itemId).then(function () {
 
-                    if (options.navigate) {
+                    if (options.navigate === 'back') {
+                        appRouter.back();
+                    }
+                    else if (options.navigate) {
                         if (parentId) {
                             appRouter.showItem(parentId, serverId);
                         } else {
