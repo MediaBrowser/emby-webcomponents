@@ -134,30 +134,23 @@
         }
 
         // Convert the search hint query to a regular item query
-        if (apiClient.isMinServerVersion('3.4.1.31')) {
+        query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount';
+        query.Recursive = true;
+        query.EnableTotalRecordCount = false;
+        query.ImageTypeLimit = 1;
 
-            query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount';
-            query.Recursive = true;
-            query.EnableTotalRecordCount = false;
-            query.ImageTypeLimit = 1;
+        var methodName = 'getItems';
 
-            var methodName = 'getItems';
+        if (!query.IncludeMedia) {
+            if (query.IncludePeople) {
+                methodName = 'getPeople';
 
-            if (!query.IncludeMedia) {
-                if (query.IncludePeople) {
-                    methodName = 'getPeople';
-
-                } else if (query.IncludeArtists) {
-                    methodName = 'getArtists';
-                }
+            } else if (query.IncludeArtists) {
+                methodName = 'getArtists';
             }
-
-            return apiClient[methodName](apiClient.getCurrentUserId(), query);
         }
 
-        query.UserId = apiClient.getCurrentUserId();
-
-        return apiClient.getSearchHints(query);
+        return apiClient[methodName](apiClient.getCurrentUserId(), query);
     }
 
     function search(instance, apiClient, context, value) {
