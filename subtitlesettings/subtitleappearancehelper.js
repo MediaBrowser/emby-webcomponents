@@ -77,7 +77,7 @@ define([], function () {
             list.push({ name: 'background-color', value: background });
         }
 
-        var textColor = settings.textColor || '#ffffff';
+        var textColor = settings.textColor || 'white';
         if (textColor) {
             list.push({ name: 'color', value: textColor });
         }

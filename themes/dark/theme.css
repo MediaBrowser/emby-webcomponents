@@ -20,18 +20,16 @@ html {
     background-color: #313235;
 }
 
-@supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em)) ) {
+@supports ( (backdrop-filter: blur(1em))) {
 
     .appfooter {
         background: rgba(34,34,34,.7);
-        -webkit-backdrop-filter: blur(1.25em);
         backdrop-filter: blur(1.25em);
         box-shadow: none !important;
     }
 }
 
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));

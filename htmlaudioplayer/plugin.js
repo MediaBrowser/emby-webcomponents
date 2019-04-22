@@ -1,17 +1,6 @@
 define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
     "use strict";
 
-    function getDefaultProfile() {
-
-        return new Promise(function (resolve, reject) {
-
-            require(['browserdeviceprofile'], function (profileBuilder) {
-
-                resolve(profileBuilder({}));
-            });
-        });
-    }
-
     var fadeTimeout;
     function fade(instance, elem, startingVolume) {
 
@@ -361,13 +350,9 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
         return (mediaType || '').toLowerCase() === 'audio';
     };
 
-    HtmlAudioPlayer.prototype.getDeviceProfile = function (item) {
+    HtmlAudioPlayer.prototype.getDeviceProfile = function (item, options) {
 
-        if (appHost.getDeviceProfile) {
-            return appHost.getDeviceProfile(item);
-        }
-
-        return getDefaultProfile();
+        return htmlMediaHelper.getDeviceProfile(this, appHost, item, options);
     };
 
     // Save this for when playback stops, because querying the time at that point might return 0

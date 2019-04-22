@@ -64,8 +64,13 @@
         <div class="inputContainer hide">
             <input is="emby-input" id="inputTextBackground" label="${LabelTextBackgroundColor}" type="text" />
         </div>
-        <div class="inputContainer hide">
-            <input is="emby-input" id="inputTextColor" label="${LabelTextColor}" type="text" />
+        <div class="selectContainer">
+            <select is="emby-select" id="inputTextColor" label="${LabelTextColor}">
+                <option value="pink">${Pink}</option>
+                <option value="orange">${Orange}</option>
+                <option value="yellow">${Yellow}</option>
+                <option value="White">${White}</option>
+            </select>
         </div>
         <div class="selectContainer">
             <select is="emby-select" id="selectDropShadow" label="${LabelDropShadow}">

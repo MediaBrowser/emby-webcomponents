@@ -18,17 +18,15 @@ html, .skinHeader {
     background: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
 }
 
-@supports ( (backdrop-filter: blur(1.5em)) or (-webkit-backdrop-filter: blur(1.5em)) ) {
+@supports ( (backdrop-filter: blur(1.5em))) {
 
     .appfooter {
         background: linear-gradient(to right,rgba(188,188,188,.7), rgba(167,180,183,.7), rgba(190,181,165,.7), rgba(173,190,194,.7), rgba(185,199,203,.7));
-        -webkit-backdrop-filter: blur(1.5em);
         backdrop-filter: blur(1.5em);
     }
 }
 
 .skinHeader.semiTransparent {
-    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
 }
 

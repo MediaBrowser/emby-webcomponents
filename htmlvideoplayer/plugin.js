@@ -164,17 +164,6 @@
         });
     }
 
-    function getDefaultProfile() {
-
-        return new Promise(function (resolve, reject) {
-
-            require(['browserdeviceprofile'], function (profileBuilder) {
-
-                resolve(profileBuilder({}));
-            });
-        });
-    }
-
     function HtmlVideoPlayer() {
 
         if (browser.edgeUwp) {
@@ -1557,20 +1546,8 @@
 
     HtmlVideoPlayer.prototype.getDeviceProfile = function (item, options) {
 
-        var instance = this;
-        return getDeviceProfileInternal(item, options).then(function (profile) {
-            instance._lastProfile = profile;
-            return profile;
-        });
+        return htmlMediaHelper.getDeviceProfile(this, appHost, item, options);
     };
-
-    function getDeviceProfileInternal(item, options) {
-        if (appHost.getDeviceProfile) {
-            return appHost.getDeviceProfile(item, options);
-        }
-
-        return getDefaultProfile();
-    }
 
     var supportedFeatures;
     function getSupportedFeatures() {

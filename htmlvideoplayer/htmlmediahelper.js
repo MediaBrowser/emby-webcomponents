@@ -448,6 +448,29 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         return ranges;
     }
 
+    function getDefaultProfile() {
+
+        return require(['browserdeviceprofile']).then(function (responses) {
+
+            return responses[0]({});
+        });
+    }
+
+    function getDeviceProfileInternal(appHost, item, options) {
+        if (appHost.getDeviceProfile) {
+            return appHost.getDeviceProfile(item, options);
+        }
+
+        return getDefaultProfile();
+    }
+
+    function getDeviceProfile(instance, appHost, item, options) {
+        return getDeviceProfileInternal(appHost, item, options).then(function (profile) {
+            instance._lastProfile = profile;
+            return profile;
+        });
+    }
+
     return {
         getSavedVolume: getSavedVolume,
         saveVolume: saveVolume,
@@ -465,6 +488,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         bindEventsToHlsPlayer: bindEventsToHlsPlayer,
         onEndedInternal: onEndedInternal,
         getCrossOriginValue: getCrossOriginValue,
-        getBufferedRanges: getBufferedRanges
+        getBufferedRanges: getBufferedRanges,
+        getDeviceProfile: getDeviceProfile
     };
 });

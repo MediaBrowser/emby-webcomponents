@@ -9,95 +9,6 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
         return Promise.reject();
     }
 
-    function showNewUserInviteMessage(result) {
-
-        if (!result.IsNewUserInvitation && !result.IsPending) {
-
-            // It was immediately approved
-            return Promise.resolve();
-        }
-
-        var message = result.IsNewUserInvitation ?
-            globalize.translate('MessageInvitationSentToNewUser', result.GuestDisplayName) :
-            globalize.translate('MessageInvitationSentToUser', result.GuestDisplayName);
-
-        return alert({
-
-            text: message,
-            title: globalize.translate('HeaderInvitationSent')
-
-        }).then(resolvePromise, resolvePromise);
-    }
-
-    function inviteGuest(options) {
-
-        var apiClient = options.apiClient;
-
-        loading.show();
-
-        // Add/Update connect info
-        return apiClient.ajax({
-
-            type: "POST",
-            url: apiClient.getUrl('Connect/Invite'),
-            dataType: 'json',
-            data: options.guestOptions || {}
-
-        }).then(function (result) {
-
-            loading.hide();
-            return showNewUserInviteMessage(result);
-
-        }, function (response) {
-
-            loading.hide();
-
-            var statusCode = response ? response.status : 0;
-
-            if (statusCode === 502) {
-                return showConnectServerUnreachableErrorMessage().then(rejectPromise, rejectPromise);
-            }
-            else if (statusCode === 404) {
-                // User doesn't exist
-                return alert({
-                    text: globalize.translate('GuestUserNotFound')
-                }).then(rejectPromise, rejectPromise);
-
-            } else if ((statusCode || 0) >= 500) {
-
-                // Unable to reach connect server ?
-                return alert({
-                    text: globalize.translate('ErrorReachingEmbyConnect')
-                }).then(rejectPromise, rejectPromise);
-
-            } else {
-
-                // status 400 = account not activated
-
-                // General error
-                return showGuestGeneralErrorMessage().then(rejectPromise, rejectPromise);
-            }
-        });
-    }
-
-    function showGuestGeneralErrorMessage() {
-
-        var html;
-
-        if (appHost.supports('externallinks')) {
-            html = globalize.translate('ErrorAddingGuestAccount1', '<a is="emby-linkbutton" class="button-link" href="https://emby.media/connect" target="_blank">https://emby.media/connect</a>');
-            html += '<br/><br/>' + globalize.translate('ErrorAddingGuestAccount2', 'apps@emby.media');
-        }
-
-        var text = globalize.translate('ErrorAddingGuestAccount1', 'https://emby.media/connect');
-        text += '\n\n' + globalize.translate('ErrorAddingGuestAccount2', 'apps@emby.media');
-
-        return alert({
-            text: text,
-            html: html
-        });
-    }
-
     function showConnectServerUnreachableErrorMessage() {
 
         var text = globalize.translate('ErrorConnectServerUnreachable', 'https://connect.emby.media');
@@ -152,6 +63,8 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
 
             }).then(function () {
 
+                loading.hide();
+
                 return alert({
                     text: globalize.translate('MessageEmbyAccontRemoved'),
                     title: globalize.translate('HeaderEmbyAccountRemoved'),
@@ -159,6 +72,8 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
                 }).catch(resolvePromise);
 
             }, function (response) {
+
+                loading.hide();
 
                 var statusCode = response ? response.status : 0;
 
@@ -188,6 +103,8 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
 
                 var msgKey = result.IsPending ? 'MessagePendingEmbyAccountAdded' : 'MessageEmbyAccountAdded';
 
+                loading.hide();
+
                 return alert({
                     text: globalize.translate(msgKey),
                     title: globalize.translate('HeaderEmbyAccountAdded'),
@@ -195,6 +112,8 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
                 }).catch(resolvePromise);
 
             }, function (response) {
+
+                loading.hide();
 
                 var statusCode = response ? response.status : 0;
 
@@ -211,7 +130,6 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
     }
 
     return {
-        inviteGuest: inviteGuest,
         updateUserLink: updateUserLink,
         showLinkUserErrorMessage: showLinkUserErrorMessage,
         showConnectServerUnreachableErrorMessage: showConnectServerUnreachableErrorMessage
