@@ -74,6 +74,11 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
             return false;
         }
 
+        // Supports both seeking live streams and vtt in hls
+        if (browser.safari && browser.version && browser.version >= 12.1) {
+            return false;
+        }
+
         if (canPlayNativeHls()) {
 
             // Having trouble with chrome's native support and transcoded music
@@ -97,6 +102,10 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                 if (browser.web0s || browser.netcast || browser.chromecast || browser.ps4) {
                     return false;
                 }
+            }
+
+            if (browser.safari) {
+                return false;
             }
 
             //return false;

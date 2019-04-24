@@ -1,6 +1,8 @@
 ﻿define(['playbackManager', 'events', 'serverNotifications', 'connectionManager'], function (playbackManager, events, serverNotifications, connectionManager) {
     'use strict';
 
+    var PlayerName = 'Remote Control';
+
     function getActivePlayerId() {
         var info = playbackManager.getPlayerInfo();
         return info ? info.id : null;
@@ -117,7 +119,7 @@
 
             instance.lastPlayerData = session;
 
-            playbackManager.setDefaultPlayerActive();
+            playbackManager.removeActivePlayer(PlayerName);
         }
     }
 
@@ -195,7 +197,7 @@
 
         var self = this;
 
-        this.name = 'Remote Control';
+        this.name = PlayerName;
         this.type = 'mediaplayer';
         this.isLocalPlayer = false;
         this.id = 'remoteplayer';

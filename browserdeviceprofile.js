@@ -13,15 +13,13 @@ define(['browser'], function (browser) {
 
         // TODO: Check on this
         if (protocol !== 'hls') {
-            var userAgent = navigator.userAgent.toLowerCase();
 
-            if (browser.chromecast) {
+            //if (self.castReceiverManager && self.castReceiverManager.canDisplayType) {
 
-                var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
-                if (isChromecastUltra) {
-                    return true;
-                }
-            }
+            //    return self.castReceiverManager.canDisplayType('video/mp4', "hvc1.1.L0.0") ||
+            //        self.castReceiverManager.canDisplayType('video/mp4', "hev1.1.L0.0") ||
+            //        self.castReceiverManager.canDisplayType('video/mp4', "hev1.1.2.L150");
+            //}
         }
 
         if (browser.ps4) {
@@ -31,11 +29,13 @@ define(['browser'], function (browser) {
         if (protocol === 'hls') {
 
             return !!videoTestElement.canPlayType && (videoTestElement.canPlayType('video/mp2t; codecs="hvc1.1.L0.0"').replace(/no/, '') ||
-                videoTestElement.canPlayType('video/mp2t; codecs="hev1.1.L0.0"').replace(/no/, ''));
+                videoTestElement.canPlayType('video/mp2t; codecs="hev1.1.L0.0"').replace(/no/, '') ||
+                videoTestElement.canPlayType('video/mp2t; codecs="hev1.1.2.L150"').replace(/no/, ''));
         }
 
         return !!videoTestElement.canPlayType && (videoTestElement.canPlayType('video/mp4; codecs="hvc1.1.L0.0"').replace(/no/, '') ||
-            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L0.0"').replace(/no/, ''));
+            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.L0.0"').replace(/no/, '') ||
+            videoTestElement.canPlayType('video/mp4; codecs="hev1.1.2.L150"').replace(/no/, ''));
     }
 
     var _supportsTextTracks;
@@ -306,21 +306,6 @@ define(['browser'], function (browser) {
 
         var userAgent = navigator.userAgent.toLowerCase();
 
-        if (browser.chromecast) {
-
-            var isChromecastUltra = userAgent.indexOf('aarch64') !== -1;
-            if (isChromecastUltra) {
-                return null;
-            }
-
-            // This is a hack to try and detect chromecast on vizio
-            if (self.screen && self.screen.width >= 3800) {
-                return null;
-            }
-
-            return 40000000;
-        }
-
         if (browser.tizen) {
             try {
                 var isTizenUhd = webapis.productinfo.isUdPanelSupported();
@@ -362,10 +347,23 @@ define(['browser'], function (browser) {
     }
 
     function getDefaultDecodingInfo() {
-        return Promise.resolve({ supported: true });
+        return Promise.resolve({ supported: true, smooth: true });
     }
 
     function getDecodingInfo(mediaConfig) {
+
+        if (self.castReceiverManager && self.castReceiverManager.canDisplayType) {
+
+            var mimeType = mediaConfig.video.contentType.split(';')[0];
+            var codecs = mediaConfig.video.contentType.split('"');
+            codecs = codecs[codecs.length - 2];
+
+            return Promise.resolve({
+
+                supported: self.castReceiverManager.canDisplayType(mimeType, codecs, mediaConfig.video.width, mediaConfig.video.height, parseInt(mediaConfig.video.framerate)),
+                smooth: true
+            });
+        }
 
         if (navigator.mediaCapabilities && navigator.mediaCapabilities.decodingInfo) {
             return navigator.mediaCapabilities.decodingInfo(mediaConfig).catch(getDefaultDecodingInfo);
@@ -433,7 +431,7 @@ define(['browser'], function (browser) {
             // Not sure how to test for this
             var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
 
-            var maxVideoWidth = responses[0].supported ? null : 1920;
+            var maxVideoWidth = responses[0].supported && responses[0].smooth ? null : 1920;
 
             var canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
 

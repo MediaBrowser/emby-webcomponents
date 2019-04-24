@@ -877,6 +877,7 @@
                 name: player.name,
                 isLocalPlayer: player.isLocalPlayer,
                 id: target.id,
+                playerName: target.playerName,
                 deviceName: target.deviceName,
                 playableMediaTypes: target.playableMediaTypes,
                 supportedCommands: target.supportedCommands
@@ -4026,7 +4027,7 @@
 
         var playerInfo = this.getPlayerInfo();
         if (playerInfo) {
-            if (playerInfo.name === name) {
+            if (playerInfo.playerName === name) {
                 this.setDefaultPlayerActive();
             }
         }
