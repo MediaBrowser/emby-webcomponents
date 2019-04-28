@@ -46,11 +46,6 @@
     font-family: inherit;
 }
 
-.htmlvideoplayer-moveupsubtitles::-webkit-media-text-track-display {
-    /*Style the text itself*/
-    margin-top: -2em;
-}
-
 .videoSubtitles {
     position: fixed;
     bottom: 10%;

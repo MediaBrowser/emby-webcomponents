@@ -771,7 +771,7 @@ define(['browser'], function (browser) {
                 });
             }
 
-            if (canPlayHls() && options.enableHls !== false) {
+            if (canPlayHls() && hlsVideoCodecs.length && options.enableHls !== false) {
                 profile.TranscodingProfiles.push({
                     Container: 'ts',
                     Type: 'Video',
@@ -860,7 +860,7 @@ define(['browser'], function (browser) {
             var maxH264Level = browser.chromecast ? 42 : 51;
             var h264Profiles = 'high|main|baseline|constrained baseline';
 
-            if (maxH264Level >= 51 && browser.chrome && !browser.osx) {
+            if (maxH264Level >= 51 && browser.chrome && !browser.osx && !browser.web0s) {
                 h264Profiles += '|high 10';
             }
 
