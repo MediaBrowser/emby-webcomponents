@@ -466,12 +466,6 @@
 
         if (options.type === 'Thumb') {
 
-            if (item.SeriesThumbImageTag) {
-
-                options.tag = item.SeriesThumbImageTag;
-
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
-            }
             if (item.ParentThumbImageTag) {
 
                 options.tag = item.ParentThumbImageTag;

@@ -28,19 +28,17 @@
     function onItemSelectionPanelClick(e, itemSelectionPanel) {
 
         // toggle the checkbox, if it wasn't clicked on
-        if (!dom.parentWithClass(e.target, 'chkItemSelect')) {
-            var chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
 
-            if (chkItemSelect) {
+        var chkItemSelect = dom.parentWithClass(e.target, 'chkItemSelect');
+        if (!chkItemSelect) {
+            chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
+        }
 
-                if (chkItemSelect.classList.contains('checkedInitial')) {
-                    chkItemSelect.classList.remove('checkedInitial');
-                } else {
-                    var newValue = !chkItemSelect.checked;
-                    chkItemSelect.checked = newValue;
-                    updateItemSelection(chkItemSelect, newValue);
-                }
-            }
+        if (chkItemSelect) {
+
+            var newValue = !chkItemSelect.checked;
+            chkItemSelect.checked = newValue;
+            updateItemSelection(chkItemSelect, newValue);
         }
 
         e.preventDefault();
@@ -100,11 +98,6 @@
             parent.appendChild(itemSelectionPanel);
 
             var cssClass = 'chkItemSelect';
-            if (isChecked && !browser.firefox) {
-                // In firefox, the initial tap hold doesnt' get treated as a click
-                // In other browsers it does, so we need to make sure that initial click is ignored
-                cssClass += ' checkedInitial';
-            }
             var checkedAttribute = isChecked ? ' checked' : '';
             itemSelectionPanel.innerHTML = '<label class="checkboxContainer"><input type="checkbox" is="emby-checkbox" data-outlineclass="multiSelectCheckboxOutline" class="' + cssClass + '"' + checkedAttribute + '/><span></span></label>';
             var chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');

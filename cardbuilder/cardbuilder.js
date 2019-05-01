@@ -312,14 +312,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     tag: item.ParentLogoImageTag
                 });
 
-            } else if (options.preferThumb && item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Thumb",
-                    maxWidth: width,
-                    tag: item.SeriesThumbImageTag
-                });
-
             } else if (options.preferThumb && item.ParentThumbItemId && options.inheritThumb !== false && item.MediaType !== 'Photo') {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
@@ -388,7 +380,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
             }
-            else if (item.ParentPrimaryImageTag) {
+            else if (item.ParentThumbItemId && options.inheritThumb !== false && uiAspect && uiAspect >= 1.4 && item.MediaType !== 'Photo') {
+
+                imgUrl = apiClient.getScaledImageUrl(item.ParentThumbItemId, {
+                    type: "Thumb",
+                    maxWidth: width,
+                    tag: item.ParentThumbImageTag
+                });
+
+            } else if (item.ParentPrimaryImageTag) {
 
                 imgUrl = apiClient.getScaledImageUrl(item.ParentPrimaryImageItemId, {
                     type: "Primary",
@@ -444,14 +444,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     type: "Thumb",
                     maxWidth: width,
                     tag: imageTags.Thumb
-                });
-
-            } else if (item.SeriesThumbImageTag && options.inheritThumb !== false) {
-
-                imgUrl = apiClient.getScaledImageUrl(item.SeriesId, {
-                    type: "Thumb",
-                    maxWidth: width,
-                    tag: item.SeriesThumbImageTag
                 });
 
             } else if (item.ParentThumbItemId && options.inheritThumb !== false) {
