@@ -1142,7 +1142,6 @@
                 }
 
                 styleElem.innerHTML = getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings(), true), '.htmlvideoplayer');
-                var temp = styleElem.innerHTML;
             });
         }
 

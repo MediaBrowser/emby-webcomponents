@@ -40,11 +40,12 @@
 }
 
 .htmlvideoplayer::cue {
-    background-color: transparent;
-    text-shadow: .14em .14em .14em rgba(0, 0, 0, 1);
     -webkit-font-smoothing: antialiased;
-    font-family: inherit;
 }
+
+/*.htmlvideoplayer::-webkit-media-text-track-display {
+    margin-top: -50vh;
+}*/
 
 .videoSubtitles {
     position: fixed;

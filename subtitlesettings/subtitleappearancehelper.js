@@ -73,6 +73,12 @@ define([], function () {
         }
 
         var background = settings.textBackground || 'transparent';
+        // Workaround Chrome 74+ putting subtitles at the top
+        if (isCue && self.chrome) {
+            if (background === 'transparent') {
+                background = 'rgba(0,0,0,.01)';
+            }
+        }
         if (background) {
             list.push({ name: 'background-color', value: background });
         }
