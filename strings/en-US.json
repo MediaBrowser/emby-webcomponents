@@ -755,7 +755,6 @@
   "Menu": "Menu",
   "Screenshot": "Screenshot",
   "Thumb": "Thumb",
-  "ValueSeconds": "{0} seconds",
   "HeaderAudioSettings": "Audio Settings",
   "LabelAudioLanguagePreference": "Preferred audio language:",
   "LabelPlayDefaultAudioTrack": "Play default audio track regardless of language",
