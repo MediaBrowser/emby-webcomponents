@@ -1,5 +1,7 @@
-define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper'], function (events, browser, require, appHost, appSettings, htmlMediaHelper) {
+define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelper', 'playbackManager'], function (events, browser, require, appHost, appSettings, htmlMediaHelper, playbackManager) {
     "use strict";
+
+    var mediaManager;
 
     var fadeTimeout;
     function fade(instance, elem, startingVolume) {
@@ -136,39 +138,11 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
                 elem.crossOrigin = crossOrigin;
             }
 
-            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
-
-                return new Promise(function (resolve, reject) {
-
-                    requireHlsPlayer(function () {
-                        var hls = new Hls({
-                            manifestLoadingTimeOut: 20000
-                            //appendErrorMaxRetry: 6,
-                            //debug: true
-                        });
-                        hls.loadSource(val);
-                        hls.attachMedia(elem);
-
-                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
-
-                        self._hlsPlayer = hls;
-
-                        self._currentSrc = val;
-                    });
-                });
-
-
-            }, function () {
-
-                elem.autoplay = true;
-
-                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
-
-                    self._currentSrc = val;
-
-                    return htmlMediaHelper.playWithPromise(elem, onError);
-                });
-            });
+            if (browser.chromecast) {
+                return setCurrentSrcChromecast(self, elem, options, val);
+            } else {
+                return loadIntoPlayer(elem, options, val);
+            }
         }
 
         function bindEvents(elem) {
@@ -187,6 +161,113 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             elem.removeEventListener('pause', onPause);
             elem.removeEventListener('playing', onPlaying);
             elem.removeEventListener('play', onPlay);
+        }
+
+        function loadIntoPlayer(elem, options, val) {
+
+            return enableHlsPlayer(val, options.item, options.mediaSource, 'Audio').then(function () {
+
+                return new Promise(function (resolve, reject) {
+
+                    requireHlsPlayer(function () {
+                        var hls = new Hls({
+                            manifestLoadingTimeOut: 20000,
+                            maxBufferSize: 12
+                            //appendErrorMaxRetry: 6,
+                            //debug: true
+                        });
+                        hls.loadSource(val);
+                        hls.attachMedia(elem);
+
+                        htmlMediaHelper.bindEventsToHlsPlayer(self, hls, elem, onError, resolve, reject);
+
+                        self._hlsPlayer = hls;
+
+                        self._currentSrc = val;
+                    });
+                });
+
+            }, function () {
+
+                elem.autoplay = true;
+
+                return htmlMediaHelper.applySrc(elem, val, options).then(function () {
+
+                    self._currentSrc = val;
+
+                    return htmlMediaHelper.playWithPromise(elem, onError);
+                });
+            });
+        }
+
+        function setCurrentSrcChromecast(instance, elem, options, url) {
+
+            elem.autoplay = true;
+
+            var lrd = new cast.receiver.MediaManager.LoadRequestData();
+            lrd.currentTime = (options.playerStartPositionTicks || 0) / 10000000;
+            lrd.autoplay = true;
+            lrd.media = new cast.receiver.media.MediaInformation();
+
+            lrd.media.contentId = url;
+            lrd.media.contentType = options.mimeType;
+            lrd.media.streamType = cast.receiver.media.StreamType.OTHER;
+            lrd.media.customData = options;
+
+            console.log('loading media url into mediaManager');
+
+            try {
+                mediaManager.load(lrd);
+                // This is needed in setCurrentTrackElement
+                self._currentSrc = url;
+
+                return Promise.resolve();
+            } catch (err) {
+
+                console.log('mediaManager error: ' + err);
+                return Promise.reject();
+            }
+        }
+
+        // Adapted from : https://github.com/googlecast/CastReferencePlayer/blob/master/player.js
+        function onMediaManagerLoadMedia(event) {
+
+            var data = event.data;
+            var media = data.media;
+            var val = media.contentId;
+            var options = media.customData;
+
+            var elem = self._mediaElement;
+
+            return loadIntoPlayer(elem, options, val);
+        }
+
+        function onMediaManagerError(event) {
+            console.log('media manager onError: ' + event);
+
+            setTimeout(function () {
+                htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
+            }, 1000);
+        }
+
+        function initMediaManager() {
+
+            mediaManager.defaultOnLoad = mediaManager.onLoad.bind(mediaManager);
+            mediaManager.onLoad = onMediaManagerLoadMedia.bind(self);
+
+            mediaManager.onError = onMediaManagerError.bind(self);
+
+            //mediaManager.defaultOnPlay = mediaManager.onPlay.bind(mediaManager);
+            //mediaManager.onPlay = function (event) {
+            //    // TODO ???
+            //    mediaManager.defaultOnPlay(event);
+            //};
+
+            mediaManager.defaultOnStop = mediaManager.onStop.bind(mediaManager);
+            mediaManager.onStop = function (event) {
+                playbackManager.stop();
+                mediaManager.defaultOnStop(event);
+            };
         }
 
         self.stop = function (destroyPlayer) {
@@ -252,6 +333,15 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
             elem.volume = htmlMediaHelper.getSavedVolume();
 
             self._mediaElement = elem;
+
+            if (mediaManager) {
+
+                if (!mediaManager.embyInit) {
+                    initMediaManager();
+                    mediaManager.embyInit = true;
+                }
+                mediaManager.setMediaElement(elem);
+            }
 
             return elem;
         }
@@ -495,6 +585,10 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
     HtmlAudioPlayer.prototype.destroy = function () {
 
     };
+
+    if (browser.chromecast) {
+        mediaManager = new cast.receiver.MediaManager(document.createElement('audio'));
+    }
 
     return HtmlAudioPlayer;
 });

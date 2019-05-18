@@ -38,7 +38,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
 
         // The native players on these devices support seeking live streams, no need to use hls.js here
-        if (browser.tizen || browser.web0s || browser.netcast) {
+        if (browser.tizen || browser.web0s || browser.netcast || browser.orsay) {
             return false;
         }
 
@@ -65,21 +65,21 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
 
         // The native players on these devices support seeking live streams, no need to use hls.js here
-        if (browser.tizen || browser.web0s || browser.netcast) {
-            return false;
-        }
-
-        // Already supports all required features - vtt & seeking live streams
-        if (browser.edge) {
-            return false;
-        }
-
-        // Supports both seeking live streams and vtt in hls
-        if (browser.safari && browser.version && browser.version >= 12.1) {
+        if (browser.tizen || browser.web0s || browser.netcast || browser.orsay) {
             return false;
         }
 
         if (canPlayNativeHls()) {
+
+            // Already supports all required features - vtt & seeking live streams
+            if (browser.edge) {
+                return false;
+            }
+
+            // Supports both seeking live streams and vtt in hls
+            if (browser.safari && browser.version && browser.version >= 12.1) {
+                return false;
+            }
 
             // Having trouble with chrome's native support and transcoded music
             if (browser.android && mediaType === 'Audio') {
@@ -99,7 +99,7 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
                 //}
 
                 // already supports vtt in hls
-                if (browser.web0s || browser.netcast || browser.chromecast || browser.ps4) {
+                if (browser.chromecast || browser.ps4) {
                     return false;
                 }
             }
