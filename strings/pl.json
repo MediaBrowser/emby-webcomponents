@@ -1,5 +1,4 @@
 {
-    "Seasons": "Sezony",
     "EmbyLoginTerms": "Emby zosta\u0142o zaprojektowane tak, aby pom\u00f3c zarz\u0105dza\u0107 twoj\u0105 prywatn\u0105 bibliotek\u0105 medi\u00f3w - filmami, muzyk\u0105 czy zdj\u0119ciami. Zapoznaj si\u0119 z {0}warunkami u\u017cytkowania{1}. U\u017cywanie oprogramowania Emby wymaga zaakceptowania tych warunk\u00f3w.",
     "MessageUnableToConnectToServer": "Nie jeste\u015bmy w tej chwili w stanie po\u0142\u0105czy\u0107 si\u0119 z wybranym serwerem. Prosz\u0119 upewni\u0107 si\u0119, \u017ce dzia\u0142a i spr\u00f3bowa\u0107 ponownie.",
     "EmbyIntroMessage": "Z Emby mo\u017cesz \u0142atwo streamowa\u0107 wideo, muzyk\u0119 i zdj\u0119cia do smartfon\u00f3w, tablet\u00f3w i innych urz\u0105dzeni ze swojego Serwera Emby.",
@@ -169,6 +168,7 @@
     "Mobile": "Telefon \/ tabet",
     "TV": "Telewizor",
     "HeaderEmbyConnect": "Emby Connect",
+    "Seasons": "Sezony",
     "OneTrack": "1 \u015bcie\u017cka",
     "OneSeason": "1 sezon",
     "NumberSeasonsValue": "{0} sezon\u00f3w",

@@ -1,5 +1,4 @@
 {
-    "Seasons": "Seasons",
     "EmbyLoginTerms": "Emby is ontworpen om uw persoonlijke mediabibliotheek te helpen beheren, zoals home video's en foto's. Zie onze {0}gebruiksvoorwaarden{1}. Het gebruik van Emby software betekent dat u deze voorwaarden aanvaard.",
     "MessageUnableToConnectToServer": "Het is momenteel niet mogelijk met de geselecteerde server te verbinden. Controleer dat deze draait en probeer het opnieuw.",
     "EmbyIntroMessage": "Met Emby kunt u eenvoudig films, muziek en foto's naar uw telefoon, tablet en andere apparatuur streamen.",
@@ -169,6 +168,7 @@
     "Mobile": "Mobiel \/ Tablet",
     "TV": "TV",
     "HeaderEmbyConnect": "Emby Connect",
+    "Seasons": "Seasons",
     "OneTrack": "1 Track",
     "OneSeason": "1 Season",
     "NumberSeasonsValue": "{0} Seasons",

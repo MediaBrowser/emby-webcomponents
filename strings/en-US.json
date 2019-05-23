@@ -776,7 +776,7 @@
   "PlayNext": "Play next",
   "AllowSeasonalThemes": "Allow automatic seasonal themes",
   "AllowSeasonalThemesHelp": "If enabled, seasonal themes will occasionally override your theme setting.",
-  "AutoBasedOnLanguageSetting": "Auto (based on language setting)",
+  "AutoBasedOnLanguageSetting": "Auto (based on device setting)",
   "LabelDateTimeLocale": "Date time locale:",
   "DirectorValue": "Director: {0}",
   "DirectorsValue": "Directors: {0}",

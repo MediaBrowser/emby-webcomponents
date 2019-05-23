@@ -1,5 +1,4 @@
 {
-    "Seasons": "Seasons",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "We're unable to connect to the selected server right now. Please ensure it is running and try again.",
     "EmbyIntroMessage": "With Emby you can easily stream videos, music and photos to smart phones, tablets and other devices from your Emby Server.",
@@ -169,6 +168,7 @@
     "Mobile": "M\u00f2bil \/ Tauleta",
     "TV": "TV",
     "HeaderEmbyConnect": "Emby Connect",
+    "Seasons": "Seasons",
     "OneTrack": "1 Pista",
     "OneSeason": "1 Sessi\u00f3",
     "NumberSeasonsValue": "{0} Sessions",
@@ -776,7 +776,7 @@
     "PlayNext": "Play next",
     "AllowSeasonalThemes": "Allow automatic seasonal themes",
     "AllowSeasonalThemesHelp": "If enabled, seasonal themes will occasionally override your theme setting.",
-    "AutoBasedOnLanguageSetting": "Auto (based on language setting)",
+    "AutoBasedOnLanguageSetting": "Auto (based on device setting)",
     "LabelDateTimeLocale": "Date time locale:",
     "DirectorValue": "Director: {0}",
     "DirectorsValue": "Directors: {0}",
