@@ -201,7 +201,9 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             id: 'playbacksettings'
         });
 
-        if (user && user.Policy.EnableVideoPlaybackTranscoding) {
+        var currentMediaSource = playbackManager.currentMediaSource(player);
+
+        if (user && user.Policy.EnableVideoPlaybackTranscoding && currentMediaSource && currentMediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
             var secondaryQualityText = getQualitySecondaryText(player);
 
             menuItems.push({
@@ -213,7 +215,7 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
 
         var repeatMode = playbackManager.getRepeatMode(player);
 
-        if (supportedCommands.indexOf('SetRepeatMode') !== -1 && playbackManager.currentMediaSource(player).RunTimeTicks) {
+        if (supportedCommands.indexOf('SetRepeatMode') !== -1 && currentMediaSource.RunTimeTicks) {
 
             menuItems.push({
                 name: globalize.translate('RepeatMode'),

@@ -327,30 +327,6 @@
         };
     }
 
-    var startingPlaySession = new Date().getTime();
-    function getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxAudioSampleRate, maxAudioBitDepth, maxAudioBitrate, startPosition) {
-
-        var url = 'Audio/' + item.Id + '/universal';
-
-        startingPlaySession++;
-        return apiClient.getUrl(url, {
-            UserId: apiClient.getCurrentUserId(),
-            DeviceId: apiClient.deviceId(),
-            MaxStreamingBitrate: maxAudioBitrate || maxBitrate,
-            Container: directPlayContainers,
-            TranscodingContainer: transcodingProfile.Container || null,
-            TranscodingProtocol: transcodingProfile.Protocol || null,
-            AudioCodec: transcodingProfile.AudioCodec,
-            MaxAudioSampleRate: maxAudioSampleRate,
-            MaxAudioBitDepth: maxAudioBitDepth,
-            api_key: apiClient.accessToken(),
-            PlaySessionId: startingPlaySession,
-            StartTimeTicks: startPosition || 0,
-            EnableRedirection: true,
-            EnableRemoteMedia: apphost.supports('remoteaudio')
-        });
-    }
-
     function getAudioStreamUrlFromDeviceProfile(item, deviceProfile, maxBitrate, apiClient, startPosition) {
 
         var transcodingProfile = deviceProfile.TranscodingProfiles.filter(function (p) {
@@ -376,8 +352,9 @@
         });
 
         var maxValues = getAudioMaxValues(deviceProfile);
+        var enableRemoteMedia = apphost.supports('remoteaudio');
 
-        return getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, maxValues.maxAudioBitrate, startPosition);
+        return apiClient.getAudioStreamUrl(item, transcodingProfile, directPlayContainers, maxValues.maxAudioBitrate || maxBitrate, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition, enableRemoteMedia);
     }
 
     function getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
@@ -407,13 +384,15 @@
 
         var streamUrls = [];
 
+        var enableRemoteMedia = apphost.supports('remoteaudio');
+
         for (var i = 0, length = items.length; i < length; i++) {
 
             var item = items[i];
             var streamUrl;
 
-            if (item.MediaType === 'Audio' && !itemHelper.isLocalItem(item)) {
-                streamUrl = getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxBitrate, apiClient, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, maxValues.maxAudioBitrate, startPosition);
+            if (item.MediaType === 'Audio') {
+                streamUrl = apiClient.getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxValues.maxAudioBitrate || maxBitrate, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition, enableRemoteMedia);
             }
 
             streamUrls.push(streamUrl || '');
@@ -426,6 +405,14 @@
         return Promise.resolve(streamUrls);
     }
 
+    function setStreamUrlIntoAllMediaSources(mediaSources, streamUrl) {
+
+        for (var i = 0, length = mediaSources.length; i < length; i++) {
+
+            mediaSources[i].StreamUrl = streamUrl;
+        }
+    }
+
     function setStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition) {
 
         return getStreamUrls(items, deviceProfile, maxBitrate, apiClient, startPosition).then(function (streamUrls) {
@@ -436,12 +423,17 @@
                 var streamUrl = streamUrls[i];
 
                 if (streamUrl) {
-                    item.PresetMediaSource = {
-                        StreamUrl: streamUrl,
-                        Id: item.Id,
-                        MediaStreams: [],
-                        RunTimeTicks: item.RunTimeTicks
-                    };
+                    if (!item.MediaSources) {
+                        item.MediaSources = [];
+                    }
+                    if (!item.MediaSources.length) {
+                        item.MediaSources.push({
+                            Id: item.Id,
+                            MediaStreams: [],
+                            RunTimeTicks: item.RunTimeTicks
+                        });
+                    }
+                    setStreamUrlIntoAllMediaSources(item.MediaSources, streamUrl);
                 }
             }
         });
@@ -463,7 +455,7 @@
         allowVideoStreamCopy,
         allowAudioStreamCopy) {
 
-        if (!itemHelper.isLocalItem(item) && item.MediaType === 'Audio') {
+        if (item.MediaType === 'Audio') {
 
             return Promise.resolve({
                 MediaSources: [
@@ -476,9 +468,9 @@
             });
         }
 
-        if (item.PresetMediaSource) {
+        if (item.MediaSources && item.MediaSources.length && item.MediaSources[0].StreamUrl) {
             return Promise.resolve({
-                MediaSources: [item.PresetMediaSource]
+                MediaSources: item.MediaSources
             });
         }
 

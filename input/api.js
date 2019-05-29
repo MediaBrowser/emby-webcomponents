@@ -1,4 +1,4 @@
-define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focusManager', 'appRouter'], function (connectionManager, playbackManager, events, inputManager, focusManager, appRouter) {
+define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focusManager', 'appRouter', 'apphost'], function (connectionManager, playbackManager, events, inputManager, focusManager, appRouter, appHost) {
     'use strict';
 
     var serverNotifications = {};
@@ -154,11 +154,15 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
         notifyApp();
     }
 
+    var appSupportsSync = appHost.supports('sync');
+
     function onMessageReceived(e, msg) {
 
         var apiClient = this;
 
-        if (msg.MessageType === "Play") {
+        var messageType = msg.MessageType;
+
+        if (messageType === "Play") {
 
             notifyApp();
             var serverId = apiClient.serverInfo().Id;
@@ -182,7 +186,7 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
             }
 
         }
-        else if (msg.MessageType === "Playstate") {
+        else if (messageType === "Playstate") {
 
             if (msg.Data.Command === 'Stop') {
                 inputManager.trigger('stop');
@@ -208,11 +212,11 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                 notifyApp();
             }
         }
-        else if (msg.MessageType === "GeneralCommand") {
+        else if (messageType === "GeneralCommand") {
             var cmd = msg.Data;
             processGeneralCommand(cmd, apiClient);
         }
-        else if (msg.MessageType === "UserDataChanged") {
+        else if (messageType === "UserDataChanged") {
 
             if (msg.Data.UserId === apiClient.getCurrentUserId()) {
 
@@ -221,11 +225,31 @@ define(['connectionManager', 'playbackManager', 'events', 'inputManager', 'focus
                 }
             }
         }
+        else if (messageType === "SyncJobItemReady" || messageType === "SyncJobItemsReady") {
+
+            if (appSupportsSync) {
+                syncNow();
+            }
+        }
+        else if (messageType === "SyncJobCancelled" || messageType === "SyncJobItemCancelled") {
+
+            if (appSupportsSync) {
+                syncNow();
+            }
+
+            events.trigger(serverNotifications, messageType, [apiClient, msg.Data]);
+        }
         else {
 
-            events.trigger(serverNotifications, msg.MessageType, [apiClient, msg.Data]);
+            events.trigger(serverNotifications, messageType, [apiClient, msg.Data]);
         }
 
+    }
+
+    function syncNow() {
+        require(['localsync'], function (localSync) {
+            localSync.sync();
+        });
     }
 
     function bindEvents(apiClient) {
