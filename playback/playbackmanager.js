@@ -2694,7 +2694,7 @@
                 var textStream = textStreams[i];
                 var textStreamUrl;
 
-                if (itemHelper.isLocalItem(item)) {
+                if (itemHelper.isLocalItem(item) || mediaSource.IsLocal) {
                     textStreamUrl = textStream.Path;
                 } else {
                     textStreamUrl = !textStream.IsExternalUrl ? apiClient.getUrl(textStream.DeliveryUrl) : textStream.DeliveryUrl;

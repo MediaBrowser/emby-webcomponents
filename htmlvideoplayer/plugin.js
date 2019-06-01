@@ -1,4 +1,4 @@
-﻿define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper', 'itemHelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper, itemHelper) {
+﻿define(['browser', 'require', 'events', 'apphost', 'loading', 'dom', 'playbackManager', 'appRouter', 'appSettings', 'connectionManager', 'htmlMediaHelper'], function (browser, require, events, appHost, loading, dom, playbackManager, appRouter, appSettings, connectionManager, htmlMediaHelper) {
     "use strict";
 
     var mediaManager;
@@ -119,9 +119,9 @@
         elem.innerHTML = tracksHtml;
     }
 
-    function getTextTrackUrl(track, item, format) {
+    function getTextTrackUrl(track, item, mediaSource, format) {
 
-        if (window.Windows && itemHelper.isLocalItem(item) && track.Path) {
+        if (window.Windows && mediaSource.IsLocal && track.Path) {
             return Windows.Storage.StorageFile.getFileFromPathAsync(track.Path).then(function (file) {
 
                 var trackUrl = URL.createObjectURL(file, { oneTimeOnly: true });
@@ -129,7 +129,7 @@
             });
         }
 
-        if (itemHelper.isLocalItem(item) && track.Path) {
+        if (mediaSource.IsLocal && track.Path) {
             return Promise.resolve(track.Path);
         }
 
@@ -149,7 +149,7 @@
                 return Promise.resolve('');
             }
 
-            return getTextTrackUrl(t, item).then(function (textTrackUrl) {
+            return getTextTrackUrl(t, item, mediaSource).then(function (textTrackUrl) {
 
                 var defaultAttribute = mediaSource.DefaultSubtitleStreamIndex === t.Index ? ' default' : '';
 
@@ -1004,18 +1004,21 @@
                 return;
             }
 
-            var item = self._currentPlayOptions.item;
+            var currentPlayOptions = self._currentPlayOptions;
+
+            var item = currentPlayOptions.item;
+            var mediaSource = currentPlayOptions.mediaSource;
 
             destroyCustomTrack(videoElement);
             customTrackIndex = track.Index;
-            renderTracksEvents(videoElement, track, item);
+            renderTracksEvents(videoElement, track, item, mediaSource);
         }
 
-        function renderWithSubtitlesOctopus(videoElement, track, item) {
+        function renderWithSubtitlesOctopus(videoElement, track, item, mediaSource) {
 
             require(['SubtitlesOctopus'], function () {
 
-                getTextTrackUrl(track, item).then(function (textTrackUrl) {
+                getTextTrackUrl(track, item, mediaSource).then(function (textTrackUrl) {
 
                     currentSubtitlesOctopus = new SubtitlesOctopus({
                         video: videoElement,
@@ -1030,7 +1033,7 @@
             });
         }
 
-        function renderWithLibjass(videoElement, track, item) {
+        function renderWithLibjass(videoElement, track, item, mediaSource) {
 
             var rendererSettings = {};
 
@@ -1039,7 +1042,7 @@
 
             require(['libjass'], function (libjass) {
 
-                getTextTrackUrl(track, item).then(function (textTrackUrl) {
+                getTextTrackUrl(track, item, mediaSource).then(function (textTrackUrl) {
 
                     libjass.ASS.fromUrl(textTrackUrl).then(function (ass) {
 
@@ -1199,40 +1202,40 @@
             return ['dut', 'eng', 'fin', 'fre', 'ger', 'heb', 'hun', 'ita', 'nor', 'pol', 'por', 'rus', 'spa', 'swe'].indexOf(language) === -1;
         }
 
-        function renderAssSsa(videoElement, track, item) {
+        function renderAssSsa(videoElement, track, item, mediaSource) {
 
             // excluding edgeUwp for now due to a random_device error that is crashing the app
             // this is seen in the console in the edge browser but doesn't appear to cause any major problem
             if (isWebWorkerSupported() && isCanvasSupported() && (browser.iOSVersion || 11) >= 11 && !browser.edgeUwp) {
 
                 if (!requiresExternalFontDownload(track) || browser.edgeUwp) {
-                    renderWithSubtitlesOctopus(videoElement, track, item);
+                    renderWithSubtitlesOctopus(videoElement, track, item, mediaSource);
                     return;
                 }
 
                 var savedEndPointInfo = connectionManager.getApiClient(item.ServerId).getSavedEndpointInfo() || {};
 
                 if (savedEndPointInfo.IsInNetwork && !browser.mobile && !browser.tv) {
-                    renderWithSubtitlesOctopus(videoElement, track, item);
+                    renderWithSubtitlesOctopus(videoElement, track, item, mediaSource);
                     return;
                 }
             }
 
-            renderWithLibjass(videoElement, track, item);
+            renderWithLibjass(videoElement, track, item, mediaSource);
         }
 
-        function renderTracksEvents(videoElement, track, item) {
+        function renderTracksEvents(videoElement, track, item, mediaSource) {
 
-            if (!itemHelper.isLocalItem(item) || track.IsExternal) {
+            if (!mediaSource.IsLocal || track.IsExternal) {
                 var format = (track.Codec || '').toLowerCase();
                 if (format === 'ssa' || format === 'ass') {
                     // libjass is needed here
-                    renderAssSsa(videoElement, track, item);
+                    renderAssSsa(videoElement, track, item, mediaSource);
                     return;
                 }
             }
 
-            if (!itemHelper.isLocalItem(item) && requiresCustomSubtitlesElement()) {
+            if (requiresCustomSubtitlesElement()) {
                 renderSubtitlesWithCustomElement(videoElement, track, item);
                 return;
             }
@@ -1317,11 +1320,14 @@
 
         function setCurrentTrackElement(streamIndex) {
 
+            var currentPlayOptions = self._currentPlayOptions;
+            var mediaSource = currentPlayOptions.mediaSource;
+
             if (browser.web0s && browser.sdkVersion && browser.sdkVersion < 3.0) {
 
-                if (self._currentPlayOptions.playMethod === 'DirectStream' || self._currentPlayOptions.playMethod === 'DirectPlay') {
+                var playMethod = currentPlayOptions.playMethod;
 
-                    var mediaSource = self._currentPlayOptions.mediaSource;
+                if (playMethod === 'DirectStream' || playMethod === 'DirectPlay') {
 
                     if (mediaSource.Container === 'mkv') {
                         streamIndex = -1;
@@ -1331,7 +1337,7 @@
 
             console.log('Setting new text track index to: ' + streamIndex);
 
-            var mediaStreamTextTracks = getMediaStreamSubtitleTracks(self._currentPlayOptions.mediaSource);
+            var mediaStreamTextTracks = getMediaStreamSubtitleTracks(mediaSource);
 
             var track = streamIndex === -1 ? null : mediaStreamTextTracks.filter(function (t) {
                 return t.Index === streamIndex;

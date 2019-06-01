@@ -81,7 +81,7 @@
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        apiClient.sendMessage("SessionsStop");
+        apiClient.stopMessageListener("Sessions");
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;
@@ -160,7 +160,7 @@
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        apiClient.sendMessage("SessionsStart", "100,800");
+        apiClient.startMessageListener("SessionsStart", "100,800");
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;
