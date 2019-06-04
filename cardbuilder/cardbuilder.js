@@ -892,7 +892,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 action = 'link';
             }
             else if (item.MediaType === 'Photo') {
-                action = 'play';
+                action = 'playallfromhere';
             }
 
             var shape = options.shape;
@@ -1047,7 +1047,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
 
                 if (options.centerPlayButton) {
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="play"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+
+                    var playButtonAction = item.IsFolder ? 'resume' : 'playallfromhere';
+                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
                 }
 
                 //if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || itemType === 'Program') && itemType !== 'Person') {
@@ -1207,7 +1209,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (playbackManager.canPlay(item) && options.hoverPlayButton !== false) {
 
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="resume"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+                var playButtonAction = item.IsFolder ? 'resume' : 'playallfromhere';
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
             }
 
             html += '<div class="cardOverlayButton-br">';

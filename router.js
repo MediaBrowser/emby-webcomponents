@@ -288,17 +288,31 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function getMaxBandwidth() {
 
-        if (navigator.connection) {
+        var connection = navigator.connection;
 
-            var max = navigator.connection.downlinkMax;
-            if (max && max > 0 && max < Number.POSITIVE_INFINITY) {
+        if (connection) {
 
-                max /= 8;
-                max *= 1000000;
-                max *= 0.7;
-                max = parseInt(max);
-                return max;
+            var downlink = connection.downlink;
+            if (downlink && downlink > 0 && downlink < Number.POSITIVE_INFINITY) {
+
+                downlink *= 1000000;
+                downlink *= 0.7;
+                downlink = parseInt(downlink);
+                return downlink;
             }
+
+            downlink = connection.downlinkMax;
+            if (downlink && downlink > 0 && downlink < Number.POSITIVE_INFINITY) {
+
+                downlink *= 1000000;
+                downlink *= 0.7;
+                downlink = parseInt(downlink);
+                return downlink;
+            }
+        }
+
+        if (browser.iOS) {
+            return 1500000;
         }
 
         return null;
@@ -312,19 +326,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         navigator.connection.addEventListener('change', onNetworkChanged);
     }
 
-    function getMaxBandwidthIOS() {
-        return 1500000;
-    }
-
     function onApiClientCreated(e, newApiClient) {
 
         newApiClient.normalizeImageOptions = normalizeImageOptions;
-
-        if (browser.iOS) {
-            newApiClient.getMaxBandwidth = getMaxBandwidthIOS;
-        } else {
-            newApiClient.getMaxBandwidth = getMaxBandwidth;
-        }
+        newApiClient.getMaxBandwidth = getMaxBandwidth;
     }
 
     function initApiClient(apiClient) {

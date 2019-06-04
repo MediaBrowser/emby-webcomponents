@@ -22,7 +22,7 @@
             PlayCommand: playType
         };
 
-        if (options.startPositionTicks) {
+        if (options.startPositionTicks != null) {
             remoteOptions.StartPositionTicks = options.startPositionTicks;
         }
 
@@ -160,7 +160,7 @@
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        apiClient.startMessageListener("SessionsStart", "100,800");
+        apiClient.startMessageListener("Sessions", "100,800");
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;

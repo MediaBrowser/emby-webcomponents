@@ -1873,7 +1873,7 @@
                 });
 
             }
-            else if (firstItem.MediaType === "Photo") {
+            else if (firstItem.MediaType === "Photo" && items.length === 1 && firstItem.ParentId) {
 
                 promise = getItemsForPlayback(serverId, {
                     ParentId: firstItem.ParentId,
@@ -2243,6 +2243,10 @@
 
             var playStartIndex = options.startIndex || 0;
             var firstItem = items[playStartIndex];
+
+            if (options.startPositionTicks == null) {
+                options.startPositionTicks = firstItem.UserData ? (firstItem.UserData.PlaybackPositionTicks || 0) : 0;
+            }
 
             // If index was bad, reset it
             if (!firstItem) {
@@ -3377,6 +3381,11 @@
             sendProgressUpdate(player, 'playlistitemadd', true);
         }
 
+        function onPlayerShutdown(e) {
+            var player = this;
+            removeCurrentPlayer(player);
+        }
+
         function unbindStopped(player) {
 
             events.off(player, 'stopped', onPlaybackStopped);
@@ -3419,6 +3428,7 @@
                 events.on(player, 'playlistitemmove', onPlaylistItemMove);
                 events.on(player, 'playlistitemremove', onPlaylistItemRemove);
                 events.on(player, 'playlistitemadd', onPlaylistItemAdd);
+
             } else if (player.isLocalPlayer) {
 
                 events.on(player, 'itemstarted', onPlaybackStartedFromSelfManagingPlayer);
@@ -3431,6 +3441,7 @@
                 events.on(player, 'playlistitemmove', onPlaylistItemMove);
                 events.on(player, 'playlistitemremove', onPlaylistItemRemove);
                 events.on(player, 'playlistitemadd', onPlaylistItemAdd);
+                events.on(player, 'shutdown', onPlayerShutdown);
             }
 
             if (player.isLocalPlayer) {
