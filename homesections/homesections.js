@@ -433,7 +433,7 @@
             var options = {
 
                 Limit: limit,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo,ProductionYear",
                 ImageTypeLimit: 1,
                 EnableImageTypes: "Primary,Backdrop,Thumb",
                 ParentId: parentId
@@ -738,7 +738,7 @@
 
                 Limit: limit,
                 Recursive: true,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo,ProductionYear",
                 ImageTypeLimit: 1,
                 EnableImageTypes: "Primary,Backdrop,Thumb",
                 EnableTotalRecordCount: false,
@@ -821,7 +821,7 @@
 
                 Limit: limit,
                 Recursive: true,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo,ProductionYear",
                 ImageTypeLimit: 1,
                 EnableImageTypes: "Primary,Backdrop,Thumb",
                 EnableTotalRecordCount: false,
@@ -1189,7 +1189,7 @@
 
                 userId: apiClient.getCurrentUserId(),
                 Limit: enableScrollX() ? 12 : 5,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo",
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo,ProductionYear",
                 EnableTotalRecordCount: false,
                 IsLibraryItem: activeRecordingsOnly ? null : false,
                 IsInProgress: activeRecordingsOnly ? true : null

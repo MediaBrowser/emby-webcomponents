@@ -164,7 +164,7 @@
             instance.itemsContainer :
             instance.itemsContainer.parentNode;
 
-        if (values.sortBy === 'SortName' && values.sortOrder === 'Ascending' && numItems > 40) {
+        if (values.sortBy === 'SortName' && values.sortOrder === 'Ascending' && numItems > 30) {
             alphaPicker.classList.remove('hide');
 
             if (layoutManager.tv) {
@@ -543,8 +543,14 @@
             showYear: settings.showYear,
             overlayText: !settings.showTitle,
             context: this.getContext(),
-            parentId: parentId
+            parentId: parentId,
+            playAction: this.getPlayAction()
         };
+    };
+
+    ItemsTab.prototype.getPlayAction = function () {
+
+        return null;
     };
 
     ItemsTab.prototype.getContext = function () {
@@ -583,6 +589,23 @@
         if (settings.imageType === 'primary') {
             fields += ",PrimaryImageAspectRatio";
         }
+        if (settings.showYear) {
+            fields += ",ProductionYear";
+        }
+
+        var imageTypes = 'Primary,Backdrop,Thumb';
+
+        if (settings.imageType === 'banner') {
+            imageTypes += ',Banner';
+        }
+
+        else if (settings.imageType === 'disc') {
+            imageTypes += ',Disc';
+        }
+
+        else if (settings.imageType === 'logo') {
+            imageTypes += ',Logo';
+        }
 
         var query = {
             SortBy: sortValues.sortBy,
@@ -591,7 +614,7 @@
             Recursive: true,
             Fields: fields,
             ImageTypeLimit: 1,
-            EnableImageTypes: "Primary,Backdrop,Banner,Thumb,Disc,Logo",
+            EnableImageTypes: imageTypes,
             StartIndex: this.startIndex || 0,
             Limit: this.enablePaging() ? 100 : null,
             ParentId: parentId

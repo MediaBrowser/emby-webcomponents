@@ -1609,8 +1609,6 @@
             }
         }
 
-        list.push('SetBrightness');
-
         return list;
     }
 
@@ -1723,36 +1721,6 @@
         }
 
         return false;
-    };
-
-    HtmlVideoPlayer.prototype.setBrightness = function (val) {
-
-        var elem = this._mediaElement;
-
-        if (elem) {
-
-            val = Math.max(0, val);
-            val = Math.min(100, val);
-
-            var rawValue = val;
-            rawValue = Math.max(20, rawValue);
-
-            var cssValue = rawValue >= 100 ? 'none' : (rawValue / 100);
-            elem.style['-webkit-filter'] = 'brightness(' + cssValue + ');';
-            elem.style.filter = 'brightness(' + cssValue + ')';
-            elem.brightnessValue = val;
-            events.trigger(this, 'brightnesschange');
-        }
-    };
-
-    HtmlVideoPlayer.prototype.getBrightness = function () {
-
-        var elem = this._mediaElement;
-
-        if (elem) {
-            var val = elem.brightnessValue;
-            return val == null ? 100 : val;
-        }
     };
 
     HtmlVideoPlayer.prototype.seekable = function () {

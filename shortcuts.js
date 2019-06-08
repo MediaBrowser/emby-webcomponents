@@ -31,12 +31,12 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
                 if (queue) {
                     return playbackManager.queue({
-                        items: result.Items
+                        items: result.Items || result
                     });
                 } else {
 
                     return playbackManager.play({
-                        items: result.Items,
+                        items: result.Items || result,
                         startIndex: startIndex
                     });
                 }

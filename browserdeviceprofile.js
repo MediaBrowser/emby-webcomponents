@@ -108,6 +108,12 @@ define(['browser'], function (browser) {
             }
         }
 
+        else if (format === 'asf') {
+            if (browser.tizen) {
+              return true;
+            }
+        }
+
         else if (format === 'opus') {
 
             if (browser.web0s) {
@@ -161,7 +167,7 @@ define(['browser'], function (browser) {
 
     function testCanPlayMkv(videoTestElement) {
 
-        if (browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp) {
+        if (browser.tizen || browser.orsay || browser.web0s || browser.edgeUwp || browser.netcast) {
             return true;
         }
 
@@ -616,7 +622,7 @@ define(['browser'], function (browser) {
                 profile.DirectPlayProfiles.push(i);
             });
 
-            ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
+            ['opus', 'mp3', 'mp2', 'aac', 'flac', 'alac', 'webma', 'wma', 'asf', 'wav', 'ogg', 'oga'].filter(canPlayAudioFormat).forEach(function (audioFormat) {
 
                 if (audioFormat === 'mp2') {
 

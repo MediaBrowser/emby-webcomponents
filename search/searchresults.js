@@ -134,7 +134,7 @@
         }
 
         // Convert the search hint query to a regular item query
-        query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,MediaSourceCount';
+        query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,ProductionYear';
         query.Recursive = true;
         query.EnableTotalRecordCount = false;
         query.ImageTypeLimit = 1;

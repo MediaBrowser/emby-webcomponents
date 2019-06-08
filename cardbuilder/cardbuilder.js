@@ -1048,7 +1048,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (options.centerPlayButton) {
 
-                    var playButtonAction = item.IsFolder ? 'resume' : 'playallfromhere';
+                    var playButtonAction = item.IsFolder ? 'resume' : (options.playAction || 'play');
                     overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
                 }
 
@@ -1209,7 +1209,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (playbackManager.canPlay(item) && options.hoverPlayButton !== false) {
 
-                var playButtonAction = item.IsFolder ? 'resume' : 'playallfromhere';
+                var playButtonAction = item.IsFolder ? 'resume' : (options.playAction || 'play');
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
             }
 
