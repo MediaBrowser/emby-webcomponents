@@ -68,7 +68,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
-        if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
+        if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist") {
             if (options.instantMix !== false && !itemHelper.isLocalItem(item)) {
                 commands.push({
                     name: globalize.translate('InstantMix'),
