@@ -43,10 +43,6 @@
     -webkit-font-smoothing: antialiased;
 }
 
-/*.htmlvideoplayer::-webkit-media-text-track-display {
-    margin-top: -50vh;
-}*/
-
 .videoSubtitles {
     position: fixed;
     bottom: 10%;

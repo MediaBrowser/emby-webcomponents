@@ -17,10 +17,49 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
         select.innerHTML = html;
     }
 
+    function numberToPercentString(value) {
+
+        try {
+
+            return new Intl.NumberFormat(globalize.getCurrentLocales(), { style: 'percent' }).format(value / 100);
+        }
+        catch (err) {
+
+            console.log('Error in NumberFormat: ' + err);
+
+            return value + '%';
+        }
+    }
+
+    function populateVerticalPosition(select) {
+
+        var options = [
+            { name: numberToPercentString(90), value: 90 },
+            { name: numberToPercentString(80), value: 80 },
+            { name: numberToPercentString(70), value: 70 },
+            { name: numberToPercentString(60), value: 60 },
+            { name: numberToPercentString(50), value: 50 },
+            { name: numberToPercentString(40), value: 40 },
+            { name: numberToPercentString(30), value: 30 },
+            { name: numberToPercentString(20), value: 20 },
+            { name: numberToPercentString(10), value: 10 },
+            { name: globalize.translate('Bottom'), value: 0 }
+        ];
+
+        options.reverse();
+
+        select.innerHTML = options.map(function (o) {
+
+            return '<option value="' + o.value + '">' + o.name + '</option>';
+
+        }).join('');
+    }
+
     function getSubtitleAppearanceObject(context) {
 
         var appearanceSettings = {};
 
+        appearanceSettings.verticalPosition = context.querySelector('#selectVerticalPosition').value;
         appearanceSettings.textSize = context.querySelector('#selectTextSize').value;
         appearanceSettings.dropShadow = context.querySelector('#selectDropShadow').value;
         appearanceSettings.textBackground = context.querySelector('#inputTextBackground').value;
@@ -38,12 +77,14 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
             }
 
             var selectSubtitleLanguage = context.querySelector('#selectSubtitleLanguage');
-
             populateLanguages(selectSubtitleLanguage, allCultures);
-
             selectSubtitleLanguage.value = user.Configuration.SubtitleLanguagePreference || "";
-            context.querySelector('#selectSubtitlePlaybackMode').value = user.Configuration.SubtitleMode || "";
 
+            var selectVerticalPosition = context.querySelector('#selectVerticalPosition');
+            populateVerticalPosition(selectVerticalPosition);
+            selectVerticalPosition.value = appearanceSettings.verticalPosition || '10';
+
+            context.querySelector('#selectSubtitlePlaybackMode').value = user.Configuration.SubtitleMode || "";
             context.querySelector('#selectSubtitlePlaybackMode').dispatchEvent(new CustomEvent('change', {}));
 
             context.querySelector('#selectTextSize').value = appearanceSettings.textSize || '';
@@ -55,6 +96,10 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
             onAppearanceFieldChange({
                 target: context.querySelector('#selectTextSize')
+            });
+
+            onAppearanceFieldChange({
+                target: context.querySelector('#selectVerticalPosition')
             });
 
             loading.hide();
@@ -155,6 +200,7 @@ define(['require', 'globalize', 'appSettings', 'apphost', 'focusManager', 'loadi
 
             options.element.querySelector('#selectSubtitlePlaybackMode').addEventListener('change', onSubtitleModeChange);
             options.element.querySelector('#selectTextSize').addEventListener('change', onAppearanceFieldChange);
+            options.element.querySelector('#selectVerticalPosition').addEventListener('change', onAppearanceFieldChange);
             options.element.querySelector('#selectDropShadow').addEventListener('change', onAppearanceFieldChange);
             options.element.querySelector('#inputTextColor').addEventListener('change', onAppearanceFieldChange);
             options.element.querySelector('#inputTextBackground').addEventListener('change', onAppearanceFieldChange);

@@ -822,6 +822,7 @@
   "SubtitleSettings": "Subtitle settings",
   "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
   "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+  "LabelVerticalPositionFromBottom": "Vertical position (from bottom):",
   "HeaderFavoritePeople": "Favorite People",
   "MultiSelect": "Multi-select",
   "HeaderSignOut": "Sign Out",

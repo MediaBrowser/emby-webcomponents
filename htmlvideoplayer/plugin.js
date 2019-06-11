@@ -370,10 +370,10 @@
             lrd.media.contentType = options.mimeType;
             lrd.media.streamType = cast.receiver.media.StreamType.OTHER;
             lrd.media.customData = {
-                                        'options': options,
-                                        'hasHlsTextTracks': hasHlsTextTracks,
-                                        'tracksHtml': tracksHtml
-                                    };
+                'options': options,
+                'hasHlsTextTracks': hasHlsTextTracks,
+                'tracksHtml': tracksHtml
+            };
 
             console.log('loading media url into mediaManager');
 
@@ -1152,17 +1152,30 @@
             });
         }
 
-        function getCueCss(appearance, selector) {
+        function getSubtitleCss(appearance, selector) {
 
-            var html = selector + '::cue {';
+            var html = '';
 
-            html += appearance.text.map(function (s) {
+            html += selector + '::cue {' + appearance.text.map(function (s) {
+
+                if (s.name === 'verticalPosition') {
+                    return '';
+                }
 
                 return s.name + ':' + s.value + ' !important;';
 
-            }).join('');
+            }).join('') + '}';
 
-            html += '}';
+            //html += selector + '::-webkit-media-text-track-display {' + appearance.text.map(function (s) {
+
+            //    if (s.name === 'verticalPosition') {
+
+            //        return 'margin-top: -' + s.value + 'vh!important;';
+            //    }
+
+            //    return '';
+
+            //}).join('') + '}';
 
             return html;
         }
@@ -1181,7 +1194,7 @@
                     document.getElementsByTagName('head')[0].appendChild(styleElem);
                 }
 
-                styleElem.innerHTML = getCueCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings(), true), '.htmlvideoplayer');
+                styleElem.innerHTML = getSubtitleCss(subtitleAppearanceHelper.getStyles(userSettings.getSubtitleAppearanceSettings(), true), '.htmlvideoplayer');
             });
         }
 
