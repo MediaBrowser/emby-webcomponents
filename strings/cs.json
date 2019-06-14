@@ -822,6 +822,7 @@
     "SubtitleSettings": "Nastaven\u00ed titulk\u016f",
     "PlaybackSettingsIntro": "Chcete-li nakonfigurovat v\u00fdchoz\u00ed nastaven\u00ed p\u0159ehr\u00e1v\u00e1n\u00ed, zastavte p\u0159ehr\u00e1v\u00e1n\u00ed videa a klepn\u011bte na ikonu u\u017eivatele v prav\u00e9 horn\u00ed \u010d\u00e1sti aplikace.",
     "SubtitleSettingsIntro": "Chcete-li konfigurovat v\u00fdchoz\u00ed vzhled titulk\u016f a nastaven\u00ed jazyk\u016f, zastavte p\u0159ehr\u00e1v\u00e1n\u00ed videa a klikn\u011bte na ikonu u\u017eivatele v prav\u00e9 horn\u00ed \u010d\u00e1sti aplikace.",
+    "LabelVerticalPositionFromBottom": "Vertical position (from bottom):",
     "HeaderFavoritePeople": "Obl\u00edben\u00ed lid\u00e9",
     "MultiSelect": "V\u00edcen\u00e1sobn\u00fd v\u00fdb\u011br",
     "HeaderSignOut": "Odhl\u00e1sit se",

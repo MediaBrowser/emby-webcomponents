@@ -53,7 +53,7 @@ define([], function () {
         }
 
         var verticalPosition = settings.verticalPosition || '10';
-        list.push({ name: 'verticalPosition', value: settings.verticalPosition });
+        list.push({ name: 'verticalPosition', value: verticalPosition });
 
         switch (settings.dropShadow || '') {
 

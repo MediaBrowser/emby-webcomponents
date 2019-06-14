@@ -24,7 +24,6 @@ html, .skinHeader {
 }
 
 .skinHeader.semiTransparent {
-    backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     box-shadow: none !important;
@@ -59,7 +58,7 @@ html, .backgroundContainer {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-.raised, .fab {
+.raised, .fab, .detailButton-icon {
     background: #d8d8d8;
     color: inherit;
 }
@@ -68,10 +67,6 @@ html, .backgroundContainer {
         background: #ccc;
         color: inherit;
     }
-
-.detailButton-mobile-icon {
-    border-color: rgba(0,0,0,.3);
-}
 
 .button-submit:not(.emby-button-tv) {
     background: #E91E63;
@@ -427,9 +422,6 @@ html, .backgroundContainer {
 }
 
 /* cards */
-.cardContent-shadow {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-}
 
 .card:focus .card-focuscontent {
     border-color: #E91E63;
@@ -437,6 +429,9 @@ html, .backgroundContainer {
 
 .cardContent-button {
     background-color: transparent;
+}
+.cardContent-shadow {
+    background-color: #eee;
 }
 
 .defaultCardBackground0 {

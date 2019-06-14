@@ -822,6 +822,7 @@
     "SubtitleSettings": "Untertiteleinstellungen",
     "PlaybackSettingsIntro": "Um die Wiedergabeeinstellungen zu \u00e4ndern, stoppen Sie die Wiedergabe und klicken Sie auf Ihr Benutzer-Icon in der oberen rechten Ecke der App.",
     "SubtitleSettingsIntro": "Um das Aussehen der Untertitel und die Spracheinstellungen zu \u00e4ndern, stoppen Sie die Wiedergabe und klicken Sie auf Ihr Benutzer-Icon in der oberen rechten Ecke der App.",
+    "LabelVerticalPositionFromBottom": "Vertikale Position (von unten)",
     "HeaderFavoritePeople": "Lieblingspersonen",
     "MultiSelect": "Mehrfachauswahl",
     "HeaderSignOut": "Abmelden",

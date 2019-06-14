@@ -363,7 +363,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
         if (item.OfficialRating) {
             miscInfo.push({
                 text: item.OfficialRating,
-                cssClass: 'mediaInfoOfficialRating defaultCardBackground0'
+                cssClass: 'mediaInfoOfficialRating raised'
             });
         }
 

@@ -2307,7 +2307,7 @@
 
         function playInternal(item, playOptions, onPlaybackStartedFn) {
 
-            if (item.IsPlaceHolder) {
+            if (item.Container === 'disc') {
                 loading.hide();
                 showPlaybackInfoErrorMessage(self, 'PlaceHolder', true);
                 return Promise.reject();

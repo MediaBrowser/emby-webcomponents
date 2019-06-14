@@ -32,15 +32,17 @@ html {
     background-color: #282828;
 }
 
-@supports ( (backdrop-filter: blur(1em))) {
+@supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
     .appfooter {
         background: rgba(34,34,34,.7);
+        -webkit-backdrop-filter: blur(1.25);
         backdrop-filter: blur(1.25);
     }
 }
 
 .skinHeader.semiTransparent {
+    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
@@ -64,7 +66,7 @@ html, .dialog, .backgroundContainer {
     background-color: rgba(255, 145, 0, 0.2);
 }
 
-.raised, .fab {
+.raised, .fab, .detailButton-icon {
     background: #333;
     background-color: rgba(60,60,60,.7);
     color: rgba(255, 255, 255, .87);
@@ -73,10 +75,6 @@ html, .dialog, .backgroundContainer {
     .raised:focus, .fab:focus {
         background-color: rgba(90,90,90,.5);
     }
-
-.detailButton-mobile-icon {
-    border-color: rgba(255, 255, 255, .3);
-}
 
 .button-submit:not(.emby-button-tv) {
     background: #FF9100;
@@ -402,9 +400,6 @@ html, .dialog, .backgroundContainer {
 }
 
 /* cards */
-.cardContent-shadow {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-}
 
 .card:focus .card-focuscontent {
     border-color: #FF9100;
@@ -412,6 +407,10 @@ html, .dialog, .backgroundContainer {
 
 .cardContent-button {
     background-color: transparent;
+}
+
+.cardContent-shadow {
+    background-color: rgba(60,60,60,.3);
 }
 
 .defaultCardBackground0 {

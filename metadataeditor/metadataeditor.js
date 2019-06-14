@@ -776,7 +776,9 @@
         }).join(';');
 
         if (item.Type === 'Series') {
-            context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';
+
+            // TODO: Shouldn't need the toLowerCase() after a while following 4.2
+            context.querySelector('#selectDisplayOrder').value = (item.DisplayOrder || '').toLowerCase();
         }
         else {
             context.querySelector('#selectDisplayOrder').value = item.DisplayOrder || '';

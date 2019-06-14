@@ -110,7 +110,10 @@ define(['browser'], function (browser) {
 
         else if (format === 'asf') {
             if (browser.tizen) {
-              return true;
+                return true;
+            }
+            if (browser.edgeUwp) {
+                return true;
             }
         }
 

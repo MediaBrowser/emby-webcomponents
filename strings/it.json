@@ -822,6 +822,7 @@
     "SubtitleSettings": "Impostazioni Sottotitoli",
     "PlaybackSettingsIntro": "Per configurare le impostazioni di riproduzione predefinite, interrompi la riproduzione del video, quindi fai clic sull'icona dell'utente nella sezione in alto a destra dell'app.",
     "SubtitleSettingsIntro": "Per configurare l'aspetto dei sottotitoli e le impostazioni della lingua predefiniti, interrompi la riproduzione del video, quindi fai clic sull'icona dell'utente nella sezione in alto a destra dell'app.",
+    "LabelVerticalPositionFromBottom": "Vertical position (from bottom):",
     "HeaderFavoritePeople": "Persone Preferite",
     "MultiSelect": "Selezione-Multipla",
     "HeaderSignOut": "Sign Out",

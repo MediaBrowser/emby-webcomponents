@@ -822,6 +822,7 @@
     "SubtitleSettings": "Undertextinst\u00e4llningar",
     "PlaybackSettingsIntro": "F\u00f6r att konfigurera standardinst\u00e4llningar f\u00f6r uppspelning, stoppa videouppspelningen och klicka sedan p\u00e5 din anv\u00e4ndarikon i \u00f6vre h\u00f6gra delen.",
     "SubtitleSettingsIntro": "F\u00f6r att konfigurera standardinst\u00e4llningar f\u00f6r undertexter och spr\u00e5k, stoppa videouppspelningen och klicka sedan p\u00e5 din anv\u00e4ndarikon i \u00f6vre h\u00f6gra delen.",
+    "LabelVerticalPositionFromBottom": "Vertical position (from bottom):",
     "HeaderFavoritePeople": "Favoritpersoner",
     "MultiSelect": "Flerval",
     "HeaderSignOut": "Logga ut",

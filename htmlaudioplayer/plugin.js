@@ -133,7 +133,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
             self._currentPlayOptions = options;
 
-            var crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource);
+            var crossOrigin = htmlMediaHelper.getCrossOriginValue(options.mediaSource, options.playMethod);
             if (crossOrigin) {
                 elem.crossOrigin = crossOrigin;
             }

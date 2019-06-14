@@ -822,6 +822,7 @@
     "SubtitleSettings": "Innstillinger for undertekst",
     "PlaybackSettingsIntro": "For \u00e5 konfigurere standard innstillinger for avspilling, stopp videoavspilling, og klikk deretter brukerikonet \u00f8verst til h\u00f8yre i appen.",
     "SubtitleSettingsIntro": "For \u00e5 konfigurere standard valg for undertekster og spr\u00e5kinnstillinger, stopp videoavspilling, og klikk deretter brukerikonet \u00f8verst til h\u00f8yre i appen.",
+    "LabelVerticalPositionFromBottom": "Vertical position (from bottom):",
     "HeaderFavoritePeople": "Favoritt Personer",
     "MultiSelect": "Multi-select",
     "HeaderSignOut": "Logg Ut",

@@ -11,9 +11,9 @@ define(['appSettings', 'browser', 'events'], function (appSettings, browser, eve
         }
     }
 
-    function getCrossOriginValue(mediaSource) {
+    function getCrossOriginValue(mediaSource, playMethod) {
 
-        if (mediaSource.IsRemote) {
+        if (mediaSource.IsRemote && playMethod === 'DirectPlay') {
             return null;
         }
 

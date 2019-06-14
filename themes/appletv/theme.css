@@ -18,16 +18,26 @@ html, .skinHeader {
     background: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);
 }
 
-@supports ( (backdrop-filter: blur(1.5em))) {
+@supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
+
+    .skinHeader-withBackground {
+        background: linear-gradient(to right,rgba(188,188,188,.7), rgba(167,180,183,.7), rgba(190,181,165,.7), rgba(173,190,194,.7), rgba(185,199,203,.7));
+        -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
+        backdrop-filter: saturate(1.8) blur(1.5em);
+    }
 
     .appfooter {
         background: linear-gradient(to right,rgba(188,188,188,.7), rgba(167,180,183,.7), rgba(190,181,165,.7), rgba(173,190,194,.7), rgba(185,199,203,.7));
-        backdrop-filter: blur(1.5em);
+        -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
+        backdrop-filter: saturate(1.8) blur(1.5em);
     }
 }
 
 .skinHeader.semiTransparent {
+    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+    background-color: rgba(0, 0, 0, .3);
+    background: linear-gradient(rgba(0, 0, 0, .3), rgba(0, 0, 0, 0));
 }
 
 .pageTitleWithDefaultLogo {
@@ -44,7 +54,7 @@ html {
 }
 
     .backgroundContainer.withBackdrop {
-        background: linear-gradient(to bottom,rgba(192,212,222,.94), rgba(235,250,254,.94), rgba(227,220,212,.94), rgba(206,214,216,.94), rgba(192,211,218,.94));
+        background: linear-gradient(to bottom,rgba(192,212,222,.92), rgba(235,250,254,.92), rgba(227,220,212,.92), rgba(206,214,216,.92), rgba(192,211,218,.92));
     }
 
 .actionSheet {
@@ -57,19 +67,17 @@ html {
     background-color: rgba(82, 181, 75, 0.2);
 }
 
-.raised, .fab {
+.raised, .fab, .detailButton-icon {
     background: #fff;
     background: rgba(0, 0, 0, .14);
     color: inherit;
+    backdrop-filter: saturate(1.8) blur(1.5em);
+    -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
 }
 
     .raised:focus, .fab:focus {
         background: rgba(0, 0, 0, .24);
     }
-
-.detailButton-mobile-icon {
-    border-color: rgba(0, 0, 0, .3);
-}
 
 .button-submit:not(.emby-button-tv) {
     background: #52B54B;

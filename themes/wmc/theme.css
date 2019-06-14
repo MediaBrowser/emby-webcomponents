@@ -18,15 +18,23 @@ html {
     background: #0C2450;
 }
 
-@supports ( (backdrop-filter: blur(1.5em))) {
+@supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
+
+    .skinHeader-withBackground {
+        background: rgba(12,36,80,.7);
+        -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
+        backdrop-filter: saturate(1.8) blur(1.5em);
+    }
 
     .appfooter {
         background: rgba(12,36,80,.7);
-        backdrop-filter: blur(1.5em);
+        -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
+        backdrop-filter: saturate(1.8) blur(1.5em);
     }
 }
 
 .skinHeader.semiTransparent {
+    -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
@@ -51,18 +59,22 @@ html {
     background-color: rgba(82, 181, 75, 0.2);
 }
 
-.raised, .fab {
+.raised, .fab, .detailButton-icon {
     background: #082845;
-    color: #fff;
+}
+
+@supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
+
+    .raised, .fab, .detailButton-icon {
+        background: rgba(0,0,0,.4);
+        -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
+        backdrop-filter: saturate(1.8) blur(1.5em);
+    }
 }
 
     .raised:focus, .fab:focus {
         background: #143451;
     }
-
-.detailButton-mobile-icon {
-    border-color: rgba(255, 255, 255, .3);
-}
 
 .button-submit:not(.emby-button-tv) {
     background: #52B54B;
@@ -388,12 +400,12 @@ html {
     border-color: #fff;
 }
 
-.cardContent-shadow {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
-}
-
 .cardContent-button {
     background-color: transparent;
+}
+
+.cardContent-shadow {
+    background-color: #0F3562;
 }
 
 .defaultCardBackground0, .defaultCardBackground1, .defaultCardBackground2, .defaultCardBackground3, .defaultCardBackground4, .defaultCardBackground5 {

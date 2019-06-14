@@ -822,6 +822,7 @@
     "SubtitleSettings": "Param\u00e8tres des sous-titres",
     "PlaybackSettingsIntro": "Pour configurer les r\u00e9glages de lecture par d\u00e9faut, arr\u00eatez la lecture de la vid\u00e9o, puis cliquez sur votre ic\u00f4ne utilisateur situ\u00e9e en haut \u00e0 droite dans l'application.",
     "SubtitleSettingsIntro": "Pour configurer l'apparence des sous-titres et la langue par d\u00e9faut, arr\u00eatez la lecture de la vid\u00e9o, puis cliquez sur votre ic\u00f4ne utilisateur situ\u00e9e en haut \u00e0 droite dans l'application.",
+    "LabelVerticalPositionFromBottom": "Vertical position (from bottom):",
     "HeaderFavoritePeople": "Personnes favorites",
     "MultiSelect": "S\u00e9lection multiple",
     "HeaderSignOut": "D\u00e9connexion",
