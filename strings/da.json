@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Indstillinger for metadata",
     "People": "Personer",
     "LabelMetadataDownloadLanguage": "Foretrukket sprog for nedhentning:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "L\u00e5s for at undg\u00e5 fremtidige \u00e6ndringer",
     "MessageLeaveEmptyToInherit": "Efterlad tom for at arve indstillinger fra en overliggende post eller den globale standardv\u00e6rdi.",
     "LabelCountry": "Land:",

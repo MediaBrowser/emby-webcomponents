@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Metadatainst\u00e4llningar",
     "People": "Personer",
     "LabelMetadataDownloadLanguage": "\u00d6nskat spr\u00e5k:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "L\u00e5s det h\u00e4r objektet f\u00f6r att f\u00f6rhindra \u00e4ndringar",
     "MessageLeaveEmptyToInherit": "L\u00e4mna tomt f\u00f6r att \u00e4rva inst\u00e4llningarna fr\u00e5n \u00f6verordnat objekt, eller anv\u00e4nda globalt f\u00f6rval.",
     "LabelCountry": "Land:",

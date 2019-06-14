@@ -702,6 +702,11 @@
                 query.StudioIds = filters.StudioIds;
             }
 
+            if (filters.TagIds) {
+                hasFilters = true;
+                query.TagIds = filters.TagIds;
+            }
+
             if (filters.Tags) {
                 hasFilters = true;
                 query.Tags = filters.Tags;
@@ -892,6 +897,7 @@
             GenreIds: userSettings.getFilter(basekey + '-filter-GenreIds'),
             StudioIds: userSettings.getFilter(basekey + '-filter-StudioIds'),
             Tags: userSettings.getFilter(basekey + '-filter-Tags'),
+            TagIds: userSettings.getFilter(basekey + '-filter-TagIds'),
             Containers: userSettings.getFilter(basekey + '-filter-Containers'),
             AudioCodecs: userSettings.getFilter(basekey + '-filter-AudioCodecs'),
             VideoCodecs: userSettings.getFilter(basekey + '-filter-VideoCodecs'),

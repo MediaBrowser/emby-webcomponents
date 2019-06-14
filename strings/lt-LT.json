@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Metaduomen\u0173 nustatymai",
     "People": "\u017dmon\u0117s",
     "LabelMetadataDownloadLanguage": "Pageidaujama siuntimo kalba:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "U\u017edrausti \u0161io elemento pakeitimus",
     "MessageLeaveEmptyToInherit": "Palikite tu\u0161\u010di\u0105 kad paveld\u0117t\u0173 nustatymus nuo t\u0117vi\u0161ko elemento arba globalias standartines reik\u0161mes.",
     "LabelCountry": "\u0160alis:",

@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "\uba54\ud0c0\ub370\uc774\ud130 \uc124\uc815",
     "People": "People",
     "LabelMetadataDownloadLanguage": "\ub2e4\uc6b4\ub85c\ub4dc \uc120\ud638 \uc5b8\uc5b4:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "\ubcc0\uacbd\ud560 \uc218 \uc5c6\uac8c \ud56d\ubaa9 \uc7a0\uae08",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item, or the global default value.",
     "LabelCountry": "\uad6d\uac00:",

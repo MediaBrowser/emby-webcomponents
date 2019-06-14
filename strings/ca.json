@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Prefer\u00e8ncies de Metadades",
     "People": "Gent",
     "LabelMetadataDownloadLanguage": "Idioma preferit de desc\u00e0rrega:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "Bloca aquest \u00edtem per evitar canvis futurs",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item, or the global default value.",
     "LabelCountry": "Pa\u00eds:",

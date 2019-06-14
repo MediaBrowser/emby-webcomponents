@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Configuraci\u00f3n de metadatos",
     "People": "Personas",
     "LabelMetadataDownloadLanguage": "Lenguaje preferido para descargas:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "Bloquear este \u00edtem para evitar cambios futuros",
     "MessageLeaveEmptyToInherit": "Dejar vac\u00edo para heredar la configuraci\u00f3n del \u00edtem padre, o el valor global por omisi\u00f3n.",
     "LabelCountry": "Pa\u00eds:",

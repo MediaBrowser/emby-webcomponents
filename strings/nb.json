@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Metadata innstilinger",
     "People": "Personer",
     "LabelMetadataDownloadLanguage": "Foretrukket nedlastingsspr\u00e5k:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "L\u00e5s dette elementet for \u00e5 hindre fremtidige endringer",
     "MessageLeaveEmptyToInherit": "La v\u00e6re blank for \u00e5 arve innstillinger fra et foreldre element, eller den globale standard verdien.",
     "LabelCountry": "Land:",

@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Metagegevens instellingen",
     "People": "Personen",
     "LabelMetadataDownloadLanguage": "Voorkeurs taal:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "Vergrendel dit item om toekomstige wijzigingen te voorkomen",
     "MessageLeaveEmptyToInherit": "Leeg laten om instellingen van bovenliggend item of de algemene waarde over te nemen.",
     "LabelCountry": "Land:",

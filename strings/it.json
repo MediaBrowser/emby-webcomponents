@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Impostazioni Metadati",
     "People": "Attori",
     "LabelMetadataDownloadLanguage": "Lingua preferita per lo scaricamento:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "Blocca questo elemento per impedire modifiche future",
     "MessageLeaveEmptyToInherit": "Lascia vuoto per ereditare le impostazioni dall'elemento principale, o il valore predefinito globale.",
     "LabelCountry": "Nazione:",

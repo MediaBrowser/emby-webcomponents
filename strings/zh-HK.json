@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Metadata Settings",
     "People": "People",
     "LabelMetadataDownloadLanguage": "\u504f\u597d\u4e0b\u8f09\u8a9e\u8a00\uff1a",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "Lock this item to prevent future changes",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item, or the global default value.",
     "LabelCountry": "\u570b\u5bb6\uff1a",

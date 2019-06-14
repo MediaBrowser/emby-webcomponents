@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Metaadat Be\u00e1ll\u00edt\u00e1sok",
     "People": "Szem\u00e9lyek",
     "LabelMetadataDownloadLanguage": "Els\u0151dleges let\u00f6ltend\u0151 nyelv:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "Lock this item to prevent future changes",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item, or the global default value.",
     "LabelCountry": "Orsz\u00e1g:",

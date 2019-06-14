@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Nastavenia metad\u00e1t",
     "People": "\u013dudia",
     "LabelMetadataDownloadLanguage": "Preferovan\u00fd jazyk:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "Zamkn\u00fa\u0165 t\u00fato polo\u017eku aby sa predi\u0161lo bud\u00facim zmen\u00e1m",
     "MessageLeaveEmptyToInherit": "Leave empty to inherit settings from a parent item, or the global default value.",
     "LabelCountry": "Krajina:",

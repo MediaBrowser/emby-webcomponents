@@ -7,14 +7,14 @@
         return false;
     }
 
-    function renderList(container, items, options, property, delimeter) {
+    function renderList(container, items, options, property, delimeter, enableId) {
 
         var anySelected = false;
         var value = options.settings[property];
 
         var html = items.map(function (i) {
 
-            var itemId = i.Id || i.Name;
+            var itemId = enableId !== false ? i.Id || i.Name : i.Name;
             var selected = (delimeter + (value || '') + delimeter).indexOf(delimeter + itemId + delimeter) !== -1;
 
             var selectedHtml = selected && !anySelected ? ' selected' : '';
@@ -196,7 +196,11 @@
 
         apiClient.getTags(apiClient.getCurrentUserId(), query).then(function (result) {
 
-            renderList(context.querySelector('.tagFilters'), result.Items, options, 'Tags', '|');
+            if (apiClient.isMinServerVersion('4.2.0.16')) {
+                renderList(context.querySelector('.tagFilters'), result.Items, options, 'TagIds', '|');
+            } else {
+                renderList(context.querySelector('.tagFilters'), result.Items, options, 'Tags', '|', false);
+            }
 
         }, handleQueryError);
     }
@@ -372,7 +376,7 @@
         }
     }
 
-    function saveValues(context, settings, settingsKey) {
+    function saveValues(context, settings, settingsKey, apiClient) {
 
         var elems = context.querySelectorAll('.simpleFilter');
         var i, length;
@@ -418,7 +422,14 @@
         if (elem.value) {
             tags.push(elem.value);
         }
-        userSettings.setFilter(settingsKey + '-filter-Tags', tags.join('|'));
+
+        if (apiClient.isMinServerVersion('4.2.0.16')) {
+            userSettings.setFilter(settingsKey + '-filter-TagIds', tags.join('|'));
+            userSettings.setFilter(settingsKey + '-filter-Tags', '');
+        } else {
+            userSettings.setFilter(settingsKey + '-filter-Tags', tags.join('|'));
+            userSettings.setFilter(settingsKey + '-filter-TagIds', '');
+       }
 
         var containers = [];
         elem = context.querySelector('.selectContainers');
@@ -664,7 +675,7 @@
                     if (submitted) {
 
                         //if (!options.onChange) {
-                        saveValues(dlg, options.settings, options.settingsKey);
+                        saveValues(dlg, options.settings, options.settingsKey, connectionManager.getApiClient(options.serverId));
                         resolve();
                         //}
                         return;

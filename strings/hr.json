@@ -323,6 +323,7 @@
     "HeaderMetadataSettings": "Postavke meta-podataka",
     "People": "Ljudi",
     "LabelMetadataDownloadLanguage": "\u017deljeni jezik za preuzimanje:",
+    "LabelImageDownloadLanguage": "Preferred image download language:",
     "LabelLockItemToPreventChanges": "Zaklju\u010dajte ovu stavku kako bi se sprije\u010dile budu\u0107e promjene",
     "MessageLeaveEmptyToInherit": "Ostavite prazno da naslijedi postavke od roditelja stavke ili globalnu zadanu vrijednost.",
     "LabelCountry": "Zemlja:",
