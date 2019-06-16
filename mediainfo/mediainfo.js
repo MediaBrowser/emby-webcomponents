@@ -233,19 +233,6 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
 
             var studioHtml = '';
 
-            if (item.Status === 'Continuing') {
-                if (item.AirDays && item.AirDays.length) {
-                    studioHtml += item.AirDays.length === 7 ? globalize.translate('Daily') : item.AirDays.map(function (a) {
-                        return globalize.translate(a + "s");
-
-                    }).join(',');
-                }
-
-                if (item.AirTime) {
-                    studioHtml += ' ' + item.AirTime;
-                }
-            }
-
             if (item.Studios && item.Studios.length) {
 
                 var studio = item.Studios[0];

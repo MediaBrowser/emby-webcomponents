@@ -236,6 +236,10 @@
         execute('pause');
     });
 
+    navigator.mediaSession.setActionHandler('stop', function () {
+        execute('stop');
+    });
+
     navigator.mediaSession.setActionHandler('seekbackward', function () {
         execute('rewind');
     });

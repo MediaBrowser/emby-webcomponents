@@ -40,11 +40,7 @@ define([], function () {
                 return a.Name;
             }).join(', ');
 
-        } else if (nowPlayingItem.Artists && nowPlayingItem.Artists.length) {
-
-            bottomText = nowPlayingItem.Artists.join(', ');
-        }
-        else if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
+        } else if (nowPlayingItem.SeriesName || nowPlayingItem.Album) {
             bottomText = topText;
             topText = nowPlayingItem.SeriesName || nowPlayingItem.Album;
 

@@ -1958,20 +1958,6 @@
             });
         }
 
-        var audioCategory = {
-            stats: [],
-            type: 'audio'
-        };
-        categories.push(audioCategory);
-
-        var sinkId = mediaElement.sinkId;
-        if (sinkId) {
-            audioCategory.stats.push({
-                label: 'Sink Id:',
-                value: sinkId
-            });
-        }
-
         return Promise.resolve({
             categories: categories
         });
