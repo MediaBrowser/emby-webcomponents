@@ -15,7 +15,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         var restrictOptions = (browser.operaTv || browser.web0s) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816' && !user.Policy.IsAdministrator;
 
-        if (canPlay && item.MediaType !== 'Photo') {
+        if (canPlay && item.MediaType !== 'Photo' && item.Type !== 'Program') {
             if (options.play !== false) {
                 commands.push({
                     name: globalize.translate('Play'),
@@ -54,8 +54,6 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             //    });
             //}
         }
-
-
 
         if (item.IsFolder || item.Type === "MusicArtist" || item.Type === "MusicGenre") {
             if (item.CollectionType !== 'livetv') {
@@ -177,13 +175,11 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (itemHelper.canEditSubtitles(user, item)) {
 
-            if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
-                if (options.editSubtitles !== false) {
-                    commands.push({
-                        name: globalize.translate('EditSubtitles'),
-                        id: 'editsubtitles'
-                    });
-                }
+            if (options.editSubtitles !== false) {
+                commands.push({
+                    name: globalize.translate('EditSubtitles'),
+                    id: 'editsubtitles'
+                });
             }
         }
 
@@ -196,31 +192,11 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
-        if (item.Type === 'Program' && options.record !== false) {
-
-            if (item.TimerId) {
-                commands.push({
-                    name: globalize.translate('ManageRecording'),
-                    id: 'record'
-                });
-            }
-        }
-
         if (options.multiSelect) {
             commands.push({
                 name: globalize.translate('MultiSelect'),
                 id: 'multiselect'
             });
-        }
-
-        if (item.Type === 'Program' && options.record !== false) {
-
-            if (!item.TimerId) {
-                commands.push({
-                    name: globalize.translate('Record'),
-                    id: 'record'
-                });
-            }
         }
 
         if (itemHelper.canRefreshMetadata(item, user)) {
@@ -419,11 +395,6 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                         getResolveFunction(resolve, id)();
                         break;
                     }
-                case 'record':
-                    require(['recordingCreator'], function (recordingCreator) {
-                        recordingCreator.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                    });
-                    break;
                 case 'shuffle':
                     {
                         playbackManager.shuffle(item);

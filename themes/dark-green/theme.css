@@ -4,16 +4,19 @@ html {
 }
 
 .emby-collapsible-button {
-    border-color: #383838;
+    border-color: #313235;
     border-color: rgba(255,255,255, .135);
 }
 
 .skinHeader-withBackground {
-    background-color: #52B54B;
 }
 
 .appfooter {
-    background: #282828;
+    box-shadow: 0 -0.0725em 0.29em 0 rgba(0, 0, 0, 0.12);
+}
+
+.skinHeader-withBackground {
+    background-color: #52B54B;
 }
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
@@ -22,6 +25,7 @@ html {
         background: rgba(34,34,34,.7);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
+        box-shadow: none !important;
     }
 }
 
@@ -30,7 +34,7 @@ html {
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .pageTitleWithDefaultLogo {
@@ -38,12 +42,20 @@ html {
 }
 
 html, .dialog, .backgroundContainer {
-    background-color: #202020;
+    background-color: #202124;
 }
 
     .backgroundContainer.withBackdrop {
         background-color: rgba(0,0,0,.86);
     }
+
+/*@supports ( (backdrop-filter: blur(1em))) {
+
+    .dialog {
+        background: rgba(34,34,34,.7);
+        backdrop-filter: saturate(1.8) blur(1.5em);
+    }
+}*/
 
 /* buttons */
 .paper-icon-button-light:focus {
@@ -57,14 +69,29 @@ html, .dialog, .backgroundContainer {
 }
 
 .raised, .fab, .detailButton-icon {
-    background: #333;
-    background-color: rgba(60,60,60,.7);
+    background: #313235;
     color: rgba(255, 255, 255, .87);
 }
 
-    .raised:focus, .fab:focus {
-        background-color: rgba(90,90,90,.5);
+/* select */
+.emby-select-withcolor {
+    color: inherit;
+    background: #313235;
+    border: .07em solid transparent;
+}
+
+@supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
+
+    .raised, .fab, .detailButton-icon, .emby-select-withcolor {
+        background: rgba(85,85,85,.3);
+        -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
+        backdrop-filter: saturate(1.8) blur(1.5em);
     }
+}
+
+.raised:focus, .fab:focus {
+    background: #333;
+}
 
 .button-submit:not(.emby-button-tv) {
     background: #52B54B;
@@ -75,6 +102,20 @@ html, .dialog, .backgroundContainer {
         background: #5EC157;
         color: #fff;
     }
+
+.emby-select-withcolor > option {
+    color: inherit;
+    background: #222;
+}
+
+.emby-select-withcolor:focus {
+    border-color: #52B54B !important;
+}
+
+.emby-select-tv-withcolor:focus {
+    background-color: #52B54B !important;
+    color: #fff !important;
+}
 
 .checkboxLabel {
     color: inherit;
@@ -98,7 +139,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .paperList, .visualCardBox, .collapseContent {
-    background-color: rgba(60,60,60,.3);
+    background-color: #313235;
 }
 
 .listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
@@ -121,7 +162,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .toast {
-    background: #333;
+    background: #313235;
     color: #fff;
     color: rgba(255, 255, 255, .87);
 }
@@ -198,35 +239,14 @@ html, .dialog, .backgroundContainer {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #333;
-    border: .07em solid #333;
+    background: #313235;
+    border: .07em solid #313235;
     border-radius: .15em;
 }
 
     .emby-input:focus, .emby-textarea:focus {
         border-color: #52B54B;
     }
-
-/* select */
-.emby-select-withcolor {
-    color: inherit;
-    background: #333;
-    border: .07em solid #333;
-}
-
-    .emby-select-withcolor > option {
-        color: inherit;
-        background: #222;
-    }
-
-    .emby-select-withcolor:focus {
-        border-color: #52B54B !important;
-    }
-
-.emby-select-tv-withcolor:focus {
-    background-color: #52B54B !important;
-    color: #fff !important;
-}
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
@@ -258,14 +278,9 @@ html, .dialog, .backgroundContainer {
     background: #52B54B;
 }
 
-.fullSyncIndicator {
-    background: #52B54B;
-    color: #fff;
-}
-
 /* main nav drawer */
 .mainDrawer {
-    background-color: #1c1c1c;
+    background-color: #202124;
 }
 
 .navMenuOption:hover {
@@ -286,7 +301,7 @@ html, .dialog, .backgroundContainer {
 /* emby-tabs */
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, .6);
 }
 
 .emby-tab-button-active {
@@ -361,7 +376,7 @@ html, .dialog, .backgroundContainer {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #202020);
+    background: linear-gradient(rgba(0,0,0,0), #202124);
 }
 
 /* used by directory picker and other areas */
@@ -403,11 +418,11 @@ html, .dialog, .backgroundContainer {
 }
 
 .cardContent-shadow {
-    background-color: rgba(60,60,60,.3);
+    background-color: #313235;
 }
 
 .defaultCardBackground0 {
-    background-color: rgba(60,60,60,.3);
+    background-color: #313235;
 }
 
 .defaultCardBackground1 {

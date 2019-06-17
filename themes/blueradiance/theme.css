@@ -65,9 +65,16 @@ html, .dialog {
     color: rgba(255, 255, 255, .87);
 }
 
+/* select */
+.emby-select-withcolor {
+    color: inherit;
+    background: rgba(0,0,0,.5);
+    border: .07em solid transparent;
+}
+
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .raised, .fab, .detailButton-icon {
+    .raised, .fab, .detailButton-icon, .emby-select-withcolor {
         background: rgba(0,0,0,.4);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
@@ -87,6 +94,20 @@ html, .dialog {
         background: #5EC157;
         color: #fff;
     }
+
+.emby-select-withcolor > option {
+    color: inherit;
+    background: #222;
+}
+
+.emby-select-withcolor:focus {
+    border-color: #52B54B !important;
+}
+
+.emby-select-tv-withcolor:focus {
+    background-color: #52B54B !important;
+    color: #fff !important;
+}
 
 .checkboxLabel {
     color: inherit;
@@ -231,27 +252,6 @@ html, .dialog {
         border-color: #52B54B;
     }
 
-/* select */
-.emby-select-withcolor {
-    color: inherit;
-    background: rgba(0,0,0,.5);
-    border: .07em solid transparent;
-}
-
-    .emby-select-withcolor > option {
-        color: inherit;
-        background: #222;
-    }
-
-    .emby-select-withcolor:focus {
-        border-color: #52B54B !important;
-    }
-
-.emby-select-tv-withcolor:focus {
-    background-color: #52B54B !important;
-    color: #fff !important;
-}
-
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
     border-color: #52B54B;
@@ -280,11 +280,6 @@ html, .dialog {
 
 .playedIndicator {
     background: #52B54B;
-}
-
-.fullSyncIndicator {
-    background: #52B54B;
-    color: #fff;
 }
 
 /* main nav drawer */

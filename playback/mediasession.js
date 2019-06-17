@@ -236,9 +236,15 @@
         execute('pause');
     });
 
-    navigator.mediaSession.setActionHandler('stop', function () {
-        execute('stop');
-    });
+    // Supported in chrome 77, but older versions will throw an error
+    try {
+        navigator.mediaSession.setActionHandler('stop', function () {
+            execute('stop');
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
 
     navigator.mediaSession.setActionHandler('seekbackward', function () {
         execute('rewind');

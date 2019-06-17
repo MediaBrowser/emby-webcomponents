@@ -232,12 +232,14 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canEditSubtitles: function (user, item) {
 
-            if (user.Policy.EnableSubtitleDownloading || user.Policy.EnableSubtitleManagement) {
-                return canEditInternal(user, item);
-            }
+            if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
+                if (user.Policy.EnableSubtitleDownloading || user.Policy.EnableSubtitleManagement) {
+                    return canEditInternal(user, item);
+                }
 
-            if (user.Policy.EnableSubtitleDownloading == null && user.Policy.EnableSubtitleManagement == null) {
-                return canEditInternal(user, item) && user.Policy.IsAdministrator;
+                if (user.Policy.EnableSubtitleDownloading == null && user.Policy.EnableSubtitleManagement == null) {
+                    return canEditInternal(user, item) && user.Policy.IsAdministrator;
+                }
             }
 
             return false;
@@ -397,7 +399,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             var type = item.Type;
-            if (type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer' || type === 'GameGenre' || type === 'PlaylistsFolder') {
+            if (type === 'TvChannel' || type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer' || type === 'GameGenre' || type === 'PlaylistsFolder') {
                 return false;
             }
 

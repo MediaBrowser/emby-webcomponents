@@ -1237,7 +1237,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + itemId + '" data-serverid="' + serverId + '" data-itemtype="' + itemType + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
             }
 
-            html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5D3;</i></button>';
+            if (item.Type !== 'Program') {
+                html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5D3;</i></button>';
+            }
 
             html += '</div>';
             html += '</div>';
@@ -1245,40 +1247,68 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getCardDefaultText(item, options) {
+        function getDefaultIcon(item, defaultIcon) {
+
+            switch (item.CollectionType) {
+                case "movies":
+                    return "&#xE54D;";
+                case "music":
+                    return "&#xE310;";
+                case "homevideos":
+                case "photos":
+                    return "&#xE412;";
+                case "livetv":
+                    return "&#xE639;";
+                case "tvshows":
+                    return "&#xE639;";
+                case "games":
+                    return "&#xe30f;";
+                case "trailers":
+                    return "&#xE54D;";
+                case "musicvideos":
+                    return "&#xE04A;";
+                case "books":
+                    return "&#xE2C7;";
+                case "channels":
+                    return "&#xE2C7;";
+                case "playlists":
+                    return "&#xE5D2;";
+                default:
+                    break;
+            }
 
             var itemType = item.Type;
 
-            var collectionType = item.CollectionType;
-            if (collectionType === 'livetv') {
-                return '<i class="cardImageIcon md-icon">&#xE1B2;</i>';
-            }
-            if (collectionType === 'playlists') {
-                return '<i class="cardImageIcon md-icon">&#xE5D2;</i>';
-            }
-            if (collectionType === 'games') {
-                return '<i class="cardImageIcon md-icon">&#xe30f;</i>';
-            }
-            if (collectionType === 'homevideos' || collectionType === 'photos') {
-                return '<i class="cardImageIcon md-icon">&#xE412;</i>';
-            }
-            if (collectionType === 'music') {
-                return '<i class="cardImageIcon md-icon">&#xE310;</i>';
-            }
             if (itemType === 'MusicAlbum') {
-                return '<i class="cardImageIcon md-icon">&#xE019;</i>';
+                return '&#xE019;';
             }
             if (itemType === 'MusicArtist' || itemType === 'Person') {
-                return '<i class="cardImageIcon md-icon">&#xE7FD;</i>';
+                return '&#xE7FD;';
             }
             if (itemType === 'Channel') {
-                return '<i class="cardImageIcon md-icon">&#xE2C7;</i>';
-            }
-            if (options.defaultCardImageIcon) {
-                return '<i class="cardImageIcon md-icon">' + options.defaultCardImageIcon + '</i>';
+                return '&#xE2C7;';
             }
 
-            var defaultName = isUsingLiveTvNaming(itemType) ? item.Name : itemHelper.getDisplayName(item);
+            if (defaultIcon === false) {
+                return null;
+            }
+
+            if (typeof defaultIcon === 'string') {
+                return defaultIcon;
+            }
+
+            return "&#xE2C7;";
+        }
+
+        function getCardDefaultText(item, options) {
+
+            var icon = getDefaultIcon(item, options.defaultCardImageIcon || false);
+
+            if (icon) {
+                return '<i class="cardImageIcon md-icon">' + icon + '</i>';
+            }
+
+            var defaultName = isUsingLiveTvNaming(item.Type) ? item.Name : itemHelper.getDisplayName(item);
             return '<div class="cardText cardDefaultText">' + defaultName + '</div>';
         }
 
@@ -1486,6 +1516,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             onUserDataChanged: onUserDataChanged,
             onTimerCreated: onTimerCreated,
             onTimerCancelled: onTimerCancelled,
-            onSeriesTimerCancelled: onSeriesTimerCancelled
+            onSeriesTimerCancelled: onSeriesTimerCancelled,
+            getDefaultIcon: getDefaultIcon
         };
     });

@@ -202,49 +202,7 @@
 
             var item = items[i];
 
-            var icon;
-
-            switch (item.CollectionType) {
-                case "movies":
-                    icon = "&#xE54D;";
-                    break;
-                case "music":
-                    icon = "&#xE030;";
-                    break;
-                case "photos":
-                    icon = "&#xE410;";
-                    break;
-                case "livetv":
-                    icon = "&#xE639;";
-                    break;
-                case "tvshows":
-                    icon = "&#xE639;";
-                    break;
-                case "games":
-                    icon = "&#xE2C7;";
-                    break;
-                case "trailers":
-                    icon = "&#xE54D;";
-                    break;
-                case "homevideos":
-                    icon = "&#xE04A;";
-                    break;
-                case "musicvideos":
-                    icon = "&#xE04A;";
-                    break;
-                case "books":
-                    icon = "&#xE2C7;";
-                    break;
-                case "channels":
-                    icon = "&#xE2C7;";
-                    break;
-                case "playlists":
-                    icon = "&#xE2C7;";
-                    break;
-                default:
-                    icon = "&#xE2C7;";
-                    break;
-            }
+            var icon = cardBuilder.getDefaultIcon(item);
 
             html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon">' + icon + '</i><span style="margin-left:.5em;">' + item.Name + '</span></a>';
         }

@@ -63,18 +63,25 @@ html {
     background: #082845;
 }
 
+/* select */
+.emby-select-withcolor {
+    color: inherit;
+    background: rgba(255,255,255,.2);
+    border: .07em solid transparent;
+}
+
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .raised, .fab, .detailButton-icon {
+    .raised, .fab, .detailButton-icon, .emby-select-withcolor {
         background: rgba(0,0,0,.4);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
     }
 }
 
-    .raised:focus, .fab:focus {
-        background: #143451;
-    }
+.raised:focus, .fab:focus {
+    background: #143451;
+}
 
 .button-submit:not(.emby-button-tv) {
     background: #52B54B;
@@ -85,6 +92,20 @@ html {
         background: #5EC157;
         color: #fff;
     }
+
+.emby-select-withcolor > option {
+    color: #000;
+    background: #fff;
+}
+
+.emby-select-withcolor:focus {
+    border-color: #52B54B;
+}
+
+.emby-select-tv-withcolor:focus {
+    background-color: #52B54B;
+    color: #fff;
+}
 
 .checkboxLabel {
     color: inherit;
@@ -205,27 +226,6 @@ html {
         border-color: #52B54B;
     }
 
-/* select */
-.emby-select-withcolor {
-    color: inherit;
-    background: rgba(255,255,255,.2);
-    border: .07em solid rgba(255,255,255, .135);
-}
-
-    .emby-select-withcolor > option {
-        color: #000;
-        background: #fff;
-    }
-
-    .emby-select-withcolor:focus {
-        border-color: #52B54B;
-    }
-
-.emby-select-tv-withcolor:focus {
-    background-color: #52B54B;
-    color: #fff;
-}
-
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
     border-color: #52B54B;
@@ -254,11 +254,6 @@ html {
 
 .playedIndicator {
     background: #52B54B;
-}
-
-.fullSyncIndicator {
-    background: #52B54B;
-    color: #fff;
 }
 
 /* main nav drawer */

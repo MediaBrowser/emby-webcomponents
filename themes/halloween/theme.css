@@ -264,11 +264,6 @@ html, .dialog, .backgroundContainer {
     background: #FF9100;
 }
 
-.fullSyncIndicator {
-    background: #FF9100;
-    color: #fff;
-}
-
 /* main nav drawer */
 .mainDrawer {
     background-color: #1c1c1c;
