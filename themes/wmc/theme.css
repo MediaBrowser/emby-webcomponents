@@ -20,13 +20,13 @@ html {
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .skinHeader-withBackground {
+    .skinHeader-withBackground:not(.nobackdropfilter) {
         background: rgba(12,36,80,.7);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
     }
 
-    .appfooter {
+    .appfooter-withbackdropfilter {
         background: rgba(12,36,80,.7);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
@@ -72,7 +72,7 @@ html {
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .raised, .fab, .detailButton-icon, .emby-select-withcolor {
+    .raised:not(.nobackdropfilter), .fab:not(.nobackdropfilter), .detailButton-icon:not(.nobackdropfilter), .emby-select-withcolor:not(.nobackdropfilter) {
         background: rgba(0,0,0,.4);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);

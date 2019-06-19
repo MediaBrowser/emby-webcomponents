@@ -21,7 +21,7 @@ html {
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .appfooter {
+    .appfooter-withbackdropfilter {
         background: rgba(34,34,34,.7);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
@@ -82,7 +82,7 @@ html, .dialog, .backgroundContainer {
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .raised, .fab, .detailButton-icon, .emby-select-withcolor {
+    .raised:not(.nobackdropfilter), .fab:not(.nobackdropfilter), .detailButton-icon:not(.nobackdropfilter), .emby-select-withcolor:not(.nobackdropfilter) {
         background: rgba(85,85,85,.3);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);

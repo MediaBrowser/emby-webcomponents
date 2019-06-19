@@ -20,13 +20,13 @@ html, .skinHeader {
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .skinHeader-withBackground {
+    .skinHeader-withBackground:not(.nobackdropfilter) {
         background: linear-gradient(to right,rgba(188,188,188,.7), rgba(167,180,183,.7), rgba(190,181,165,.7), rgba(173,190,194,.7), rgba(185,199,203,.7));
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
     }
 
-    .appfooter {
+    .appfooter-withbackdropfilter {
         background: linear-gradient(to right,rgba(188,188,188,.7), rgba(167,180,183,.7), rgba(190,181,165,.7), rgba(173,190,194,.7), rgba(185,199,203,.7));
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);

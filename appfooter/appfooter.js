@@ -7,6 +7,10 @@
 
         elem.classList.add('appfooter');
 
+        if (!browser.android) {
+            elem.classList.add('appfooter-withbackdropfilter');
+        }
+
         document.body.appendChild(elem);
 
         return elem;

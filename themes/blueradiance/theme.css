@@ -15,7 +15,7 @@ html {
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .skinHeader-withBackground {
+    .skinHeader-withBackground:not(.nobackdropfilter) {
         background: linear-gradient(to right,rgba(41,26,49,.7), rgba(3,54,100,.7), rgba(1,20,50,.7), rgba(20,26,58,.7), rgba(41,26,49,.7));
         /*background: rgba(3,54,100,.7);*/
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
@@ -74,7 +74,7 @@ html, .dialog {
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .raised, .fab, .detailButton-icon, .emby-select-withcolor {
+    .raised:not(.nobackdropfilter), .fab:not(.nobackdropfilter), .detailButton-icon:not(.nobackdropfilter), .emby-select-withcolor:not(.nobackdropfilter) {
         background: rgba(0,0,0,.4);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
@@ -164,7 +164,7 @@ html, .dialog {
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .appfooter {
+    .appfooter-withbackdropfilter {
         background: rgba(3,54,100,.7);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
