@@ -147,9 +147,14 @@
 
         var instance = this;
         var apiClient = getCurrentApiClient(instance);
+
         if (!apiClient.isMessageChannelOpen()) {
 
-            apiClient.getSessions().then(function (sessions) {
+            apiClient.getSessions({
+
+                Id: getActivePlayerId()
+
+            }).then(function (sessions) {
                 processUpdatedSessions(instance, sessions, apiClient);
             });
         }

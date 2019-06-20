@@ -1818,6 +1818,8 @@
 
         function setSrcIntoPlayer(apiClient, player, streamInfo) {
 
+            normalizePlayOptions(streamInfo);
+
             return player.play(streamInfo).then(function () {
 
                 var playerData = getPlayerData(player);

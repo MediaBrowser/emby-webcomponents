@@ -123,7 +123,6 @@
             DateCreated: getDateValue(form, '#txtDateAdded', 'DateCreated'),
             EndDate: getDateValue(form, '#txtEndDate', 'EndDate'),
             ProductionYear: form.querySelector('#txtProductionYear').value,
-            AspectRatio: form.querySelector('#txtOriginalAspectRatio').value,
             Video3DFormat: form.querySelector('#select3dFormat').value,
 
             OfficialRating: form.querySelector('#selectOfficialRating').value,
@@ -626,12 +625,6 @@
             hideElement('#fldPlaceOfBirth');
         }
 
-        if (item.MediaType === "Video" && item.Type !== "TvChannel") {
-            showElement('#fldOriginalAspectRatio');
-        } else {
-            hideElement('#fldOriginalAspectRatio');
-        }
-
         if (item.Type === "Audio" || item.Type === "Episode" || item.Type === "Season") {
             showElement('#fldIndexNumber');
 
@@ -834,8 +827,6 @@
 
         var placeofBirth = item.ProductionLocations && item.ProductionLocations.length ? item.ProductionLocations[0] : '';
         context.querySelector('#txtPlaceOfBirth').value = placeofBirth;
-
-        context.querySelector('#txtOriginalAspectRatio').value = item.AspectRatio || "";
 
         context.querySelector('#selectLanguage').value = item.PreferredMetadataLanguage || "";
         context.querySelector('#selectCountry').value = item.PreferredMetadataCountryCode || "";

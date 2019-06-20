@@ -391,7 +391,7 @@
             var options = {
 
                 Limit: limit,
-                Fields: "PrimaryImageAspectRatio,BasicSyncInfo,ProductionYear",
+                Fields: "PrimaryImageAspectRatio,BasicSyncInfo,ProductionYear,Status,EndDate",
                 ImageTypeLimit: 1,
                 EnableImageTypes: "Primary,Backdrop,Thumb",
                 ParentId: parentId

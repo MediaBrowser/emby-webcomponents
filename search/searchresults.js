@@ -135,6 +135,11 @@
 
         // Convert the search hint query to a regular item query
         query.Fields = 'PrimaryImageAspectRatio,CanDelete,BasicSyncInfo,ProductionYear';
+
+        if (queryIncludeItemTypes === 'Series') {
+            query.Fields += ',Status,EndDate';
+        }
+
         query.Recursive = true;
         query.EnableTotalRecordCount = false;
         query.ImageTypeLimit = 1;

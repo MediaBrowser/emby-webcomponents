@@ -1,4 +1,4 @@
-define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'material-icons', 'css!./mediainfo.css', 'programStyles', 'emby-linkbutton'], function (datetime, connectionManager, globalize, appRouter, itemHelper, indicators) {
+define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper', 'indicators', 'material-icons', 'css!./mediainfo.css', 'programStyles', 'emby-linkbutton'], function (browser, datetime, connectionManager, globalize, appRouter, itemHelper, indicators) {
     'use strict';
 
     function addLeadingZeros(number, count) {
@@ -350,7 +350,7 @@ define(['datetime', 'connectionManager', 'globalize', 'appRouter', 'itemHelper',
         if (item.OfficialRating) {
             miscInfo.push({
                 text: item.OfficialRating,
-                cssClass: 'mediaInfoOfficialRating raised'
+                cssClass: 'mediaInfoOfficialRating raised' + (browser.android ? ' nobackdropfilter' : '')
             });
         }
 

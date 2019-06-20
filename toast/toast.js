@@ -45,7 +45,7 @@
 
 //export default toast;
 
-define(['css!./toast'], function () {
+define(['browser', 'css!./toast'], function (browser) {
     'use strict';
 
     function remove(elem) {
@@ -75,6 +75,11 @@ define(['css!./toast'], function () {
 
         var elem = document.createElement("div");
         elem.classList.add('toast');
+
+        if (!browser.android) {
+            elem.classList.add('toast-withbackdropfilter');
+        }
+
         elem.innerHTML = options.text;
 
         document.body.appendChild(elem);
