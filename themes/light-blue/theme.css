@@ -63,6 +63,10 @@ html, .backgroundContainer {
     color: inherit;
 }
 
+.detailButton-icon {
+    border-color: rgba(0, 0, 0, .3);
+}
+
 .raised:focus, .fab:focus {
     background: #ccc;
     color: inherit;

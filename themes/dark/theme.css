@@ -8,9 +8,6 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.skinHeader-withBackground {
-}
-
 .appfooter {
     box-shadow: 0 -0.0725em 0.29em 0 rgba(0, 0, 0, 0.12);
 }
@@ -72,6 +69,10 @@ html, .dialog, .backgroundContainer {
 .raised, .fab, .detailButton-icon {
     background: #313235;
     color: rgba(255, 255, 255, .87);
+}
+
+.detailButton-icon {
+    border-color: rgba(255, 255, 255, .3);
 }
 
 /* select */

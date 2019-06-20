@@ -75,6 +75,10 @@ html {
     -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
 }
 
+.detailButton-icon {
+    border-color: rgba(0, 0, 0, .3);
+}
+
     .raised:focus, .fab:focus {
         background: rgba(0, 0, 0, .24);
     }
