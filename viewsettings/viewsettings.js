@@ -103,7 +103,8 @@
 
                     showIfAllowed(dlg, '.chkTitleContainer', this.value !== 'list');
                     showIfAllowed(dlg, '.chkYearContainer', this.value !== 'list');
-                });
+                    showIfAllowed(dlg, '.showFieldsSection', this.value !== 'list');
+               });
 
                 dlg.querySelector('.btnCancel').addEventListener('click', function () {
 

@@ -1,27 +1,9 @@
 ﻿define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'registrationServices', 'paper-icon-button-light', 'emby-button', 'css!./recordingfields', 'flexStyles'], function (globalize, connectionManager, serverNotifications, require, loading, appHost, dom, recordingHelper, events, registrationServices) {
     'use strict';
 
-    function showConvertRecordingsUnlockMessage(context, apiClient) {
-
-        context.querySelector('.convertRecordingsContainer').classList.add('hide');
-    }
-
     function showSeriesRecordingFields(context, programId, apiClient) {
 
-        context.querySelector('.supporterContainer').classList.add('hide');
-        context.querySelector('.convertRecordingsContainer').classList.add('hide');
         context.querySelector('.recordSeriesContainer').classList.remove('hide');
-    }
-
-    function showSingleRecordingFields(context, programId, apiClient) {
-
-        context.querySelector('.supporterContainer').classList.add('hide');
-        showConvertRecordingsUnlockMessage(context, apiClient);
-    }
-
-    function showRecordingFieldsContainer(context, programId, apiClient) {
-
-        context.querySelector('.recordingFields').classList.remove('hide');
     }
 
     function loadData(parent, program, apiClient) {
@@ -31,17 +13,16 @@
             showSeriesRecordingFields(parent, program.Id, apiClient);
         } else {
             parent.querySelector('.recordSeriesContainer').classList.add('hide');
-            showSingleRecordingFields(parent, program.Id, apiClient);
         }
 
         if (program.SeriesTimerId) {
             parent.querySelector('.btnManageSeriesRecording').classList.remove('hide');
             parent.querySelector('.seriesRecordingButton .recordingIcon').classList.add('recordingIcon-active');
-            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('CancelSeries');
+            parent.querySelector('.seriesRecordingButtonText').innerHTML = globalize.translate('HeaderCancelSeries');
         } else {
             parent.querySelector('.btnManageSeriesRecording').classList.add('hide');
             parent.querySelector('.seriesRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
-            parent.querySelector('.seriesRecordingButton .buttonText').innerHTML = globalize.translate('RecordSeries');
+            parent.querySelector('.seriesRecordingButtonText').innerHTML = globalize.translate('RecordSeries');
         }
 
         if (program.TimerId && program.Status !== 'Cancelled') {
@@ -49,15 +30,15 @@
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.add('recordingIcon-active');
 
             if (program.Status === 'InProgress') {
-                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('StopRecording');
+                parent.querySelector('.singleRecordingButtonText').innerHTML = globalize.translate('HeaderStopRecording');
             } else {
-                parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('DoNotRecord');
+                parent.querySelector('.singleRecordingButtonText').innerHTML = globalize.translate('DoNotRecord');
             }
 
         } else {
             parent.querySelector('.btnManageRecording').classList.add('hide');
             parent.querySelector('.singleRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
-            parent.querySelector('.singleRecordingButton .buttonText').innerHTML = globalize.translate('Record');
+            parent.querySelector('.singleRecordingButtonText').innerHTML = globalize.translate('Record');
         }
     }
 
@@ -65,8 +46,6 @@
 
         var options = instance.options;
         var apiClient = connectionManager.getApiClient(options.serverId);
-
-        showRecordingFieldsContainer(options.parent, options.programId, apiClient);
 
         return apiClient.getLiveTvProgram(options.programId, apiClient.getCurrentUserId()).then(function (program) {
 
@@ -250,8 +229,6 @@
                 });
             }
         } else {
-
-            showSingleRecordingFields(options.parent, options.programId, apiClient);
 
             if (this.SeriesTimerId) {
                 apiClient.cancelLiveTvSeriesTimer(this.SeriesTimerId).then(function () {

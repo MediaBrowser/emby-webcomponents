@@ -517,7 +517,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (text) {
-                    html += "<div class='" + currentCssClass + "'>";
+                    html += '<div class="' + currentCssClass + '">';
                     html += text;
                     html += "</div>";
                     valid++;
@@ -539,7 +539,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         currentCssClass += ' cardText-secondary';
                     }
 
-                    html += "<div class='" + currentCssClass + "'>&nbsp;</div>";
+                    html += '<div class="' + currentCssClass + '">&nbsp;</div>';
                     valid++;
                 }
             }
@@ -653,7 +653,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     includeParentInfo: options.includeParentInfoInTitle
                 });
 
-                lines.push(getTextActionButton(item, name, serverId, options.parentId));
+                if (overlayText) {
+                    lines.push(dom.htmlEncode(name));
+                } else {
+                    lines.push(getTextActionButton(item, name, serverId, options.parentId));
+                }
             }
 
             if (showOtherText) {
@@ -801,7 +805,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
 
-            html += getCardTextLines(lines, cssClass, !options.overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
+            html += getCardTextLines(lines, cssClass, !overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
 
             if (progressHtml) {
                 html += progressHtml;
@@ -928,7 +932,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var forceName = imgInfo.forceName;
 
-            var showTitle = options.showTitle === 'auto' ? true : (options.showTitle || itemType === 'PhotoAlbum' || itemType === 'Folder');
             var overlayText = options.overlayText;
 
             if (forceName && !options.cardLayout) {
@@ -937,6 +940,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     overlayText = true;
                 }
             }
+
+            var showTitle = options.showTitle === 'auto' ? true : (options.showTitle || (overlayText && (itemType === 'PhotoAlbum' || itemType === 'Folder')));
 
             var cardImageContainerClass = 'cardImageContainer';
             var coveredImage = options.coverImage || imgInfo.coverImage;

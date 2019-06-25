@@ -3,7 +3,7 @@
         <form style="margin:auto;">
             <div class="verticalSection">
                 <div class="selectContainer viewSetting hide" data-settingname="imageType">
-                    <select is="emby-select" label="${LabelImageType}" class="selectImageType">
+                    <select is="emby-select" label="${LabelView}" class="selectImageType">
                         <option value="primary">${Primary}</option>
                         <option value="banner">${Banner}</option>
                         <option value="disc">${Disc}</option>
@@ -12,18 +12,21 @@
                         <option value="list">${List}</option>
                     </select>
                 </div>
-                <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide chkTitleContainer" data-settingname="showTitle">
-                    <label>
-                        <input is="emby-checkbox" type="checkbox" />
-                        <span>${ShowTitle}</span>
-                    </label>
+
+                <div class="verticalSection showFieldsSection hide">
+                    <h2 class="checkboxListLabel">${HeaderShowFields}</h2>
+                    <div class="checkboxList">
+                        <label class="viewSetting viewSetting-checkboxContainer hide chkTitleContainer" data-settingname="showTitle">
+                            <input is="emby-checkbox" type="checkbox" />
+                            <span>${Title}</span>
+                        </label>
+                        <label class="viewSetting viewSetting-checkboxContainer hide chkYearContainer" data-settingname="showYear">
+                            <input is="emby-checkbox" type="checkbox" />
+                            <span>${Year}</span>
+                        </label>
+                    </div>
                 </div>
-                <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide chkYearContainer" data-settingname="showYear">
-                    <label>
-                        <input is="emby-checkbox" type="checkbox" />
-                        <span>${ShowYear}</span>
-                    </label>
-                </div>
+
                 <div class="checkboxContainer viewSetting viewSetting-checkboxContainer hide" data-settingname="groupBySeries">
                     <label>
                         <input is="emby-checkbox" type="checkbox" />

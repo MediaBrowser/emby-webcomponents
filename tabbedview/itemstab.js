@@ -1006,7 +1006,7 @@
     ItemsTab.prototype.getNameSortOption = function () {
 
         return {
-            name: globalize.translate('Name'),
+            name: globalize.translate('Title'),
             value: 'SortName'
         };
     };
