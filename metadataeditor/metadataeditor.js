@@ -668,7 +668,7 @@
             showElement('#fldDisplayOrder', context);
             showElement('.seriesDisplayOrderDescription', context);
 
-            context.querySelector('#selectDisplayOrder').innerHTML = '<option value="">' + globalize.translate('Aired') + '</option><option value="absolute">' + globalize.translate('Absolute') + '</option><option value="dvd">Dvd</option>';
+            context.querySelector('#selectDisplayOrder').innerHTML = '<option value="aired">' + globalize.translate('Aired') + '</option><option value="absolute">' + globalize.translate('Absolute') + '</option><option value="dvd">Dvd</option>';
         } else {
             context.querySelector('#selectDisplayOrder').innerHTML = '';
             hideElement('#fldDisplayOrder', context);
@@ -773,7 +773,6 @@
         }).join(';');
 
         if (item.Type === 'Series') {
-
             // TODO: Shouldn't need the toLowerCase() after a while following 4.2
             context.querySelector('#selectDisplayOrder').value = (item.DisplayOrder || '').toLowerCase();
         }

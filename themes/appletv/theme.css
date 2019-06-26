@@ -288,7 +288,7 @@ html {
 }
 
 /* emby-button */
-.emby-button-focusscale:focus {
+.emby-button-focusscale:focus, .emby-button-focusscale:focus .detailButton-icon {
     background: #52B54B;
     color: #fff;
 }
@@ -385,7 +385,8 @@ html {
 
 /* buttons */
 .ratingbutton-icon-withrating {
-    color: #cc3333;
+    /* Important so that it's not lost on detailButton focus */
+    color: #cc3333 !important;
 }
 
 .downloadbutton-icon-on {
@@ -397,7 +398,8 @@ html {
 }
 
 .playstatebutton-icon-played {
-    color: #cc3333;
+    /* Important so that it's not lost on detailButton focus */
+    color: #cc3333 !important;
 }
 
 .repeatButton-active {

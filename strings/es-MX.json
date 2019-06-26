@@ -1,5 +1,6 @@
 {
-    "HeaderUpcomingOnTV": "Upcoming On TV",
+    "HeaderUpcomingOnTV": "Pr\u00f3ximamente en TV",
+    "HeaderInstantMix": "Mix instant\u00e1neo",
     "EmbyLoginTerms": "Emby esta dise\u00f1ado para ayudarlo a administrar su biblioteca de medios personal, tales como videos caseros y fotografias. Por favor vea nuestros {0}terminos de uso{1}. Al usar cualquier software de Emby constituye la aceptacion de dichos terminos.",
     "MessageUnableToConnectToServer": "No es posible conectarse al servidor seleccionado en este momento. Por favor aseg\u00farese de que se encuentra en ejecuci\u00f3n e int\u00e9ntelo nuevamente.",
     "EmbyIntroMessage": "Con Emby usted puede transmitir videos, musica y fotos hacia su telefono inteligente, tabla u otros equipos desde su Servidor Emby.",
