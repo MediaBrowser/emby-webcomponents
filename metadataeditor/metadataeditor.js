@@ -73,11 +73,15 @@
     function getDateValue(form, element, property) {
 
         var elem = form.querySelector(element);
-        var offsetMs = new Date().getTimezoneOffset() * 60 * 1000;
+        var val;
 
-        var val = elem.valueAsNumber;
-        if (val) {
-            return new Date(val + offsetMs).toISOString();
+        if (elem.getAttribute('type') !== 'text') {
+            var offsetMs = new Date().getTimezoneOffset() * 60 * 1000;
+
+            val = elem.valueAsNumber;
+            if (val) {
+                return new Date(val + offsetMs).toISOString();
+            }
         }
 
         val = form.querySelector(element).value;
@@ -695,7 +699,7 @@
 
     function setDateValue(field, date) {
 
-        if (typeof field.valueAsNumber === 'undefined') {
+        if (typeof field.valueAsNumber === 'undefined' || field.getAttribute('type') === 'text') {
             field.value = toLocalIsoString(date);
         }
         else {
@@ -1035,7 +1039,12 @@
 
             setFieldVisibilities(context, item);
 
-            if (!checkDateTimeInput('datetime-local')) {
+            if (!checkDateTimeInput('date')) {
+                context.querySelector('#txtDateAdded').setAttribute('type', 'text');
+                context.querySelector('#txtPremiereDate').setAttribute('type', 'text');
+                context.querySelector('#txtEndDate').setAttribute('type', 'text');
+            }
+            else if (!checkDateTimeInput('datetime-local')) {
                 context.querySelector('#txtDateAdded').setAttribute('type', 'date');
             }
 

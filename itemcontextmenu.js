@@ -312,7 +312,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                 case 'download':
                     {
                         require(['fileDownloader'], function (fileDownloader) {
-                            var downloadHref = apiClient.getItemDownloadUrl(itemId);
+                            var downloadHref = apiClient.getItemDownloadUrl(itemId, options.mediaSourceId);
 
                             fileDownloader.download([
                                 {
