@@ -3,7 +3,16 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
     function fillThemes(select, isDashboard) {
 
-        select.innerHTML = skinManager.getThemes().map(function (t) {
+        var themes = skinManager.getThemes();
+
+        //if (!isDashboard && appHost.supports('preferredtheme')) {
+        //    themes.unshift({
+        //        name: globalize.translate('AutoBasedOnLanguageSetting'),
+        //        id: 'auto'
+        //    });
+        //}
+
+        select.innerHTML = themes.map(function (t) {
 
             var value = t.id;
 
@@ -68,33 +77,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         if (!selectSoundEffects.value) {
             // TODO: set the default instead of none
             selectSoundEffects.value = 'none';
-        }
-    }
-
-    function loadSkins(context, userSettings) {
-
-        var selectSkin = context.querySelector('.selectSkin');
-
-        var options = pluginManager.ofType('skin').map(function (plugin) {
-            return {
-                name: plugin.name,
-                value: plugin.id
-            };
-        });
-
-        selectSkin.innerHTML = options.map(function (o) {
-            return '<option value="' + o.value + '">' + o.name + '</option>';
-        }).join('');
-        selectSkin.value = userSettings.skin();
-
-        if (!selectSkin.value && options.length) {
-            selectSkin.value = options[0].value;
-        }
-
-        if (options.length > 1 && appHost.supports('skins')) {
-            context.querySelector('.selectSkinContainer').classList.remove('hide');
-        } else {
-            context.querySelector('.selectSkinContainer').classList.add('hide');
         }
     }
 
@@ -182,7 +164,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         fillThemes(selectDashboardTheme, true);
         loadScreensavers(context, userSettings);
         loadSoundEffects(context, userSettings);
-        loadSkins(context, userSettings);
 
         context.querySelector('.chkDisplayMissingEpisodes').checked = user.Configuration.DisplayMissingEpisodes || false;
 
@@ -222,8 +203,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
         userSettingsInstance.soundEffects(context.querySelector('.selectSoundEffects').value);
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
-
-        userSettingsInstance.skin(context.querySelector('.selectSkin').value);
 
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
         userSettingsInstance.enableSeasonalThemes(context.querySelector('#chkSeasonalThemes').checked);

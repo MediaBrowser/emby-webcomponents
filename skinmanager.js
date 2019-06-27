@@ -313,6 +313,11 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
                 id = newId;
             }
 
+            if (id === 'auto' && appHost.getPreferredTheme) {
+                id = appHost.getPreferredTheme() || 'dark';
+                requiresRegistration = false;
+            }
+
             if (currentThemeId && currentThemeId === id) {
                 resolve();
                 return;
