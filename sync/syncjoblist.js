@@ -127,7 +127,7 @@
         }
 
         if (imgUrl) {
-            html += '<div class="listItemImage lazy" data-src="' + imgUrl + '" item-icon>';
+            html += '<div class="listItemImage lazy" loading="lazy" style="background-image:url(' + imgUrl + ');" item-icon>';
             html += '</div>';
         }
         else {

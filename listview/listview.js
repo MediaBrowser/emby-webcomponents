@@ -240,7 +240,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
                 var imageAction = playOnImageClick ? 'resume' : action;
 
                 if (imgUrl) {
-                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" data-src="' + imgUrl + '" item-icon>';
+                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" loading="lazy" style="background-image:url(' + imgUrl + ');" item-icon>';
                 } else {
                     html += '<div class="' + imageClass + '">';
                 }

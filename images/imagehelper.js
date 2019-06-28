@@ -1,61 +1,39 @@
-define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings', 'require'], function (lazyLoader, imageFetcher, layoutManager, browser, appSettings, require) {
+define(['lazyLoader', 'layoutManager', 'browser', 'appSettings', 'require'], function (lazyLoader, layoutManager, browser, appSettings, require) {
     'use strict';
 
-    var requestIdleCallback = window.requestIdleCallback || function (fn) {
-        fn();
-    };
+    var supportsNativeLazyLoading = 'loading' in HTMLImageElement.prototype;
+
+    if (!supportsNativeLazyLoading) {
+        require(['css!./style']);
+    }
 
     var self = {};
 
-    // seeing slow performance with firefox
-    var enableFade = false;
+    function fillImage(elem, source) {
 
-    function fillImage(elem, source, enableEffects) {
-
-        if (!elem) {
-            throw new Error('elem cannot be null');
-        }
-
-        if (!source) {
-            source = elem.getAttribute('data-src');
-        }
-
-        if (!source) {
+        if (!source && supportsNativeLazyLoading) {
             return;
         }
 
-        fillImageElement(elem, source, enableEffects);
-    }
+        if (elem.tagName === "IMG") {
 
-    function fillImageElement(elem, source, enableEffects) {
-        imageFetcher.loadImage(elem, source).then(function () {
-
-            if (enableFade && enableEffects !== false) {
-                fadeIn(elem);
-            }
-
+            elem.setAttribute("src", source || elem.getAttribute('data-src'));
             elem.removeAttribute("data-src");
-        });
-    }
-
-    function getSwatchString(swatch) {
-
-        if (swatch) {
-            return swatch.getHex() + '|' + swatch.getBodyTextColor() + '|' + swatch.getTitleTextColor();
+            return;
         }
-        return '||';
-    }
 
-    function fadeIn(elem) {
+        if (source) {
+            elem.style.backgroundImage = "url('" + source + "')";
+        }
 
-        var cssClass = 'lazy-image-fadein';
-
-        elem.classList.add(cssClass);
+        elem.classList.remove('lazy');
     }
 
     function lazyChildren(elem) {
 
-        lazyLoader.lazyChildren(elem, fillImage);
+        if (!supportsNativeLazyLoading) {
+            lazyLoader.lazyChildren(elem, fillImage);
+        }
     }
 
     function getPrimaryImageAspectRatio(items) {
@@ -119,6 +97,10 @@ define(['lazyLoader', 'imageFetcher', 'layoutManager', 'browser', 'appSettings',
     }
 
     function fillImages(elems) {
+
+        if (supportsNativeLazyLoading) {
+            return;
+        }
 
         for (var i = 0, length = elems.length; i < length; i++) {
             var elem = elems[0];

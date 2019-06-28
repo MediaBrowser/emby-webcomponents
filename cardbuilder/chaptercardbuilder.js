@@ -82,7 +82,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             cardImageContainerClass += ' coveredImage';
         }
         var dataAttributes = ' data-action="play" data-isfolder="' + item.IsFolder + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-positionticks="' + chapter.StartPositionTicks + '"';
-        var cardImageContainer = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy" data-src="' + imgUrl + '">') : ('<div class="' + cardImageContainerClass + '">');
+        var cardImageContainer = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy" loading="lazy" style="background-image:url(' + imgUrl + ');">') : ('<div class="' + cardImageContainerClass + '">');
 
         if (!imgUrl) {
             cardImageContainer += '<i class="md-icon cardImageIcon">&#xE54D;</i>';

@@ -313,7 +313,7 @@
 
         html += '<div class="cardContent">';
 
-        html += '<div class="cardImage lazy" data-src="' + img + '"></div>';
+        html += '<div class="cardImage lazy" loading="lazy" style="background-image:url(' + img + ');"></div>';
 
         html += '</div>';
 

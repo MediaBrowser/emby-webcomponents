@@ -36,7 +36,8 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         this.lastKnownScrollY = 0;
         this.elems = elems;
 
-        this.scroller = options.scroller || window;
+        this.scrollElementForEvents = options.scroller || window;
+        this.scroller = options.scroller || document.scrollingElement || this.scrollElementForEvents;
 
         this.debouncer = this.update.bind(this);
         this.offset = options.offset;
@@ -140,13 +141,20 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 classList.remove('headroom');
             }
 
-            var scrollEventName = this.scroller.getScrollEventName ? this.scroller.getScrollEventName() : 'scroll';
+            var scroller = this.scrollElementForEvents;
 
-            dom.removeEventListener(this.scroller, scrollEventName, this.debouncer, {
-                capture: false,
-                passive: true
-            });
-        },
+            if (scroller) {
+                var scrollEventName = scroller.getScrollEventName ? scroller.getScrollEventName() : 'scroll';
+
+                dom.removeEventListener(scroller, scrollEventName, this.debouncer, {
+                    capture: false,
+                    passive: true
+                });
+            }
+
+            this.scrollElementForEvents = null;
+            this.scroller = null;
+       },
 
         /**
          * Attaches the scroll event
@@ -157,9 +165,11 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 this.lastKnownScrollY = this.getScrollY();
                 this.initialised = true;
 
-                var scrollEventName = this.scroller.getScrollEventName ? this.scroller.getScrollEventName() : 'scroll';
+                var scroller = this.scrollElementForEvents;
 
-                dom.addEventListener(this.scroller, scrollEventName, this.debouncer, {
+                var scrollEventName = scroller.getScrollEventName ? scroller.getScrollEventName() : 'scroll';
+
+                dom.addEventListener(scroller, scrollEventName, this.debouncer, {
                     capture: false,
                     passive: true
                 });
@@ -210,17 +220,17 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 return scroller.getScrollPosition();
             }
 
-            var pageYOffset = scroller.pageYOffset;
-            if (pageYOffset !== undefined) {
-                return pageYOffset;
-            }
+            //var pageYOffset = scroller.pageYOffset;
+            //if (pageYOffset !== undefined) {
+            //    return pageYOffset;
+            //}
 
             var scrollTop = scroller.scrollTop;
             if (scrollTop !== undefined) {
                 return scrollTop;
             }
 
-            return (document.documentElement || document.body).scrollTop;
+            return (document.scrollingElement || document.documentElement || document.body).scrollTop;
         },
 
         /**

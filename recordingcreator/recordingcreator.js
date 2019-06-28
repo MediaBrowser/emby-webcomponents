@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'datetime', 'imageLoader', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, datetime, imageLoader, recordingFields, events) {
+﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'datetime', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, datetime, recordingFields, events) {
     'use strict';
 
     var currentDialog;
@@ -60,10 +60,9 @@
             var imageContainer = context.querySelector('.recordingDialog-imageContainer');
 
             if (imgUrl) {
-                imageContainer.innerHTML = '<img src="' + require.toUrl('.').split('?')[0] + '/empty.png" data-src="' + imgUrl + '" class="recordingDialog-img lazy" />';
+                imageContainer.innerHTML = '<img src="' + imgUrl + '" loading="lazy" class="recordingDialog-img" />';
                 imageContainer.classList.remove('hide');
 
-                imageLoader.lazyChildren(imageContainer);
             } else {
                 imageContainer.innerHTML = '';
                 imageContainer.classList.add('hide');
