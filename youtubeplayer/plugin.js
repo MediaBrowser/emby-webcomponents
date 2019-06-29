@@ -149,11 +149,22 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
                             'onReady': onPlayerReady,
                             'onStateChange': function (event) {
                                 if (event.data === YT.PlayerState.PLAYING) {
+                                    reject = null;
                                     onPlaying(instance, options, resolve);
                                 } else if (event.data === YT.PlayerState.ENDED) {
                                     onEndedInternal(instance);
                                 } else if (event.data === YT.PlayerState.PAUSED) {
                                     events.trigger(instance, 'pause');
+                                }
+                            },
+                            'onError': function (event) {
+                                // https://developers.google.com/youtube/iframe_api_reference#Events
+                                // Treat all errors as failures
+                                console.log('youtubeplayer, received error code during playback : ' + event.data);
+                                if (reject) {
+                                    reject();
+                                } else {
+                                    events.trigger(instance, 'error');
                                 }
                             }
                         },

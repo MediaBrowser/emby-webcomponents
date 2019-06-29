@@ -2463,6 +2463,7 @@
                         onPlaybackStarted(player, playOptions, streamInfo);
                     }, function () {
                         // TODO: show error message
+                        loading.hide();
                         self.stop(player);
                     });
                 });

@@ -25,7 +25,13 @@ define(['browser'], function (browser) {
             for (var j = 0, length2 = entries.length; j < length2; j++) {
                 var entry = entries[j];
 
-                if (entry.intersectionRatio > 0) {
+                var isIntersecting = entry.isIntersecting;
+
+                if (isIntersecting == null) {
+                    isIntersecting = entry.intersectionRatio > 0;
+                }
+
+                if (isIntersecting) {
 
                     // Stop watching and load the image
                     var target = entry.target;
