@@ -81,7 +81,9 @@
         instance.isUpdating = true;
 
         var apiClient = getCurrentApiClient(instance);
-        apiClient.stopMessageListener("Sessions");
+        var messageListenerName = apiClient.isMinServerVersion('4.2.0.22') ? 'Session' : 'Sessions';
+
+        apiClient.stopMessageListener(messageListenerName);
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;
@@ -90,21 +92,24 @@
 
     function processUpdatedSessions(instance, sessions, apiClient) {
 
-        var serverId = apiClient.serverId();
-
-        sessions.map(function (s) {
-            if (s.NowPlayingItem) {
-                s.NowPlayingItem.ServerId = serverId;
-            }
-        });
-
         var currentTargetId = getActivePlayerId();
 
         var session = sessions.filter(function (s) {
             return s.Id === currentTargetId;
         })[0];
 
+        processUpdatedSession(instance, session, apiClient);
+    }
+
+    function processUpdatedSession(instance, session, apiClient) {
+
         if (session) {
+
+            var serverId = apiClient.serverId();
+
+            if (session.NowPlayingItem) {
+                session.NowPlayingItem.ServerId = serverId;
+            }
 
             normalizeImages(session, apiClient);
 
@@ -164,8 +169,12 @@
 
         instance.isUpdating = true;
 
+        var sessionId = getActivePlayerId() || '';
+
         var apiClient = getCurrentApiClient(instance);
-        apiClient.startMessageListener("Sessions", "100,800");
+
+        var messageListenerName = apiClient.isMinServerVersion('4.2.0.22') ? 'Session' : 'Sessions';
+        apiClient.startMessageListener(messageListenerName, "100,800," + sessionId);
         if (instance.pollInterval) {
             clearInterval(instance.pollInterval);
             instance.pollInterval = null;
@@ -207,8 +216,15 @@
         this.isLocalPlayer = false;
         this.id = 'remoteplayer';
 
+        events.on(serverNotifications, 'Session', function (e, apiClient, data) {
+            processUpdatedSession(self, data, apiClient);
+        });
+
         events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
-            processUpdatedSessions(self, data, apiClient);
+
+            if (!apiClient.isMinServerVersion('4.2.0.22')) {
+                processUpdatedSessions(self, data, apiClient);
+            }
         });
     }
 

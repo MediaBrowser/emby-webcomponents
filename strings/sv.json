@@ -33,7 +33,7 @@
     "ErrorMessageUsernameInUse": "Anv\u00e4ndarnamnet anv\u00e4nds redan. V\u00e4lj ett nytt anv\u00e4ndarnamn och f\u00f6rs\u00f6k igen.",
     "ErrorMessageEmailInUse": "Emailadressen anv\u00e4nds redan. V\u00e4lj en ny emailadress och f\u00f6rs\u00f6k igen, eller klicka p\u00e5 \u00e5terst\u00e4ll l\u00f6senord.",
     "HeaderConnectionFailure": "Misslyckad anslutning",
-    "HeaderConnectToServer": "Anslut till Server",
+    "HeaderConnectToServer": "Anslut till server",
     "ConnectToServerManually": "Anslut till server manuellt",
     "LabelEnterConnectUserNameHelp": "Detta \u00e4r anv\u00e4ndarnamnet eller epost-adressen till ditt Emby Onlinekonto.",
     "HeaderSignInError": "Fel vid inloggning",
