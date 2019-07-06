@@ -733,24 +733,32 @@
                 query.Is3D = true;
                 hasFilters = true;
             }
-            if (filters.HasSubtitles) {
-                query.HasSubtitles = true;
+            if (filters.HasSubtitles != null) {
+                query.HasSubtitles = filters.HasSubtitles;
                 hasFilters = true;
             }
-            if (filters.HasTrailer) {
-                query.HasTrailer = true;
+            if (filters.HasTrailer != null) {
+                query.HasTrailer = filters.HasTrailer;
                 hasFilters = true;
             }
-            if (filters.HasSpecialFeature) {
-                query.HasSpecialFeature = true;
+            if (filters.HasSpecialFeature != null) {
+                query.HasSpecialFeature = filters.HasSpecialFeature;
                 hasFilters = true;
             }
-            if (filters.HasThemeSong) {
-                query.HasThemeSong = true;
+            if (filters.HasThemeSong != null) {
+                query.HasThemeSong = filters.HasThemeSong;
                 hasFilters = true;
             }
-            if (filters.HasThemeVideo) {
-                query.HasThemeVideo = true;
+            if (filters.HasThemeVideo != null) {
+                query.HasThemeVideo = filters.HasThemeVideo;
+                hasFilters = true;
+            }
+            if (filters.HasOverview != null) {
+                query.HasOverview = filters.HasOverview;
+                hasFilters = true;
+            }
+            if (filters.IsLocked != null) {
+                query.IsLocked = filters.IsLocked;
                 hasFilters = true;
             }
         }
@@ -894,15 +902,17 @@
             HasSpecialFeature: userSettings.getFilter(basekey + '-filter-HasSpecialFeature'),
             HasThemeSong: userSettings.getFilter(basekey + '-filter-HasThemeSong'),
             HasThemeVideo: userSettings.getFilter(basekey + '-filter-HasThemeVideo'),
+            HasOverview: userSettings.getFilter(basekey + '-filter-HasOverview'),
+            IsLocked: userSettings.getFilter(basekey + '-filter-IsLocked'),
             GenreIds: userSettings.getFilter(basekey + '-filter-GenreIds'),
             StudioIds: userSettings.getFilter(basekey + '-filter-StudioIds'),
             Tags: userSettings.getFilter(basekey + '-filter-Tags'),
             TagIds: userSettings.getFilter(basekey + '-filter-TagIds'),
+            OfficialRatings: userSettings.getFilter(basekey + '-filter-OfficialRatings'),
             Containers: userSettings.getFilter(basekey + '-filter-Containers'),
             AudioCodecs: userSettings.getFilter(basekey + '-filter-AudioCodecs'),
             VideoCodecs: userSettings.getFilter(basekey + '-filter-VideoCodecs'),
             SubtitleCodecs: userSettings.getFilter(basekey + '-filter-SubtitleCodecs'),
-            OfficialRatings: userSettings.getFilter(basekey + '-filter-OfficialRatings'),
             Years: userSettings.getFilter(basekey + '-filter-Years')
         };
     };

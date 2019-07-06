@@ -845,5 +845,15 @@
   "LabelAutomaticallySignOut": "Automatically sign out:",
   "BetaTesterMessage": "Thank you for being an Emby beta tester! Please leave feedback in the {0}Testing Area of the Emby Community{1}.",
   "HardwareAccelerated": "Hardware accelerated",
-  "Software": "Software"
+  "Software": "Software",
+  "Metadata": "Metadata",
+  "HeaderMediaInfo": "Media Info",
+  "Locked": "Locked",
+  "Any": "Any",
+  "LabelHasOverview": "Has overview:",
+  "LabelLocked": "Locked:",
+  "LabelTrailers": "Trailers:",
+  "LabelExtras": "Extras:",
+  "LabelThemeSongs": "Theme songs:",
+  "LabelThemeVideos": "Theme videos:"
 }

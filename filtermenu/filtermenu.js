@@ -25,7 +25,7 @@
 
         }).join('');
 
-        var allText = globalize.translate('All');
+        var allText = globalize.translate('Any');
 
         var prefix = anySelected ?
             '<option value="">' + allText + '</option>' :
@@ -35,6 +35,11 @@
 
         if (items.length) {
             container.classList.remove('hide');
+
+            var multiSettingsSection = dom.parentWithClass(container, 'multiSettingsSection');
+            if (multiSettingsSection) {
+                multiSettingsSection.classList.remove('hide');
+            }
         } else {
             container.classList.add('hide');
         }
@@ -77,7 +82,7 @@
 
         }).join('');
 
-        var allText = globalize.translate('All');
+        var allText = globalize.translate('Any');
 
         var prefix = anySelected ?
             '<option value="">' + allText + '</option>' :
@@ -334,7 +339,7 @@
 
         apiClient.getSubtitleCodecs(apiClient.getCurrentUserId(), query).then(function (result) {
 
-            renderList(context.querySelector('.subtitleCodecFilters'), result.Items, options, 'SubtitleCodecs', ',');
+            renderList(context.querySelector('.subtitleCodecFilters'), result.Items, options, 'SubtitleCodecs', ',', null);
 
         }, handleQueryError);
     }
@@ -348,31 +353,33 @@
 
         for (i = 0, length = elems.length; i < length; i++) {
 
+            var val = settings[elems[i].getAttribute('data-settingname')];
+
             if (elems[i].tagName === 'INPUT') {
-                elems[i].checked = settings[elems[i].getAttribute('data-settingname')] || false;
+                elems[i].checked = val || false;
+            } else if (elems[i].classList.contains('selectContainer')) {
+
+                if (val == null) {
+                    elems[i].querySelector('select').value = '';
+                } else {
+                    elems[i].querySelector('select').value = val.toString();
+                }
+
             } else {
-                elems[i].querySelector('input').checked = settings[elems[i].getAttribute('data-settingname')] || false;
+                elems[i].querySelector('input').checked = val || false;
             }
         }
 
-        var seriesStatuses = settings.SeriesStatus ? settings.SeriesStatus.split(',') : [];
-        elems = context.querySelectorAll('.chkSeriesStatus');
+        context.querySelector('.selectSeriesStatus').value = settings.SeriesStatus || '';
 
+        elems = context.querySelectorAll('.multiSettingsSection');
         for (i = 0, length = elems.length; i < length; i++) {
 
-            elems[i].checked = seriesStatuses.indexOf(elems[i].getAttribute('data-filter')) !== -1;
-        }
-
-        if (context.querySelector('.basicFilterSection .viewSetting:not(.hide)')) {
-            context.querySelector('.basicFilterSection').classList.remove('hide');
-        } else {
-            context.querySelector('.basicFilterSection').classList.add('hide');
-        }
-
-        if (context.querySelector('.featureSection .viewSetting:not(.hide)')) {
-            context.querySelector('.featureSection').classList.remove('hide');
-        } else {
-            context.querySelector('.featureSection').classList.add('hide');
+            if (elems[i].querySelector('.viewSetting:not(.hide)') || elems[i].querySelector('.selectContainer:not(.hide)')) {
+                elems[i].classList.remove('hide');
+            } else {
+                elems[i].classList.add('hide');
+            }
         }
     }
 
@@ -384,6 +391,8 @@
 
             if (elems[i].tagName === 'INPUT') {
                 setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i]);
+            } else if (elems[i].classList.contains('selectContainer')) {
+                setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('select'));
             } else {
                 setBasicFilter(context, settingsKey + '-filter-' + elems[i].getAttribute('data-settingname'), elems[i].querySelector('input'));
             }
@@ -391,23 +400,18 @@
 
         // Series status
         var seriesStatuses = [];
-        elems = context.querySelectorAll('.chkSeriesStatus');
-
-        for (i = 0, length = elems.length; i < length; i++) {
-
-            if (elems[i].checked) {
-                seriesStatuses.push(elems[i].getAttribute('data-filter'));
-            }
+        var elem = context.querySelector('.selectSeriesStatus');
+        if (elem.value) {
+            seriesStatuses.push(elem.value);
         }
         userSettings.setFilter(settingsKey + '-filter-SeriesStatus', seriesStatuses.join(','));
 
         // Genres
         var genres = [];
-        var elem = context.querySelector('.selectGenre');
+         elem = context.querySelector('.selectGenre');
         if (elem.value) {
             genres.push(elem.value);
         }
-
         userSettings.setFilter(settingsKey + '-filter-GenreIds', genres.join(','));
 
         var studios = [];
@@ -429,7 +433,7 @@
         } else {
             userSettings.setFilter(settingsKey + '-filter-Tags', tags.join('|'));
             userSettings.setFilter(settingsKey + '-filter-TagIds', '');
-       }
+        }
 
         var containers = [];
         elem = context.querySelector('.selectContainers');
@@ -499,7 +503,7 @@
 
     function setBasicFilter(context, key, elem) {
 
-        var value = elem.checked;
+        var value = elem.tagName === 'SELECT' ? elem.value : elem.checked;
         value = value ? value : null;
         userSettings.setFilter(key, value);
     }
