@@ -1,7 +1,7 @@
 ﻿define(['browser', 'css!./appfooter'], function (browser) {
     'use strict';
 
-    function render(options) {
+    function render() {
 
         var elem = document.createElement('div');
 
@@ -16,30 +16,33 @@
         return elem;
     }
 
-    function appFooter(options) {
+    function AppFooter() {
 
         var self = this;
 
-        self.element = render(options);
-
-        self.add = function (elem) {
-            self.element.appendChild(elem);
-        };
-
-        self.insert = function (elem) {
-            if (typeof elem === 'string') {
-                self.element.insertAdjacentHTML('afterbegin', elem);
-            } else {
-                self.element.insertBefore(elem, self.element.firstChild);
-            }
-        };
+        this.element = render();
     }
 
-    appFooter.prototype.destroy = function () {
+    AppFooter.prototype.add = function (elem) {
+        this.element.appendChild(elem);
+    };
+
+    AppFooter.prototype.insert = function (elem) {
+
+        var thisElement = this.element;
+
+        if (typeof elem === 'string') {
+            thisElement.insertAdjacentHTML('afterbegin', elem);
+        } else {
+            thisElement.insertBefore(elem, thisElement.firstChild);
+        }
+    };
+
+    AppFooter.prototype.destroy = function () {
         var self = this;
 
         self.element = null;
     };
 
-    return appFooter;
+    return AppFooter;
 });

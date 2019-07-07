@@ -1,33 +1,15 @@
-﻿define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button', 'emby-linkbutton'], function (dom, browser, events) {
+﻿define(['dom', 'browser', 'events', 'appHeader', 'emby-tabs', 'emby-button', 'emby-linkbutton'], function (dom, browser, events, appHeader) {
     'use strict';
 
     var tabOwnerView;
     var queryScope = document.querySelector('.skinHeader');
-    var footerTabsContainer;
     var headerTabsContainer;
     var tabsElem;
 
-    function enableTabsInFooter() {
-        return false;
-    }
-
-    function getTabsContainerElem() {
-    }
-
-    function ensureElements(enableInFooter) {
-
-        if (enableInFooter) {
-            if (!footerTabsContainer) {
-                footerTabsContainer = document.createElement('div');
-                footerTabsContainer.classList.add('footerTabs');
-                footerTabsContainer.classList.add('sectionTabs');
-                footerTabsContainer.classList.add('hide');
-                //appFooter.add(footerTabsContainer);
-            }
-        }
+    function ensureElements() {
 
         if (!headerTabsContainer) {
-            headerTabsContainer = queryScope.querySelector('.headerTabs');
+            headerTabsContainer = queryScope.querySelector('.headerMiddle');
         }
     }
 
@@ -98,26 +80,19 @@
 
     function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
 
-        var enableInFooter = enableTabsInFooter();
-
         if (!view) {
             if (tabOwnerView) {
 
                 if (!headerTabsContainer) {
-                    headerTabsContainer = queryScope.querySelector('.headerTabs');
+                    headerTabsContainer = queryScope.querySelector('.headerMiddle');
                 }
 
-                ensureElements(enableInFooter);
+                ensureElements();
 
-                document.body.classList.remove('withSectionTabs');
+                document.documentElement.classList.remove('withSectionTabs');
 
                 headerTabsContainer.innerHTML = '';
                 headerTabsContainer.classList.add('hide');
-
-                if (footerTabsContainer) {
-                    footerTabsContainer.innerHTML = '';
-                    footerTabsContainer.classList.add('hide');
-                }
 
                 tabOwnerView = null;
             }
@@ -127,9 +102,9 @@
             };
         }
 
-        ensureElements(enableInFooter);
+        ensureElements();
 
-        var tabsContainerElem = enableInFooter ? footerTabsContainer : headerTabsContainer;
+        var tabsContainerElem = headerTabsContainer;
 
         if (!tabOwnerView) {
             tabsContainerElem.classList.remove('hide');
@@ -167,7 +142,7 @@
 
             tabsContainerElem.innerHTML = tabsHtml;
 
-            document.body.classList.add('withSectionTabs');
+            document.documentElement.classList.add('withSectionTabs');
             tabOwnerView = view;
 
             tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');

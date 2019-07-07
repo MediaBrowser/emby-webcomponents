@@ -1,4 +1,4 @@
-define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'connectionManager', 'emby-tabs'], function (backdrop, mainTabsManager, layoutManager, inputManager, connectionManager) {
+define(['appHeader', 'backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'connectionManager', 'emby-tabs'], function (appHeader, backdrop, mainTabsManager, layoutManager, inputManager, connectionManager) {
     'use strict';
 
     function onViewDestroy(e) {
@@ -174,7 +174,7 @@ define(['backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'connect
     };
 
     TabbedView.prototype.setTitle = function () {
-        Emby.Page.setTitle(this.getTitle());
+        appHeader.setTitle(this.getTitle());
     };
 
     TabbedView.prototype.getTitle = function () {

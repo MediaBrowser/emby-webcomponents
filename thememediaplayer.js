@@ -98,9 +98,7 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
             return;
         }
 
-        var viewOptions = e.detail.options || {};
-
-        if (viewOptions.supportsThemeMedia) {
+        if (e.detail.supportsThemeMedia) {
             // Do nothing here, allow it to keep playing
         }
         else {

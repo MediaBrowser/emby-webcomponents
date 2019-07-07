@@ -20,6 +20,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         showSettings: function () {
             show('/settings/settings.html');
         },
+        showUserMenu: function () {
+            skinManager.getCurrentSkin().showUserMenu();
+        },
         showSearch: function () {
             skinManager.getCurrentSkin().search();
         },
@@ -182,37 +185,19 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         var isBackNav = ctx.isBack;
 
-        var currentRequest = {
-            url: baseUrl() + ctx.path,
-            transition: route.transition,
-            isBack: isBackNav,
-            state: ctx.state,
-            type: route.type,
-            fullscreen: route.fullscreen,
-            controllerFactory: controllerFactory,
-            options: {
-                supportsThemeMedia: route.supportsThemeMedia || false,
-                enableMediaControl: route.enableMediaControl !== false
-            },
-            autoFocus: route.autoFocus
-        };
+        var currentRequest = Object.assign({}, route);
+
+        currentRequest.url = baseUrl() + ctx.path;
+        currentRequest.controllerFactory = controllerFactory;
+        currentRequest.state = ctx.state;
+        currentRequest.isBack = isBackNav;
+
         currentViewLoadRequest = currentRequest;
-
-        var onNewViewNeeded = function () {
-            if (typeof route.path === 'string') {
-
-                loadContentUrl(ctx, next, route, currentRequest);
-
-            } else {
-                // ? TODO
-                next();
-            }
-        };
 
         if (!isBackNav) {
             // Don't force a new view for home due to the back menu
             //if (route.type !== 'home') {
-            onNewViewNeeded();
+            loadContentUrl(ctx, next, route, currentRequest);
             return;
             //}
         }
@@ -227,7 +212,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }).catch(function (result) {
 
             if (!result || !result.cancelled) {
-                onNewViewNeeded();
+                loadContentUrl(ctx, next, route, currentRequest);
             }
         });
     }
@@ -527,8 +512,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function loadContent(ctx, route, html, request) {
 
-        html = globalize.translateDocument(html, route.dictionary);
-        request.view = html;
+        request.view = globalize.translateDocument(html, route.dictionary);
 
         viewManager.loadView(request);
 
@@ -716,7 +700,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function setTitle(title) {
-        skinManager.getCurrentSkin().setTitle(title);
+
+        require(['appHeader'], function (appHeader) {
+            appHeader.setTitle(title);
+        });
     }
 
     function showVideoOsd() {

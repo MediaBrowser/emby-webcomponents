@@ -107,17 +107,13 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
         var index = url.indexOf('?');
         var params = index === -1 ? {} : queryString.parse(url.substring(index + 1));
 
-        return {
-            detail: {
-                type: view.getAttribute('data-type'),
-                properties: getProperties(view),
-                params: params,
-                isRestored: isRestore,
-                state: options.state,
+        options.type = view.getAttribute('data-type');
+        options.properties = getProperties(view);
+        options.isRestored = isRestore;
+        options.params = params;
 
-                // The route options
-                options: options.options || {}
-            },
+        return {
+            detail: options,
             bubbles: true,
             cancelable: false
         };

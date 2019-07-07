@@ -756,7 +756,7 @@
 
     document.addEventListener('viewbeforeshow', function (e) {
 
-        if (!e.detail.options.enableMediaControl) {
+        if (e.detail.enableMediaControl === false) {
 
             if (isVisibilityAllowed) {
                 isVisibilityAllowed = false;

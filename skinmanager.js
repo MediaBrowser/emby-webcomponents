@@ -50,7 +50,9 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
                 }).then(function () {
 
-                    return loadSkinHeader(newSkin);
+                    currentSkin = newSkin;
+                    newSkin.load();
+                    return newSkin;
                 });
             });
         });
@@ -71,50 +73,6 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
                     name: skin.name
                 }
             }));
-        });
-    }
-
-    function loadSkinHeader(skin) {
-
-        return getSkinHeader(skin).then(function (headerHtml) {
-
-            document.querySelector('.skinHeader').innerHTML = headerHtml;
-
-            currentSkin = skin;
-            skin.load();
-
-            return skin;
-        });
-    }
-
-    var cacheParam = new Date().getTime();
-
-    function getSkinHeader(skin) {
-
-        return new Promise(function (resolve, reject) {
-
-            if (!skin.getHeaderTemplate) {
-                resolve('');
-                return;
-            }
-
-            var xhr = new XMLHttpRequest();
-
-            var url = skin.getHeaderTemplate();
-            url += url.indexOf('?') === -1 ? '?' : '&';
-            url += 'v=' + cacheParam;
-
-            xhr.open('GET', url, true);
-
-            xhr.onload = function (e) {
-                if (this.status < 400) {
-                    resolve(this.response);
-                } else {
-                    resolve('');
-                }
-            };
-
-            xhr.send();
         });
     }
 

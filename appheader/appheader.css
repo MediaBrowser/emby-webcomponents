@@ -1,0 +1,154 @@
+﻿.pageTitle {
+    padding: .35em 0 0;
+    vertical-align: middle;
+    margin: 0 0 0 .25em;
+    height: 1.7em;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pageTitleWithLogo {
+    background-position: left center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 13.2em;
+    height: 1.6em;
+}
+
+.pageTitleWithDefaultLogo {
+    /* To prevent the element from taking up too much space in mobile layouts */
+    width: 6em;
+}
+
+.headerButton {
+    flex-shrink: 0;
+}
+
+.headerUserButtonImage {
+    border-radius: 1000px;
+}
+
+.skinHeader {
+    /* This will ensure it is on top of the main body */
+    z-index: 1;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    contain: layout style paint;
+}
+
+.headerTop {
+    padding: .8em 0;
+    position: relative;
+}
+
+.withSectionTabs .headerTop {
+    padding: .7em 0 3.82em;
+}
+
+@media all and (min-width: 120em) {
+
+    .headerTop {
+        padding: 1.489em 0 !important;
+    }
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.headerRight {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    white-space: nowrap;
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+.headerLeft, .headerRight {
+    /* This exists only to ensure the header is about the same height with and without tabs */
+    min-height: 3.127em;
+}
+
+.headerMiddle {
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    flex-grow: 1;
+}
+
+.sectionTabs {
+    text-align: center;
+}
+
+.headerClock {
+    margin: 0 1em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.headerSelectedPlayer {
+    font-weight: normal;
+    max-width: 10em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+@media all and (max-width: 37.5em) {
+    .headerSelectedPlayer {
+        display: none;
+    }
+}
+
+@media all and (max-width: 64em) {
+
+    .sectionTabs {
+        font-size: 96%;
+    }
+}
+
+@media all and (max-width: 720px) {
+
+    .headerClock {
+        display: none !important;
+    }
+}
+
+@media all and (min-width: 120em) {
+
+    .headerMiddle {
+        align-items: center;
+        justify-content: center;
+        position: static;
+    }
+
+    .headerPartFixedWidth {
+        width: 18%;
+    }
+
+    .layout-tv.withSectionTabs .pageTitle:not(.pageTitleWithDefaultLogo) {
+        display: none !important;
+    }
+
+    .withSectionTabs .headerRight {
+        flex-grow: 0;
+    }
+}
+
+@media all and (max-width: 60em) {
+
+    .headerMenuButton, .headerManageServerButton {
+        display: none;
+    }
+}
