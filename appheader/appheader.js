@@ -1,4 +1,4 @@
-﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'serverNotifications', 'appRouter', 'apphost', 'events', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, serverNotifications, appRouter, appHost, events) {
+﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events) {
     'use strict';
 
     var skinHeaderElement = document.querySelector('.skinHeader');
@@ -366,9 +366,7 @@
 
     function clearTabs() {
 
-        require(['mainTabsManager'], function (mainTabsManager) {
-            mainTabsManager.setTabs(null);
-        });
+        mainTabsManager.setTabs(null);
     }
 
     function onViewBeforeShow(e) {
@@ -378,9 +376,9 @@
             headerLeft.classList.add('headerPartFixedWidth');
             headerRight.classList.add('headerPartFixedWidth');
         } else {
+            clearTabs();
             headerLeft.classList.remove('headerPartFixedWidth');
             headerRight.classList.remove('headerPartFixedWidth');
-            clearTabs();
         }
 
         var skinHeader = skinHeaderElement;

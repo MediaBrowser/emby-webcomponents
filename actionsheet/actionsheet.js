@@ -174,9 +174,9 @@
 
         if (options.title) {
 
-            html += '<h1 class="actionSheetTitle">';
+            html += '<h2 class="actionSheetTitle">';
             html += options.title;
-            html += '</h1>';
+            html += '</h2>';
         }
         if (options.text) {
             html += '<p class="actionSheetText">';
@@ -252,6 +252,12 @@
                 html += '<div class="listItemAside actionSheetItemAsideText">';
                 html += option.asideText;
                 html += '</div>';
+            }
+
+            if (option.asideIcon) {
+                html += '<div class="listItemAside actionSheetItemAsideText"><i class="md-icon">';
+                html += option.asideIcon;
+                html += '</i></div>';
             }
 
             html += '</button>';

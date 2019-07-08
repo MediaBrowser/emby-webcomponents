@@ -855,5 +855,7 @@
   "LabelTrailers": "Trailers:",
   "LabelExtras": "Extras:",
   "LabelThemeSongs": "Theme songs:",
-  "LabelThemeVideos": "Theme videos:"
+  "LabelThemeVideos": "Theme videos:",
+  "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
+  "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added."
 }

@@ -69,7 +69,7 @@ html, .dialog, .backgroundContainer {
 }
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(0,0,0,.86);
+        background-color: rgba(0,0,0,.84);
     }
 
 /*@supports ( (backdrop-filter: blur(1em))) {

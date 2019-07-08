@@ -189,25 +189,59 @@
         }
     }
 
-    function showSortMenu() {
+    function setSelectedSortOption(instance, options) {
+
+        var currentValues = instance.getSortValues();
+
+        for (var i = 0, length = options.length; i < length; i++) {
+
+            var opt = options[i];
+
+            opt.selected = opt.value === currentValues.sortBy;
+
+            if (opt.selected) {
+
+                var icon = currentValues.sortOrder === 'Descending' ? '&#xE5DB;' : '&#xE5D8;';;
+
+                opt.asideIcon = icon;
+                break;
+            }
+        }
+    }
+
+    function showSortMenu(e) {
 
         var instance = this;
 
-        require(['sortMenu'], function (SortMenu) {
+        require(['actionsheet'], function (actionsheet) {
 
-            new SortMenu().show({
+            var options = instance.getSortMenuOptions();
+            setSelectedSortOption(instance, options);
+            options.sort(compareByName);
 
-                settingsKey: instance.getSettingsKey(),
-                settings: instance.getSortValues(),
-                onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
-                serverId: instance.params.serverId,
-                sortOptions: instance.getSortMenuOptions()
+            actionsheet.show({
+                items: options,
+                positionTo: e.target,
+                title: globalize.translate('LabelSortBy')
 
-            }).then(function () {
+            }).then(function (value) {
+
+                var currentValues = instance.getSortValues();
+
+                var sortOrder = currentValues.sortOrder;
+                if (currentValues.sortBy === value) {
+                    sortOrder = sortOrder === 'Ascending' ? 'Descending' : 'Ascending';
+                } else {
+                    sortOrder = 'Ascending';
+                }
+
+                var settingsKey = instance.getSettingsKey();
+                userSettings.setFilter(settingsKey + '-sortby', value);
+                userSettings.setFilter(settingsKey + '-sortorder', sortOrder);
 
                 updateSortText(instance);
-
                 refreshAfterSettingsChange(instance);
+
             });
         });
     }

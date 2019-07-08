@@ -1,4 +1,4 @@
-﻿define(['dom', 'browser', 'events', 'appHeader', 'emby-tabs', 'emby-button', 'emby-linkbutton'], function (dom, browser, events, appHeader) {
+﻿define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button', 'emby-linkbutton'], function (dom, browser, events) {
     'use strict';
 
     var tabOwnerView;
