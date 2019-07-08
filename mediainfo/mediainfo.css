@@ -89,11 +89,3 @@
     /*font-size: inherit;*/
     /*background: rgba(81, 81, 81, .7);*/
 }
-
-.mediaInfoOfficialRating {
-    padding: .3em .8em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: .25em;
-}

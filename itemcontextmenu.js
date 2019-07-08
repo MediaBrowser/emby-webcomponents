@@ -13,7 +13,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         var apiClient = connectionManager.getApiClient(item);
 
-        var restrictOptions = (browser.operaTv || browser.web0s) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816' && !user.Policy.IsAdministrator;
+        var restrictOptions = (browser.operaTv || browser.web0s || browser.tizen) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816' && !user.Policy.IsAdministrator;
 
         if (canPlay && item.MediaType !== 'Photo' && item.Type !== 'Program') {
             if (options.play !== false) {
@@ -111,11 +111,13 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             });
         }
 
-        if (itemHelper.canConvert(item, user, apiClient)) {
-            commands.push({
-                name: globalize.translate('Convert'),
-                id: 'convert'
-            });
+        if (!restrictOptions) {
+            if (itemHelper.canConvert(item, user, apiClient)) {
+                commands.push({
+                    name: globalize.translate('Convert'),
+                    id: 'convert'
+                });
+            }
         }
 
         if (item.CanDelete && options.deleteItem !== false) {
@@ -133,77 +135,79 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
-        if (item.CanDownload && appHost.supports('filedownload')) {
-            commands.push({
-                name: globalize.translate('Download'),
-                id: 'download'
-            });
-        }
-
-        if (appHost.supports('sync') && options.syncLocal !== false) {
-            if (itemHelper.canSync(user, item)) {
+        if (!restrictOptions) {
+            if (item.CanDownload && appHost.supports('filedownload')) {
                 commands.push({
                     name: globalize.translate('Download'),
-                    id: 'synclocal'
+                    id: 'download'
                 });
             }
-        }
 
-        var canEdit = itemHelper.canEdit(user, item);
-        if (canEdit) {
+            if (appHost.supports('sync') && options.syncLocal !== false) {
+                if (itemHelper.canSync(user, item)) {
+                    commands.push({
+                        name: globalize.translate('Download'),
+                        id: 'synclocal'
+                    });
+                }
+            }
 
-            if (options.edit !== false && item.Type !== 'SeriesTimer') {
+            var canEdit = itemHelper.canEdit(user, item);
+            if (canEdit) {
 
-                var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+                if (options.edit !== false && item.Type !== 'SeriesTimer') {
 
+                    var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+
+                    commands.push({
+                        name: text,
+                        id: 'edit'
+                    });
+                }
+            }
+
+            if (itemHelper.canEditImages(user, item)) {
+
+                if (options.editImages !== false) {
+                    commands.push({
+                        name: globalize.translate('EditImages'),
+                        id: 'editimages'
+                    });
+                }
+            }
+
+            if (itemHelper.canEditSubtitles(user, item)) {
+
+                if (options.editSubtitles !== false) {
+                    commands.push({
+                        name: globalize.translate('EditSubtitles'),
+                        id: 'editsubtitles'
+                    });
+                }
+            }
+
+            if (options.identify !== false) {
+                if (itemHelper.canIdentify(user, item)) {
+                    commands.push({
+                        name: globalize.translate('Identify'),
+                        id: 'identify'
+                    });
+                }
+            }
+
+            if (options.multiSelect) {
                 commands.push({
-                    name: text,
-                    id: 'edit'
+                    name: globalize.translate('MultiSelect'),
+                    id: 'multiselect'
                 });
             }
-        }
 
-        if (itemHelper.canEditImages(user, item)) {
-
-            if (options.editImages !== false) {
+            if (itemHelper.canRefreshMetadata(item, user)) {
                 commands.push({
-                    name: globalize.translate('EditImages'),
-                    id: 'editimages'
+                    name: globalize.translate('RefreshMetadata'),
+                    id: 'refresh'
                 });
             }
-        }
-
-        if (itemHelper.canEditSubtitles(user, item)) {
-
-            if (options.editSubtitles !== false) {
-                commands.push({
-                    name: globalize.translate('EditSubtitles'),
-                    id: 'editsubtitles'
-                });
-            }
-        }
-
-        if (options.identify !== false) {
-            if (itemHelper.canIdentify(user, item)) {
-                commands.push({
-                    name: globalize.translate('Identify'),
-                    id: 'identify'
-                });
-            }
-        }
-
-        if (options.multiSelect) {
-            commands.push({
-                name: globalize.translate('MultiSelect'),
-                id: 'multiselect'
-            });
-        }
-
-        if (itemHelper.canRefreshMetadata(item, user)) {
-            commands.push({
-                name: globalize.translate('RefreshMetadata'),
-                id: 'refresh'
-            });
         }
 
         if (item.PlaylistItemId && options.playlistId) {
@@ -238,12 +242,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             });
         }
 
-        if (options.sync !== false) {
-            if (itemHelper.canSync(user, item)) {
-                commands.push({
-                    name: globalize.translate('Sync'),
-                    id: 'sync'
-                });
+        if (!restrictOptions) {
+            if (options.sync !== false) {
+                if (itemHelper.canSync(user, item)) {
+                    commands.push({
+                        name: globalize.translate('Sync'),
+                        id: 'sync'
+                    });
+                }
             }
         }
 

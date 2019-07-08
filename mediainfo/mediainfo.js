@@ -349,8 +349,7 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
 
         if (item.OfficialRating) {
             miscInfo.push({
-                text: item.OfficialRating,
-                cssClass: 'mediaInfoOfficialRating raised' + (browser.android || browser.edge ? ' nobackdropfilter' : '')
+                text: item.OfficialRating
             });
         }
 

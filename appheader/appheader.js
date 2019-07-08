@@ -5,8 +5,6 @@
     var hasPhysicalBackButton = appHost.supports('physicalbackbutton');
     var userSignedIn = false;
 
-    var currentServerId;
-
     var headerHomeButton;
     var headerMenuButton;
     var headerBackButton;
@@ -14,15 +12,7 @@
     var selectedPlayerText;
     var headerLeft;
     var headerRight;
-
-    function getCurrentApiClient() {
-
-        if (currentServerId) {
-            return connectionManager.getApiClient(currentServerId);
-        }
-
-        return connectionManager.currentApiClient();
-    }
+    var currentServerId;
 
     function updateClock() {
 
@@ -55,10 +45,7 @@
         return null;
     }
 
-    var requiresUserRefresh = true;
     function updateUserInHeader(user) {
-
-        requiresUserRefresh = false;
 
         var headerUserButton = document.querySelector('.headerUserButton');
         var headerManageServerButton = document.querySelector('.headerManageServerButton');
@@ -104,8 +91,9 @@
 
     function onUserUpdated(e, apiClient, data) {
 
-        if (apiClient.getCurrentUserId() === data.Id && apiClient.isMinServerVersion('3.6.0.32')) {
-            apiClient.getCurrentUser().then(updateUserInHeader);
+        if (apiClient.getCurrentUserId() === data.Id && apiClient.serverId() === currentServerId && apiClient.isMinServerVersion('3.6.0.32')) {
+
+            updateUserInHeader(data);
         }
     }
 
@@ -159,14 +147,15 @@
         }
     }
 
-    function onLocalUserSignedIn(e, serverId) {
+    function onLocalUserSignedIn(e, serverId, userId) {
 
         currentServerId = serverId;
+
         userSignedIn = true;
         document.querySelector('.headerSearchButton').classList.remove('hide');
 
-        var apiClient = getCurrentApiClient();
-        apiClient.getCurrentUser().then(updateUserInHeader);
+        var apiClient = connectionManager.getApiClient(serverId);
+        apiClient.getUser(userId).then(updateUserInHeader);
 
         resetPremiereButton();
         setRemoteControlVisibility();
@@ -295,23 +284,17 @@
 
     function updateHomeButton(e) {
 
-        if (!headerHomeButton) {
-            headerHomeButton = document.querySelector('.headerHomeButton');
-        }
+        if (userSignedIn && !layoutManager.tv && e.detail.homeButton !== false) {
 
-        if (headerHomeButton) {
-            if (userSignedIn && e.detail.homeButton !== false) {
-
-                headerHomeButton.classList.remove('hide');
-            } else {
-                headerHomeButton.classList.add('hide');
-            }
+            headerHomeButton.classList.remove('hide');
+        } else {
+            headerHomeButton.classList.add('hide');
         }
     }
 
     function updateMenuButton(e, view) {
 
-        if (self.Dashboard && !layoutManager.tv && userSignedIn && !view.classList.contains('type-interior')) {
+        if (self.Dashboard && !layoutManager.tv && userSignedIn && e.detail.secondaryHeaderFeatures !== false && !view.classList.contains('type-interior')) {
 
             headerMenuButton.classList.remove('hide');
         } else {
@@ -325,7 +308,7 @@
 
         if (backButtonConfig !== false && appRouter.canGoBack()) {
 
-            if (hasPhysicalBackButton && backButtonConfig !== 'true') {
+            if (hasPhysicalBackButton && backButtonConfig !== true) {
                 headerBackButton.classList.add('hide');
             } else {
                 headerBackButton.classList.remove('hide');
@@ -343,6 +326,15 @@
             header.setTitle(title);
         } else if (view.classList.contains('standalonePage')) {
             header.setDefaultTitle();
+        }
+    }
+
+    function updateRightHeader(header, e, view) {
+
+        if (e.detail.secondaryHeaderFeatures === false) {
+            headerRight.classList.add('hide');
+        } else {
+            headerRight.classList.remove('hide');
         }
     }
 
@@ -368,13 +360,8 @@
         updateMenuButton(e, e.target);
 
         updateHeaderBackground(this, e, e.target);
+        updateRightHeader(this, e, e.target);
         updateTitle(this, e, e.target);
-
-        var apiClient = getCurrentApiClient();
-
-        if (requiresUserRefresh && apiClient) {
-            apiClient.getCurrentUser().then(updateUserInHeader);
-        }
     }
 
     function clearTabs() {
@@ -390,7 +377,7 @@
 
             headerLeft.classList.add('headerPartFixedWidth');
             headerRight.classList.add('headerPartFixedWidth');
-       } else {
+        } else {
             headerLeft.classList.remove('headerPartFixedWidth');
             headerRight.classList.remove('headerPartFixedWidth');
             clearTabs();

@@ -1,8 +1,6 @@
 ﻿.pageTitle {
-    padding: .35em 0 0;
     vertical-align: middle;
     margin: 0 0 0 .25em;
-    height: 1.7em;
     align-items: center;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -15,6 +13,7 @@
     background-repeat: no-repeat;
     width: 13.2em;
     height: 1.6em;
+    margin-left: .5em;
 }
 
 .pageTitleWithDefaultLogo {
@@ -48,7 +47,7 @@
 }
 
 .withSectionTabs .headerTop {
-    padding: .7em 0 3.82em;
+    padding: .8em 0 3.82em;
 }
 
 @media all and (min-width: 120em) {
@@ -92,7 +91,7 @@
 }
 
 .headerClock {
-    margin: 0 1em;
+    margin: 0 1em 0 .5em;
     display: inline-block;
     vertical-align: middle;
 }
@@ -150,5 +149,12 @@
 
     .headerMenuButton, .headerManageServerButton {
         display: none;
+    }
+}
+
+@media all and (max-width: 48em) {
+
+    .btnHeaderPremiere {
+        display: none !important;
     }
 }

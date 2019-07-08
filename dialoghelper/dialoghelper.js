@@ -124,9 +124,12 @@
             dlg.classList.add('centeredDialog');
         }
 
+        if (!dlg.classList.contains('dialog-fullscreen')) {
+            addBackdropOverlay(dlg);
+        }
+
         dlg.classList.remove('hide');
 
-        addBackdropOverlay(dlg);
 
         dlg.classList.add('opened');
         dlg.dispatchEvent(new CustomEvent('open', {

@@ -33,3 +33,10 @@ h3 {
 .layout-tv {
     font-size: 2.5vh;
 }
+
+@media all and (min-width: 50em) {
+
+    h1 {
+        font-size: 2em;
+    }
+}

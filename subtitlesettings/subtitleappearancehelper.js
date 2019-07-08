@@ -71,7 +71,7 @@ define([], function () {
                 break;
             default:
             case 'dropshadow':
-                list.push({ name: 'text-shadow', value: '#000000 0px 0px 7px' });
+                list.push({ name: 'text-shadow', value: '#000000 0 0 .5em' });
                 break;
         }
 
