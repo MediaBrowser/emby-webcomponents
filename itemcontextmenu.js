@@ -13,8 +13,8 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         var apiClient = connectionManager.getApiClient(item);
 
-        var restrictOptions = ((browser.operaTv || browser.web0s) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816' && !user.Policy.IsAdministrator)
-            || (browser.tizen && !browser.tizenSideload);
+        var restrictOptions = ((browser.operaTv || browser.web0s) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816' && !user.Policy.IsAdministrator) ||
+            (browser.tizen && !browser.tizenSideload);
 
         if (canPlay && item.MediaType !== 'Photo' && item.Type !== 'Program') {
             if (options.play !== false) {

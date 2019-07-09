@@ -856,6 +856,6 @@
     "LabelExtras": "Extras:",
     "LabelThemeSongs": "Canciones de Tema:",
     "LabelThemeVideos": "V\u00eddeos de Tema:",
-    "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
-    "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added."
+    "CustomRatingHelp": "Una clasificaci\u00f3n personalizada es usada para la evaluaci\u00f3n del control parental pero no es mostrada. El campo del clasificaci\u00f3n personal se continuara mostrando.",
+    "KeepUpToHelp": "Las grabaciones por encima del limite son eliminadas cuando la siguiente grabaci\u00f3n inicie. Las grabaciones mas antiguas ser\u00e1n eliminadas primero, seg\u00fan la fecha en que se agregaron."
 }

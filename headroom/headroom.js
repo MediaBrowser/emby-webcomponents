@@ -37,7 +37,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         this.elems = elems;
 
         this.scrollElementForEvents = options.scroller || window;
-        this.scroller = options.scroller || document.scrollingElement || this.scrollElementForEvents;
+        this.scroller = /*options.scroller || document.scrollingElement ||*/ this.scrollElementForEvents;
 
         this.debouncer = this.update.bind(this);
         this.offset = options.offset;

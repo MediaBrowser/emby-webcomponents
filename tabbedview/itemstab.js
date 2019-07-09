@@ -201,7 +201,7 @@
 
             if (opt.selected) {
 
-                var icon = currentValues.sortOrder === 'Descending' ? '&#xE5DB;' : '&#xE5D8;';;
+                var icon = currentValues.sortOrder === 'Descending' ? '&#xE5DB;' : '&#xE5D8;';
 
                 opt.asideIcon = icon;
                 break;
