@@ -99,6 +99,10 @@
     padding-bottom: 1em;
 }
 
+.padded-bottom-page, .tabContent {
+    padding-bottom: 14em;
+}
+
 .layout-tv .padded-top-focusscale {
     padding-top: 1em;
     margin-top: -1em;

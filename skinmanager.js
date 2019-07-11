@@ -19,60 +19,35 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             })[0];
         }
 
-        var unloadPromise;
-
         if (currentSkin) {
 
             if (currentSkin.id === newSkin.id) {
                 // Nothing to do, it's already the active skin
                 return Promise.resolve(currentSkin);
             }
-            unloadPromise = unloadSkin(currentSkin);
-        } else {
-            unloadPromise = Promise.resolve();
         }
 
-        return unloadPromise.then(function () {
-            var deps = newSkin.getDependencies();
+        var deps = newSkin.getDependencies();
 
-            console.log('Loading skin dependencies');
+        console.log('Loading skin dependencies');
 
-            return require(deps).then(function () {
+        return require(deps).then(function () {
 
-                console.log('Skin dependencies loaded');
+            console.log('Skin dependencies loaded');
 
-                var strings = newSkin.getTranslations ? newSkin.getTranslations() : [];
+            var strings = newSkin.getTranslations ? newSkin.getTranslations() : [];
 
-                return globalize.loadStrings({
+            return globalize.loadStrings({
 
-                    name: newSkin.id,
-                    strings: strings
+                name: newSkin.id,
+                strings: strings
 
-                }).then(function () {
+            }).then(function () {
 
-                    currentSkin = newSkin;
-                    newSkin.load();
-                    return newSkin;
-                });
+                currentSkin = newSkin;
+                newSkin.load();
+                return newSkin;
             });
-        });
-    }
-
-    function unloadSkin(skin) {
-
-        unloadTheme();
-        backdrop.clear();
-
-        console.log('Unloading skin: ' + skin.name);
-
-        // TODO: unload css
-
-        return skin.unload().then(function () {
-            document.dispatchEvent(new CustomEvent("skinunload", {
-                detail: {
-                    name: skin.name
-                }
-            }));
         });
     }
 

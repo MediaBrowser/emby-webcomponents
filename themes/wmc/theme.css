@@ -466,3 +466,7 @@ html {
     color: #000;
     background: rgba(255,255,255,.9);
 }
+
+.recordingIcon-active {
+    color: #cc3333 !important;
+}

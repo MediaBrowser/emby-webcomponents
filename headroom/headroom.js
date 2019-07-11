@@ -87,9 +87,11 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
         add: function (elem) {
 
-            if (browser.supportsCssAnimation()) {
+            var elems = this.elems;
+
+            if (browser.supportsCssAnimation() && elems.indexOf(elem) === -1) {
                 this.initElem(elem);
-                this.elems.push(elem);
+                elems.push(elem);
             }
         },
 
@@ -154,7 +156,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             this.scrollElementForEvents = null;
             this.scroller = null;
-       },
+        },
 
         /**
          * Attaches the scroll event

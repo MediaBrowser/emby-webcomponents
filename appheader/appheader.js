@@ -1,4 +1,4 @@
-﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events) {
+﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'headroom-window', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, windowHeadroom) {
     'use strict';
 
     var skinHeaderElement = document.querySelector('.skinHeader');
@@ -320,12 +320,15 @@
 
     function updateTitle(header, e, view) {
 
-        var title = e.title || view.getAttribute('data-title');
-
-        if (title) {
-            header.setTitle(title);
-        } else if (view.classList.contains('standalonePage')) {
+        if (e.detail.defaultTitle) {
             header.setDefaultTitle();
+        }
+        else {
+            var title = e.detail.title || view.getAttribute('data-title');
+
+            if (title) {
+                header.setTitle(title);
+            }
         }
     }
 
@@ -338,16 +341,17 @@
         }
     }
 
-    function updateHeaderBackground(header, e, view) {
-
-        header.setTransparent(e.detail.transparentHeader);
-    }
-
     function onViewShow(e) {
 
         var skinHeader = skinHeaderElement;
 
-        if (e.detail.autoHideHeader === false) {
+        if (e.detail.autoHideHeader) {
+            windowHeadroom.add(skinHeader);
+        } else {
+            windowHeadroom.remove(skinHeader);
+        }
+
+        if (e.detail.headerBackground === false) {
             skinHeader.classList.remove('skinHeader-withBackground');
         }
 
@@ -359,7 +363,8 @@
         updateHomeButton(e);
         updateMenuButton(e, e.target);
 
-        updateHeaderBackground(this, e, e.target);
+        this.setTransparent(e.detail.transparentHeader);
+
         updateRightHeader(this, e, e.target);
         updateTitle(this, e, e.target);
     }
@@ -387,7 +392,7 @@
             cancelable: false
         }));
 
-        if (e.detail.autoHideHeader !== false) {
+        if (e.detail.headerBackground !== false) {
             skinHeader.classList.add('skinHeader-withBackground');
         }
     }
@@ -463,14 +468,6 @@
         document.removeEventListener('viewshow', onViewShow);
     }
 
-    function initHeadRoom(elem) {
-
-        require(["headroom-window"], function (headroom) {
-
-            headroom.add(elem);
-        });
-    }
-
     function render(instance) {
 
         instance.element = skinHeaderElement;
@@ -483,8 +480,6 @@
 
             bindEvents(instance);
             setRemoteControlVisibility();
-
-            initHeadRoom(instance.element);
 
             instance.loadClock();
         });

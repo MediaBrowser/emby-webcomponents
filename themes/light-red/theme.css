@@ -502,3 +502,7 @@ html, .backgroundContainer {
     color: #fff;
     background: rgba(0,0,0,.9);
 }
+
+.recordingIcon-active {
+    color: #cc3333 !important;
+}

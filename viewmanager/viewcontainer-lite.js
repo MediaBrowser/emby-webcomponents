@@ -247,18 +247,9 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
         }));
     }
 
-    function reset() {
-
-        allPages = [];
-        currentUrls = [];
-        mainAnimatedPages.innerHTML = '';
-        selectedPageIndex = -1;
-    }
-
     return {
         loadView: loadView,
         tryRestoreView: tryRestoreView,
-        reset: reset,
         setOnBeforeChange: setOnBeforeChange
     };
 });

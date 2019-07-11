@@ -119,13 +119,6 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
         };
     }
 
-    function resetCachedViews() {
-        // Reset all cached views whenever the skin changes
-        viewcontainer.reset();
-    }
-
-    document.addEventListener('skinunload', resetCachedViews);
-
     function ViewManager() {
     }
 
