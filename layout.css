@@ -1,0 +1,17 @@
+.layout-tv, .layout-mobile {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.transparentDocument, .backgroundContainer-transparent:not(.withBackdrop) {
+    background: none !important;
+    background-color: transparent !important;
+}
+
+.mainAnimatedPages {
+    contain: style;
+}
