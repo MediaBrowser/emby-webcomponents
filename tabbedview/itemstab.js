@@ -1032,10 +1032,10 @@
             sortBy.push(option);
         }
 
-        sortBy.push({
-            name: globalize.translate('ReleaseDate'),
-            value: 'PremiereDate,ProductionYear,SortName'
-        });
+        option = this.getReleaseDateSortOption();
+        if (option) {
+            sortBy.push(option);
+        }
 
         sortBy.push({
             name: globalize.translate('Runtime'),
@@ -1052,6 +1052,14 @@
         return {
             name: globalize.translate('Title'),
             value: 'SortName'
+        };
+    };
+
+    ItemsTab.prototype.getReleaseDateSortOption = function () {
+
+        return {
+            name: globalize.translate('ReleaseDate'),
+            value: 'PremiereDate,ProductionYear,SortName'
         };
     };
 

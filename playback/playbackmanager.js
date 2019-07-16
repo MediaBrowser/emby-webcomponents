@@ -1844,7 +1844,7 @@
 
         function translateItemsForPlayback(items, options) {
 
-            var firstItem = items[0];
+            var firstItem = items[options.startIndex || 0];
             var promise;
 
             var serverId = firstItem.ServerId;

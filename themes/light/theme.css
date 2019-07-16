@@ -313,7 +313,7 @@ html, .backgroundContainer {
 }
 
 .emby-tab-button-active.emby-button-tv {
-    color: #fff;
+    color: rgba(0, 0, 0, .9);
 }
 
 .emby-tab-button.emby-button-tv:focus {

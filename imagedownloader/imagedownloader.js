@@ -61,7 +61,19 @@
 
     function renderRemoteImages(page, apiClient, imagesResult, imageType, startIndex, limit) {
 
-        page.querySelector('.availableImagesPaging').innerHTML = getPagingHtml(startIndex, limit, imagesResult.TotalRecordCount);
+        var totalRecordCount = imagesResult.TotalRecordCount;
+        var recordsEnd = Math.min(startIndex + limit, totalRecordCount);
+
+        page.querySelector('.pagingText').innerHTML = (totalRecordCount ? startIndex + 1 : 0) + '-' + recordsEnd + ' of ' + totalRecordCount;
+
+        var pagingButtonsHtml = '';
+
+        if (totalRecordCount > limit) {
+
+            pagingButtonsHtml += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><i class="md-icon">&#xE5C4;</i></button>';
+            pagingButtonsHtml += '<button is="paper-icon-button-light" title="' + globalize.translate('Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><i class="md-icon">arrow_forward</i></button>';
+        }
+        page.querySelector('.pagingButtons').innerHTML = pagingButtonsHtml;
 
         var html = '';
 
@@ -90,37 +102,6 @@
             });
         }
 
-    }
-
-    function getPagingHtml(startIndex, limit, totalRecordCount) {
-
-        var html = '';
-
-        var recordsEnd = Math.min(startIndex + limit, totalRecordCount);
-
-        // 20 is the minimum page size
-        var showControls = totalRecordCount > limit;
-
-        html += '<div class="listPaging">';
-
-        html += '<span style="margin-right: 10px;">';
-
-        var startAtDisplay = totalRecordCount ? startIndex + 1 : 0;
-        html += startAtDisplay + '-' + recordsEnd + ' of ' + totalRecordCount;
-
-        html += '</span>';
-
-        if (showControls) {
-            html += '<div data-role="controlgroup" data-type="horizontal" style="display:inline-block;">';
-
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Previous') + '" class="btnPreviousPage autoSize" ' + (startIndex ? '' : 'disabled') + '><i class="md-icon">&#xE5C4;</i></button>';
-            html += '<button is="paper-icon-button-light" title="' + globalize.translate('Next') + '" class="btnNextPage autoSize" ' + (startIndex + limit >= totalRecordCount ? 'disabled' : '') + '><i class="md-icon">arrow_forward</i></button>';
-            html += '</div>';
-        }
-
-        html += '</div>';
-
-        return html;
     }
 
     function parentWithClass(elem, className) {

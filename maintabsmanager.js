@@ -78,6 +78,10 @@
         });
     }
 
+    function defaultGetTabContainersFn() {
+        return [];
+    }
+
     function setTabs(view, selectedIndex, getTabsFn, getTabContainersFn, onBeforeTabChange, onTabChange, setSelectedIndex) {
 
         if (!view) {
@@ -146,6 +150,8 @@
             tabOwnerView = view;
 
             tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');
+
+            getTabContainersFn = getTabContainersFn || defaultGetTabContainersFn;
 
             configureSwipeTabs(view, tabsElem, getTabContainersFn);
 

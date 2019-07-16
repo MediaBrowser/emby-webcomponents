@@ -67,7 +67,7 @@
 
         if (userImageUrl) {
 
-            headerUserButton.innerHTML = '<img class="headerUserButtonImage" src="' + userImageUrl + '" />';
+            headerUserButton.innerHTML = '<img class="headerUserButtonImage paper-icon-button-img" src="' + userImageUrl + '" />';
 
         } else {
             headerUserButton.innerHTML = '<i class="md-icon">&#xE7FD;</i>';
@@ -345,12 +345,6 @@
 
         var skinHeader = skinHeaderElement;
 
-        if (e.detail.autoHideHeader) {
-            windowHeadroom.add(skinHeader);
-        } else {
-            windowHeadroom.remove(skinHeader);
-        }
-
         if (e.detail.headerBackground === false) {
             skinHeader.classList.remove('skinHeader-withBackground');
         }
@@ -358,6 +352,12 @@
         skinHeader.dispatchEvent(new CustomEvent('forceclearheadroom', {
             cancelable: false
         }));
+
+        if (e.detail.autoHideHeader) {
+            windowHeadroom.add(skinHeader);
+        } else {
+            windowHeadroom.remove(skinHeader);
+        }
 
         updateBackButton(e);
         updateHomeButton(e);
