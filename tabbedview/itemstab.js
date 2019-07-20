@@ -334,7 +334,12 @@
 
     function play() {
 
-        this.fetchData().then(function (result) {
+        this.fetchData({
+
+            Limit: 300
+
+        }).then(function (result) {
+
             playbackManager.play({
                 items: result.Items || result
             });
@@ -345,7 +350,8 @@
 
         this.fetchData({
 
-            SortBy: 'Random'
+            SortBy: 'Random',
+            Limit: 300
 
         }).then(function (result) {
             playbackManager.play({

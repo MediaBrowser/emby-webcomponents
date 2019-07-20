@@ -5,7 +5,13 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
 
         if (options.index === 'disc') {
 
-            return item.ParentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', item.ParentIndexNumber);
+            var parentIndexNumber = item.ParentIndexNumber;
+
+            if (parentIndexNumber === 1) {
+                return '';
+            }
+
+            return parentIndexNumber == null ? '' : globalize.translate('ValueDiscNumber', parentIndexNumber);
         }
 
         return '';
@@ -136,9 +142,6 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
         var enableContentWrapper = options.enableOverview && !layoutManager.tv;
         var containerAlbumArtistIds = (options.containerAlbumArtists || []).map(getId);
 
-        var isFirstGroup = true;
-        var hideFirstGroupHeader = true;
-
         for (var i = 0, length = items.length; i < length; i++) {
 
             var item = items[i];
@@ -155,19 +158,15 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
                         html += '</div>';
                     }
 
-                    if (!isFirstGroup || !hideFirstGroupHeader) {
-                        if (i === 0) {
-                            html += '<h2 class="listGroupHeader listGroupHeader-first">';
-                        }
-                        else {
-                            html += '<h2 class="listGroupHeader">';
-                        }
-
-                        html += itemGroupTitle;
-                        html += '</h2>';
+                    if (i === 0) {
+                        html += '<h2 class="listGroupHeader listGroupHeader-first">';
+                    }
+                    else {
+                        html += '<h2 class="listGroupHeader">';
                     }
 
-                    isFirstGroup = false;
+                    html += itemGroupTitle;
+                    html += '</h2>';
 
                     html += '<div>';
 

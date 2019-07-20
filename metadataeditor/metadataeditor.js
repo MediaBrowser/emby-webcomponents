@@ -121,6 +121,7 @@
             AirTime: form.querySelector('#txtAirTime').value,
             Genres: getListValues(form.querySelector("#listGenres")),
             Tags: getListValues(form.querySelector("#listTags")),
+            TagItems: getListValues(form.querySelector("#listTags")).map(function (element) { return { Name: element }; }),
             Studios: getListValues(form.querySelector("#listStudios")).map(function (element) { return { Name: element }; }),
 
             PremiereDate: getDateValue(form, '#txtPremiereDate', 'PremiereDate'),
@@ -737,7 +738,11 @@
 
         populateListView(context.querySelector('#listStudios'), (item.Studios || []).map(function (element) { return element.Name || ''; }));
 
-        populateListView(context.querySelector('#listTags'), item.Tags);
+        if (item.TagItems) {
+            populateListView(context.querySelector('#listTags'), item.TagItems.map(function (element) { return element.Name || ''; }));
+        } else {
+            populateListView(context.querySelector('#listTags'), item.Tags);
+        }
 
         var lockData = (item.LockData || false);
         var chkLockData = context.querySelector("#chkLockData");

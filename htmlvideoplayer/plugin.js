@@ -613,9 +613,9 @@
 
                     return htmlMediaHelper.applySrc(elem, val, options).then(function () {
 
-                        if (browser.web0s && options.playMethod === 'DirectStream') {
-                            checkFailedPlayback(elem);
-                        }
+                        //if (browser.web0s && options.playMethod === 'DirectStream') {
+                        //    checkFailedPlayback(elem);
+                        //}
 
                         setTracks(elem, tracksHtml);
 

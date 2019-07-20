@@ -278,7 +278,7 @@ button {
 }
 
 .visualCardBox {
-    box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 0.06933em 0.06933em 0 rgba(0,0,0,0.14), 0 0.13866em 0.06933em -0.06933em rgba(0,0,0,0.12), 0 0.06933em 0.208em 0 rgba(0,0,0,0.2);
     border-radius: .145em;
 }
 
