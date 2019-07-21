@@ -24,24 +24,48 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
         }
     }
 
+    function uninstallPlugin(item, apiClient, options) {
+
+        return require(['confirm']).then(function (responses) {
+
+            var confirm = responses[0];
+
+            return confirm({
+
+                text: globalize.translate('UninstallPluginConfirmation'),
+                title: globalize.translate('HeaderUninstallPlugin'),
+                confirmText: globalize.translate('Uninstall'),
+                primary: 'cancel'
+
+            }).then(function () {
+
+                return ApiClient.uninstallPlugin(item.Id).then(function () {
+
+                    return onItemDeleted(options);
+                });
+            });
+
+        });
+    }
+
     function deleteUser(item, apiClient, options) {
 
         return require(['confirm']).then(function (responses) {
 
             var confirm = responses[0];
 
-            confirm({
+            return confirm({
 
-                text: globalize.translate('DeleteUserConfirmation'),
+                text: globalize.translate('DeleteUserConfirmation', item.Name),
                 title: globalize.translate('HeaderDeleteUser'),
                 confirmText: globalize.translate('Delete'),
                 primary: 'cancel'
 
             }).then(function () {
 
-                ApiClient.deleteUser(item.Id).then(function () {
+                return ApiClient.deleteUser(item.Id).then(function () {
 
-                    onItemDeleted(options);
+                    return onItemDeleted(options);
                 });
             });
 
@@ -54,7 +78,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
 
             var confirm = responses[0];
 
-            confirm({
+            return confirm({
 
                 text: globalize.translate('DeleteDeviceConfirmation'),
                 title: globalize.translate('HeaderDeleteDevice'),
@@ -63,7 +87,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
 
             }).then(function () {
 
-                apiClient.ajax({
+                return apiClient.ajax({
                     type: "DELETE",
                     url: apiClient.getUrl('Devices', {
                         Id: item.Id
@@ -71,7 +95,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
 
                 }).then(function () {
 
-                    onItemDeleted(options);
+                    return onItemDeleted(options);
                 });
             });
 
@@ -89,6 +113,10 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
 
         if (item.Type === 'User') {
             return deleteUser(item, apiClient, options);
+        }
+
+        if (item.Type === 'Plugin') {
+            return uninstallPlugin(item, apiClient, options);
         }
 
         var itemId = item.Id;
@@ -118,7 +146,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
 
                 return apiClient.deleteItem(itemId).then(function () {
 
-                    onItemDeleted(options, serverId, parentId);
+                    return onItemDeleted(options, serverId, parentId);
 
                 }, function (err) {
 

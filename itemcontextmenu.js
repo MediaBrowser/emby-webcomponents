@@ -268,6 +268,13 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
+        if (item.Type === 'Plugin' && user.Policy.IsAdministrator) {
+            commands.push({
+                name: globalize.translate('Uninstall'),
+                id: 'delete'
+            });
+        }
+
         if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
             commands.push({
                 name: globalize.translate('ViewAlbum'),

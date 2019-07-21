@@ -834,7 +834,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 if (options.showUserLastSeen) {
-                    lines.push(item.LastActivityDate ? humanedate(item.LastActivityDate) : '');
+
+                    if (item.Policy.IsDisabled) {
+                        lines.push(globalize.translate('Disabled'));
+                    } else {
+                        lines.push(item.LastActivityDate ? humanedate(item.LastActivityDate) : '');
+                    }
                 }
 
                 if (options.showDeviceAppInfo) {
@@ -1008,6 +1013,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (item.MediaType === 'Photo' || itemType === 'PhotoAlbum' || itemType === 'Folder' || itemType === 'Program' || itemType === 'Recording' || itemType === 'TvChannel') {
                     cardImageContainerClass += ' coveredImage-noScale';
                 }
+            }
+
+            if (item.Policy && item.Policy.IsDisabled) {
+                cardImageContainerClass += ' grayscaleImage';
             }
 
             if (options.paddedImage) {
@@ -1192,6 +1201,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 var refreshClass = item.RefreshProgress ? '' : ' class="hide"';
                 indicatorsHtml += '<div is="emby-itemrefreshindicator"' + refreshClass + ' data-progress="' + (item.RefreshProgress || 0) + '" data-status="' + item.RefreshStatus + '"></div>';
                 requireRefreshIndicator();
+            }
+            else if (itemType === 'User' && item.ConnectLinkType) {
+
+                indicatorsHtml += '<div title="' + globalize.translate('TooltipLinkedToEmbyConnect') + '" class="playedIndicator indicator"><i class="md-icon indicatorIcon">cloud</i></div>';
             }
 
             if (indicatorsHtml) {

@@ -79,6 +79,10 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
         var apiClient = connectionManager.getApiClient(serverId);
 
+        if (type === 'User') {
+            return apiClient.getUser(id);
+        }
+
         if (type === 'Device' || type === 'User' || type === 'Plugin') {
             return Promise.resolve({ Id: id, Type: type, ServerId: serverId });
         }

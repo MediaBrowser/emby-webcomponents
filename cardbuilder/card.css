@@ -228,6 +228,11 @@ button {
     background-size: auto 70%;
 }
 
+.grayscaleImage {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
 .visualCardBox .cardContent {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
