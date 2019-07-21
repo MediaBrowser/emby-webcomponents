@@ -121,6 +121,20 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
+        if (user.Policy.IsAdministrator && item.Type === 'User') {
+            commands.push({
+                name: globalize.translate('Delete'),
+                id: 'delete'
+            });
+        }
+
+        if (user.Policy.IsAdministrator && item.Type === 'Device' && item.Id !== apiClient.deviceId()) {
+            commands.push({
+                name: globalize.translate('Delete'),
+                id: 'delete'
+            });
+        }
+
         if (item.CanDelete && options.deleteItem !== false) {
 
             if (item.Type === 'Playlist' || item.Type === 'BoxSet') {
@@ -158,7 +172,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
                 if (options.edit !== false && item.Type !== 'SeriesTimer') {
 
-                    var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+                    var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer' || item.Type === 'User') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
 
                     commands.push({
                         name: text,
@@ -592,7 +606,11 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             var serverId = apiClient.serverInfo().Id;
 
-            if (item.Type === 'Timer') {
+            if (item.Type === 'Device' || item.Type === 'User') {
+
+                appRouter.showItem(item);
+
+            } else if (item.Type === 'Timer') {
                 require(['recordingEditor'], function (recordingEditor) {
 
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);

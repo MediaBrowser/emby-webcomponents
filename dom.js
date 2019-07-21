@@ -198,6 +198,11 @@ define([], function () {
         return _transitionEvent;
     }
 
+    function supportsEventListenerOnce() {
+
+        return supportsCaptureOption;
+    }
+
     return {
         parentWithAttribute: parentWithAttribute,
         parentWithClass: parentWithClass,
@@ -208,6 +213,7 @@ define([], function () {
         whichTransitionEvent: whichTransitionEvent,
         whichAnimationEvent: whichAnimationEvent,
         whichAnimationCancelEvent: whichAnimationCancelEvent,
-        htmlEncode: htmlEncode
+        htmlEncode: htmlEncode,
+        supportsEventListenerOnce: supportsEventListenerOnce
     };
 });

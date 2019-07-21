@@ -10,7 +10,7 @@
             return false;
         }
 
-        return browser.supportsCssAnimation();
+        return browser.supportsCssAnimation() && dom.supportsEventListenerOnce();
     }
 
     function removeCenterFocus(dlg) {
@@ -253,13 +253,7 @@
 
         if (enableAnimation()) {
 
-            var onFinish = function () {
-                dom.removeEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                    once: true
-                });
-                onAnimationFinish();
-            };
-            dom.addEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
+            dom.addEventListener(dlg, dom.whichAnimationEvent(), onAnimationFinish, {
                 once: true
             });
             return;
@@ -289,17 +283,12 @@
                     animated = false;
                     break;
             }
-            var onFinish = function () {
-                dom.removeEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                    once: true
-                });
-                onAnimationFinish();
-            };
-            dom.addEventListener(dlg, dom.whichAnimationEvent(), onFinish, {
-                once: true
-            });
 
             if (animated) {
+                dom.addEventListener(dlg, dom.whichAnimationEvent(), onAnimationFinish, {
+                    once: true
+                });
+
                 return;
             }
         }

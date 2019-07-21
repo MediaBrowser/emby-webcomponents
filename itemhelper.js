@@ -267,7 +267,13 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 }
             }
 
-            if (itemType === 'Genre' || itemType === 'MusicGenre' || itemType === 'GameGenre' || itemType === 'Studio') {
+            if (itemType === 'Genre' ||
+                itemType === 'MusicGenre' ||
+                itemType === 'GameGenre' ||
+                itemType === 'Studio' ||
+                itemType === 'Device' ||
+                itemType === 'User' ||
+                itemType === 'Plugin') {
                 return false;
             }
 
@@ -399,7 +405,18 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             var type = item.Type;
-            if (type === 'TvChannel' || type === 'Channel' || type === 'Person' || type === 'Year' || type === 'Program' || type === 'Timer' || type === 'SeriesTimer' || type === 'GameGenre' || type === 'PlaylistsFolder') {
+            if (type === 'TvChannel' ||
+                type === 'Channel' ||
+                type === 'Person' ||
+                type === 'Year' ||
+                type === 'Program' ||
+                type === 'Timer' ||
+                type === 'SeriesTimer' ||
+                type === 'GameGenre' ||
+                type === 'PlaylistsFolder' ||
+                type === 'Device' ||
+                type === 'User' ||
+                type === 'Plugin') {
                 return false;
             }
 
@@ -416,6 +433,14 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
                 var collectionType = item.CollectionType;
                 if (collectionType === 'livetv') {
+                    return false;
+                }
+
+                var itemType = item.Type;
+
+                if (itemType === 'Device' ||
+                    itemType === 'User' ||
+                    itemType === 'Plugin') {
                     return false;
                 }
 

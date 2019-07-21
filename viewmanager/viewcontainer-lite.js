@@ -18,7 +18,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
             return false;
         }
 
-        return browser.supportsCssAnimation();
+        return browser.supportsCssAnimation() && dom.supportsEventListenerOnce();
     }
 
     function findLastView(parent, className) {
@@ -175,14 +175,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
                 setAnimation(newAnimatedPage, 'view-slideleft ' + duration + 'ms ease-out normal both');
             }
 
-            var onAnimationComplete = function () {
-                dom.removeEventListener(newAnimatedPage, dom.whichAnimationEvent(), onAnimationComplete, {
-                    once: true
-                });
-                resolve();
-            };
-
-            dom.addEventListener(newAnimatedPage, dom.whichAnimationEvent(), onAnimationComplete, {
+            dom.addEventListener(newAnimatedPage, dom.whichAnimationEvent(), resolve, {
                 once: true
             });
         });

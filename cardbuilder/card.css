@@ -224,6 +224,10 @@ button {
     font-size: inherit;
 }
 
+.paddedImage {
+    background-size: auto 70%;
+}
+
 .visualCardBox .cardContent {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;

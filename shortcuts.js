@@ -79,6 +79,10 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
         var apiClient = connectionManager.getApiClient(serverId);
 
+        if (type === 'Device' || type === 'User' || type === 'Plugin') {
+            return Promise.resolve({ Id: id, Type: type, ServerId: serverId });
+        }
+
         if (type === 'Timer') {
             return apiClient.getLiveTvTimer(id);
         }
@@ -224,11 +228,8 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
         else if (action === 'play' || action === 'resume') {
 
-            var startPositionTicks = parseInt(card.getAttribute('data-positionticks') || '0');
-
             playbackManager.play({
                 ids: [playableItemId],
-                startPositionTicks: startPositionTicks,
                 serverId: serverId
             });
         }

@@ -1,60 +1,14 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browser'], function (datetime, imageLoader, connectionManager, layoutManager, browser) {
+define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browser', 'cardBuilder'], function (datetime, imageLoader, connectionManager, layoutManager, browser, cardBuilder) {
     'use strict';
 
-    function buildChapterCardsHtml(item, chapters, options) {
+    function setChapterProperties(item, chapter, index, options, apiClient) {
 
-        var className = 'card itemAction chapterCard';
+        chapter.ImageUrl = getImgUrl(item, chapter, index, options.width || 400, apiClient);
 
-        if (layoutManager.tv && (browser.animate || browser.edge)) {
-            className += ' card-focusscale';
-        }
-
-        var mediaStreams = ((item.MediaSources || [])[0] || {}).MediaStreams || [];
-        var videoStream = mediaStreams.filter(function (i) {
-            return i.Type === 'Video';
-        })[0] || {};
-
-        var shape = (options.backdropShape || 'overflowBackdrop');
-
-        if (videoStream.Width && videoStream.Height) {
-
-            if ((videoStream.Width / videoStream.Height) <= 1.2) {
-                shape = (options.squareShape || 'overflowSquare');
-            }
-            else if ((videoStream.Width / videoStream.Height) <= 1.4) {
-                shape = 'overflowFourThree';
-            }
-        }
-
-        className += ' ' + shape + 'Card';
-
-        if (options.block || options.rows) {
-            className += ' block';
-        }
-
-        var html = '';
-        var itemsInRow = 0;
-
-        var apiClient = connectionManager.getApiClient(item.ServerId);
-
-        for (var i = 0, length = chapters.length; i < length; i++) {
-
-            if (options.rows && itemsInRow === 0) {
-                html += '<div class="cardColumn">';
-            }
-
-            var chapter = chapters[i];
-
-            html += buildChapterCard(item, apiClient, chapter, i, options, className, shape);
-            itemsInRow++;
-
-            if (options.rows && itemsInRow >= options.rows) {
-                itemsInRow = 0;
-                html += '</div>';
-            }
-        }
-
-        return html;
+        chapter.Id = item.Id;
+        chapter.Type = item.Type;
+        chapter.ServerId = item.ServerId;
+        chapter.MediaType = item.MediaType;
     }
 
     function getImgUrl(item, chapter, index, maxWidth, apiClient) {
@@ -73,47 +27,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
         return null;
     }
 
-    function buildChapterCard(item, apiClient, chapter, index, options, className, shape) {
-
-        var imgUrl = getImgUrl(item, chapter, index, options.width || 400, apiClient);
-
-        var cardImageContainerClass = 'cardContent cardContent-shadow cardImageContainer chapterCardImageContainer';
-        if (options.coverImage) {
-            cardImageContainerClass += ' coveredImage';
-        }
-        var dataAttributes = ' data-action="play" data-isfolder="' + item.IsFolder + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-positionticks="' + chapter.StartPositionTicks + '"';
-        var cardImageContainer = imgUrl ? ('<div class="' + cardImageContainerClass + ' lazy" loading="lazy" style="background-image:url(' + imgUrl + ');">') : ('<div class="' + cardImageContainerClass + '">');
-
-        if (!imgUrl) {
-            cardImageContainer += '<i class="md-icon cardImageIcon">&#xE54D;</i>';
-        }
-
-        var cardBoxCssClass = 'cardBox';
-        var cardScalableClass = 'cardScalable';
-
-        if (layoutManager.tv) {
-            var enableFocusTransfrom = !browser.slow && !browser.edge;
-
-            cardScalableClass += ' card-focuscontent';
-
-            if (enableFocusTransfrom) {
-                cardBoxCssClass += ' cardBox-focustransform cardBox-withfocuscontent';
-            } else {
-                cardBoxCssClass += ' cardBox-withfocuscontent-large';
-                cardScalableClass += ' card-focuscontent-large';
-            }
-        }
-
-        var html = '<button type="button" class="' + className + '"' + dataAttributes + '><div class="' + cardBoxCssClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainer + '</div></div>';
-
-        html += '<div class="cardText cardTextCentered cardText-first">' + chapter.Name + '</div>';
-        html += '<div class="cardText cardTextCentered cardText-secondary">' + datetime.getDisplayRunningTime(chapter.StartPositionTicks) + '</div>';
-
-        html += '</div></button>';
-
-        return html;
-    }
-
     function buildChapterCards(item, chapters, options) {
 
         if (options.parentContainer) {
@@ -130,9 +43,40 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             }
         }
 
-        var html = buildChapterCardsHtml(item, chapters, options);
+        var apiClient = connectionManager.getApiClient(item.ServerId);
 
-        options.itemsContainer.innerHTML = html;
+        var mediaStreams = ((item.MediaSources || [])[0] || {}).MediaStreams || [];
+        var videoStream = mediaStreams.filter(function (i) {
+            return i.Type === 'Video';
+        })[0] || {};
+
+        var aspect = null;
+
+        if (videoStream.Width && videoStream.Height) {
+
+            aspect = videoStream.Width / videoStream.Height;
+        }
+
+        for (var i = 0, length = chapters.length; i < length; i++) {
+
+            chapters[i].PrimaryImageAspectRatio = aspect;
+
+            setChapterProperties(item, chapters[i], i, options, apiClient);
+        }
+
+        options.itemsContainer.innerHTML = cardBuilder.getCardsHtml(chapters, {
+
+            shape: 'autooverflow',
+            centerText: true,
+            overlayText: false,
+            showTitle: true,
+            showChapterTime: true,
+            multiSelect: false,
+            overlayMoreButton: false,
+            playedButton: false,
+            ratingButton: false,
+            moreButton: false
+        });
 
         imageLoader.lazyChildren(options.itemsContainer);
     }

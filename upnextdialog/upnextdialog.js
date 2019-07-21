@@ -210,7 +210,7 @@
     function onHideAnimationComplete(e) {
 
         var instance = this;
-        var elem = e.target;
+        var elem = e.currentTarget;
 
         elem.classList.add('hide');
 

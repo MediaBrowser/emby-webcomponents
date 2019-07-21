@@ -197,7 +197,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
 
             var playlistItemId = item.PlaylistItemId ? (' data-playlistitemid="' + item.PlaylistItemId + '"') : '';
 
-            var positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
+            var positionTicksData = item.StartPositionTicks ? (' data-positionticks="' + item.StartPositionTicks + '"') : '';
             var collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
             var playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
             var mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';

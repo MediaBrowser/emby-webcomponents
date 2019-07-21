@@ -1,5 +1,5 @@
-define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'playbackManager', 'itemShortcuts', 'css!./card', 'paper-icon-button-light', 'programStyles', 'embyProgressBarStyle'],
-    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts) {
+define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusManager', 'indicators', 'globalize', 'layoutManager', 'apphost', 'dom', 'browser', 'playbackManager', 'itemShortcuts', 'humanedate', 'css!./card', 'paper-icon-button-light', 'programStyles', 'embyProgressBarStyle', 'emby-checkbox', 'emby-playstatebutton', 'emby-ratingbutton'],
+    function (datetime, imageLoader, connectionManager, itemHelper, focusManager, indicators, globalize, layoutManager, appHost, dom, browser, playbackManager, itemShortcuts, humanedate) {
         'use strict';
 
         var devicePixelRatio = window.devicePixelRatio || 1;
@@ -257,6 +257,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function getCardImageUrl(item, apiClient, options, shape, uiAspect) {
 
+            if (item.ImageUrl) {
+                return {
+                    imgUrl: item.ImageUrl
+                };
+            }
+
             var imageItem = item.ProgramInfo || item;
             item = imageItem;
 
@@ -359,19 +365,44 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
 
+            } else if (item.ImageTag && item.Type === 'Plugin') {
+
+                imgUrl = apiClient.getUrl('Plugins/' + item.Id + '/Thumb', {
+                    maxHeight: height,
+                    maxWidth: width,
+                    tag: item.ImageTag
+                });
+
+                if (primaryImageAspectRatio) {
+                    if (uiAspect) {
+                        coverImage = (Math.abs(primaryImageAspectRatio - uiAspect) / uiAspect) <= coverImageTolerance;
+                    }
+                }
+
             } else if (item.PrimaryImageTag) {
 
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;
 
-                imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
-                    type: "Primary",
-                    maxHeight: height,
-                    maxWidth: width,
-                    tag: item.PrimaryImageTag
-                });
+                if (item.Type === 'User') {
 
-                if (options.preferThumb && options.showTitle !== false) {
-                    forceName = true;
+                    imgUrl = apiClient.getUserImageUrl(item.Id, {
+                        maxHeight: height,
+                        maxWidth: width,
+                        tag: item.PrimaryImageTag,
+                        type: "Primary"
+                    });
+
+                } else {
+                    imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId || item.Id || item.ItemId, {
+                        type: "Primary",
+                        maxHeight: height,
+                        maxWidth: width,
+                        tag: item.PrimaryImageTag
+                    });
+
+                    if (options.preferThumb && options.showTitle !== false) {
+                        forceName = true;
+                    }
                 }
 
                 if (primaryImageAspectRatio) {
@@ -593,7 +624,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== false) {
 
-                html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
+                //html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
             }
 
             var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
@@ -797,6 +828,31 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         lines.push('');
                     }
                 }
+
+                if (options.showChapterTime) {
+                    lines.push(datetime.getDisplayRunningTime(item.StartPositionTicks));
+                }
+
+                if (options.showUserLastSeen) {
+                    lines.push(item.LastActivityDate ? humanedate(item.LastActivityDate) : '');
+                }
+
+                if (options.showDeviceAppInfo) {
+                    lines.push(item.AppName + ' ' + item.AppVersion);
+                }
+
+                if (options.showVersion) {
+                    lines.push(item.Version || '');
+                }
+
+                if (options.showDeviceUserInfo) {
+                    var deviceHtml = '';
+                    if (item.LastUserName) {
+                        deviceHtml += item.LastUserName;
+                        deviceHtml += ', ' + humanedate(item.DateLastActivity);
+                    }
+                    lines.push(deviceHtml);
+                }
             }
 
             if ((showTitle || !imgUrl) && forceName && overlayText && lines.length === 1) {
@@ -952,6 +1008,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (item.MediaType === 'Photo' || itemType === 'PhotoAlbum' || itemType === 'Folder' || itemType === 'Program' || itemType === 'Recording' || itemType === 'TvChannel') {
                     cardImageContainerClass += ' coveredImage-noScale';
                 }
+            }
+
+            if (options.paddedImage) {
+                cardImageContainerClass += ' paddedImage';
             }
 
             if (options.defaultBackground) {
@@ -1176,7 +1236,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' card-withuserdata';
             }
 
-            var positionTicksData = item.UserData && item.UserData.PlaybackPositionTicks ? (' data-positionticks="' + item.UserData.PlaybackPositionTicks + '"') : '';
+            var positionTicks = item.StartPositionTicks;
+            var positionTicksData = positionTicks ? (' data-positionticks="' + positionTicks + '"') : '';
             var multiSelectData = options.multiSelect === false ? ' data-multiselect="false"' : '';
             var collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
             var playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
@@ -1208,7 +1269,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var itemId = item.Id;
 
             if (options.multiSelect !== false) {
-                require(['emby-checkbox']);
                 html += '<label data-action="multiselect" data-id="' + itemId + '" data-serverid="' + serverId + '"  class="chkCardSelectContainer cardOverlayButton cardOverlayButton-hover itemAction"><input class="chkCardSelect" is="emby-checkbox" type="checkbox" data-focushelper="false" /></label>';
             }
 
@@ -1222,27 +1282,24 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             //if (itemHelper.canEdit({ Policy: { IsAdministrator: true } }, item)) {
 
-            //    //require(['emby-playstatebutton']);
             //    html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="edit"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE254;</i></button>';
             //}
 
             var userData = item.UserData || {};
 
-            if (itemHelper.canMarkPlayed(item)) {
+            if (options.playedButton !== false && itemHelper.canMarkPlayed(item)) {
 
-                require(['emby-playstatebutton']);
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + itemId + '" data-serverid="' + serverId + '" data-itemtype="' + itemType + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5CA;</i></button>';
             }
 
-            if (itemHelper.canRate(item)) {
+            if (options.ratingButton !== false && itemHelper.canRate(item)) {
 
                 var likes = userData.Likes == null ? '' : userData.Likes;
 
-                require(['emby-ratingbutton']);
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + itemId + '" data-serverid="' + serverId + '" data-itemtype="' + itemType + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
             }
 
-            if (item.Type !== 'Program') {
+            if (options.moreButton !== false && item.Type !== 'Program') {
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5D3;</i></button>';
             }
 
@@ -1292,6 +1349,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
             if (itemType === 'Channel') {
                 return '&#xE2C7;';
+            }
+            if (itemType === 'Device') {
+                return 'devices';
+            }
+            if (itemType === 'User') {
+                return 'person';
             }
 
             if (defaultIcon === false) {
