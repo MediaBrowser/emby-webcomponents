@@ -166,6 +166,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
+        if (itemType === 'Plugin') {
+            return false;
+        }
+
         if (item.Type === 'Recording') {
             if (item.Status !== 'Completed') {
                 return false;

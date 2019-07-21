@@ -83,8 +83,12 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
             return apiClient.getUser(id);
         }
 
-        if (type === 'Device' || type === 'User' || type === 'Plugin') {
-            return Promise.resolve({ Id: id, Type: type, ServerId: serverId });
+        if (type === 'Plugin') {
+            return Promise.resolve(getItemInfoFromCard(button));
+        }
+
+        if (type === 'Device') {
+            return Promise.resolve(getItemInfoFromCard(button));
         }
 
         if (type === 'Timer') {
@@ -152,34 +156,49 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
     function getItemInfoFromCard(card) {
 
-        return {
+        var item = {
             Type: card.getAttribute('data-type'),
             Id: card.getAttribute('data-id'),
-            TimerId: card.getAttribute('data-timerid'),
-            CollectionType: card.getAttribute('data-collectiontype'),
-            ChannelId: card.getAttribute('data-channelid'),
-            SeriesId: card.getAttribute('data-seriesid'),
             ServerId: card.getAttribute('data-serverid'),
-            MediaType: card.getAttribute('data-mediatype'),
-            IsFolder: card.getAttribute('data-isfolder') === 'true',
-            UserData: {
-                PlaybackPositionTicks: parseInt(card.getAttribute('data-positionticks') || '0')
-            }
+            IsFolder: card.getAttribute('data-isfolder') === 'true'
         };
-    }
 
-    function showPlayMenu(card, target) {
+        var timerId = card.getAttribute('data-timerid');
+        if (timerId) {
+            item.TimerId = timerId;
+        }
 
-        var item = getItemInfoFromCard(card);
+        var collectionType = card.getAttribute('data-collectiontype');
+        if (collectionType) {
+            item.CollectionType = collectionType;
+        }
 
-        require(['playMenu'], function (playMenu) {
+        var channelId = card.getAttribute('data-channelid');
+        if (channelId) {
+            item.ChannelId = channelId;
+        }
 
-            playMenu.show({
+        var mediaType = card.getAttribute('data-mediatype');
+        if (mediaType) {
+            item.MediaType = mediaType;
+        }
 
-                item: item,
-                positionTo: target
-            });
-        });
+        var seriesId = card.getAttribute('data-seriesid');
+        if (seriesId) {
+            item.SeriesId = seriesId;
+        }
+
+        var configpageurl = card.getAttribute('data-configpageurl');
+        if (configpageurl) {
+            item.ConfigPageUrl = configpageurl;
+        }
+
+        var startpositionticks = card.getAttribute('data-startpositionticks');
+        if (startpositionticks) {
+            item.StartPositionTicks = parseInt(startpositionticks);
+        }
+
+        return item;
     }
 
     function sendToast(text) {
@@ -234,7 +253,8 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
             playbackManager.play({
                 ids: [playableItemId],
-                serverId: serverId
+                serverId: serverId,
+                startPositionTicks: item.StartPositionTicks
             });
         }
 
@@ -286,10 +306,6 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
             options.positionTo = target;
 
             showContextMenu(card, options);
-        }
-
-        else if (action === 'playmenu') {
-            showPlayMenu(card, target);
         }
 
         else if (action === 'edit') {

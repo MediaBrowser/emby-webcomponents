@@ -1,4 +1,5 @@
 {
+    "LinkedToEmbyConnect": "Linked to Emby Connect",
     "EmbyLoginTerms": "Emby est con\u00e7u pour vous aider \u00e0 g\u00e9rer votre m\u00e9diath\u00e8que personnelle, tels que vos photos et vid\u00e9os. Veuillez lire nos {0}conditions d'utilisation{1}. L'utilisation de tout logiciel Emby implique que vous acceptiez ces conditions.",
     "MessageUnableToConnectToServer": "Nous sommes dans l'impossibilit\u00e9 de nous connecter au serveur s\u00e9lectionn\u00e9. Veuillez v\u00e9rifier qu'il est op\u00e9rationnel et r\u00e9essayez.",
     "EmbyIntroMessage": "Avec Emby, vous pouvez facilement diffuser des vid\u00e9os, de la musique et des photos sur des t\u00e9l\u00e9phones intelligents, des tablettes et d'autres appareils depuis votre serveur Emby.",

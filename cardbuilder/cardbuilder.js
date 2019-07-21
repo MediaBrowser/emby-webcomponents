@@ -1112,28 +1112,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var overlayButtons = '';
             if (isLayoutMobile) {
 
-                //var overlayPlayButton = options.overlayPlayButton;
-
-                //if (overlayPlayButton == null && !options.overlayMoreButton && !options.overlayInfoButton && !options.cardLayout) {
-                //    overlayPlayButton = item.MediaType === 'Video';
-                //}
-
-                var btnCssClass = 'cardOverlayButton cardOverlayButton-br itemAction';
-
                 if (options.centerPlayButton) {
 
                     var playButtonAction = item.IsFolder ? 'resume' : (options.playAction || 'play');
-                    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayButton-centered" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+                    overlayButtons += '<button is="paper-icon-button-light" class="cardOverlayButton itemAction cardOverlayFab-primary" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
                 }
-
-                //if (overlayPlayButton && !item.IsPlaceHolder && (item.LocationType !== 'Virtual' || !item.MediaType || itemType === 'Program') && itemType !== 'Person') {
-                //    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="play"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
-                //}
-
-                //if (options.overlayMoreButton) {
-
-                //    overlayButtons += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon">&#xE5D3;</i></button>';
-                //}
             }
 
             if (options.showChildCountIndicator && item.ChildCount) {
@@ -1204,7 +1187,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
             else if (itemType === 'User' && item.ConnectLinkType) {
 
-                indicatorsHtml += '<div title="' + globalize.translate('TooltipLinkedToEmbyConnect') + '" class="playedIndicator indicator"><i class="md-icon indicatorIcon">cloud</i></div>';
+                indicatorsHtml += '<div title="' + globalize.translate('LinkedToEmbyConnect') + '" class="playedIndicator indicator"><i class="md-icon indicatorIcon">cloud</i></div>';
             }
 
             if (indicatorsHtml) {
@@ -1249,16 +1232,47 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' card-withuserdata';
             }
 
-            var positionTicks = item.StartPositionTicks;
-            var positionTicksData = positionTicks ? (' data-positionticks="' + positionTicks + '"') : '';
-            var multiSelectData = options.multiSelect === false ? ' data-multiselect="false"' : '';
-            var collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
-            var playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
-            var mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';
-            var collectionTypeData = item.CollectionType ? (' data-collectiontype="' + item.CollectionType + '"') : '';
-            var channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
-            var contextData = options.context ? (' data-context="' + options.context + '"') : '';
-            var parentIdData = options.parentId ? (' data-parentid="' + options.parentId + '"') : '';
+            var dataAttributes = '';
+
+            if (options.multiSelect === false) {
+                dataAttributes += ' data-multiselect="false"';
+            }
+
+            if (options.context) {
+                dataAttributes += ' data-context="' + options.context + '"';
+            }
+
+            if (options.parentId) {
+                dataAttributes += ' data-parentid="' + options.parentId + '"';
+            }
+
+            if (item.StartPositionTicks) {
+                dataAttributes += ' data-startpositionticks="' + item.StartPositionTicks + '"';
+            }
+
+            if (item.ConfigPageUrl) {
+                dataAttributes += ' data-configpageurl="' + item.ConfigPageUrl + '"';
+            }
+
+            if (item.ChannelId) {
+                dataAttributes += ' data-channelid="' + item.ChannelId + '"';
+            }
+
+            if (item.CollectionType) {
+                dataAttributes += ' data-collectiontype="' + item.CollectionType + '"';
+            }
+
+            if (item.MediaType) {
+                dataAttributes += ' data-mediatype="' + item.MediaType + '"';
+            }
+
+            if (options.collectionId) {
+                dataAttributes += ' data-collectionid="' + options.collectionId + '"';
+            }
+
+            else if (options.playlistId) {
+                dataAttributes += ' data-playlistid="' + options.playlistId + '"';
+            }
 
             var additionalCardContent = '';
 
@@ -1266,7 +1280,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
-            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + itemType + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + multiSelectData + playlistIdData + contextData + parentIdData + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + itemType + '"' + dataAttributes + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
         function getHoverMenuHtml(item, action, options) {

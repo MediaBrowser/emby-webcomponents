@@ -121,7 +121,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
-        if (user.Policy.IsAdministrator && item.Type === 'User') {
+        if (user.Policy.IsAdministrator && item.Type === 'User' && item.Id !== apiClient.getCurrentUserId()) {
             commands.push({
                 name: globalize.translate('Delete'),
                 id: 'delete'
@@ -236,6 +236,13 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             commands.push({
                 name: globalize.translate('RemoveFromCollection'),
                 id: 'removefromcollection'
+            });
+        }
+
+        if (item.Type === 'Plugin' && user.Policy.IsAdministrator && item.ConfigPageUrl) {
+            commands.push({
+                name: globalize.translate('Settings'),
+                id: 'open'
             });
         }
 
