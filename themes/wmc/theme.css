@@ -267,9 +267,11 @@ html {
     color: rgba(255, 255, 255, .7);
 }
 
-.navMenuOption:hover, .actionSheetMenuItem:hover {
-    background: #252528;
-    background: rgba(0, 0, 0, .2);
+@media(hover: hover) and (pointer: fine) {
+    .navMenuOption:hover, .actionSheetMenuItem:hover {
+        background: #252528;
+        background: rgba(0, 0, 0, .2);
+    }
 }
 
 .navMenuOption-selected {

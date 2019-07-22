@@ -853,7 +853,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (options.showDeviceUserInfo) {
                     var deviceHtml = '';
                     if (item.LastUserName) {
-                        deviceHtml += item.LastUserName;
+                        if (item.LastUserId) {
+                            deviceHtml += getTextActionButton({
+                                Id: item.LastUserId,
+                                Name: item.LastUserName,
+                                ServerId: serverId,
+                                Type: 'User'
+                            }, null, null, null, false);
+                        } else if (item.LastUserName) {
+                            deviceHtml += item.LastUserName;
+                        }
                         deviceHtml += ', ' + humanedate(item.DateLastActivity);
                     }
                     lines.push(deviceHtml);
@@ -885,7 +894,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getTextActionButton(item, text, serverId, parentId) {
+        function getTextActionButton(item, text, serverId, parentId, fullWidth) {
 
             if (!text) {
                 text = itemHelper.getDisplayName(item);
@@ -899,7 +908,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var parentIdData = parentId ? (' data-parentid="' + parentId + '"') : '';
 
-            var html = '<button' + parentIdData + ' title="' + text + '" ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton cardTextActionButton" data-action="link">';
+            var cssClass = fullWidth === false ? ' cardTextActionButton-autoWidth' : '';
+
+            var html = '<button' + parentIdData + ' title="' + text + '" ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton cardTextActionButton' + cssClass + '" data-action="link">';
             html += text;
             html += '</button>';
 

@@ -133,8 +133,10 @@ html, .backgroundContainer {
     color: #fff;
 }
 
-.actionSheetMenuItem:hover {
-    background-color: #ddd;
+@media(hover: hover) and (pointer: fine) {
+    .actionSheetMenuItem:hover {
+        background-color: #ddd;
+    }
 }
 
 .toast {
@@ -278,8 +280,10 @@ html, .backgroundContainer {
     background: #f2f2f2;
 }
 
-.navMenuOption:hover {
-    background: #e8e8e8;
+@media(hover: hover) and (pointer: fine) {
+    .navMenuOption:hover {
+        background: #e8e8e8;
+    }
 }
 
 .navMenuOption-selected {

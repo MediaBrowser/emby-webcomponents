@@ -149,8 +149,10 @@ html, .dialog {
     opacity: .5;
 }
 
-.actionSheetMenuItem:hover {
-    background-color: rgba(0,0,0, .5);
+@media(hover: hover) and (pointer: fine) {
+    .actionSheetMenuItem:hover {
+        background-color: rgba(0,0,0, .5);
+    }
 }
 
 .toast {
@@ -295,8 +297,10 @@ html, .dialog {
     background-color: #011432;
 }
 
-.navMenuOption:hover {
-    background: rgba(255,255,255,.1);
+@media(hover: hover) and (pointer: fine) {
+    .navMenuOption:hover {
+        background: rgba(255,255,255,.1);
+    }
 }
 
 .navMenuOption-selected {

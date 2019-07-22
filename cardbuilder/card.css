@@ -385,8 +385,14 @@ button {
     text-align: inherit;
 }
 
-.textActionButton:hover {
-    text-decoration: underline;
+.cardTextActionButton-autoWidth {
+    width: auto;
+}
+
+@media(hover: hover) and (pointer: fine) {
+    .textActionButton:hover {
+        text-decoration: underline;
+    }
 }
 
 .cardImageIcon {
@@ -462,9 +468,11 @@ button {
     transition: transform 200ms ease-out;
 }
 
+@media(hover: hover) and (pointer: fine) {
     .cardOverlayButton-centered:hover {
         transform: scale(1.2, 1.2);
     }
+}
 
 .bannerCard {
     width: 100%;
@@ -879,8 +887,10 @@ button {
         border-color: rgba(255,255,255,.8) !important;
     }
 
-.card-hoverable:hover .cardOverlayContainer {
-    opacity: 1;
+@media(hover: hover) and (pointer: fine) {
+    .card-hoverable:hover .cardOverlayContainer {
+        opacity: 1;
+    }
 }
 
 .cardOverlayButton-hover {
@@ -895,8 +905,10 @@ button {
     background: transparent !important;
 }
 
-.card-hoverable:hover .cardOverlayButton-hover {
-    opacity: 1;
+@media(hover: hover) and (pointer: fine) {
+    .card-hoverable:hover .cardOverlayButton-hover {
+        opacity: 1;
+    }
 }
 
 .cardOverlayFab-primary {

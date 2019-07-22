@@ -76,7 +76,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             playedButton: false,
             ratingButton: false,
             moreButton: false,
-            centerPlayButton: true
+            centerPlayButton: true,
+            action: 'play'
         });
 
         imageLoader.lazyChildren(options.itemsContainer);

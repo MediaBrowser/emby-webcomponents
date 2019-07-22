@@ -125,9 +125,11 @@
     display: flex;
 }
 
+@media(hover: hover) and (pointer: fine) {
     .listItemImageButton:hover {
         transform: scale(1.2, 1.2);
     }
+}
 
 .listItemImageButton-icon {
     background: rgba(0,0,0,.4);

@@ -94,8 +94,13 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
         var item = state.item;
 
         if (item && item.ServerId) {
-            loadThemeMedia(item);
-            return;
+
+            var itemType = item.Type;
+
+            if (itemType !== 'User' && itemType !== 'Plugin' && itemType !== 'Device') {
+                loadThemeMedia(item);
+                return;
+            }
         }
 
         if (e.detail.supportsThemeMedia) {
