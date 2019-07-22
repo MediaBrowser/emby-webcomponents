@@ -624,7 +624,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== false) {
 
-                //html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
+                html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
             }
 
             var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";

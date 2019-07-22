@@ -12,6 +12,8 @@
 
 .sectionTitle {
     margin-bottom: 1em;
+    display: flex;
+    align-items: center;
 }
 
 .sectionTitle-cards {

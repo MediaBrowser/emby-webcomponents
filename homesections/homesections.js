@@ -438,8 +438,7 @@
             }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('LatestFromLibrary', parent.Name);
-            html += '</h2>';
-            html += '<i class="md-icon">&#xE5CC;</i>';
+            html += '<i class="md-icon">&#xE5CC;</i></h2>';
             html += '</a>';
 
         } else {
@@ -558,8 +557,7 @@
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('downloads') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
                 html += globalize.translate('HeaderMyDownloads');
-                html += '</h2>';
-                html += '<i class="md-icon">&#xE5CC;</i>';
+                html += '<i class="md-icon">&#xE5CC;</i></h2>';
                 html += '</a>';
 
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('managedownloads') + '" class="sectionTitleIconButton"><i class="md-icon">&#xE8B8;</i></a>';
@@ -1009,8 +1007,7 @@
                     }) + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                     html += '<h2 class="sectionTitle sectionTitle-cards">';
                     html += globalize.translate('HeaderOnNow');
-                    html += '</h2>';
-                    html += '<i class="md-icon">&#xE5CC;</i>';
+                    html += '<i class="md-icon">&#xE5CC;</i></h2>';
                     html += '</a>';
 
                 } else {
@@ -1107,8 +1104,7 @@
             }) + '" class="button-flat button-flat-mini sectionTitleTextButton">';
             html += '<h2 class="sectionTitle sectionTitle-cards">';
             html += globalize.translate('HeaderNextUp');
-            html += '</h2>';
-            html += '<i class="md-icon">&#xE5CC;</i>';
+            html += '<i class="md-icon">&#xE5CC;</i></h2>';
             html += '</a>';
 
         } else {
