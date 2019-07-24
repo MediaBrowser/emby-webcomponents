@@ -479,11 +479,38 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
     function getShortcutAttributesHtml(item, serverId) {
 
-        var html = 'data-id="' + item.Id + '" data-serverid="' + (serverId || item.ServerId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '"';
+        var html = 'data-id="' + item.Id + '"';
+
+        if (!serverId) {
+            serverId = item.ServerId;
+        }
+        if (serverId) {
+            html += ' data-serverid="' + serverId + '"';
+        }
+
+        if (item.Type) {
+            html += ' data-type="' + item.Type + '"';
+        }
+
+        if (item.MediaType) {
+            html += ' data-mediatype="' + item.MediaType + '"';
+        }
+
+        if (item.ChannelId) {
+            html += ' data-channelid="' + item.ChannelId + '"';
+        }
+
+        if (item.IsFolder) {
+            html += ' data-isfolder="true"';
+        }
 
         var collectionType = item.CollectionType;
         if (collectionType) {
             html += ' data-collectiontype="' + collectionType + '"';
+        }
+
+        if (item.ConfigPageUrl) {
+            html += ' data-configpageurl="' + item.ConfigPageUrl + '"';
         }
 
         return html;

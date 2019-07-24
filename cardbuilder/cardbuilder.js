@@ -622,7 +622,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var showOtherText = isOuterFooter ? !overlayText : overlayText;
 
-            if (isOuterFooter && options.cardLayout && layoutManager.mobile && options.cardFooterAside !== false) {
+            if (isOuterFooter && options.cardLayout && !layoutManager.tv && options.cardFooterAside !== false) {
 
                 html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
             }
@@ -687,7 +687,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (overlayText) {
                     lines.push(dom.htmlEncode(name));
                 } else {
-                    lines.push(getTextActionButton(item, name, serverId, options.parentId));
+                    lines.push(getTextActionButton(item, name, serverId, options.parentId, null, true));
                 }
             }
 
@@ -859,7 +859,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                                 Name: item.LastUserName,
                                 ServerId: serverId,
                                 Type: 'User'
-                            }, null, null, null, false);
+                            }, null, null, null, false, true);
                         } else if (item.LastUserName) {
                             deviceHtml += item.LastUserName;
                         }
@@ -873,7 +873,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 lines = [];
             }
 
-            var addRightTextMargin = isOuterFooter && options.cardLayout && !options.centerText && options.cardFooterAside !== 'none' && layoutManager.mobile;
+            var addRightTextMargin = isOuterFooter && options.cardLayout && options.cardFooterAside !== false && !layoutManager.tv;
 
             html += getCardTextLines(lines, cssClass, !overlayText, isOuterFooter, options.cardLayout, addRightTextMargin, options.lines);
 
@@ -894,7 +894,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getTextActionButton(item, text, serverId, parentId, fullWidth) {
+        function getTextActionButton(item, text, serverId, parentId, fullWidth, isSameItemAsCard) {
 
             if (!text) {
                 text = itemHelper.getDisplayName(item);
@@ -906,11 +906,22 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             text = dom.htmlEncode(text);
 
-            var parentIdData = parentId ? (' data-parentid="' + parentId + '"') : '';
+            var dataAttributes;
+
+            if (isSameItemAsCard) {
+                dataAttributes = '';
+            }
+            else {
+                dataAttributes = itemShortcuts.getShortcutAttributesHtml(item, serverId);
+
+                if (parentId) {
+                    dataAttributes += ' data-parentid="' + parentId + '"';
+                }
+            }
 
             var cssClass = fullWidth === false ? ' cardTextActionButton-autoWidth' : '';
 
-            var html = '<button' + parentIdData + ' title="' + text + '" ' + itemShortcuts.getShortcutAttributesHtml(item, serverId) + ' type="button" class="itemAction textActionButton cardTextActionButton' + cssClass + '" data-action="link">';
+            var html = '<button title="' + text + '" ' + dataAttributes + ' type="button" class="itemAction textActionButton cardTextActionButton' + cssClass + '" data-action="link">';
             html += text;
             html += '</button>';
 
@@ -988,10 +999,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var isLayoutTv = layoutManager.tv;
-            var isLayoutDesktop = layoutManager.desktop;
-            var isLayoutMobile = layoutManager.mobile;
 
-            if (isLayoutDesktop) {
+            if (!isLayoutTv) {
                 className += ' card-hoverable';
             }
 
@@ -1121,7 +1130,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var overlayButtons = '';
-            if (isLayoutMobile) {
+            if (layoutManager.mobile) {
 
                 if (options.centerPlayButton) {
 
@@ -1153,7 +1162,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerClose = '</div>';
             } else {
 
-                if (isLayoutMobile) {
+                if (!options.centerPlayButton) {
                     className += ' card-touchzoom';
                 }
 
@@ -1287,7 +1296,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var additionalCardContent = '';
 
-            if (isLayoutDesktop) {
+            if (layoutManager.desktop) {
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 

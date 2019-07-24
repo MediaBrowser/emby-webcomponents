@@ -77,7 +77,7 @@
 
             headerUserButton.classList.remove('hide');
 
-            if (user.Policy.IsAdministrator && self.Dashboard && layoutManager.desktop) {
+            if (user.Policy.IsAdministrator && self.Dashboard && !layoutManager.tv) {
                 headerManageServerButton.classList.remove('hide');
             } else {
                 headerManageServerButton.classList.add('hide');

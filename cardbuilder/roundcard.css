@@ -1,7 +1,3 @@
-.card-round:focus > .cardBox-focustransform {
-    transform: scale(1.26, 1.26);
-}
-
 .cardImageContainer-round, .cardImage-round {
     border-radius: 1000px;
 }

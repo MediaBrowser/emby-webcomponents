@@ -148,13 +148,19 @@
 @media all and (max-width: 60em) {
 
     .headerMenuButton, .headerManageServerButton {
-        display: none;
+        display: none !important;
     }
 }
 
 @media all and (max-width: 48em) {
 
     .btnHeaderPremiere {
+        display: none !important;
+    }
+}
+
+@media (pointer: coarse) {
+    .headerManageServerButton {
         display: none !important;
     }
 }

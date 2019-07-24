@@ -1,10 +1,21 @@
-.layout-tv, .layout-mobile {
+.layout-tv {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+@media (pointer: none), (pointer: coarse) {
+    html {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 }
 
 .transparentDocument, .backgroundContainer-transparent:not(.withBackdrop) {

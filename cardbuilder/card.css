@@ -137,16 +137,17 @@ button {
 .card:focus {
     position: relative !important;
     z-index: 10 !important;
-    font-weight: inherit !important;
 }
 
-.card-touchzoom {
-    transition: transform 100ms ease-out;
-    transition-delay: 80ms;
-}
+@media (pointer: coarse) {
+    .card-touchzoom {
+        transition: transform 100ms ease-out;
+        transition-delay: 80ms;
+    }
 
-.card-touchzoomactive {
-    transform: scale(.94);
+        .card-touchzoom:active {
+            transform: scale(.94);
+        }
 }
 
 .btnCardOptions {
@@ -155,6 +156,12 @@ button {
     right: 0;
     margin: 0 !important;
     z-index: 1;
+}
+
+@media not all and (pointer: coarse) {
+    .btnCardOptions {
+        display: none;
+    }
 }
 
 .mediaSourceIndicator {
@@ -352,8 +359,11 @@ button {
     background-position: center center;
 }
 
-.cardText-rightmargin {
-    margin-right: 2em;
+@media (pointer: coarse) {
+    .cardText-rightmargin {
+        margin-right: 2em;
+        text-align: left;
+    }
 }
 
 .cardDefaultText {

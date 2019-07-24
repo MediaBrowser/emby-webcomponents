@@ -107,7 +107,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
-    function loadContentUrl(ctx, next, route, request) {
+    function loadContentUrl(ctx, route, request) {
 
         var url;
 
@@ -138,17 +138,17 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
-    function handleRoute(ctx, next, route) {
+    function handleRoute(ctx, route) {
 
         authenticate(ctx, route, function () {
-            initRoute(ctx, next, route);
+            initRoute(ctx, route);
         });
     }
 
-    function initRoute(ctx, next, route) {
+    function initRoute(ctx, route) {
 
         var onInitComplete = function (controllerFactory) {
-            sendRouteToViewManager(ctx, next, route, controllerFactory);
+            sendRouteToViewManager(ctx, route, controllerFactory);
         };
 
         require(route.dependencies || [], function () {
@@ -174,7 +174,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     var isHandlingBackToDefault;
     var isDummyBackToHome;
 
-    function sendRouteToViewManager(ctx, next, route, controllerFactory) {
+    function sendRouteToViewManager(ctx, route, controllerFactory) {
 
         if (isDummyBackToHome && route.type === 'home') {
             isDummyBackToHome = false;
@@ -197,7 +197,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (!isBackNav) {
             // Don't force a new view for home due to the back menu
             //if (route.type !== 'home') {
-            loadContentUrl(ctx, next, route, currentRequest);
+            loadContentUrl(ctx, route, currentRequest);
             return;
             //}
         }
@@ -212,7 +212,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }).catch(function (result) {
 
             if (!result || !result.cancelled) {
-                loadContentUrl(ctx, next, route, currentRequest);
+                loadContentUrl(ctx, route, currentRequest);
             }
         });
     }
@@ -520,7 +520,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             route: route,
             path: ctx.path
         };
-        //next();
 
         ctx.handled = true;
     }
@@ -555,12 +554,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
     function baseUrl() {
         return baseRoute;
-    }
-
-    function getHandler(route) {
-        return function (ctx, next) {
-            handleRoute(ctx, next, route);
-        };
     }
 
     function getWindowLocationSearch(win) {
@@ -720,7 +713,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function addRoute(path, newRoute) {
 
-        page(path, getHandler(newRoute));
+        page(path, newRoute, handleRoute);
         allRoutes.push(newRoute);
     }
 

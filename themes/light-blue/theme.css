@@ -366,24 +366,6 @@ html, .backgroundContainer {
     color: inherit;
 }
 
-.guide-date-tab-button {
-    color: #555;
-    color: rgba(0, 0, 0, .54);
-}
-
-    .guide-date-tab-button.emby-tab-button-active {
-        color: #2196F3;
-    }
-
-    .guide-date-tab-button:focus {
-        color: #2196F3;
-    }
-
-    .guide-date-tab-button.emby-button-tv:focus {
-        background-color: #2196F3;
-        color: #fff;
-    }
-
 /* detail screen */
 .itemBackdropFader {
     background: linear-gradient(rgba(0,0,0,0), #fafafa);
