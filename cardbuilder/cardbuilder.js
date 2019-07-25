@@ -687,7 +687,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (overlayText) {
                     lines.push(dom.htmlEncode(name));
                 } else {
-                    lines.push(getTextActionButton(item, name, serverId, options.parentId, null, true));
+                    lines.push(getTextActionButton(item, name, serverId, options.parentId, true));
                 }
             }
 
@@ -854,16 +854,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     var deviceHtml = '';
                     if (item.LastUserName) {
                         if (item.LastUserId) {
+
                             deviceHtml += getTextActionButton({
                                 Id: item.LastUserId,
                                 Name: item.LastUserName,
                                 ServerId: serverId,
                                 Type: 'User'
-                            }, null, null, null, false, true);
+                            }, item.LastUserName + ', ' + humanedate(item.DateLastActivity), null, null, true);
+
                         } else if (item.LastUserName) {
-                            deviceHtml += item.LastUserName;
+                            deviceHtml += item.LastUserName + ', ' + humanedate(item.DateLastActivity);
                         }
-                        deviceHtml += ', ' + humanedate(item.DateLastActivity);
                     }
                     lines.push(deviceHtml);
                 }
@@ -919,9 +920,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            var cssClass = fullWidth === false ? ' cardTextActionButton-autoWidth' : '';
-
-            var html = '<button title="' + text + '" ' + dataAttributes + ' type="button" class="itemAction textActionButton cardTextActionButton' + cssClass + '" data-action="link">';
+            var html = '<button title="' + text + '" ' + dataAttributes + ' type="button" class="itemAction textActionButton cardTextActionButton" data-action="link">';
             html += text;
             html += '</button>';
 

@@ -2,6 +2,7 @@ html {
     color: #eee;
     color: rgba(255, 255, 255, .87);
     background-color: #0F3562;
+    scrollbar-color: rgba(255, 255, 255, .7) #081B3B;
 }
 
 .emby-collapsible-button {

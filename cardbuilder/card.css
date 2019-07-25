@@ -395,10 +395,6 @@ button {
     text-align: inherit;
 }
 
-.cardTextActionButton-autoWidth {
-    width: auto;
-}
-
 @media(hover: hover) and (pointer: fine) {
     .textActionButton:hover {
         text-decoration: underline;

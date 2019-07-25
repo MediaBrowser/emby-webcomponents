@@ -147,7 +147,8 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         self.options = o;
         self.dragging = dragging;
 
-        var nativeScrollElement = frame;
+        // This is for the scroll buttons. Look for a better way to avoid the inconsistency
+        var nativeScrollElement = o.horizontal ? slideeElement || frame : frame;
 
         function sibling(n, elem) {
             var matched = [];
@@ -221,8 +222,18 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             return slideeElement;
         };
 
-        self.getScrollFrame = function () {
-            return frame;
+        self.addScrollEventListener = function (fn, options) {
+
+            var elem = transform ? frame : nativeScrollElement;
+
+            dom.addEventListener(elem, self.getScrollEventName(), fn, options);
+        };
+
+        self.removeScrollEventListener = function (fn, options) {
+
+            var elem = transform ? frame : nativeScrollElement;
+
+            dom.removeEventListener(elem, self.getScrollEventName(), fn, options);
         };
 
         function nativeScrollTo(container, pos, immediate) {
@@ -755,10 +766,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                             nativeScrollElement.classList.add('smoothScrollX');
                         }
                     }
-
-                    if (o.forceHideScrollbars) {
-                        nativeScrollElement.classList.add('hiddenScrollX-forced');
-                    }
                 } else {
                     if (layoutManager.desktop && !o.hideScrollbar) {
                         nativeScrollElement.classList.add('scrollY');
@@ -769,10 +776,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                         if (layoutManager.tv && o.allowNativeSmoothScroll !== false) {
                             nativeScrollElement.classList.add('smoothScrollY');
                         }
-                    }
-
-                    if (o.forceHideScrollbars) {
-                        nativeScrollElement.classList.add('hiddenScrollY-forced');
                     }
                 }
             } else {
