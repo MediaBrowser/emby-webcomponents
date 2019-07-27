@@ -9,24 +9,26 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         options = options || {};
 
-        if (item.Type === 'Timer') {
+        var itemType = item.Type;
+
+        if (itemType === 'Timer') {
             item = item.ProgramInfo || item;
         }
 
-        var name = ((item.Type === 'Program' || item.Type === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : item.Name) || '';
+        var name = ((itemType === 'Program' || itemType === 'Recording') && (item.IsSeries || item.EpisodeTitle) ? item.EpisodeTitle : item.Name) || '';
 
-        if (item.Type === "TvChannel") {
+        if (itemType === "TvChannel") {
 
             if (item.ChannelNumber) {
                 return item.ChannelNumber + ' ' + name;
             }
             return name;
         }
-        if (/*options.isInlineSpecial &&*/ item.Type === "Episode" && item.ParentIndexNumber === 0) {
+        if (/*options.isInlineSpecial &&*/ itemType === "Episode" && item.ParentIndexNumber === 0) {
 
             name = globalize.translate('ValueSpecialEpisodeName', name);
 
-        } else if ((item.Type === "Episode" || item.Type === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
+        } else if ((itemType === "Episode" || itemType === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
 
             var displayIndexNumber = item.IndexNumber;
 
@@ -57,7 +59,9 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'GameGenre', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer', 'BoxSet'];
 
-        if (item.Type === 'Recording') {
+        var itemType = item.Type;
+
+        if (itemType === 'Recording') {
             if (item.Status !== 'Completed') {
                 return false;
             }
@@ -67,7 +71,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
-        if (invalidTypes.indexOf(item.Type) !== -1) {
+        if (invalidTypes.indexOf(itemType) !== -1) {
             return false;
         }
 
@@ -79,7 +83,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
-        if (item.IsFolder || item.Type === "MusicArtist") {
+        if (item.IsFolder || itemType === "MusicArtist") {
             return true;
         }
 
@@ -94,42 +98,44 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
     function supportsAddingToPlaylist(item) {
 
-        if (item.Type === 'Program') {
+        var itemType = item.Type;
+        if (itemType === 'Program') {
             return false;
         }
-        if (item.Type === 'TvChannel') {
+        if (itemType === 'TvChannel') {
             return false;
         }
-        if (item.Type === 'Timer') {
+        if (itemType === 'Timer') {
             return false;
         }
-        if (item.Type === 'SeriesTimer') {
-            return false;
-        }
-        if (item.Type === 'PlaylistsFolder') {
-            return false;
-        }
-        if (item.MediaType === 'Photo') {
-            return false;
-        }
-        if (item.MediaType === 'Game') {
+        if (itemType === 'SeriesTimer') {
             return false;
         }
 
-        if (item.Type === 'Recording') {
+        if (itemType === 'Recording') {
             if (item.Status !== 'Completed') {
                 return false;
             }
         }
 
-        if (isLocalItem(item)) {
+        var mediaType = item.MediaType;
+        if (mediaType === 'Photo') {
             return false;
         }
-        if (item.CollectionType === 'livetv') {
+        if (mediaType === 'Game') {
             return false;
         }
 
-        if (item.IsFolder || item.Type === "Genre" || item.Type === "MusicGenre" || item.Type === "MusicArtist") {
+        var collectionType = item.CollectionType;
+        if (collectionType === 'livetv' || collectionType === 'playlists') {
+            return false;
+        }
+
+        if (isLocalItem(item)) {
+            return false;
+        }
+
+        if (item.IsFolder || itemType === "Genre" || itemType === "MusicGenre" || itemType === "MusicArtist") {
             return true;
         }
 
@@ -170,7 +176,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
-        if (item.Type === 'Recording') {
+        if (itemType === 'Recording') {
             if (item.Status !== 'Completed') {
                 return false;
             }
@@ -236,7 +242,9 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canEditSubtitles: function (user, item) {
 
-            if (item.MediaType === 'Video' && item.Type !== 'TvChannel' && item.Type !== 'Program' && item.LocationType !== 'Virtual' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
+            var itemType = item.Type;
+
+            if (item.MediaType === 'Video' && itemType !== 'TvChannel' && itemType !== 'Program' && item.LocationType !== 'Virtual' && !(itemType === 'Recording' && item.Status !== 'Completed')) {
                 if (user.Policy.EnableSubtitleDownloading || user.Policy.EnableSubtitleManagement) {
                     return canEditInternal(user, item);
                 }
@@ -281,7 +289,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
 
-            if (item.Type === 'Recording') {
+            if (itemType === 'Recording') {
                 if (item.Status !== 'Completed') {
                     return false;
                 }
@@ -305,19 +313,21 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canShare: function (item, user) {
 
-            if (item.Type === 'Program') {
+            var itemType = item.Type;
+
+            if (itemType === 'Program') {
                 return false;
             }
-            if (item.Type === 'TvChannel') {
+            if (itemType === 'TvChannel') {
                 return false;
             }
-            if (item.Type === 'Timer') {
+            if (itemType === 'Timer') {
                 return false;
             }
-            if (item.Type === 'SeriesTimer') {
+            if (itemType === 'SeriesTimer') {
                 return false;
             }
-            if (item.Type === 'Recording') {
+            if (itemType === 'Recording') {
                 if (item.Status !== 'Completed') {
                     return false;
                 }
@@ -329,7 +339,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         },
 
         enableDateAddedDisplay: function (item) {
-            return !item.IsFolder && item.MediaType && item.Type !== 'Program' && item.Type !== 'TvChannel' && item.Type !== 'Trailer';
+
+            var itemType = item.Type;
+
+            return !item.IsFolder && item.MediaType && itemType !== 'Program' && itemType !== 'TvChannel' && itemType !== 'Trailer';
         },
 
         canMarkPlayed: function (item) {
@@ -375,8 +388,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 itemType === 'UserView' ||
                 itemType === 'Channel' ||
                 itemType === 'Season' ||
-                itemType === 'Studio' ||
-                itemType === 'PlaylistsFolder') {
+                itemType === 'Studio') {
                 return false;
             }
 
@@ -404,7 +416,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
 
             var collectionType = item.CollectionType;
-            if (collectionType === 'livetv') {
+            if (collectionType === 'livetv' || collectionType === 'playlists' || collectionType === 'boxsets') {
                 return false;
             }
 
@@ -417,7 +429,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 type === 'Timer' ||
                 type === 'SeriesTimer' ||
                 type === 'GameGenre' ||
-                type === 'PlaylistsFolder' ||
                 type === 'Device' ||
                 type === 'User' ||
                 type === 'Plugin') {
@@ -448,7 +459,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                     return false;
                 }
 
-                if (item.Type !== 'Timer' && item.Type !== 'SeriesTimer' && item.Type !== 'Program' && item.Type !== 'TvChannel' && item.Type !== 'PlaylistsFolder' && !(item.Type === 'Recording' && item.Status !== 'Completed')) {
+                if (itemType !== 'Timer' && itemType !== 'SeriesTimer' && itemType !== 'Program' && itemType !== 'TvChannel' && !(itemType === 'Recording' && item.Status !== 'Completed')) {
 
                     if (!isLocalItem(item)) {
                         return true;

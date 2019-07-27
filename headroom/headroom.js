@@ -146,12 +146,20 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             var scroller = this.scrollElementForEvents;
 
             if (scroller) {
-                var scrollEventName = scroller.getScrollEventName ? scroller.getScrollEventName() : 'scroll';
+                if (scroller.removeScrollEventListener) {
 
-                dom.removeEventListener(scroller, scrollEventName, this.debouncer, {
-                    capture: false,
-                    passive: true
-                });
+                    scroller.removeScrollEventListener(this.debouncer, {
+                        capture: false,
+                        passive: true
+                    });
+                }
+                else {
+                    dom.removeEventListener(scroller, 'scroll', this.debouncer, {
+                        capture: false,
+                        passive: true
+                    });
+                }
+
             }
 
             this.scrollElementForEvents = null;
@@ -169,12 +177,21 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
                 var scroller = this.scrollElementForEvents;
 
-                var scrollEventName = scroller.getScrollEventName ? scroller.getScrollEventName() : 'scroll';
+                if (scroller) {
+                    if (scroller.addScrollEventListener) {
 
-                dom.addEventListener(scroller, scrollEventName, this.debouncer, {
-                    capture: false,
-                    passive: true
-                });
+                        scroller.addScrollEventListener(this.debouncer, {
+                            capture: false,
+                            passive: true
+                        });
+                    }
+                    else {
+                        dom.addEventListener(scroller, 'scroll', this.debouncer, {
+                            capture: false,
+                            passive: true
+                        });
+                    }
+                }
 
                 this.update();
             }

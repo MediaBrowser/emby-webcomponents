@@ -168,12 +168,6 @@
 
                 var newPanel = tabContainers[e.detail.selectedTabIndex];
 
-                //if (e.detail.previousIndex != null && e.detail.previousIndex != e.detail.selectedTabIndex) {
-                //    if (newPanel.animate && (animateTabs || []).indexOf(e.detail.selectedTabIndex) != -1) {
-                //        fadeInRight(newPanel);
-                //    }
-                //}
-
                 if (newPanel) {
                     newPanel.classList.add('is-active');
                 }

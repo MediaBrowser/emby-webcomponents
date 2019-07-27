@@ -148,11 +148,6 @@
     }
 }
 
-.noScroll {
-    overflow-x: hidden !important;
-    overflow-y: hidden !important;
-}
-
 .dialogBackdrop {
     background-color: #000;
     opacity: 0;

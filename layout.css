@@ -18,6 +18,13 @@
     }
 }
 
+@media (pointer: coarse) {
+    /* Used on document.body to lock document level scrolling when dialogs are open */
+    .withDialogOpen {
+        overflow-y: hidden !important;
+    }
+}
+
 .transparentDocument, .backgroundContainer-transparent:not(.withBackdrop) {
     background: none !important;
     background-color: transparent !important;

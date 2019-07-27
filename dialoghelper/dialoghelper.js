@@ -81,7 +81,7 @@
             dlg.classList.remove('opened');
 
             if (removeScrollLockOnClose) {
-                document.body.classList.remove('noScroll');
+                document.body.classList.remove('withDialogOpen');
             }
 
             if (!self.closedByBack && isHistoryEnabled(dlg)) {
@@ -137,8 +137,8 @@
             cancelable: false
         }));
 
-        if (dlg.getAttribute('data-lockscroll') === 'true' && !document.body.classList.contains('noScroll')) {
-            document.body.classList.add('noScroll');
+        if (dlg.getAttribute('data-lockscroll') === 'true' && !document.body.classList.contains('withDialogOpen')) {
+            document.body.classList.add('withDialogOpen');
             removeScrollLockOnClose = true;
         }
 
@@ -300,23 +300,11 @@
 
     function shouldLockDocumentScroll(options) {
 
-        if (supportsOverscrollBehavior && (options.size || !browser.touch)) {
+        if (supportsOverscrollBehavior && options.size) {
             return false;
         }
 
-        if (options.lockScroll != null) {
-            return options.lockScroll;
-        }
-
-        if (options.size === 'fullscreen') {
-            return true;
-        }
-
-        if (options.size) {
-            return true;
-        }
-
-        return browser.touch;
+        return true;
     }
 
     function removeBackdrop(dlg) {

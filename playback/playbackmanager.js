@@ -1147,8 +1147,11 @@
                 itemType === "MusicAlbum" ||
                 itemType === "MusicArtist" ||
                 itemType === "Playlist" ||
-                itemType === "PlaylistsFolder" ||
                 itemType === "CollectionFolder") {
+                return true;
+            }
+
+            if (item.CollectionType === 'playlists') {
                 return true;
             }
 
