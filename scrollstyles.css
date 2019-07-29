@@ -26,18 +26,15 @@
 }
 
 .smoothScrollY {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overflow-x: hidden;
     scroll-behavior: smooth;
+}
+
+.hiddenScrollY, .layout-tv .scrollY {
+    -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
-.hiddenScrollY, .layout-tv .smoothScrollY {
-    -ms-overflow-style: none;
-}
-
-.hiddenScrollY::-webkit-scrollbar, .layout-tv .smoothScrollY::-webkit-scrollbar, .layout-tv .scrollY::-webkit-scrollbar {
+.hiddenScrollY::-webkit-scrollbar, .layout-tv .scrollY::-webkit-scrollbar {
     width: 0 !important;
     display: none;
 }

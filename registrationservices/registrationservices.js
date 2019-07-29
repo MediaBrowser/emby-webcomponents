@@ -49,7 +49,7 @@
                 html += '</div>';
 
 
-                html += '<div class="formDialogContent smoothScrollY">';
+                html += '<div class="formDialogContent scrollY smoothScrollY">';
                 html += '<div class="dialogContentInner dialog-content-centered">';
 
                 html += '<h1>' + globalize.translate('HeaderDiscoverEmbyPremiere') + '</h1>';
@@ -367,7 +367,7 @@
         html += '</h3>';
         html += '</div>';
 
-        html += '<div class="formDialogContent smoothScrollY">';
+        html += '<div class="formDialogContent scrollY smoothScrollY">';
         html += '<div class="dialogContentInner dialog-content-centered">';
         html += '<form style="margin:auto;">';
 

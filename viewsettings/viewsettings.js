@@ -31,13 +31,6 @@
         userSettings.set(settingsKey + '-imageType', context.querySelector('.selectImageType').value);
    }
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
-
     function showIfAllowed(context, selector, visible) {
 
         var elem = context.querySelector(selector);
@@ -111,10 +104,6 @@
                     dialogHelper.close(dlg);
                 });
 
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-                }
-
                 var submitted;
 
                 dlg.querySelector('.selectImageType').dispatchEvent(new CustomEvent('change', {}));
@@ -126,10 +115,6 @@
                 }, true);
 
                 dialogHelper.open(dlg).then(function () {
-
-                    if (layoutManager.tv) {
-                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                    }
 
                     if (submitted) {
                         saveValues(dlg, options.settings, options.settingsKey);

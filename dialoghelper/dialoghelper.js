@@ -19,7 +19,7 @@
             if (dlg.classList.contains('scrollX')) {
                 centerFocus(dlg, true, false);
             }
-            else if (dlg.classList.contains('smoothScrollY')) {
+            else if (dlg.classList.contains('scrollY')) {
                 centerFocus(dlg, false, false);
             }
         }
@@ -415,6 +415,7 @@
             }
         }
         else if (options.scrollY !== false) {
+            dlg.classList.add('scrollY');
             dlg.classList.add('smoothScrollY');
 
             if (layoutManager.tv) {

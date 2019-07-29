@@ -508,13 +508,6 @@
         userSettings.setFilter(key, value);
     }
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
-
     function moveCheckboxFocus(elem, offset) {
 
         var parent = dom.parentWithClass(elem, 'checkboxList-verticalwrap');
@@ -652,10 +645,6 @@
                     dialogHelper.close(dlg);
                 });
 
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-                }
-
                 var submitted;
 
                 dlg.querySelector('form').addEventListener('change', function () {
@@ -671,10 +660,6 @@
                 dialogHelper.open(dlg).then(function () {
 
                     bindCheckboxInput(dlg, false);
-
-                    if (layoutManager.tv) {
-                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                    }
 
                     if (submitted) {
 

@@ -1,13 +1,6 @@
 ﻿define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'events', 'homescreenSettings', 'paper-icon-button-light', 'css!./../formdialog'], function (dialogHelper, layoutManager, globalize, require, events, HomescreenSettings) {
     'use strict';
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
-
     function show(options) {
         return new Promise(function (resolve, reject) {
 
@@ -35,10 +28,6 @@
 
                 dlg.innerHTML = html;
 
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-                }
-
                 var homescreenSettingsInstance = new HomescreenSettings({
                     serverId: options.serverId,
                     userId: options.userId,
@@ -51,10 +40,6 @@
                 dialogHelper.open(dlg);
 
                 dlg.addEventListener('close', function () {
-
-                    if (layoutManager.tv) {
-                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                    }
 
                     if (submitted) {
                         resolve();

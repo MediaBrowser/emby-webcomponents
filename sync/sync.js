@@ -511,7 +511,7 @@
 
             html += '</div>';
 
-            html += '<div class="formDialogContent smoothScrollY" style="padding-top:2em;">';
+            html += '<div class="formDialogContent scrollY smoothScrollY" style="padding-top:2em;">';
             html += '<div class="dialogContentInner dialog-content-centered">';
 
             html += '<form class="formSubmitSyncRequest" style="margin: auto;">';
