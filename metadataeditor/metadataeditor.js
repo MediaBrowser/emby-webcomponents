@@ -1,4 +1,4 @@
-﻿define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loading', 'focusManager', 'connectionManager', 'globalize', 'require', 'shell', 'emby-checkbox', 'emby-input', 'emby-select', 'listViewStyle', 'emby-textarea', 'emby-button', 'paper-icon-button-light', 'css!./../formdialog', 'clearButtonStyle', 'flexStyles'], function (itemHelper, dom, layoutManager, dialogHelper, datetime, loading, focusManager, connectionManager, globalize, require, shell) {
+﻿define(['itemHelper', 'dom', 'layoutManager', 'dialogHelper', 'datetime', 'loading', 'focusManager', 'connectionManager', 'globalize', 'require', 'shell', 'emby-checkbox', 'emby-input', 'emby-select', 'listViewStyle', 'emby-textarea', 'emby-button', 'paper-icon-button-light', 'css!./../formdialog', 'clearButtonStyle', 'flexStyles', 'emby-scroller'], function (itemHelper, dom, layoutManager, dialogHelper, datetime, loading, focusManager, connectionManager, globalize, require, shell) {
     'use strict';
 
     var currentContext;
@@ -1064,13 +1064,6 @@
         });
     }
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
-
     function fillDayText(context) {
 
         var elems = context.querySelectorAll('.dayText');
@@ -1119,16 +1112,9 @@
 
             fillDayText(dlg);
 
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-            }
-
             dialogHelper.open(dlg);
 
             dlg.addEventListener('close', function () {
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                }
 
                 if (hasChanges) {
                     resolve();

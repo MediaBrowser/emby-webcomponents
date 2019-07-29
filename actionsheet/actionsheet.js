@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles', 'listViewStyle'], function (dialogHelper, layoutManager, globalize, browser, dom) {
+﻿define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles', 'listViewStyle', 'emby-scroller'], function (dialogHelper, layoutManager, globalize, browser, dom) {
     'use strict';
 
     function getOffsets(elems) {
@@ -81,13 +81,6 @@
         return pos;
     }
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
-
     function show(options) {
 
         // items
@@ -134,15 +127,6 @@
 
         var html = '';
 
-        var scrollClassName = layoutManager.tv ? 'scrollY smoothScrollY hiddenScrollY' : 'scrollY';
-        var style = '';
-
-        // Admittedly a hack but right now the scrollbar is being factored into the width which is causing truncation
-        if (options.items.length > 20) {
-            var minWidth = dom.getWindowSize().innerWidth >= 300 ? 240 : 200;
-            style += "min-width:" + minWidth + "px;";
-        }
-
         var i, length, option;
         var renderIcon = false;
         var icons = [];
@@ -188,7 +172,9 @@
         if (layoutManager.tv) {
             scrollerClassName += ' actionSheetScroller-tv focuscontainer-x focuscontainer-y';
         }
-        html += '<div class="' + scrollerClassName + ' ' + scrollClassName + '" style="' + style + '">';
+
+        html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="' + scrollerClassName + '">';
+        html += '<div class="scrollSlider">';
 
         var menuItemClass = 'listItem listItem-button actionSheetMenuItem';
 
@@ -269,12 +255,9 @@
             html += '</div>';
         }
         html += '</div>';
+        html += '</div>';
 
         dlg.innerHTML = html;
-
-        if (layoutManager.tv) {
-            centerFocus(dlg.querySelector('.actionSheetScroller'), false, true);
-        }
 
         var btnCloseActionSheet = dlg.querySelector('.btnCloseActionSheet');
         if (btnCloseActionSheet) {
@@ -327,10 +310,6 @@
             });
 
             dlg.addEventListener('close', function () {
-
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.actionSheetScroller'), false, false);
-                }
 
                 if (timeout) {
                     clearTimeout(timeout);

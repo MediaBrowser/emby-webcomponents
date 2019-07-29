@@ -49,7 +49,8 @@
                 html += '</div>';
 
 
-                html += '<div class="formDialogContent scrollY smoothScrollY">';
+                html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
+                html += '<div class="scrollSlider">';
                 html += '<div class="dialogContentInner dialog-content-centered">';
 
                 html += '<h1>' + globalize.translate('HeaderDiscoverEmbyPremiere') + '</h1>';
@@ -79,6 +80,7 @@
 
                 html += '</div>';
                 html += '</div>';
+                html += '</div>';
 
                 dlg.innerHTML = html;
 
@@ -102,18 +104,10 @@
                     btnPurchases[i].addEventListener('click', showExternalPremiereInfo);
                 }
 
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-                }
-
                 // Has to be assigned a z-index after the call to .open() 
                 dlg.addEventListener('close', function (e) {
 
                     clearInterval(timeTextInterval);
-
-                    if (layoutManager.tv) {
-                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                    }
 
                     if (isRejected) {
                         reject();
@@ -305,13 +299,6 @@
         shell.openUrl(iapManager.getPremiumInfoUrl());
     }
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
-
     function getPurchaseTermHtml(term) {
 
         return '<li>' + term + '</li>';
@@ -367,9 +354,9 @@
         html += '</h3>';
         html += '</div>';
 
-        html += '<div class="formDialogContent scrollY smoothScrollY">';
-        html += '<div class="dialogContentInner dialog-content-centered">';
-        html += '<form style="margin:auto;">';
+        html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
+        html += '<div class="scrollSlider">';
+        html += '<form class="dialogContentInner dialog-content-centered">';
 
         html += '<p style="margin-top:1.5em;">';
 
@@ -478,14 +465,7 @@
 
         dlg.classList.add('inAppPurchaseOverlay');
 
-        if (layoutManager.tv) {
-            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-        }
-
         dialogHelper.open(dlg).then(function () {
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-            }
 
             var rejected = isCurrentDialogRejected;
             clearCurrentDisplayingInfo();
@@ -618,7 +598,8 @@
         html += '</h3>';
         html += '</div>';
 
-        html += '<div class="formDialogContent smoothScrollY">';
+        html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
+        html += '<div class="scrollSlider">';
         html += '<div class="dialogContentInner dialog-content-centered">';
 
         html += '<p style="margin:2em 0;">';
@@ -637,15 +618,12 @@
 
         html += '</div>';
         html += '</div>';
+        html += '</div>';
 
         dlg.innerHTML = html;
         document.body.appendChild(dlg);
 
         loading.hide();
-
-        if (layoutManager.tv) {
-            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-        }
 
         dlg.querySelector('.btnCloseDialog').addEventListener('click', function () {
 
@@ -671,12 +649,7 @@
             });
         }
 
-        dialogHelper.open(dlg).then(function () {
-
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-            }
-        });
+        dialogHelper.open(dlg);
     }
 
     function getUserEmail() {

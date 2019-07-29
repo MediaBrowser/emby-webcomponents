@@ -13,18 +13,6 @@
         return browser.supportsCssAnimation() && dom.supportsEventListenerOnce();
     }
 
-    function removeCenterFocus(dlg) {
-
-        if (layoutManager.tv) {
-            if (dlg.classList.contains('scrollX')) {
-                centerFocus(dlg, true, false);
-            }
-            else if (dlg.classList.contains('scrollY')) {
-                centerFocus(dlg, false, false);
-            }
-        }
-    }
-
     function tryRemoveElement(elem) {
         var parentNode = elem.parentNode;
         if (parentNode) {
@@ -96,7 +84,6 @@
             }
 
             if (dlg.getAttribute('data-removeonclose') !== 'false') {
-                removeCenterFocus(dlg);
 
                 var dialogContainer = dlg.dialogContainer;
                 if (dialogContainer) {
@@ -300,7 +287,7 @@
 
     function shouldLockDocumentScroll(options) {
 
-        if (supportsOverscrollBehavior && options.size) {
+        if (supportsOverscrollBehavior) {
             return false;
         }
 
@@ -331,13 +318,6 @@
         }
 
         onAnimationFinish();
-    }
-
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
     }
 
     function createDialog(options) {
@@ -405,23 +385,6 @@
         };
 
         dlg.classList.add('dialog');
-
-        if (options.scrollX) {
-            dlg.classList.add('scrollX');
-            dlg.classList.add('smoothScrollX');
-
-            if (layoutManager.tv) {
-                centerFocus(dlg, true, true);
-            }
-        }
-        else if (options.scrollY !== false) {
-            dlg.classList.add('scrollY');
-            dlg.classList.add('smoothScrollY');
-
-            if (layoutManager.tv) {
-                centerFocus(dlg, false, true);
-            }
-        }
 
         if (options.removeOnClose) {
             dlg.setAttribute('data-removeonclose', 'true');

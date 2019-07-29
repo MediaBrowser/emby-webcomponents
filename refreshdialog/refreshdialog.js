@@ -1,4 +1,4 @@
-﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button'], function (shell, dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
+﻿define(['shell', 'dialogHelper', 'loading', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'emby-scroller'], function (shell, dialogHelper, loading, layoutManager, connectionManager, appRouter, globalize) {
     'use strict';
 
     function parentWithClass(elem, className) {
@@ -18,9 +18,9 @@
 
         var html = '';
 
-        html += '<div class="formDialogContent scrollY smoothScrollY" style="padding-top:2em;">';
-        html += '<div class="dialogContentInner dialog-content-centered">';
-        html += '<form style="margin:auto;">';
+        html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
+        html += '<div class="scrollSlider">';
+        html += '<form class="dialogContentInner dialog-content-centered" style="padding-top:2em;">';
 
         html += '<div class="fldSelectPlaylist selectContainer">';
         html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
@@ -51,13 +51,6 @@
         html += '</div>';
 
         return html;
-    }
-
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
     }
 
     function onSubmit(e) {
@@ -156,15 +149,7 @@
             dialogHelper.close(dlg);
         });
 
-        if (layoutManager.tv) {
-            centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-        }
-
         return new Promise(function (resolve, reject) {
-
-            if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-            }
 
             dlg.addEventListener('close', resolve);
             dialogHelper.open(dlg);

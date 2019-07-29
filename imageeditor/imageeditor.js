@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'scrollHelper', 'imageLoader', 'require', 'browser', 'apphost', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, scrollHelper, imageLoader, require, browser, appHost) {
+﻿define(['dialogHelper', 'connectionManager', 'loading', 'dom', 'layoutManager', 'focusManager', 'globalize', 'imageLoader', 'require', 'browser', 'apphost', 'cardStyle', 'formDialogStyle', 'emby-button', 'paper-icon-button-light', 'emby-scroller'], function (dialogHelper, connectionManager, loading, dom, layoutManager, focusManager, globalize, imageLoader, require, browser, appHost) {
     'use strict';
 
     var currentItem;
@@ -430,7 +430,8 @@
             apiClient.getItem(apiClient.getCurrentUserId(), itemId).then(function (item) {
 
                 var dialogOptions = {
-                    removeOnClose: true
+                    removeOnClose: true,
+                    scrollY: false
                 };
 
                 if (layoutManager.tv) {
@@ -445,18 +446,10 @@
 
                 dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
 
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg, false);
-                }
-
                 initEditor(dlg, options);
 
                 // Has to be assigned a z-index after the call to .open() 
                 dlg.addEventListener('close', function () {
-
-                    if (layoutManager.tv) {
-                        scrollHelper.centerFocus.off(dlg, false);
-                    }
 
                     loading.hide();
 

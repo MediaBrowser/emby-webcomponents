@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'scrollHelper', 'layoutManager', 'globalize', 'require', 'emby-button', 'emby-select', 'formDialogStyle', 'css!./style'], function (dialogHelper, connectionManager, dom, loading, scrollHelper, layoutManager, globalize, require) {
+﻿define(['dialogHelper', 'connectionManager', 'dom', 'loading', 'layoutManager', 'globalize', 'require', 'emby-button', 'emby-select', 'formDialogStyle', 'css!./style', 'emby-scroller'], function (dialogHelper, connectionManager, dom, loading, layoutManager, globalize, require) {
     'use strict';
 
     var currentItemId;
@@ -135,16 +135,8 @@
 
             dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
 
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg, false);
-            }
-
             // Has to be assigned a z-index after the call to .open() 
             dlg.addEventListener('close', function () {
-
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.off(dlg, false);
-                }
 
                 loading.hide();
                 resolve(hasChanges);

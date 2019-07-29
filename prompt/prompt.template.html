@@ -5,10 +5,9 @@
     <h3 class="formDialogHeaderTitle"></h3>
 </div>
 
-<div class="formDialogContent scrollY smoothScrollY">
-    <div class="dialogContentInner dialog-content-centered" style="padding-top:2em;">
-
-        <form>
+<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">
+    <div class="scrollSlider">
+        <form class="dialogContentInner dialog-content-centered" style="padding-top:2em;">
             <div class="inputContainer">
                 <input is="emby-input" type="text" id="txtInput" label="" />
                 <div class="fieldDescription"></div>
@@ -19,7 +18,6 @@
                     <span class="submitText"></span>
                 </button>
             </div>
-
         </form>
     </div>
 </div>

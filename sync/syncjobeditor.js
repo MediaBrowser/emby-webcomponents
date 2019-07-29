@@ -1,4 +1,4 @@
-﻿define(['connectionManager', 'serverNotifications', 'events', 'datetime', 'dom', 'imageLoader', 'loading', 'globalize', 'apphost', 'layoutManager', 'scrollHelper', 'dialogHelper', 'listViewStyle', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'emby-linkbutton'], function (connectionManager, serverNotifications, events, datetime, dom, imageLoader, loading, globalize, appHost, layoutManager, scrollHelper, dialogHelper) {
+﻿define(['connectionManager', 'serverNotifications', 'events', 'datetime', 'dom', 'imageLoader', 'loading', 'globalize', 'apphost', 'layoutManager', 'dialogHelper', 'listViewStyle', 'paper-icon-button-light', 'emby-button', 'formDialogStyle', 'emby-linkbutton', 'emby-scroller'], function (connectionManager, serverNotifications, events, datetime, dom, imageLoader, loading, globalize, appHost, layoutManager, dialogHelper) {
     'use strict';
 
     function syncNow() {
@@ -430,10 +430,9 @@
 
         html += '</div>';
 
-        html += '<div class="formDialogContent scrollY smoothScrollY" style="padding-top:2em;">';
-        html += '<div class="dialogContentInner dialog-content-centered">';
-
-        html += '<form class="syncJobForm" style="margin: auto;">';
+        html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
+        html += '<div class="scrollSlider">';
+        html += '<form class="dialogContentInner dialog-content-centered syncJobForm" style="padding-top:2em;">';
 
         html += '<div class="syncJobFormContent"></div>';
 
@@ -462,10 +461,6 @@
         dlg.querySelector('.btnCancel').addEventListener('click', function () {
             dialogHelper.close(dlg);
         });
-
-        if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-        }
 
         function onSyncJobMessage(e, apiClient, job) {
             if (String(job.Id) === id) {
@@ -502,10 +497,6 @@
 
             ////stopListening(apiClient);
             events.off(serverNotifications, 'SyncJobUpdated', onSyncJobMessage);
-
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
-            }
 
             if (submitted) {
                 return Promise.resolve();

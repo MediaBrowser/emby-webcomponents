@@ -1,4 +1,4 @@
-define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle'], function (dialogHelper, layoutManager, scrollHelper, globalize, dom, require) {
+define(['dialogHelper', 'layoutManager', 'globalize', 'dom', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'emby-scroller'], function (dialogHelper, layoutManager, globalize, dom, require) {
     'use strict';
 
     function setInputProperties(dlg, options) {
@@ -30,7 +30,6 @@ define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 're
         dlg.innerHTML = globalize.translateHtml(template, 'sharedcomponents');
 
         if (layoutManager.tv) {
-            scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
         } else {
             dlg.querySelector('.dialogContentInner').classList.add('dialogContentInner-mini');
             dlg.classList.add('dialog-fullscreen-lowres');
@@ -71,10 +70,6 @@ define(['dialogHelper', 'layoutManager', 'scrollHelper', 'globalize', 'dom', 're
         dlg.style.minWidth = (Math.min(400, dom.getWindowSize().innerWidth - 50)) + 'px';
 
         return dialogHelper.open(dlg).then(function () {
-
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
-            }
 
             var value = submitValue;
 

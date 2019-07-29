@@ -1,4 +1,4 @@
-define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
+define(['dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles', 'emby-scroller'], function (dialogHelper, dom, layoutManager, globalize, require) {
     'use strict';
 
     function replaceAll(originalString, strReplace, strWith) {
@@ -33,9 +33,8 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
         if (enableTvLayout) {
             formDialogContent.style['max-width'] = '50%';
             formDialogContent.style['max-height'] = '60%';
-            scrollHelper.centerFocus.on(formDialogContent, false);
         } else {
-            formDialogContent.style.maxWidth = (Math.min((options.buttons.length * 150) + 200, dom.getWindowSize().innerWidth - 50)) + 'px';
+            dlg.style.maxWidth = '35em';
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
@@ -109,10 +108,6 @@ define(['dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 're
         }
 
         return dialogHelper.open(dlg).then(function () {
-
-            if (enableTvLayout) {
-                scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
-            }
 
             if (dialogResult) {
                 return dialogResult;

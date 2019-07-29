@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings', 'connectionManager', 'loading', 'focusManager', 'dom', 'apphost', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'css!./subtitleeditor', 'emby-button', 'flexStyles'], function (dialogHelper, require, layoutManager, globalize, userSettings, connectionManager, loading, focusManager, dom, appHost) {
+﻿define(['dialogHelper', 'require', 'layoutManager', 'globalize', 'userSettings', 'connectionManager', 'loading', 'focusManager', 'dom', 'apphost', 'emby-select', 'listViewStyle', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'css!./subtitleeditor', 'emby-button', 'flexStyles', 'emby-scroller'], function (dialogHelper, require, layoutManager, globalize, userSettings, connectionManager, loading, focusManager, dom, appHost) {
     'use strict';
 
     var currentItem;
@@ -447,13 +447,6 @@
         });
     }
 
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
-
     function showEditorInternal(itemId, serverId, template) {
 
         hasChanges = false;
@@ -484,7 +477,6 @@
             var btnSubmit = dlg.querySelector('.btnSubmit');
 
             if (layoutManager.tv) {
-                centerFocus(dlg.querySelector('.formDialogContent'), false, true);
                 dlg.querySelector('.btnSearchSubtitles').classList.add('hide');
             } else {
                 btnSubmit.classList.add('hide');
@@ -512,10 +504,6 @@
             return new Promise(function (resolve, reject) {
 
                 dlg.addEventListener('close', function () {
-
-                    if (layoutManager.tv) {
-                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                    }
 
                     if (hasChanges) {
                         resolve();

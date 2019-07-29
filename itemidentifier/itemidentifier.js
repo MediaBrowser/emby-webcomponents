@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 'scrollHelper', 'layoutManager', 'focusManager', 'browser', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'cardStyle'], function (dialogHelper, loading, connectionManager, require, globalize, scrollHelper, layoutManager, focusManager, browser) {
+﻿define(['dialogHelper', 'loading', 'connectionManager', 'require', 'globalize', 'layoutManager', 'focusManager', 'browser', 'emby-input', 'emby-checkbox', 'paper-icon-button-light', 'css!./../formdialog', 'material-icons', 'cardStyle', 'emby-scroller'], function (dialogHelper, loading, connectionManager, require, globalize, layoutManager, focusManager, browser) {
     'use strict';
 
     var currentItem;
@@ -382,10 +382,6 @@
                 // Has to be assigned a z-index after the call to .open() 
                 dlg.addEventListener('close', onDialogClosed);
 
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-                }
-
                 if (item.Path) {
                     dlg.querySelector('.itemPathContainer').classList.remove('hide');
                 }
@@ -460,10 +456,6 @@
             html += globalize.translateDocument(template, 'sharedcomponents');
 
             dlg.innerHTML = html;
-
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-            }
 
             dialogHelper.open(dlg);
 

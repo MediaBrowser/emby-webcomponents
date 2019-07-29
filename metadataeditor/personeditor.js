@@ -1,12 +1,5 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-button-light', 'emby-input', 'emby-select', 'css!./../formdialog'], function (dialogHelper, layoutManager, globalize, require) {
+﻿define(['dialogHelper', 'layoutManager', 'globalize', 'require', 'paper-icon-button-light', 'emby-input', 'emby-select', 'css!./../formdialog', 'emby-scroller'], function (dialogHelper, layoutManager, globalize, require) {
     'use strict';
-
-    function centerFocus(elem, horiz, on) {
-        require(['scrollHelper'], function (scrollHelper) {
-            var fn = on ? 'on' : 'off';
-            scrollHelper.centerFocus[fn](elem, horiz);
-        });
-    }
 
     function show(person) {
         return new Promise(function (resolve, reject) {
@@ -39,17 +32,9 @@
                 dlg.querySelector('.selectPersonType', dlg).value = person.Type || '';
                 dlg.querySelector('.txtPersonRole', dlg).value = person.Role || '';
 
-                if (layoutManager.tv) {
-                    centerFocus(dlg.querySelector('.formDialogContent'), false, true);
-                }
-
                 dialogHelper.open(dlg);
 
                 dlg.addEventListener('close', function () {
-
-                    if (layoutManager.tv) {
-                        centerFocus(dlg.querySelector('.formDialogContent'), false, false);
-                    }
 
                     if (submitted) {
                         resolve(person);

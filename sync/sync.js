@@ -1,4 +1,4 @@
-﻿define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusManager', 'scrollHelper', 'appSettings', 'registrationServices', 'dialogHelper', 'paper-icon-button-light', 'formDialogStyle'], function (appHost, globalize, connectionManager, layoutManager, focusManager, scrollHelper, appSettings, registrationServices, dialogHelper) {
+﻿define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusManager', 'appSettings', 'registrationServices', 'dialogHelper', 'paper-icon-button-light', 'formDialogStyle', 'emby-scroller'], function (appHost, globalize, connectionManager, layoutManager, focusManager, appSettings, registrationServices, dialogHelper) {
     'use strict';
 
     var currentDialogOptions;
@@ -511,10 +511,9 @@
 
             html += '</div>';
 
-            html += '<div class="formDialogContent scrollY smoothScrollY" style="padding-top:2em;">';
-            html += '<div class="dialogContentInner dialog-content-centered">';
-
-            html += '<form class="formSubmitSyncRequest" style="margin: auto;">';
+            html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
+            html += '<div class="scrollSlider">';
+            html += '<form class="dialogContentInner dialog-content-centered formSubmitSyncRequest" style="padding-top:2em;">';
 
             html += '<div class="formFields"></div>';
 
@@ -544,10 +543,6 @@
                 dialogHelper.close(dlg);
             });
 
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-            }
-
             var promise = dialogHelper.open(dlg);
 
             renderForm({
@@ -558,9 +553,6 @@
             });
 
             return promise.then(function () {
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
-                }
 
                 if (submitted) {
                     return Promise.resolve();

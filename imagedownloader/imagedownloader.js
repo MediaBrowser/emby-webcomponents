@@ -1,4 +1,4 @@
-﻿define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'browser', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'emby-select', 'paper-icon-button-light', 'emby-linkbutton', 'formDialogStyle', 'cardStyle'], function (loading, appHost, dialogHelper, connectionManager, browser, layoutManager, scrollHelper, globalize, require) {
+﻿define(['loading', 'apphost', 'dialogHelper', 'connectionManager', 'browser', 'layoutManager', 'globalize', 'require', 'emby-checkbox', 'emby-button', 'emby-select', 'paper-icon-button-light', 'emby-linkbutton', 'formDialogStyle', 'cardStyle', 'emby-scroller'], function (loading, appHost, dialogHelper, connectionManager, browser, layoutManager, globalize, require) {
     'use strict';
 
     var currentItemId;
@@ -327,7 +327,8 @@
             currentItemType = itemType;
 
             var dialogOptions = {
-                removeOnClose: true
+                removeOnClose: true,
+                scrollY: false
             };
 
             if (layoutManager.tv) {
@@ -337,12 +338,9 @@
             }
 
             var dlg = dialogHelper.createDialog(dialogOptions);
+            dlg.classList.add('formDialog');
 
             dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
-
-            if (layoutManager.tv) {
-                scrollHelper.centerFocus.on(dlg, false);
-            }
 
             // Has to be assigned a z-index after the call to .open() 
             dlg.addEventListener('close', onDialogClosed);
@@ -364,10 +362,6 @@
     function onDialogClosed() {
 
         var dlg = this;
-
-        if (layoutManager.tv) {
-            scrollHelper.centerFocus.off(dlg, false);
-        }
 
         loading.hide();
         if (hasChanges) {

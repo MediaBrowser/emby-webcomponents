@@ -1,4 +1,4 @@
-﻿define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'scrollHelper', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles'], function (loading, events, dialogHelper, dom, layoutManager, scrollHelper, globalize, require) {
+﻿define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles', 'emby-scroller'], function (loading, events, dialogHelper, dom, layoutManager, globalize, require) {
     'use strict';
 
     var currentApiClient;
@@ -84,9 +84,8 @@
         if (enableTvLayout) {
             formDialogContent.style['max-width'] = '50%';
             formDialogContent.style['max-height'] = '60%';
-            scrollHelper.centerFocus.on(formDialogContent, false);
         } else {
-            formDialogContent.style.maxWidth = (Math.min((configuredButtons.length * 150) + 200, dom.getWindowSize().innerWidth - 50)) + 'px';
+            dlg.style.maxWidth = '25em';
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 
@@ -130,10 +129,6 @@
         startRestart(instance, options.apiClient, dlg);
 
         return dlgPromise.then(function () {
-
-            if (enableTvLayout) {
-                scrollHelper.centerFocus.off(dlg.querySelector('.formDialogContent'), false);
-            }
 
             instance.destroy();
             loading.hide();
