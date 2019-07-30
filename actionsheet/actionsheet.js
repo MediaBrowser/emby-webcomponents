@@ -151,9 +151,7 @@
         var center = options.title && (!renderIcon /*|| itemsWithIcons.length != options.items.length*/);
 
         if (center || layoutManager.tv) {
-            html += '<div class="actionSheetContent actionSheetContent-centered">';
-        } else {
-            html += '<div class="actionSheetContent">';
+            dlg.classList.add('actionsheet-centered');
         }
 
         if (options.title) {
@@ -189,8 +187,7 @@
         if (layoutManager.tv) {
             menuItemClass += ' listItem-focusscale';
         }
-
-        if (layoutManager.mobile) {
+        else {
             menuItemClass += ' actionsheet-xlargeFont';
         }
 
@@ -204,7 +201,7 @@
                 continue;
             }
 
-            var autoFocus = option.selected && layoutManager.tv ? ' autoFocus' : '';
+            var autoFocus = option.selected ? ' autoFocus' : '';
 
             // Check for null in case int 0 was passed in
             var optionId = option.id == null || option.id === '' ? option.value : option.id;
@@ -249,13 +246,20 @@
             html += '</button>';
         }
 
+        html += '</div>';
+        html += '</div>';
+
+        if (options.bottomText) {
+            html += '<div class="actionSheetBottomText fieldDescription">';
+            html += options.bottomText;
+            html += '</div>';
+        }
+
         if (options.showCancel) {
             html += '<div class="buttons">';
             html += '<button is="emby-button" type="button" class="btnCloseActionSheet">' + globalize.translate('Cancel') + '</button>';
             html += '</div>';
         }
-        html += '</div>';
-        html += '</div>';
 
         dlg.innerHTML = html;
 

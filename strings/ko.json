@@ -1,5 +1,6 @@
 {
     "LinkedToEmbyConnect": "Linked to Emby Connect",
+    "AudioSettingsIntro": "To configure default audio settings, stop video playback, then click your user icon in the top right section of the app.",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "\uc120\ud0dd\ud55c \uc11c\ubc84\uc5d0 \uc5f0\uacb0\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. \uc11c\ubc84\uac00 \uc2e4\ud589 \uc911\uc778\uc9c0 \ud655\uc778\ud6c4 \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694.",
     "EmbyIntroMessage": "With Emby you can easily stream videos, music and photos to smart phones, tablets and other devices from your Emby Server.",
@@ -843,7 +844,7 @@
     "PlaybackSettings": "\uc7ac\uc0dd \uc124\uc815",
     "SubtitleSettings": "Subtitle settings",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "SubtitleSettingsIntro": "To configure default subtitle settings, stop video playback, then click your user icon in the top right section of the app.",
     "LabelVerticalPositionFromBottom": "Vertical position (from bottom):",
     "HeaderFavoritePeople": "Favorite People",
     "MultiSelect": "\ub2e4\uc911-\uc120\ud0dd",

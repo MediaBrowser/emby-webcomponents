@@ -1,5 +1,6 @@
 {
     "LinkedToEmbyConnect": "Linked to Emby Connect",
+    "AudioSettingsIntro": "To configure default audio settings, stop video playback, then click your user icon in the top right section of the app.",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "Vi kan ikke forbinde til den valgte server p\u00e5 nuv\u00e6rende tidspunkt. Sikrer dig venligst at serveren k\u00f8rer og pr\u00f8v igen.",
     "EmbyIntroMessage": "Med Emby kan du nemt streame videoer, musik og fotos til din smartphone, tablet eller andre enheder.",
@@ -843,7 +844,7 @@
     "PlaybackSettings": "Afspilningsindstillinger",
     "SubtitleSettings": "Indstilinger til undertekster",
     "PlaybackSettingsIntro": "To configure default playback settings, stop video playback, then click your user icon in the top right section of the app.",
-    "SubtitleSettingsIntro": "To configure default subtitle appearance and language settings, stop video playback, then click your user icon in the top right section of the app.",
+    "SubtitleSettingsIntro": "To configure default subtitle settings, stop video playback, then click your user icon in the top right section of the app.",
     "LabelVerticalPositionFromBottom": "Vertical position (from bottom):",
     "HeaderFavoritePeople": "Favorite People",
     "MultiSelect": "Multi-select",

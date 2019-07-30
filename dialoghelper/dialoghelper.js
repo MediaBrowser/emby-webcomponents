@@ -79,7 +79,7 @@
                 }
             }
 
-            if (layoutManager.tv) {
+            if (activeElement) {
                 focusManager.focus(activeElement);
             }
 

@@ -53,6 +53,13 @@
     flex-wrap: wrap;
 }
 
+.layout-tv .formDialogFooter {
+    position: static;
+    padding: 1.25em 0;
+    background: none;
+    flex-direction: column;
+}
+
 .formDialogFooter-flex {
     position: static;
     width: 100%;
@@ -72,11 +79,11 @@
     flex-basis: 0;
 }
 
-.formDialogFooterItem-vertical {
+.formDialogFooterItem-vertical, .layout-tv .formDialogFooterItem {
     max-width: none !important;
     width: 100%;
     justify-content: center;
-    margin: 1em !important;
+    margin: 1em 0 !important;
 }
 
 .formDialogFooterItem-nomarginbottom {

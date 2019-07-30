@@ -1,4 +1,5 @@
 .actionSheet {
+    flex-direction: column;
     display: flex;
     justify-content: center;
     padding: 0;
@@ -17,19 +18,9 @@
     border-radius: 0 !important;
 }
 
-.actionSheetContent-centered {
+.actionsheet-centered {
     text-align: center;
     align-items: center;
-}
-
-.actionSheetContent {
-    margin: 0 !important;
-    padding: .4em 0 !important;
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    flex-grow: 1;
-    overflow: hidden;
 }
 
 .actionSheetMenuItem {
@@ -88,14 +79,30 @@
 }
 
 .actionSheetTitle {
-    margin: .6em 0 .7em !important;
     padding: 0 .9em;
     flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .actionSheetText {
     padding: 0 1em;
     flex-grow: 0;
+    flex-shrink: 0;
+}
+
+.actionSheetBottomText {
+    padding: 1em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-align: left;
+    font-size: 90%;
+}
+
+@media all and (min-height: 45em) {
+
+    .actionSheetBottomText {
+        max-width: 20em;
+    }
 }
 
 .actionsheetMenuItemIcon {
@@ -103,8 +110,10 @@
     padding: 0 !important;
 }
 
-.actionsheet-xlargeFont {
-    font-size: 112% !important;
+@media (pointer: coarse) {
+    .actionsheet-xlargeFont {
+        font-size: 112% !important;
+    }
 }
 
 .btnCloseActionSheet {

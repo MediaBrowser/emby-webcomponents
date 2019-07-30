@@ -1,4 +1,4 @@
-define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings', 'qualityoptions'], function (connectionManager, actionsheet, datetime, playbackManager, globalize, appSettings, qualityoptions) {
+define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'globalize', 'appSettings', 'qualityoptions'], function (browser, connectionManager, actionsheet, datetime, playbackManager, globalize, appSettings, qualityoptions) {
     'use strict';
 
     function showQualityMenu(player, btn) {
@@ -196,10 +196,12 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
             });
         }
 
-        menuItems.push({
-            name: globalize.translate('PlaybackSettings'),
-            id: 'playbacksettings'
-        });
+        if (!browser.web0s) {
+            menuItems.push({
+                name: globalize.translate('PlaybackSettings'),
+                id: 'playbacksettings'
+            });
+        }
 
         var currentMediaSource = playbackManager.currentMediaSource(player);
 
@@ -232,11 +234,6 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
                 asideText: null
             });
         }
-
-        menuItems.push({
-            name: globalize.translate('SubtitleSettings'),
-            id: 'subtitlesettings'
-        });
 
         return actionsheet.show({
 
@@ -277,10 +274,6 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
         });
     }
 
-    function showSubtitleSettings(player, btn) {
-        return alertText(globalize.translate('SubtitleSettingsIntro'));
-    }
-
     function showPlaybackSettings(player, btn) {
         return alertText(globalize.translate('PlaybackSettingsIntro'));
     }
@@ -295,8 +288,6 @@ define(['connectionManager', 'actionsheet', 'datetime', 'playbackManager', 'glob
                 return showAspectRatioMenu(player, options.positionTo);
             case 'repeatmode':
                 return showRepeatModeMenu(player, options.positionTo);
-            case 'subtitlesettings':
-                return showSubtitleSettings(player, options.positionTo);
             case 'playbacksettings':
                 return showPlaybackSettings(player, options.positionTo);
             case 'stats':
