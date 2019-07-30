@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'imageLoader', 'scrollStyles', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'flexStyles'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, imageLoader) {
+﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'imageLoader', 'scrollStyles', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'flexStyles', 'emby-scroller'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, imageLoader) {
     'use strict';
 
     var currentDialog;
@@ -144,10 +144,6 @@
                         });
                     }
                 });
-
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-                }
 
                 init(dlg);
 

@@ -283,13 +283,12 @@
         onAnimationFinish();
     }
 
-    var supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;
-
+    //var supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;
     function shouldLockDocumentScroll(options) {
 
-        if (supportsOverscrollBehavior) {
-            return false;
-        }
+        //if (supportsOverscrollBehavior) {
+        //    return false;
+        //}
 
         return true;
     }

@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'scrollHelper', 'datetime', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, scrollHelper, datetime, recordingFields, events) {
+﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'datetime', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'emby-scroller'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, datetime, recordingFields, events) {
     'use strict';
 
     var currentDialog;
@@ -177,10 +177,6 @@
                         reject();
                     }
                 });
-
-                if (layoutManager.tv) {
-                    scrollHelper.centerFocus.on(dlg.querySelector('.formDialogContent'), false);
-                }
 
                 init(dlg);
 

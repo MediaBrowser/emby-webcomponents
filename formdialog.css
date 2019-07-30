@@ -23,7 +23,7 @@
 }
 
 .dialogContentInner {
-    padding: .5em 1em 20em 1em;
+    padding: .5em 1em 14em 1em;
 }
 
 .dialogContentInner-mini {
@@ -32,7 +32,7 @@
 
 .dialog-content-centered {
     margin: 0 auto;
-    max-width: 53em;
+    max-width: 54em;
 }
 
 .dialogContentTitle {

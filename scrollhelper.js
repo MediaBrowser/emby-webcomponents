@@ -86,51 +86,8 @@ define(['focusManager', 'dom', 'scrollStyles'], function (focusManager, dom) {
         }
     }
 
-    function centerOnFocus(e, scrollSlider, horizontal) {
-        var focused = focusManager.focusableParent(e.target);
-
-        if (focused) {
-            toCenter(scrollSlider, focused, horizontal);
-        }
-    }
-
-    function centerOnFocusHorizontal(e) {
-        centerOnFocus(e, this, true);
-    }
-    function centerOnFocusVertical(e) {
-        centerOnFocus(e, this, false);
-    }
-
     return {
         getPosition: getPosition,
-        centerFocus: {
-            on: function (element, horizontal) {
-                if (horizontal) {
-                    dom.addEventListener(element, 'focus', centerOnFocusHorizontal, {
-                        capture: true,
-                        passive: true
-                    });
-                } else {
-                    dom.addEventListener(element, 'focus', centerOnFocusVertical, {
-                        capture: true,
-                        passive: true
-                    });
-                }
-            },
-            off: function (element, horizontal) {
-                if (horizontal) {
-                    dom.removeEventListener(element, 'focus', centerOnFocusHorizontal, {
-                        capture: true,
-                        passive: true
-                    });
-                } else {
-                    dom.removeEventListener(element, 'focus', centerOnFocusVertical, {
-                        capture: true,
-                        passive: true
-                    });
-                }
-            }
-        },
         toCenter: toCenter,
         toStart: toStart
     };
