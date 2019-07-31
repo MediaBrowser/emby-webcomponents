@@ -61,6 +61,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
+    padding-left: .25em;
 }
 
 .headerRight {
@@ -70,6 +71,7 @@
     white-space: nowrap;
     flex-shrink: 0;
     flex-grow: 1;
+    padding-right: .25em;
 }
 
 .headerLeft, .headerRight {

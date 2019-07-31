@@ -53,16 +53,17 @@
     flex-wrap: wrap;
 }
 
+.formDialogFooter-flex {
+    position: static;
+    width: 100%;
+}
+
 .layout-tv .formDialogFooter {
     position: static;
     padding: 1.25em 0;
     background: none;
     flex-direction: column;
-}
-
-.formDialogFooter-flex {
-    position: static;
-    width: 100%;
+    width: auto;
 }
 
 .formDialogFooter-vertical {

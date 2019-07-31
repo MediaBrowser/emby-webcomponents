@@ -234,7 +234,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .listItem-border {
-    border-color: rgba(255,255,255,.1) !important;
+    border-color: rgba(255,255,255,.08) !important;
 }
 
 .listItem:focus {

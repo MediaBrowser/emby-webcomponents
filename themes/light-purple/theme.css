@@ -199,7 +199,7 @@ html, .backgroundContainer {
 }
 
 .listItem-border {
-    border-color: rgba(0,0,0,.1) !important;
+    border-color: rgba(0,0,0,.08) !important;
 }
 
 .progressring-spiner {
