@@ -1,4 +1,4 @@
-﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'headroom-window', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, windowHeadroom) {
+﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'headroom-window', 'navdrawer', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, windowHeadroom, navDrawerInstance) {
     'use strict';
 
     var skinHeaderElement = document.querySelector('.skinHeader');
@@ -13,6 +13,15 @@
     var headerLeft;
     var headerRight;
     var currentServerId;
+
+    function toggleMainDrawer() {
+
+        if (navDrawerInstance.isVisible) {
+            navDrawerInstance.close();
+        } else {
+            navDrawerInstance.open();
+        }
+    }
 
     function updateClock() {
 
@@ -161,18 +170,9 @@
         setRemoteControlVisibility();
     }
 
-    var libraryMenu;
     function onHeaderMenuButtonClick() {
 
-        if (libraryMenu) {
-            libraryMenu.onHardwareMenuButtonClick();
-            return;
-        }
-
-        require(['libraryMenu'], function (a) {
-            libraryMenu = a;
-            libraryMenu.onHardwareMenuButtonClick();
-        });
+        toggleMainDrawer();
     }
 
     function onHomeClick() {
@@ -294,7 +294,7 @@
 
     function updateMenuButton(e, view) {
 
-        if (self.Dashboard && !layoutManager.tv && userSignedIn && e.detail.secondaryHeaderFeatures !== false && !view.classList.contains('type-interior')) {
+        if (!layoutManager.tv && userSignedIn && e.detail.secondaryHeaderFeatures !== false && e.detail.drawer !== false && window.Dashboard && !view.classList.contains('type-interior')) {
 
             headerMenuButton.classList.remove('hide');
         } else {
@@ -358,6 +358,8 @@
         } else {
             windowHeadroom.remove(skinHeader);
         }
+
+        navDrawerInstance.setEdgeSwipeEnabled(userSignedIn && !layoutManager.tv && e.detail.drawer !== false && window.Dashboard);
 
         updateBackButton(e);
         updateHomeButton(e);
