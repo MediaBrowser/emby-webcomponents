@@ -182,7 +182,12 @@ require([], function () {
 
     function allowInput() {
 
-        if (document.visibilityState === 'hidden') {
+        var doc = document;
+
+        if (doc.visibilityState === 'hidden') {
+            return false;
+        }
+        if (!doc.hasFocus()) {
             return false;
         }
 

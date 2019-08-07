@@ -866,11 +866,19 @@ define(['browser'], function (browser) {
                 });
             }
 
-            var maxH264Level = browser.chromecast ? 42 : 51;
+            var maxH264Level = 42;
             var h264Profiles = 'high|main|baseline|constrained baseline';
 
-            if (maxH264Level >= 51 && browser.chrome && !browser.osx && !browser.web0s) {
-                h264Profiles += '|high 10';
+            if (browser.netcast || browser.tizen || browser.orsay || browser.web0s || videoTestElement.canPlayType('video/mp4; codecs="avc1.640833"').replace(/no/, '')) {
+                maxH264Level = 51;
+            }
+
+            if (browser.netcast || browser.tizen || browser.orsay || browser.web0s || videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
+
+                // These tests are passing in safari, but playback is failing
+                if (!browser.safari && !browser.iOS) {
+                    h264Profiles += '|high 10';
+                }
             }
 
             profile.CodecProfiles.push({

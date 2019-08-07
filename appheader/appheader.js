@@ -1,4 +1,4 @@
-﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'headroom-window', 'navdrawer', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, windowHeadroom, navDrawerInstance) {
+﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'navdrawer', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, navDrawerInstance) {
     'use strict';
 
     var skinHeaderElement = document.querySelector('.skinHeader');
@@ -13,15 +13,6 @@
     var headerLeft;
     var headerRight;
     var currentServerId;
-
-    function toggleMainDrawer() {
-
-        if (navDrawerInstance.isVisible) {
-            navDrawerInstance.close();
-        } else {
-            navDrawerInstance.open();
-        }
-    }
 
     function updateClock() {
 
@@ -172,7 +163,7 @@
 
     function onHeaderMenuButtonClick() {
 
-        toggleMainDrawer();
+        navDrawerInstance.toggle();
     }
 
     function onHomeClick() {
@@ -341,6 +332,37 @@
         }
     }
 
+    var windowHeadroom;
+    function loadWindowHeadroom() {
+
+        require(['headroom-window'], function (headroom) {
+
+            windowHeadroom = headroom;
+            windowHeadroom.add(skinHeaderElement);
+        });
+    }
+
+    function setWindowHeadroomEnabled(enabled) {
+
+        if (!windowHeadroom && !enabled) {
+
+            return;
+        }
+
+        if (windowHeadroom) {
+
+            if (enabled) {
+                windowHeadroom.add(skinHeaderElement);
+            } else {
+                windowHeadroom.remove(skinHeaderElement);
+            }
+
+            return;
+        }
+
+        loadWindowHeadroom();
+    }
+
     function onViewShow(e) {
 
         var skinHeader = skinHeaderElement;
@@ -353,11 +375,7 @@
             cancelable: false
         }));
 
-        if (e.detail.autoHideHeader) {
-            windowHeadroom.add(skinHeader);
-        } else {
-            windowHeadroom.remove(skinHeader);
-        }
+        setWindowHeadroomEnabled(e.detail.autoHideHeader);
 
         navDrawerInstance.setEdgeSwipeEnabled(userSignedIn && !layoutManager.tv && e.detail.drawer !== false && window.Dashboard);
 

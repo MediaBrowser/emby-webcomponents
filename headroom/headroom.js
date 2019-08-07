@@ -72,14 +72,12 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             this.onHeadroomClearedExternallyFn = onHeadroomClearedExternally.bind(this);
             this.onHeadroomForceClearedExternallyFn = onHeadroomForceClearedExternally.bind(this);
 
-            if (browser.supportsCssAnimation()) {
-                for (var i = 0, length = this.elems.length; i < length; i++) {
+            var elems = this.elems;
+            this.elems = [];
 
-                    var elem = this.elems[i];
-                    this.initElem(elem);
-                }
+            for (var i = 0, length = elems.length; i < length; i++) {
 
-                this.attachEvent();
+                this.add(elems[i]);
             }
 
             return this;
@@ -92,6 +90,8 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             if (browser.supportsCssAnimation() && elems.indexOf(elem) === -1) {
                 this.initElem(elem);
                 elems.push(elem);
+
+                this.attachEvent();
             }
         },
 
@@ -135,6 +135,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         destroy: function () {
 
             this.initialised = false;
+            this.lastKnownScrollY = null;
 
             for (var i = 0, length = this.elems.length; i < length; i++) {
 
@@ -164,6 +165,9 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
 
             this.scrollElementForEvents = null;
             this.scroller = null;
+
+            this.elems = [];
+            this.options = null;
         },
 
         /**

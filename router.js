@@ -1,52 +1,84 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager) {
+define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager', 'userSettings', 'itemHelper'], function (loading, globalize, events, viewManager, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager, userSettings, itemHelper) {
     'use strict';
 
     var appRouter = {
         showLocalLogin: function (serverId, manualLogin) {
 
+            if (self.Dashboard) {
+                return show('/login.html?serverid=' + serverId);
+            }
+
             var pageName = manualLogin ? 'manuallogin' : 'login';
 
-            show('/startup/' + pageName + '.html?serverid=' + serverId);
+            return show('/startup/' + pageName + '.html?serverid=' + serverId);
         },
         showSelectServer: function () {
-            show('/startup/selectserver.html');
+
+            if (self.Dashboard) {
+                if (Dashboard.isConnectMode()) {
+                    return show('/selectserver.html');
+                } else {
+                    return show('/login.html');
+                }
+            }
+            return show('/startup/selectserver.html');
         },
         showWelcome: function () {
-            show('/startup/welcome.html');
+
+            if (self.Dashboard) {
+                if (Dashboard.isConnectMode()) {
+                    return show('/connectlogin.html?mode=welcome');
+                } else {
+                    return show('/login.html');
+                }
+            }
+
+            return show('/startup/welcome.html');
         },
         showConnectLogin: function () {
-            show('/startup/connectlogin.html');
+
+            if (self.Dashboard) {
+                return show('/connectlogin.html');
+            }
+
+            return show('/startup/connectlogin.html');
         },
         showSettings: function () {
-            show('/settings/settings.html');
+
+            return show(getRouteUrl('settings'));
         },
         showUserMenu: function () {
-            skinManager.getCurrentSkin().showUserMenu();
+
+            if (self.Dashboard) {
+                return show(getRouteUrl('settings'));
+            }
+
+            return showBackMenuInternal(true);
         },
         showSearch: function () {
-            skinManager.getCurrentSkin().search();
+            return show('/search/search.html');
         },
         showGuide: function () {
-            appRouter.show(appRouter.getRouteUrl('livetv', {
+            return show(appRouter.getRouteUrl('livetv', {
                 serverId: connectionManager.currentApiClient().serverId(),
                 section: 'guide'
             }));
         },
         showLiveTV: function () {
-            appRouter.show(appRouter.getRouteUrl('livetv', {
+            return show(appRouter.getRouteUrl('livetv', {
                 serverId: connectionManager.currentApiClient().serverId()
             }));
         },
         showRecordedTV: function () {
-            appRouter.show(appRouter.getRouteUrl('recordedtv', {
+            return show(appRouter.getRouteUrl('recordedtv', {
                 serverId: connectionManager.currentApiClient().serverId()
             }));
         },
         showFavorites: function () {
-            invokeShortcut('favorites_' + connectionManager.currentApiClient().serverId());
+            return show(getHomeRoute() + '&tab=1');
         },
         showNowPlaying: function () {
-            skinManager.getCurrentSkin().showNowPlaying();
+            return show('/nowplaying/nowplaying.html');
         }
     };
 
@@ -226,45 +258,20 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function normalizeImageOptions(options) {
 
-        var scaleFactor = browser.tv ? 0.8 : 1;
-
-        var setQuality;
-        if (options.maxWidth) {
-            options.maxWidth = Math.round(options.maxWidth * scaleFactor);
-            setQuality = true;
-        }
-
-        if (options.width) {
-            options.width = Math.round(options.width * scaleFactor);
-            setQuality = true;
-        }
-
-        if (options.maxHeight) {
-            options.maxHeight = Math.round(options.maxHeight * scaleFactor);
-            setQuality = true;
-        }
-
-        if (options.height) {
-            options.height = Math.round(options.height * scaleFactor);
-            setQuality = true;
-        }
-
-        if (setQuality) {
+        if (options.maxWidth || options.maxHeight || options.width || options.height) {
 
             var quality = 100;
-
-            var type = options.type || 'Primary';
 
             if (browser.tv || browser.slow) {
 
                 if (browser.chrome) {
                     // webp support
-                    quality = type === 'Primary' ? 40 : 50;
+                    quality = (options.type || 'Primary') === 'Primary' ? 40 : 50;
                 } else {
-                    quality = type === 'Backdrop' ? 60 : 50;
+                    quality = options.type === 'Backdrop' ? 60 : 50;
                 }
             } else {
-                quality = type === 'Backdrop' ? 70 : 90;
+                quality = options.type === 'Backdrop' ? 70 : 90;
             }
 
             options.quality = quality;
@@ -504,9 +511,22 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         // skinManager.loadUserSkin();
         // Logout
         // Or exit app
-        skinManager.getCurrentSkin().showBackMenu().then(function () {
+
+        showBackMenuInternal(false).then(function () {
 
             isHandlingBackToDefault = false;
+        });
+    }
+
+    function showBackMenuInternal(showHome) {
+
+        return new Promise(function (resolve, reject) {
+
+            require(['backMenu'], function (showBackMenu) {
+                showBackMenu({
+                    showHome: showHome
+                }).then(resolve);
+            });
         });
     }
 
@@ -641,54 +661,313 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return currentRouteInfo ? currentRouteInfo.route : null;
     }
 
+    function getHomeRoute() {
+
+        if (self.Dashboard) {
+            return '/home.html';
+        }
+
+        if (layoutManager.tv && userSettings.get('tvhome') === 'horizontal') {
+            return '/home_horiz/home.html';
+        }
+
+        return '/home/home.html';
+    }
+
     function goHome() {
 
-        var skin = skinManager.getCurrentSkin();
-
-        if (skin.getHomeRoute) {
-            var homePath = skin.getHomeRoute();
-            return show(pluginManager.mapRoute(skin, homePath));
-        } else {
-            var homeRoute = skin.getRoutes().filter(function (r) {
-                return r.type === 'home';
-            })[0];
-
-            return show(pluginManager.mapRoute(skin, homeRoute));
-        }
+        return show(getHomeRoute());
     }
 
     function getRouteUrl(item, options) {
 
-        if (item === 'downloads') {
-            return 'offline/offline.html';
-        }
-        if (item === 'managedownloads') {
-            return 'offline/managedownloads.html';
-        }
-        if (item === 'settings') {
-            return 'settings/settings.html';
+        if (!self.Dashboard) {
+            if (item === 'downloads') {
+                return '/offline/offline.html';
+            }
+            if (item === 'managedownloads') {
+                return '/offline/managedownloads.html';
+            }
+            if (item === 'settings') {
+                return '/settings/settings.html';
+            }
         }
 
-        return skinManager.getCurrentSkin().getRouteUrl(item, options);
+        if (item.url) {
+            return item.url;
+        }
+
+        if (!options) {
+            options = {};
+        }
+        var context = options ? options.context : null;
+
+        // Handle search hints
+        var id = item.Id || item.ItemId;
+        var serverId = item.ServerId || options.serverId;
+
+        if (item === 'settings') {
+            return '/usermenu/usermenu.html';
+        }
+        if (item === 'wizard') {
+            return '/wizardstart.html';
+        }
+        if (item === 'downloads') {
+            return '/offline/offline.html';
+        }
+        if (item === 'downloadsettings') {
+            return '/mysyncsettings.html';
+        }
+        if (item === 'premiere') {
+            return '/supporterkey.html';
+        }
+        if (item === 'managedownloads') {
+            return '/managedownloads.html';
+        }
+        if (item === 'manageserver') {
+            return '/dashboard.html';
+        }
+        if (item === 'recordedtv') {
+            return '/livetv/livetv.html?tab=3&serverId=' + serverId;
+        }
+        if (item === 'nextup') {
+            return '/list/list.html' + '?type=nextup&serverId=' + serverId;
+        }
+
+        if (item === 'livetv' || item.CollectionType === 'livetv') {
+
+            if (options.section === 'programs') {
+                return '/livetv/livetv.html?tab=0&serverId=' + serverId;
+            }
+            if (options.section === 'guide') {
+                return '/livetv/livetv.html?tab=1&serverId=' + serverId;
+            }
+            if (options.section === 'movies') {
+                return '/list/list.html?type=Program&IsMovie=true&serverId=' + serverId;
+            }
+            if (options.section === 'shows') {
+                return '/list/list.html?type=Program&IsSeries=true&IsMovie=false&IsNews=false&serverId=' + serverId;
+            }
+            if (options.section === 'sports') {
+                return '/list/list.html?type=Program&IsSports=true&serverId=' + serverId;
+            }
+            if (options.section === 'kids') {
+                return '/list/list.html?type=Program&IsKids=true&serverId=' + serverId;
+            }
+            if (options.section === 'news') {
+                return '/list/list.html?type=Program&IsNews=true&serverId=' + serverId;
+            }
+            if (options.section === 'onnow') {
+                return '/list/list.html' + '?type=Program&IsAiring=true&serverId=' + serverId;
+            }
+            if (options.section === 'dvrschedule') {
+                return '/livetv/livetv.html?tab=4&serverId=' + serverId;
+            }
+            return '/livetv/livetv.html?serverId=' + serverId;
+        }
+
+        var url;
+
+        if (item === 'list') {
+
+            url = '/list/list.html?serverId=' + serverId + '&type=' + options.itemTypes;
+            if (options.isFavorite) {
+                url += '&IsFavorite=true';
+            }
+
+            return url;
+        }
+
+        var itemType = item.Type || (options ? options.itemType : null);
+
+        if (itemType === "SeriesTimer") {
+            return "/item/item.html?seriesTimerId=" + id + '&serverId=' + serverId;
+        }
+
+        if (itemType === "Device") {
+            return "/devices/device.html?id=" + id;
+        }
+
+        if (itemType === "Plugin") {
+
+            if (!Dashboard.allowPluginPages(item.Id)) {
+                return null;
+            }
+
+            return '/' + item.ConfigPageUrl;
+        }
+
+        if (itemType === "User") {
+            return "/useredit.html?userId=" + id;
+        }
+
+        if (item.Type === 'Genre') {
+
+            url = 'list/list.html' + '?genreId=' + id + '&serverId=' + serverId;
+
+            if (context === 'livetv') {
+                url += "&type=Program";
+            }
+
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+            return url;
+        }
+        if (itemType === 'GameGenre') {
+            url = '/list/list.html?gameGenreId=' + id + '&serverId=' + serverId;
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+            return url;
+        }
+        if (itemType === 'MusicGenre') {
+            url = '/list/list.html?musicGenreId=' + id + '&serverId=' + serverId;
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+            return url;
+        }
+        if (itemType === 'Studio') {
+            url = '/list/list.html?studioId=' + id + '&serverId=' + serverId;
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+            return url;
+        }
+        if (itemType === 'Tag') {
+            url = '/list/list.html?tagId=' + id + '&serverId=' + serverId;
+            if (options.parentId) {
+                url += '&parentId=' + options.parentId;
+            }
+            return url;
+        }
+
+        if (context !== 'folders' && item.Type === 'GameSystem') {
+            url = '/list/list.html?type=Game&serverId=' + serverId;
+            url += '&parentId=' + id;
+            return url;
+        }
+        if (context !== 'folders' && !itemHelper.isLocalItem(item)) {
+            if (item.CollectionType === 'movies') {
+                url = '/movies/movies.html?serverId=' + serverId + '&parentId=' + id;
+
+                if (options.section === 'latest') {
+                    url += '&tab=1';
+                }
+                return url;
+            }
+            if (item.CollectionType === 'games') {
+                url = '/games/games.html?serverId=' + serverId + '&parentId=' + id;
+
+                return url;
+            }
+            if (item.CollectionType === 'musicvideos') {
+                url = '/musicvideos/musicvideos.html?serverId=' + serverId + '&parentId=' + id;
+
+                if (options.section === 'latest') {
+                    url += '&tab=1';
+                }
+                return url;
+            }
+            if (item.CollectionType === 'homevideos') {
+                url = '/homevideos/homevideos.html?serverId=' + serverId + '&parentId=' + id;
+
+                if (options.section === 'latest') {
+                    url += '&tab=1';
+                }
+                return url;
+            }
+            if (item.CollectionType === 'tvshows') {
+                url = '/tv/tv.html?serverId=' + serverId + '&parentId=' + id;
+
+                if (options.section === 'latest') {
+                    url += '&tab=1';
+                }
+                return url;
+            }
+            if (item.CollectionType === 'music' || item.CollectionType === 'audiobooks') {
+                url = '/music/music.html?serverId=' + serverId + '&parentId=' + id;
+                return url;
+            }
+        }
+
+        if (itemType === "Playlist") {
+            return "/item/item.html?id=" + id + '&serverId=' + serverId;
+        }
+        if (itemType === "TvChannel") {
+            return "/item/item.html?id=" + id + '&serverId=' + serverId;
+        }
+        if (itemType === "Program") {
+            return "/item/item.html?id=" + id + '&serverId=' + serverId;
+        }
+
+        if (itemType === "BoxSet") {
+            return "/item/item.html?id=" + id + '&serverId=' + serverId;
+        }
+        if (itemType === "MusicAlbum") {
+            return "/item/item.html?id=" + id + '&serverId=' + serverId;
+        }
+        if (itemType === "MusicGenre") {
+            return "/item/item.html?id=" + id + '&serverId=' + serverId;
+        }
+        if (itemType === "Person") {
+            return "/item/item.html?id=" + id + '&serverId=' + serverId;
+        }
+        if (itemType === "Recording") {
+            return "/item/item.html?id=" + id + '&serverId=' + serverId;
+        }
+
+        if (itemType === "MusicArtist") {
+            return "/item/item.html?id=" + id + '&serverId=' + serverId;
+        }
+
+        var contextSuffix = context ? ('&context=' + context) : '';
+
+        if (itemType === "Series" || itemType === "Season" || itemType === "Episode") {
+            return "/item/item.html?id=" + id + contextSuffix + '&serverId=' + serverId;
+        }
+
+        if (item.IsFolder) {
+            return id ? "/list/list.html?parentId=" + id + '&serverId=' + serverId : "#";
+        }
+
+        return "/item/item.html?id=" + id + '&serverId=' + serverId;
+    }
+
+    function showAlert(text) {
+
+        return require(['alert']).then(function (responses) {
+
+            return responses[0](text);
+        });
     }
 
     function showItem(item, serverId, options) {
 
         if (typeof (item) === 'string') {
             var apiClient = serverId ? connectionManager.getApiClient(serverId) : connectionManager.currentApiClient();
-            apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
-                appRouter.showItem(item, options);
+            return apiClient.getItem(apiClient.getCurrentUserId(), item).then(function (item) {
+                return appRouter.showItem(item, options);
             });
         } else {
+
+            if (item.Type === 'Plugin') {
+
+                if (!item.ConfigPageUrl) {
+
+                    return showAlert(globalize.translate('NoPluginConfigurationMessage'));
+
+                } else if (!Dashboard.allowPluginPages(item.Id)) {
+                    return showAlert(globalize.translate('MessagePluginConfigurationRequiresLocalAccess'));
+                }
+            }
 
             if (arguments.length === 2) {
                 options = arguments[1];
             }
 
-            var url = appRouter.getRouteUrl(item, options);
-            appRouter.show(url, {
-                item: item
-            });
+            return show(appRouter.getRouteUrl(item, options), { item: item });
         }
     }
 
@@ -700,13 +979,8 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function showVideoOsd() {
-        var skin = skinManager.getCurrentSkin();
 
-        var homeRoute = skin.getRoutes().filter(function (r) {
-            return r.type === 'video-osd';
-        })[0];
-
-        return show(pluginManager.mapRoute(skin, homeRoute));
+        return show('/videoosd/videoosd.html');
     }
 
     var allRoutes = [];
@@ -785,7 +1059,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             id = id.split('_');
 
-            appRouter.showItem(id[0], id[1]);
+            return showItem(id[0], id[1]);
 
         } else if (id.indexOf('item-') === 0) {
 
@@ -793,13 +1067,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             id = id.split('_');
 
-            appRouter.showItem(id[0], id[1]);
+            return showItem(id[0], id[1]);
 
         } else {
 
             id = id.split('_');
 
-            appRouter.show(appRouter.getRouteUrl(id[0], {
+            return show(appRouter.getRouteUrl(id[0], {
                 serverId: id[1]
             }));
         }

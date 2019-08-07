@@ -1,85 +1,5 @@
-define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings'], function (appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings) {
+define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdrop', 'globalize', 'require', 'appSettings', 'layoutManager'], function (connectionManager, appHost, userSettings, browser, events, pluginManager, backdrop, globalize, require, appSettings, layoutManager) {
     'use strict';
-
-    var currentSkin;
-
-    function getCurrentSkin() {
-        return currentSkin;
-    }
-
-    function loadSkin(id) {
-
-        var newSkin = pluginManager.plugins().filter(function (p) {
-            return p.id === id;
-        })[0];
-
-        if (!newSkin) {
-            newSkin = pluginManager.plugins().filter(function (p) {
-                return p.id === 'defaultskin';
-            })[0];
-        }
-
-        if (currentSkin) {
-
-            if (currentSkin.id === newSkin.id) {
-                // Nothing to do, it's already the active skin
-                return Promise.resolve(currentSkin);
-            }
-        }
-
-        var deps = newSkin.getDependencies();
-
-        console.log('Loading skin dependencies');
-
-        return require(deps).then(function () {
-
-            console.log('Skin dependencies loaded');
-
-            var strings = newSkin.getTranslations ? newSkin.getTranslations() : [];
-
-            return globalize.loadStrings({
-
-                name: newSkin.id,
-                strings: strings
-
-            }).then(function () {
-
-                currentSkin = newSkin;
-                newSkin.load();
-                return newSkin;
-            });
-        });
-    }
-
-    function loadUserSkin(options) {
-
-        var skin = userSettings.get('skin', false) || 'defaultskin';
-
-        loadSkin(skin).then(function (skin) {
-
-            options = options || {};
-            if (options.start) {
-                Emby.Page.invokeShortcut(options.start);
-            } else {
-                Emby.Page.goHome();
-            }
-        });
-    }
-
-    function mapRoute(route) {
-
-        if (!currentSkin) {
-            return route;
-        }
-
-        return pluginManager.mapRoute(currentSkin, route);
-    }
-
-    events.on(userSettings, 'change', function (e, name) {
-        if (name === 'skin' || name === 'language') {
-            loadUserSkin();
-        }
-    });
 
     var themeStyleElement;
     var currentThemeId;
@@ -97,20 +17,56 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
     function getThemes() {
 
-        if (currentSkin.getThemes) {
-            return currentSkin.getThemes();
-        }
+        var defaultTheme = browser.tizen || browser.orsay || browser.web0s || browser.netcast || browser.operaTv || layoutManager.mobile || self.Dashboard ?
+            'dark' :
+            'blueradiance';
 
-        return [];
+        return [
+            { name: 'Apple TV', id: 'appletv' },
+            { name: 'Blue Radiance', id: 'blueradiance', isDefault: defaultTheme === 'blueradiance' },
+            { name: 'Dark', id: 'dark', isDefault: defaultTheme === 'dark' },
+            { name: 'Dark (green accent)', id: 'dark-green' },
+            { name: 'Dark (red accent)', id: 'dark-red' },
+            { name: 'Halloween', id: 'halloween' },
+            { name: 'Light', id: 'light', isDefaultServerDashboard: true },
+            { name: 'Light (blue accent)', id: 'light-blue' },
+            { name: 'Light (green accent)', id: 'light-green' },
+            { name: 'Light (pink accent)', id: 'light-pink' },
+            { name: 'Light (purple accent)', id: 'light-purple' },
+            { name: 'Light (red accent)', id: 'light-red' },
+            { name: 'Windows Media Center', id: 'wmc' }
+        ];
     }
 
     var skinManager = {
-        getCurrentSkin: getCurrentSkin,
         loadSkin: loadSkin,
         loadUserSkin: loadUserSkin,
-        getThemes: getThemes,
-        mapRoute: mapRoute
+        getThemes: getThemes
     };
+
+    function loadSkin() {
+
+        return skinManager.setTheme(userSettings.theme());
+    }
+
+    function loadUserSkin(options) {
+
+        return loadSkin().then(function (skin) {
+
+            options = options || {};
+            if (options.start) {
+                Emby.Page.invokeShortcut(options.start);
+            } else {
+                Emby.Page.goHome();
+            }
+        });
+    }
+
+    events.on(userSettings, 'change', function (e, name) {
+        if (name === 'language') {
+            loadUserSkin();
+        }
+    });
 
     function onRegistrationSuccess() {
         appSettings.set('appthemesregistered', 'true');
@@ -237,7 +193,9 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
 
             var requiresRegistration = true;
 
-            if (context !== 'serverdashboard') {
+            var isServerDashboard = context === 'serverdashboard';
+
+            if (!isServerDashboard) {
 
                 var newId = modifyThemeForSeasonal(id);
                 if (newId !== id) {
@@ -256,7 +214,7 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
                 return;
             }
 
-            var isDefaultProperty = context === 'serverdashboard' ? 'isDefaultServerDashboard' : 'isDefault';
+            var isDefaultProperty = isServerDashboard ? 'isDefaultServerDashboard' : 'isDefault';
             var info = getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty);
 
             if (currentThemeId && currentThemeId === info.themeId) {
@@ -336,6 +294,32 @@ define(['apphost', 'userSettings', 'browser', 'events', 'pluginManager', 'backdr
             }
         });
     }
+
+    var currentThemeType;
+    document.addEventListener('viewbeforeshow', function (e) {
+
+        // secondaryHeaderFeatures is a lazy attempt to detect the startup wizard
+        var viewType = e.detail.dashboardTheme ?
+            1 :
+            0;
+
+        if (viewType !== currentThemeType) {
+
+            currentThemeType = viewType;
+
+            if (viewType === 1) {
+
+                skinManager.setTheme(userSettings.dashboardTheme(), 'serverdashboard');
+
+            } else {
+                skinManager.setTheme(userSettings.theme());
+            }
+        }
+    });
+
+    events.on(connectionManager, 'localusersignedin', function (e) {
+        currentThemeType = null;
+    });
 
     return skinManager;
 });
