@@ -453,7 +453,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                             title: item.Name,
                             text: item.Overview,
 
-                            url: apiClient.getUrl('share').replace('/share', '')
+                            url: item.Type === 'Photo' ? apiClient.getItemDownloadUrl(item.Id) : apiClient.getUrl('share').replace('/share', '')
                         });
                         break;
                     }

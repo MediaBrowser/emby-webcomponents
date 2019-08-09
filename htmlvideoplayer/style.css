@@ -43,6 +43,11 @@
     -webkit-font-smoothing: antialiased;
 }
 
+.htmlvideoplayer::-webkit-media-text-track-display {
+    /*Style the text itself*/
+    margin-top: -2em;
+}
+
 /*.htmlvideoplayer::-webkit-media-text-track-display {
     margin-top: -50vh;
 }*/

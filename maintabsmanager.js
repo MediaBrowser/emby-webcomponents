@@ -5,6 +5,7 @@
     var queryScope = document.querySelector('.skinHeader');
     var headerTabsContainer;
     var tabsElem;
+    var headerTop;
 
     function ensureElements() {
 
@@ -95,6 +96,10 @@
 
                 document.documentElement.classList.remove('withSectionTabs');
 
+                if (headerTop) {
+                    headerTop.classList.remove('headerTop-withSectionTabs');
+                }
+
                 headerTabsContainer.innerHTML = '';
                 headerTabsContainer.classList.add('hide');
 
@@ -147,6 +152,13 @@
             tabsContainerElem.innerHTML = tabsHtml;
 
             document.documentElement.classList.add('withSectionTabs');
+
+            if (!headerTop) {
+                headerTop = document.querySelector('.headerTop');
+            }
+
+            headerTop.classList.add('headerTop-withSectionTabs');
+
             tabOwnerView = view;
 
             tabsElem = tabsContainerElem.querySelector('[is="emby-tabs"]');

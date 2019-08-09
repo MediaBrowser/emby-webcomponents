@@ -121,8 +121,7 @@
                     items: menuItems,
                     positionTo: button,
 
-                    resolveOnClick: true,
-                    border: true
+                    resolveOnClick: true
                 };
 
                 // Unfortunately we can't allow the url to change or chromecast will throw a security error

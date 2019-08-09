@@ -79,7 +79,7 @@
 }
 
 .actionSheetTitle {
-    padding: 0 .9em;
+    padding: 0 .8em;
     flex-grow: 0;
     flex-shrink: 0;
 }
@@ -106,7 +106,7 @@
 }
 
 .actionsheetMenuItemIcon {
-    margin: 0 .85em 0 .45em !important;
+    margin: 0 .85em 0 .5em !important;
     padding: 0 !important;
 }
 

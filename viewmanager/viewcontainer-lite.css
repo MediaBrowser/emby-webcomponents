@@ -9,6 +9,11 @@
     /*will-change: transform;*/
 }
 
+.mainAnimatedPage-windowScroll {
+    /* Have to override because it breaks scrolling when dependant on window scroll */
+    contain: style size !important;
+}
+
 @keyframes view-fadeout {
     from {
         opacity: 1;

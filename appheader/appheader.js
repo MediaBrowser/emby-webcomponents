@@ -2,6 +2,8 @@
     'use strict';
 
     var skinHeaderElement = document.querySelector('.skinHeader');
+    var skinBodyElement = document.querySelector('.skinBody');
+    var mainDrawerElement = document.querySelector('.mainDrawer');
     var hasPhysicalBackButton = appHost.supports('physicalbackbutton');
     var userSignedIn = false;
 
@@ -273,9 +275,9 @@
         }
     }
 
-    function updateHomeButton(e) {
+    function updateHomeButton(detail) {
 
-        if (userSignedIn && !layoutManager.tv && e.detail.homeButton !== false) {
+        if (userSignedIn && !layoutManager.tv && detail.homeButton !== false) {
 
             headerHomeButton.classList.remove('hide');
         } else {
@@ -283,9 +285,9 @@
         }
     }
 
-    function updateMenuButton(e, view) {
+    function updateMenuButton(detail, view) {
 
-        if (!layoutManager.tv && userSignedIn && e.detail.secondaryHeaderFeatures !== false && e.detail.drawer !== false && window.Dashboard && !view.classList.contains('type-interior')) {
+        if (!layoutManager.tv && userSignedIn && detail.drawer !== false && !detail.dashboardTheme) {
 
             headerMenuButton.classList.remove('hide');
         } else {
@@ -293,9 +295,9 @@
         }
     }
 
-    function updateBackButton(e) {
+    function updateBackButton(detail) {
 
-        var backButtonConfig = e.detail.backButton;
+        var backButtonConfig = detail.backButton;
 
         if (backButtonConfig !== false && appRouter.canGoBack()) {
 
@@ -309,13 +311,13 @@
         }
     }
 
-    function updateTitle(header, e, view) {
+    function updateTitle(header, detail, view) {
 
-        if (e.detail.defaultTitle) {
+        if (detail.defaultTitle) {
             header.setDefaultTitle();
         }
         else {
-            var title = e.detail.title || view.getAttribute('data-title');
+            var title = detail.title || view.getAttribute('data-title');
 
             if (title) {
                 header.setTitle(title);
@@ -323,9 +325,9 @@
         }
     }
 
-    function updateRightHeader(header, e, view) {
+    function updateRightHeader(header, detail, view) {
 
-        if (e.detail.secondaryHeaderFeatures === false) {
+        if (detail.secondaryHeaderFeatures === false) {
             headerRight.classList.add('hide');
         } else {
             headerRight.classList.remove('hide');
@@ -363,11 +365,37 @@
         loadWindowHeadroom();
     }
 
+    function updateWindowScroll(detail) {
+
+        if (detail.windowScroll) {
+            document.body.classList.add('windowforceScrollY');
+            skinBodyElement.classList.add('skinBody-withWindowScroll');
+        } else {
+            document.body.classList.remove('windowforceScrollY');
+            skinBodyElement.classList.remove('skinBody-withWindowScroll');
+        }
+    }
+
+    function updateDrawerLayout(detail) {
+
+        if (detail.dashboardTheme && detail.drawer !== false && !layoutManager.tv) {
+            skinBodyElement.classList.add('skinBody-withFullDrawer');
+
+            mainDrawerElement.classList.add('mainDrawer-open-full');
+
+        } else {
+            skinBodyElement.classList.remove('skinBody-withFullDrawer');
+            mainDrawerElement.classList.remove('mainDrawer-open-full');
+        }
+    }
+
     function onViewShow(e) {
 
         var skinHeader = skinHeaderElement;
 
-        if (e.detail.headerBackground === false) {
+        var detail = e.detail;
+
+        if (detail.headerBackground === false) {
             skinHeader.classList.remove('skinHeader-withBackground');
         }
 
@@ -375,18 +403,20 @@
             cancelable: false
         }));
 
-        setWindowHeadroomEnabled(e.detail.autoHideHeader);
+        setWindowHeadroomEnabled(detail.autoHideHeader);
 
-        navDrawerInstance.setEdgeSwipeEnabled(userSignedIn && !layoutManager.tv && e.detail.drawer !== false && window.Dashboard);
+        updateDrawerLayout(detail);
 
-        updateBackButton(e);
-        updateHomeButton(e);
-        updateMenuButton(e, e.target);
+        updateBackButton(detail);
+        updateHomeButton(detail);
+        updateMenuButton(detail, e.target);
 
-        this.setTransparent(e.detail.transparentHeader);
+        this.setTransparent(detail.transparentHeader);
 
-        updateRightHeader(this, e, e.target);
-        updateTitle(this, e, e.target);
+        updateRightHeader(this, detail, e.target);
+        updateTitle(this, detail, e.target);
+
+        navDrawerInstance.setEdgeSwipeEnabled(userSignedIn && !layoutManager.tv && detail.drawer !== false);
     }
 
     function clearTabs() {
@@ -396,7 +426,9 @@
 
     function onViewBeforeShow(e) {
 
-        if (e.detail.headerTabs) {
+        var detail = e.detail;
+
+        if (detail.headerTabs) {
 
             headerLeft.classList.add('headerPartFixedWidth');
             headerRight.classList.add('headerPartFixedWidth');
@@ -412,9 +444,11 @@
             cancelable: false
         }));
 
-        if (e.detail.headerBackground !== false) {
+        if (detail.headerBackground !== false) {
             skinHeader.classList.add('skinHeader-withBackground');
         }
+
+        updateWindowScroll(detail);
     }
 
     var boundLayoutModeChangeFn;

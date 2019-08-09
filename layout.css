@@ -1,3 +1,23 @@
+html {
+    /* Normalize for different browsers */
+    line-height: 1.35;
+}
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%;
+}
+
+body {
+    /* Needed to prevent a horizontal scrollbar when animating */
+    overflow: hidden;
+}
+
+.windowforceScrollY {
+    overflow-y: scroll;
+}
+
 .layout-tv {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -25,13 +45,34 @@
     }
 }
 
+.backgroundContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    contain: strict;
+    touch-action: none;
+}
+
 .transparentDocument, .backgroundContainer-transparent:not(.withBackdrop) {
     background: none !important;
     background-color: transparent !important;
 }
 
 .mainAnimatedPages {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    contain: layout style size;
+}
+
+.skinBody-withWindowScroll {
     contain: style;
+    position: absolute;
+    transition: left ease-in-out 0.3s;
 }
 
 .mainDrawerHandle {
@@ -41,4 +82,53 @@
     bottom: 0;
     z-index: 1;
     width: 1.3em;
+    touch-action: pan-x;
 }
+
+@media all and (min-width: 48em) {
+
+    .mainDrawer-open-full {
+        z-index: inherit !important;
+        left: 0 !important;
+        transform: none !important;
+        box-shadow: none !important;
+        padding-top: 0;
+        top: 4.82em !important;
+        width: 20.205em !important;
+        font-size: 94.1%;
+    }
+
+    .withSectionTabs .mainDrawer-open-full {
+        top: 8.7em !important;
+    }
+
+    .skinBody-withFullDrawer {
+        left: 18.8em;
+    }
+}
+
+@media all and (min-width: 48em) {
+
+    .withSectionTabs .mainDrawer-open-full {
+        top: 8.2em !important;
+    }
+}
+
+@media all and (min-width: 120em) {
+
+    .withSectionTabs .mainDrawer-open-full {
+        top: 6.5em !important;
+    }
+
+    .mainDrawer-open-full {
+        top: 6.5em !important;
+    }
+}
+
+.mouseIdle, .mouseIdle button, .mouseIdle select, .mouseIdle input, .mouseIdle textarea, .mouseIdle a, .mouseIdle label {
+    cursor: none !important;
+}
+
+    .hide, .mouseIdle .hide-mouse-idle, .mouseIdle-tv .hide-mouse-idle-tv {
+        display: none !important;
+    }

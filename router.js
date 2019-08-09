@@ -262,16 +262,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             var quality = 100;
 
+            var type = options.type;
+
             if (browser.tv || browser.slow) {
 
                 if (browser.chrome) {
                     // webp support
-                    quality = (options.type || 'Primary') === 'Primary' ? 40 : 50;
+                    quality = !type || type === 'Primary' ? 40 : 50;
                 } else {
-                    quality = options.type === 'Backdrop' ? 60 : 50;
+                    quality = type === 'Backdrop' ? 60 : 50;
                 }
             } else {
-                quality = options.type === 'Backdrop' ? 70 : 90;
+                quality = type === 'Backdrop' ? 70 : 90;
             }
 
             options.quality = quality;

@@ -9,11 +9,7 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
         var lastView = currentView;
         if (lastView) {
 
-            var beforeHideResult = dispatchViewEvent(lastView, null, 'viewbeforehide', true);
-
-            if (!beforeHideResult) {
-                // todo: cancel
-            }
+            dispatchViewEvent(lastView, null, 'viewbeforehide', false);
         }
 
         var eventDetail = getViewEventDetail(newView, options, isRestored);
@@ -76,7 +72,7 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
         return [];
     }
 
-    function dispatchViewEvent(view, eventInfo, eventName, isCancellable) {
+    function dispatchViewEvent(view, eventInfo, eventName) {
 
         if (!eventInfo) {
             eventInfo = {
@@ -85,16 +81,13 @@ define(['viewcontainer', 'focusManager', 'queryString', 'layoutManager'], functi
                     properties: getProperties(view)
                 },
                 bubbles: true,
-                cancelable: isCancellable
+                cancelable: false
             };
         }
-
-        eventInfo.cancelable = isCancellable || false;
 
         var eventResult = view.dispatchEvent(new CustomEvent(eventName, eventInfo));
 
         if (dispatchPageEvents) {
-            eventInfo.cancelable = false;
             view.dispatchEvent(new CustomEvent(eventName.replace('view', 'page'), eventInfo));
         }
 

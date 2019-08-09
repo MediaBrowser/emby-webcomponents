@@ -48,10 +48,6 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
 
     function loadView(options) {
 
-        if (options.cancel) {
-            return;
-        }
-
         var selected = selectedPageIndex;
         var previousAnimatable = selected === -1 ? null : allPages[selected];
         var pageIndex = selected + 1;
@@ -85,6 +81,10 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
         }
 
         view.classList.add('mainAnimatedPage');
+
+        if (options.windowScroll) {
+            view.classList.add('mainAnimatedPage-windowScroll');
+        }
 
         if (properties.length) {
             view.setAttribute('data-properties', properties.join(','));
