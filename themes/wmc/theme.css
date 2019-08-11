@@ -404,8 +404,12 @@ html {
         width: 1em;
         height: 1em;
     }
-    .timeslotHeaders::-webkit-scrollbar {
+    .scrollX-mini::-webkit-scrollbar {
         height: .7em;
+    }
+
+    .scrollY-mini::-webkit-scrollbar {
+        width: .7em;
     }
 }
 

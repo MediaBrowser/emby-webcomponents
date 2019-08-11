@@ -344,6 +344,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     tag: item.ParentBackdropImageTags[0]
                 });
 
+                if (options.preferThumb && options.showTitle !== false) {
+                    forceName = true;
+                }
+
             } else if (imageTags && imageTags.Primary) {
 
                 height = width && primaryImageAspectRatio ? Math.round(width / primaryImageAspectRatio) : null;

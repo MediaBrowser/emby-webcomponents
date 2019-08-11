@@ -44,23 +44,25 @@ define([], function () {
     var prevPageContext;
     var backStack = [];
 
+    var allRoutes = [];
+
     /**
-     * Register `path` with callback `fn()`,
-     * or route `path`, or redirection,
-     * or `page.start()`.
-     *
-     *   page(fn);
-     *   page('*', fn);
-     *   page('/user/:id', load, user);
-     *   page('/user/' + user.id, { some: 'thing' });
-     *   page('/user/' + user.id);
-     *   page('/from', '/to')
-     *   page();
-     *
-     * @param {String|Function} path
-     * @param {Function} fn...
-     * @api public
-     */
+      * Register `path` with callback `fn()`,
+      * or route `path`, or redirection,
+      * or `page.start()`.
+      *
+      *   page(fn);
+      *   page('*', fn);
+      *   page('/user/:id', load, user);
+      *   page('/user/' + user.id, { some: 'thing' });
+      *   page('/user/' + user.id);
+      *   page('/from', '/to')
+      *   page();
+      *
+      * @param {String|Function} path
+      * @param {Function} fn...
+      * @api public
+      */
 
     function page(path, routeInfo, fn) {
 
@@ -71,10 +73,17 @@ define([], function () {
                 routeInfo: routeInfo,
                 fn: fn
             };
+
+            allRoutes.push(routeInfo);
+
         } else {
             page.start(path);
         }
     }
+
+    page.getRoutes = function () {
+        return allRoutes;
+    };
 
     /**
      * Callback functions.
@@ -305,6 +314,18 @@ define([], function () {
             page.dispatch(ctx);
         }
         return ctx;
+    };
+
+    page.getRoute = function (path) {
+
+        var callbacks = page.callbacks;
+
+        var qsIndex = path.indexOf('?'),
+            pathname = ~qsIndex ? path.slice(0, qsIndex) : path;
+
+        var route = callbacks[pathname.toUpperCase()];
+
+        return route ? route.routeInfo : null;
     };
 
     /**

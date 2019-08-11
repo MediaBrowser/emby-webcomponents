@@ -1,4 +1,4 @@
-﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'navdrawer', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, navDrawerInstance) {
+﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'navdrawer', 'navDrawerContent', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, navDrawerInstance, navDrawerContent) {
     'use strict';
 
     var skinHeaderElement = document.querySelector('.skinHeader');
@@ -378,7 +378,9 @@
 
     function updateDrawerLayout(detail) {
 
-        if (detail.dashboardTheme && detail.drawer !== false && !layoutManager.tv) {
+        detail.drawerInline = detail.dashboardTheme && detail.drawer !== false && !layoutManager.tv;
+
+        if (detail.drawerInline) {
             skinBodyElement.classList.add('skinBody-withFullDrawer');
 
             mainDrawerElement.classList.add('mainDrawer-open-full');
@@ -417,6 +419,8 @@
         updateTitle(this, detail, e.target);
 
         navDrawerInstance.setEdgeSwipeEnabled(userSignedIn && !layoutManager.tv && detail.drawer !== false);
+
+        navDrawerContent.onViewShow(e);
     }
 
     function clearTabs() {

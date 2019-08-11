@@ -1,6 +1,13 @@
 {
     "LinkedToEmbyConnect": "Enlazado a Emby Connect",
     "AudioSettingsIntro": "Para configurar las opciones de audio por defecto, detenga la reproducci\u00f3n de v\u00eddeo, entonces de clic en el icono de usuario en la esquina superior derecha de la app.",
+    "HeaderCameraUpload": "Camera Upload",
+    "Logs": "Logs",
+    "Notifications": "Notifications",
+    "Plugins": "Plugins",
+    "Server": "Server",
+    "Dashboard": "Dashboard",
+    "Admin": "Admin",
     "EmbyLoginTerms": "Emby esta dise\u00f1ado para ayudarlo a administrar su biblioteca de medios personal, tales como v\u00eddeos caseros y fotograf\u00edas. Por favor vea nuestros {0}t\u00e9rminos de uso{1}. Al usar cualquier software de Emby constituye la aceptaci\u00f3n de dichos t\u00e9rminos.",
     "MessageUnableToConnectToServer": "No es posible conectarse al servidor seleccionado en este momento. Por favor aseg\u00farese de que se encuentra en ejecuci\u00f3n e int\u00e9ntelo nuevamente.",
     "EmbyIntroMessage": "Con Emby usted puede transmitir videos, musica y fotos hacia su telefono inteligente, tabla u otros equipos desde su Servidor Emby.",

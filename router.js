@@ -14,19 +14,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         },
         showSelectServer: function () {
 
-            if (self.Dashboard) {
-                if (Dashboard.isConnectMode()) {
-                    return show('/selectserver.html');
-                } else {
-                    return show('/login.html');
-                }
-            }
-            return show('/startup/selectserver.html');
+            return show(getRouteUrl('selectserver'));
         },
         showWelcome: function () {
 
             if (self.Dashboard) {
-                if (Dashboard.isConnectMode()) {
+                if (appHost.supports('multiserver')) {
                     return show('/connectlogin.html?mode=welcome');
                 } else {
                     return show('/login.html');
@@ -82,18 +75,34 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     };
 
+    function showLocalLoginFromApiClient(apiClient) {
+
+        return apiClient.getPublicUsers().then(function (users) {
+
+            if (users.length) {
+                return appRouter.showLocalLogin(apiClient.serverId());
+            } else {
+                return appRouter.showLocalLogin(apiClient.serverId(), true);
+            }
+        });
+    }
+
     function beginConnectionWizard() {
 
         backdrop.clear();
 
         loading.show();
 
-        connectionManager.connect({
+        if (!appHost.supports('multiserver')) {
+            return showLocalLoginFromApiClient(ApiClient);
+        }
+
+        return connectionManager.connect({
 
             enableAutoLogin: appSettings.enableAutoLogin()
 
         }).then(function (result) {
-            handleConnectionResult(result, loading);
+            return handleConnectionResult(result, loading);
         });
     }
 
@@ -109,14 +118,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 break;
             case 'ServerSignIn':
                 {
-                    result.ApiClient.getPublicUsers().then(function (users) {
-
-                        if (users.length) {
-                            appRouter.showLocalLogin(result.Servers[0].Id);
-                        } else {
-                            appRouter.showLocalLogin(result.Servers[0].Id, true);
-                        }
-                    });
+                    showLocalLoginFromApiClient(result.ApiClient);
                 }
                 break;
             case 'ServerSelection':
@@ -681,6 +683,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return show(getHomeRoute());
     }
 
+    function getRouteInfo(url) {
+
+        return page.getRoute(url);
+    }
+
     function getRouteUrl(item, options) {
 
         if (!self.Dashboard) {
@@ -708,6 +715,19 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         var id = item.Id || item.ItemId;
         var serverId = item.ServerId || options.serverId;
 
+        if (item === 'home') {
+            return getHomeRoute();
+        }
+        if (item === 'selectserver') {
+            if (self.Dashboard) {
+                if (appHost.supports('multiserver')) {
+                    return '/selectserver.html';
+                } else {
+                    return '/login.html';
+                }
+            }
+            return '/startup/selectserver.html';
+        }
         if (item === 'settings') {
             return '/usermenu/usermenu.html';
         }
@@ -985,16 +1005,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return show('/videoosd/videoosd.html');
     }
 
-    var allRoutes = [];
-
     function addRoute(path, newRoute) {
 
         page(path, newRoute, handleRoute);
-        allRoutes.push(newRoute);
     }
 
     function getRoutes() {
-        return allRoutes;
+        return page.getRoutes();
     }
 
     var backdropContainer;
@@ -1081,6 +1098,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
+    function logout() {
+
+        require(['playbackManager'], function (playbackManager) {
+
+            loading.show();
+
+            playbackManager.stop();
+
+            connectionManager.logout().then(beginConnectionWizard);
+        });
+    }
+
     appRouter.addRoute = addRoute;
     appRouter.param = param;
     appRouter.back = back;
@@ -1096,6 +1125,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     appRouter.setTransparency = setTransparency;
     appRouter.getRoutes = getRoutes;
     appRouter.getRouteUrl = getRouteUrl;
+    appRouter.getRouteInfo = getRouteInfo;
     appRouter.pushState = pushState;
     appRouter.enableNativeHistory = enableNativeHistory;
     appRouter.showVideoOsd = showVideoOsd;
@@ -1106,6 +1136,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         Full: 2
     };
     appRouter.invokeShortcut = invokeShortcut;
+    appRouter.logout = logout;
 
     return appRouter;
 });

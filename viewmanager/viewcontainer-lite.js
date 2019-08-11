@@ -137,7 +137,7 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
 
     function animate(newAnimatedPage, oldAnimatedPage, transition, isBack) {
 
-        if (enableAnimation() && oldAnimatedPage) {
+        if (layoutManager.tv && enableAnimation() && oldAnimatedPage) {
             if (transition === 'slide') {
                 return slide(newAnimatedPage, oldAnimatedPage, transition, isBack);
             } else {

@@ -1,6 +1,13 @@
 {
     "LinkedToEmbyConnect": "Linked to Emby Connect",
     "AudioSettingsIntro": "To configure default audio settings, stop video playback, then click your user icon in the top right section of the app.",
+    "HeaderCameraUpload": "Camera Upload",
+    "Logs": "Logs",
+    "Notifications": "Notifications",
+    "Plugins": "Plugins",
+    "Server": "Server",
+    "Dashboard": "Dashboard",
+    "Admin": "Admin",
     "EmbyLoginTerms": "Emby is ontworpen om uw persoonlijke mediabibliotheek te helpen beheren, zoals home video's en foto's. Zie onze {0}gebruiksvoorwaarden{1}. Het gebruik van Emby software betekent dat u deze voorwaarden aanvaard.",
     "MessageUnableToConnectToServer": "Het is momenteel niet mogelijk met de geselecteerde server te verbinden. Controleer dat deze draait en probeer het opnieuw.",
     "EmbyIntroMessage": "Met Emby kunt u eenvoudig films, muziek en foto's naar uw telefoon, tablet en andere apparatuur streamen.",
