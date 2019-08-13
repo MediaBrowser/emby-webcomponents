@@ -182,7 +182,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 if (serverId !== lastServerId) {
                     lastServerId = serverId;
-                    apiClient = connectionManager.getApiClient(lastServerId);
+                    if (lastServerId) {
+                        apiClient = connectionManager.getApiClient(lastServerId);
+                    }
                 }
 
                 if (options.rows && itemsInRow === 0) {
@@ -628,7 +630,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (isOuterFooter && options.cardLayout && !layoutManager.tv && options.cardFooterAside !== false) {
 
-                html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
+                // Checking item.Id for Type == AddServer
+                if (item.Type !== 'Program' && item.Id) {
+                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
+                }
             }
 
             var cssClass = options.centerText ? "cardText cardTextCentered" : "cardText";
@@ -977,7 +982,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var itemType = item.Type;
             var action = options.action || 'link';
 
-            if (action === 'play' && item.IsFolder) {
+            if (!item.Id) {
+                // AddServer
+                action = 'link';
+            }
+            else if (item.IsFolder && action === 'play') {
                 // If this hard-coding is ever removed make sure to test nested photo albums
                 action = 'link';
             }
@@ -1297,13 +1306,31 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 dataAttributes += ' data-playlistid="' + options.playlistId + '"';
             }
 
+            if (item.IsFolder) {
+                dataAttributes += ' data-isfolder="true"';
+            }
+
+            var serverId = item.ServerId || options.serverId;
+            if (serverId) {
+                dataAttributes += ' data-serverid="' + serverId + '"';
+            }
+
+            var itemId = item.Id || item.ItemIdd;
+            if (itemId) {
+                dataAttributes += ' data-id="' + itemId + '"';
+            }
+
+            if (prefix) {
+                dataAttributes += ' data-prefix="' + prefix + '"';
+            }
+
             var additionalCardContent = '';
 
             if (layoutManager.desktop) {
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
-            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-isfolder="' + (item.IsFolder || false) + '" data-serverid="' + (item.ServerId || options.serverId) + '" data-id="' + (item.Id || item.ItemId) + '" data-type="' + itemType + '"' + dataAttributes + ' data-prefix="' + prefix + '" class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-type="' + itemType + '"' + dataAttributes + ' class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
         function getHoverMenuHtml(item, action, options) {
@@ -1349,7 +1376,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + itemId + '" data-serverid="' + serverId + '" data-itemtype="' + itemType + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
             }
 
-            if (options.moreButton !== false && item.Type !== 'Program') {
+            // Checking item.Id for Type == AddServer
+            if (options.moreButton !== false && item.Type !== 'Program' && item.Id) {
                 html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5D3;</i></button>';
             }
 
@@ -1405,6 +1433,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
             if (itemType === 'User') {
                 return 'person';
+            }
+            if (itemType === 'Server') {
+                return 'router';
+            }
+            if (itemType === 'AddServer') {
+                return 'add_circle';
             }
 
             if (defaultIcon === false) {

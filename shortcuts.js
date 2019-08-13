@@ -1,4 +1,4 @@
-define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'globalize', 'loading', 'dom', 'recordingHelper'], function (layoutManager, playbackManager, inputManager, connectionManager, appRouter, globalize, loading, dom, recordingHelper) {
+define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'globalize', 'loading', 'dom', 'recordingHelper'], function (appSettings, layoutManager, playbackManager, inputManager, connectionManager, appRouter, globalize, loading, dom, recordingHelper) {
     'use strict';
 
     function playAllFromHere(card, serverId, queue) {
@@ -72,12 +72,10 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
     function getItem(button) {
 
-        button = dom.parentWithAttribute(button, 'data-id');
+        button = dom.parentWithAttribute(button, 'data-type');
         var serverId = button.getAttribute('data-serverid');
         var id = button.getAttribute('data-id');
         var type = button.getAttribute('data-type');
-
-        var apiClient = connectionManager.getApiClient(serverId);
 
         if (type === 'User') {
             return apiClient.getUser(id);
@@ -90,6 +88,17 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
         if (type === 'Device') {
             return Promise.resolve(getItemInfoFromCard(button));
         }
+
+        if (type === 'Server') {
+            return Promise.resolve(getItemInfoFromCard(button));
+        }
+
+        // AddServer
+        if (!id) {
+            return Promise.resolve(getItemInfoFromCard(button));
+        }
+
+        var apiClient = connectionManager.getApiClient(serverId);
 
         if (type === 'Timer') {
             return apiClient.getLiveTvTimer(id);
@@ -109,6 +118,22 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
         }
     }
 
+    function getUser(item) {
+
+        var serverId = item.ServerId;
+
+        if (!serverId) {
+            return Promise.resolve(null);
+        }
+
+        var apiClient = connectionManager.getApiClient(serverId);
+        if (!apiClient.getCurrentUserId()) {
+            return Promise.resolve(null);
+        }
+
+        return apiClient.getCurrentUser();
+    }
+
     function showContextMenu(card, options) {
 
         getItem(card).then(function (item) {
@@ -123,7 +148,7 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
             require(['itemContextMenu'], function (itemContextMenu) {
 
-                connectionManager.getApiClient(item.ServerId).getCurrentUser().then(function (user) {
+                getUser(item).then(function (user) {
                     itemContextMenu.show(Object.assign({
                         item: item,
                         play: true,
@@ -148,10 +173,13 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
                         else if (result.updated || result.deleted) {
                             notifyRefreshNeeded(card, options.itemsContainer);
                         }
-                    });
+                    }, onRejected);
                 });
             });
         });
+    }
+
+    function onRejected() {
     }
 
     function getItemInfoFromCard(card) {
@@ -211,12 +239,7 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
 
         target = target || card;
 
-        var id = card.getAttribute('data-id');
-
-        if (!id) {
-            card = dom.parentWithAttribute(card, 'data-id');
-            id = card.getAttribute('data-id');
-        }
+        card = dom.parentWithAttribute(card, 'data-type');
 
         var item = getItemInfoFromCard(card);
 
@@ -287,7 +310,7 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
         }
 
         else if (action === 'record') {
-            onRecordCommand(serverId, id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
+            onRecordCommand(serverId, item.Id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
         }
 
         else if (action === 'menu') {
@@ -337,6 +360,30 @@ define(['layoutManager', 'playbackManager', 'inputManager', 'connectionManager',
                 bubbles: true
             }));
         }
+
+        else if (action === 'connecttoserver') {
+            connectToServer(item);
+        }
+    }
+
+    function connectToServer(item) {
+
+        if (item.Type === 'AddServer') {
+            return appRouter.showItem(item);
+        }
+
+        loading.show();
+
+        // get the full object
+        item = connectionManager.getServerInfo(item.Id) || item;
+
+        connectionManager.connectToServer(item, {
+            enableAutoLogin: appSettings.enableAutoLogin()
+
+        }).then(function (result) {
+
+            appRouter.handleConnectionResult(result);
+        });
     }
 
     function addToPlaylist(itemId, serverId) {

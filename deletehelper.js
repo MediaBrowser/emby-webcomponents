@@ -102,6 +102,30 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
         });
     }
 
+    function deleteServer(item, apiClient, options) {
+
+        return require(['confirm']).then(function (responses) {
+
+            var confirm = responses[0];
+
+            return confirm({
+
+                text: globalize.translate('DeleteServerConfirmation', item.Name),
+                title: globalize.translate('HeaderDeleteServer'),
+                confirmText: globalize.translate('Delete'),
+                primary: 'cancel'
+
+            }).then(function () {
+
+                return connectionManager.deleteServer(item.Id).then(function () {
+
+                    return onItemDeleted(options);
+                });
+            });
+
+        });
+    }
+
     function deleteItem(options) {
 
         var item = options.item;
@@ -109,6 +133,10 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
 
         if (item.Type === 'Device') {
             return deleteDevice(item, apiClient, options);
+        }
+
+        if (item.Type === 'Server') {
+            return deleteServer(item, apiClient, options);
         }
 
         if (item.Type === 'User') {

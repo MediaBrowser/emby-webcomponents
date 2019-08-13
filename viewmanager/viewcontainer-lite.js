@@ -1,4 +1,4 @@
-define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function (browser, dom, layoutManager) {
+define(['browser', 'dom', 'layoutManager'], function (browser, dom, layoutManager) {
     'use strict';
 
     var mainAnimatedPages = document.querySelector('.mainAnimatedPages');
@@ -80,10 +80,10 @@ define(['browser', 'dom', 'layoutManager', 'css!./viewcontainer-lite'], function
             view = findLastView(mainAnimatedPages, 'view');
         }
 
-        view.classList.add('mainAnimatedPage');
+        view.classList.add('page');
 
         if (options.windowScroll) {
-            view.classList.add('mainAnimatedPage-windowScroll');
+            view.classList.add('page-windowScroll');
         }
 
         if (properties.length) {

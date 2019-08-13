@@ -507,3 +507,8 @@ html, .dialog, .backgroundContainer {
 .recordingIcon-active {
     color: #cc3333 !important;
 }
+
+.drawerLogo {
+    background-image: url(../logowhite.png);
+    border-bottom-color: rgba(255,255,255,.08);
+}

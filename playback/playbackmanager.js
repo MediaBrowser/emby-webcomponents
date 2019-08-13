@@ -106,6 +106,8 @@
         return t.toLowerCase().replace(' ', '');
     }
 
+    var PlaybackItemFields = "Chapters,ProductionYear,PremiereDate";
+
     function getItemsForPlayback(serverId, query) {
 
         var apiClient = connectionManager.getApiClient(serverId);
@@ -125,7 +127,7 @@
         else {
 
             query.Limit = query.Limit || 300;
-            query.Fields = "Chapters";
+            query.Fields = PlaybackItemFields;
             query.ExcludeLocationTypes = "Virtual";
             query.EnableTotalRecordCount = false;
             query.CollapseBoxSetItems = false;
@@ -1991,7 +1993,7 @@
                             IsVirtualUnaired: false,
                             IsMissing: false,
                             UserId: apiClient.getCurrentUserId(),
-                            Fields: "Chapters"
+                            Fields: PlaybackItemFields
 
                         }).then(function (episodesResult) {
 

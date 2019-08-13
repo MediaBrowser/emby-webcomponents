@@ -98,17 +98,26 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
-        if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
-            commands.push({
-                name: globalize.translate('CancelRecording'),
-                id: 'canceltimer'
-            });
+        if (user) {
+            if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+                commands.push({
+                    name: globalize.translate('CancelRecording'),
+                    id: 'canceltimer'
+                });
+            }
+
+            if ((item.Type === 'SeriesTimer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+                commands.push({
+                    name: globalize.translate('CancelSeries'),
+                    id: 'cancelseriestimer'
+                });
+            }
         }
 
-        if ((item.Type === 'SeriesTimer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
+        if (item.Type === 'Server') {
             commands.push({
-                name: globalize.translate('CancelSeries'),
-                id: 'cancelseriestimer'
+                name: globalize.translate('Connect'),
+                id: 'connecttoserver'
             });
         }
 
@@ -121,14 +130,23 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
-        if (user.Policy.IsAdministrator && item.Type === 'User' && item.Id !== apiClient.getCurrentUserId()) {
-            commands.push({
-                name: globalize.translate('Delete'),
-                id: 'delete'
-            });
+        if (user) {
+            if (user.Policy.IsAdministrator && item.Type === 'User' && item.Id !== apiClient.getCurrentUserId()) {
+                commands.push({
+                    name: globalize.translate('Delete'),
+                    id: 'delete'
+                });
+            }
+
+            if (user.Policy.IsAdministrator && item.Type === 'Device' && item.Id !== apiClient.deviceId()) {
+                commands.push({
+                    name: globalize.translate('Delete'),
+                    id: 'delete'
+                });
+            }
         }
 
-        if (user.Policy.IsAdministrator && item.Type === 'Device' && item.Id !== apiClient.deviceId()) {
+        if (item.Type === 'Server') {
             commands.push({
                 name: globalize.translate('Delete'),
                 id: 'delete'
@@ -296,6 +314,15 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             });
         }
 
+        if (item.Type === 'Server') {
+            if (apiClient.supportsWakeOnLan()) {
+                menuItems.push({
+                    name: globalize.translate('WakeServer'),
+                    id: 'wakeserver'
+                });
+            }
+        }
+
         return commands;
     }
 
@@ -397,6 +424,18 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                 case 'refresh':
                     {
                         refresh(apiClient, item);
+                        getResolveFunction(resolve, id)();
+                        break;
+                    }
+                case 'wakeserver':
+                    {
+                        wakeServer(apiClient, item);
+                        getResolveFunction(resolve, id)();
+                        break;
+                    }
+                case 'connecttoserver':
+                    {
+                        connectToServer(apiClient, item);
                         getResolveFunction(resolve, id)();
                         break;
                     }
@@ -595,9 +634,9 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         var method = queue ? (queueNext ? 'queueNext' : 'queue') : 'play';
 
-        var startPosition = 0;
-        if (resume && item.UserData && item.UserData.PlaybackPositionTicks) {
-            startPosition = item.UserData.PlaybackPositionTicks;
+        var startPosition = item.StartPositionTicks || 0;
+        if (resume) {
+            startPosition = null;
         }
 
         if (item.Type === 'Program') {
@@ -660,6 +699,77 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
                 }, reject);
 
+            });
+        });
+    }
+
+    function connectToServer(apiClient, item) {
+
+        loading.show();
+
+        if (item.Type === 'AddServer') {
+            return appRouter.showItem(item);
+        }
+
+        // get the full object
+        item = connectionManager.getServerInfo(item.Id) || item;
+
+        connectionManager.connectToServer(item, {
+            enableAutoLogin: appSettings.enableAutoLogin()
+
+        }).then(function (result) {
+
+            appRouter.handleConnectionResult(result);
+        });
+    }
+
+    function wakeServer(apiClient, item) {
+
+        require(['loadingDialog'], function (LoadingDialog) {
+
+            var dlg = new LoadingDialog({
+                title: globalize.translate('HeaderWakeServer'),
+                text: globalize.translate('AttemptingWakeServer')
+            });
+            dlg.show();
+
+            var afterWol = function () {
+                setTimeout(function () {
+
+
+                    apiClient.getPublicSystemInfo().then(onWolSuccess.bind(dlg), onWolFail.bind(dlg));
+
+                }, 12000);
+            };
+
+            apiClient.wakeOnLan().then(afterWol, afterWol);
+        });
+    }
+
+    function onWolSuccess() {
+
+        var dlg = this;
+        dlg.hide();
+        dlg.destroy();
+
+        require(['alert'], function (alert) {
+            alert({
+                text: globalize.translate('WakeServerSuccess'),
+                title: globalize.translate('HeaderWakeServer')
+            });
+        });
+    }
+
+    function onWolFail() {
+
+        var dlg = this;
+        dlg.hide();
+        dlg.destroy();
+
+        require(['alert'], function (alert) {
+            alert({
+                text: globalize.translate('WakeServerError'),
+                title: globalize.translate('HeaderWakeServer')
             });
         });
     }

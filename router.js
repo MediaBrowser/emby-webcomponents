@@ -102,11 +102,20 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             enableAutoLogin: appSettings.enableAutoLogin()
 
         }).then(function (result) {
-            return handleConnectionResult(result, loading);
+            return handleConnectionResult(result, false);
         });
     }
 
-    function handleConnectionResult(result, loading) {
+    function showServerUpdateNeededAlert() {
+
+        require(['alert'], function (alert) {
+            alert(globalize.translate('ServerUpdateNeeded', '<a href="https://emby.media">https://emby.media</a>')).then(function () {
+                Emby.Page.show('/startup/selectserver.html');
+            });
+        });
+    }
+
+    function handleConnectionResult(result, allowServerUpdateNeedAlert) {
 
         switch (result.State) {
 
@@ -133,7 +142,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 break;
             case 'ServerUpdateNeeded':
                 {
-                    appRouter.showSelectServer();
+                    if (allowServerUpdateNeedAlert === false) {
+                        appRouter.showSelectServer();
+                    } else {
+                        showServerUpdateNeededAlert();
+                    }
+                }
+            case 'Unavailable':
+                {
+                    showAlert({
+                        text: globalize.translate("MessageUnableToConnectToServer"),
+                        title: globalize.translate("HeaderConnectionFailure")
+                    });
                 }
                 break;
             default:
@@ -406,7 +426,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             if (firstResult.State !== 'SignedIn' && !route.anonymous) {
 
-                handleConnectionResult(firstResult, loading);
+                handleConnectionResult(firstResult, false);
                 return;
             }
         }
@@ -691,9 +711,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     function getRouteUrl(item, options) {
 
         if (!self.Dashboard) {
-            if (item === 'downloads') {
-                return '/offline/offline.html';
-            }
             if (item === 'managedownloads') {
                 return '/offline/managedownloads.html';
             }
@@ -719,13 +736,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return getHomeRoute();
         }
         if (item === 'selectserver') {
-            if (self.Dashboard) {
-                if (appHost.supports('multiserver')) {
-                    return '/selectserver.html';
-                } else {
-                    return '/login.html';
-                }
-            }
             return '/startup/selectserver.html';
         }
         if (item === 'settings') {
@@ -808,6 +818,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         if (itemType === "Device") {
             return "/devices/device.html?id=" + id;
+        }
+
+        if (itemType === "AddServer") {
+            return "/startup/manualserver.html";
         }
 
         if (itemType === "Plugin") {
@@ -985,6 +999,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 }
             }
 
+            else if (item.Type === 'Server') {
+                return Promise.reject();
+            }
+
             if (arguments.length === 2) {
                 options = arguments[1];
             }
@@ -1137,6 +1155,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     };
     appRouter.invokeShortcut = invokeShortcut;
     appRouter.logout = logout;
+    appRouter.handleConnectionResult = handleConnectionResult;
 
     return appRouter;
 });

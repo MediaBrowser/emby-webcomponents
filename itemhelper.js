@@ -150,6 +150,11 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
     function canEditInternal(user, item) {
 
+        // AddServer
+        if (!item.Id) {
+            return false;
+        }
+
         var itemType = item.Type;
 
         if (itemType === "UserRootFolder" || itemType === "CollectionFolder" || itemType === "UserView" || itemType === "PlaylistsFolder") {
@@ -173,6 +178,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         }
 
         if (itemType === 'Plugin') {
+            return false;
+        }
+
+        if (itemType === 'Server') {
             return false;
         }
 
@@ -367,7 +376,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             if (itemType === "AudioBook" ||
                 itemType === "Series" ||
                 itemType === "Season" ||
-                itemType === "BoxSet" ||
                 mediaType === "Game" ||
                 mediaType === "Book" ||
                 mediaType === "Recording") {
@@ -402,11 +410,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canConvert: function (item, user) {
 
-            if (!user.Policy.EnableMediaConversion) {
-                return false;
-            }
-
-            if (isLocalItem(item)) {
+            // AddServer
+            if (!item.Id) {
                 return false;
             }
 
@@ -430,12 +435,22 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 type === 'SeriesTimer' ||
                 type === 'GameGenre' ||
                 type === 'Device' ||
+                type === 'Device' ||
                 type === 'User' ||
-                type === 'Plugin') {
+                type === 'Plugin' ||
+                type === 'Server') {
                 return false;
             }
 
             if (item.LocationType === 'Virtual' && !item.IsFolder) {
+                return false;
+            }
+
+            if (!user.Policy.EnableMediaConversion) {
+                return false;
+            }
+
+            if (isLocalItem(item)) {
                 return false;
             }
 
@@ -444,20 +459,25 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canRefreshMetadata: function (item, user) {
 
+            // AddServer
+            if (!item.Id) {
+                return false;
+            }
+
+            var itemType = item.Type;
+            if (itemType === 'Device' ||
+                itemType === 'User' ||
+                itemType === 'Plugin' ||
+                itemType === 'Server') {
+                return false;
+            }
+
+            var collectionType = item.CollectionType;
+            if (collectionType === 'livetv') {
+                return false;
+            }
+
             if (user.Policy.IsAdministrator) {
-
-                var collectionType = item.CollectionType;
-                if (collectionType === 'livetv') {
-                    return false;
-                }
-
-                var itemType = item.Type;
-
-                if (itemType === 'Device' ||
-                    itemType === 'User' ||
-                    itemType === 'Plugin') {
-                    return false;
-                }
 
                 if (itemType !== 'Timer' && itemType !== 'SeriesTimer' && itemType !== 'Program' && itemType !== 'TvChannel' && !(itemType === 'Recording' && item.Status !== 'Completed')) {
 
