@@ -1434,11 +1434,20 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (itemType === 'User') {
                 return 'person';
             }
-            if (itemType === 'Server') {
+            if (itemType === 'Server' || itemType === 'SelectServer') {
                 return 'router';
             }
             if (itemType === 'AddServer') {
                 return 'add_circle';
+            }
+            if (itemType === 'ManualLogin') {
+                return 'lock_open';
+            }
+            if (itemType === 'Downloads') {
+                return 'folder';
+            }
+            if (itemType === 'ForgotPassword') {
+                return 'help';
             }
 
             if (defaultIcon === false) {

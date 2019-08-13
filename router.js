@@ -4,13 +4,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     var appRouter = {
         showLocalLogin: function (serverId, manualLogin) {
 
-            if (self.Dashboard) {
-                return show('/login.html?serverid=' + serverId);
-            }
-
             var pageName = manualLogin ? 'manuallogin' : 'login';
 
-            return show('/startup/' + pageName + '.html?serverid=' + serverId);
+            return show('/startup/' + pageName + '.html?serverId=' + serverId);
         },
         showSelectServer: function () {
 
@@ -18,23 +14,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         },
         showWelcome: function () {
 
-            if (self.Dashboard) {
-                if (appHost.supports('multiserver')) {
-                    return show('/connectlogin.html?mode=welcome');
-                } else {
-                    return show('/login.html');
-                }
+            if (appHost.supports('multiserver')) {
+                return show('/startup/welcome.html');
+            } else {
+                return show('/startup/login.html?serverId=' + ApiClient.serverId());
             }
-
-            return show('/startup/welcome.html');
         },
         showConnectLogin: function () {
 
-            if (self.Dashboard) {
-                return show('/connectlogin.html');
-            }
-
-            return show('/startup/connectlogin.html');
+            return show(getRouteUrl('connectlogin'));
         },
         showSettings: function () {
 
@@ -102,7 +90,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             enableAutoLogin: appSettings.enableAutoLogin()
 
         }).then(function (result) {
-            return handleConnectionResult(result, false);
+            return handleConnectionResult(result, false, true);
         });
     }
 
@@ -115,7 +103,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
-    function handleConnectionResult(result, allowServerUpdateNeedAlert) {
+    function handleConnectionResult(result, allowServerUpdateNeedAlert, useWelcomeForConnectSignIn) {
 
         switch (result.State) {
 
@@ -137,7 +125,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 break;
             case 'ConnectSignIn':
                 {
-                    appRouter.showWelcome();
+                    if (useWelcomeForConnectSignIn === true) {
+                        appRouter.showWelcome();
+                    } else {
+                        appRouter.showConnectLogin();
+                    }
                 }
                 break;
             case 'ServerUpdateNeeded':
@@ -145,11 +137,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                     if (allowServerUpdateNeedAlert === false) {
                         appRouter.showSelectServer();
                     } else {
+                        loading.hide();
                         showServerUpdateNeededAlert();
                     }
                 }
+                break;
             case 'Unavailable':
                 {
+                    loading.hide();
+
                     showAlert({
                         text: globalize.translate("MessageUnableToConnectToServer"),
                         title: globalize.translate("HeaderConnectionFailure")
@@ -426,7 +422,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             if (firstResult.State !== 'SignedIn' && !route.anonymous) {
 
-                handleConnectionResult(firstResult, false);
+                handleConnectionResult(firstResult, false, true);
                 return;
             }
         }
@@ -735,6 +731,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (item === 'home') {
             return getHomeRoute();
         }
+        if (item === 'connectlogin') {
+            return '/startup/connectlogin.html';
+        }
         if (item === 'selectserver') {
             return '/startup/selectserver.html';
         }
@@ -811,6 +810,32 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
 
         var itemType = item.Type || (options ? options.itemType : null);
+
+        if (itemType === "EmbyConnect") {
+            return getRouteUrl('connectlogin');
+        }
+
+        if (itemType === "Downloads") {
+            return getRouteUrl('downloads');
+        }
+
+        if (itemType === "SelectServer") {
+            return getRouteUrl('selectserver');
+        }
+
+        if (itemType === "ForgotPassword") {
+            return '/startup/forgotpassword.html?serverId=' + serverId;
+        }
+
+        if (itemType === "ManualLogin") {
+            url = '/startup/manuallogin.html?serverId=' + serverId;
+
+            if (item.Username) {
+                url += '&user=' + encodeURIComponent(item.Username);
+            }
+
+            return url;
+        }
 
         if (itemType === "SeriesTimer") {
             return "/item/item.html?seriesTimerId=" + id + '&serverId=' + serverId;

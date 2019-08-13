@@ -226,3 +226,13 @@ body {
         transform: translate3d(100%, 0, 0);
     }
 }
+
+@media all and (min-width: 50em) {
+
+    /*
+    Forms
+    */
+    form, .readOnlyContent {
+        max-width: 54em;
+    }
+}

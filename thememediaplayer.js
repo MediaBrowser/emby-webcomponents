@@ -66,6 +66,11 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
             return;
         }
 
+        if (!item.ServerId || !item.Id) {
+            stopIfPlaying();
+            return;
+        }
+
         var apiClient = connectionManager.getApiClient(item.ServerId);
 
         apiClient.getThemeMedia(item.Id, {

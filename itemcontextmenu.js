@@ -316,7 +316,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (item.Type === 'Server') {
             if (apiClient.supportsWakeOnLan()) {
-                menuItems.push({
+                commands.push({
                     name: globalize.translate('WakeServer'),
                     id: 'wakeserver'
                 });
@@ -709,6 +709,9 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (item.Type === 'AddServer') {
             return appRouter.showItem(item);
+        }
+        if (item.Type === 'EmbyConnect') {
+            return appRouter.showConnectLogin();
         }
 
         // get the full object

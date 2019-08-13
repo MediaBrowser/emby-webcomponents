@@ -77,10 +77,6 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         var id = button.getAttribute('data-id');
         var type = button.getAttribute('data-type');
 
-        if (type === 'User') {
-            return apiClient.getUser(id);
-        }
-
         if (type === 'Plugin') {
             return Promise.resolve(getItemInfoFromCard(button));
         }
@@ -99,6 +95,10 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         }
 
         var apiClient = connectionManager.getApiClient(serverId);
+
+        if (type === 'User') {
+            return apiClient.getUser(id);
+        }
 
         if (type === 'Timer') {
             return apiClient.getLiveTvTimer(id);
@@ -354,7 +354,8 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
 
             card.dispatchEvent(new CustomEvent('action-' + customAction, {
                 detail: {
-                    playlistItemId: card.getAttribute('data-playlistitemid')
+                    playlistItemId: card.getAttribute('data-playlistitemid'),
+                    item: item
                 },
                 cancelable: false,
                 bubbles: true
@@ -370,6 +371,9 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
 
         if (item.Type === 'AddServer') {
             return appRouter.showItem(item);
+        }
+        if (item.Type === 'EmbyConnect') {
+            return appRouter.showConnectLogin();
         }
 
         loading.show();
