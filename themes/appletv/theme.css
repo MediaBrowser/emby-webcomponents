@@ -119,7 +119,7 @@ html {
     border-top: 1px solid rgba(0,0,0,.08);
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret, .fieldDescription {
+.listItemBodyText-secondary, .secondaryText, .cardText-secondary, .fieldDescription {
     color: #888;
     color: rgba(0, 0, 0, .6);
 }
@@ -127,11 +127,6 @@ html {
 .actionsheetDivider {
     background: #ddd;
     background: rgba(0, 0, 0, .14);
-}
-
-.cardFooter-vibrant .cardText-secondary {
-    color: inherit;
-    opacity: .5;
 }
 
 .formDialogHeader a {

@@ -1,4 +1,4 @@
-﻿define(['browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'navdrawer', 'navDrawerContent', 'paper-icon-button-light', 'material-icons', 'css!./appheader'], function (browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, navDrawerInstance, navDrawerContent) {
+﻿define(['dom', 'browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'navdrawer', 'navDrawerContent', 'paper-icon-button-light', 'material-icons', 'css!./appheader', 'emby-select'], function (dom, browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, navDrawerInstance, navDrawerContent) {
     'use strict';
 
     var skinHeaderElement = document.querySelector('.skinHeader');
@@ -421,6 +421,11 @@
         navDrawerInstance.setEdgeSwipeEnabled(userSignedIn && !layoutManager.tv && detail.drawer !== false);
 
         navDrawerContent.onViewShow(e);
+
+        if (!detail.isRestored && detail.windowScroll) {
+            // Scroll back up so in case vertical scroll was messed with
+            window.scrollTo(0, 0);
+        }
     }
 
     function clearTabs() {
@@ -453,6 +458,54 @@
         }
 
         updateWindowScroll(detail);
+    }
+
+    function mapViews(views, selectedId) {
+
+        var items = [];
+
+        for (var i = 0, length = views.length; i < length; i++) {
+
+            var view = views[i];
+
+            items.push({
+                name: view.Name,
+                id: view.Id,
+                selected: view.Id === selectedId
+            });
+        }
+
+        return items;
+    }
+
+    function showLibrarySelection(button, selectedId, serverId) {
+
+        connectionManager.getApiClient(serverId).getUserViews().then(function (result) {
+
+            require(['actionsheet']).then(function (responses) {
+
+                var actionSheet = responses[0];
+
+                return actionSheet.show({
+
+                    items: mapViews(result.Items, selectedId),
+                    positionTo: button
+
+                }).then(function (id) {
+
+                    appRouter.showItem(id, serverId);
+                });
+            });
+        });
+    }
+
+    function onPageTitleClick(e) {
+
+        var btnHeaderSelectLibrary = dom.parentWithClass(e.target, 'btnHeaderSelectLibrary');
+        if (btnHeaderSelectLibrary) {
+
+            showLibrarySelection(btnHeaderSelectLibrary, btnHeaderSelectLibrary.getAttribute('data-id'), btnHeaderSelectLibrary.getAttribute('data-serverid'));
+        }
     }
 
     var boundLayoutModeChangeFn;
@@ -492,6 +545,9 @@
 
         document.addEventListener('viewbeforeshow', onViewBeforeShow);
         document.addEventListener('viewshow', onViewShow.bind(instance));
+
+        var pageTitleElement = instance.pageTitleElement = parent.querySelector('.pageTitle');
+        pageTitleElement.addEventListener('click', onPageTitleClick);
 
         resetPremiereButton();
         events.on(connectionManager, 'resetregistrationinfo', resetPremiereButton);
@@ -572,9 +628,6 @@
 
         var pageTitleElement = this.pageTitleElement;
 
-        if (!pageTitleElement) {
-            pageTitleElement = this.pageTitleElement = document.querySelector('.pageTitle');
-        }
         if (pageTitleElement) {
             pageTitleElement.classList.add('pageTitleWithLogo');
             pageTitleElement.classList.add('pageTitleWithDefaultLogo');
@@ -584,6 +637,29 @@
 
         document.title = 'Emby';
     };
+
+    function getTitleHtml(title) {
+
+        if (!title) {
+            return '';
+        }
+
+        if (typeof (title) === 'string') {
+            return title;
+        }
+
+        var item = title;
+
+        title = item.Name || '';
+
+        if (!layoutManager.tv) {
+            if (item.CollectionType || item.CollectionType || item.Type === 'CollectionFolder' || item.Type === 'Channel') {
+                title = '<div class="pageTitleTextHide">' + title + '</div><button data-serverid="' + item.ServerId + '" data-id="' + item.Id + '" is="emby-button" type="button" class="button-flat btnHeaderSelectLibrary"><span>' + title + '</span><i class="md-icon button-icon">arrow_drop_down</i></button>';
+            }
+        }
+
+        return title;
+    }
 
     AppHeader.prototype.setTitle = function (title) {
 
@@ -597,13 +673,9 @@
             title = '';
         }
 
-        var html = title;
+        var html = getTitleHtml(title);
 
         var pageTitleElement = this.pageTitleElement;
-
-        if (!pageTitleElement) {
-            pageTitleElement = this.pageTitleElement = document.querySelector('.pageTitle');
-        }
 
         if (pageTitleElement) {
             pageTitleElement.classList.remove('pageTitleWithLogo');
@@ -612,7 +684,15 @@
             pageTitleElement.innerHTML = html || '';
         }
 
-        document.title = title || 'Emby';
+        if (!title) {
+            document.title = 'Emby';
+        }
+        if (typeof (title) === 'string') {
+            document.title = title;
+        }
+        else {
+            document.title = title.Name || 'Emby';
+        }
     };
 
     AppHeader.prototype.setTransparent = function (transparent) {

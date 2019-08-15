@@ -393,7 +393,7 @@
                 unlockText = globalize.translate('ButtonUnlockPrice', unlockableProductInfo.price);
             }
             html += '<p>';
-            html += '<button is="emby-button" type="button" class="raised secondary block btnPurchase" data-featureid="' + unlockableProductInfo.id + '"><span>' + unlockText + '</span></button>';
+            html += '<button is="emby-button" type="button" class="raised block btnPurchase" data-featureid="' + unlockableProductInfo.id + '"><span>' + unlockText + '</span></button>';
             html += '</p>';
         }
 
@@ -552,7 +552,7 @@
         html += item.name;
         html += '</h3>';
 
-        html += '<div class="listItemBodyText secondary">';
+        html += '<div class="listItemBodyText listItemBodyText-secondary">';
         html += item.text;
         html += '</div>';
 

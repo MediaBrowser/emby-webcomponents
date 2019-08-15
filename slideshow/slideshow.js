@@ -101,11 +101,9 @@ define(['events', 'dialogHelper', 'inputManager', 'connectionManager', 'layoutMa
         function createElements(options) {
 
             dlg = dialogHelper.createDialog({
-                exitAnimationDuration: options.interactive ? 400 : 800,
                 size: 'fullscreen',
                 autoFocus: false,
                 scrollY: false,
-                exitAnimation: 'fadeout',
                 removeOnClose: true
             });
 

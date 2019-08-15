@@ -41,10 +41,6 @@
         var windowHeight = windowSize.innerHeight;
         var windowWidth = windowSize.innerWidth;
 
-        if (windowWidth < 600 || windowHeight < 600) {
-            return null;
-        }
-
         var pos = getOffsets([options.positionTo])[0];
 
         if (options.positionY !== 'top') {
@@ -90,34 +86,22 @@
         var dialogOptions = {
             removeOnClose: true,
             enableHistory: options.enableHistory,
-            scrollY: false
+            autoFocus: true
         };
 
         var backButton = false;
-        var isFullscreen;
 
         if (layoutManager.tv) {
             dialogOptions.size = 'fullscreen';
-            isFullscreen = true;
             backButton = true;
             dialogOptions.autoFocus = true;
         } else {
 
             dialogOptions.modal = false;
-            dialogOptions.entryAnimation = options.entryAnimation;
-            dialogOptions.exitAnimation = options.exitAnimation;
-            dialogOptions.entryAnimationDuration = options.entryAnimationDuration;
-            dialogOptions.exitAnimationDuration = options.exitAnimationDuration;
             dialogOptions.autoFocus = false;
         }
 
         var dlg = dialogHelper.createDialog(dialogOptions);
-
-        if (isFullscreen) {
-            dlg.classList.add('actionsheet-fullscreen');
-        } else {
-            dlg.classList.add('actionsheet-not-fullscreen');
-        }
 
         dlg.classList.add('actionSheet');
 
@@ -224,7 +208,7 @@
             html += '</div>';
 
             if (option.secondaryText) {
-                html += '<div class="listItemBodyText secondary">';
+                html += '<div class="listItemBodyText listItemBodyText-secondary">';
                 html += option.secondaryText;
                 html += '</div>';
             }
@@ -339,7 +323,6 @@
 
             if (pos) {
                 dlg.style.position = 'fixed';
-                dlg.style.margin = 0;
                 dlg.style.left = pos.left + 'px';
                 dlg.style.top = pos.top + 'px';
             }

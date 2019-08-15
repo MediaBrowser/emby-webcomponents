@@ -138,12 +138,12 @@
                 itemHtml += s.DisplayTitle || '';
                 itemHtml += '</h3>';
 
-                itemHtml += '<div class="listItemBodyText secondary">';
+                itemHtml += '<div class="listItemBodyText listItemBodyText-secondary">';
                 itemHtml += (s.Codec || '').toUpperCase();
                 itemHtml += '</div>';
 
                 if (s.Path) {
-                    itemHtml += '<div class="secondary listItemBodyText">' + (s.Path) + '</div>';
+                    itemHtml += '<div class="listItemBodyText-secondary listItemBodyText">' + (s.Path) + '</div>';
                 }
 
                 itemHtml += '</a>';
@@ -260,7 +260,7 @@
             //html += '<a class="btnViewSubtitle" href="#" data-subid="' + result.Id + '">';
 
             html += '<div>' + (result.Name) + '</div>';
-            html += '<div class="secondary listItemBodyText">';
+            html += '<div class="listItemBodyText-secondary listItemBodyText">';
 
             if (result.Format) {
                 html += '<span style="margin-right:1em;">' + globalize.translate('FormatValue', result.Format) + '</span>';
@@ -272,11 +272,11 @@
             html += '</div>';
 
             if (result.Comment) {
-                html += '<div class="secondary listItemBodyText">' + (result.Comment) + '</div>';
+                html += '<div class="listItemBodyText-secondary listItemBodyText">' + (result.Comment) + '</div>';
             }
 
             if (result.IsHashMatch || result.IsForced) {
-                html += '<div class="secondary listItemBodyText">';
+                html += '<div class="listItemBodyText-secondary listItemBodyText">';
                 if (result.IsForced) {
                     html += '<div class="inline-flex align-items-center justify-content-center" style="background:#3388cc;color:#fff;padding: .3em 1em;border-radius:1000em;">' + globalize.translate('Forced') + '</div>';
                 }

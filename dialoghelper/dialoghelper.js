@@ -1,4 +1,4 @@
-﻿define(['appRouter', 'focusManager', 'browser', 'layoutManager', 'inputManager', 'dom', 'css!./dialoghelper.css', 'scrollStyles'], function (appRouter, focusManager, browser, layoutManager, inputManager, dom) {
+﻿define(['appRouter', 'focusManager', 'browser', 'inputManager', 'dom', 'css!./dialoghelper.css', 'scrollStyles'], function (appRouter, focusManager, browser, inputManager, dom) {
     'use strict';
 
     var globalOnOpenCallback;
@@ -251,33 +251,15 @@
 
     function animateDialogClose(dlg, onAnimationFinish) {
 
+        dlg.classList.add('dialog-close');
+
         if (enableAnimation()) {
 
-            var animated = true;
+            dom.addEventListener(dlg, dom.whichAnimationEvent(), onAnimationFinish, {
+                once: true
+            });
 
-            switch (dlg.animationConfig.exit.name) {
-
-                case 'fadeout':
-                    dlg.style.animation = 'fadeout ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
-                    break;
-                case 'scaledown':
-                    dlg.style.animation = 'scaledown ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
-                    break;
-                case 'slidedown':
-                    dlg.style.animation = 'slidedown ' + dlg.animationConfig.exit.timing.duration + 'ms ease-out normal both';
-                    break;
-                default:
-                    animated = false;
-                    break;
-            }
-
-            if (animated) {
-                dom.addEventListener(dlg, dom.whichAnimationEvent(), onAnimationFinish, {
-                    once: true
-                });
-
-                return;
-            }
+            return;
         }
 
         onAnimationFinish();
@@ -351,39 +333,11 @@
             dlg.setAttribute('data-autofocus', 'true');
         }
 
-        var defaultEntryAnimation;
-        var defaultExitAnimation;
-
-        defaultEntryAnimation = 'scaleup';
-        defaultExitAnimation = 'scaledown';
-        var entryAnimation = options.entryAnimation || defaultEntryAnimation;
-        var exitAnimation = options.exitAnimation || defaultExitAnimation;
-
-        // If it's not fullscreen then lower the default animation speed to make it open really fast
-        var entryAnimationDuration = options.entryAnimationDuration || (options.size !== 'fullscreen' ? 140 : 280);
-        var exitAnimationDuration = options.exitAnimationDuration || (options.size !== 'fullscreen' ? 120 : 220);
-
-        dlg.animationConfig = {
-            // scale up
-            'entry': {
-                name: entryAnimation,
-                timing: {
-                    duration: entryAnimationDuration,
-                    easing: 'ease-out'
-                }
-            },
-            // fade out
-            'exit': {
-                name: exitAnimation,
-                timing: {
-                    duration: exitAnimationDuration,
-                    easing: 'ease-out',
-                    fill: 'both'
-                }
-            }
-        };
-
         dlg.classList.add('dialog');
+
+        if (!enableAnimation()) {
+            dlg.classList.add('dialog-noanimation');
+        }
 
         if (options.removeOnClose) {
             dlg.setAttribute('data-removeonclose', 'true');
@@ -392,27 +346,6 @@
         if (options.size) {
             dlg.classList.add('dialog-fixedSize');
             dlg.classList.add('dialog-' + options.size);
-        }
-
-        if (enableAnimation()) {
-
-            switch (dlg.animationConfig.entry.name) {
-
-                case 'fadein':
-                    dlg.style.animation = 'fadein ' + entryAnimationDuration + 'ms ease-out normal';
-                    break;
-                case 'scaleup':
-                    dlg.style.animation = 'scaleup ' + entryAnimationDuration + 'ms ease-out normal both';
-                    break;
-                case 'slideup':
-                    dlg.style.animation = 'slideup ' + entryAnimationDuration + 'ms ease-out normal';
-                    break;
-                case 'slidedown':
-                    dlg.style.animation = 'slidedown ' + entryAnimationDuration + 'ms ease-out normal';
-                    break;
-                default:
-                    break;
-            }
         }
 
         return dlg;

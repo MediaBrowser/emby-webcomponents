@@ -92,7 +92,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
                     html += '<div class="listItemBodyText">';
                 }
             } else {
-                html += '<div class="secondary listItemBodyText">';
+                html += '<div class="listItemBodyText listItemBodyText-secondary">';
             }
             html += dom.htmlEncode(text);
             if (i === 0 && isLargeStyle) {
@@ -404,7 +404,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
             if (options.mediaInfo !== false) {
                 if (!enableSideMediaInfo) {
 
-                    var mediaInfoClass = 'secondary listItemMediaInfo listItemBodyText';
+                    var mediaInfoClass = 'listItemMediaInfo listItemBodyText listItemBodyText-secondary';
 
                     html += '<div class="' + mediaInfoClass + '">' + mediaInfo.getPrimaryMediaInfoHtml(item, {
                         episodeTitle: false,
@@ -416,7 +416,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
             }
 
             if (enableOverview && item.Overview) {
-                html += '<div class="secondary listItem-overview listItemBodyText">';
+                html += '<div class="listItem-overview listItemBodyText listItemBodyText-secondary">';
                 html += item.Overview;
                 html += '</div>';
             }
@@ -425,7 +425,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
 
             if (options.mediaInfo !== false) {
                 if (enableSideMediaInfo) {
-                    html += '<div class="secondary listItemMediaInfo">' + mediaInfo.getPrimaryMediaInfoHtml(item, {
+                    html += '<div class="listItemMediaInfo secondaryText">' + mediaInfo.getPrimaryMediaInfoHtml(item, {
 
                         year: false,
                         container: false,
@@ -482,7 +482,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
                 html += '</div>';
 
                 if (enableOverview && item.Overview) {
-                    html += '<div class="listItem-bottomoverview secondary">';
+                    html += '<div class="listItem-bottomoverview secondaryText">';
                     html += item.Overview;
                     html += '</div>';
                 }

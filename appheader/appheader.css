@@ -166,3 +166,24 @@
         display: none !important;
     }
 }
+
+.pageTitleTextHide {
+    display: none !important;
+}
+
+.btnHeaderSelectLibrary {
+    padding: 0 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+}
+
+@media all and (min-width: 60em) {
+
+    .pageTitleTextHide {
+        display: block!important;
+    }
+
+    .btnHeaderSelectLibrary {
+        display: none !important;
+    }
+}

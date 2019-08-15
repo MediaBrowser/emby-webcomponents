@@ -159,13 +159,13 @@
                 html += textLines[i];
                 html += '</h3>';
             } else {
-                html += '<div class="listItemBodyText secondary">';
+                html += '<div class="listItemBodyText listItemBodyText-secondary">';
                 html += textLines[i];
                 html += '</div>';
             }
         }
 
-        html += '<div class="secondary listItemBodyText jobStatus">';
+        html += '<div class="listItemBodyText-secondary listItemBodyText jobStatus">';
         html += getProgressText(job);
         html += '</div>';
 

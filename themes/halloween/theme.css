@@ -161,7 +161,7 @@ html, .dialog, .backgroundContainer {
     background-color: #313235;
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
+.listItemBodyText-secondary, .secondaryText, .fieldDescription, .cardText-secondary {
     color: #999;
     color: rgba(255, 255, 255, .6);
 }
@@ -169,11 +169,6 @@ html, .dialog, .backgroundContainer {
 .actionsheetDivider {
     background: #444;
     background: rgba(255, 255, 255, .14);
-}
-
-.cardFooter-vibrant .cardText-secondary {
-    color: inherit;
-    opacity: .5;
 }
 
 @media(hover: hover) and (pointer: fine) {

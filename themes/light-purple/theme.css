@@ -121,7 +121,7 @@ html, .backgroundContainer {
     color: inherit;
 }
 
-.listItem .secondary, .nowPlayingBarSecondaryText, .secondaryText, .fieldDescription, .cardText-secondary, .programSecondaryTitle, .guide-programNameCaret {
+.listItemBodyText-secondary, .secondaryText, .fieldDescription, .cardText-secondary {
     color: #888;
     color: rgba(0, 0, 0, .6);
 }
@@ -133,11 +133,6 @@ html, .backgroundContainer {
 
 .listItem:focus {
     background: #ddd;
-}
-
-.cardFooter-vibrant .cardText-secondary {
-    color: inherit;
-    opacity: .5;
 }
 
 .formDialogHeader a {

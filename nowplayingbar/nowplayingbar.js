@@ -513,7 +513,7 @@
         var serverId = nowPlayingItem ? nowPlayingItem.ServerId : null;
         nowPlayingTextElement.innerHTML = textLines.map(function (nowPlayingName) {
 
-            var cssClass = nowPlayingName.secondary ? ' class="nowPlayingBarSecondaryText"' : '';
+            var cssClass = nowPlayingName.secondary ? ' class="secondaryText"' : '';
 
             if (nowPlayingName.item) {
                 return '<div' + cssClass + '>' + getTextActionButton(nowPlayingName.item, nowPlayingName.text, serverId) + '</div>';

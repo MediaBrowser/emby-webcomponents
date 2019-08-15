@@ -50,7 +50,7 @@ define(['appHeader', 'backdrop', 'mainTabsManager', 'layoutManager', 'inputManag
                 var refresh = !controller.refreshed;
 
                 controller.onResume({
-                    autoFocus: previousIndex == null && layoutManager.tv,
+                    autoFocus: previousIndex == null,
                     refresh: refresh
                 });
 
@@ -179,9 +179,7 @@ define(['appHeader', 'backdrop', 'mainTabsManager', 'layoutManager', 'inputManag
 
     TabbedView.prototype.getTitle = function () {
 
-        var item = this.item;
-
-        return item ? item.Name : '';
+        return this.item || '';
     };
 
     return TabbedView;

@@ -204,13 +204,10 @@
         var html = '';
 
         var dialogOptions = {
-            removeOnClose: true
+            removeOnClose: true,
+            modal: false,
+            autoFocus: false
         };
-
-        dialogOptions.modal = false;
-        dialogOptions.entryAnimationDuration = 160;
-        dialogOptions.exitAnimationDuration = 160;
-        dialogOptions.autoFocus = false;
 
         var dlg = dialogHelper.createDialog(dialogOptions);
 

@@ -21,18 +21,12 @@
     /* Strict does not work well with actionsheet */
     contain: style paint;
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+    animation: scaleup 140ms ease-out normal both;
 }
 
     .dialog .scrollY {
         overscroll-behavior-y: contain;
     }
-
-.dialog-fixedSize {
-    border-radius: 0;
-    max-height: none;
-    max-width: none;
-    contain: layout style paint;
-}
 
 .dialog-fullscreen {
     /* Needed due to formDialog style */
@@ -42,8 +36,23 @@
     left: 0;
     right: 0;
     margin: 0;
-    box-shadow: none;
+    box-shadow: none !important;
+    border-radius: 0 !important;
     max-width: none !important;
+    max-height: none !important;
+    animation: scaleup 280ms ease-out normal both;
+}
+
+.dialog-close {
+    animation: scaledown 120ms ease-out normal both;
+}
+
+.dialog-fullscreen.dialog-close {
+    animation: scaledown 220ms ease-out normal both;
+}
+
+.dialog-noanimation {
+    animation: none !important;
 }
 
 @keyframes scaledown {
@@ -70,53 +79,13 @@
     }
 }
 
-@keyframes fadein {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeout {
-
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-@keyframes slideup {
-    from {
-        opacity: 0;
-        transform: translate3d(0, 30%, 0);
-    }
-
-    to {
-        opacity: 1;
-        transform: none;
-    }
-}
-
-@keyframes slidedown {
-
-    from {
-        opacity: 1;
-        transform: none;
-    }
-
-    to {
-        opacity: 0;
-        transform: translate3d(0, 20%, 0);
-    }
-}
-
 @media all and (max-width: 80em), all and (max-height: 45em) {
+
+    .centeredDialog {
+        position: initial !important;
+        top: initial !important;
+        left: inherit !important;
+    }
 
     .dialog-fixedSize, .dialog-fullscreen-lowres {
         position: fixed !important;
@@ -125,8 +94,10 @@
         left: 0 !important;
         right: 0 !important;
         margin: 0 !important;
-        box-shadow: none;
+        box-shadow: none !important;
+        border-radius: 0 !important;
         max-width: none !important;
+        max-height: none !important;
     }
 }
 
