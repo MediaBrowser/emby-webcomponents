@@ -67,10 +67,10 @@ html, .backgroundContainer {
     border-color: rgba(0, 0, 0, .3);
 }
 
-    .raised:focus, .fab:focus {
-        background: #ccc;
-        color: inherit;
-    }
+.raised:focus, .fab:focus {
+    background: #ccc;
+    color: inherit;
+}
 
 .button-submit:not(.emby-button-tv) {
     background: #cc3333;
@@ -278,7 +278,7 @@ html, .backgroundContainer {
 
 /* main nav drawer */
 .mainDrawer {
-    background: #f2f2f2;
+    background: #fafafa;
 }
 
 @media(hover: hover) and (pointer: fine) {
@@ -288,8 +288,8 @@ html, .backgroundContainer {
 }
 
 .navMenuOption-selected {
-    background: #cc3333 !important;
-    color: #fff;
+    background-color: rgba(204,51,51, 0.2) !important;
+    color: #cc3333;
 }
 
 /* emby-button */
@@ -430,6 +430,7 @@ html, .backgroundContainer {
 .cardContent-button {
     background-color: transparent;
 }
+
 .cardContent-shadow {
     background-color: #eee;
 }
@@ -461,6 +462,31 @@ html, .backgroundContainer {
 .defaultCardBackground5 {
     background-color: #F57F17;
     color: #fff !important;
+}
+
+/* scrollbars */
+@media(hover: hover) and (pointer: fine) {
+    ::-webkit-scrollbar {
+        width: 1em;
+        height: 1em;
+    }
+
+    .scrollX-mini::-webkit-scrollbar {
+        height: .7em;
+    }
+
+    .scrollY-mini::-webkit-scrollbar {
+        width: .7em;
+    }
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: rgba(0,0,0,.14);
+}
+
+::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal {
+    -webkit-border-radius: .1em;
+    background: rgba(0,0,0,.2) no-repeat center;
 }
 
 /* emby-slider */

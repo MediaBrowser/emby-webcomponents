@@ -478,6 +478,10 @@
         return items;
     }
 
+    function onCancelled() {
+        return Promise.resolve();
+    }
+
     function showLibrarySelection(button, selectedId, serverId) {
 
         connectionManager.getApiClient(serverId).getUserViews().then(function (result) {
@@ -489,12 +493,14 @@
                 return actionSheet.show({
 
                     items: mapViews(result.Items, selectedId),
-                    positionTo: button
+                    positionTo: button,
+                    type: 'select'
 
                 }).then(function (id) {
 
                     appRouter.showItem(id, serverId);
-                });
+
+                }, onCancelled);
             });
         });
     }
@@ -687,7 +693,7 @@
         if (!title) {
             document.title = 'Emby';
         }
-        if (typeof (title) === 'string') {
+        else if (typeof (title) === 'string') {
             document.title = title;
         }
         else {

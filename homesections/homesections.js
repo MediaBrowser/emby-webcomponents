@@ -190,7 +190,7 @@
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
 
         if (!layoutManager.tv) {
-            html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon button-icon">&#xE5D3;</i></button>';
+            html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings noautofocus"><i class="md-icon button-icon">&#xE5D3;</i></button>';
         }
 
         html += '</div>';
@@ -615,7 +615,7 @@
                 html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderMyMedia') + '</h2>';
 
                 if (!layoutManager.tv) {
-                    html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings"><i class="md-icon button-icon">&#xE5D3;</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="sectionTitleIconButton btnHomeScreenSettings noautofocus"><i class="md-icon button-icon">&#xE5D3;</i></button>';
                 }
 
                 html += '</div>';

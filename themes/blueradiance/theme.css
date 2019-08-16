@@ -286,7 +286,7 @@ html, .dialog {
 
 /* main nav drawer */
 .mainDrawer {
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0,0,0,.2);
 }
 
 .drawer-open {
@@ -295,13 +295,13 @@ html, .dialog {
 
 @media(hover: hover) and (pointer: fine) {
     .navMenuOption:hover {
-        background: rgba(255,255,255,.1);
+        background-color: rgba(255,255,255,.1);
     }
 }
 
 .navMenuOption-selected {
-    background: #52B54B !important;
-    color: #fff;
+    background-color: rgba(82, 181, 75, 0.2) !important;
+    color: #52B54B;
 }
 
 /* emby-button */
@@ -428,6 +428,7 @@ html, .dialog {
         width: 1em;
         height: 1em;
     }
+
     .scrollX-mini::-webkit-scrollbar {
         height: .7em;
     }

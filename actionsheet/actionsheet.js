@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'scrollStyles', 'listViewStyle', 'emby-scroller'], function (dialogHelper, layoutManager, globalize, browser, dom) {
+﻿define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'listViewStyle', 'emby-scroller'], function (dialogHelper, layoutManager, globalize, browser, dom) {
     'use strict';
 
     function getOffsets(elems) {
@@ -101,9 +101,22 @@
             dialogOptions.autoFocus = false;
         }
 
+        var type = options.type;
+        if (layoutManager.tv) {
+            type = null;
+        }
+
         var dlg = dialogHelper.createDialog(dialogOptions);
 
         dlg.classList.add('actionSheet');
+
+        if (type) {
+            dlg.classList.add('actionSheet-' + type);
+        }
+
+        if (type === 'select') {
+            dlg.classList.add('dialog-fullscreen-lowres');
+        }
 
         if (options.dialogClass) {
             dlg.classList.add(options.dialogClass);
@@ -155,6 +168,10 @@
             scrollerClassName += ' actionSheetScroller-tv focuscontainer-x focuscontainer-y';
         }
 
+        if (type) {
+            scrollerClassName += ' actionSheetScroller-' + type;
+        }
+
         html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="' + scrollerClassName + '">';
         html += '<div class="scrollSlider">';
 
@@ -175,6 +192,28 @@
             menuItemClass += ' actionsheet-xlargeFont';
         }
 
+        if (type) {
+            menuItemClass += ' actionSheetMenuItem-' + type;
+        }
+
+        var asideTextClass = 'actionSheetItemAsideText';
+
+        if (type) {
+            asideTextClass += ' asideTextClass-' + type;
+        }
+
+        var listItemBodyClass = 'actionsheetListItemBody';
+
+        if (type) {
+            listItemBodyClass += ' actionsheetListItemBody-' + type;
+        }
+
+        var itemIconClass = 'actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon';
+
+        if (type) {
+            itemIconClass += ' actionsheetMenuItemIcon-' + type;
+        }
+
         for (i = 0, length = options.items.length; i < length; i++) {
 
             option = options.items[i];
@@ -187,21 +226,27 @@
 
             var autoFocus = option.selected ? ' autoFocus' : '';
 
+            var currentMenuItemClass = menuItemClass;
+
+            if (option.selected) {
+                currentMenuItemClass += ' actionSheetMenuItem-selected';
+            }
+
             // Check for null in case int 0 was passed in
             var optionId = option.id == null || option.id === '' ? option.value : option.id;
-            html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + menuItemClass + '" data-id="' + optionId + '">';
+            html += '<button' + autoFocus + ' is="emby-button" type="button" class="' + currentMenuItemClass + '" data-id="' + optionId + '">';
 
             itemIcon = icons[i];
 
             if (itemIcon) {
 
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon">' + itemIcon + '</i>';
+                html += '<i class="' + itemIconClass + '">' + itemIcon + '</i>';
             }
             else if (renderIcon && !center) {
-                html += '<i class="actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon" style="visibility:hidden;">check</i>';
+                html += '<i class="' + itemIconClass + '" style="visibility:hidden;">check</i>';
             }
 
-            html += '<div class="listItemBody actionsheetListItemBody">';
+            html += '<div class="listItemBody ' + listItemBodyClass + '">';
 
             html += '<div class="listItemBodyText actionSheetItemText">';
             html += (option.name || option.textContent || option.innerText);
@@ -216,13 +261,13 @@
             html += '</div>';
 
             if (option.asideText) {
-                html += '<div class="listItemAside actionSheetItemAsideText">';
+                html += '<div class="listItemAside ' + asideTextClass + '">';
                 html += option.asideText;
                 html += '</div>';
             }
 
             if (option.asideIcon) {
-                html += '<div class="listItemAside actionSheetItemAsideText"><i class="md-icon">';
+                html += '<div class="listItemAside ' + asideTextClass + '"><i class="md-icon">';
                 html += option.asideIcon;
                 html += '</i></div>';
             }
@@ -237,6 +282,15 @@
             html += '<div class="actionSheetBottomText fieldDescription">';
             html += options.bottomText;
             html += '</div>';
+        }
+
+        if (!layoutManager.tv) {
+            if (type === 'select') {
+                //html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv btnCloseActionSheet-select"><i class="md-icon">cancel</i></button>';
+                html += '<div class="actionSheet-select-bottom-bg">';
+                html += '<button is="emby-button" type="button" class="btnCloseActionSheet hide-mouse-idle-tv btnCloseActionSheet-select raised block">Cancel</button>';
+                html += '</div>';
+            }
         }
 
         if (options.showCancel) {

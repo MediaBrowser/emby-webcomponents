@@ -483,7 +483,7 @@
         this.btnSortText = view.querySelector('.btnSortText');
         this.btnSortIcon = view.querySelector('.btnSortIcon');
 
-        this.enableAlphaNumericShortcuts = this.itemsContainer.getAttribute('data-alphanumericshortcuts') === 'true' && !layoutManager.mobile && !this.enablePaging();
+        this.enableAlphaNumericShortcuts = this.itemsContainer.getAttribute('data-alphanumericshortcuts') === 'true' && !layoutManager.mobile;
 
         this.alphaPickerElement = view.querySelector('.alphaPicker');
 

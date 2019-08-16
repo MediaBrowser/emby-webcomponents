@@ -79,9 +79,9 @@ html {
     border-color: rgba(0, 0, 0, .3);
 }
 
-    .raised:focus, .fab:focus {
-        background: rgba(0, 0, 0, .24);
-    }
+.raised:focus, .fab:focus {
+    background: rgba(0, 0, 0, .24);
+}
 
 .button-submit:not(.emby-button-tv) {
     background: #52B54B;
@@ -272,18 +272,18 @@ html {
 
 /* main nav drawer */
 .mainDrawer {
-    background: #fff;
+    background: #D5E9F2 url(https://github.com/MediaBrowser/Emby.Resources/raw/master/images/wallpaper/atv1-1080.png) no-repeat center center;
 }
 
 @media(hover: hover) and (pointer: fine) {
     .navMenuOption:hover {
-        background: #f2f2f2;
+        background: rgba(0, 0, 0, .1);
     }
 }
 
 .navMenuOption-selected {
-    background: #52B54B !important;
-    color: #fff;
+    background-color: rgba(82, 181, 75, 0.3) !important;
+    color: green;
 }
 
 /* emby-button */
@@ -404,6 +404,31 @@ html {
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
 }
 
+/* scrollbars */
+@media(hover: hover) and (pointer: fine) {
+    ::-webkit-scrollbar {
+        width: 1em;
+        height: 1em;
+    }
+
+    .scrollX-mini::-webkit-scrollbar {
+        height: .7em;
+    }
+
+    .scrollY-mini::-webkit-scrollbar {
+        width: .7em;
+    }
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: rgba(0,0,0,.14);
+}
+
+::-webkit-scrollbar-thumb:vertical, ::-webkit-scrollbar-thumb:horizontal {
+    -webkit-border-radius: .1em;
+    background: rgba(0,0,0,.2) no-repeat center;
+}
+
 /* emby-slider */
 .emby-slider-background {
     background: rgba(0,0,0,.3);
@@ -445,4 +470,9 @@ html {
 
 .recordingIcon-active {
     color: #cc3333 !important;
+}
+
+.drawerLogo {
+    background-image: url(../logodark.png);
+    border-bottom-color: rgba(0,0,0,.08);
 }

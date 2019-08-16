@@ -315,8 +315,8 @@ html, .dialog, .backgroundContainer {
 }
 
 .navMenuOption-selected {
-    background: #FF9100 !important;
-    color: #fff;
+    background-color: rgba(255,145,0, 0.2) !important;
+    color: white;
 }
 
 /* emby-button */

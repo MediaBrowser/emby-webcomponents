@@ -265,7 +265,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         }
 
         if (!restrictOptions) {
-            if (options.share === true) {
+            if (options.share !== false) {
                 if (itemHelper.canShare(item, user)) {
                     commands.push({
                         name: globalize.translate('Share'),
