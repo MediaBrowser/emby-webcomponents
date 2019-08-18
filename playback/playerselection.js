@@ -1,29 +1,33 @@
 ﻿define(['appSettings', 'events', 'browser', 'loading', 'playbackManager', 'appRouter', 'globalize', 'apphost'], function (appSettings, events, browser, loading, playbackManager, appRouter, globalize, appHost) {
     'use strict';
 
-    function mirrorItem(info, player) {
+    var currentItem;
 
-        var item = info.item;
+    function mirrorIfEnabled(item) {
 
-        playbackManager.displayContent({
+        if (item) {
+            currentItem = item;
+        } else {
+            item = currentItem;
+        }
 
-            ItemName: item.Name,
-            ItemId: item.Id,
-            ItemType: item.Type,
-            Context: info.context
-        }, player);
-    }
+        if (item) {
 
-    function mirrorIfEnabled(info) {
+            if (item.IsFolder && item.Type !== 'Series' && item.Type !== 'MusicAlbum' && item.Type !== 'MusicArtist') {
+                return;
+            }
 
-        if (info && playbackManager.enableDisplayMirroring()) {
+            var currentPlayer = playbackManager.getCurrentPlayer();
 
-            var getPlayerInfo = playbackManager.getPlayerInfo();
+            if (currentPlayer && !currentPlayer.isLocalPlayer) {
 
-            if (getPlayerInfo) {
-                if (!getPlayerInfo.isLocalPlayer && getPlayerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
-                    mirrorItem(info, playbackManager.getCurrentPlayer());
-                }
+                playbackManager.displayContent({
+
+                    ItemName: item.Name,
+                    ItemId: item.Id,
+                    ItemType: item.Type
+
+                }, currentPlayer);
             }
         }
     }
@@ -147,8 +151,8 @@
 
     function showActivePlayerMenu(playerInfo) {
 
-        require(['dialogHelper', 'dialog', 'emby-checkbox', 'emby-button'], function (dialogHelper) {
-            showActivePlayerMenuInternal(dialogHelper, playerInfo);
+        require(['dialog'], function (dialog) {
+            showActivePlayerMenuInternal(dialog, playerInfo);
         });
     }
 
@@ -188,7 +192,7 @@
                         default:
                             break;
                     }
-                });
+                }, emptyCallback);
 
             });
 
@@ -199,87 +203,46 @@
         }
     }
 
-    function showActivePlayerMenuInternal(dialogHelper, playerInfo) {
+    function showActivePlayerMenuInternal(dialog, playerInfo) {
 
-        var html = '';
-
-        var dialogOptions = {
-            removeOnClose: true,
-            modal: false,
-            autoFocus: false
-        };
-
-        var dlg = dialogHelper.createDialog(dialogOptions);
-
-        dlg.classList.add('promptDialog');
+        var items = [];
 
         var currentDeviceName = (playerInfo.deviceName || playerInfo.name);
 
-        html += '<div class="promptDialogContent" style="padding:1.5em;">';
-        html += '<h2 style="margin-top:.5em;">';
-        html += currentDeviceName;
-        html += '</h2>';
+        var options = {
+            title: currentDeviceName
+        };
 
-        html += '<div>';
-
-        if (playerInfo.supportedCommands.indexOf('DisplayContent') !== -1) {
-
-            html += '<label class="checkboxContainer">';
-            var checkedHtml = playbackManager.enableDisplayMirroring() ? ' checked' : '';
-            html += '<input type="checkbox" is="emby-checkbox" class="chkMirror"' + checkedHtml + '/>';
-            html += '<span>' + globalize.translate('EnableDisplayMirroring') + '</span>';
-            html += '</label>';
-        }
-
-        html += '</div>';
-
-        html += '<div style="margin-top:1em;display:flex;justify-content: flex-end;">';
-
-        html += '<button is="emby-button" type="button" class="button-flat btnRemoteControl promptDialogButton">' + globalize.translate('HeaderRemoteControl') + '</button>';
-        html += '<button is="emby-button" type="button" class="button-flat btnDisconnect promptDialogButton ">' + globalize.translate('Disconnect') + '</button>';
-        html += '<button is="emby-button" type="button" class="button-flat btnCancel promptDialogButton">' + globalize.translate('Cancel') + '</button>';
-        html += '</div>';
-
-        html += '</div>';
-        dlg.innerHTML = html;
-
-        var chkMirror = dlg.querySelector('.chkMirror');
-
-        if (chkMirror) {
-            chkMirror.addEventListener('change', onMirrorChange);
-        }
-
-        var destination = '';
-
-        var btnRemoteControl = dlg.querySelector('.btnRemoteControl');
-        if (btnRemoteControl) {
-            btnRemoteControl.addEventListener('click', function () {
-                destination = 'nowplaying';
-                dialogHelper.close(dlg);
-            });
-        }
-
-        dlg.querySelector('.btnDisconnect').addEventListener('click', function () {
-            destination = 'disconnectFromPlayer';
-            dialogHelper.close(dlg);
+        items.push({
+            name: globalize.translate('HeaderRemoteControl'),
+            id: 'remote'
         });
 
-        dlg.querySelector('.btnCancel').addEventListener('click', function () {
-            dialogHelper.close(dlg);
+        items.push({
+            name: globalize.translate('Disconnect'),
+            id: 'disconnect'
         });
 
-        dialogHelper.open(dlg).then(function () {
-            if (destination === 'nowplaying') {
-                appRouter.showNowPlaying();
+        items.push({
+            name: globalize.translate('Cancel'),
+            id: 'cancel',
+            type: 'cancel'
+        });
+
+        options.buttons = items;
+
+        return dialog(options).then(function (result) {
+
+            if (result === 'remote') {
+                return appRouter.showNowPlaying();
             }
-            else if (destination === 'disconnectFromPlayer') {
+            else if (result === 'disconnect') {
                 disconnectFromPlayer(currentDeviceName);
             }
-        }, emptyCallback);
-    }
 
-    function onMirrorChange() {
-        playbackManager.enableDisplayMirroring(this.checked);
+            return Promise.resolve();
+
+        }, emptyCallback);
     }
 
     document.addEventListener('viewshow', function (e) {
@@ -288,16 +251,8 @@
         var item = state.item;
 
         if (item && item.ServerId) {
-            mirrorIfEnabled({
-                item: item
-            });
+            mirrorIfEnabled(item);
             return;
-        }
-    });
-
-    events.on(appSettings, 'change', function (e, name) {
-        if (name === 'displaymirror') {
-            mirrorIfEnabled();
         }
     });
 

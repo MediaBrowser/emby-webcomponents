@@ -62,9 +62,16 @@ html {
 }
 
 /* buttons */
-.paper-icon-button-light:focus {
+.paper-icon-button-light-tv:focus, .paper-icon-button-light:active {
     color: #52B54B;
     background-color: rgba(82, 181, 75, 0.2);
+}
+
+@media(hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:focus {
+        color: #52B54B;
+        background-color: rgba(82, 181, 75, 0.2);
+    }
 }
 
 .raised, .fab, .detailButton-icon {

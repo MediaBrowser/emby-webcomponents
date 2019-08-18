@@ -127,7 +127,6 @@
     text-align: center;
     font-size: 106% !important;
     background: rgba(0,0,0,.78) !important;
-    color: #fff;
 }
 
     .actionSheet-select.dialog-close {
@@ -171,7 +170,7 @@
 
 .actionSheetMenuItem-select {
     justify-content: center;
-    color: rgba(255,255,255,.7);
+    color: rgba(255,255,255,.7) !important;
     padding: .35em .5em !important;
 }
 

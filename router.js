@@ -201,14 +201,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             sendRouteToViewManager(ctx, route, controllerFactory);
         };
 
-        require(route.dependencies || [], function () {
-
-            if (route.controller) {
-                require([route.controller], onInitComplete);
-            } else {
-                onInitComplete();
-            }
-        });
+        if (route.controller) {
+            require([route.controller], onInitComplete);
+        } else {
+            onInitComplete();
+        }
     }
 
     var currentViewLoadRequest;

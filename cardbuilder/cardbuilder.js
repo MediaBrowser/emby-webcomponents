@@ -499,6 +499,15 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     tag: item.ParentBackdropImageTags[0]
                 });
 
+            } else if (item.PrimaryImageItemId) {
+
+                // VirtualFolder
+                imgUrl = apiClient.getScaledImageUrl(item.PrimaryImageItemId, {
+                    type: "Primary",
+                    maxHeight: height,
+                    maxWidth: width
+                });
+
             }
 
             return {
@@ -848,6 +857,29 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         lines.push(globalize.translate('Disabled'));
                     } else {
                         lines.push(item.LastActivityDate ? humanedate(item.LastActivityDate) : '');
+                    }
+                }
+
+                if (options.showContentType) {
+
+                    if (!item.Id) {
+                        // AddVirtualFolder
+                        lines.push('');
+                    } else {
+                        lines.push(itemHelper.getContentTypeName(item.CollectionType));
+                    }
+                }
+
+                if (options.showLibraryFolders) {
+                    if (!item.Locations) {
+
+                        lines.push('');
+
+                    } else if (item.Locations.length === 1) {
+                        lines.push(item.Locations[0]);
+                    }
+                    else {
+                        lines.push(globalize.translate('NumLocationsValue', item.Locations.length));
                     }
                 }
 
@@ -1437,9 +1469,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (itemType === 'Server' || itemType === 'SelectServer') {
                 return 'router';
             }
-            if (itemType === 'AddServer') {
-                return 'add_circle';
-            }
             if (itemType === 'ManualLogin') {
                 return 'lock_open';
             }
@@ -1448,6 +1477,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
             if (itemType === 'ForgotPassword') {
                 return 'help';
+            }
+
+            if (itemType === 'AddServer' || itemType === 'AddVirtualFolder') {
+                return 'add_circle';
             }
 
             if (defaultIcon === false) {

@@ -82,9 +82,16 @@ html, .dialog, .backgroundContainer {
 }*/
 
 /* buttons */
-.paper-icon-button-light:focus {
+.paper-icon-button-light-tv:focus, .paper-icon-button-light:active {
     color: #FF9100;
     background-color: rgba(255, 145, 0, 0.2);
+}
+
+@media(hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:focus {
+        color: #FF9100;
+        background-color: rgba(255, 145, 0, 0.2);
+    }
 }
 
 .raised, .fab, .detailButton-icon {

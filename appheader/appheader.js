@@ -380,14 +380,33 @@
 
         detail.drawerInline = detail.dashboardTheme && detail.drawer !== false && !layoutManager.tv;
 
-        if (detail.drawerInline) {
-            skinBodyElement.classList.add('skinBody-withFullDrawer');
+        var drawerStyle = detail.drawerInline ? 2 : 0;
 
+        if (drawerStyle === 2) {
+
+            //skinBodyElement.classList.remove('skinBody-withPartialDrawer');
+            //mainDrawerElement.classList.remove('mainDrawer-open-partial');
+
+            skinBodyElement.classList.add('skinBody-withFullDrawer');
             mainDrawerElement.classList.add('mainDrawer-open-full');
+            mainDrawerElement.classList.add('mainDrawer-docked');
+
+        } else if (drawerStyle === 1) {
+
+            skinBodyElement.classList.remove('skinBody-withFullDrawer');
+            mainDrawerElement.classList.remove('mainDrawer-open-full');
+
+            skinBodyElement.classList.add('skinBody-withPartialDrawer');
+            mainDrawerElement.classList.add('mainDrawer-open-partial');
+            mainDrawerElement.classList.add('mainDrawer-docked');
 
         } else {
             skinBodyElement.classList.remove('skinBody-withFullDrawer');
+            //skinBodyElement.classList.remove('skinBody-withPartialDrawer');
+
             mainDrawerElement.classList.remove('mainDrawer-open-full');
+            //mainDrawerElement.classList.remove('mainDrawer-open-partial');
+            mainDrawerElement.classList.remove('mainDrawer-docked');
         }
     }
 
@@ -659,7 +678,7 @@
         title = item.Name || '';
 
         if (!layoutManager.tv) {
-            if (item.CollectionType || item.CollectionType || item.Type === 'CollectionFolder' || item.Type === 'Channel') {
+            if (item.IsFolder) {
                 title = '<div class="pageTitleTextHide">' + title + '</div><button data-serverid="' + item.ServerId + '" data-id="' + item.Id + '" is="emby-button" type="button" class="button-flat btnHeaderSelectLibrary"><span>' + title + '</span><i class="md-icon button-icon">arrow_drop_down</i></button>';
             }
         }

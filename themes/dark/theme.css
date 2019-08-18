@@ -53,18 +53,17 @@ html, .dialog, .backgroundContainer {
         background-color: rgba(0,0,0,.84);
     }
 
-/*@supports ( (backdrop-filter: blur(1em))) {
-
-    .dialog {
-        background: rgba(34,34,34,.7);
-        backdrop-filter: saturate(1.8) blur(1.5em);
-    }
-}*/
-
 /* buttons */
-.paper-icon-button-light:focus {
+.paper-icon-button-light-tv:focus, .paper-icon-button-light:active {
     color: #52B54B;
     background-color: rgba(82, 181, 75, 0.2);
+}
+
+@media(hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:focus {
+        color: #52B54B;
+        background-color: rgba(82, 181, 75, 0.2);
+    }
 }
 
 .raised, .fab, .detailButton-icon {
@@ -442,6 +441,7 @@ html, .dialog, .backgroundContainer {
         width: 1em;
         height: 1em;
     }
+
     .scrollX-mini::-webkit-scrollbar {
         height: .7em;
     }

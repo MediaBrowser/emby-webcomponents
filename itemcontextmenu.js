@@ -114,6 +114,13 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             }
         }
 
+        if (item.Type === 'VirtualFolder' && user.Policy.IsAdministrator) {
+            commands.push({
+                name: globalize.translate('ButtonChangeContentType'),
+                id: 'changelibrarycontenttype'
+            });
+        }
+
         if (item.Type === 'Server') {
             commands.push({
                 name: globalize.translate('Connect'),
@@ -190,7 +197,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
                 if (options.edit !== false && item.Type !== 'SeriesTimer') {
 
-                    var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer' || item.Type === 'User') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+                    var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer' || item.Type === 'User' || item.Type === 'VirtualFolder') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
 
                     commands.push({
                         name: text,
@@ -254,6 +261,17 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             commands.push({
                 name: globalize.translate('RemoveFromCollection'),
                 id: 'removefromcollection'
+            });
+        }
+
+        if (item.Type === 'VirtualFolder' && user.Policy.IsAdministrator) {
+            commands.push({
+                name: globalize.translate('Remove'),
+                id: 'removelibrary'
+            });
+            commands.push({
+                name: globalize.translate('Rename'),
+                id: 'renamelibrary'
             });
         }
 
@@ -337,11 +355,117 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         };
     }
 
+    function getResolveFn(id, changed, deleted) {
+
+        return function () {
+            return Promise.resolve({
+                command: id,
+                updated: changed,
+                deleted: deleted
+            });
+        };
+    }
+
     function executeCommand(item, id, options) {
 
         var itemId = item.Id;
         var serverId = item.ServerId;
         var apiClient = connectionManager.getApiClient(serverId);
+
+        switch (id) {
+
+            case 'edit':
+                {
+                    return editItem(apiClient, item, options.positionTo).then(getResolveFn(id, true), getResolveFn(id));
+                }
+            case 'renamelibrary':
+                return renameVirtualFolder(apiClient, item, options.positionTo).then(getResolveFn(id, true), getResolveFn(id));
+            case 'removelibrary':
+                return deleteVirtualFolder(apiClient, item, options.positionTo).then(getResolveFn(id, true, true), getResolveFn(id));
+            case 'changelibrarycontenttype':
+                return changeVirtualFolderContentType(apiClient, item, options.positionTo).then(getResolveFn(id), getResolveFn(id));
+            case 'playallfromhere':
+                {
+                    return getResolveFn(id)();
+                }
+            case 'queueallfromhere':
+                {
+                    return getResolveFn(id)();
+                }
+            case 'wakeserver':
+                {
+                    wakeServer(apiClient, item);
+                    return getResolveFn(id)();
+                }
+            case 'connecttoserver':
+                {
+                    connectToServer(apiClient, item);
+                    return getResolveFn(id)();
+                }
+            case 'open':
+                {
+                    appRouter.showItem(item);
+                    return getResolveFn(id)();
+                }
+            case 'play':
+                {
+                    play(item, false);
+                    return getResolveFn(id)();
+                }
+            case 'resume':
+                {
+                    play(item, true);
+                    return getResolveFn(id)();
+                }
+            case 'queue':
+                {
+                    play(item, false, true);
+                    return getResolveFn(id)();
+                }
+            case 'queuenext':
+                {
+                    play(item, false, true, true);
+                    return getResolveFn(id)();
+                }
+            case 'shuffle':
+                {
+                    playbackManager.shuffle(item);
+                    return getResolveFn(id)();
+                }
+            case 'instantmix':
+                {
+                    playbackManager.instantMix(item);
+                    return getResolveFn(id)();
+                }
+            case 'album':
+                {
+                    appRouter.showItem(item.AlbumId, item.ServerId);
+                    return getResolveFn(id)();
+                }
+            case 'artist':
+                {
+                    appRouter.showItem(item.ArtistItems[0].Id, item.ServerId);
+                    return getResolveFn(id)();
+                }
+            case 'canceltimer':
+                return deleteTimer(apiClient, item).then(getResolveFn(id, true, true), getResolveFn(id));
+            case 'cancelseriestimer':
+                return deleteSeriesTimer(apiClient, item).then(getResolveFn(id, true, true), getResolveFn(id));
+            case 'refresh':
+                {
+                    refresh(apiClient, item);
+                    return getResolveFn(id)();
+                }
+            case 'delete':
+                {
+                    return deleteItem(apiClient, item).then(getResolveFn(id, true, true), getResolveFn(id));
+                }
+            case 'multiselect':
+                showMultiSelect(apiClient, item, options);
+                return getResolveFn(id)();
+            default:
+                break;
+        }
 
         return new Promise(function (resolve, reject) {
 
@@ -396,11 +520,6 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                         });
                         break;
                     }
-                case 'edit':
-                    {
-                        editItem(apiClient, item).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        break;
-                    }
                 case 'editimages':
                     {
                         require(['imageEditor'], function (imageEditor) {
@@ -421,71 +540,6 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                         });
                         break;
                     }
-                case 'refresh':
-                    {
-                        refresh(apiClient, item);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'wakeserver':
-                    {
-                        wakeServer(apiClient, item);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'connecttoserver':
-                    {
-                        connectToServer(apiClient, item);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'open':
-                    {
-                        appRouter.showItem(item);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'play':
-                    {
-                        play(item, false);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'resume':
-                    {
-                        play(item, true);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'queue':
-                    {
-                        play(item, false, true);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'queuenext':
-                    {
-                        play(item, false, true, true);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'shuffle':
-                    {
-                        playbackManager.shuffle(item);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'instantmix':
-                    {
-                        playbackManager.instantMix(item);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'delete':
-                    {
-                        deleteItem(apiClient, item).then(getResolveFunction(resolve, id, true, true), getResolveFunction(resolve, id));
-                        break;
-                    }
                 case 'share':
                     {
                         navigator.share({
@@ -494,28 +548,6 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
                             url: item.Type === 'Photo' ? apiClient.getItemDownloadUrl(item.Id) : apiClient.getUrl('share').replace('/share', '')
                         });
-                        break;
-                    }
-                case 'album':
-                    {
-                        appRouter.showItem(item.AlbumId, item.ServerId);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'artist':
-                    {
-                        appRouter.showItem(item.ArtistItems[0].Id, item.ServerId);
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'playallfromhere':
-                    {
-                        getResolveFunction(resolve, id)();
-                        break;
-                    }
-                case 'queueallfromhere':
-                    {
-                        getResolveFunction(resolve, id)();
                         break;
                     }
                 case 'convert':
@@ -585,20 +617,67 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                     });
 
                     break;
-                case 'canceltimer':
-                    deleteTimer(apiClient, item, resolve, id);
-                    break;
-                case 'cancelseriestimer':
-                    deleteSeriesTimer(apiClient, item, resolve, id);
-                    break;
-                case 'multiselect':
-                    showMultiSelect(apiClient, item, options);
-                    getResolveFunction(resolve, id)();
-                    break;
                 default:
                     reject();
                     break;
             }
+        });
+    }
+
+    function changeVirtualFolderContentType(page, virtualFolder) {
+
+        return require(['alert']).then(function (responses) {
+            var alert = responses[0];
+
+            return alert({
+                title: globalize.translate('HeaderChangeFolderType'),
+                text: globalize.translate('HeaderChangeFolderTypeHelp')
+            });
+        });
+    }
+
+    function deleteVirtualFolder(apiClient, virtualFolder, button) {
+
+        var msg = globalize.translate('MessageAreYouSureYouWishToRemoveMediaFolder');
+
+        if (virtualFolder.Locations.length) {
+            msg += "<br/><br/>" + globalize.translate("MessageTheFollowingLocationWillBeRemovedFromLibrary") + "<br/><br/>";
+            msg += virtualFolder.Locations.join("<br/>");
+        }
+
+        return require(['confirm']).then(function (responses) {
+
+            var confirm = responses[0];
+
+            return confirm(msg, globalize.translate('HeaderRemoveMediaFolder')).then(function () {
+
+                var refreshAfterChange = dom.parentWithClass(button, 'page').getAttribute('data-refreshlibrary') === 'true';
+
+                return ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange);
+            });
+        });
+    }
+
+    function renameVirtualFolder(apiClient, virtualFolder, button) {
+
+        return require(['prompt']).then(function (responses) {
+
+            var prompt = responses[0];
+
+            return prompt({
+                label: globalize.translate('LabelNewName'),
+                confirmText: globalize.translate('ButtonRename')
+
+            }).then(function (newName) {
+
+                if (newName && newName !== virtualFolder.Name) {
+
+                    var refreshAfterChange = dom.parentWithClass(button, 'page').getAttribute('data-refreshlibrary') === 'true';
+
+                    return ApiClient.renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange);
+                }
+            });
+
         });
     }
 
@@ -608,25 +687,25 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         itemsContainer.showMultiSelect(options.positionTo);
     }
 
-    function deleteTimer(apiClient, item, resolve, command) {
+    function deleteTimer(apiClient, item) {
 
-        require(['recordingHelper'], function (recordingHelper) {
+        return require(['recordingHelper']).then(function (responses) {
 
             var timerId = item.TimerId || item.Id;
 
-            recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId).then(function () {
-                getResolveFunction(resolve, command, true)();
-            });
+            var recordingHelper = responses[0];
+
+            return recordingHelper.cancelTimerWithConfirmation(timerId, item.ServerId);
         });
     }
 
-    function deleteSeriesTimer(apiClient, item, resolve, command) {
+    function deleteSeriesTimer(apiClient, item) {
 
-        require(['recordingHelper'], function (recordingHelper) {
+        return require(['recordingHelper']).then(function (responses) {
 
-            recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId).then(function () {
-                getResolveFunction(resolve, command, true)();
-            });
+            var recordingHelper = responses[0];
+
+            return recordingHelper.cancelSeriesTimerWithConfirmation(item.Id, item.ServerId);
         });
     }
 
@@ -653,7 +732,25 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         }
     }
 
-    function editItem(apiClient, item) {
+    function editVirtualFolder(item, button) {
+
+        var view = dom.parentWithClass(button, 'page');
+        var refreshLibrary = button ? view.getAttribute('data-refreshlibrary') === 'true' : false;
+
+        return require(['medialibraryeditor']).then(function (responses) {
+
+            var medialibraryeditor = responses[0];
+
+            new medialibraryeditor().show({
+
+                refresh: refreshLibrary,
+                library: item
+
+            });
+        });
+    }
+
+    function editItem(apiClient, item, button) {
 
         return new Promise(function (resolve, reject) {
 
@@ -668,6 +765,10 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
                     recordingEditor.show(item.Id, serverId).then(resolve, reject);
                 });
+            } else if (item.Type === 'VirtualFolder') {
+
+                editVirtualFolder(item, button).then(resolve, reject);
+
             } else if (item.Type === 'SeriesTimer') {
                 require(['seriesRecordingEditor'], function (recordingEditor) {
 

@@ -57,7 +57,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
     function supportsAddingToCollection(item) {
 
-        var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'GameGenre', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer', 'BoxSet'];
+        var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'GameGenre', 'Tag', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer', 'BoxSet'];
 
         var itemType = item.Type;
 
@@ -109,6 +109,9 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
         if (itemType === 'SeriesTimer') {
+            return false;
+        }
+        if (itemType === 'VirtualFolder') {
             return false;
         }
 
@@ -165,7 +168,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return false;
         }
 
-        if (itemType === 'Genre' || itemType === 'MusicGenre' || itemType === 'GameGenre' || itemType === 'Studio') {
+        if (itemType === 'Genre' || itemType === 'MusicGenre' || itemType === 'GameGenre' || itemType === 'Studio' || itemType === 'Tag') {
             return false;
         }
 
@@ -288,11 +291,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 }
             }
 
-            if (itemType === 'Genre' ||
-                itemType === 'MusicGenre' ||
-                itemType === 'GameGenre' ||
-                itemType === 'Studio' ||
-                itemType === 'Device' ||
+            if (itemType === 'Device' ||
                 itemType === 'User' ||
                 itemType === 'Plugin') {
                 return false;
@@ -322,20 +321,34 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         canShare: function (item, user) {
 
+            if (!user) {
+                return false;
+            }
+
+            // AddServer
+            if (!item.Id) {
+                return false;
+            }
+
             var itemType = item.Type;
 
-            if (itemType === 'Program') {
+            if (itemType === 'TvChannel' ||
+                itemType === 'Channel' ||
+                itemType === 'Person' ||
+                itemType === 'Year' ||
+                itemType === 'Program' ||
+                itemType === 'Timer' ||
+                itemType === 'SeriesTimer' ||
+                itemType === 'GameGenre' ||
+                itemType === 'MusicGenre' ||
+                itemType === 'Genre' ||
+                itemType === 'Device' ||
+                itemType === 'User' ||
+                itemType === 'Plugin' ||
+                itemType === 'Server') {
                 return false;
             }
-            if (itemType === 'TvChannel') {
-                return false;
-            }
-            if (itemType === 'Timer') {
-                return false;
-            }
-            if (itemType === 'SeriesTimer') {
-                return false;
-            }
+
             if (itemType === 'Recording') {
                 if (item.Status !== 'Completed') {
                     return false;
@@ -435,9 +448,9 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 type === 'SeriesTimer' ||
                 type === 'GameGenre' ||
                 type === 'Device' ||
-                type === 'Device' ||
                 type === 'User' ||
                 type === 'Plugin' ||
+                type === 'VirtualFolder' ||
                 type === 'Server') {
                 return false;
             }
@@ -546,6 +559,39 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             var mediaType = item.MediaType;
 
             return mediaType === 'Video';
+        },
+
+        getContentTypeName(contentType) {
+
+            if (!contentType) {
+                return globalize.translate('MixedContent');
+            }
+
+            switch (contentType) {
+
+                case 'movies':
+                    return globalize.translate('Movies');
+                case 'music':
+                    return globalize.translate('Music');
+                case 'tvshows':
+                    return globalize.translate('TVShows');
+                case 'books':
+                    return globalize.translate('Books');
+                case 'games':
+                    return globalize.translate('Games');
+                case 'musicvideos':
+                    return globalize.translate('MusicVideos');
+                case 'homevideos':
+                    return globalize.translate('HomeVideosAndPhotos');
+                case 'audiobooks':
+                    return globalize.translate('AudioBooks');
+                case 'boxsets':
+                    return globalize.translate('Collections');
+                case 'playlists':
+                    return globalize.translate('Playlists');
+                default:
+                    return contentType;
+            }
         }
     };
 });

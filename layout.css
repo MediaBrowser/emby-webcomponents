@@ -86,40 +86,44 @@ body {
 
 @media all and (min-width: 48em) {
 
-    .mainDrawer-open-full {
+    .mainDrawer-docked {
         z-index: inherit !important;
         left: 0 !important;
         transform: none !important;
         box-shadow: none !important;
         padding-top: 0;
         top: 4.82em !important;
-        width: 20.205em !important;
         font-size: 94.1%;
     }
 
-    .withSectionTabs .mainDrawer-open-full {
-        top: 8.7em !important;
+    .mainDrawer-open-partial {
+        width: 7.5em !important;
+    }
+
+    .mainDrawer-open-full {
+        width: 20.205em !important;
+    }
+
+    .withSectionTabs .mainDrawer-docked {
+        top: 8.2em !important;
     }
 
     .skinBody-withFullDrawer {
-        left: 18.8em;
+        left: 19.012905em;
     }
-}
 
-@media all and (min-width: 48em) {
-
-    .withSectionTabs .mainDrawer-open-full {
-        top: 8.2em !important;
+    .skinBody-withPartialDrawer {
+        left: 7.0575em;
     }
 }
 
 @media all and (min-width: 120em) {
 
-    .withSectionTabs .mainDrawer-open-full {
+    .withSectionTabs .mainDrawer-docked {
         top: 6.5em !important;
     }
 
-    .mainDrawer-open-full {
+    .mainDrawer-docked {
         top: 6.5em !important;
     }
 }

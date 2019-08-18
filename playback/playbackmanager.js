@@ -3625,22 +3625,6 @@
         }
     };
 
-    PlaybackManager.prototype.toggleDisplayMirroring = function () {
-        this.enableDisplayMirroring(!this.enableDisplayMirroring());
-    };
-
-    PlaybackManager.prototype.enableDisplayMirroring = function (enabled) {
-
-        if (enabled != null) {
-
-            var val = enabled ? '1' : '0';
-            appSettings.set('displaymirror', val);
-            return;
-        }
-
-        return (appSettings.get('displaymirror') || '') !== '0';
-    };
-
     PlaybackManager.prototype.nextChapter = function (player) {
 
         player = player || this._currentPlayer;

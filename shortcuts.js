@@ -70,6 +70,16 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         });
     }
 
+    function getVirtualFolder(apiClient, id) {
+
+        return apiClient.getVirtualFolders().then(function (items) {
+            return items.filter(function (u) {
+
+                return u.ItemId === id;
+            })[0];
+        });
+    }
+
     function getItem(button) {
 
         button = dom.parentWithAttribute(button, 'data-type');
@@ -95,6 +105,10 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         }
 
         var apiClient = connectionManager.getApiClient(serverId);
+
+        if (type === 'VirtualFolder') {
+            return getVirtualFolder(apiClient, id);
+        }
 
         if (type === 'User') {
             return apiClient.getUser(id);
@@ -136,7 +150,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
 
     function showContextMenu(card, options) {
 
-        getItem(card).then(function (item) {
+        return getItem(card).then(function (item) {
 
             var playlistId = card.getAttribute('data-playlistid');
             var collectionId = card.getAttribute('data-collectionid');
@@ -146,10 +160,11 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
                 item.PlaylistItemId = elem ? elem.getAttribute('data-playlistitemid') : null;
             }
 
-            require(['itemContextMenu'], function (itemContextMenu) {
+            return require(['itemContextMenu']).then(function (responses) {
 
-                getUser(item).then(function (user) {
-                    itemContextMenu.show(Object.assign({
+                return getUser(item).then(function (user) {
+
+                    return responses[0].show(Object.assign({
                         item: item,
                         play: true,
                         queue: true,
@@ -165,7 +180,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
                         var itemsContainer;
 
                         if (result.command === 'playallfromhere' || result.command === 'queueallfromhere') {
-                            executeAction(card, options.positionTo, result.command);
+                            return executeAction(card, options.positionTo, result.command);
                         }
                         else if (result.command === 'addtoplaylist' || result.command === 'addtocollection') {
                             // generally no need to refresh lists after doing this
@@ -173,6 +188,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
                         else if (result.updated || result.deleted) {
                             notifyRefreshNeeded(card, options.itemsContainer);
                         }
+
                     }, onRejected);
                 });
             });
@@ -235,6 +251,15 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         });
     }
 
+    function addVirtualFolder(card) {
+
+        // this is just so that we can keep the add library code in library.js
+        card.dispatchEvent(new CustomEvent('addvirtualfolder', {
+            cancelable: false,
+            bubbles: true
+        }));
+    }
+
     function executeAction(card, target, action) {
 
         target = target || card;
@@ -254,10 +279,16 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
 
         if (action === 'link') {
 
-            appRouter.showItem(item, {
-                context: card.getAttribute('data-context'),
-                parentId: card.getAttribute('data-parentid')
-            });
+            if (item.Type === 'AddVirtualFolder') {
+
+                addVirtualFolder(card);
+
+            } else {
+                appRouter.showItem(item, {
+                    context: card.getAttribute('data-context'),
+                    parentId: card.getAttribute('data-parentid')
+                });
+            }
         }
 
         else if (action === 'programdialog') {
@@ -332,7 +363,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         }
 
         else if (action === 'edit') {
-            editItem(item.Id, type, serverId);
+            editItem(item, card);
         }
 
         else if (action === 'playtrailer') {
@@ -410,23 +441,42 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         });
     }
 
-    function editItem(itemId, itemType, serverId) {
+    function editVirtualFolder(button) {
 
-        var apiClient = connectionManager.getApiClient(serverId);
+        // get the full item
+        getItem(button).then(function (item) {
 
-        return new Promise(function (resolve, reject) {
+            var view = dom.parentWithClass(button, 'page');
+            var refreshLibrary = button ? view.getAttribute('data-refreshlibrary') === 'true' : false;
 
-            var serverId = apiClient.serverInfo().Id;
+            return require(['medialibraryeditor']).then(function (responses) {
 
-            if (itemType === 'Timer') {
-                editTimer(itemId, serverId);
-            } else {
-                require(['metadataEditor'], function (metadataEditor) {
+                var medialibraryeditor = responses[0];
 
-                    metadataEditor.show(itemId, serverId).then(resolve, reject);
+                new medialibraryeditor().show({
+
+                    refresh: refreshLibrary,
+                    library: item
+
                 });
-            }
+            });
         });
+    }
+
+    function editItem(item, button) {
+
+        var itemType = item.Type;
+
+        if (itemType === 'Timer') {
+            return editTimer(item.Id, item.ServerId);
+        } else if (itemType === 'VirtualFolder') {
+            return editVirtualFolder(button);
+        } else {
+            return require(['metadataEditor']).then(function (responses) {
+
+                return responses[0].show(item.Id, item.ServerId);
+            });
+        }
     }
 
     function editTimer(itemId, serverId) {
