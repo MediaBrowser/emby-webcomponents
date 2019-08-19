@@ -707,9 +707,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             if (item === 'managedownloads') {
                 return '/offline/managedownloads.html';
             }
-            if (item === 'settings') {
-                return '/settings/settings.html';
-            }
         }
 
         if (item.url) {
@@ -735,7 +732,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return '/startup/selectserver.html';
         }
         if (item === 'settings') {
-            return '/usermenu/usermenu.html';
+            return '/settings/settings.html';
         }
         if (item === 'wizard') {
             return '/wizardstart.html';

@@ -315,13 +315,20 @@
 
         if (detail.defaultTitle) {
             header.setDefaultTitle();
+            return;
         }
-        else {
-            var title = detail.title || view.getAttribute('data-title');
 
-            if (title) {
-                header.setTitle(title);
-            }
+        var title = detail.title;
+
+        if (title) {
+            header.setTitle(globalize.translate(title));
+            return;
+        }
+
+        title = view.getAttribute('data-title');
+
+        if (title) {
+            header.setTitle(title);
         }
     }
 

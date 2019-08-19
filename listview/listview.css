@@ -10,7 +10,7 @@
     display: block;
     align-items: center;
     text-align: left;
-    padding: .25em .25em .25em .5em;
+    padding: .25em;
     cursor: pointer;
     overflow: hidden;
 }
@@ -36,6 +36,7 @@
 
 .listItem-indexnumberleft {
     margin-right: 1em;
+    margin-left: .25em;
 }
 
 .listItem-border {
@@ -174,7 +175,7 @@
     width: 1em !important;
     height: 1em !important;
     font-size: 143%;
-    padding: 0 .25em 0 0;
+    padding: 0 .25em;
 }
 
     .listItemIcon:not(.listItemIcon-transparent) {
@@ -182,7 +183,7 @@
         color: #fff;
         padding: .5em;
         border-radius: 100em;
-        margin: 0 .2em 0 .4em;
+        margin: 0 .2em 0 .5em;
     }
 
 .listItemProgressBar {

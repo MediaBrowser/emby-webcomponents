@@ -1,3 +1,19 @@
+/* scrollbars */
+@media(hover: hover) and (pointer: fine) {
+    ::-webkit-scrollbar {
+        width: 1em;
+        height: 1em;
+    }
+
+    .scrollX-mini::-webkit-scrollbar {
+        height: .7em;
+    }
+
+    .scrollY-mini::-webkit-scrollbar {
+        width: .7em;
+    }
+}
+
 .scrollX {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
