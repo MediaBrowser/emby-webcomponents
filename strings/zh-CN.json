@@ -157,6 +157,8 @@
     "Downloads": "\u4e0b\u8f7d",
     "InternalStorage": "\u5185\u7f6e\u5b58\u50a8",
     "ExternalStorage": "\u5916\u7f6e\u5b58\u50a8",
+    "UploadToFollowingServers": "Upload to servers:",
+    "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "\u6211\u7684\u4e0b\u8f7d",
     "HeaderOfflineDownloads": "\u79bb\u7ebf\u5a92\u4f53",
     "HeaderOfflineDownloadsDescription": "\u4e0b\u8f7d\u5a92\u4f53\u5230\u4f60\u7684\u8bbe\u5907\u4e0a\u4ee5\u4fbf\u4e8e\u79bb\u7ebf\u4f7f\u7528\u3002",

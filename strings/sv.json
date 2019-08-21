@@ -157,6 +157,8 @@
     "Downloads": "Nedladdningar",
     "InternalStorage": "Intern lagring",
     "ExternalStorage": "Extern lagring",
+    "UploadToFollowingServers": "Upload to servers:",
+    "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "Mina nedladdningar",
     "HeaderOfflineDownloads": "Offlinemedia",
     "HeaderOfflineDownloadsDescription": "Ladda ned media till dina enheter f\u00f6r uppspelning n\u00e4r du \u00e4r offline.",

@@ -157,6 +157,8 @@
     "Downloads": "Downloads",
     "InternalStorage": "Internal storage",
     "ExternalStorage": "External storage",
+    "UploadToFollowingServers": "Upload to servers:",
+    "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "My Downloads",
     "HeaderOfflineDownloads": "Izvanmre\u017eni mediji",
     "HeaderOfflineDownloadsDescription": "Preuzimanje medija na svojim ure\u0111ajima za jednostavnu upotrebu izvan mre\u017ee.",

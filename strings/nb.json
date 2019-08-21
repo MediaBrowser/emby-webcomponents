@@ -157,6 +157,8 @@
     "Downloads": "Nedlastinger",
     "InternalStorage": "Intern lagring",
     "ExternalStorage": "Ekstern lagring",
+    "UploadToFollowingServers": "Upload to servers:",
+    "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "Mine nedlastinger",
     "HeaderOfflineDownloads": "Nedlastede media",
     "HeaderOfflineDownloadsDescription": "Last ned media til din enhet for enkel offline bruk",

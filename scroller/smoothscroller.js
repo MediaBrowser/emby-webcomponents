@@ -56,10 +56,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         }
     }
 
-    function resetScrollLeft() {
-        this.scrollLeft = 0;
-    }
-
     function resetScrollTop() {
         this.scrollLeft = 0;
     }
@@ -96,20 +92,14 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
     }
 
     // Other global values
-    var dragMouseEvents = ['mousemove', 'mouseup'];
-    var dragTouchEvents = ['touchmove', 'touchend'];
     var wheelEvent = (document.implementation.hasFeature('Event.wheel', '3.0') ? 'wheel' : 'mousewheel');
     var interactiveElements = ['INPUT', 'SELECT', 'TEXTAREA'];
-    var tmpArray = [];
-    var time;
 
     // Math shorthands
     var abs = Math.abs;
     var sqrt = Math.sqrt;
     var pow = Math.pow;
     var round = Math.round;
-    var max = Math.max;
-    var min = Math.min;
 
     /**
      * Check whether element is interactive.
@@ -286,16 +276,11 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
         var dragHandler = instance.dragHandler;
         if (dragHandler) {
-            dragTouchEvents.forEach(function (eventName) {
-                dom.removeEventListener(document, eventName, dragHandler, {
-                    passive: true
-                });
+            dom.removeEventListener(document, 'pointermove', dragHandler, {
+                passive: true
             });
-
-            dragMouseEvents.forEach(function (eventName) {
-                dom.removeEventListener(document, eventName, dragHandler, {
-                    passive: true
-                });
+            dom.removeEventListener(document, 'pointerup', dragHandler, {
+                passive: true
             });
         }
 
@@ -319,7 +304,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         var dragging = this.dragging;
         var options = this.options;
 
-        dragging.released = event.type === 'mouseup' || event.type === 'touchend';
+        dragging.released = event.type === 'pointerup';
         var pointer = dragging.touch ? event[dragging.released ? 'changedTouches' : 'touches'][0] : event;
         dragging.pathX = pointer.pageX - dragging.initX;
         dragging.pathY = pointer.pageY - dragging.initY;
@@ -361,7 +346,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             onDragEnd(this);
         }
 
-        this.slideTo(round(dragging.initPos - dragging.delta));
+        this.slideTo(dragging.initPos - dragging.delta);
     }
 
     function onDragStart(event) {
@@ -410,19 +395,12 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
             var thisDragHandler = this.dragHandler;
 
-            if (isTouch) {
-                dragTouchEvents.forEach(function (eventName) {
-                    dom.addEventListener(document, eventName, thisDragHandler, {
-                        passive: true
-                    });
-                });
-            } else {
-                dragMouseEvents.forEach(function (eventName) {
-                    dom.addEventListener(document, eventName, thisDragHandler, {
-                        passive: true
-                    });
-                });
-            }
+            dom.addEventListener(document, 'pointermove', thisDragHandler, {
+                passive: true
+            });
+            dom.addEventListener(document, 'pointerup', thisDragHandler, {
+                passive: true
+            });
         }
     }
 
@@ -555,9 +533,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         return this;
     };
 
-    // called by emby-tabs, but not sure why. probably on content changes
-    Scroller.prototype.reload = function () { load(this); };
-
     /**
      * Mouse scrolling handler.
      *
@@ -604,7 +579,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
     }
 
     function nativeScrollTo(container, pos, immediate, scrollerOptions) {
-
 
         if (container.scroll) {
             if (scrollerOptions.horizontal) {
@@ -802,7 +776,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             this.slideeSize = options.scrollWidth || Math.max(slideeElement[options.horizontal ? 'offsetWidth' : 'offsetHeight'], slideeElement[options.horizontal ? 'scrollWidth' : 'scrollHeight']);
 
             // Set position limits & relativess
-            this._pos.end = max(this.slideeSize - this.frameSize, 0);
+            this._pos.end = Math.max(this.slideeSize - this.frameSize, 0);
         }
     };
 
@@ -840,7 +814,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
         var options = this.options;
 
-        if (options.enableNativeScroll) {
+        if (!options.enableNativeScroll) {
             return this._pos.cur;
         }
 
@@ -855,7 +829,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
         var options = this.options;
 
-        if (options.enableNativeScroll) {
+        if (!options.enableNativeScroll) {
             return this.slideeSize;
         }
 
@@ -967,9 +941,6 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         var dragSourceElement = this.dragSourceElement;
 
         // Reset native FRAME element scroll
-        dom.removeEventListener(frame, 'scroll', resetScrollLeft, {
-            passive: true
-        });
         dom.removeEventListener(frame, 'scroll', resetScrollTop, {
             passive: true
         });

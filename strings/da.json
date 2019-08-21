@@ -157,6 +157,8 @@
     "Downloads": "Downloads",
     "InternalStorage": "Internal storage",
     "ExternalStorage": "External storage",
+    "UploadToFollowingServers": "Upload to servers:",
+    "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "Mine downloads",
     "HeaderOfflineDownloads": "Offline Medier",
     "HeaderOfflineDownloadsDescription": "Download medier til dine enheder for nem offline-brug.",

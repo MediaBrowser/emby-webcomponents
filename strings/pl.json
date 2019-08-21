@@ -157,6 +157,8 @@
     "Downloads": "Pobrane",
     "InternalStorage": "Magazyn wewn\u0119trzny",
     "ExternalStorage": "Magazyn zewn\u0119trzny",
+    "UploadToFollowingServers": "Upload to servers:",
+    "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "Moje pobrania",
     "HeaderOfflineDownloads": "Media dost\u0119pne lokalnie",
     "HeaderOfflineDownloadsDescription": "Umo\u017cliwia pobieranie medi\u00f3w na urz\u0105dzenia klienckie, aby z nich korzysta\u0107 bez konieczno\u015bci po\u0142\u0105czenia z serwerem.",

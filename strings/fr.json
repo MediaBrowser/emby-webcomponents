@@ -157,6 +157,8 @@
     "Downloads": "T\u00e9l\u00e9chargements",
     "InternalStorage": "Stockage interne",
     "ExternalStorage": "Stockage externe",
+    "UploadToFollowingServers": "T\u00e9l\u00e9charger vers les serveurs\u00a0:",
+    "HeaderMyProfile": "Mon profil",
     "HeaderMyDownloads": "Mes t\u00e9l\u00e9chargements",
     "HeaderOfflineDownloads": "M\u00e9dia hors ligne",
     "HeaderOfflineDownloadsDescription": "Transf\u00e9rez vos m\u00e9dias vers vos appareils pour une utilisation hors ligne.",

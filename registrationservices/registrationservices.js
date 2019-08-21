@@ -48,7 +48,6 @@
                 html += '</h3>';
                 html += '</div>';
 
-
                 html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
                 html += '<div class="scrollSlider">';
                 html += '<div class="dialogContentInner dialog-content-centered">';
@@ -58,7 +57,7 @@
                 html += '<p>' + globalize.translate('MessageDidYouKnowCinemaMode') + '</p>';
                 html += '<p>' + globalize.translate('MessageDidYouKnowCinemaMode2') + '</p>';
 
-                html += '<h1 style="margin-top:1.5em;">' + globalize.translate('HeaderBenefitsEmbyPremiere') + '</h1>';
+                html += '<h2>' + globalize.translate('HeaderBenefitsEmbyPremiere') + '</h2>';
 
                 html += '<div class="paperList">';
                 html += getSubscriptionBenefits().map(getSubscriptionBenefitHtml).join('');

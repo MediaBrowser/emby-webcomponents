@@ -157,6 +157,8 @@
     "Downloads": "Descargas",
     "InternalStorage": "Almacenamiento interno",
     "ExternalStorage": "Almacenamiento externo",
+    "UploadToFollowingServers": "Subir a los servidores:",
+    "HeaderMyProfile": "Mi Perfil",
     "HeaderMyDownloads": "Mis Descargas",
     "HeaderOfflineDownloads": "Medios sin conexion",
     "HeaderOfflineDownloadsDescription": "Descargue sus medios en su dispositivo para f\u00e1cil uso mientras esta desconectado.",

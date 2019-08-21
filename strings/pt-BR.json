@@ -157,6 +157,8 @@
     "Downloads": "Downloads",
     "InternalStorage": "Armazenamento interno",
     "ExternalStorage": "Armazenamento externo",
+    "UploadToFollowingServers": "Upload to servers:",
+    "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "Meus Downloads",
     "HeaderOfflineDownloads": "M\u00eddia Offline",
     "HeaderOfflineDownloadsDescription": "Download sua m\u00eddia para seus dispositivos para uso offline f\u00e1cil.",

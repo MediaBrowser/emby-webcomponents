@@ -157,6 +157,8 @@
     "Downloads": "Scaricamenti",
     "InternalStorage": "Storage interno",
     "ExternalStorage": "Storage esterno",
+    "UploadToFollowingServers": "Upload to servers:",
+    "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "I Miei Download",
     "HeaderOfflineDownloads": "Media Offline",
     "HeaderOfflineDownloadsDescription": "Scarica facilmente i media sui tuoi dispositivi per vederli offline.",

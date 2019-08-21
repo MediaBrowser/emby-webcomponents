@@ -157,6 +157,8 @@
     "Downloads": "Prenosi",
     "InternalStorage": "Internal storage",
     "ExternalStorage": "External storage",
+    "UploadToFollowingServers": "Upload to servers:",
+    "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "Moji prenosi",
     "HeaderOfflineDownloads": "Mediji brez povezave",
     "HeaderOfflineDownloadsDescription": "Download media to your devices for easy offline use.",

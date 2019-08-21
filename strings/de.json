@@ -157,6 +157,8 @@
     "Downloads": "Downloads",
     "InternalStorage": "Interner Speicher",
     "ExternalStorage": "Externer Speicher",
+    "UploadToFollowingServers": "Zu Servern hochladen",
+    "HeaderMyProfile": "Mein Profil",
     "HeaderMyDownloads": "Meine Downloads",
     "HeaderOfflineDownloads": "Offline Medien",
     "HeaderOfflineDownloadsDescription": "Lade Medien auf deine Ger\u00e4te herunter um sie einfach offline zu nutzen.",
