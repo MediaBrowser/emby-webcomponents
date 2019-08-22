@@ -185,13 +185,13 @@
             var menuItems = [];
 
             menuItems.push({
-                name: globalize.translate('AddToCollection'),
+                name: globalize.translate('HeaderAddToCollection'),
                 id: 'addtocollection',
                 ironIcon: 'add'
             });
 
             menuItems.push({
-                name: globalize.translate('AddToPlaylist'),
+                name: globalize.translate('HeaderAddToPlaylist'),
                 id: 'playlist',
                 ironIcon: 'playlist-add'
             });
@@ -221,23 +221,23 @@
             }
 
             menuItems.push({
-                name: globalize.translate('GroupVersions'),
+                name: globalize.translate('HeaderGroupVersions'),
                 id: 'groupvideos',
                 ironIcon: 'call-merge'
             });
 
             menuItems.push({
-                name: globalize.translate('MarkPlayed'),
+                name: globalize.translate('HeaderMarkPlayed'),
                 id: 'markplayed'
             });
 
             menuItems.push({
-                name: globalize.translate('MarkUnplayed'),
+                name: globalize.translate('HeaderMarkUnplayed'),
                 id: 'markunplayed'
             });
 
             menuItems.push({
-                name: globalize.translate('RefreshMetadata'),
+                name: globalize.translate('HeaderRefreshMetadata'),
                 id: 'refresh'
             });
 

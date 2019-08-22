@@ -22,7 +22,7 @@
         } else {
             parent.querySelector('.btnManageSeriesRecording').classList.add('hide');
             parent.querySelector('.seriesRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
-            parent.querySelector('.seriesRecordingButtonText').innerHTML = globalize.translate('RecordSeries');
+            parent.querySelector('.seriesRecordingButtonText').innerHTML = globalize.translate('HeaderRecordSeries');
         }
 
         if (program.TimerId && program.Status !== 'Cancelled') {
@@ -32,7 +32,7 @@
             if (program.Status === 'InProgress') {
                 parent.querySelector('.singleRecordingButtonText').innerHTML = globalize.translate('HeaderStopRecording');
             } else {
-                parent.querySelector('.singleRecordingButtonText').innerHTML = globalize.translate('DoNotRecord');
+                parent.querySelector('.singleRecordingButtonText').innerHTML = globalize.translate('HeaderDoNotRecord');
             }
 
         } else {

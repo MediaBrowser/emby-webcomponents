@@ -36,14 +36,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (options.queue !== false) {
                 commands.push({
-                    name: globalize.translate('AddToPlayQueue'),
+                    name: globalize.translate('HeaderAddToPlayQueue'),
                     id: 'queue'
                 });
             }
 
             if (options.queue !== false) {
                 commands.push({
-                    name: globalize.translate('PlayNext'),
+                    name: globalize.translate('HeaderPlayNext'),
                     id: 'queuenext'
                 });
             }
@@ -70,7 +70,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (item.MediaType === "Audio" || item.Type === "MusicAlbum" || item.Type === "MusicArtist") {
             if (options.instantMix !== false && !itemHelper.isLocalItem(item)) {
                 commands.push({
-                    name: globalize.translate('InstantMix'),
+                    name: globalize.translate('HeaderInstantMix'),
                     id: 'instantmix'
                 });
             }
@@ -85,14 +85,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (!restrictOptions) {
             if (itemHelper.supportsAddingToCollection(item)) {
                 commands.push({
-                    name: globalize.translate('AddToCollection'),
+                    name: globalize.translate('HeaderAddToCollection'),
                     id: 'addtocollection'
                 });
             }
 
             if (itemHelper.supportsAddingToPlaylist(item)) {
                 commands.push({
-                    name: globalize.translate('AddToPlaylist'),
+                    name: globalize.translate('HeaderAddToPlaylist'),
                     id: 'addtoplaylist'
                 });
             }
@@ -101,14 +101,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (user) {
             if ((item.Type === 'Timer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
                 commands.push({
-                    name: globalize.translate('CancelRecording'),
+                    name: globalize.translate('HeaderCancelRecording'),
                     id: 'canceltimer'
                 });
             }
 
             if ((item.Type === 'SeriesTimer') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
                 commands.push({
-                    name: globalize.translate('CancelSeries'),
+                    name: globalize.translate('HeaderCancelSeries'),
                     id: 'cancelseriestimer'
                 });
             }
@@ -169,7 +169,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                 });
             } else {
                 commands.push({
-                    name: globalize.translate('DeleteMedia'),
+                    name: globalize.translate('Delete'),
                     id: 'delete'
                 });
             }
@@ -197,7 +197,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
                 if (options.edit !== false && item.Type !== 'SeriesTimer') {
 
-                    var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer' || item.Type === 'User' || item.Type === 'VirtualFolder') ? globalize.translate('Edit') : globalize.translate('EditMetadata');
+                    var text = (item.Type === 'Timer' || item.Type === 'SeriesTimer' || item.Type === 'User' || item.Type === 'VirtualFolder') ? globalize.translate('Edit') : globalize.translate('HeaderEditMetadata');
 
                     commands.push({
                         name: text,
@@ -210,7 +210,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
                 if (options.editImages !== false) {
                     commands.push({
-                        name: globalize.translate('EditImages'),
+                        name: globalize.translate('HeaderEditImages'),
                         id: 'editimages'
                     });
                 }
@@ -220,7 +220,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
                 if (options.editSubtitles !== false) {
                     commands.push({
-                        name: globalize.translate('EditSubtitles'),
+                        name: globalize.translate('HeaderEditSubtitles'),
                         id: 'editsubtitles'
                     });
                 }
@@ -244,7 +244,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
             if (itemHelper.canRefreshMetadata(item, user)) {
                 commands.push({
-                    name: globalize.translate('RefreshMetadata'),
+                    name: globalize.translate('HeaderRefreshMetadata'),
                     id: 'refresh'
                 });
             }
@@ -252,26 +252,15 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (item.PlaylistItemId && options.playlistId) {
             commands.push({
-                name: globalize.translate('RemoveFromPlaylist'),
+                name: globalize.translate('HeaderRemoveFromPlaylist'),
                 id: 'removefromplaylist'
             });
         }
 
         if (options.collectionId) {
             commands.push({
-                name: globalize.translate('RemoveFromCollection'),
+                name: globalize.translate('HeaderRemoveFromCollection'),
                 id: 'removefromcollection'
-            });
-        }
-
-        if (item.Type === 'VirtualFolder' && user.Policy.IsAdministrator) {
-            commands.push({
-                name: globalize.translate('Remove'),
-                id: 'removelibrary'
-            });
-            commands.push({
-                name: globalize.translate('Rename'),
-                id: 'renamelibrary'
             });
         }
 
@@ -280,6 +269,26 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                 name: globalize.translate('Settings'),
                 id: 'open'
             });
+        }
+
+        if (user) {
+            if (item.Type === 'VirtualFolder' && user.Policy.IsAdministrator) {
+                commands.push({
+                    name: globalize.translate('Remove'),
+                    id: 'removelibrary'
+                });
+                commands.push({
+                    name: globalize.translate('Rename'),
+                    id: 'renamelibrary'
+                });
+            }
+
+            if (itemHelper.canRefreshMetadata(item, user) && (item.CollectionType || item.Type === 'CollectionFolder')) {
+                commands.push({
+                    name: globalize.translate('HeaderScanLibraryFiles'),
+                    id: 'scan'
+                });
+            }
         }
 
         if (!restrictOptions) {
@@ -295,7 +304,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if ((item.Type === 'Recording' && item.Status === 'InProgress') && user.Policy.EnableLiveTvManagement && options.cancelTimer !== false) {
             commands.push({
-                name: globalize.translate('StopRecording'),
+                name: globalize.translate('HeaderStopRecording'),
                 id: 'canceltimer'
             });
         }
@@ -320,14 +329,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (options.openAlbum !== false && item.AlbumId && item.MediaType !== 'Photo') {
             commands.push({
-                name: globalize.translate('ViewAlbum'),
+                name: globalize.translate('HeaderViewAlbum'),
                 id: 'album'
             });
         }
 
         if (options.openArtist !== false && item.ArtistItems && item.ArtistItems.length) {
             commands.push({
-                name: globalize.translate('ViewArtist'),
+                name: globalize.translate('HeaderViewArtist'),
                 id: 'artist'
             });
         }
@@ -335,7 +344,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         if (item.Type === 'Server') {
             if (apiClient.supportsWakeOnLan()) {
                 commands.push({
-                    name: globalize.translate('WakeServer'),
+                    name: globalize.translate('HeaderWakeServer'),
                     id: 'wakeserver'
                 });
             }
@@ -454,6 +463,11 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             case 'refresh':
                 {
                     refresh(apiClient, item);
+                    return getResolveFn(id)();
+                }
+            case 'scan':
+                {
+                    scanFolder(apiClient, item);
                     return getResolveFn(id)();
                 }
             case 'delete':
@@ -878,14 +892,26 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
         });
     }
 
-    function refresh(apiClient, item) {
+    function refresh(apiClient, item, mode) {
 
         require(['refreshDialog'], function (refreshDialog) {
             new refreshDialog({
                 itemIds: [item.Id],
                 serverId: apiClient.serverInfo().Id,
-                mode: item.Type === 'CollectionFolder' ? 'scan' : null
+                mode: mode
             }).show();
+        });
+    }
+
+    function scanFolder(apiClient, item) {
+
+        apiClient.refreshItem(item.Id, {
+
+            Recursive: true,
+            ImageRefreshMode: 'Default',
+            MetadataRefreshMode: 'Default',
+            ReplaceAllImages: false,
+            ReplaceAllMetadata: false
         });
     }
 

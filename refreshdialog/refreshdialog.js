@@ -24,7 +24,6 @@
 
         html += '<div class="fldSelectPlaylist selectContainer">';
         html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';
-        html += '<option value="scan">' + globalize.translate('ScanForNewAndUpdatedFiles') + '</option>';
         html += '<option value="missing">' + globalize.translate('SearchForMissingMetadata') + '</option>';
         html += '<option value="all" selected>' + globalize.translate('ReplaceAllMetadata') + '</option>';
         html += '</select>';
@@ -65,7 +64,7 @@
 
         var replaceAllMetadata = dlg.querySelector('#selectMetadataRefreshMode').value === 'all';
 
-        var mode = dlg.querySelector('#selectMetadataRefreshMode').value === 'scan' ? 'Default' : 'FullRefresh';
+        var mode = 'FullRefresh';
         var replaceAllImages = mode === 'FullRefresh' && dlg.querySelector('.chkReplaceImages').checked;
 
         options.itemIds.forEach(function (itemId) {
@@ -131,11 +130,7 @@
 
         dlg.querySelector('#selectMetadataRefreshMode').addEventListener('change', function () {
 
-            if (this.value === 'scan') {
-                dlg.querySelector('.fldReplaceExistingImages').classList.add('hide');
-            } else {
-                dlg.querySelector('.fldReplaceExistingImages').classList.remove('hide');
-            }
+            dlg.querySelector('.fldReplaceExistingImages').classList.remove('hide');
         });
 
         if (this.options.mode) {

@@ -55,7 +55,7 @@
                 html += '<h1>' + globalize.translate('HeaderDiscoverEmbyPremiere') + '</h1>';
 
                 html += '<p>' + globalize.translate('MessageDidYouKnowCinemaMode') + '</p>';
-                html += '<p>' + globalize.translate('MessageDidYouKnowCinemaMode2') + '</p>';
+                html += '<p>' + globalize.translate('CinemaModeFeatureDescription') + '</p>';
 
                 html += '<h2>' + globalize.translate('HeaderBenefitsEmbyPremiere') + '</h2>';
 
