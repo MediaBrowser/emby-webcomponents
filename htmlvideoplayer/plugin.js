@@ -275,7 +275,9 @@
                         url: url
                     },
                         {
-                            seekType: 'range'
+                            seekType: 'range',
+                            lazyLoad: false,
+                            rangeLoadZeroStart: true
                         });
 
                     flvPlayer.attachMediaElement(elem);
@@ -1024,7 +1026,7 @@
                         video: videoElement,
                         subUrl: textTrackUrl,
                         workerUrl: appRouter.baseUrl() + '/bower_components/javascriptsubtitlesoctopus/dist/subtitles-octopus-worker.js',
-                        fonts: requiresExternalFontDownload(track) ? [appRouter.baseUrl() + '/bower_components/javascriptsubtitlesoctopus/dist/subfont.ttf'] : [],
+                        fonts: requiresExternalFontDownload(track) ? [appRouter.baseUrl() + '/bower_components/javascriptsubtitlesoctopus/dist/subfont.woff'] : [],
                         onError: function () {
                             htmlMediaHelper.onErrorInternal(self, 'mediadecodeerror');
                         }
@@ -1209,17 +1211,8 @@
             // web0s can't load the data file from the file:// protocol
             if (isWebWorkerSupported() && isCanvasSupported() && (browser.iOSVersion || 11) >= 11 && !browser.edgeUwp && !browser.web0s) {
 
-                if (!requiresExternalFontDownload(track) || browser.edgeUwp) {
-                    renderWithSubtitlesOctopus(videoElement, track, item, mediaSource);
-                    return;
-                }
-
-                var savedEndPointInfo = connectionManager.getApiClient(item.ServerId).getSavedEndpointInfo() || {};
-
-                if (savedEndPointInfo.IsInNetwork && !browser.mobile && !browser.tv) {
-                    renderWithSubtitlesOctopus(videoElement, track, item, mediaSource);
-                    return;
-                }
+                renderWithSubtitlesOctopus(videoElement, track, item, mediaSource);
+                return;
             }
 
             renderWithLibjass(videoElement, track, item, mediaSource);

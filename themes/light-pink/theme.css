@@ -265,8 +265,14 @@ html, .backgroundContainer {
     border-color: #E91E63;
 }
 
-.emby-checkbox:focus + span + .emby-checkbox-focushelper {
+.emby-checkbox-tv:focus + span + .emby-checkbox-focushelper {
     background-color: rgba(233, 30, 99, 0.26);
+}
+
+@media(hover: hover) and (pointer: fine) {
+    .emby-checkbox:focus + span + .emby-checkbox-focushelper {
+        background-color: rgba(233, 30, 99, 0.26);
+    }
 }
 
 .emby-checkbox:checked + span + span + .checkboxOutline {

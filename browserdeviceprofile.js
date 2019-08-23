@@ -78,7 +78,7 @@ define(['browser'], function (browser) {
     }
 
     function canPlayHlsWithMSE() {
-        if (window.MediaSource != null) {
+        if (self.MediaSource != null) {
             // text tracks don’t work with this in firefox
             return true;
         }
@@ -249,9 +249,10 @@ define(['browser'], function (browser) {
                 break;
             case 'flv':
                 supported = browser.tizen || browser.orsay;
-                //if (!supported && window.MediaSource != null && window.MediaSource.isTypeSupported('video/mp4; codecs="avc1.42E01E,mp4a.40.2"')) {
-                //    return getFlvMseDirectPlayProfile();
-                //}
+
+                if (!supported && self.MediaSource != null && canPlayH264(videoTestElement)) {
+                    return getFlvMseDirectPlayProfile();
+                }
                 break;
             case '3gp':
                 supported = browser.tizen || browser.orsay || browser.web0s;
