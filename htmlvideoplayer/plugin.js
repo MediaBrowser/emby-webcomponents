@@ -370,7 +370,7 @@
 
             lrd.media.contentId = url;
             lrd.media.contentType = options.mimeType;
-            lrd.media.streamType = cast.receiver.media.StreamType.OTHER;
+            lrd.media.streamType = cast.receiver.media.StreamType.NONE;
             lrd.media.customData = {
                 'options': options,
                 'hasHlsTextTracks': hasHlsTextTracks,
@@ -1208,8 +1208,7 @@
 
             // excluding edgeUwp for now due to a random_device error that is crashing the app
             // this is seen in the console in the edge browser but doesn't appear to cause any major problem
-            // web0s can't load the data file from the file:// protocol
-            if (isWebWorkerSupported() && isCanvasSupported() && (browser.iOSVersion || 11) >= 11 && !browser.edgeUwp && !browser.web0s) {
+            if (isWebWorkerSupported() && isCanvasSupported() && (browser.iOSVersion || 11) >= 11 && !browser.edgeUwp) {
 
                 renderWithSubtitlesOctopus(videoElement, track, item, mediaSource);
                 return;

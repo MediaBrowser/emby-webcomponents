@@ -211,7 +211,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
             lrd.media.contentId = url;
             lrd.media.contentType = options.mimeType;
-            lrd.media.streamType = cast.receiver.media.StreamType.OTHER;
+            lrd.media.streamType = cast.receiver.media.StreamType.NONE;
             lrd.media.customData = options;
 
             console.log('loading media url into mediaManager');

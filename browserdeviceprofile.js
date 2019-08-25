@@ -421,8 +421,8 @@ define(['browser'], function (browser) {
 
             var profile = {};
 
-            profile.MaxStreamingBitrate = 120000000;
-            profile.MaxStaticBitrate = 100000000;
+            // Only setting MaxStaticBitrate for older servers
+            profile.MaxStreamingBitrate = profile.MaxStaticBitrate = 140000000;
 
             if (options.maxStaticMusicBitrate) {
                 profile.MaxStaticMusicBitrate = options.maxStaticMusicBitrate;

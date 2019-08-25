@@ -62,11 +62,8 @@
         var instance = this;
         loading.show();
 
-        return new Promise(function (resolve, reject) {
-            require(['text!./../dialog/dialog.template.html'], function (template) {
-                showDialog(instance, instance.options, template);
-                resolve();
-            });
+        return require(['text!./../dialog/dialog.template.html']).then(function (responses) {
+            showDialog(instance, instance.options, responses[0]);
         });
     };
 

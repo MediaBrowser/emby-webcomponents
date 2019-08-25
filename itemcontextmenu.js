@@ -843,53 +843,82 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
     function wakeServer(apiClient, item) {
 
-        require(['loadingDialog'], function (LoadingDialog) {
+        return require(['loadingDialog']).then(function (responses) {
+
+            var LoadingDialog = responses[0];
 
             var dlg = new LoadingDialog({
                 title: globalize.translate('HeaderWakeServer'),
                 text: globalize.translate('AttemptingWakeServer')
             });
-            dlg.show();
 
-            var afterWol = function () {
-                setTimeout(function () {
+            var showDialogPromise = dlg.show();
 
-
-                    apiClient.getPublicSystemInfo().then(onWolSuccess.bind(dlg), onWolFail.bind(dlg));
-
-                }, 12000);
+            var state = {
+                dlg: dlg,
+                showDialogPromise: showDialogPromise
             };
 
-            apiClient.wakeOnLan().then(afterWol, afterWol);
+            sendWake(apiClient).then(onWolSuccess.bind(state), onWolFail.bind(state));
         });
+    }
+
+    function setTimeoutPromise(timeMs) {
+
+        return new Promise(function (resolve, reject) {
+
+            setTimeout(resolve, timeMs);
+        });
+    }
+
+    function sendWake(apiClient) {
+
+        var afterWol = function () {
+
+            return setTimeoutPromise(12000).then(function () {
+                return apiClient.getPublicSystemInfo();
+            });
+        };
+
+        return apiClient.wakeOnLan().then(afterWol, afterWol);
     }
 
     function onWolSuccess() {
 
-        var dlg = this;
-        dlg.hide();
-        dlg.destroy();
+        var state = this;
 
-        require(['alert'], function (alert) {
-            alert({
-                text: globalize.translate('WakeServerSuccess'),
-                title: globalize.translate('HeaderWakeServer')
+        state.showDialogPromise.then(function () {
+
+            require(['alert'], function (alert) {
+                alert({
+                    text: globalize.translate('WakeServerSuccess'),
+                    title: globalize.translate('HeaderWakeServer')
+                });
             });
         });
+
+        var dlg = state.dlg;
+        dlg.hide();
+        dlg.destroy();
     }
 
     function onWolFail() {
 
-        var dlg = this;
-        dlg.hide();
-        dlg.destroy();
+        var state = this;
 
-        require(['alert'], function (alert) {
-            alert({
-                text: globalize.translate('WakeServerError'),
-                title: globalize.translate('HeaderWakeServer')
+        state.showDialogPromise.then(function () {
+
+            require(['alert'], function (alert) {
+                alert({
+                    text: globalize.translate('WakeServerError'),
+                    title: globalize.translate('HeaderWakeServer')
+                });
             });
         });
+
+        var dlg = state.dlg;
+        dlg.hide();
+        dlg.destroy();
     }
 
     function refresh(apiClient, item, mode) {

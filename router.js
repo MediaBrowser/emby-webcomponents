@@ -354,10 +354,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     }
 
     function onAppResume() {
+
         var apiClient = connectionManager.currentApiClient();
 
         if (apiClient) {
-            apiClient.ensureWebSocket();
+
+            var currentRouteInstance = currentRouteInfo;
+            var isCurrentRouteStartup = currentRouteInstance ? currentRouteInstance.route.startup : true;
+            var isCurrentRouteAnonymous = currentRouteInstance ? currentRouteInstance.route.anonymous : true;
+
+            if ((!isCurrentRouteStartup && !isCurrentRouteAnonymous) || apiClient.lastWebSocketConnect) {
+                apiClient.ensureWebSocket();
+            }
         }
     }
 
