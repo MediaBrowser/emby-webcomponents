@@ -106,11 +106,6 @@
 
         dlg.addEventListener('close', onDialogClosed);
 
-        var center = !dlg.classList.contains('dialog-fixedSize');
-        if (center) {
-            dlg.classList.add('centeredDialog');
-        }
-
         if (!dlg.classList.contains('dialog-fullscreen')) {
             addBackdropOverlay(dlg);
         }
@@ -129,7 +124,10 @@
             removeScrollLockOnClose = true;
         }
 
-        animateDialogOpen(dlg);
+        focusManager.pushScope(dlg);
+        if (dlg.getAttribute('data-autofocus') === 'true') {
+            focusManager.autoFocus(dlg);
+        }
 
         if (isHistoryEnabled(dlg)) {
             appRouter.pushState({ dialogId: hash }, "Dialog", '#' + hash);
@@ -229,26 +227,6 @@
         }
     }
 
-    function animateDialogOpen(dlg) {
-
-        var onAnimationFinish = function () {
-            focusManager.pushScope(dlg);
-            if (dlg.getAttribute('data-autofocus') === 'true') {
-                focusManager.autoFocus(dlg);
-            }
-        };
-
-        if (enableAnimation()) {
-
-            dom.addEventListener(dlg, dom.whichAnimationEvent(), onAnimationFinish, {
-                once: true
-            });
-            return;
-        }
-
-        onAnimationFinish();
-    }
-
     function animateDialogClose(dlg, onAnimationFinish) {
 
         dlg.classList.add('dialog-close');
@@ -346,6 +324,10 @@
         if (options.size) {
             dlg.classList.add('dialog-fixedSize');
             dlg.classList.add('dialog-' + options.size);
+        }
+
+        if (options.autoCenter !== false && !dlg.classList.contains('dialog-fixedSize')) {
+            dlg.classList.add('centeredDialog');
         }
 
         return dlg;

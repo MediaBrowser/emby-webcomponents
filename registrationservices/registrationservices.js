@@ -1,4 +1,4 @@
-﻿define(['appSettings', 'loading', 'apphost', 'iapManager', 'events', 'shell', 'globalize', 'dialogHelper', 'connectionManager', 'layoutManager', 'emby-button', 'emby-linkbutton'], function (appSettings, loading, appHost, iapManager, events, shell, globalize, dialogHelper, connectionManager, layoutManager) {
+﻿define(['appSettings', 'focusManager', 'loading', 'apphost', 'iapManager', 'events', 'shell', 'globalize', 'dialogHelper', 'connectionManager', 'layoutManager', 'emby-button', 'emby-linkbutton'], function (appSettings, focusManager, loading, appHost, iapManager, events, shell, globalize, dialogHelper, connectionManager, layoutManager) {
     'use strict';
 
     var currentDisplayingProductInfos = [];
@@ -7,11 +7,8 @@
     var isCurrentDialogRejected = null;
 
     function alertText(options) {
-        return new Promise(function (resolve, reject) {
-
-            require(['alert'], function (alert) {
-                alert(options).then(resolve, reject);
-            });
+        return require(['alert'], function (responses) {
+            return responses[0](options);
         });
     }
 
@@ -31,7 +28,7 @@
 
         return new Promise(function (resolve, reject) {
 
-            require(['listViewStyle', 'emby-button', 'formDialogStyle'], function () {
+            require(['listViewStyle', 'formDialogStyle'], function () {
 
                 var dlg = dialogHelper.createDialog({
                     size: layoutManager.tv ? 'fullscreen' : 'fullscreen-border',
@@ -89,8 +86,16 @@
 
                     seconds -= 1;
                     if (seconds <= 0) {
+
+                        clearInterval(timeTextInterval);
+
                         dlg.querySelector('.continueTimeText').classList.add('hide');
-                        dlg.querySelector('.btnContinue').classList.remove('hide');
+
+                        var btnContinue = dlg.querySelector('.btnContinue');
+
+                        btnContinue.classList.remove('hide');
+                        focusManager.focus(btnContinue);
+
                     } else {
                         dlg.querySelector('.continueTimeText').innerHTML = globalize.translate('ContinueInSecondsValue', seconds);
                     }
@@ -662,15 +667,12 @@
             }
         }
 
-        return new Promise(function (resolve, reject) {
+        return require(['prompt']).then(function (responses) {
 
-            require(['prompt'], function (prompt) {
+            return responses[0]({
 
-                prompt({
+                label: globalize.translate('LabelEmailAddress')
 
-                    label: globalize.translate('LabelEmailAddress')
-
-                }).then(resolve, reject);
             });
         });
     }

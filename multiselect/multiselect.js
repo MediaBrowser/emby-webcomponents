@@ -187,13 +187,14 @@
             menuItems.push({
                 name: globalize.translate('HeaderAddToCollection'),
                 id: 'addtocollection',
-                ironIcon: 'add'
+                ironIcon: 'add',
+                icon: 'playlist_add'
             });
 
             menuItems.push({
                 name: globalize.translate('HeaderAddToPlaylist'),
                 id: 'playlist',
-                ironIcon: 'playlist-add'
+                icon: 'playlist_add'
             });
 
             // TODO: Be more dynamic based on what is selected
@@ -201,7 +202,7 @@
                 menuItems.push({
                     name: globalize.translate('Delete'),
                     id: 'delete',
-                    ironIcon: 'delete'
+                    icon: 'delete'
                 });
             }
 
@@ -216,35 +217,40 @@
             if (user.Policy.EnableContentDownloading && appHost.supports('sync')) {
                 menuItems.push({
                     name: globalize.translate('Download'),
-                    id: 'synclocal'
+                    id: 'synclocal',
+                    icon: 'file_download'
                 });
             }
 
             menuItems.push({
                 name: globalize.translate('HeaderGroupVersions'),
                 id: 'groupvideos',
-                ironIcon: 'call-merge'
+                icon: 'call_merge'
             });
 
             menuItems.push({
                 name: globalize.translate('HeaderMarkPlayed'),
-                id: 'markplayed'
+                id: 'markplayed',
+                icon: 'check'
             });
 
             menuItems.push({
                 name: globalize.translate('HeaderMarkUnplayed'),
-                id: 'markunplayed'
+                id: 'markunplayed',
+                icon: 'remove'
             });
 
             menuItems.push({
                 name: globalize.translate('HeaderRefreshMetadata'),
-                id: 'refresh'
+                id: 'refresh',
+                icon: 'refresh'
             });
 
             if (user.Policy.EnableContentDownloading) {
                 menuItems.push({
                     name: globalize.translate('Sync'),
-                    id: 'sync'
+                    id: 'sync',
+                    icon: 'sync'
                 });
             }
 

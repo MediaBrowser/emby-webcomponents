@@ -112,7 +112,7 @@
         dlg.classList.add('formDialog');
 
         var html = '';
-        var title = globalize.translate('RefreshMetadata');
+        var title = globalize.translate('HeaderRefreshMetadata');
 
         html += '<div class="formDialogHeader">';
         html += '<button is="paper-icon-button-light" class="btnCancel autoSize" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';

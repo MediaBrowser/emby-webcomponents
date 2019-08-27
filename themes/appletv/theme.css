@@ -193,7 +193,7 @@ html {
     border-color: rgba(0, 0, 0, .1) !important;
 }
 
-.listItem:focus {
+.listItem-focusscale:focus {
     background: rgba(0, 0, 0, .2);
 }
 

@@ -200,7 +200,7 @@ html, .backgroundContainer {
     border-color: rgba(0,0,0,.08) !important;
 }
 
-.listItem:focus {
+.listItem-focusscale:focus {
     background: #ddd;
 }
 

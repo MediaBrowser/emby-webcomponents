@@ -1,4 +1,4 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'pluginManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager', 'userSettings', 'itemHelper'], function (loading, globalize, events, viewManager, layoutManager, skinManager, pluginManager, backdrop, browser, page, appSettings, appHost, connectionManager, userSettings, itemHelper) {
+define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager', 'userSettings', 'itemHelper'], function (loading, globalize, events, viewManager, layoutManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager, userSettings, itemHelper) {
     'use strict';
 
     var appRouter = {
@@ -98,7 +98,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         require(['alert'], function (alert) {
             alert(globalize.translate('ServerUpdateNeeded', '<a href="https://emby.media">https://emby.media</a>')).then(function () {
-                Emby.Page.show('/startup/selectserver.html');
+                show('/startup/selectserver.html');
             });
         });
     }

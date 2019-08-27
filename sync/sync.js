@@ -74,9 +74,7 @@
 
         require(['toast'], function (toast) {
 
-            var msg = targetId === apiClient.deviceId() ?
-                globalize.translate('DownloadingDots') :
-                globalize.translate('SyncingDots');
+            var msg = globalize.translate('DownloadingDots');
 
             toast(msg);
         });
@@ -201,7 +199,7 @@
         var mode = options.mode;
         var targetContainerClass = mode === 'download' ? ' hide' : '';
 
-        var syncTargetLabel = mode === 'convert' ? globalize.translate('LabelConvertTo') : globalize.translate('LabelSyncTo');
+        var syncTargetLabel = mode === 'convert' ? globalize.translate('LabelConvertTo') : globalize.translate('LabelDownloadTo');
 
         if (options.readOnlySyncTarget) {
             html += '<div class="inputContainer' + targetContainerClass + '">';
@@ -500,7 +498,7 @@
 
             var syncButtonLabel = options.mode === 'download' ?
                 globalize.translate('Download') :
-                (options.mode === 'convert' ? globalize.translate('Convert') : globalize.translate('Sync'));
+                (options.mode === 'convert' ? globalize.translate('Convert') : globalize.translate('Download'));
 
             html += syncButtonLabel;
             html += '</h3>';
@@ -567,6 +565,11 @@
         return function (targetId) {
 
             query.TargetId = targetId;
+
+            if (!targetId) {
+                query.ExcludeTargetIds = apiClient.deviceId();
+            }
+
             return apiClient.getJSON(apiClient.getUrl('Sync/Options', query));
         };
     }

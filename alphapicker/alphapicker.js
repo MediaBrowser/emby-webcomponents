@@ -10,7 +10,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
         if (selected) {
             focusManager.focus(selected);
         } else {
-            focusManager.autoFocus(scope, true);
+            focusManager.autoFocus(scope);
         }
     }
 
@@ -354,7 +354,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
     AlphaPicker.prototype.focus = function () {
 
         var element = this.options.element;
-        focusManager.autoFocus(element, true);
+        focusManager.autoFocus(element);
     };
 
     AlphaPicker.prototype.destroy = function () {

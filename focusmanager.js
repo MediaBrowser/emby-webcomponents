@@ -1,4 +1,4 @@
-define(['dom'], function (dom) {
+define(['dom', 'layoutManager'], function (dom, layoutManager) {
     'use strict';
 
     var scopes = [];
@@ -13,22 +13,23 @@ define(['dom'], function (dom) {
         }
     }
 
-    function autoFocus(view, defaultToFirst, findAutoFocusElement) {
+    function autoFocus(view, options, findAutoFocusElement) {
 
         var element;
-        if (findAutoFocusElement !== false) {
+        if (!options || options.findAutoFocusElement !== false) {
             element = view.querySelector('*[autofocus]');
             if (element) {
-                focus(element);
+                focus(element, options);
                 return element;
             }
         }
 
-        if (defaultToFirst !== false) {
+        if (!options || options.defaultToFirst !== false) {
             element = getFocusableElements(view, 1, 'noautofocus')[0];
 
             if (element) {
-                focus(element);
+                focus(element, options);
+
                 return element;
             }
         }
@@ -40,10 +41,15 @@ define(['dom'], function (dom) {
 
         try {
 
-            options = options || {};
+            var preventScroll = options ? options.preventScroll : null;
+
+            // This is cheating, but scrollers have this built-in
+            if (layoutManager.tv) {
+                preventScroll = true;
+            }
 
             element.focus({
-                preventScroll: options.preventScroll !== false
+                preventScroll: preventScroll
             });
         } catch (err) {
             console.log('Error in focusManager.autoFocus: ' + err);
@@ -269,7 +275,9 @@ define(['dom'], function (dom) {
         container = container || (activeElement ? getFocusContainer(activeElement, direction) : getDefaultScope());
 
         if (!activeElement) {
-            autoFocus(container, true, false);
+            autoFocus(container, {
+                findAutoFocusElement: false
+            });
             return;
         }
 
@@ -419,7 +427,9 @@ define(['dom'], function (dom) {
                     }
                 }
             }
-            focus(nearestElement);
+            focus(nearestElement, {
+                preventScroll: true
+            });
         }
     }
 
@@ -439,39 +449,39 @@ define(['dom'], function (dom) {
         elem.value = text;
     }
 
-    function focusFirst(container, focusableSelector) {
+    function focusFirst(container, options) {
 
-        var elems = container.querySelectorAll(focusableSelector);
-
-        for (var i = 0, length = elems.length; i < length; i++) {
-
-            var elem = elems[i];
-
-            if (isCurrentlyFocusableInternal(elem)) {
-                focus(elem);
-                break;
-            }
-        }
-    }
-
-    function focusLast(container, focusableSelector) {
-
-        var elems = [].slice.call(container.querySelectorAll(focusableSelector), 0).reverse();
+        var elems = container.querySelectorAll(options.focusableSelector);
 
         for (var i = 0, length = elems.length; i < length; i++) {
 
             var elem = elems[i];
 
             if (isCurrentlyFocusableInternal(elem)) {
-                focus(elem);
+                focus(elem, options);
                 break;
             }
         }
     }
 
-    function moveFocus(sourceElement, container, focusableSelector, offset) {
+    function focusLast(container, options) {
 
-        var elems = container.querySelectorAll(focusableSelector);
+        var elems = [].slice.call(container.querySelectorAll(options.focusableSelector), 0).reverse();
+
+        for (var i = 0, length = elems.length; i < length; i++) {
+
+            var elem = elems[i];
+
+            if (isCurrentlyFocusableInternal(elem)) {
+                focus(elem, options);
+                break;
+            }
+        }
+    }
+
+    function moveFocus(sourceElement, container, options) {
+
+        var elems = container.querySelectorAll(options.focusableSelector);
         var list = [];
         var i, length, elem;
 
@@ -500,13 +510,13 @@ define(['dom'], function (dom) {
             return;
         }
 
-        var newIndex = currentIndex + offset;
+        var newIndex = currentIndex + options.offset;
         newIndex = Math.max(0, newIndex);
         newIndex = Math.min(newIndex, list.length - 1);
 
         var newElem = list[newIndex];
         if (newElem) {
-            focus(newElem);
+            focus(newElem, options);
         }
     }
 

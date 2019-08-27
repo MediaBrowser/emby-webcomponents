@@ -239,7 +239,7 @@ html, .dialog, .backgroundContainer {
     border-color: rgba(255,255,255,.08) !important;
 }
 
-.listItem:focus {
+.listItem-focusscale:focus {
     background: #363636;
 }
 

@@ -1544,7 +1544,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (options.autoFocus) {
-                focusManager.autoFocus(options.itemsContainer, true);
+                focusManager.autoFocus(options.itemsContainer);
             }
         }
 

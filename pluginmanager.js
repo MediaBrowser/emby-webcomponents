@@ -12,12 +12,12 @@ define(['events'], function (events) {
         });
     }
 
-    function definePluginRoute(pluginManager, route, plugin) {
+    function definePluginRoute(pluginManager, appRouter, route, plugin) {
 
         route.contentPath = pluginManager.mapPath(plugin, route.path);
         route.path = pluginManager.mapRoute(plugin, route);
 
-        Emby.App.defineRoute(route, plugin.id);
+        appRouter.defineRoute(route);
     }
 
     function PluginManager() {
@@ -30,61 +30,54 @@ define(['events'], function (events) {
         console.log('Loading plugin: ' + url);
         var instance = this;
 
-        return new Promise(function (resolve, reject) {
+        return require([url, 'globalize', 'appRouter']).then(function (responses) {
 
-            require([url, 'globalize', 'appRouter'], function (pluginFactory, globalize, appRouter) {
+            var pluginFactory = responses[0];
+            var globalize = responses[1];
+            var appRouter = responses[2];
 
-                var plugin = new pluginFactory();
+            var plugin = new pluginFactory();
 
-                // See if it's already installed
-                var existing = instance.pluginsList.filter(function (p) {
-                    return p.id === plugin.id;
-                })[0];
+            // See if it's already installed
+            var existing = instance.pluginsList.filter(function (p) {
+                return p.id === plugin.id;
+            })[0];
 
-                if (existing) {
-                    resolve(url);
-                    return;
+            if (existing) {
+                return Promise.resolve(existing);
+            }
+
+            plugin.installUrl = url;
+
+            var urlLower = url.toLowerCase();
+            if (urlLower.indexOf('http:') === -1 && urlLower.indexOf('https:') === -1 && urlLower.indexOf('file:') === -1) {
+                if (url.indexOf(appRouter.baseUrl()) !== 0) {
+
+                    url = appRouter.baseUrl() + '/' + url;
                 }
+            }
 
-                plugin.installUrl = url;
+            var separatorIndex = Math.max(url.lastIndexOf('/'), url.lastIndexOf('\\'));
+            plugin.baseUrl = url.substring(0, separatorIndex);
 
-                var urlLower = url.toLowerCase();
-                if (urlLower.indexOf('http:') === -1 && urlLower.indexOf('https:') === -1 && urlLower.indexOf('file:') === -1) {
-                    if (url.indexOf(appRouter.baseUrl()) !== 0) {
+            var paths = {};
+            paths[plugin.id] = plugin.baseUrl;
 
-                        url = appRouter.baseUrl() + '/' + url;
-                    }
-                }
+            require.config({
+                waitSeconds: 0,
+                paths: paths
+            });
 
-                var separatorIndex = Math.max(url.lastIndexOf('/'), url.lastIndexOf('\\'));
-                plugin.baseUrl = url.substring(0, separatorIndex);
+            instance.register(plugin);
 
-                var paths = {};
-                paths[plugin.id] = plugin.baseUrl;
-
-                require.config({
-                    waitSeconds: 0,
-                    paths: paths
+            if (plugin.getRoutes) {
+                plugin.getRoutes().forEach(function (route) {
+                    definePluginRoute(instance, appRouter, route, plugin);
                 });
+            }
 
-                instance.register(plugin);
-
-                if (plugin.getRoutes) {
-                    plugin.getRoutes().forEach(function (route) {
-                        definePluginRoute(instance, route, plugin);
-                    });
-                }
-
-                if (plugin.type === 'skin') {
-
-                    // translations won't be loaded for skins until needed
-                    resolve(plugin);
-                } else {
-
-                    loadStrings(plugin, globalize).then(function () {
-                        resolve(plugin);
-                    }, reject);
-                }
+            return loadStrings(plugin, globalize).then(function () {
+                return plugin;
             });
         });
     };

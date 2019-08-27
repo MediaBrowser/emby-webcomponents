@@ -222,7 +222,8 @@
             actionsheet.show({
                 items: options,
                 positionTo: e.target,
-                title: globalize.translate('LabelSortBy')
+                title: globalize.translate('LabelSortBy'),
+                type: 'select'
 
             }).then(function (value) {
 

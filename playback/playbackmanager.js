@@ -953,36 +953,33 @@
 
             return Promise.all(promises).then(function (responses) {
 
-                return connectionManager.currentApiClient().getCurrentUser().then(function (user) {
+                var targets = [];
 
-                    var targets = [];
+                //targets.push({
+                //    name: globalize.translate('HeaderMyDevice'),
+                //    id: 'localplayer',
+                //    playerName: 'localplayer',
+                //    playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'],
+                //    isLocalPlayer: true,
+                //    supportedCommands: self.getSupportedCommands({
+                //        isLocalPlayer: true
+                //    }),
+                //    user: user
+                //});
 
-                    targets.push({
-                        name: globalize.translate('HeaderMyDevice'),
-                        id: 'localplayer',
-                        playerName: 'localplayer',
-                        playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'],
-                        isLocalPlayer: true,
-                        supportedCommands: self.getSupportedCommands({
-                            isLocalPlayer: true
-                        }),
-                        user: user
-                    });
+                for (var i = 0; i < responses.length; i++) {
 
-                    for (var i = 0; i < responses.length; i++) {
+                    var subTargets = responses[i];
 
-                        var subTargets = responses[i];
+                    for (var j = 0; j < subTargets.length; j++) {
 
-                        for (var j = 0; j < subTargets.length; j++) {
-
-                            targets.push(subTargets[j]);
-                        }
+                        targets.push(subTargets[j]);
                     }
+                }
 
-                    targets = targets.sort(sortPlayerTargets);
+                targets = targets.sort(sortPlayerTargets);
 
-                    return targets;
-                });
+                return targets;
             });
         };
 

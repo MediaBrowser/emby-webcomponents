@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'listViewStyle', 'emby-scroller'], function (dialogHelper, layoutManager, globalize, browser, dom) {
+﻿define(['appHost', 'dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'listViewStyle', 'emby-scroller'], function (appHost, dialogHelper, layoutManager, globalize, browser, dom) {
     'use strict';
 
     function getOffsets(elems) {
@@ -77,6 +77,8 @@
         return pos;
     }
 
+    var hasPhysicalBackButton = appHost.supports('physicalbackbutton');
+
     function show(options) {
 
         // items
@@ -86,7 +88,8 @@
         var dialogOptions = {
             removeOnClose: true,
             enableHistory: options.enableHistory,
-            autoFocus: true
+            autoFocus: true,
+            autoCenter: false
         };
 
         var backButton = false;
@@ -98,7 +101,6 @@
         } else {
 
             dialogOptions.modal = false;
-            dialogOptions.autoFocus = false;
         }
 
         var type = options.type;
@@ -112,10 +114,6 @@
 
         if (type) {
             dlg.classList.add('actionSheet-' + type);
-        }
-
-        if (type === 'select') {
-            dlg.classList.add('dialog-fullscreen-lowres');
         }
 
         if (options.dialogClass) {
@@ -141,7 +139,7 @@
         }
 
         if (layoutManager.tv) {
-            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
+            html += '<button is="paper-icon-button-light" class="btnCloseActionSheet btnCloseActionSheet-tv hide-mouse-idle-tv" tabindex="-1"><i class="md-icon">&#xE5C4;</i></button>';
         }
 
         // If any items have an icon, give them all an icon just to make sure they're all lined up evenly
@@ -153,7 +151,12 @@
 
         if (options.title) {
 
-            html += '<h2 class="actionSheetTitle">';
+            var headerClass = 'actionSheetTitle';
+            if (type === 'select') {
+                headerClass += ' actionSheetTitle-select';
+            }
+
+            html += '<h2 class="' + headerClass + '">';
             html += options.title;
             html += '</h2>';
         }
@@ -172,8 +175,12 @@
             scrollerClassName += ' actionSheetScroller-' + type;
         }
 
+        if (options.title || options.text) {
+            scrollerClassName += ' actionSheetScroller-withheader';
+        }
+
         html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="' + scrollerClassName + '">';
-        html += '<div class="scrollSlider">';
+        html += '<div class="scrollSlider flex flex-direction-column">';
 
         var menuItemClass = 'listItem listItem-button actionSheetMenuItem';
 
@@ -188,18 +195,19 @@
         if (layoutManager.tv) {
             menuItemClass += ' listItem-focusscale';
         }
-        else {
-            menuItemClass += ' actionsheet-xlargeFont';
-        }
 
         if (type) {
             menuItemClass += ' actionSheetMenuItem-' + type;
         }
 
+        if (layoutManager.tv) {
+            menuItemClass += ' actionSheetMenuItem-tv';
+        }
+
         var asideTextClass = 'actionSheetItemAsideText';
 
         if (type) {
-            asideTextClass += ' asideTextClass-' + type;
+            asideTextClass += ' actionSheetItemAsideText-' + type;
         }
 
         var listItemBodyClass = 'actionsheetListItemBody';
@@ -208,7 +216,7 @@
             listItemBodyClass += ' actionsheetListItemBody-' + type;
         }
 
-        var itemIconClass = 'actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon';
+        var itemIconClass = 'actionsheetMenuItemIcon listItemIcon listItemIcon-transparent md-icon secondaryText';
 
         if (type) {
             itemIconClass += ' actionsheetMenuItemIcon-' + type;
@@ -285,18 +293,24 @@
         }
 
         if (!layoutManager.tv) {
-            if (type === 'select') {
-                //html += '<button is="paper-icon-button-light" class="btnCloseActionSheet hide-mouse-idle-tv btnCloseActionSheet-select"><i class="md-icon">cancel</i></button>';
-                html += '<div class="actionSheet-select-bottom-bg">';
-                html += '<button is="emby-button" type="button" class="btnCloseActionSheet hide-mouse-idle-tv btnCloseActionSheet-select raised block">Cancel</button>';
+
+            if (type === 'select' || !hasPhysicalBackButton) {
+                if (type === 'select') {
+                    html += '<div class="actionSheet-bottom actionSheet-select-bottom">';
+                } else {
+                    html += '<div class="actionSheet-bottom">';
+                }
+
+                var cancelButtonClass = 'btnCloseActionSheet btnCloseActionSheet-default';
+
+                if (type === 'select') {
+                    cancelButtonClass += ' btnCloseActionSheet-select';
+                }
+
+                html += '<button is="emby-button" type="button" class="' + cancelButtonClass + ' hide-mouse-idle-tv raised block">' + globalize.translate('Cancel') + '</button>';
+
                 html += '</div>';
             }
-        }
-
-        if (options.showCancel) {
-            html += '<div class="buttons">';
-            html += '<button is="emby-button" type="button" class="btnCloseActionSheet">' + globalize.translate('Cancel') + '</button>';
-            html += '</div>';
         }
 
         dlg.innerHTML = html;
