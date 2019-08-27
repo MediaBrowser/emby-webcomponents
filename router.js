@@ -1050,9 +1050,27 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         return show('/videoosd/videoosd.html');
     }
 
+    function defineRoute(newRoute) {
+
+        var baseRoute = baseUrl();
+
+        var path = newRoute.path;
+
+        path = path.replace(baseRoute, '');
+
+        console.log('Defining route: ' + path);
+
+        addRoute(path, newRoute);
+    }
+
     function addRoute(path, newRoute) {
 
-        page(path, newRoute, handleRoute);
+        if (path && newRoute) {
+            page(path, newRoute, handleRoute);
+        }
+        else {
+            defineRoute(path);
+        }
     }
 
     function getRoutes() {

@@ -1,4 +1,4 @@
-﻿define(['appHost', 'dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'listViewStyle', 'emby-scroller'], function (appHost, dialogHelper, layoutManager, globalize, browser, dom) {
+﻿define(['apphost', 'dialogHelper', 'layoutManager', 'globalize', 'browser', 'dom', 'emby-button', 'css!./actionsheet', 'material-icons', 'listViewStyle', 'emby-scroller'], function (appHost, dialogHelper, layoutManager, globalize, browser, dom) {
     'use strict';
 
     function getOffsets(elems) {

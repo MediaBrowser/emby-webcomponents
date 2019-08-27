@@ -17,7 +17,7 @@ define(['events'], function (events) {
         route.contentPath = pluginManager.mapPath(plugin, route.path);
         route.path = pluginManager.mapRoute(plugin, route);
 
-        appRouter.defineRoute(route);
+        appRouter.addRoute(route);
     }
 
     function PluginManager() {
