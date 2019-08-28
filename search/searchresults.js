@@ -63,6 +63,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'Game' ||
+                queryIncludeItemTypes === 'BoxSet' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'TvChannel' ||
@@ -83,6 +84,7 @@
                 queryIncludeItemTypes === 'Audio' ||
                 queryIncludeItemTypes === 'Book' ||
                 queryIncludeItemTypes === 'Game' ||
+                queryIncludeItemTypes === 'BoxSet' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'TvChannel' ||
@@ -116,6 +118,7 @@
                 queryIncludeItemTypes === 'Game' ||
                 queryIncludeItemTypes === 'PhotoAlbum' ||
                 queryIncludeItemTypes === 'Movie' ||
+                queryIncludeItemTypes === 'BoxSet' ||
                 queryIncludeItemTypes === 'Playlist' ||
                 queryIncludeItemTypes === 'Video' ||
                 queryIncludeItemTypes === 'MusicVideo' ||
@@ -570,6 +573,22 @@
             IncludeItemTypes: "Playlist"
 
         }, context, '.playlistResults', {
+
+                showTitle: true,
+                overlayText: false,
+                centerText: true
+            });
+
+        searchType(instance, apiClient, {
+            searchTerm: value,
+            IncludePeople: false,
+            IncludeMedia: true,
+            IncludeGenres: false,
+            IncludeStudios: false,
+            IncludeArtists: false,
+            IncludeItemTypes: "BoxSet"
+
+        }, context, '.collectionResults', {
 
                 showTitle: true,
                 overlayText: false,

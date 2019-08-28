@@ -1,4 +1,5 @@
 {
+    "HeaderDownloadToDots": "Download to...",
     "EmbyLoginTerms": "Emby esta dise\u00f1ado para ayudarlo a administrar su biblioteca de medios personal, tales como v\u00eddeos caseros y fotograf\u00edas. Por favor vea nuestros {0}t\u00e9rminos de uso{1}. Al usar cualquier software de Emby constituye la aceptaci\u00f3n de dichos t\u00e9rminos.",
     "MessageUnableToConnectToServer": "No es posible conectarse al servidor seleccionado en este momento. Por favor aseg\u00farese de que se encuentra en ejecuci\u00f3n e int\u00e9ntelo nuevamente.",
     "EmbyIntroMessage": "Con Emby usted puede transmitir videos, musica y fotos hacia su telefono inteligente, tabla u otros equipos desde su Servidor Emby.",
@@ -884,5 +885,6 @@
     "LabelThemeSongs": "Canciones de Tema:",
     "LabelThemeVideos": "V\u00eddeos de Tema:",
     "CustomRatingHelp": "Una clasificaci\u00f3n personalizada es usada para la evaluaci\u00f3n del control parental pero no es mostrada. El campo del clasificaci\u00f3n personal se continuara mostrando.",
-    "KeepUpToHelp": "Las grabaciones por encima del limite son eliminadas cuando la siguiente grabaci\u00f3n inicie. Las grabaciones mas antiguas ser\u00e1n eliminadas primero, seg\u00fan la fecha en que se agregaron."
+    "KeepUpToHelp": "Las grabaciones por encima del limite son eliminadas cuando la siguiente grabaci\u00f3n inicie. Las grabaciones mas antiguas ser\u00e1n eliminadas primero, seg\u00fan la fecha en que se agregaron.",
+    "NoItemsMatchingFound": "No items matching your search criteria were found."
 }

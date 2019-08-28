@@ -593,6 +593,7 @@
   "HeaderLatestRecordings": "Latest Recordings",
   "LabelConvertTo": "Convert to:",
   "LabelDownloadTo": "Download to:",
+  "HeaderDownloadToDots": "Download to...",
   "Next": "Next",
   "LabelSource": "Source:",
   "LabelVersion": "Version:",
@@ -884,5 +885,7 @@
   "LabelThemeSongs": "Theme songs:",
   "LabelThemeVideos": "Theme videos:",
   "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
-  "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added."
+  "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
+  "NoItemsFound": "No items found.",
+  "NoItemsMatchingFound": "No items matching your search criteria were found."
 }

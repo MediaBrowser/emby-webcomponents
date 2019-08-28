@@ -124,10 +124,7 @@
             removeScrollLockOnClose = true;
         }
 
-        focusManager.pushScope(dlg);
-        if (dlg.getAttribute('data-autofocus') === 'true') {
-            focusManager.autoFocus(dlg);
-        }
+        animateDialogOpen(dlg);
 
         if (isHistoryEnabled(dlg)) {
             appRouter.pushState({ dialogId: hash }, "Dialog", '#' + hash);
@@ -136,6 +133,26 @@
         } else {
             inputManager.on(dlg, onBackCommand);
         }
+    }
+
+    function animateDialogOpen(dlg) {
+
+        var onAnimationFinish = function () {
+            focusManager.pushScope(dlg);
+            if (dlg.getAttribute('data-autofocus') === 'true') {
+                focusManager.autoFocus(dlg);
+            }
+        };
+
+        if (enableAnimation()) {
+
+            dom.addEventListener(dlg, dom.whichAnimationEvent(), onAnimationFinish, {
+                once: true
+            });
+            return;
+        }
+
+        onAnimationFinish();
     }
 
     function addBackdropOverlay(dlg) {

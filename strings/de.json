@@ -1,9 +1,10 @@
 {
+    "HeaderDownloadToDots": "Herunterladen nach:",
     "EmbyLoginTerms": "Emby wurde designed um Sie bei der Verwaltung Ihrer Medienbibliothek, wie z.B Heimvideos oder Fotos, zu unterst\u00fctzen. Bitte lesen Sie unsere {0}Nutzungsbedingungen{1}. Die Verwendung jeglicher Emby Software bedingt die Zustimmung dieser Vereinbarung.",
     "MessageUnableToConnectToServer": "Wir k\u00f6nnen gerade keine Verbindung zum gew\u00e4hlten Server herstellen. Bitte stellen Sie sicher das dieser l\u00e4uft und versuchen Sie es erneut.",
     "EmbyIntroMessage": "Mit Emby k\u00f6nnen Sie auf einfache Art und Weise Videos, Musik und Fotos von Ihrem Emby Server auf Smartphones, Tablets und andere Ger\u00e4te streamen.",
     "HeaderSignInWithConnect": "Anmelden mit Emby Connect",
-    "HeaderWelcomeToEmby": "Willkommen zu Emby",
+    "HeaderWelcomeToEmby": "Willkommen bei Emby",
     "HeaderNewUsers": "Neue Benutzer",
     "HeaderPleaseSignIn": "Bitte einloggen",
     "MessageInvalidUser": "Falscher Benutzername oder Passwort. Bitte versuche es noch einmal.",
@@ -884,5 +885,6 @@
     "LabelThemeSongs": "Titelsongs:",
     "LabelThemeVideos": "Titelvideos:",
     "CustomRatingHelp": "Eine benutzerdefinierte Bewertung wird zur Auswertung der elterlichen Kontrolle verwendet, aber sie wird nicht angezeigt. Das Altersfreigabefeld wird immer noch angezeigt.",
-    "KeepUpToHelp": "Aufnahmen \u00fcber dem Limit werden gel\u00f6scht wenn die n\u00e4chste Aufnahme startet. Die \u00e4ltesten Aufnahmen werden als erstes entfernt."
+    "KeepUpToHelp": "Aufnahmen \u00fcber dem Limit werden gel\u00f6scht wenn die n\u00e4chste Aufnahme startet. Die \u00e4ltesten Aufnahmen werden als erstes entfernt.",
+    "NoItemsMatchingFound": "Es wurden keine Objekte entsprechend deiner Suchkriterien gefunden."
 }

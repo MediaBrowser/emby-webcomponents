@@ -222,6 +222,14 @@
                 });
             }
 
+            if (user.Policy.EnableContentDownloading) {
+                menuItems.push({
+                    name: globalize.translate('HeaderDownloadToDots'),
+                    id: 'sync',
+                    icon: 'file_download'
+                });
+            }
+
             menuItems.push({
                 name: globalize.translate('HeaderGroupVersions'),
                 id: 'groupvideos',
@@ -245,14 +253,6 @@
                 id: 'refresh',
                 icon: 'refresh'
             });
-
-            if (user.Policy.EnableContentDownloading) {
-                menuItems.push({
-                    name: globalize.translate('Sync'),
-                    id: 'sync',
-                    icon: 'sync'
-                });
-            }
 
             require(['actionsheet'], function (actionsheet) {
 

@@ -212,6 +212,18 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                 }
             }
 
+            if (!restrictOptions) {
+                if (options.sync !== false) {
+                    if (itemHelper.canSync(user, item)) {
+                        commands.push({
+                            name: globalize.translate('HeaderDownloadToDots'),
+                            id: 'sync',
+                            icon: 'file_download'
+                        });
+                    }
+                }
+            }
+
             var canEdit = itemHelper.canEdit(user, item);
             if (canEdit) {
 
@@ -348,7 +360,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                 if (itemHelper.canSync(user, item)) {
                     commands.push({
                         name: globalize.translate('Sync'),
-                        id: 'sync',
+                        id: 'synclegacy',
                         icon: 'sync'
                     });
                 }
@@ -516,6 +528,9 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             case 'multiselect':
                 showMultiSelect(apiClient, item, options);
                 return getResolveFn(id)();
+            case 'synclegacy':
+                syncLegacy();
+                return getResolveFn(id)();
             default:
                 break;
         }
@@ -674,6 +689,14 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                     reject();
                     break;
             }
+        });
+    }
+
+    function syncLegacy() {
+        return require(['alert']).then(function (responses) {
+            var alert = responses[0];
+
+            return alert('Sync is now called "Download to...". Please use that menu option.');
         });
     }
 

@@ -383,11 +383,17 @@
 
         if (this.totalItemCount == null) {
 
+            var numCurrentItems = result.Items ? result.Items.length : result.length;
+
             if (result.TotalRecordCount != null) {
-                this.totalItemCount = result.TotalRecordCount;
+                this.totalItemCount = result.TotalRecordCount || numCurrentItems;
             } else {
-                this.totalItemCount = result.Items ? result.Items.length : result.length;
+                this.totalItemCount = numCurrentItems;
             }
+        }
+
+        if (!this.totalItemCount) {
+            this.setEmptyListState();
         }
 
         updateAlphaPickerState(this, this.totalItemCount);
@@ -1176,6 +1182,25 @@
             alphaNumericShortcuts.destroy();
             this.alphaNumericShortcuts = null;
         }
+    };
+
+    ItemsTab.prototype.getEmptyListMessage = function () {
+
+        if (this.hasFilters) {
+            return globalize.translate('NoItemsMatchingFound');
+        }
+
+        return globalize.translate('NoItemsFound');
+    };
+
+    ItemsTab.prototype.setEmptyListState = function () {
+
+        var html = '<div class="flex padded-top align-items-center justify-content-center flex-grow">';
+        html += this.getEmptyListMessage();
+
+        html += '</div>';
+
+        this.itemsContainer.innerHTML = html;
     };
 
     ItemsTab.prototype.destroy = function () {
