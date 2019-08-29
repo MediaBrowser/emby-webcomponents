@@ -209,7 +209,7 @@
         max-width: none !important;
         max-height: none !important;
         will-change: opacity;
-        animation: actionSheet-select-open 220ms ease-out normal both !important;
+        animation: actionSheet-select-open 220ms ease-in-out normal both !important;
         text-align: center;
         background: rgba(0,0,0,.78) !important;
         width: auto !important;
@@ -218,7 +218,7 @@
     }
 
         .actionSheet-select.dialog-close {
-            animation: actionSheet-select-close 140ms ease-out normal both !important;
+            animation: actionSheet-select-close 140ms ease-in-out normal both !important;
         }
 
     .actionSheetTitle-select {

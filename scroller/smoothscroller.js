@@ -452,7 +452,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             var slideeElement = this.slideeElement;
 
             slideeElement.style['will-change'] = 'transform';
-            slideeElement.style.transition = 'transform ' + options.speed + 'ms ease-out';
+            slideeElement.style.transition = 'transform ' + options.speed + 'ms ease-in-out';
 
             if (options.horizontal) {
                 slideeElement.classList.add('animatedScrollX');

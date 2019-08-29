@@ -23,7 +23,7 @@
 }
 
 .backdropImageFadeIn {
-    animation: backdrop-fadein 800ms ease-in normal both;
+    animation: backdrop-fadein 800ms ease-in-out normal both;
 }
 
 @keyframes backdrop-fadein {

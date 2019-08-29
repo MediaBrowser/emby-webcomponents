@@ -561,7 +561,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return mediaType === 'Video';
         },
 
-        getContentTypeName(contentType) {
+        getContentTypeName: function (contentType) {
 
             if (!contentType) {
                 return globalize.translate('MixedContent');

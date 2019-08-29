@@ -566,9 +566,9 @@
 
             query.TargetId = targetId;
 
-            if (!targetId) {
-                query.ExcludeTargetIds = apiClient.deviceId();
-            }
+            //if (!targetId) {
+            //    query.ExcludeTargetIds = apiClient.deviceId();
+            //}
 
             return apiClient.getJSON(apiClient.getUrl('Sync/Options', query));
         };

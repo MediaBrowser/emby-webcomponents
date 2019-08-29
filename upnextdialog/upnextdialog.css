@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     will-change: transform, opacity;
-    transition: opacity 300ms ease-out;
+    transition: opacity 300ms ease-in-out;
     background-color: rgba(0, 0, 0, .7);
     background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .9));
     color: #fff;

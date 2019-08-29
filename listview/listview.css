@@ -122,7 +122,7 @@
     color: rgba(255, 255, 255, .6);
     font-size: 1.5em;
     background: transparent;
-    transition: transform 200ms ease-out;
+    transition: transform 200ms ease-in-out;
     display: flex;
 }
 

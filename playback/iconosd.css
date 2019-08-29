@@ -9,7 +9,7 @@
     color: #fff;
     backdrop-filter: blur(5px);
     border-radius: .25em;
-    transition: opacity 200ms ease-out;
+    transition: opacity 200ms ease-in-out;
 }
 
 .iconOsd-hidden {

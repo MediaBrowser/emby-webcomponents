@@ -116,7 +116,7 @@ button {
 
 .cardBox-focustransform {
     will-change: transform;
-    transition: transform 200ms ease-out;
+    transition: transform 200ms ease-in-out;
 }
 
 .card:focus > .cardBox-focustransform {
@@ -141,7 +141,7 @@ button {
 
 @media (pointer: coarse) {
     .card-touchzoom {
-        transition: transform 100ms ease-out;
+        transition: transform 100ms ease-in-out;
         transition-delay: 80ms;
     }
 
@@ -471,7 +471,7 @@ button {
     border: .06em solid rgba(255,255,255,.6);
     padding: .38em !important;
     color: rgba(255, 255, 255, .76);
-    transition: transform 200ms ease-out;
+    transition: transform 200ms ease-in-out;
 }
 
 @media(hover: hover) and (pointer: fine) {

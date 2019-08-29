@@ -21,7 +21,7 @@
     /* Strict does not work well with actionsheet */
     contain: style paint;
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
-    animation: scaleup 140ms ease-out normal both;
+    animation: scaleup 180ms ease-in-out normal both;
 }
 
     .dialog .scrollY {
@@ -40,15 +40,15 @@
     border-radius: 0 !important;
     max-width: none !important;
     max-height: none !important;
-    animation: scaleup 280ms ease-out normal both;
+    animation: scaleup 280ms ease-in-out normal both;
 }
 
 .dialog-close {
-    animation: scaledown 120ms ease-out normal both;
+    animation: scaledown 120ms ease-in-out normal both;
 }
 
 .dialog-fullscreen.dialog-close {
-    animation: scaledown 220ms ease-out normal both;
+    animation: scaledown 220ms ease-in-out normal both;
 }
 
 .dialog-noanimation {
@@ -134,7 +134,7 @@
     right: 0 !important;
     margin: 0 !important;
     z-index: 999999 !important;
-    transition: opacity ease-out 0.2s;
+    transition: opacity ease-in-out 180ms;
     will-change: opacity;
 }
 

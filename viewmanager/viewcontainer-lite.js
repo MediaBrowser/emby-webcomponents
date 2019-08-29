@@ -163,16 +163,16 @@ define(['browser', 'dom', 'layoutManager'], function (browser, dom, layoutManage
 
             if (oldAnimatedPage) {
                 if (isBack) {
-                    setAnimation(oldAnimatedPage, 'view-slideright-r ' + duration + 'ms ease-out normal both');
+                    setAnimation(oldAnimatedPage, 'view-slideright-r ' + duration + 'ms ease-in-out normal both');
                 } else {
-                    setAnimation(oldAnimatedPage, 'view-slideleft-r ' + duration + 'ms ease-out normal both');
+                    setAnimation(oldAnimatedPage, 'view-slideleft-r ' + duration + 'ms ease-in-out normal both');
                 }
             }
 
             if (isBack) {
-                setAnimation(newAnimatedPage, 'view-slideright ' + duration + 'ms ease-out normal both');
+                setAnimation(newAnimatedPage, 'view-slideright ' + duration + 'ms ease-in-out normal both');
             } else {
-                setAnimation(newAnimatedPage, 'view-slideleft ' + duration + 'ms ease-out normal both');
+                setAnimation(newAnimatedPage, 'view-slideleft ' + duration + 'ms ease-in-out normal both');
             }
 
             dom.addEventListener(newAnimatedPage, dom.whichAnimationEvent(), resolve, {

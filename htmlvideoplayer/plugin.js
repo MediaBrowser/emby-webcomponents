@@ -973,13 +973,13 @@
 
         self.destroyCustomTrack = destroyCustomTrack;
 
-        function fetchSubtitles(track, item) {
+        function fetchSubtitles(track, item, mediaSource) {
 
             return new Promise(function (resolve, reject) {
 
                 var xhr = new XMLHttpRequest();
 
-                getTextTrackUrl(track, item, '.js').then(function (url) {
+                getTextTrackUrl(track, item, mediaSource, '.js').then(function (url) {
 
                     xhr.open('GET', url, true);
 
@@ -1126,9 +1126,9 @@
             return false;
         }
 
-        function renderSubtitlesWithCustomElement(videoElement, track, item) {
+        function renderSubtitlesWithCustomElement(videoElement, track, item, mediaSource) {
 
-            fetchSubtitles(track, item).then(function (data) {
+            fetchSubtitles(track, item, mediaSource).then(function (data) {
                 if (!videoSubtitlesElem) {
                     var subtitlesContainer = document.createElement('div');
                     subtitlesContainer.classList.add('videoSubtitles');
@@ -1229,7 +1229,7 @@
             }
 
             if (requiresCustomSubtitlesElement()) {
-                renderSubtitlesWithCustomElement(videoElement, track, item);
+                renderSubtitlesWithCustomElement(videoElement, track, item, mediaSource);
                 return;
             }
 
@@ -1253,7 +1253,7 @@
                 trackElement = videoElement.addTextTrack('subtitles', 'manualTrack' + track.Index, track.Language || 'und');
 
                 // download the track json
-                fetchSubtitles(track, item).then(function (data) {
+                fetchSubtitles(track, item, mediaSource).then(function (data) {
 
                     // show in ui
                     console.log('downloaded ' + data.TrackEvents.length + ' track events');

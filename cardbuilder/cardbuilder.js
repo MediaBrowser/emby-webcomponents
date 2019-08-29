@@ -3,7 +3,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         'use strict';
 
         var devicePixelRatio = window.devicePixelRatio || 1;
-        var enableFocusTransfrom = !browser.slow && !browser.edge;
+        var enableFocusTransfrom = !browser.slow && !browser.edge && !browser.msie;
 
         function getCardsHtml(items, options) {
 
