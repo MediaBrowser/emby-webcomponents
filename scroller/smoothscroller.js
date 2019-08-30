@@ -56,8 +56,17 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         }
     }
 
+    function onFocus(e) {
+
+        var focused = focusManager.focusableParent(e.target);
+
+        if (focused) {
+            this.toCenter(focused);
+        }
+    }
+
     function resetScrollTop() {
-        this.scrollLeft = 0;
+        this.scrollTop = 0;
     }
 
     function getBoundingClientRect(elem) {
@@ -132,7 +141,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
     var isSmoothScrollSupported = 'scrollBehavior' in document.documentElement.style;
 
-    function Scroller (frame, options) {
+    function Scroller(frame, options) {
 
         // Extend options
         var o = Object.assign({}, {
@@ -232,11 +241,21 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
             var contentRect = this.contentRect;
 
-            if (newRect.width !== contentRect.width || newRect.height !== contentRect.height) {
+            if (this.options.horizontal) {
 
-                this.contentRect = newRect;
+                if (newRect.width !== contentRect.width) {
 
-                load(this, false);
+                    this.contentRect = newRect;
+                    load(this, false);
+                }
+
+            } else {
+
+                if (newRect.height !== contentRect.height) {
+
+                    this.contentRect = newRect;
+                    load(this, false);
+                }
             }
         }
     }
@@ -452,7 +471,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             var slideeElement = this.slideeElement;
 
             slideeElement.style['will-change'] = 'transform';
-            slideeElement.style.transition = 'transform ' + options.speed + 'ms ease-in-out';
+            slideeElement.style.transition = 'transform ' + options.speed + 'ms ease-out';
 
             if (options.horizontal) {
                 slideeElement.classList.add('animatedScrollX');
@@ -517,6 +536,16 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             dom.addEventListener(frame, 'click', onFrameClick, {
                 passive: true,
                 capture: true
+            });
+        }
+
+        if (options.centerFocus) {
+
+            var focusHandler = this.focusHandler = onFocus.bind(this);
+
+            dom.addEventListener(frame, 'focus', focusHandler, {
+                capture: true,
+                passive: true
             });
         }
 
@@ -960,6 +989,14 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
             });
             dom.removeEventListener(dragSourceElement, 'mousedown', dragStartHandler, {
                 //passive: true
+            });
+        }
+
+        var focusHandler = this.focusHandler;
+        if (focusHandler) {
+            dom.removeEventListener(frame, 'focus', focusHandler, {
+                capture: true,
+                passive: true
             });
         }
 

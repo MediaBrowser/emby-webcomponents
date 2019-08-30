@@ -1,4 +1,4 @@
-﻿define(['dom', 'browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'navdrawer', 'navDrawerContent', 'paper-icon-button-light', 'material-icons', 'css!./appheader', 'emby-select'], function (dom, browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, navDrawerInstance, navDrawerContent) {
+﻿define(['dom', 'backdrop', 'browser', 'layoutManager', 'globalize', 'datetime', 'playbackManager', 'connectionManager', 'require', 'mainTabsManager', 'serverNotifications', 'appRouter', 'apphost', 'events', 'navdrawer', 'navDrawerContent', 'paper-icon-button-light', 'material-icons', 'css!./appheader', 'emby-select'], function (dom, backdrop, browser, layoutManager, globalize, datetime, playbackManager, connectionManager, require, mainTabsManager, serverNotifications, appRouter, appHost, events, navDrawerInstance, navDrawerContent) {
     'use strict';
 
     var skinHeaderElement = document.querySelector('.skinHeader');
@@ -422,6 +422,10 @@
         var skinHeader = skinHeaderElement;
 
         var detail = e.detail;
+
+        if (detail.clearBackdrop) {
+            backdrop.clear();
+        }
 
         if (detail.headerBackground === false) {
             skinHeader.classList.remove('skinHeader-withBackground');

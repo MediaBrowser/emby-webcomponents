@@ -1,5 +1,5 @@
 .headroom {
-    transition: transform 140ms ease-in-out;
+    transition: transform 140ms ease-out;
 }
 
 .headroom--pinned {
