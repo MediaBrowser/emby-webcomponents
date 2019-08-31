@@ -106,9 +106,9 @@
 
         dlg.addEventListener('close', onDialogClosed);
 
-        if (!dlg.classList.contains('dialog-fullscreen')) {
+        //if (!dlg.classList.contains('dialog-fullscreen')) {
             addBackdropOverlay(dlg);
-        }
+        //}
 
         dlg.classList.remove('hide');
 

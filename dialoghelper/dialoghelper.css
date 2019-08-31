@@ -136,6 +136,7 @@
     z-index: 999999 !important;
     transition: opacity ease-in-out 180ms;
     will-change: opacity;
+    touch-action: none;
 }
 
 .dialogBackdropOpened {
