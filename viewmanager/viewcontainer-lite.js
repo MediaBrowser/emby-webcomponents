@@ -46,6 +46,19 @@ define(['browser', 'dom', 'layoutManager'], function (browser, dom, layoutManage
         }
     }
 
+    function enableWindowScroll(detail) {
+
+        // See appheader.js for the duplicated version of this method
+        var windowScroll = detail.windowScroll;
+
+        if (windowScroll === 2 && !layoutManager.tv && browser.iOS) {
+
+            return true;
+        }
+
+        return windowScroll === true;
+    }
+
     function loadView(options) {
 
         var selected = selectedPageIndex;
@@ -82,7 +95,7 @@ define(['browser', 'dom', 'layoutManager'], function (browser, dom, layoutManage
 
         view.classList.add('page');
 
-        if (options.windowScroll) {
+        if (enableWindowScroll(options)) {
             view.classList.add('page-windowScroll');
         }
 

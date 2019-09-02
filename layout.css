@@ -7,15 +7,16 @@ html, body {
     margin: 0 !important;
     padding: 0 !important;
     height: 100%;
-}
-
-body {
     /* Needed to prevent a horizontal scrollbar when animating */
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
-.windowforceScrollY {
+.overflowYScroll {
     overflow-y: scroll;
+}
+
+.noScrollY {
+    overflow-y: hidden;
 }
 
 .layout-tv {
@@ -40,8 +41,9 @@ body {
 
 @media (pointer: coarse) {
     /* Used on document.body to lock document level scrolling when dialogs are open */
-    .withDialogOpen {
+    .withDialogOpen /*, .withDialogOpen > body*/ {
         overflow-y: hidden !important;
+        touch-action: none !important;
     }
 }
 
@@ -160,8 +162,11 @@ body {
         padding-top: 8.5em !important;
     }
 
-@media all and (min-width: 120em) {
+.page-withiOSScrollHack {
+    overflow: initial !important;
+}
 
+@media all and (min-width: 120em) {
     .page-windowScroll, .padded-top-page {
         padding-top: 7em !important;
     }

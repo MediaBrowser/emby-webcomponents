@@ -277,6 +277,7 @@
   "RefreshDialogHelp": "Metadata is refreshed based on settings and internet services that are enabled in the Emby Server dashboard.",
   "Open": "Open",
   "Play": "Play",
+  "Pause": "Pause",
   "HeaderAddToPlayQueue": "Add to Play Queue",
   "Shuffle": "Shuffle",
   "Identify": "Identify",

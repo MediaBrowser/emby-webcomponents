@@ -133,9 +133,7 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
             }
         }
 
-        html += miscInfo.map(function (m) {
-            return getMediaInfoItem(m);
-        }).join('');
+        html += miscInfo.map(getMediaInfoItem).join('');
 
         return html;
     }
@@ -407,9 +405,7 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
             }
         }
 
-        html += miscInfo.map(function (m) {
-            return getMediaInfoItem(m);
-        }).join('');
+        html += miscInfo.map(getMediaInfoItem).join('');
 
         if (item.HasSubtitles && options.subtitles !== false) {
             html += '<div class="mediaInfoItem mediaInfoText closedCaptionMediaInfoText">CC</div>';

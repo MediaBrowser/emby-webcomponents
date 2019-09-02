@@ -169,7 +169,7 @@
         if (browser.edgeUwp) {
             this.name = 'Windows Video Player';
         } else {
-            this.name = 'Html Video Player';
+            this.name = 'Web Video Player';
         }
 
         this.type = 'mediaplayer';

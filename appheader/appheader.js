@@ -372,13 +372,21 @@
         loadWindowHeadroom();
     }
 
-    function updateWindowScroll(detail) {
+    function getScrollingElement() {
+        return document.scrollingElement || document.documentElement;
+    }
 
-        if (detail.windowScroll) {
-            document.body.classList.add('windowforceScrollY');
+    function updateWindowScroll(detail, view) {
+
+        var scrollingElement = getScrollingElement();
+
+        if (enableWindowScroll(detail, view)) {
+            scrollingElement.classList.remove('noScrollY');
+            scrollingElement.classList.add('overflowYScroll');
             skinBodyElement.classList.add('skinBody-withWindowScroll');
         } else {
-            document.body.classList.remove('windowforceScrollY');
+            scrollingElement.classList.add('noScrollY');
+            scrollingElement.classList.remove('overflowYScroll');
             skinBodyElement.classList.remove('skinBody-withWindowScroll');
         }
     }
@@ -452,7 +460,7 @@
 
         navDrawerContent.onViewShow(e);
 
-        if (!detail.isRestored && detail.windowScroll) {
+        if (!detail.isRestored && enableWindowScroll(detail)) {
             // Scroll back up so in case vertical scroll was messed with
             window.scrollTo(0, 0);
         }
@@ -463,9 +471,35 @@
         mainTabsManager.setTabs(null);
     }
 
+    function enableWindowScroll(detail, view) {
+
+        // This is unfortunate, but using an embedded scroller in the iOS wkwebview doesn't work well
+        // https://emby.media/community/index.php?/topic/77097-so-many-bugs-when-are-we-getting-the-fixes/
+        // When a text box or select is clicked, the native UI slides up and resizes the webview
+        // This causes things to get out of wack and click events to be received on the wrong elements
+        // It appears to be a bug in wkwebview
+        var windowScroll = detail.windowScroll;
+
+        if (windowScroll === 2 && !layoutManager.tv && browser.iOS) {
+
+            if (view) {
+                var elem = view.querySelector('.padded-top-page');
+                if (elem) {
+                    elem.classList.remove('padded-top-page');
+                }
+                view.classList.add('page-withiOSScrollHack');
+            }
+
+            return true;
+        }
+
+        return windowScroll === true;
+    }
+
     function onViewBeforeShow(e) {
 
         var detail = e.detail;
+        var view = e.target;
 
         if (detail.headerTabs) {
 
@@ -487,7 +521,7 @@
             skinHeader.classList.add('skinHeader-withBackground');
         }
 
-        updateWindowScroll(detail);
+        updateWindowScroll(detail, view);
     }
 
     function mapViews(views, selectedId) {

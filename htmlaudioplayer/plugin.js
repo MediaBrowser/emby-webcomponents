@@ -94,7 +94,7 @@ define(['events', 'browser', 'require', 'apphost', 'appSettings', 'htmlMediaHelp
 
         var self = this;
 
-        self.name = 'Html Audio Player';
+        self.name = 'Web Audio Player';
         self.type = 'mediaplayer';
         self.id = 'htmlaudioplayer';
 

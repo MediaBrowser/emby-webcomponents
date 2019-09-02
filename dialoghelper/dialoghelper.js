@@ -26,6 +26,10 @@
         }
     }
 
+    function getScrollingElement() {
+        return document.scrollingElement || document.documentElement;
+    }
+
     function DialogHashHandler(dlg, hash, resolve) {
 
         var self = this;
@@ -69,7 +73,7 @@
             dlg.classList.remove('opened');
 
             if (removeScrollLockOnClose) {
-                document.body.classList.remove('withDialogOpen');
+                getScrollingElement().classList.remove('withDialogOpen');
             }
 
             if (!self.closedByBack && isHistoryEnabled(dlg)) {
@@ -119,8 +123,9 @@
             cancelable: false
         }));
 
-        if (dlg.getAttribute('data-lockscroll') === 'true' && !document.body.classList.contains('withDialogOpen')) {
-            document.body.classList.add('withDialogOpen');
+        var scrollingElement = getScrollingElement();
+        if (dlg.getAttribute('data-lockscroll') === 'true' && !scrollingElement.classList.contains('withDialogOpen')) {
+            scrollingElement.classList.add('withDialogOpen');
             removeScrollLockOnClose = true;
         }
 

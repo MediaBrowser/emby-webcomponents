@@ -537,16 +537,16 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
                 passive: true,
                 capture: true
             });
-        }
 
-        if (options.centerFocus) {
+            if (options.centerFocus) {
 
-            var focusHandler = this.focusHandler = onFocus.bind(this);
+                var focusHandler = this.focusHandler = onFocus.bind(this);
 
-            dom.addEventListener(frame, 'focus', focusHandler, {
-                capture: true,
-                passive: true
-            });
+                dom.addEventListener(frame, 'focus', focusHandler, {
+                    capture: true,
+                    passive: true
+                });
+            }
         }
 
         // save this for later

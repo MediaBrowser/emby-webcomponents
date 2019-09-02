@@ -137,6 +137,8 @@
     transition: opacity ease-in-out 180ms;
     will-change: opacity;
     touch-action: none;
+    overflow: hidden;
+    overscroll-behavior-y: contain;
 }
 
 .dialogBackdropOpened {

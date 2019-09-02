@@ -26,6 +26,10 @@
     align-items: center;
 }
 
+.align-items-baseline {
+    align-items: baseline;
+}
+
 .align-items-flex-start {
     align-items: flex-start;
 }
