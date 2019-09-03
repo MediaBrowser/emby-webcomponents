@@ -26,6 +26,7 @@
   "LabelHost": "Host:",
   "LabelHostHelp": "192.168.1.100 or https://myserver.com",
   "LabelPort": "Port:",
+  "Conversions": "Conversions",
   "Disabled": "Disabled",
   "Uninstall": "Uninstall",
   "UninstallPluginConfirmation": "Are you sure you wish to uninstall this plugin?",

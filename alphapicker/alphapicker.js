@@ -125,7 +125,6 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         var element = options.element;
         var itemsContainer = options.itemsContainer;
-        var itemClass = options.itemClass;
 
         var itemFocusValue;
         var itemFocusTimeout;
@@ -195,7 +194,7 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
         function onItemsFocusIn(e) {
 
-            var item = dom.parentWithClass(e.target, itemClass);
+            var item = dom.parentWithAttribute(e.target, 'data-prefix');
 
             if (item) {
                 var prefix = item.getAttribute('data-prefix');
@@ -216,8 +215,11 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
 
             if (enabled) {
 
-                if (itemsContainer) {
-                    itemsContainer.addEventListener('focus', onItemsFocusIn, true);
+                if (itemsContainer && options.setValueOnFocus) {
+                    dom.addEventListener(itemsContainer, 'focus', onItemsFocusIn, {
+                        capture: true,
+                        passive: true
+                    });
                 }
 
                 if (options.mode === 'keyboard') {
@@ -237,7 +239,10 @@ define(['focusManager', 'layoutManager', 'dom', 'css!./style.css', 'paper-icon-b
             } else {
 
                 if (itemsContainer) {
-                    itemsContainer.removeEventListener('focus', onItemsFocusIn, true);
+                    dom.removeEventListener(itemsContainer, 'focus', onItemsFocusIn, {
+                        capture: true,
+                        passive: true
+                    });
                 }
 
                 element.removeEventListener('click', onAlphaPickerInKeyboardModeClick);

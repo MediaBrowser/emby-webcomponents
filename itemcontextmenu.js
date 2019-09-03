@@ -3,11 +3,15 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
     function getCommands(options) {
 
+        var commands = [];
+
         var item = options.item;
 
-        var canPlay = playbackManager.canPlay(item);
+        if (browser.netcast && item.Type !== 'Server') {
+            return commands;
+        }
 
-        var commands = [];
+        var canPlay = playbackManager.canPlay(item);
 
         var user = options.user;
 

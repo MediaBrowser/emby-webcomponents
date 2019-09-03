@@ -113,8 +113,8 @@
         instance.alphaPicker = new AlphaPicker({
             element: instance.alphaPickerElement,
             itemsContainer: instance.itemsContainer,
-            itemClass: ['card', 'listItem'],
-            prefixes: instance.apiClient.isMinServerVersion('3.6.0.60') ? [] : null
+            prefixes: instance.apiClient.isMinServerVersion('3.6.0.60') ? [] : null,
+            setValueOnFocus: !instance.enablePaging()
         });
 
         instance.alphaPicker.on('alphavaluechanged', onAlphaValueChanged.bind(instance));
@@ -653,6 +653,8 @@
             imageTypes += ',Logo';
         }
 
+        var enablePaging = this.enablePaging();
+
         var query = {
             SortBy: sortValues.sortBy,
             SortOrder: sortValues.sortOrder,
@@ -662,12 +664,12 @@
             ImageTypeLimit: 1,
             EnableImageTypes: imageTypes,
             StartIndex: this.startIndex || 0,
-            Limit: this.enablePaging() ? 100 : null,
+            Limit: enablePaging ? 100 : null,
             ParentId: parentId
         };
 
         var alphaPicker = this.alphaPicker;
-        if (alphaPicker) {
+        if (alphaPicker && enablePaging) {
             query.NameStartsWithOrGreater = alphaPicker.value();
         }
 

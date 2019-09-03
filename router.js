@@ -120,7 +120,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 break;
             case 'ServerSelection':
                 {
-                    appRouter.showSelectServer();
+                    if (appHost.supports('multiserver')) {
+                        appRouter.showSelectServer();
+                    }
+                    else {
+                        showLocalLoginFromApiClient(connectionManager.currentApiClient());
+                    }
                 }
                 break;
             case 'ConnectSignIn':
@@ -681,7 +686,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return '/home.html';
         }
 
-        if (layoutManager.tv && userSettings.get('tvhome') === 'horizontal') {
+        if (layoutManager.tv && userSettings.get('tvhome') === 'horizontal' && !browser.netcast) {
             return '/home_horiz/home.html';
         }
 

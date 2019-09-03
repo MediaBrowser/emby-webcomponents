@@ -268,6 +268,12 @@
             options.TargetId = apiClient.deviceId();
         }
 
+        else if (listInstance.options.mode === 'convert') {
+            options.IncludeProviders = 'ConvertSyncProvider';
+        } else {
+            options.ExcludeProviders = 'ConvertSyncProvider';
+        }
+
         return apiClient.getJSON(apiClient.getUrl('Sync/Jobs', options)).then(function (response) {
 
             renderList(listInstance, response.Items, apiClient);
