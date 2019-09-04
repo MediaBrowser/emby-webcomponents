@@ -1104,6 +1104,16 @@
             return false;
         };
 
+        self.getCurrentMediaType = function (player) {
+
+            player = player || self._currentPlayer;
+
+            var playerData = getPlayerData(player);
+            var streamInfo = playerData.streamInfo;
+
+            return streamInfo ? streamInfo.mediaType : null;
+        };
+
         self.isPlayingLocally = function (mediaTypes, player) {
 
             player = player || self._currentPlayer;

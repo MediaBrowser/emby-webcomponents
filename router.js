@@ -31,7 +31,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         showUserMenu: function () {
 
             if (self.Dashboard) {
-                return show(getRouteUrl('settings'));
+                return show(getRouteUrl('settings', {
+                    serverId: ApiClient.serverId()
+                }));
             }
 
             return showBackMenuInternal(true);
@@ -59,6 +61,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return show(getHomeRoute() + '&tab=1');
         },
         showNowPlaying: function () {
+            //return show('/videoosd/videoosd.html');
             return show('/nowplaying/nowplaying.html');
         }
     };
@@ -734,7 +737,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return '/startup/selectserver.html';
         }
         if (item === 'settings') {
-            return '/settings/settings.html';
+            return '/settings/settings.html?serverId=' + serverId;
         }
         if (item === 'wizard') {
             return '/wizardstart.html';
@@ -759,6 +762,10 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
         if (item === 'nextup') {
             return '/list/list.html' + '?type=nextup&serverId=' + serverId;
+        }
+
+        if (item === "PluginCatalog") {
+            return "/plugins/plugincatalog.html";
         }
 
         if (item === 'livetv' || item.CollectionType === 'livetv') {

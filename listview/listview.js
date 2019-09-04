@@ -417,7 +417,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
 
             if (enableOverview && item.Overview) {
                 html += '<div class="listItem-overview listItemBodyText listItemBodyText-secondary">';
-                html += item.Overview;
+                html += dom.htmlEncode(item.Overview);
                 html += '</div>';
             }
 
@@ -483,7 +483,7 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
 
                 if (enableOverview && item.Overview) {
                     html += '<div class="listItem-bottomoverview secondaryText">';
-                    html += item.Overview;
+                    html += dom.htmlEncode(item.Overview);
                     html += '</div>';
                 }
             }

@@ -178,8 +178,6 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
 
         var supportedCommands = playbackManager.getSupportedCommands(player);
 
-        var mediaType = options.mediaType;
-
         var menuItems = [];
 
         if (supportedCommands.indexOf('SetAspectRatio') !== -1) {
