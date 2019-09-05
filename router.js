@@ -26,7 +26,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         },
         showSettings: function () {
 
-            return show(getRouteUrl('settings'));
+            return show(getRouteUrl('settings', {
+                serverId: connectionManager.currentApiClient().serverId()
+            }));
         },
         showUserMenu: function () {
 
@@ -465,7 +467,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 return;
             } else if (route.roles) {
 
-                validateRoles(apiClient, route.roles).then(function () {
+                validateAccessToRoute(apiClient, route).then(function () {
 
                     callback();
 
@@ -492,27 +494,30 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
-    function validateRoles(apiClient, roles) {
+    function validateAccessToRoute(apiClient, route) {
 
-        return Promise.all(roles.split(',').map(function (role) {
-            return validateRole(apiClient, role);
-        }));
-    }
-
-    function validateRole(apiClient, role) {
-
-        if (role === 'admin') {
-
-            return apiClient.getCurrentUser().then(function (user) {
-                if (user.Policy.IsAdministrator) {
-                    return Promise.resolve();
-                }
-                return Promise.reject();
-            });
+        if (!route.roles) {
+            return Promise.resolve();
         }
 
-        // Unknown role
-        return Promise.resolve();
+        return apiClient.getCurrentUser().then(function (user) {
+            return validateUserAccessToRoute(route, user);
+        });
+    }
+
+    function validateUserAccessToRoute(route, user) {
+
+        var roles = (route.roles || '').split(',');
+
+        if (roles.indexOf('admin') !== -1 && !user.Policy.IsAdministrator) {
+            return false;
+        }
+
+        if (roles.indexOf('EnableUserPreferenceAccess') !== -1 && !user.Policy.EnableUserPreferenceAccess) {
+            return false;
+        }
+
+        return true;
     }
 
     function handleBackToDefault() {
@@ -1202,6 +1207,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     appRouter.invokeShortcut = invokeShortcut;
     appRouter.logout = logout;
     appRouter.handleConnectionResult = handleConnectionResult;
+    appRouter.validateUserAccessToRoute = validateUserAccessToRoute;
 
     return appRouter;
 });

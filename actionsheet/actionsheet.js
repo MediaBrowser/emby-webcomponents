@@ -130,7 +130,7 @@
 
             option = options.items[i];
 
-            itemIcon = option.icon || (option.selected ? 'check' : null);
+            itemIcon = option.icon || (option.selected ? '&#xe5ca;' : null);
 
             if (itemIcon) {
                 renderIcon = true;
@@ -251,7 +251,7 @@
                 html += '<i class="' + itemIconClass + '">' + itemIcon + '</i>';
             }
             else if (renderIcon && !center) {
-                html += '<i class="' + itemIconClass + '" style="visibility:hidden;">check</i>';
+                html += '<i class="' + itemIconClass + '" style="visibility:hidden;">&#xe5ca;</i>';
             }
 
             html += '<div class="listItemBody ' + listItemBodyClass + '">';
