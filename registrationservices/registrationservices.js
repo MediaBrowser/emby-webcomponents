@@ -496,7 +496,7 @@
         if (appHost.supports('sync')) {
             list.push({
                 name: globalize.translate('HeaderOfflineDownloads'),
-                icon: '&#xE2C4;',
+                icon: '&#xE2C0;',
                 text: globalize.translate('HeaderOfflineDownloadsDescription')
             });
         }

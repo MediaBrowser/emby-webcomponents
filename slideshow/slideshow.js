@@ -124,7 +124,7 @@ define(['events', 'dialogHelper', 'inputManager', 'connectionManager', 'layoutMa
                 html += '<div class="topActionButtons">';
                 if (actionButtonsOnTop) {
                     if (appHost.supports('filedownload')) {
-                        html += getIcon('file_download', 'btnDownload slideshowButton', true);
+                        html += getIcon('cloud_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
                         html += getIcon('share', 'btnShare slideshowButton', true);
@@ -138,7 +138,7 @@ define(['events', 'dialogHelper', 'inputManager', 'connectionManager', 'layoutMa
 
                     html += getIcon('pause', 'btnSlideshowPause slideshowButton', true, true);
                     if (appHost.supports('filedownload')) {
-                        html += getIcon('file_download', 'btnDownload slideshowButton', true);
+                        html += getIcon('cloud_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
                         html += getIcon('share', 'btnShare slideshowButton', true);

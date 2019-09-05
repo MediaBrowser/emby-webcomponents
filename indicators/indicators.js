@@ -168,9 +168,9 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
     function getSyncIndicator(item) {
 
         if (item.SyncPercent === 100) {
-            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="md-icon indicatorIcon">&#xE2C4;</i></div>';
+            return '<div class="syncIndicator indicator fullSyncIndicator"><i class="md-icon indicatorIcon">&#xE2C0;</i></div>';
         } else if (item.SyncPercent != null) {
-            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="md-icon indicatorIcon">&#xE2C4;</i></div>';
+            return '<div class="syncIndicator indicator emptySyncIndicator"><i class="md-icon indicatorIcon">&#xE2C0;</i></div>';
         }
 
         return '';

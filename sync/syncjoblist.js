@@ -131,7 +131,7 @@
             html += '</div>';
         }
         else {
-            html += '<i class="md-icon listItemIcon">file_download</i>';
+            html += '<i class="md-icon listItemIcon">cloud_download</i>';
         }
 
         var textLines = [];

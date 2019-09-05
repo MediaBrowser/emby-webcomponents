@@ -202,7 +202,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                 commands.push({
                     name: globalize.translate('Download'),
                     id: 'download',
-                    icon: 'file_download'
+                    icon: 'cloud_download'
                 });
             }
 
@@ -211,7 +211,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                     commands.push({
                         name: globalize.translate('Download'),
                         id: 'synclocal',
-                        icon: 'file_download'
+                        icon: 'cloud_download'
                     });
                 }
             }
@@ -222,7 +222,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                         commands.push({
                             name: globalize.translate('HeaderDownloadToDots'),
                             id: 'sync',
-                            icon: 'file_download'
+                            icon: 'cloud_download'
                         });
                     }
                 }

@@ -218,7 +218,7 @@
                 menuItems.push({
                     name: globalize.translate('Download'),
                     id: 'synclocal',
-                    icon: 'file_download'
+                    icon: 'cloud_download'
                 });
             }
 
@@ -226,7 +226,7 @@
                 menuItems.push({
                     name: globalize.translate('HeaderDownloadToDots'),
                     id: 'sync',
-                    icon: 'file_download'
+                    icon: 'cloud_download'
                 });
             }
 
