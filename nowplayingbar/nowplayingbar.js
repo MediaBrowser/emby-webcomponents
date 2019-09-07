@@ -748,8 +748,8 @@
         events.on(player, 'timeupdate', onTimeUpdate);
     }
 
-    events.on(playbackManager, 'playerchange', function () {
-        bindToPlayer(playbackManager.getCurrentPlayer());
+    events.on(playbackManager, 'playerchange', function (e, player) {
+        bindToPlayer(player);
     });
 
     bindToPlayer(playbackManager.getCurrentPlayer());

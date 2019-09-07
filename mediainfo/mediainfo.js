@@ -394,7 +394,9 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
             miscInfo.push(item.Container);
         }
 
-        html += getStarIconsHtml(item);
+        if (options.CommunityRating !== false && item.CommunityRating) {
+            html += getStarIconsHtml(item);
+        }
 
         if (item.CriticRating && options.criticRating !== false) {
 

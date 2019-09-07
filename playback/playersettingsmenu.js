@@ -79,7 +79,8 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
 
         return actionsheet.show({
             items: menuItems,
-            positionTo: btn
+            positionTo: btn,
+            title: globalize.translate('HeaderRepeatMode')
 
         }).then(function (mode) {
 
@@ -194,7 +195,7 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
             });
         }
 
-        if (!browser.web0s) {
+        if (options.mediaType === 'Video' && !browser.web0s) {
             menuItems.push({
                 name: globalize.translate('PlaybackSettings'),
                 id: 'playbacksettings'
@@ -213,12 +214,12 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
             });
         }
 
-        var repeatMode = playbackManager.getRepeatMode(player);
+        if (options.mediaType === 'Video' && supportedCommands.indexOf('SetRepeatMode') !== -1 && currentMediaSource.RunTimeTicks) {
 
-        if (supportedCommands.indexOf('SetRepeatMode') !== -1 && currentMediaSource.RunTimeTicks) {
+            var repeatMode = playbackManager.getRepeatMode(player);
 
             menuItems.push({
-                name: globalize.translate('RepeatMode'),
+                name: globalize.translate('HeaderRepeatMode'),
                 id: 'repeatmode',
                 asideText: repeatMode === 'RepeatNone' ? globalize.translate('None') : globalize.translate('' + repeatMode)
             });

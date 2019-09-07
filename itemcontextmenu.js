@@ -140,7 +140,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
             commands.push({
                 name: globalize.translate('Connect'),
                 id: 'connecttoserver',
-                icon: 'router'
+                icon: '&#xE63E;'
             });
         }
 
@@ -400,7 +400,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
                 commands.push({
                     name: globalize.translate('HeaderWakeServer'),
                     id: 'wakeserver',
-                    icon: 'router'
+                    icon: '&#xE63E;'
                 });
             }
         }

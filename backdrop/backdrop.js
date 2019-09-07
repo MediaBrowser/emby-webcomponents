@@ -272,6 +272,7 @@
     var rotationInterval;
     var currentRotatingImages = [];
     var currentRotationIndex = -1;
+
     function setBackdrops(items, imageOptions, enableImageRotation) {
 
         var images = getImageUrls(items, imageOptions);
@@ -347,6 +348,7 @@
 
     return {
 
+        getImageUrls: getImageUrls,
         setBackdrops: setBackdrops,
         setBackdrop: setBackdrop,
         clear: clearBackdrop,

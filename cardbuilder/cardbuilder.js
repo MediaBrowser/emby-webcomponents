@@ -1467,7 +1467,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 return '&#xe7fd;';
             }
             if (itemType === 'Server' || itemType === 'SelectServer') {
-                return '&#xe328;';
+                return '&#xE63E;';
             }
             if (itemType === 'ManualLogin') {
                 return '&#xe898;';
