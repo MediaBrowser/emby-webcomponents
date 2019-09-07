@@ -495,7 +495,7 @@ html, .backgroundContainer {
 
 /* emby-slider */
 .emby-slider-background {
-    background: rgba(0,0,0,.1);
+    background: rgba(0,0,0,.3);
 }
 
 .emby-slider {
@@ -523,7 +523,7 @@ html, .backgroundContainer {
     }
 
 .emby-slider-background-lower {
-    background-color: #52B54B;
+    background-color: #cc3333;
 }
 
 /* scrollbuttons */

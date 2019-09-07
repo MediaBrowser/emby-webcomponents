@@ -480,7 +480,7 @@ html, .dialog, .backgroundContainer {
 
 /* emby-slider */
 .emby-slider-background {
-    background: rgba(255,255,255,.1);
+    background: rgba(255,255,255,.4);
 }
 
 .emby-slider {

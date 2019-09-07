@@ -205,7 +205,7 @@ define(['appSettings', 'events'], function (appsettings, events) {
             return this.set('skipForwardLength', val.toString());
         }
 
-        return parseInt(this.get('skipForwardLength') || '30000');
+        return parseInt(this.get('skipForwardLength') || '10000');
     };
 
     UserSettings.prototype.dashboardTheme = function (val) {

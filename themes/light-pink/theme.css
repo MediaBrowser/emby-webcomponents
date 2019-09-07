@@ -495,7 +495,7 @@ html, .backgroundContainer {
 
 /* emby-slider */
 .emby-slider-background {
-    background: rgba(0,0,0,.1);
+    background: rgba(0,0,0,.3);
 }
 
 .emby-slider {

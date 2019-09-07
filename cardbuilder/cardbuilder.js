@@ -1464,23 +1464,23 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 return 'devices';
             }
             if (itemType === 'User') {
-                return 'person';
+                return '&#xe7fd;';
             }
             if (itemType === 'Server' || itemType === 'SelectServer') {
-                return 'router';
+                return '&#xe328;';
             }
             if (itemType === 'ManualLogin') {
-                return 'lock_open';
+                return '&#xe898;';
             }
             if (itemType === 'Downloads') {
                 return 'folder';
             }
             if (itemType === 'ForgotPassword') {
-                return 'help';
+                return '&#xe887;';
             }
 
             if (itemType === 'AddServer' || itemType === 'AddVirtualFolder') {
-                return 'add_circle';
+                return '&#xe147;';
             }
 
             if (defaultIcon === false) {

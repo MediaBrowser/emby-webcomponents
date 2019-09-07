@@ -971,6 +971,13 @@
         return state.PositionTicks;
     };
 
+    ChromecastPlayer.prototype.playbackStartTime = function () {
+
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.PlaybackStartTimeTicks;
+    };
+
     ChromecastPlayer.prototype.duration = function () {
         var state = this.lastPlayerData || {};
         state = state.NowPlayingItem || {};

@@ -1,5 +1,5 @@
 {
-    "NoTrailersMessage": "No Trailers found. To add Trailers, please install the Trailer plugin from the {0}Emby plugin catalog{1}.",
+    "NoTrailersMessage": "Treilereid ei leitud. Treilerite lisamiseks paigalda plugin 'Trailer' Emby {0}pluginate kataloogist{1}.",
     "EmbyLoginTerms": "Emby on loodud selleks, et aidata hallata oma isiklikku meediakogu, n\u00e4iteks koduvideoid ja fotosid. Palun loe meie {0}kasutustingimusi{1}. Mis tahes Emby tarkvara kasutamine t\u00e4hendab nende tingimustega n\u00f5ustumist.",
     "MessageUnableToConnectToServer": "Me ei saa praegu valitud serveriga \u00fchendust luua. Veendu, et see t\u00f6\u00f6tab, ja proovi uuesti.",
     "EmbyIntroMessage": "Emby abil saad oma Emby serverist h\u00f5lpsalt voogesitada videoid, muusikat ja fotosid nutitelefonidesse, tahvelarvutitesse ja muudesse seadmetesse.",
@@ -27,7 +27,7 @@
     "LabelHost": "Host:",
     "LabelHostHelp": "192.168.1.100 v\u00f5i https:\/\/minuserver.com",
     "LabelPort": "Port:",
-    "Conversions": "Conversions",
+    "Conversions": "Teisendused",
     "Disabled": "Keelatud",
     "Uninstall": "Eemalda",
     "UninstallPluginConfirmation": "Kas eemaldada see plugin",

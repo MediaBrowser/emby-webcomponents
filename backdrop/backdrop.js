@@ -235,15 +235,13 @@
 
         var list = [];
 
-        var onImg = function (img) {
-            list.push(img);
-        };
-
         for (var i = 0, length = items.length; i < length; i++) {
 
             var itemImages = getItemImageUrls(items[i], imageOptions);
 
-            itemImages.forEach(onImg);
+            for (var j = 0, numImages = itemImages.length; j < numImages; j++) {
+                list.push(itemImages[j]);
+            }
         }
 
         return list;
