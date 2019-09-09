@@ -1,4 +1,4 @@
-define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser', 'actionsheet'], function (dom, appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser, actionsheet) {
+define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRouter', 'playbackManager', 'loading', 'appSettings', 'browser', 'actionsheet'], function (dom, userSettings, appHost, globalize, connectionManager, itemHelper, appRouter, playbackManager, loading, appSettings, browser, actionsheet) {
     'use strict';
 
     function getCommands(options) {
@@ -361,7 +361,7 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
 
         if (!restrictOptions) {
             if (options.sync !== false) {
-                if (itemHelper.canSync(user, item)) {
+                if (itemHelper.canSync(user, item) && userSettings.get('synclegacymenu', true) !== '0') {
                     commands.push({
                         name: globalize.translate('Sync'),
                         id: 'synclegacy',
@@ -697,8 +697,11 @@ define(['dom', 'apphost', 'globalize', 'connectionManager', 'itemHelper', 'appRo
     }
 
     function syncLegacy() {
+
         return require(['alert']).then(function (responses) {
             var alert = responses[0];
+
+            userSettings.set('synclegacymenu', '0', true);
 
             return alert('Sync is now called "Download to...". Please use that menu option.');
         });

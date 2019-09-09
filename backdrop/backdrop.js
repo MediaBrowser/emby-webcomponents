@@ -45,6 +45,7 @@
             backdropImage.classList.add('displayingBackdropImage');
             backdropImage.style.backgroundImage = "url('" + url + "')";
             backdropImage.setAttribute('data-url', url);
+            backdropImage.setAttribute('loading', 'lazy');
 
             backdropImage.classList.add('backdropImageFadeIn');
             parent.appendChild(backdropImage);
@@ -305,7 +306,8 @@
 
     function onRotationInterval() {
 
-        if (playbackManager.isPlayingLocally(['Video', 'Game', 'Book', 'Photo'])) {
+        // This is mainly for external players
+        if (playbackManager.isPlayingLocally(['Video', 'Game', 'Book'])) {
             return;
         }
 

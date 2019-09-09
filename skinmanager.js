@@ -4,11 +4,31 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
     var themeStyleElement;
     var currentThemeId;
     var currentThemeSettings;
+
+    function tryRemove(elem) {
+
+        try {
+            elem.parentNode.removeChild(elem);
+        }
+        catch (err) {
+            console.log('Error removing child node: ' + err);
+        }
+    }
+
+    var supportsCssVariables = window.CSS && CSS.supports('color', 'var(--fake-var)');
+
     function unloadTheme() {
         var elem = themeStyleElement;
         if (elem) {
 
-            elem.parentNode.removeChild(elem);
+            if (!supportsCssVariables) {
+                var nextSibling = elem.nextSibling;
+                if (nextSibling && nextSibling.getAttribute('data-cssvars-job')) {
+                    tryRemove(nextSibling);
+                }
+            }
+
+            tryRemove(elem);
             themeStyleElement = null;
             currentThemeId = null;
             currentThemeSettings = null;
@@ -187,6 +207,21 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         });
     }
 
+    function polyfillCssVars(elementId) {
+
+        require(['cssVars'], function (cssVars) {
+            cssVars({
+                watch: false,
+                include: '#' + elementId,
+                onlyLegacy: false,
+                preserveVars: false,
+                shadowDOM: false
+            });
+        });
+    }
+
+    var linkId = new Date().getTime();
+
     skinManager.setTheme = function (id, context) {
 
         return new Promise(function (resolve, reject) {
@@ -228,11 +263,18 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
 
             var link = document.createElement('link');
 
+            linkId++;
+            var elementId = 'link_' + linkId;
+            link.id = elementId;
+
             link.setAttribute('rel', 'stylesheet');
             link.setAttribute('type', 'text/css');
             link.onload = function () {
 
                 onThemeLoaded(info);
+                if (!supportsCssVariables) {
+                    polyfillCssVars(elementId);
+                }
                 resolve();
             };
 

@@ -1,3 +1,10 @@
+:root {
+    --theme-primary-color: #2196F3;
+    --theme-primary-text-color: #2196F3;
+    --theme-primary-color-lightened: #2DA2FF;
+    --theme-icon-focus-background: rgba(33, 150, 243, 0.2);
+}
+
 html, .skinHeader {
     color: #222;
     color: rgba(0, 0, 0, .87);
@@ -13,7 +20,7 @@ html, .skinHeader {
 }
 
 .skinHeader-withBackground {
-    background-color: #2196F3;
+    background-color: var(--theme-primary-color);
     box-shadow: 0 0.0725em 0.29em 0 rgba(0, 0, 0, 0.37);
     color: #fff;
     /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
@@ -49,14 +56,14 @@ html, .backgroundContainer {
 
 /* buttons */
 .paper-icon-button-light-tv:focus, .paper-icon-button-light:active {
-    color: #2196F3;
-    background-color: rgba(33, 150, 243, 0.2);
+    color: var(--theme-primary-color);
+    background-color: var(--theme-icon-focus-background);
 }
 
 @media(hover: hover) and (pointer: fine) {
     .paper-icon-button-light:focus {
-        color: #2196F3;
-        background-color: rgba(33, 150, 243, 0.2);
+        color: var(--theme-primary-color);
+        background-color: var(--theme-icon-focus-background);
     }
 }
 
@@ -87,25 +94,17 @@ html, .backgroundContainer {
 }
 
 .button-submit:not(.emby-button-tv) {
-    background: #2196F3;
+    background: var(--theme-primary-color);
     color: #fff;
 }
 
     .button-submit:not(.emby-button-tv):focus {
-        background: #2DA2FF;
+        background: var(--theme-primary-color-lightened);
         color: #fff;
     }
 
-.checkboxLabel {
-    color: inherit;
-}
-
-.inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
-    color: #555;
-}
-
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused, .button-link {
-    color: #2196F3;
+    color: var(--theme-primary-text-color);
 }
 
 .checkboxOutline {
@@ -123,7 +122,7 @@ html, .backgroundContainer {
 }
 
 .formDialogHeader:not(.formDialogHeader-clear) {
-    background-color: #2196F3;
+    background-color: var(--theme-primary-color);
     color: #fff;
 }
 
@@ -136,6 +135,11 @@ html, .backgroundContainer {
 .listItemBodyText-secondary, .secondaryText, .fieldDescription, .cardText-secondary {
     color: #888;
     color: rgba(0, 0, 0, .6);
+}
+
+.actionsheetDivider {
+    background: #ddd;
+    background: rgba(0, 0, 0, .14);
 }
 
 .formDialogHeader a {
@@ -166,17 +170,17 @@ html, .backgroundContainer {
 
 /* Multi-select */
 .itemSelectionPanel {
-    border: 1px solid #2196F3;
+    border: 1px solid var(--theme-primary-color);
 }
 
 .selectionCommandsPanel {
-    background: #2196F3;
+    background: var(--theme-primary-color);
     color: #fff;
 }
 
 /* upNextDialog */
 .upNextDialog-countdownText {
-    color: #2196F3;
+    color: var(--theme-primary-color);
 }
 
 /* alphaPicker */
@@ -187,7 +191,7 @@ html, .backgroundContainer {
 }
 
 .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
-    background-color: #2196F3;
+    background-color: var(--theme-primary-color);
     color: #fff !important;
 }
 
@@ -205,7 +209,7 @@ html, .backgroundContainer {
 }
 
 .progressring-spiner {
-    border-color: #2196F3;
+    border-color: var(--theme-primary-color);
 }
 
 .mediaInfoText {
@@ -230,7 +234,7 @@ html, .backgroundContainer {
 }
 
     .emby-input:focus, .emby-textarea:focus {
-        border-color: #2196F3;
+        border-color: var(--theme-primary-color);
     }
 
 /* select */
@@ -246,36 +250,36 @@ html, .backgroundContainer {
     }
 
     .emby-select-withcolor:focus {
-        border-color: #2196F3;
+        border-color: var(--theme-primary-color);
     }
 
 .emby-select-tv-withcolor:focus {
-    background-color: #2196F3;
+    background-color: var(--theme-primary-color);
     color: #fff;
 }
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    border-color: #2196F3;
+    border-color: var(--theme-primary-color);
 }
 
 .emby-checkbox-tv:focus + span + .emby-checkbox-focushelper {
-    background-color: rgba(33, 150, 243, 0.26);
+    background-color: var(--theme-icon-focus-background);
 }
 
 @media(hover: hover) and (pointer: fine) {
     .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-        background-color: rgba(33, 150, 243, 0.26);
+        background-color: var(--theme-icon-focus-background);
     }
 }
 
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    background-color: #2196F3;
+    background-color: var(--theme-primary-color);
 }
 
 /* indicators */
 .itemProgressBarForeground {
-    background-color: #2196F3;
+    background-color: var(--theme-primary-color);
 }
 
 .itemProgressBarForeground-recording {
@@ -283,11 +287,11 @@ html, .backgroundContainer {
 }
 
 .countIndicator {
-    background: #2196F3;
+    background: var(--theme-primary-color);
 }
 
 .playedIndicator {
-    background: #2196F3;
+    background: var(--theme-primary-color);
 }
 
 /* main nav drawer */
@@ -302,13 +306,13 @@ html, .backgroundContainer {
 }
 
 .navMenuOption-selected {
-    background-color: rgba(33,150,243, 0.2) !important;
-    color: #2196F3;
+    background-color: var(--theme-icon-focus-background) !important;
+    color: var(--theme-primary-text-color);
 }
 
 /* emby-button */
 .emby-button-focusscale:focus, .emby-button-focusscale:focus .detailButton-icon {
-    background: #2196F3;
+    background: var(--theme-primary-color);
     color: #fff;
 }
 
@@ -328,7 +332,7 @@ html, .backgroundContainer {
 }
 
 .appfooter .emby-tab-button-active {
-    color: #2196F3;
+    color: var(--theme-primary-text-color);
 }
 
 .emby-tab-button-active.emby-button-tv {
@@ -368,7 +372,7 @@ html, .backgroundContainer {
 }
 
 .programCell:focus, .guide-channelHeaderCell:focus {
-    background-color: #2196F3 !important;
+    background-color: var(--theme-primary-color) !important;
     color: #fff !important;
 }
 
@@ -387,15 +391,15 @@ html, .backgroundContainer {
 }
 
     .guide-date-tab-button.emby-tab-button-active {
-        color: #2196F3;
+        color: var(--theme-primary-text-color);
     }
 
     .guide-date-tab-button:focus {
-        color: #2196F3;
+        color: var(--theme-primary-text-color);
     }
 
     .guide-date-tab-button.emby-button-tv:focus {
-        background-color: #2196F3;
+        background-color: var(--theme-primary-color);
         color: #fff;
     }
 
@@ -438,7 +442,7 @@ html, .backgroundContainer {
 /* cards */
 
 .card:focus .card-focuscontent {
-    border-color: #2196F3;
+    border-color: var(--theme-primary-color);
 }
 
 .cardContent-button {
@@ -493,7 +497,7 @@ html, .backgroundContainer {
 }
 
 .emby-slider {
-    color: #2196F3;
+    color: var(--theme-primary-color);
 }
 
     .emby-slider::-moz-range-track {
@@ -501,23 +505,23 @@ html, .backgroundContainer {
     }
 
     .emby-slider::-moz-range-progress {
-        background: #2196F3;
+        background: var(--theme-primary-color);
     }
 
     .emby-slider::-webkit-slider-thumb {
-        background: #2196F3;
+        background: var(--theme-primary-color);
     }
 
     .emby-slider::-moz-range-thumb {
-        background: #2196F3;
+        background: var(--theme-primary-color);
     }
 
     .emby-slider::-ms-thumb {
-        background: #2196F3;
+        background: var(--theme-primary-color);
     }
 
 .emby-slider-background-lower {
-    background-color: #2196F3;
+    background-color: var(--theme-primary-color);
 }
 
 /* scrollbuttons */

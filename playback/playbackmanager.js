@@ -955,18 +955,6 @@
 
                 var targets = [];
 
-                //targets.push({
-                //    name: globalize.translate('HeaderMyDevice'),
-                //    id: 'localplayer',
-                //    playerName: 'localplayer',
-                //    playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'],
-                //    isLocalPlayer: true,
-                //    supportedCommands: self.getSupportedCommands({
-                //        isLocalPlayer: true
-                //    }),
-                //    user: user
-                //});
-
                 for (var i = 0; i < responses.length; i++) {
 
                     var subTargets = responses[i];
@@ -1839,7 +1827,6 @@
                 playerData.isChangingStream = false;
                 playerData.streamInfo = streamInfo;
                 streamInfo.started = true;
-                streamInfo.ended = false;
 
                 sendProgressUpdate(player, 'timeupdate');
             }, function (e) {
@@ -2210,7 +2197,7 @@
 
             var streamInfo = getPlayerData(player).streamInfo;
             if (streamInfo) {
-                playerTime += getPlayerData(player).streamInfo.transcodingOffsetTicks || 0;
+                playerTime += streamInfo.transcodingOffsetTicks || 0;
             }
 
             return playerTime;
@@ -3164,8 +3151,7 @@
 
             var streamInfo = getPlayerData(player).streamInfo;
 
-            // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
-            streamInfo.ended = true;
+            getPlayerData(player).streamInfo = null;
 
             if (isServerItem(playerStopInfo.item)) {
 
@@ -3256,6 +3242,8 @@
             var state = self.getPlayerState(player);
             var streamInfo = getPlayerData(player).streamInfo;
 
+            getPlayerData(player).streamInfo = null;
+
             var nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
 
             var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
@@ -3275,8 +3263,6 @@
                     state.PlayState.PositionTicks = streamInfo.item.RunTimeTicks;
                 }
 
-                // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
-                streamInfo.ended = true;
                 reportPlayback(self, state, player, true, streamInfo.item.ServerId, 'reportPlaybackStopped');
             }
 
@@ -3330,8 +3316,7 @@
 
             return promise.then(function () {
 
-                // only used internally as a safeguard to avoid reporting other events to the server after playback stopped
-                getPlayerData(activePlayer).streamInfo.ended = true;
+                getPlayerData(activePlayer).streamInfo = null;
 
                 bindStopped(activePlayer);
 
@@ -3488,7 +3473,7 @@
 
                 var streamInfo = getPlayerData(player).streamInfo;
 
-                if (streamInfo && streamInfo.started && !streamInfo.ended) {
+                if (streamInfo && streamInfo.started) {
                     reportPlayback(self, state, player, reportPlaylist, serverId, 'reportPlaybackProgress', progressEventName);
                 }
 

@@ -1,3 +1,10 @@
+:root {
+    --theme-primary-color: #52B54B;
+    --theme-primary-text-color: #52B54B;
+    --theme-primary-color-lightened: #5EC157;
+    --theme-icon-focus-background: rgba(82, 181, 75, 0.2);
+}
+
 html {
     color: #ddd;
     color: rgba(255, 255, 255, .87);
@@ -55,14 +62,14 @@ html, .dialog, .backgroundContainer {
 
 /* buttons */
 .paper-icon-button-light-tv:focus, .paper-icon-button-light:active {
-    color: #52B54B;
-    background-color: rgba(82, 181, 75, 0.2);
+    color: var(--theme-primary-color);
+    background-color: var(--theme-icon-focus-background);
 }
 
 @media(hover: hover) and (pointer: fine) {
     .paper-icon-button-light:focus {
-        color: #52B54B;
-        background-color: rgba(82, 181, 75, 0.2);
+        color: var(--theme-primary-color);
+        background-color: var(--theme-icon-focus-background);
     }
 }
 
@@ -96,12 +103,12 @@ html, .dialog, .backgroundContainer {
 }
 
 .button-submit:not(.emby-button-tv) {
-    background: #52B54B;
+    background: var(--theme-primary-color);
     color: #fff;
 }
 
     .button-submit:not(.emby-button-tv):focus {
-        background: #5EC157;
+        background: var(--theme-primary-color-lightened);
         color: #fff;
     }
 
@@ -111,11 +118,11 @@ html, .dialog, .backgroundContainer {
 }
 
 .emby-select-withcolor:focus {
-    border-color: #52B54B !important;
+    border-color: var(--theme-primary-color) !important;
 }
 
 .emby-select-tv-withcolor:focus {
-    background-color: #52B54B !important;
+    background-color: var(--theme-primary-color) !important;
     color: #fff !important;
 }
 
@@ -129,7 +136,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
-    color: #52B54B;
+    color: var(--theme-primary-color);
 }
 
 .checkboxOutline {
@@ -173,17 +180,17 @@ html, .dialog, .backgroundContainer {
 
 /* Multi-select */
 .itemSelectionPanel {
-    border: 1px solid #52B54B;
+    border: 1px solid var(--theme-primary-color);
 }
 
 .selectionCommandsPanel {
-    background: #52B54B;
+    background: var(--theme-primary-color);
     color: #fff;
 }
 
 /* upNextDialog */
 .upNextDialog-countdownText {
-    color: #52B54B;
+    color: var(--theme-primary-color);
 }
 
 /* alphaPicker */
@@ -198,7 +205,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .alphaPickerButton-tv:focus {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
     color: #fff !important;
 }
 
@@ -216,15 +223,15 @@ html, .dialog, .backgroundContainer {
 }
 
 .progressring-spiner {
-    border-color: #52B54B;
+    border-color: var(--theme-primary-color);
 }
 
 .button-link {
-    color: #52B54B;
+    color: var(--theme-primary-color);
 }
 
 .button-flat-accent {
-    color: #52B54B;
+    color: var(--theme-primary-color);
 }
 
 .mediaInfoText {
@@ -249,31 +256,31 @@ html, .dialog, .backgroundContainer {
 }
 
     .emby-input:focus, .emby-textarea:focus {
-        border-color: #52B54B;
+        border-color: var(--theme-primary-color);
     }
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    border-color: #52B54B;
+    border-color: var(--theme-primary-color);
 }
 
 .emby-checkbox-tv:focus + span + .emby-checkbox-focushelper {
-    background-color: rgba(82, 181, 75, 0.26);
+    background-color: var(--theme-icon-focus-background);
 }
 
 @media(hover: hover) and (pointer: fine) {
     .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-        background-color: rgba(82, 181, 75, 0.26);
+        background-color: var(--theme-icon-focus-background);
     }
 }
 
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
 }
 
 /* indicators */
 .itemProgressBarForeground {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
 }
 
 .itemProgressBarForeground-recording {
@@ -281,11 +288,11 @@ html, .dialog, .backgroundContainer {
 }
 
 .countIndicator {
-    background: #52B54B;
+    background: var(--theme-primary-color);
 }
 
 .playedIndicator {
-    background: #52B54B;
+    background: var(--theme-primary-color);
 }
 
 /* main nav drawer */
@@ -300,13 +307,13 @@ html, .dialog, .backgroundContainer {
 }
 
 .navMenuOption-selected {
-    background-color: rgba(82, 181, 75, 0.2) !important;
-    color: #52B54B;
+    background-color: var(--theme-icon-focus-background) !important;
+    color: var(--theme-primary-color);
 }
 
 /* emby-button */
 .emby-button-focusscale:focus, .emby-button-focusscale:focus .detailButton-icon {
-    background: #52B54B;
+    background: var(--theme-primary-color);
     color: #fff;
 }
 
@@ -317,7 +324,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .emby-tab-button-active {
-    color: #52B54B;
+    color: var(--theme-primary-color);
 }
 
     .emby-tab-button-active.emby-button-tv {
@@ -325,7 +332,7 @@ html, .dialog, .backgroundContainer {
     }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #52B54B;
+    color: var(--theme-primary-color);
     background: transparent;
 }
 
@@ -355,7 +362,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .programCell:focus, .guide-channelHeaderCell:focus {
-    background-color: #52B54B !important;
+    background-color: var(--theme-primary-color) !important;
     color: #fff !important;
 }
 
@@ -406,7 +413,7 @@ html, .dialog, .backgroundContainer {
 
 /* cards */
 .card:focus .card-focuscontent {
-    border-color: #52B54B;
+    border-color: var(--theme-primary-color);
 }
 
 .cardContent-button {
@@ -456,7 +463,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .emby-slider {
-    color: #52B54B;
+    color: var(--theme-primary-color);
 }
 
     .emby-slider::-moz-range-track {
@@ -464,23 +471,23 @@ html, .dialog, .backgroundContainer {
     }
 
     .emby-slider::-moz-range-progress {
-        background: #52B54B;
+        background: var(--theme-primary-color);
     }
 
     .emby-slider::-webkit-slider-thumb {
-        background: #52B54B;
+        background: var(--theme-primary-color);
     }
 
     .emby-slider::-moz-range-thumb {
-        background: #52B54B;
+        background: var(--theme-primary-color);
     }
 
     .emby-slider::-ms-thumb {
-        background: #52B54B;
+        background: var(--theme-primary-color);
     }
 
 .emby-slider-background-lower {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
 }
 
 /* scrollbuttons */

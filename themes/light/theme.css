@@ -1,3 +1,10 @@
+:root {
+    --theme-primary-color: #52B54B;
+    --theme-primary-text-color: green;
+    --theme-primary-color-lightened: #5EC157;
+    --theme-icon-focus-background: rgba(82, 181, 75, 0.2);
+}
+
 html, .skinHeader {
     color: #222;
     color: rgba(0, 0, 0, .87);
@@ -49,14 +56,14 @@ html, .backgroundContainer {
 
 /* buttons */
 .paper-icon-button-light-tv:focus, .paper-icon-button-light:active {
-    color: #52B54B;
-    background-color: rgba(82, 181, 75, 0.2);
+    color: var(--theme-primary-color);
+    background-color: var(--theme-icon-focus-background);
 }
 
 @media(hover: hover) and (pointer: fine) {
     .paper-icon-button-light:focus {
-        color: #52B54B;
-        background-color: rgba(82, 181, 75, 0.2);
+        color: var(--theme-primary-color);
+        background-color: var(--theme-icon-focus-background);
     }
 }
 
@@ -75,25 +82,17 @@ html, .backgroundContainer {
 }
 
 .button-submit:not(.emby-button-tv) {
-    background: #52B54B;
+    background: var(--theme-primary-color);
     color: #fff;
 }
 
     .button-submit:not(.emby-button-tv):focus {
-        background: #5EC157;
+        background: var(--theme-primary-color-lightened);
         color: #fff;
     }
 
-.checkboxLabel {
-    color: inherit;
-}
-
-.inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
-    color: #555;
-}
-
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused, .button-link {
-    color: green;
+    color: var(--theme-primary-text-color);
 }
 
 .checkboxOutline {
@@ -111,13 +110,12 @@ html, .backgroundContainer {
 }
 
 .formDialogHeader:not(.formDialogHeader-clear) {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
     color: #fff;
 }
 
 .formDialogFooter:not(.formDialogFooter-clear) {
     background-color: #f0f0f0;
-    border-top: 1px solid #ddd;
     border-top: 1px solid rgba(0,0,0,.08);
     color: inherit;
 }
@@ -155,22 +153,22 @@ html, .backgroundContainer {
 }
 
 .nowPlayingBarSecondaryText {
-    color: #999;
+    color: rgba(255, 255, 255, .5);
 }
 
 /* Multi-select */
 .itemSelectionPanel {
-    border: 1px solid #52B54B;
+    border: 1px solid var(--theme-primary-color);
 }
 
 .selectionCommandsPanel {
-    background: #52B54B;
+    background: var(--theme-primary-color);
     color: #fff;
 }
 
 /* upNextDialog */
 .upNextDialog-countdownText {
-    color: #52B54B;
+    color: var(--theme-primary-color);
 }
 
 /* alphaPicker */
@@ -181,7 +179,7 @@ html, .backgroundContainer {
 }
 
 .alphaPickerButton-selected, .alphaPickerButton-tv:focus {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
     color: #fff !important;
 }
 
@@ -199,7 +197,7 @@ html, .backgroundContainer {
 }
 
 .progressring-spiner {
-    border-color: #52B54B;
+    border-color: var(--theme-primary-color);
 }
 
 .mediaInfoText {
@@ -224,7 +222,7 @@ html, .backgroundContainer {
 }
 
     .emby-input:focus, .emby-textarea:focus {
-        border-color: #52B54B;
+        border-color: var(--theme-primary-color);
     }
 
 /* select */
@@ -240,36 +238,36 @@ html, .backgroundContainer {
     }
 
     .emby-select-withcolor:focus {
-        border-color: #52B54B;
+        border-color: var(--theme-primary-color);
     }
 
 .emby-select-tv-withcolor:focus {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
     color: #fff;
 }
 
 /* checkbox */
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    border-color: #52B54B;
+    border-color: var(--theme-primary-color);
 }
 
 .emby-checkbox-tv:focus + span + .emby-checkbox-focushelper {
-    background-color: rgba(82, 181, 75, 0.26);
+    background-color: var(--theme-icon-focus-background);
 }
 
 @media(hover: hover) and (pointer: fine) {
     .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-        background-color: rgba(82, 181, 75, 0.26);
+        background-color: var(--theme-icon-focus-background);
     }
 }
 
 .emby-checkbox:checked + span + span + .checkboxOutline {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
 }
 
 /* indicators */
 .itemProgressBarForeground {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
 }
 
 .itemProgressBarForeground-recording {
@@ -277,11 +275,11 @@ html, .backgroundContainer {
 }
 
 .countIndicator {
-    background: #52B54B;
+    background: var(--theme-primary-color);
 }
 
 .playedIndicator {
-    background: #52B54B;
+    background: var(--theme-primary-color);
 }
 
 /* main nav drawer */
@@ -296,13 +294,13 @@ html, .backgroundContainer {
 }
 
 .navMenuOption-selected {
-    background-color: rgba(82, 181, 75, 0.2) !important;
-    color: green;
+    background-color: var(--theme-icon-focus-background) !important;
+    color: var(--theme-primary-text-color);
 }
 
 /* emby-button */
 .emby-button-focusscale:focus, .emby-button-focusscale:focus .detailButton-icon {
-    background: #52B54B;
+    background: var(--theme-primary-color);
     color: #fff;
 }
 
@@ -313,7 +311,7 @@ html, .backgroundContainer {
 }
 
 .emby-tab-button-active {
-    color: green;
+    color: var(--theme-primary-text-color);
 }
 
 .appfooter .emby-tab-button {
@@ -321,7 +319,7 @@ html, .backgroundContainer {
 }
 
 .appfooter .emby-tab-button-active {
-    color: green;
+    color: var(--theme-primary-text-color);
 }
 
 .emby-tab-button-active.emby-button-tv {
@@ -329,7 +327,7 @@ html, .backgroundContainer {
 }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: green;
+    color: var(--theme-primary-text-color);
     background: transparent;
 }
 
@@ -359,7 +357,7 @@ html, .backgroundContainer {
 }
 
 .programCell:focus, .guide-channelHeaderCell:focus {
-    background-color: #52B54B !important;
+    background-color: var(--theme-primary-color) !important;
     color: #fff !important;
 }
 
@@ -411,7 +409,7 @@ html, .backgroundContainer {
 /* cards */
 
 .card:focus .card-focuscontent {
-    border-color: #52B54B;
+    border-color: var(--theme-primary-color);
 }
 
 .cardContent-button {
@@ -466,7 +464,7 @@ html, .backgroundContainer {
 }
 
 .emby-slider {
-    color: #52B54B;
+    color: var(--theme-primary-color);
 }
 
     .emby-slider::-moz-range-track {
@@ -474,23 +472,23 @@ html, .backgroundContainer {
     }
 
     .emby-slider::-moz-range-progress {
-        background: #52B54B;
+        background: var(--theme-primary-color);
     }
 
     .emby-slider::-webkit-slider-thumb {
-        background: #52B54B;
+        background: var(--theme-primary-color);
     }
 
     .emby-slider::-moz-range-thumb {
-        background: #52B54B;
+        background: var(--theme-primary-color);
     }
 
     .emby-slider::-ms-thumb {
-        background: #52B54B;
+        background: var(--theme-primary-color);
     }
 
 .emby-slider-background-lower {
-    background-color: #52B54B;
+    background-color: var(--theme-primary-color);
 }
 
 /* scrollbuttons */
