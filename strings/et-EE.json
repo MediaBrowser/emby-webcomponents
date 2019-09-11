@@ -1,6 +1,6 @@
 {
     "NoTrailersMessage": "Treilereid ei leitud. Treilerite lisamiseks paigalda plugin 'Trailer' Emby {0}pluginate kataloogist{1}.",
-    "HeaderRepeatMode": "Repeat Mode",
+    "HeaderRepeatMode": "Kordusre\u017eiim",
     "EmbyLoginTerms": "Emby on loodud selleks, et aidata hallata oma isiklikku meediakogu, n\u00e4iteks koduvideoid ja fotosid. Palun loe meie {0}kasutustingimusi{1}. Mis tahes Emby tarkvara kasutamine t\u00e4hendab nende tingimustega n\u00f5ustumist.",
     "MessageUnableToConnectToServer": "Me ei saa praegu valitud serveriga \u00fchendust luua. Veendu, et see t\u00f6\u00f6tab, ja proovi uuesti.",
     "EmbyIntroMessage": "Emby abil saad oma Emby serverist h\u00f5lpsalt voogesitada videoid, muusikat ja fotosid nutitelefonidesse, tahvelarvutitesse ja muudesse seadmetesse.",
@@ -897,7 +897,7 @@
     "LabelExtras": "Lisad:",
     "LabelThemeSongs": "Teemalaulud:",
     "LabelThemeVideos": "Teemavideod:",
-    "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
-    "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
+    "CustomRatingHelp": "Vanusepiirangu hindamisel kasutatakse kohandatud reitingut, kuid seda ei kuvata. Vanusepiirangu v\u00e4li kuvatakse endiselt.",
+    "KeepUpToHelp": "Piirangu \u00fcletanud salvestised kustutatakse j\u00e4rgmise salvestuse algamisel. Salvestised kustutatakse lisamise kuup\u00e4eva j\u00e4rgi, vanemad esimesena.",
     "NoItemsMatchingFound": "Otsingukriteeriumidele vastavaid \u00fcksusi ei leitud."
 }

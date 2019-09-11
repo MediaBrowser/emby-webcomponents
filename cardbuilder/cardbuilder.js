@@ -901,7 +901,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                                 Name: item.LastUserName,
                                 ServerId: serverId,
                                 Type: 'User'
-                            }, item.LastUserName + ', ' + humanedate(item.DateLastActivity), null, null, true);
+                            }, item.LastUserName + ', ' + humanedate(item.DateLastActivity), null, null);
 
                         } else if (item.LastUserName) {
                             deviceHtml += item.LastUserName + ', ' + humanedate(item.DateLastActivity);
@@ -936,7 +936,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getTextActionButton(item, text, serverId, parentId, fullWidth, isSameItemAsCard) {
+        function getTextActionButton(item, text, serverId, parentId, isSameItemAsCard) {
 
             if (!text) {
                 text = itemHelper.getDisplayName(item);
@@ -954,11 +954,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 dataAttributes = '';
             }
             else {
-                dataAttributes = itemShortcuts.getShortcutAttributesHtml(item, serverId);
-
-                if (parentId) {
-                    dataAttributes += ' data-parentid="' + parentId + '"';
-                }
+                dataAttributes = itemShortcuts.getShortcutAttributesHtml(item, {
+                    serverId: serverId,
+                    parentId: parentId
+                });
             }
 
             var html = '<button title="' + text + '" ' + dataAttributes + ' type="button" class="itemAction textActionButton cardTextActionButton" data-action="link">';
@@ -1268,13 +1267,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var tagName = (isLayoutTv) && !overlayButtons ? 'button' : 'div';
 
-            var nameWithPrefix = (item.SortName || item.Name || '');
-            var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
-
-            if (prefix) {
-                prefix = prefix.toUpperCase();
-            }
-
             var timerAttributes = '';
             if (item.TimerId) {
                 timerAttributes += ' data-timerid="' + item.TimerId + '"';
@@ -1296,65 +1288,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' card-withuserdata';
             }
 
-            var dataAttributes = '';
-
-            if (options.multiSelect === false) {
-                dataAttributes += ' data-multiselect="false"';
-            }
-
-            if (options.context) {
-                dataAttributes += ' data-context="' + options.context + '"';
-            }
-
-            if (options.parentId) {
-                dataAttributes += ' data-parentid="' + options.parentId + '"';
-            }
-
-            if (item.StartPositionTicks) {
-                dataAttributes += ' data-startpositionticks="' + item.StartPositionTicks + '"';
-            }
-
-            if (item.ConfigPageUrl) {
-                dataAttributes += ' data-configpageurl="' + item.ConfigPageUrl + '"';
-            }
-
-            if (item.ChannelId) {
-                dataAttributes += ' data-channelid="' + item.ChannelId + '"';
-            }
-
-            if (item.CollectionType) {
-                dataAttributes += ' data-collectiontype="' + item.CollectionType + '"';
-            }
-
-            if (item.MediaType) {
-                dataAttributes += ' data-mediatype="' + item.MediaType + '"';
-            }
-
-            if (options.collectionId) {
-                dataAttributes += ' data-collectionid="' + options.collectionId + '"';
-            }
-
-            else if (options.playlistId) {
-                dataAttributes += ' data-playlistid="' + options.playlistId + '"';
-            }
-
-            if (item.IsFolder) {
-                dataAttributes += ' data-isfolder="true"';
-            }
-
-            var serverId = item.ServerId || options.serverId;
-            if (serverId) {
-                dataAttributes += ' data-serverid="' + serverId + '"';
-            }
-
-            var itemId = item.Id || item.ItemIdd;
-            if (itemId) {
-                dataAttributes += ' data-id="' + itemId + '"';
-            }
-
-            if (prefix) {
-                dataAttributes += ' data-prefix="' + prefix + '"';
-            }
+            var dataAttributes = itemShortcuts.getShortcutAttributesHtml(item, options);
 
             var additionalCardContent = '';
 
@@ -1362,7 +1296,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
-            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + ' data-type="' + itemType + '"' + dataAttributes + ' class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + dataAttributes + ' class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
         function getHoverMenuHtml(item, action, options) {

@@ -1,4 +1,4 @@
-define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton', 'embyProgressBarStyle'], function (dom, itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost) {
+define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton', 'embyProgressBarStyle'], function (dom, itemShortcuts, itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost) {
     'use strict';
 
     function getIndex(item, options) {
@@ -195,28 +195,14 @@ define(['dom', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'la
                 downloadWidth = 500;
             }
 
-            var playlistItemId = item.PlaylistItemId ? (' data-playlistitemid="' + item.PlaylistItemId + '"') : '';
-
-            var positionTicksData = item.StartPositionTicks ? (' data-startpositionticks="' + item.StartPositionTicks + '"') : '';
-            var collectionIdData = options.collectionId ? (' data-collectionid="' + options.collectionId + '"') : '';
-            var playlistIdData = options.playlistId ? (' data-playlistid="' + options.playlistId + '"') : '';
-            var mediaTypeData = item.MediaType ? (' data-mediatype="' + item.MediaType + '"') : '';
-            var collectionTypeData = item.CollectionType ? (' data-collectiontype="' + item.CollectionType + '"') : '';
-            var channelIdData = item.ChannelId ? (' data-channelid="' + item.ChannelId + '"') : '';
+            var dataAttributes = itemShortcuts.getShortcutAttributesHtml(item, options);
 
             if (enableContentWrapper) {
 
                 cssClass += ' listItem-withContentWrapper';
             }
 
-            var nameWithPrefix = (item.SortName || item.Name || '');
-            var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
-
-            if (prefix) {
-                prefix = prefix.toUpperCase();
-            }
-
-            html += '<' + outerTagName + ' class="' + cssClass + '"' + playlistItemId + ' data-prefix="' + prefix + '" data-action="' + action + '" data-isfolder="' + item.IsFolder + '" data-id="' + item.Id + '" data-serverid="' + item.ServerId + '" data-type="' + item.Type + '"' + mediaTypeData + collectionTypeData + channelIdData + positionTicksData + collectionIdData + playlistIdData + '>';
+            html += '<' + outerTagName + ' class="' + cssClass + '"' + dataAttributes + ' data-action="' + action + '" >';
 
             if (enableContentWrapper) {
 

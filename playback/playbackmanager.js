@@ -3295,8 +3295,6 @@
 
             var state = self.getPlayerState(activePlayer);
 
-            var serverId = self.currentItem(activePlayer).ServerId;
-
             // User started playing something new while existing content is playing
             var promise;
 
@@ -3327,7 +3325,11 @@
                     nextMediaType: newItem.MediaType
                 }]);
 
-                if (enableLocalPlaylistManagement(activePlayer)) {
+                // This is used when playing something new while player is active, but not when media ends and auto-advancing to next track
+                if (enableLocalPlaylistManagement(activePlayer) && state.NowPlayingItem) {
+
+                    var serverId = state.NowPlayingItem.ServerId;
+
                     return reportPlayback(self, state, activePlayer, true, serverId, 'reportPlaybackStopped');
                 }
             });

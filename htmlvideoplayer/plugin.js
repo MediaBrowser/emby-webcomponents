@@ -55,6 +55,10 @@
             return false;
         }
 
+        if (browser.netcast) {
+            return false;
+        }
+
         if (browser.web0s && browser.sdkVersion && browser.sdkVersion < 3.0) {
             return false;
         }
@@ -1108,6 +1112,10 @@
 
             // This is unfortunate, but we're unable to remove the textTrack that gets added via addTextTrack
             if (browser.firefox) {
+                return true;
+            }
+
+            if (browser.netcast) {
                 return true;
             }
 

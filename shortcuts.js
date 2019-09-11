@@ -341,7 +341,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         }
 
         else if (action === 'record') {
-            onRecordCommand(serverId, item.Id, type, card.getAttribute('data-timerid'), card.getAttribute('data-seriestimerid'));
+            onRecordCommand(serverId, item.Id, type, card.getAttribute('data-timerid'), card.getAttribute('data-status'), card.getAttribute('data-seriestimerid'));
         }
 
         else if (action === 'menu') {
@@ -503,12 +503,12 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         });
     }
 
-    function onRecordCommand(serverId, id, type, timerId, seriesTimerId) {
+    function onRecordCommand(serverId, id, type, timerId, timerStatus, seriesTimerId) {
 
         if (type === 'Program' || timerId || seriesTimerId) {
 
             var programId = type === 'Program' ? id : null;
-            recordingHelper.toggleRecording(serverId, programId, timerId, seriesTimerId);
+            recordingHelper.toggleRecording(serverId, programId, timerId, timerStatus, seriesTimerId);
         }
     }
 
@@ -578,43 +578,102 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         }
     }
 
-    function getShortcutAttributesHtml(item, serverId) {
+    function getShortcutAttributesHtml(item, options) {
 
-        var html = 'data-id="' + item.Id + '"';
+        var dataAttributes = '';
 
-        if (!serverId) {
-            serverId = item.ServerId;
-        }
-        if (serverId) {
-            html += ' data-serverid="' + serverId + '"';
+        if (options.multiSelect === false) {
+            dataAttributes += ' data-multiselect="false"';
         }
 
-        if (item.Type) {
-            html += ' data-type="' + item.Type + '"';
+        var context = options.context;
+        if (context) {
+            dataAttributes += ' data-context="' + context + '"';
         }
 
-        if (item.MediaType) {
-            html += ' data-mediatype="' + item.MediaType + '"';
+        var parentId = options.parentId;
+        if (parentId) {
+            dataAttributes += ' data-parentid="' + parentId + '"';
         }
 
-        if (item.ChannelId) {
-            html += ' data-channelid="' + item.ChannelId + '"';
-        }
-
-        if (item.IsFolder) {
-            html += ' data-isfolder="true"';
-        }
-
-        var collectionType = item.CollectionType;
-        if (collectionType) {
-            html += ' data-collectiontype="' + collectionType + '"';
+        if (item.StartPositionTicks) {
+            dataAttributes += ' data-startpositionticks="' + item.StartPositionTicks + '"';
         }
 
         if (item.ConfigPageUrl) {
-            html += ' data-configpageurl="' + item.ConfigPageUrl + '"';
+            dataAttributes += ' data-configpageurl="' + item.ConfigPageUrl + '"';
         }
 
-        return html;
+        var status = item.Status;
+        if (status) {
+            dataAttributes += ' data-status="' + status + '"';
+        }
+
+        var channelId = item.ChannelId;
+        if (channelId) {
+            dataAttributes += ' data-channelid="' + channelId + '"';
+        }
+
+        if (item.CollectionType) {
+            dataAttributes += ' data-collectiontype="' + item.CollectionType + '"';
+        }
+
+        var type = item.Type;
+        if (type) {
+            dataAttributes += ' data-type="' + type + '"';
+        }
+
+        var mediaType = item.MediaType;
+        if (mediaType) {
+            dataAttributes += ' data-mediatype="' + mediaType + '"';
+        }
+
+        if (options.collectionId) {
+            dataAttributes += ' data-collectionid="' + options.collectionId + '"';
+        }
+
+        else if (options.playlistId) {
+            dataAttributes += ' data-playlistid="' + options.playlistId + '"';
+        }
+
+        if (item.IsFolder) {
+            dataAttributes += ' data-isfolder="true"';
+        }
+
+        var playlistItemId = item.PlaylistItemId;
+        if (playlistItemId) {
+            dataAttributes += ' data-playlistitemid="' + playlistItemId + '"';
+        }
+
+        var serverId = item.ServerId || options.serverId;
+        if (serverId) {
+            dataAttributes += ' data-serverid="' + serverId + '"';
+        }
+
+        var itemId = item.Id || item.ItemId;
+        if (itemId) {
+            dataAttributes += ' data-id="' + itemId + '"';
+        }
+
+        var nameWithPrefix = (item.SortName || item.Name || '');
+        var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
+
+        if (prefix) {
+            prefix = prefix.toUpperCase();
+        }
+
+        if (prefix) {
+            dataAttributes += ' data-prefix="' + prefix + '"';
+        }
+
+        if (item.TimerId) {
+            dataAttributes += ' data-timerid="' + item.TimerId + '"';
+        }
+        if (item.SeriesTimerId) {
+            dataAttributes += ' data-seriestimerid="' + item.SeriesTimerId + '"';
+        }
+
+        return dataAttributes;
     }
 
     return {
