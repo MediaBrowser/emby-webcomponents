@@ -1284,7 +1284,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 actionAttribute = '';
             }
 
-            if (itemType !== 'MusicAlbum' && itemType !== 'MusicArtist' && itemType !== 'Audio') {
+            if (itemType !== 'MusicAlbum' && itemType !== 'MusicArtist' && itemType !== 'Audio' && options.enableUserData !== false) {
                 className += ' card-withuserdata';
             }
 

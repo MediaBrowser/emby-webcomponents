@@ -220,6 +220,17 @@
         playbackManager[name](currentPlayer);
     }
 
+    // data has seekTime and fastSeek options
+    function seek(data) {
+
+        if (data.fastSeek) {
+
+        } else {
+            var ticks = data.seekTime * 1000 * 10000;
+            playbackManager.seek(ticks, currentPlayer);
+        }
+    }
+
     navigator.mediaSession.setActionHandler('previoustrack', function () {
         execute('previousTrack');
     });
@@ -241,6 +252,14 @@
         navigator.mediaSession.setActionHandler('stop', function () {
             execute('stop');
         });
+    }
+    catch (err) {
+        console.log(err);
+    }
+
+    // Supported in chrome 78, but older versions will throw an error
+    try {
+        navigator.mediaSession.setActionHandler('seekto', seek);
     }
     catch (err) {
         console.log(err);

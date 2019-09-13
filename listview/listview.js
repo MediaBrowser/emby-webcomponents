@@ -262,7 +262,11 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
             if (options.showIndexNumberLeft) {
 
                 html += '<div class="listItem-indexnumberleft">';
-                html += (item.IndexNumber || '&nbsp;');
+                if (item.IndexNumber == null) {
+                    html += '&nbsp;';
+                } else {
+                    html += item.IndexNumber;
+                }
                 html += '</div>';
             }
 

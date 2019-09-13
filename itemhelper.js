@@ -28,23 +28,20 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
             name = globalize.translate('ValueSpecialEpisodeName', name);
 
-        } else if ((itemType === "Episode" || itemType === 'Program') && item.IndexNumber != null && item.ParentIndexNumber != null && options.includeIndexNumber !== false) {
+        } else if ((itemType === "Episode" || itemType === 'Program') && item.IndexNumber != null && options.includeIndexNumber !== false) {
 
-            var displayIndexNumber = item.IndexNumber;
-
-            var number = displayIndexNumber;
+            var number = item.IndexNumber;
             var nameSeparator = " - ";
 
-            if (options.includeParentInfo !== false) {
+            if (options.includeParentInfo !== false && item.ParentIndexNumber != null) {
                 number = "S" + item.ParentIndexNumber + ":E" + number;
             } else {
                 nameSeparator = ". ";
             }
 
-            if (item.IndexNumberEnd) {
+            if (item.IndexNumberEnd != null) {
 
-                displayIndexNumber = item.IndexNumberEnd;
-                number += "-" + displayIndexNumber;
+                number += "-" + item.IndexNumberEnd;
             }
 
             if (number) {

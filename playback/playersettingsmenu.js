@@ -92,11 +92,6 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
 
     function getQualitySecondaryText(player) {
 
-        var state = playbackManager.getPlayerState(player);
-
-        var isAutoEnabled = playbackManager.enableAutomaticBitrateDetection(player);
-        var currentMaxBitrate = playbackManager.getMaxStreamingBitrate(player);
-
         var videoStream = playbackManager.currentMediaSource(player).MediaStreams.filter(function (stream) {
             return stream.Type === "Video";
         })[0];
@@ -137,6 +132,9 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
         var text = selectedOption.name;
 
         if (selectedOption.autoText) {
+
+            var state = playbackManager.getPlayerState(player);
+
             if (state.PlayState && state.PlayState.PlayMethod !== 'Transcode') {
                 text += ' - Direct';
             } else {
@@ -264,12 +262,9 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
 
     function alertText(text) {
 
-        return new Promise(function (resolve, reject) {
+        return require(['alert']).then(function (responses) {
 
-            require(['alert'], function (alert) {
-
-                alert(text).then(resolve);
-            });
+            return responses[0](text);
         });
     }
 

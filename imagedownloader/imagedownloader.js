@@ -136,7 +136,7 @@
     }
 
     function getDisplayUrl(url, apiClient) {
-        return apiClient.getUrl("Images/Remote", { imageUrl: url });
+        return apiClient.getUrl("Images/Remote", { api_key: apiClient.accessToken(), imageUrl: url });
     }
 
     function getRemoteImageHtml(image, imageType, apiClient) {

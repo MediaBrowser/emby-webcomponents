@@ -7,7 +7,7 @@
     var isCurrentDialogRejected = null;
 
     function alertText(options) {
-        return require(['alert'], function (responses) {
+        return require(['alert']).then(function (responses) {
             return responses[0](options);
         });
     }
