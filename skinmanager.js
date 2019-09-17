@@ -15,7 +15,7 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         }
     }
 
-    var supportsCssVariables = window.CSS && CSS.supports('color', 'var(--fake-var)');
+    var supportsCssVariables = window.CSS && CSS.supports && CSS.supports('color', 'var(--fake-var)');
 
     function unloadTheme() {
         var elem = themeStyleElement;

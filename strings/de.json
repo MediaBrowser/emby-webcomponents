@@ -1,4 +1,8 @@
 {
+    "HeaderNextItem": "N\u00e4chstes Element",
+    "HeaderPreviousItem": "Vorheriges Element",
+    "Stop": "Stopp",
+    "RateLimitExceeded": "Usage limit, your account has exceeded the maximum number of requests at this time. Please try again later.",
     "EmbyLoginTerms": "Emby wurde designed um Sie bei der Verwaltung Ihrer Medienbibliothek, wie z.B Heimvideos oder Fotos, zu unterst\u00fctzen. Bitte lesen Sie unsere {0}Nutzungsbedingungen{1}. Die Verwendung jeglicher Emby Software bedingt die Zustimmung dieser Vereinbarung.",
     "MessageUnableToConnectToServer": "Wir k\u00f6nnen gerade keine Verbindung zum gew\u00e4hlten Server herstellen. Bitte stellen Sie sicher das dieser l\u00e4uft und versuchen Sie es erneut.",
     "EmbyIntroMessage": "Mit Emby k\u00f6nnen Sie auf einfache Art und Weise Videos, Musik und Fotos von Ihrem Emby Server auf Smartphones, Tablets und andere Ger\u00e4te streamen.",
@@ -334,7 +338,7 @@
     "HeaderAlbumArtists": "Albuminterpreten",
     "LabelAlbumArtists": "Alben Interpreten:",
     "LabelAlbum": "Album:",
-    "Artist": "Artist",
+    "Artist": "Interpret",
     "Artists": "Interpreten",
     "ImdbRating": "IMDb Bewertung",
     "CommunityRating": "Community Bewertung",

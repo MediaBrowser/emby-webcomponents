@@ -1,4 +1,8 @@
 {
+    "HeaderNextItem": "Next Item",
+    "HeaderPreviousItem": "PreviousItem",
+    "Stop": "Stop",
+    "RateLimitExceeded": "Usage limit, your account has exceeded the maximum number of requests at this time. Please try again later.",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "Non siamo in grado di connettersi al server selezionato al momento. Per favore assicurati che sia in esecuzione e riprova.",
     "EmbyIntroMessage": "Con Emby si pu\u00f2 facilmente lo streaming di video, musica e foto da smartphone, tablet e altri dispositivi dal vostro ricamato Server.",
