@@ -706,8 +706,12 @@
     function showPlaybackInfoErrorMessage(instance, errorCode, playNextTrack) {
 
         require(['alert'], function (alert) {
+
+            loading.hide();
+
+            var title = errorCode === 'RateLimitExceeded' ? 'RateLimitExceeded' : ('PlaybackError' + errorCode);
             alert({
-                text: globalize.translate('PlaybackError' + errorCode),
+                text: globalize.translate(title),
                 title: globalize.translate('HeaderPlaybackError')
             }).then(function () {
 
