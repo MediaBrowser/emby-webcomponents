@@ -33,6 +33,7 @@
     "NoTrailersMessage": "No se encontraron Trailers. Para agregar Trailers, por favor instale el complemento de Trailers del {0}catalogo de complementos Emby{1}",
     "UninstallPluginConfirmation": "\u00bfEsta seguro de que desea desinstalar este complemento?",
     "HeaderUninstallPlugin": "Desinstalar Complemento",
+    "AreYouStillWatching": "Are you still watching?",
     "LabelCurrentPassword": "Contrase\u00f1a actual:",
     "LabelNewPassword": "Nueva contrase\u00f1a:",
     "LabelNewPasswordConfirm": "Confirmaci\u00f3n de contrase\u00f1a nueva:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "V\u00eddeos de Tema:",
     "CustomRatingHelp": "Una clasificaci\u00f3n personalizada es usada para la evaluaci\u00f3n del control parental pero no es mostrada. El campo del clasificaci\u00f3n personal se continuara mostrando.",
     "KeepUpToHelp": "Las grabaciones por encima del limite son eliminadas cuando la siguiente grabaci\u00f3n inicie. Las grabaciones mas antiguas ser\u00e1n eliminadas primero, seg\u00fan la fecha en que se agregaron.",
-    "NoItemsMatchingFound": "No se encontr\u00f3 ning\u00fan \u00edtem que coincidiera con su criterio de b\u00fasqueda."
+    "NoItemsMatchingFound": "No se encontr\u00f3 ning\u00fan \u00edtem que coincidiera con su criterio de b\u00fasqueda.",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

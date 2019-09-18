@@ -107,7 +107,22 @@ define(['dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'materia
             buttons[i].addEventListener('click', onButtonClick);
         }
 
+        var timeout;
+        if (options.timeout) {
+
+            timeout = setTimeout(function () {
+
+                dialogResult = '_timeout';
+                dialogHelper.close(dlg);
+
+            }, options.timeout);
+        }
+
         return dialogHelper.open(dlg).then(function () {
+
+            if (timeout) {
+                clearTimeout(timeout);
+            }
 
             if (dialogResult) {
                 return dialogResult;

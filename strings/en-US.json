@@ -33,6 +33,7 @@
   "NoTrailersMessage": "No Trailers found. To add Trailers, please install the Trailer plugin from the {0}Emby plugin catalog{1}.",
   "UninstallPluginConfirmation": "Are you sure you wish to uninstall this plugin?",
   "HeaderUninstallPlugin": "Uninstall Plugin",
+  "AreYouStillWatching": "Are you still watching?",
   "LabelCurrentPassword": "Current password:",
   "LabelNewPassword": "New password:",
   "LabelNewPasswordConfirm": "New password confirm:",
@@ -904,6 +905,7 @@
   "LabelThemeVideos": "Theme videos:",
   "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
   "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
-  "NoItemsFound": "No items found.",
-  "NoItemsMatchingFound": "No items matching your search criteria were found."
+  "NoItemsMatchingFound": "No items matching your search criteria were found.",
+  "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+  "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

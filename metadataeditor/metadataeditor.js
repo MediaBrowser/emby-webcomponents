@@ -698,6 +698,12 @@
         return normalizedDate.toISOString();
     }
 
+    function roundMsToSeconds(ms) {
+
+        // avoid showing fractions of seconds
+        return ms - (ms % 1000);
+    }
+
     function setDateValue(field, date) {
 
         if (typeof field.valueAsNumber === 'undefined' || field.getAttribute('type') === 'text') {
@@ -705,7 +711,7 @@
         }
         else {
             var offsetMs = new Date().getTimezoneOffset() * 60 * 1000;
-            field.valueAsNumber = date.getTime() - offsetMs;
+            field.valueAsNumber = roundMsToSeconds(date.getTime() - offsetMs);
         }
     }
 

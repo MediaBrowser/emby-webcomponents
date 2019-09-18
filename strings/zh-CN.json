@@ -33,6 +33,7 @@
     "NoTrailersMessage": "No Trailers found. To add Trailers, please install the Trailer plugin from the {0}Emby plugin catalog{1}.",
     "UninstallPluginConfirmation": "\u4f60\u786e\u5b9a\u8981\u5378\u8f7d\u63d2\u4ef6?",
     "HeaderUninstallPlugin": "\u5378\u8f7d\u63d2\u4ef6",
+    "AreYouStillWatching": "Are you still watching?",
     "LabelCurrentPassword": "Current password:",
     "LabelNewPassword": "New password:",
     "LabelNewPasswordConfirm": "New password confirm:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "\u4e3b\u9898\u89c6\u9891\uff1a",
     "CustomRatingHelp": "\u81ea\u5b9a\u4e49\u8bc4\u5206\u7528\u4e8e\u7236\u6bcd\u63a7\u5236\u8bc4\u4f30\uff0c\u4f46\u4e0d\u663e\u793a\u3002\u4ecd\u7136\u663e\u793aparent rating\u5b57\u6bb5\u3002",
     "KeepUpToHelp": "\u8d85\u8fc7\u9650\u5236\u7684\u5f55\u97f3\u5c06\u5728\u4e0b\u4e00\u6b21\u5f55\u97f3\u5f00\u59cb\u65f6\u5220\u9664\u3002\u9996\u5148\u5220\u9664\u6700\u8001\u7684\u5f55\u97f3\uff0c\u6309\u65e5\u671f\u6dfb\u52a0\u3002",
-    "NoItemsMatchingFound": "No items matching your search criteria were found."
+    "NoItemsMatchingFound": "No items matching your search criteria were found.",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

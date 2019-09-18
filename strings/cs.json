@@ -33,6 +33,7 @@
     "NoTrailersMessage": "Nenalezen \u017e\u00e1dn\u00fd trailer. Aby bylo mo\u017en\u00e9 trailery p\u0159id\u00e1vat, nainstalujte, pros\u00edm, z\u00e1suvn\u00fd modul Trailery z {0}Emby katalogu z\u00e1suvn\u00fdch modul\u016f{1}.",
     "UninstallPluginConfirmation": "Doopravdy chcete odinstalovat tento z\u00e1suvn\u00fd modul?",
     "HeaderUninstallPlugin": "Odinstalovat z\u00e1suvn\u00fd modul",
+    "AreYouStillWatching": "Are you still watching?",
     "LabelCurrentPassword": "Sou\u010dasn\u00e9 heslo:",
     "LabelNewPassword": "Nov\u00e9 heslo:",
     "LabelNewPasswordConfirm": "Potvrzen\u00ed nov\u00e9ho hesla:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "Videa s n\u00e1m\u011btem:",
     "CustomRatingHelp": "Vlastn\u00ed hodnocen\u00ed je pou\u017eito pro klasifikaci rodi\u010dovsk\u00e9ho hodnocen\u00ed, av\u0161ak nezobrazuje se. St\u00e1le se zobrazuje rodi\u010dovsk\u00e9 hodnocen\u00ed.",
     "KeepUpToHelp": "Nahr\u00e1vky p\u0159esahuj\u00edc\u00ed limit jsou smaz\u00e1ny poka\u017ed\u00e9, kdy\u017e za\u010dne dal\u0161\u00ed nahr\u00e1v\u00e1n\u00ed. Na z\u00e1klad\u011b data p\u0159id\u00e1n\u00ed jsou jako prvn\u00ed nejprve smaz\u00e1ny nejstar\u0161\u00ed z\u00e1znamy.",
-    "NoItemsMatchingFound": "Nebyly nalezeny \u017e\u00e1dn\u00e9 polo\u017eky odpov\u00eddaj\u00edc\u00ed va\u0161im kriteri\u00edm vyhled\u00e1v\u00e1n\u00ed."
+    "NoItemsMatchingFound": "Nebyly nalezeny \u017e\u00e1dn\u00e9 polo\u017eky odpov\u00eddaj\u00edc\u00ed va\u0161im kriteri\u00edm vyhled\u00e1v\u00e1n\u00ed.",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

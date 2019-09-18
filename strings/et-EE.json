@@ -33,6 +33,7 @@
     "NoTrailersMessage": "Treilereid ei leitud. Treilerite lisamiseks paigalda plugin 'Trailer' Emby {0}pluginate kataloogist{1}.",
     "UninstallPluginConfirmation": "Kas eemaldada see plugin",
     "HeaderUninstallPlugin": "Eemalda plugin",
+    "AreYouStillWatching": "Are you still watching?",
     "LabelCurrentPassword": "Praegune parool:",
     "LabelNewPassword": "Uus parool:",
     "LabelNewPasswordConfirm": "Uue parooli kinnitus:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "Teemavideod:",
     "CustomRatingHelp": "Vanusepiirangu hindamisel kasutatakse kohandatud reitingut, kuid seda ei kuvata. Vanusepiirangu v\u00e4li kuvatakse endiselt.",
     "KeepUpToHelp": "Piirangu \u00fcletanud salvestised kustutatakse j\u00e4rgmise salvestuse algamisel. Salvestised kustutatakse lisamise kuup\u00e4eva j\u00e4rgi, vanemad esimesena.",
-    "NoItemsMatchingFound": "Otsingukriteeriumidele vastavaid \u00fcksusi ei leitud."
+    "NoItemsMatchingFound": "Otsingukriteeriumidele vastavaid \u00fcksusi ei leitud.",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

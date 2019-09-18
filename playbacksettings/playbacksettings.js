@@ -198,6 +198,8 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         context.querySelector('.chkEnableNextVideoOverlay').checked = userSettings.enableNextVideoInfoOverlay();
         context.querySelector('.chkExternalVideoPlayer').checked = appSettings.enableSystemExternalPlayers();
 
+        context.querySelector('.chkStillWatching').checked = userSettings.enableStillWatching();
+
         setMaxBitrateIntoField(context.querySelector('.selectVideoInNetworkQuality'), true, 'Video');
         setMaxBitrateIntoField(context.querySelector('.selectVideoInternetQuality'), false, 'Video');
         setMaxBitrateIntoField(context.querySelector('.selectMusicInternetQuality'), false, 'Audio');
@@ -236,6 +238,8 @@ define(['require', 'browser', 'appSettings', 'apphost', 'focusManager', 'quality
         userSettingsInstance.enableNextVideoInfoOverlay(context.querySelector('.chkEnableNextVideoOverlay').checked);
         userSettingsInstance.skipForwardLength(context.querySelector('.selectSkipForwardLength').value);
         userSettingsInstance.skipBackLength(context.querySelector('.selectSkipBackLength').value);
+
+        userSettingsInstance.enableStillWatching(context.querySelector('.chkStillWatching').checked);
 
         return apiClient.updateUserConfiguration(user.Id, user.Configuration);
     }

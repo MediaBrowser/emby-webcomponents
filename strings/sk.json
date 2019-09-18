@@ -33,6 +33,7 @@
     "NoTrailersMessage": "Nena\u0161li sa \u017eiadne up\u00fatavky. Ak chcete prida\u0165 up\u00fatavky, nain\u0161talujte si doplnok Up\u00fatavky z {0} katal\u00f3gu doplnkov Emby {1}.",
     "UninstallPluginConfirmation": "Naozaj chcete tento doplnok odin\u0161talova\u0165?",
     "HeaderUninstallPlugin": "Odin\u0161talova\u0165 doplnok",
+    "AreYouStillWatching": "Are you still watching?",
     "LabelCurrentPassword": "Aktu\u00e1lne heslo:",
     "LabelNewPassword": "Nov\u00e9 heslo:",
     "LabelNewPasswordConfirm": "Potvrdenie nov\u00e9ho hesla:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "Tematick\u00e9 vide\u00e1:",
     "CustomRatingHelp": "Vlastn\u00e9 hodnotenie je pou\u017eit\u00e9 na vyhodnotia rodi\u010dovskej kontroly, ale nezobraz\u00ed sa. Pole rodi\u010dovsk\u00e9ho hodnotenia sa st\u00e1le zobrazuje.",
     "KeepUpToHelp": "Nahr\u00e1vky presahuj\u00face limit sa vyma\u017e\u00fa na za\u010diatku nasleduj\u00faceho nahr\u00e1vania. Pod\u013ea d\u00e1tumu pridania sa ako prv\u00e9 odstr\u00e1nia najstar\u0161ie nahr\u00e1vky.",
-    "NoItemsMatchingFound": "Nena\u0161li sa \u017eiadne polo\u017eky, ktor\u00e9 by zodpovedali va\u0161im krit\u00e9ri\u00e1m vyh\u013ead\u00e1vania."
+    "NoItemsMatchingFound": "Nena\u0161li sa \u017eiadne polo\u017eky, ktor\u00e9 by zodpovedali va\u0161im krit\u00e9ri\u00e1m vyh\u013ead\u00e1vania.",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

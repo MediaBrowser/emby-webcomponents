@@ -372,6 +372,22 @@
         }
     }
 
+    function fillDisplayTotalRecordCount(instance, view, totalRecordCount) {
+
+        var elem = view.querySelector('.listTotalRecordCount');
+
+        if (!elem) {
+            return;
+        }
+
+        if (totalRecordCount === 1) {
+
+            elem.innerHTML = globalize.translate('ValueOneItem');
+        } else {
+            elem.innerHTML = globalize.translate('ItemCount', totalRecordCount);
+        }
+    }
+
     function afterRefresh(result) {
 
         if (this.enablePaging() && this.scrollOnNextRefresh) {
@@ -389,6 +405,8 @@
             } else {
                 this.totalItemCount = numCurrentItems;
             }
+
+            fillDisplayTotalRecordCount(this, this.view, this.totalItemCount);
         }
 
         if (!this.totalItemCount) {

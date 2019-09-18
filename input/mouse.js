@@ -10,11 +10,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         return new Date().getTime() - lastMouseInputTime;
     }
 
-    function notifyApp() {
-
-        inputmanager.notifyMouseMove();
-    }
-
     function removeIdleClasses() {
 
         isMouseIdle = false;
@@ -39,13 +34,16 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
     }
 
     var lastPointerMoveData;
+    var undefinedString = "undefined";
+
     function onPointerMove(e) {
 
         var eventX = e.screenX;
         var eventY = e.screenY;
 
         // if coord don't exist how could it move
-        if (typeof eventX === "undefined" && typeof eventY === "undefined") {
+        var undef = undefinedString;
+        if (typeof eventX === undef && typeof eventY === undef) {
             return;
         }
 
@@ -67,11 +65,10 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         obj.y = eventY;
 
         lastMouseInputTime = new Date().getTime();
-        notifyApp();
+        inputmanager.notifyMouseMove();
 
         if (isMouseIdle) {
             removeIdleClasses();
-            events.trigger(self, 'mouseactive');
         }
     }
 
@@ -110,7 +107,6 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
         if (!isMouseIdle && mouseIdleTime() >= 5000) {
             addIdleClasses();
-            events.trigger(self, 'mouseidle');
         }
     }
 
@@ -142,16 +138,26 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
             removeIdleClasses();
         }
 
-        dom.removeEventListener(document, (window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove, {
+        dom.removeEventListener(document, 'pointermove', onPointerMove, {
+            passive: true
+        });
+
+        dom.removeEventListener(document, 'mousemove', onPointerMove, {
             passive: true
         });
 
         if (!layoutManager.mobile) {
             startMouseInterval();
 
-            dom.addEventListener(document, (window.PointerEvent ? 'pointermove' : 'mousemove'), onPointerMove, {
-                passive: true
-            });
+            if (window.PointerEvent) {
+                dom.addEventListener(document, 'pointermove', onPointerMove, {
+                    passive: true
+                });
+            } else {
+                dom.addEventListener(document, 'mousemove', onPointerMove, {
+                    passive: true
+                });
+            }
         }
 
         dom.removeEventListener(document, (window.PointerEvent ? 'pointerenter' : 'mouseenter'), onPointerEnter, {

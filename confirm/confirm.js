@@ -27,6 +27,10 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
             type: options.primary === 'cancel' ? 'cancel' : 'submit'
         });
 
+        if (options.primary !== 'cancel') {
+            items.reverse();
+        }
+
         options.buttons = items;
 
         return dialog(options).then(function (result) {
@@ -34,7 +38,7 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
                 return Promise.resolve();
             }
 
-            return Promise.reject();
+            return Promise.reject(result);
         });
     };
 });

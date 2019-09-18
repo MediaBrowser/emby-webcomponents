@@ -33,6 +33,7 @@
     "NoTrailersMessage": "Ingen trailere funnet. Vennligst installer Trailer plugin fra {0}Emby plugin catalog{1} for \u00e5 legge til trailere.",
     "UninstallPluginConfirmation": "Er du sikker p\u00e5 at du \u00f8nsker \u00e5 avinstallere dette programtillegget?",
     "HeaderUninstallPlugin": "Avinstaller programtillegget",
+    "AreYouStillWatching": "Are you still watching?",
     "LabelCurrentPassword": "N\u00e5v\u00e6rende passord:",
     "LabelNewPassword": "Nytt passord:",
     "LabelNewPasswordConfirm": "Bekreft nytt passord:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "Theme videos:",
     "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
     "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
-    "NoItemsMatchingFound": "No items matching your search criteria were found."
+    "NoItemsMatchingFound": "No items matching your search criteria were found.",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

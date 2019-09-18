@@ -33,6 +33,7 @@
     "NoTrailersMessage": "Keine Trailer gefunden. Um Trailer hinzuzuf\u00fcgen installiere bitte das Trailer-Plugin aus dem {0}Emby Plugin Katalog{1}.",
     "UninstallPluginConfirmation": "M\u00f6chtest du dieses Plugin wirklich deinstallieren?",
     "HeaderUninstallPlugin": "Plugin deinstallieren",
+    "AreYouStillWatching": "Schaust Du noch?",
     "LabelCurrentPassword": "Aktuelles Passwort:",
     "LabelNewPassword": "Neues Passwort:",
     "LabelNewPasswordConfirm": "Neues Passwort best\u00e4tigen:",
@@ -152,7 +153,7 @@
     "Fridays": "Freitags",
     "Saturdays": "Samstags",
     "Days": "Tage",
-    "Network": "Network",
+    "Network": "Netzwerk",
     "Networks": "Sendergruppen",
     "SortByValue": "Sortieren nach {0}",
     "LabelSortBy": "Sortiert nach:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "Titelvideos:",
     "CustomRatingHelp": "Eine benutzerdefinierte Bewertung wird zur Auswertung der elterlichen Kontrolle verwendet, aber sie wird nicht angezeigt. Das Altersfreigabefeld wird immer noch angezeigt.",
     "KeepUpToHelp": "Aufnahmen \u00fcber dem Limit werden gel\u00f6scht wenn die n\u00e4chste Aufnahme startet. Die \u00e4ltesten Aufnahmen werden als erstes entfernt.",
-    "NoItemsMatchingFound": "Es wurden keine Objekte entsprechend deiner Suchkriterien gefunden."
+    "NoItemsMatchingFound": "Es wurden keine Objekte entsprechend deiner Suchkriterien gefunden.",
+    "PreventPlaybackContinuing": "Verhindere eine unbegrenzte Wiedergabe durch regelm\u00e4\u00dfige Aufforderung zur Benutzereingabe",
+    "PromptStillWatching": "Aktiviere \"Schaust du noch?\" Meldung"
 }

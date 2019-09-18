@@ -33,6 +33,7 @@
     "NoTrailersMessage": "Inga trailrar hittades. F\u00f6r att l\u00e4gga till trailrar, installera Trailertill\u00e4gget fr\u00e5n {0}Embykatalogen f\u00f6r till\u00e4gg{1}.",
     "UninstallPluginConfirmation": "\u00c4r du s\u00e4ker p\u00e5 att du vill avinstallera detta till\u00e4gg?",
     "HeaderUninstallPlugin": "Avinstallera till\u00e4gg",
+    "AreYouStillWatching": "Tittar du fortfarande?",
     "LabelCurrentPassword": "Nuvarande l\u00f6senord:",
     "LabelNewPassword": "Nytt l\u00f6senord:",
     "LabelNewPasswordConfirm": "Bekr\u00e4fta nytt l\u00f6senord:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "Temavideor:",
     "CustomRatingHelp": "En anpassad klassificering anv\u00e4nds f\u00f6r utv\u00e4rderingar av f\u00f6r\u00e4ldrakontroll men visas inte. F\u00e4ltet f\u00f6r f\u00f6r\u00e4ldrakontroll visas fortfarande.",
     "KeepUpToHelp": "Inspelningar som \u00e4r \u00f6ver gr\u00e4nsen tas bort n\u00e4r n\u00e4sta inspelning b\u00f6rjar. \u00c4ldsta inspelningen tas bort f\u00f6rst, sorterat p\u00e5 datum tillagd.",
-    "NoItemsMatchingFound": "Inga objekt som matchade dina s\u00f6kkriterier hittades."
+    "NoItemsMatchingFound": "Inga objekt som matchade dina s\u00f6kkriterier hittades.",
+    "PreventPlaybackContinuing": "F\u00f6rhindra uppspelning fr\u00e5n att forts\u00e4tta p\u00e5 obest\u00e4md tid genom att efterfr\u00e5ga input fr\u00e5n anv\u00e4ndaren",
+    "PromptStillWatching": "Aktivera \"Tittar du fortfarande?\"-meddelande"
 }

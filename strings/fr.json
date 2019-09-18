@@ -33,6 +33,7 @@
     "NoTrailersMessage": "Aucune bande-annonce trouv\u00e9e. Pour ajouter des bandes-annonces, installez l\u2019extension Trailer depuis le {0}catalogue d\u2019extensions Emby{1}.",
     "UninstallPluginConfirmation": "Voulez-vous vraiment d\u00e9sinstaller cette extension\u00a0?",
     "HeaderUninstallPlugin": "D\u00e9sinstaller l\u2019extension",
+    "AreYouStillWatching": "Are you still watching?",
     "LabelCurrentPassword": "Mot de passe\u00a0actuel\u00a0:",
     "LabelNewPassword": "Nouveau mot de passe\u00a0:",
     "LabelNewPasswordConfirm": "Confirmer le nouveau mot de passe\u00a0:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "Vid\u00e9os de g\u00e9n\u00e9rique\u00a0:",
     "CustomRatingHelp": "Une note personnalis\u00e9e pour les \u00e9valuations de contr\u00f4le parental est utilis\u00e9e mais n\u2019est pas affich\u00e9e. Le champ de classification parentale est toujours affich\u00e9.",
     "KeepUpToHelp": "Les enregistrements qui d\u00e9passent la limite sont supprim\u00e9s quand l\u2019enregistrement suivant commence. Les enregistrements les plus anciens sont supprim\u00e9s d\u2019abord, par date d\u2019ajout.",
-    "NoItemsMatchingFound": "Aucun \u00e9l\u00e9ment correspondant \u00e0 vos crit\u00e8res de recherche n\u2019a \u00e9t\u00e9 trouv\u00e9."
+    "NoItemsMatchingFound": "Aucun \u00e9l\u00e9ment correspondant \u00e0 vos crit\u00e8res de recherche n\u2019a \u00e9t\u00e9 trouv\u00e9.",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

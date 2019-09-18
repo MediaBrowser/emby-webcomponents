@@ -33,6 +33,7 @@
     "NoTrailersMessage": "No Trailers found. To add Trailers, please install the Trailer plugin from the {0}Emby plugin catalog{1}.",
     "UninstallPluginConfirmation": "Na pewno odinstalowa\u0107 t\u0119 wtyczk\u0119?",
     "HeaderUninstallPlugin": "Odinstaluj wtyczk\u0119",
+    "AreYouStillWatching": "Are you still watching?",
     "LabelCurrentPassword": "Bie\u017c\u0105ce has\u0142o:",
     "LabelNewPassword": "Nowe has\u0142o:",
     "LabelNewPasswordConfirm": "Nowe has\u0142o ponownie:",
@@ -904,5 +905,7 @@
     "LabelThemeVideos": "Motywy wideo:",
     "CustomRatingHelp": "W\u0142asna kategoria wiekowa pozwala na ograniczenia wiekowe, ale nie jest wy\u015bwietlana. Oficjalna kategoria wiekowa jest wci\u0105\u017c widoczna.",
     "KeepUpToHelp": "Nagrania ponad limit s\u0105 usuwane, gdy rozpocznie si\u0119 nowe. Najpierw usuwane s\u0105 najstarsze nagrania, zgodnie z dat\u0105 dodania.",
-    "NoItemsMatchingFound": "Nie znaleziono pasuj\u0105cych pozycji."
+    "NoItemsMatchingFound": "Nie znaleziono pasuj\u0105cych pozycji.",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

@@ -253,10 +253,29 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return this.get('soundeffects', false) || UserSettings.defaults.soundEffects;
     };
 
+    UserSettings.prototype.stillWatchingTimeMs = function (val) {
+
+        if (val != null) {
+            return this.set('stillwatchingms', val, true);
+        }
+
+        return parseInt(this.get('stillwatchingms') || UserSettings.defaults.stillWatchingTimeMs.toString());
+    };
+
+    UserSettings.prototype.enableStillWatching = function (val) {
+
+        if (val != null) {
+            return this.stillWatchingTimeMs((val ? UserSettings.defaults.stillWatchingTimeMs : 0));
+        }
+
+        return this.stillWatchingTimeMs() > 0;
+    };
+
     // apps should set these values
     UserSettings.defaults = {
         theme: null,
-        enableThemeVideos: true
+        enableThemeVideos: true,
+        stillWatchingTimeMs: 14400000
     };
 
     UserSettings.prototype.getSubtitleAppearanceSettings = function (key) {

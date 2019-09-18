@@ -245,3 +245,15 @@ html, body {
         max-width: 54em;
     }
 }
+
+
+.listTotalRecordCount {
+    margin: 0 .75em;
+}
+
+@media all and (max-width: 30em) {
+
+    .listTotalRecordCount {
+        display: none !important;
+    }
+}
