@@ -547,6 +547,18 @@
     };
 
     SessionPlayer.prototype.getCurrentPlaylistItemId = function () {
+        var state = this.lastPlayerData || {};
+        return state.PlaylistItemId;
+    };
+
+    SessionPlayer.prototype.getCurrentPlaylistIndex = function () {
+        var state = this.lastPlayerData || {};
+        return state.PlaylistIndex;
+    };
+
+    SessionPlayer.prototype.getCurrentPlaylistLength = function () {
+        var state = this.lastPlayerData || {};
+        return state.PlaylistLength;
     };
 
     SessionPlayer.prototype.setCurrentPlaylistItem = function (playlistItemId) {

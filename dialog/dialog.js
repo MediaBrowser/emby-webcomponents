@@ -144,10 +144,8 @@ define(['dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'materia
             options = text;
         }
 
-        return new Promise(function (resolve, reject) {
-            require(['text!./dialog.template.html'], function (template) {
-                showDialog(options, template).then(resolve, reject);
-            });
+        return require(['text!./dialog.template.html']).then(function (responses) {
+            return showDialog(options, responses[0]);
         });
     };
 });

@@ -33,7 +33,7 @@
     "NoTrailersMessage": "Nenalezen \u017e\u00e1dn\u00fd trailer. Aby bylo mo\u017en\u00e9 trailery p\u0159id\u00e1vat, nainstalujte, pros\u00edm, z\u00e1suvn\u00fd modul Trailery z {0}Emby katalogu z\u00e1suvn\u00fdch modul\u016f{1}.",
     "UninstallPluginConfirmation": "Doopravdy chcete odinstalovat tento z\u00e1suvn\u00fd modul?",
     "HeaderUninstallPlugin": "Odinstalovat z\u00e1suvn\u00fd modul",
-    "AreYouStillWatching": "Are you still watching?",
+    "AreYouStillWatching": "St\u00e1le sledujete?",
     "LabelCurrentPassword": "Sou\u010dasn\u00e9 heslo:",
     "LabelNewPassword": "Nov\u00e9 heslo:",
     "LabelNewPasswordConfirm": "Potvrzen\u00ed nov\u00e9ho hesla:",
@@ -153,7 +153,7 @@
     "Fridays": "Ka\u017ed\u00fd p\u00e1tek",
     "Saturdays": "Ka\u017edou sobotu",
     "Days": "Dny",
-    "Network": "Network",
+    "Network": "S\u00ed\u0165",
     "Networks": "S\u00edt\u011b",
     "SortByValue": "T\u0159\u00eddit dle {0}",
     "LabelSortBy": "T\u0159\u00eddit dle:",
@@ -639,7 +639,7 @@
     "HeaderForKids": "Pro d\u011bti",
     "HeaderPlaybackError": "Chyba p\u0159ehr\u00e1v\u00e1n\u00ed",
     "PlaybackErrorNotAllowed": "V sou\u010dasn\u00e9 dob\u011b nejste opr\u00e1vn\u011bni p\u0159ehr\u00e1vat tento obsah. Pro v\u00edce informac\u00ed se obra\u0165te se na spr\u00e1vce syst\u00e9mu.",
-    "RateLimitExceeded": "Usage limit, your account has exceeded the maximum number of requests at this time. Please try again later.",
+    "RateLimitExceeded": "Limit pou\u017eit\u00ed, v tuto chv\u00edli V\u00e1\u0161 \u00fa\u010det p\u0159ekro\u010dil maxim\u00e1ln\u00ed po\u010det po\u017eadavk\u016f. Zkuste, pros\u00edm, pozd\u011bji.",
     "PlaybackErrorNoCompatibleStream": "\u017d\u00e1dn\u00e9 kompatibiln\u00ed streamy nejsou v sou\u010dasn\u00e9 dob\u011b k dispozici. Zkuste to, pros\u00edm, pozd\u011bji nebo pro v\u00edce podrobnost\u00ed kontaktujte sv\u00e9ho spr\u00e1vce syst\u00e9mu",
     "PlaybackErrorPlaceHolder": "Pro p\u0159ehr\u00e1n\u00ed videa nejd\u0159\u00edve vlo\u017ete disk",
     "Guide": "Pr\u016fvodce",
@@ -906,6 +906,6 @@
     "CustomRatingHelp": "Vlastn\u00ed hodnocen\u00ed je pou\u017eito pro klasifikaci rodi\u010dovsk\u00e9ho hodnocen\u00ed, av\u0161ak nezobrazuje se. St\u00e1le se zobrazuje rodi\u010dovsk\u00e9 hodnocen\u00ed.",
     "KeepUpToHelp": "Nahr\u00e1vky p\u0159esahuj\u00edc\u00ed limit jsou smaz\u00e1ny poka\u017ed\u00e9, kdy\u017e za\u010dne dal\u0161\u00ed nahr\u00e1v\u00e1n\u00ed. Na z\u00e1klad\u011b data p\u0159id\u00e1n\u00ed jsou jako prvn\u00ed nejprve smaz\u00e1ny nejstar\u0161\u00ed z\u00e1znamy.",
     "NoItemsMatchingFound": "Nebyly nalezeny \u017e\u00e1dn\u00e9 polo\u017eky odpov\u00eddaj\u00edc\u00ed va\u0161im kriteri\u00edm vyhled\u00e1v\u00e1n\u00ed.",
-    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
-    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
+    "PreventPlaybackContinuing": "Zabr\u00e1nit nekone\u010dn\u00e9mu p\u0159ehr\u00e1v\u00e1n\u00ed pravidelnou v\u00fdzvou u\u017eivatele k potvrzen\u00ed.",
+    "PromptStillWatching": "Povolit ozn\u00e1men\u00ed 'St\u00e1le sledujete?'"
 }

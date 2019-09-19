@@ -29,7 +29,7 @@
     "Disabled": "\u5df2\u7981\u7528",
     "Uninstall": "\u5378\u8f7d",
     "HeaderNextItem": "Next Item",
-    "HeaderPreviousItem": "PreviousItem",
+    "HeaderPreviousItem": "Previous Item",
     "NoTrailersMessage": "No Trailers found. To add Trailers, please install the Trailer plugin from the {0}Emby plugin catalog{1}.",
     "UninstallPluginConfirmation": "\u4f60\u786e\u5b9a\u8981\u5378\u8f7d\u63d2\u4ef6?",
     "HeaderUninstallPlugin": "\u5378\u8f7d\u63d2\u4ef6",

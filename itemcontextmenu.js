@@ -330,7 +330,13 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
                 });
             }
 
-            if (itemHelper.canRefreshMetadata(item, user) && (item.CollectionType || item.Type === 'CollectionFolder')) {
+            if (itemHelper.canRefreshMetadata(item, user) && item.IsFolder &&
+                item.Type !== 'Playlist' &&
+                item.Type !== 'Genre' &&
+                item.Type !== 'MusicGenre' &&
+                item.Type !== 'GameGenre' &&
+                item.Type !== 'Channel' &&
+                item.Type !== 'MusicArtist') {
                 commands.push({
                     name: globalize.translate('HeaderScanLibraryFiles'),
                     id: 'scan',

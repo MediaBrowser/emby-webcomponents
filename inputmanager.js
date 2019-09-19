@@ -6,6 +6,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
     function notify() {
         lastInputTime = new Date().getTime();
 
+        // TODO: Why did we do this?
         handleCommand('unknown');
     }
 

@@ -1101,6 +1101,18 @@
     };
 
     ChromecastPlayer.prototype.getCurrentPlaylistItemId = function () {
+        var state = this.lastPlayerData || {};
+        return state.PlaylistItemId;
+    };
+
+    ChromecastPlayer.prototype.getCurrentPlaylistIndex = function () {
+        var state = this.lastPlayerData || {};
+        return state.PlaylistIndex;
+    };
+
+    ChromecastPlayer.prototype.getCurrentPlaylistLength = function () {
+        var state = this.lastPlayerData || {};
+        return state.PlaylistLength;
     };
 
     ChromecastPlayer.prototype.setCurrentPlaylistItem = function (playlistItemId) {

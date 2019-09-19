@@ -42,6 +42,7 @@
         }
 
         this._currentPlaylistItemId = null;
+        this._currentPlaylistIndex = -1;
         this._playlist = items;
         this._repeatMode = 'RepeatNone';
     };
@@ -84,14 +85,19 @@
         arrayInsertAt(this._playlist, currentIndex, items);
     };
 
+    PlayQueueManager.prototype.getCurrentPlaylistLength = function () {
+
+        return this._playlist.length;
+    };
+
     PlayQueueManager.prototype.getCurrentPlaylistIndex = function () {
 
-        return findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
+        return this._currentPlaylistIndex;
     };
 
     PlayQueueManager.prototype.getCurrentItem = function () {
 
-        var index = findPlaylistIndex(this.getCurrentPlaylistItemId(), this._playlist);
+        var index = this._currentPlaylistIndex;
 
         return index === -1 ? null : this._playlist[index];
     };
@@ -103,6 +109,12 @@
     PlayQueueManager.prototype.setPlaylistState = function (playlistItemId, playlistIndex) {
 
         this._currentPlaylistItemId = playlistItemId;
+
+        if (playlistIndex == null) {
+            this._currentPlaylistIndex = findPlaylistIndex(playlistItemId, this._playlist);
+        } else {
+            this._currentPlaylistIndex = playlistIndex;
+        }
     };
 
     PlayQueueManager.prototype.setPlaylistIndex = function (playlistIndex) {
@@ -179,6 +191,7 @@
 
         this._playlist = [];
         this._currentPlaylistItemId = null;
+        this._currentPlaylistIndex = -1;
         this._repeatMode = 'RepeatNone';
     };
 

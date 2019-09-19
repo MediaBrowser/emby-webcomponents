@@ -2138,7 +2138,10 @@
                     state.PlayState.LiveStreamId = mediaSource.LiveStreamId;
                 }
                 state.PlayState.PlaySessionId = self.playSessionId(player);
-                state.PlayState.PlaylistItemId = self.getCurrentPlaylistItemId(player);
+
+                state.PlaylistItemId = self.getCurrentPlaylistItemId(player);
+                state.PlaylistIndex = self.getCurrentPlaylistIndex(player);
+                state.PlaylistLength = self.getCurrentPlaylistLength(player);
             }
 
             if (mediaSource) {
@@ -2533,29 +2536,6 @@
             });
         }
 
-        self.getPlaybackInfo = function (item, options) {
-
-            options = options || {};
-            var startPosition = options.startPositionTicks || 0;
-            var mediaType = options.mediaType || item.MediaType;
-            var player = getPlayer(item, options);
-            var apiClient = connectionManager.getApiClient(item.ServerId);
-
-            // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
-            return apiClient.getEndpointInfo().then(function () {
-
-                var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
-
-                return player.getDeviceProfile(item).then(function (deviceProfile) {
-
-                    return getPlaybackMediaSource(player, apiClient, deviceProfile, maxBitrate, item, startPosition, options.mediaSourceId, options.audioStreamIndex, options.subtitleStreamIndex).then(function (mediaSource) {
-
-                        return createStreamInfo(apiClient, item.MediaType, item, mediaSource, startPosition);
-                    });
-                });
-            });
-        };
-
         self.getPlaybackMediaSources = function (item, options) {
 
             options = options || {};
@@ -2874,6 +2854,16 @@
             }
 
             return self._playQueueManager.getCurrentPlaylistIndex();
+        };
+
+        self.getCurrentPlaylistLength = function (player) {
+
+            player = player || self._currentPlayer;
+            if (player && !enableLocalPlaylistManagement(player)) {
+                return player.getCurrentPlaylistLength();
+            }
+
+            return self._playQueueManager.getCurrentPlaylistLength();
         };
 
         self.getCurrentPlaylistItemId = function (player) {
