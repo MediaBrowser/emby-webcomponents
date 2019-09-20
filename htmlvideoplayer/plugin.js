@@ -219,7 +219,7 @@
 
                 console.log('prefetching hls playlist: ' + hlsPlaylistUrl);
 
-                return connectionManager.getApiClient(item.ServerId).ajax({
+                return connectionManager.getApiClient(item).ajax({
 
                     type: 'GET',
                     url: hlsPlaylistUrl

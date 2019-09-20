@@ -71,7 +71,7 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
             return;
         }
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
 
         apiClient.getThemeMedia(item.Id, {
 

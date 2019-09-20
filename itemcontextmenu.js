@@ -440,7 +440,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
         var itemId = item.Id;
         var serverId = item.ServerId;
-        var apiClient = connectionManager.getApiClient(serverId);
+        var apiClient = connectionManager.getApiClient(item);
 
         switch (id) {
 

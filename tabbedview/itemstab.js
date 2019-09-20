@@ -1206,20 +1206,22 @@
     ItemsTab.prototype.getEmptyListMessage = function () {
 
         if (this.hasFilters) {
-            return globalize.translate('NoItemsMatchingFound');
+            return Promise.resolve(globalize.translate('NoItemsMatchingFound'));
         }
 
-        return globalize.translate('NoItemsFound');
-    };
+        return Promise.resolve(globalize.translate('NoItemsFound'));
+   };
+
+    function setEmptyListMessage(html) {
+
+        html = '<div class="flex padded-top align-items-center justify-content-center flex-grow">' + html;
+        html += '</div>';
+        this.itemsContainer.innerHTML = html;
+    }
 
     ItemsTab.prototype.setEmptyListState = function () {
 
-        var html = '<div class="flex padded-top align-items-center justify-content-center flex-grow">';
-        html += this.getEmptyListMessage();
-
-        html += '</div>';
-
-        this.itemsContainer.innerHTML = html;
+        this.getEmptyListMessage().then(setEmptyListMessage.bind(this));
     };
 
     ItemsTab.prototype.destroy = function () {

@@ -43,7 +43,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             }
         }
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
 
         var mediaStreams = ((item.MediaSources || [])[0] || {}).MediaStreams || [];
         var videoStream = mediaStreams.filter(function (i) {

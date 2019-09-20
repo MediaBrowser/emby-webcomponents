@@ -83,8 +83,6 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
     function getItem(button) {
 
         button = dom.parentWithAttribute(button, 'data-type');
-        var serverId = button.getAttribute('data-serverid');
-        var id = button.getAttribute('data-id');
         var type = button.getAttribute('data-type');
 
         if (type === 'Plugin') {
@@ -99,11 +97,14 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
             return Promise.resolve(getItemInfoFromCard(button));
         }
 
+        var id = button.getAttribute('data-id');
+
         // AddServer
         if (!id) {
             return Promise.resolve(getItemInfoFromCard(button));
         }
 
+        var serverId = button.getAttribute('data-serverid');
         var apiClient = connectionManager.getApiClient(serverId);
 
         if (type === 'VirtualFolder') {

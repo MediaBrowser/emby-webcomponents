@@ -20,7 +20,7 @@
         var apiClient;
 
         if (item) {
-            apiClient = connectionManager.getApiClient(item.ServerId);
+            apiClient = connectionManager.getApiClient(item);
             reloadItem(page, item, apiClient, focusContext);
         }
         else {

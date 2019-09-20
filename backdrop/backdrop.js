@@ -201,7 +201,7 @@
 
         imageOptions = imageOptions || {};
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
 
         if (item.BackdropImageTags && item.BackdropImageTags.length > 0) {
 

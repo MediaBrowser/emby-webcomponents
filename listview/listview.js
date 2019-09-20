@@ -19,7 +19,7 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
 
     function getImageUrl(item, width) {
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
 
         var options = {
             width: width,
@@ -55,7 +55,7 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
 
     function getChannelImageUrl(item, width) {
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
 
         var options = {
             width: width,

@@ -48,7 +48,7 @@ define(['events', 'dialogHelper', 'inputManager', 'connectionManager', 'layoutMa
 
     function getImgUrl(item, original) {
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
         var imageOptions = {};
 
         if (!original) {

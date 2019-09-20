@@ -129,7 +129,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
     function deleteItem(options) {
 
         var item = options.item;
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
 
         if (item.Type === 'Device') {
             return deleteDevice(item, apiClient, options);

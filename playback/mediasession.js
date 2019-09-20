@@ -21,7 +21,7 @@
 
                 options.tag = item.SeriesPrimaryImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.SeriesId, options);
+                return connectionManager.getApiClient(item).getScaledImageUrl(item.SeriesId, options);
             }
         }
 
@@ -31,7 +31,7 @@
 
                 options.tag = item.ParentThumbImageTag;
 
-                return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.ParentThumbItemId, options);
+                return connectionManager.getApiClient(item).getScaledImageUrl(item.ParentThumbItemId, options);
             }
         }
 
@@ -46,13 +46,13 @@
         if (item.ImageTags && item.ImageTags[options.type]) {
 
             options.tag = item.ImageTags[options.type];
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.Id, options);
+            return connectionManager.getApiClient(item).getScaledImageUrl(item.Id, options);
         }
 
         if (item.AlbumId && item.AlbumPrimaryImageTag) {
 
             options.tag = item.AlbumPrimaryImageTag;
-            return connectionManager.getApiClient(item.ServerId).getScaledImageUrl(item.AlbumId, options);
+            return connectionManager.getApiClient(item).getScaledImageUrl(item.AlbumId, options);
         }
 
         return null;

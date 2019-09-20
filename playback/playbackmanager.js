@@ -2338,14 +2338,14 @@
                 var mediaType = item.MediaType;
 
                 var onBitrateDetectionFailure = function () {
-                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType), item, playOptions, onPlaybackStartedFn);
+                    return playAfterBitrateDetect(getSavedMaxStreamingBitrate(connectionManager.getApiClient(item), mediaType), item, playOptions, onPlaybackStartedFn);
                 };
 
                 if (!isServerItem(item) || itemHelper.isLocalItem(item)) {
                     return onBitrateDetectionFailure();
                 }
 
-                var apiClient = connectionManager.getApiClient(item.ServerId);
+                var apiClient = connectionManager.getApiClient(item);
                 apiClient.getEndpointInfo().then(function (endpointInfo) {
 
                     if ((mediaType === 'Video' || mediaType === 'Audio') && appSettings.enableAutomaticBitrateDetection(endpointInfo.IsInNetwork, mediaType)) {
@@ -2493,7 +2493,7 @@
 
                 var deviceProfile = responses[1];
 
-                var apiClient = connectionManager.getApiClient(item.ServerId);
+                var apiClient = connectionManager.getApiClient(item);
 
                 var mediaSourceId = playOptions.mediaSourceId;
                 var audioStreamIndex = playOptions.audioStreamIndex;
@@ -2543,12 +2543,12 @@
             var mediaType = options.mediaType || item.MediaType;
             // TODO: Remove the true forceLocalPlayer hack
             var player = getPlayer(item, options, true);
-            var apiClient = connectionManager.getApiClient(item.ServerId);
+            var apiClient = connectionManager.getApiClient(item);
 
             // Call this just to ensure the value is recorded, it is needed with getSavedMaxStreamingBitrate
             return apiClient.getEndpointInfo().then(function () {
 
-                var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item.ServerId), mediaType);
+                var maxBitrate = getSavedMaxStreamingBitrate(connectionManager.getApiClient(item), mediaType);
 
                 return player.getDeviceProfile(item).then(function (deviceProfile) {
 
@@ -3713,7 +3713,7 @@
             return player.playTrailers(item);
         }
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
 
         var instance = this;
 
@@ -3832,7 +3832,7 @@
             return player.instantMix(item);
         }
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
 
         var options = {};
         options.UserId = apiClient.getCurrentUserId();

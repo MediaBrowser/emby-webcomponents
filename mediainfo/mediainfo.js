@@ -259,7 +259,7 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
 
             if (options.programIndicator !== false) {
 
-                var apiClient = connectionManager.getApiClient(item.ServerId);
+                var apiClient = connectionManager.getApiClient(item);
 
                 if (item.IsLive) {
                     miscInfo.push({
@@ -271,7 +271,7 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
                         html: '<div class="mediaInfoProgramAttribute mediaInfoItem premiereTvProgram">' + globalize.translate('Premiere') + '</div>'
                     });
                 }
-                else if (item.IsNew || (item.IsSeries && !item.IsRepeat && !connectionManager.getApiClient(item.ServerId).isMinServerVersion('3.6.0.0'))) {
+                else if (item.IsNew || (item.IsSeries && !item.IsRepeat && !connectionManager.getApiClient(item).isMinServerVersion('3.6.0.0'))) {
                     miscInfo.push({
                         html: '<div class="mediaInfoProgramAttribute mediaInfoItem newTvProgram">' + globalize.translate('AttributeNew') + '</div>'
                     });

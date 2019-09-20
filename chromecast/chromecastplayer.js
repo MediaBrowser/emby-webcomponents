@@ -1006,7 +1006,7 @@
 
     ChromecastPlayer.prototype.shuffle = function (item) {
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
         var userId = apiClient.getCurrentUserId();
 
         var instance = this;
@@ -1025,7 +1025,7 @@
 
     ChromecastPlayer.prototype.instantMix = function (item) {
 
-        var apiClient = connectionManager.getApiClient(item.ServerId);
+        var apiClient = connectionManager.getApiClient(item);
         var userId = apiClient.getCurrentUserId();
 
         var instance = this;
