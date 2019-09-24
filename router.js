@@ -167,6 +167,46 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
+    function loadTranslationFromConfigPage(apiClient, configPage) {
+
+        var languages = configPage.Translations;
+
+        if (!languages || !languages.length) {
+            return Promise.resolve();
+        }
+
+        var translations = (languages || []).map(function (i) {
+            return {
+                lang: i,
+                path: apiClient.getUrl("web/strings", { PluginId: configPage.PluginId, Locale: i })
+            };
+        });
+
+        return globalize.loadStrings({
+            name: 'plugin-' + configPage.PluginId,
+            translations: translations
+        });
+    }
+
+    var loadedTranslations = {};
+    function loadPluginTranslations(pageName) {
+
+        if (loadedTranslations[pageName]) {
+            return Promise.resolve();
+        }
+
+        loadedTranslations[pageName] = true;
+
+        var apiClient = ApiClient;
+
+        return apiClient.getJSON(apiClient.getUrl("web/configurationpages", { Name: pageName })).then(function (configPages) {
+
+            if (configPages.length) {
+                return loadTranslationFromConfigPage(apiClient, configPages[0]);
+            }
+        });
+    }
+
     function loadContentUrl(ctx, route, request) {
 
         var url;
@@ -192,7 +232,19 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             url += '?' + ctx.querystring;
         }
 
-        require(['text!' + url], function (html) {
+        var promises = [require(['text!' + url])];
+
+        if (self.Dashboard) {
+            request.isPluginPage = request.url.toLowerCase().indexOf('/configurationpage') !== -1;
+
+            if (request.isPluginPage) {
+                promises.push(loadPluginTranslations(getParameterByName('name', request.url)));
+            }
+        }
+
+        Promise.all(promises).then(function (responses) {
+
+            var html = responses[0][0];
 
             loadContent(ctx, route, html, request);
         });
