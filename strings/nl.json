@@ -639,7 +639,7 @@
     "HeaderForKids": "Voor Kinderen",
     "HeaderPlaybackError": "Afspeel Fout",
     "PlaybackErrorNotAllowed": "U bent niet bevoegd om deze content af te spelen. Neem contact op met uw systeembeheerder voor meer informatie.",
-    "RateLimitExceeded": "Usage limit, your account has exceeded the maximum number of requests at this time. Please try again later.",
+    "RateLimitExceeded": "Your account has exceeded the maximum streaming limit set by your Emby Server administrator.  Please contact them for assistance.",
     "PlaybackErrorNoCompatibleStream": "Geen compatibele streams beschikbaar. Probeer het later opnieuw of neem contact op met de serverbeheerder.",
     "PlaybackErrorPlaceHolder": "De gekozen content is niet af te spelen vanaf dit apparaat. Plaats de schijf.",
     "Guide": "Gids",
@@ -906,6 +906,6 @@
     "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
     "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
     "NoItemsMatchingFound": "No items matching your search criteria were found.",
-    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input.",
     "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

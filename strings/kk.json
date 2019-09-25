@@ -639,7 +639,7 @@
     "HeaderForKids": "For Kids",
     "HeaderPlaybackError": "\u041e\u0439\u043d\u0430\u0442\u0443 \u049b\u0430\u0442\u0435\u0441\u0456",
     "PlaybackErrorNotAllowed": "\u041e\u0441\u044b \u043c\u0430\u0437\u043c\u04b1\u043d\u0434\u044b \u043e\u0439\u043d\u0430\u0442\u0443 \u04af\u0448\u0456\u043d \u0430\u0493\u044b\u043c\u0434\u0430 \u0441\u0456\u0437\u0433\u0435 \u0440\u04b1\u049b\u0441\u0430\u0442 \u0435\u0442\u0456\u043b\u043c\u0435\u0433\u0435\u043d. \u0422\u043e\u043b\u044b\u049b \u043c\u04d9\u043b\u0456\u043c\u0435\u0442\u0442\u0435\u0440 \u04af\u0448\u0456\u043d \u0436\u04af\u0439\u0435\u043b\u0456\u043a \u04d9\u043a\u0456\u043c\u0448\u0456\u04a3\u0456\u0437\u0433\u0435 \u0431\u0430\u0439\u043b\u0430\u043d\u044b\u0441\u044b\u04a3\u044b\u0437.",
-    "RateLimitExceeded": "Usage limit, your account has exceeded the maximum number of requests at this time. Please try again later.",
+    "RateLimitExceeded": "Your account has exceeded the maximum streaming limit set by your Emby Server administrator.  Please contact them for assistance.",
     "PlaybackErrorNoCompatibleStream": "\u0410\u0493\u044b\u043c\u0434\u0430 \u0435\u0448\u049b\u0430\u043d\u0434\u0430\u0439 \u0441\u044b\u0439\u044b\u0441\u044b\u043c\u0434\u044b \u0430\u0493\u044b\u043d\u0434\u0430\u0440 \u049b\u043e\u043b\u0436\u0435\u0442\u0456\u043c\u0434\u0456 \u0435\u043c\u0435\u0441. \u04d8\u0440\u0435\u043a\u0435\u0442\u0442\u0456 \u043a\u0435\u0439\u0456\u043d \u049b\u0430\u0439\u0442\u0430\u043b\u0430\u04a3\u044b\u0437 \u043d\u0435\u043c\u0435\u0441\u0435 \u0442\u043e\u043b\u044b\u049b \u043c\u04d9\u043b\u0456\u043c\u0435\u0442\u0442\u0435\u0440 \u04af\u0448\u0456\u043d \u0436\u04af\u0439\u0435\u043b\u0456\u043a \u04d9\u043a\u0456\u043c\u0448\u0456\u04a3\u0456\u0437\u0433\u0435 \u0431\u0430\u0439\u043b\u0430\u043d\u044b\u0441\u044b\u04a3\u044b\u0437.",
     "PlaybackErrorPlaceHolder": "\u041e\u0441\u044b \u0431\u0435\u0439\u043d\u0435\u043d\u0456 \u043e\u0439\u043d\u0430\u0442\u0443 \u04af\u0448\u0456\u043d \u0434\u0438\u0441\u043a\u0456\u043d\u0456 \u0435\u043d\u0433\u0456\u0437\u0456\u04a3\u0456\u0437.",
     "Guide": "\u0422\u0435\u043b\u0435\u0433\u0438\u0434",
@@ -906,6 +906,6 @@
     "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
     "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
     "NoItemsMatchingFound": "No items matching your search criteria were found.",
-    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input.",
     "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

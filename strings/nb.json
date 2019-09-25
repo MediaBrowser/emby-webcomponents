@@ -639,7 +639,7 @@
     "HeaderForKids": "For barn",
     "HeaderPlaybackError": "Avspillingsfeil",
     "PlaybackErrorNotAllowed": "Du er for \u00f8yeblikket ikke autorisert til avspilling dette innholdet. Ta kontakt med systemadministratoren for detaljer.",
-    "RateLimitExceeded": "Usage limit, your account has exceeded the maximum number of requests at this time. Please try again later.",
+    "RateLimitExceeded": "Your account has exceeded the maximum streaming limit set by your Emby Server administrator.  Please contact them for assistance.",
     "PlaybackErrorNoCompatibleStream": "Ingen kompatible str\u00f8mmer er tilgjengelige for \u00f8yeblikket. Pr\u00f8v igjen senere eller kontakt systemadministratoren for detaljer.",
     "PlaybackErrorPlaceHolder": "Sett inn disken for \u00e5 spille av denne filmen.",
     "Guide": "Guide",
@@ -906,6 +906,6 @@
     "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
     "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
     "NoItemsMatchingFound": "No items matching your search criteria were found.",
-    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input",
+    "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input.",
     "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
 }

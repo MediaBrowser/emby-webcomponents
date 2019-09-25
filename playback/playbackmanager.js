@@ -2572,7 +2572,6 @@
             var playMethod = 'Transcode';
 
             var mediaSourceContainer = (mediaSource.Container || '').toLowerCase();
-            var directOptions;
 
             if (type === 'Video' || type === 'Audio') {
 
@@ -2594,24 +2593,30 @@
 
                 else if (mediaSource.SupportsDirectStream) {
 
-                    directOptions = {
-                        Static: true,
-                        mediaSourceId: mediaSource.Id,
-                        deviceId: apiClient.deviceId(),
-                        api_key: apiClient.accessToken()
-                    };
+                    if (mediaSource.DirectStreamUrl) {
+                        mediaUrl = apiClient.getUrl(mediaSource.DirectStreamUrl);
+                    }
+                    else {
+                        var directOptions = {
+                            Static: true,
+                            mediaSourceId: mediaSource.Id,
+                            deviceId: apiClient.deviceId(),
+                            api_key: apiClient.accessToken()
+                        };
 
-                    if (mediaSource.ETag) {
-                        directOptions.Tag = mediaSource.ETag;
+                        if (mediaSource.ETag) {
+                            directOptions.Tag = mediaSource.ETag;
+                        }
+
+                        if (mediaSource.LiveStreamId) {
+                            directOptions.LiveStreamId = mediaSource.LiveStreamId;
+                        }
+
+                        var prefix = type === 'Video' ? 'Videos' : 'Audio';
+                        var directStreamContainer = mediaSourceContainer.toLowerCase().replace('m4v', 'mp4');
+                        mediaUrl = apiClient.getUrl(prefix + '/' + item.Id + '/stream.' + directStreamContainer, directOptions);
                     }
 
-                    if (mediaSource.LiveStreamId) {
-                        directOptions.LiveStreamId = mediaSource.LiveStreamId;
-                    }
-
-                    var prefix = type === 'Video' ? 'Videos' : 'Audio';
-                    var directStreamContainer = mediaSourceContainer.toLowerCase().replace('m4v', 'mp4');
-                    mediaUrl = apiClient.getUrl(prefix + '/' + item.Id + '/stream.' + directStreamContainer, directOptions);
                     playMethod = 'DirectStream';
 
                 } else if (mediaSource.SupportsTranscoding) {
