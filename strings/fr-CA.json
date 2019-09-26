@@ -897,7 +897,6 @@
     "Locked": "Verrouill\u00e9",
     "Any": "N\u2019importe lequel",
     "Admin": "Administrateur",
-    "LabelHasOverview": "A un r\u00e9sum\u00e9\u00a0:",
     "LabelLocked": "Verrouill\u00e9\u00a0:",
     "LabelTrailers": "Bandes-annonces\u00a0:",
     "LabelExtras": "Bonus\u00a0:",
@@ -907,5 +906,7 @@
     "KeepUpToHelp": "Les enregistrements qui d\u00e9passent la limite sont supprim\u00e9s quand l\u2019enregistrement suivant commence. Les enregistrements les plus anciens sont supprim\u00e9s d\u2019abord, par date d\u2019ajout.",
     "NoItemsMatchingFound": "Aucun \u00e9l\u00e9ment correspondant \u00e0 vos crit\u00e8res de recherche n\u2019a \u00e9t\u00e9 trouv\u00e9.",
     "PreventPlaybackContinuing": "Emp\u00eache la lecture de continuer ind\u00e9finiment en demandant r\u00e9guli\u00e8rement une action de l\u2019utilisateur",
-    "PromptStillWatching": "Activer la demande \u00ab\u00a0Vous regardez toujours\u00a0?\u00a0\u00bb"
+    "PromptStillWatching": "Activer la demande \u00ab\u00a0Vous regardez toujours\u00a0?\u00a0\u00bb",
+    "HeaderMissingMetadata": "Missing Metadata",
+    "HeadedIncludedIn": "Included In"
 }

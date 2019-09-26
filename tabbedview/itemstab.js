@@ -132,7 +132,7 @@
                 settings: instance.getFilters(),
                 visibleSettings: instance.getVisibleFilters(),
                 onChange: instance.itemsContainer.refreshItems.bind(instance.itemsContainer),
-                parentId: instance.params.parentId,
+                parentId: instance.isGlobalQuery() ? null : instance.params.parentId,
                 itemTypes: instance.getItemTypes ? instance.getItemTypes() : [],
                 serverId: instance.apiClient.serverId(),
                 filterMenuOptions: instance.getFilterMenuOptions()
@@ -452,7 +452,7 @@
         this.itemsContainer.getItemsHtml = this.getItemsHtml.bind(this);
         this.itemsContainer.afterRefresh = afterRefresh.bind(this);
 
-        if (params.parentId) {
+        if (params.parentId && !this.isGlobalQuery()) {
             this.itemsContainer.setAttribute('data-parentid', params.parentId);
         }
 
@@ -593,8 +593,6 @@
             shape = 'auto';
         }
 
-        var parentId = this.params.parentId;
-
         return {
             items: items,
             shape: shape,
@@ -607,7 +605,7 @@
             showYear: settings.showYear,
             overlayText: !settings.showTitle,
             context: this.getContext(),
-            parentId: parentId,
+            parentId: this.isGlobalQuery() ? null : this.params.parentId,
             playAction: this.getPlayAction()
         };
     };
@@ -638,8 +636,6 @@
     };
 
     ItemsTab.prototype.getBaseQuery = function () {
-
-        var parentId = this.params.parentId;
 
         var sortValues = this.getSortValues();
 
@@ -683,7 +679,7 @@
             EnableImageTypes: imageTypes,
             StartIndex: this.startIndex || 0,
             Limit: enablePaging ? 100 : null,
-            ParentId: parentId
+            ParentId: this.isGlobalQuery() ? null : this.params.parentId
         };
 
         var alphaPicker = this.alphaPicker;
@@ -1095,6 +1091,12 @@
         };
     };
 
+    ItemsTab.prototype.isGlobalQuery = function () {
+
+        // apply parentId to queries
+        return false;
+    };
+
     ItemsTab.prototype.getFolderSortOption = function () {
 
         return null;
@@ -1210,7 +1212,7 @@
         }
 
         return Promise.resolve(globalize.translate('NoItemsFound'));
-   };
+    };
 
     function setEmptyListMessage(html) {
 

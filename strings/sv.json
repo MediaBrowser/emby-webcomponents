@@ -897,7 +897,6 @@
     "Locked": "L\u00e5st",
     "Any": "Vilken som helst",
     "Admin": "Admin",
-    "LabelHasOverview": "Har \u00f6versikt:",
     "LabelLocked": "L\u00e5st:",
     "LabelTrailers": "Trailrar:",
     "LabelExtras": "Extramaterial:",
@@ -907,5 +906,7 @@
     "KeepUpToHelp": "Inspelningar som \u00e4r \u00f6ver gr\u00e4nsen tas bort n\u00e4r n\u00e4sta inspelning b\u00f6rjar. \u00c4ldsta inspelningen tas bort f\u00f6rst, sorterat p\u00e5 datum tillagd.",
     "NoItemsMatchingFound": "Inga objekt som matchade dina s\u00f6kkriterier hittades.",
     "PreventPlaybackContinuing": "F\u00f6rhindra uppspelning fr\u00e5n att forts\u00e4tta p\u00e5 obest\u00e4md tid genom att efterfr\u00e5ga input fr\u00e5n anv\u00e4ndaren",
-    "PromptStillWatching": "Aktivera \"Tittar du fortfarande?\"-meddelande"
+    "PromptStillWatching": "Aktivera \"Tittar du fortfarande?\"-meddelande",
+    "HeaderMissingMetadata": "Missing Metadata",
+    "HeadedIncludedIn": "Included In"
 }

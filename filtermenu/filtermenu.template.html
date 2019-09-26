@@ -109,13 +109,6 @@
             <div class="verticalSection multiSettingsSection hide">
 
                 <h2 class="sectionTitle">${Metadata}</h2>
-                <div class="selectContainer hide simpleFilter viewSetting" data-settingname="HasOverview">
-                    <select is="emby-select" label="${LabelHasOverview}">
-                        <option value="">${Any}</option>
-                        <option value="true">${Yes}</option>
-                        <option value="false">${No}</option>
-                    </select>
-                </div>
 
                 <div class="selectContainer hide simpleFilter viewSetting" data-settingname="IsLocked">
                     <select is="emby-select" label="${LabelLocked}">
@@ -126,8 +119,18 @@
                 </div>
             </div>
 
+            <div class="verticalSection multiSettingsSection hide">
+                <h3 class="checkboxListLabel">${HeaderMissingMetadata}</h3>
+                <div class="checkboxList">
+                    <label class="viewSetting" data-settingname="HasOverview">
+                        <input type="checkbox" is="emby-checkbox" class="simpleFilter" data-settingname="HasOverview" data-invert="true" />
+                        <span>${Overview}</span>
+                    </label>
+                </div>
+            </div>
+
             <div class="verticalSection viewSetting" data-settingname="VideoType">
-                <h2 class="checkboxListLabel">${HeaderVideoType}</h2>
+                <h3 class="checkboxListLabel">${HeaderVideoType}</h3>
                 <div class="checkboxList">
                     <label>
                         <input type="checkbox" is="emby-checkbox" class="simpleFilter" data-settingname="IsHD" />

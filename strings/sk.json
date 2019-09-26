@@ -639,7 +639,7 @@
     "HeaderForKids": "Pre deti",
     "HeaderPlaybackError": "Chyba prehr\u00e1vania",
     "PlaybackErrorNotAllowed": "Moment\u00e1lne nem\u00e1te opr\u00e1vnenie na prehr\u00e1vanie tohto obsahu. Podrobnosti z\u00edskate od spr\u00e1vcu syst\u00e9mu.",
-    "RateLimitExceeded": "Limit pou\u017eitia, V\u00e1\u0161 \u00fa\u010det moment\u00e1lne prekro\u010dil maxim\u00e1lny po\u010det po\u017eiaviek. Sk\u00faste nesk\u00f4r pros\u00edm.",
+    "RateLimitExceeded": "V\u00e1\u0161 \u00fa\u010det prekro\u010dil maxim\u00e1lny limit streamovania nastaven\u00fd spr\u00e1vcom servera Emby Server. Po\u017eiadajte ho o pomoc.",
     "PlaybackErrorNoCompatibleStream": "Moment\u00e1lne nie s\u00fa k dispoz\u00edcii \u017eiadne kompatibiln\u00e9 streamy. Sk\u00faste to znova nesk\u00f4r alebo po\u017eiadajte spr\u00e1vcu syst\u00e9mu o \u010fal\u0161ie podrobnosti.",
     "PlaybackErrorPlaceHolder": "Ak chcete prehra\u0165 toto video, pros\u00edm vlo\u017ete disk.",
     "Guide": "Sprievodca",
@@ -897,7 +897,6 @@
     "Locked": "Zamknut\u00e9",
     "Any": "Ak\u00fdko\u013evek",
     "Admin": "Administr\u00e1tor",
-    "LabelHasOverview": "M\u00e1 preh\u013ead:",
     "LabelLocked": "Zamknut\u00e9:",
     "LabelTrailers": "Up\u00fatavky:",
     "LabelExtras": "Mimoriadn\u00e9:",
@@ -906,6 +905,8 @@
     "CustomRatingHelp": "Vlastn\u00e9 hodnotenie je pou\u017eit\u00e9 na vyhodnotia rodi\u010dovskej kontroly, ale nezobraz\u00ed sa. Pole rodi\u010dovsk\u00e9ho hodnotenia sa st\u00e1le zobrazuje.",
     "KeepUpToHelp": "Nahr\u00e1vky presahuj\u00face limit sa vyma\u017e\u00fa na za\u010diatku nasleduj\u00faceho nahr\u00e1vania. Pod\u013ea d\u00e1tumu pridania sa ako prv\u00e9 odstr\u00e1nia najstar\u0161ie nahr\u00e1vky.",
     "NoItemsMatchingFound": "Nena\u0161li sa \u017eiadne polo\u017eky, ktor\u00e9 by zodpovedali va\u0161im krit\u00e9ri\u00e1m vyh\u013ead\u00e1vania.",
-    "PreventPlaybackContinuing": "Pravideln\u00fdm zobrazovan\u00edm v\u00fdzvy na vstup od pou\u017e\u00edvate\u013ea zabr\u00e1nite v nekone\u010dnom prehr\u00e1van\u00ed",
-    "PromptStillWatching": "Povoli\u0165 vyzvanie \u201eSt\u00e1le sledujete?\u201c"
+    "PreventPlaybackContinuing": "Pravideln\u00fdm zobrazovan\u00edm v\u00fdzvy na vstup od pou\u017e\u00edvate\u013ea zabr\u00e1nite v nekone\u010dnom prehr\u00e1van\u00ed.",
+    "PromptStillWatching": "Povoli\u0165 vyzvanie \u201eSt\u00e1le sledujete?\u201c",
+    "HeaderMissingMetadata": "Ch\u00fdbaj\u00face metad\u00e1ta",
+    "HeadedIncludedIn": "Included In"
 }

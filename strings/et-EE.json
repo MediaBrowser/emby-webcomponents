@@ -897,7 +897,6 @@
     "Locked": "Lukustatud",
     "Any": "Mistahes",
     "Admin": "Admin",
-    "LabelHasOverview": "On \u00fclevaade:",
     "LabelLocked": "Lukustatud:",
     "LabelTrailers": "Treilerid:",
     "LabelExtras": "Lisad:",
@@ -907,5 +906,7 @@
     "KeepUpToHelp": "Piirangu \u00fcletanud salvestised kustutatakse j\u00e4rgmise salvestuse algamisel. Salvestised kustutatakse lisamise kuup\u00e4eva j\u00e4rgi, vanemad esimesena.",
     "NoItemsMatchingFound": "Otsingukriteeriumidele vastavaid \u00fcksusi ei leitud.",
     "PreventPlaybackContinuing": "Piira esituse l\u00f5pmatuseni j\u00e4tkumist kasutajalt perioodiliselt sisestuse k\u00fcsimisega.",
-    "PromptStillWatching": "Luba 'Kas oled veel siin?\" k\u00fcsimine"
+    "PromptStillWatching": "Luba 'Kas oled veel siin?\" k\u00fcsimine",
+    "HeaderMissingMetadata": "Missing Metadata",
+    "HeadedIncludedIn": "Included In"
 }

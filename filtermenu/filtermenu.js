@@ -356,7 +356,13 @@
             var val = settings[elems[i].getAttribute('data-settingname')];
 
             if (elems[i].tagName === 'INPUT') {
-                elems[i].checked = val || false;
+
+                if (elems[i].getAttribute('data-invert') === 'true') {
+                    elems[i].checked = val === 'false';
+                } else {
+                    elems[i].checked = val || false;
+                }
+
             } else if (elems[i].classList.contains('selectContainer')) {
 
                 if (val == null) {
@@ -408,7 +414,7 @@
 
         // Genres
         var genres = [];
-         elem = context.querySelector('.selectGenre');
+        elem = context.querySelector('.selectGenre');
         if (elem.value) {
             genres.push(elem.value);
         }
@@ -503,8 +509,22 @@
 
     function setBasicFilter(context, key, elem) {
 
-        var value = elem.tagName === 'SELECT' ? elem.value : elem.checked;
-        value = value ? value : null;
+        var value;
+
+        if (elem.tagName === 'SELECT') {
+            value = elem.tagName === 'SELECT' ? elem.value : elem.checked;
+            value = value ? value : null;
+        }
+        else {
+
+            if (elem.getAttribute('data-invert') === 'true') {
+                value = elem.checked ? false : null;
+            } else {
+                value = elem.checked;
+                value = value ? value : null;
+            }
+        }
+
         userSettings.setFilter(key, value);
     }
 

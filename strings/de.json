@@ -897,7 +897,6 @@
     "Locked": "Gesperrt",
     "Any": "Jeder",
     "Admin": "Admin",
-    "LabelHasOverview": "Hat \u00dcbersicht:",
     "LabelLocked": "Gesperrt:",
     "LabelTrailers": "Trailer:",
     "LabelExtras": "Extras:",
@@ -907,5 +906,7 @@
     "KeepUpToHelp": "Aufnahmen \u00fcber dem Limit werden gel\u00f6scht wenn die n\u00e4chste Aufnahme startet. Die \u00e4ltesten Aufnahmen werden als erstes entfernt.",
     "NoItemsMatchingFound": "Es wurden keine Objekte entsprechend deiner Suchkriterien gefunden.",
     "PreventPlaybackContinuing": "Verhindere eine unbegrenzte Wiedergabe durch regelm\u00e4\u00dfige Aufforderung zur Benutzereingabe",
-    "PromptStillWatching": "Aktiviere \"Schaust du noch?\" Meldung"
+    "PromptStillWatching": "Aktiviere \"Schaust du noch?\" Meldung",
+    "HeaderMissingMetadata": "Missing Metadata",
+    "HeadedIncludedIn": "Included In"
 }

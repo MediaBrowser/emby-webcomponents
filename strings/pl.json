@@ -897,7 +897,6 @@
     "Locked": "Zablokowane",
     "Any": "Dowolne",
     "Admin": "Administrator",
-    "LabelHasOverview": "Posiada opis:",
     "LabelLocked": "Zablokowane:",
     "LabelTrailers": "Zwiastuny:",
     "LabelExtras": "Dodatki:",
@@ -907,5 +906,7 @@
     "KeepUpToHelp": "Nagrania ponad limit s\u0105 usuwane, gdy rozpocznie si\u0119 nowe. Najpierw usuwane s\u0105 najstarsze nagrania, zgodnie z dat\u0105 dodania.",
     "NoItemsMatchingFound": "Nie znaleziono pasuj\u0105cych pozycji.",
     "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input.",
-    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt",
+    "HeaderMissingMetadata": "Missing Metadata",
+    "HeadedIncludedIn": "Included In"
 }

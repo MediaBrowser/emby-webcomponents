@@ -897,7 +897,6 @@
     "Locked": "Locked",
     "Any": "Any",
     "Admin": "Admin",
-    "LabelHasOverview": "Has overview:",
     "LabelLocked": "Locked:",
     "LabelTrailers": "Tr\u00e0ilers:",
     "LabelExtras": "Extras:",
@@ -907,5 +906,7 @@
     "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
     "NoItemsMatchingFound": "No items matching your search criteria were found.",
     "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input.",
-    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt"
+    "PromptStillWatching": "Enable 'Are You Still Watching?' prompt",
+    "HeaderMissingMetadata": "Missing Metadata",
+    "HeadedIncludedIn": "Included In"
 }
