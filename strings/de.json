@@ -639,7 +639,7 @@
     "HeaderForKids": "F\u00fcr Kinder",
     "HeaderPlaybackError": "Wiedergabefehler",
     "PlaybackErrorNotAllowed": "Die verf\u00fcgst derzeit \u00fcber keine Berechtigung um diesen Inhalt abzuspielen. Bitte kontaktiere deinen Systemadministrator f\u00fcr weitere Informationen.",
-    "RateLimitExceeded": "Nutzungslimit erreicht, dein Account hat die maximale Anzahl an Verbindungen zu diesem Zeitpunkt \u00fcberschritten.",
+    "RateLimitExceeded": "Dein Account hat das maximale Streaming-Limit erreicht, welches dein Emby-Server-Administrator gesetzt hat.",
     "PlaybackErrorNoCompatibleStream": "Derzeit sind keine kompatiblen Stream verf\u00fcgbar. Bitte versuche es sp\u00e4ter nochmal oder kontaktiere deinen Systemadministrator f\u00fcr weitere Informationen.",
     "PlaybackErrorPlaceHolder": "Bitte lege die Disc ein um das Video abzuspielen.",
     "Guide": "TV Guide",
@@ -905,8 +905,8 @@
     "CustomRatingHelp": "Eine benutzerdefinierte Bewertung wird zur Auswertung der elterlichen Kontrolle verwendet, aber sie wird nicht angezeigt. Das Altersfreigabefeld wird immer noch angezeigt.",
     "KeepUpToHelp": "Aufnahmen \u00fcber dem Limit werden gel\u00f6scht wenn die n\u00e4chste Aufnahme startet. Die \u00e4ltesten Aufnahmen werden als erstes entfernt.",
     "NoItemsMatchingFound": "Es wurden keine Objekte entsprechend deiner Suchkriterien gefunden.",
-    "PreventPlaybackContinuing": "Verhindere eine unbegrenzte Wiedergabe durch regelm\u00e4\u00dfige Aufforderung zur Benutzereingabe",
+    "PreventPlaybackContinuing": "Verhindere eine unbegrenzte Wiedergabe durch regelm\u00e4\u00dfige Aufforderung zur Benutzereingabe.",
     "PromptStillWatching": "Aktiviere \"Schaust du noch?\" Meldung",
-    "HeaderMissingMetadata": "Missing Metadata",
-    "HeadedIncludedIn": "Included In"
+    "HeaderMissingMetadata": "Fehlende Metadaten",
+    "HeadedIncludedIn": "Enthalten in"
 }
