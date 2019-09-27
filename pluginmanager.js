@@ -5,7 +5,9 @@ define(['events'], function (events) {
     var cacheParam = new Date().getTime();
 
     function loadStrings(plugin, globalize) {
+
         var strings = plugin.getTranslations ? plugin.getTranslations() : [];
+
         return globalize.loadStrings({
             name: plugin.id || plugin.packageName,
             strings: strings
@@ -36,6 +38,7 @@ define(['events'], function (events) {
             var globalize = responses[1];
             var appRouter = responses[2];
 
+            console.log('creating plugin instance');
             var plugin = new pluginFactory();
 
             // See if it's already installed
@@ -44,7 +47,7 @@ define(['events'], function (events) {
             })[0];
 
             if (existing) {
-                return Promise.resolve(existing);
+                return Promise.resolve();
             }
 
             plugin.installUrl = url;
@@ -63,6 +66,7 @@ define(['events'], function (events) {
             var paths = {};
             paths[plugin.id] = plugin.baseUrl;
 
+            console.log('setting require config');
             require.config({
                 waitSeconds: 0,
                 paths: paths
@@ -76,9 +80,9 @@ define(['events'], function (events) {
                 });
             }
 
-            return loadStrings(plugin, globalize).then(function () {
-                return plugin;
-            });
+            console.log('loading plugin strings');
+
+            return loadStrings(plugin, globalize);
         });
     };
 

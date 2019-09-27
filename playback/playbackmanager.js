@@ -1459,7 +1459,7 @@
 
             if (self.playMethod(player) === 'Transcode' || !player.canSetAudioStreamIndex()) {
 
-                changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
+                changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index }, 'audiotrackchange');
                 getPlayerData(player).audioStreamIndex = index;
 
             } else {
@@ -1472,7 +1472,7 @@
                         getPlayerData(player).audioStreamIndex = index;
                     }
                     else {
-                        changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index });
+                        changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index }, 'audiotrackchange');
                         getPlayerData(player).audioStreamIndex = index;
                     }
                 });
@@ -1557,7 +1557,7 @@
 
                     changeStream(player, getCurrentTicks(player), {
                         MaxStreamingBitrate: bitrate
-                    });
+                    }, 'qualitychange');
                 });
             });
         };
@@ -1640,7 +1640,7 @@
                 if (getDeliveryMethod(currentStream) === 'Encode' || (getDeliveryMethod(currentStream) === 'Embed' && currentPlayMethod === 'Transcode')) {
 
                     // Need to change the transcoded stream to remove subs
-                    changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
+                    changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 }, 'subtitletrackchange');
                 }
             }
             else if (!currentStream && newStream) {
@@ -1652,7 +1652,7 @@
                 } else {
 
                     // Need to change the transcoded stream to add subs
-                    changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: index });
+                    changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: index }, 'subtitletrackchange');
                 }
             }
             else if (currentStream && newStream) {
@@ -1664,12 +1664,12 @@
 
                     // But in order to handle this client side, if the previous track is being added via transcoding, we'll have to remove it
                     if (getDeliveryMethod(currentStream) !== 'External' && getDeliveryMethod(currentStream) !== 'Hls' && getDeliveryMethod(currentStream) !== 'Embed') {
-                        changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 });
+                        changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: -1 }, 'subtitletrackchange');
                     }
                 } else {
 
                     // Need to change the transcoded stream to add subs
-                    changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: index });
+                    changeStream(player, getCurrentTicks(player), { SubtitleStreamIndex: index }, 'subtitletrackchange');
                 }
             }
 
@@ -1739,7 +1739,7 @@
             return player.duration();
         }
 
-        function changeStream(player, ticks, params) {
+        function changeStream(player, ticks, params, progressEventName) {
 
             if (canPlayerSeek(player) && params == null) {
 
@@ -1795,13 +1795,13 @@
                         getPlayerData(player).audioStreamIndex = audioStreamIndex;
                         getPlayerData(player).maxStreamingBitrate = maxBitrate;
 
-                        changeStreamToUrl(apiClient, player, playSessionId, streamInfo);
+                        changeStreamToUrl(apiClient, player, playSessionId, streamInfo, progressEventName);
                     }
                 });
             });
         }
 
-        function changeStreamToUrl(apiClient, player, playSessionId, streamInfo, newPositionTicks) {
+        function changeStreamToUrl(apiClient, player, playSessionId, streamInfo, newPositionTicks, progressEventName) {
 
             var playerData = getPlayerData(player);
 
@@ -1816,15 +1816,15 @@
 
                         apiClient.stopActiveEncodings(playSessionId);
                     };
-                    setSrcIntoPlayer(apiClient, player, streamInfo).then(afterSetSrc, afterSetSrc);
+                    setSrcIntoPlayer(apiClient, player, streamInfo, progressEventName).then(afterSetSrc, afterSetSrc);
                 });
 
             } else {
-                setSrcIntoPlayer(apiClient, player, streamInfo);
+                setSrcIntoPlayer(apiClient, player, streamInfo, progressEventName);
             }
         }
 
-        function setSrcIntoPlayer(apiClient, player, streamInfo) {
+        function setSrcIntoPlayer(apiClient, player, streamInfo, progressEventName) {
 
             normalizePlayOptions(streamInfo);
 
@@ -1836,7 +1836,8 @@
                 playerData.streamInfo = streamInfo;
                 streamInfo.started = true;
 
-                sendProgressUpdate(player, 'timeupdate');
+                sendProgressUpdate(player, progressEventName || 'timeupdate');
+
             }, function (e) {
 
                 var playerData = getPlayerData(player);
@@ -3351,6 +3352,16 @@
             sendProgressUpdate(player, 'timeupdate');
         }
 
+        function onAudioTrackChange(e) {
+            var player = this;
+            sendProgressUpdate(player, 'audiotrackchange');
+        }
+
+        function onSubtitleTrackChange(e) {
+            var player = this;
+            sendProgressUpdate(player, 'subtitletrackchange');
+        }
+
         function onPlaybackPause(e) {
             var player = this;
             sendProgressUpdate(player, 'pause');
@@ -3426,6 +3437,8 @@
             if (enableLocalPlaylistManagement(player)) {
                 events.on(player, 'error', onPlaybackError);
                 events.on(player, 'timeupdate', onPlaybackTimeUpdate);
+                events.on(player, 'audiotrackchange', onAudioTrackChange);
+                events.on(player, 'subtitletrackchange', onSubtitleTrackChange);
                 events.on(player, 'pause', onPlaybackPause);
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);
@@ -3439,6 +3452,8 @@
                 events.on(player, 'itemstarted', onPlaybackStartedFromSelfManagingPlayer);
                 events.on(player, 'itemstopped', onPlaybackStoppedFromSelfManagingPlayer);
                 events.on(player, 'timeupdate', onPlaybackTimeUpdate);
+                events.on(player, 'audiotrackchange', onAudioTrackChange);
+                events.on(player, 'subtitletrackchange', onSubtitleTrackChange);
                 events.on(player, 'pause', onPlaybackPause);
                 events.on(player, 'unpause', onPlaybackUnpause);
                 events.on(player, 'volumechange', onPlaybackVolumeChange);

@@ -383,15 +383,13 @@
             message.subtitleBurnIn = appSettings.get('subtitleburnin') || '';
         }
 
-        return new Promise(function (resolve, reject) {
+        return require(['chromecastHelper']).then(function (responses) {
 
-            require(['chromecastHelper'], function (chromecastHelper) {
+            var chromecastHelper = responses[0];
 
-                chromecastHelper.getServerAddress(apiClient).then(function (serverAddress) {
-                    message.serverAddress = serverAddress;
-                    player.sendMessageInternal(message).then(resolve, reject);
-
-                }, reject);
+            return chromecastHelper.getServerAddress(apiClient).then(function (serverAddress) {
+                message.serverAddress = serverAddress;
+                return player.sendMessageInternal(message);
             });
         });
     };
@@ -597,7 +595,6 @@
 
             //console.log('cc: positionchange');
             var state = instance.getPlayerStateInternal(data);
-
             events.trigger(instance, "timeupdate", [state]);
         });
 
@@ -606,14 +603,12 @@
         bindEventForRelay(instance, 'unpause');
         bindEventForRelay(instance, 'volumechange');
         bindEventForRelay(instance, 'repeatmodechange');
-
-        events.on(instance._castPlayer, "playstatechange", function (e, data) {
-
-            //console.log('cc: playstatechange');
-            var state = instance.getPlayerStateInternal(data);
-
-            events.trigger(instance, "pause", [state]);
-        });
+        bindEventForRelay(instance, 'audiotrackchange');
+        bindEventForRelay(instance, 'subtitletrackchange');
+        bindEventForRelay(instance, 'qualitychange');
+        bindEventForRelay(instance, 'playlistitemmove');
+        bindEventForRelay(instance, 'playlistitemremove');
+        bindEventForRelay(instance, 'playlistitemadd');
     }
 
     function ChromecastPlayer() {
@@ -745,7 +740,7 @@
 
         position = position / 10000000;
 
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {
                 position: position
             },
@@ -754,7 +749,7 @@
     };
 
     ChromecastPlayer.prototype.setAudioStreamIndex = function (index) {
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {
                 index: index
             },
@@ -763,7 +758,7 @@
     };
 
     ChromecastPlayer.prototype.setSubtitleStreamIndex = function (index) {
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {
                 index: index
             },
@@ -773,7 +768,7 @@
 
     ChromecastPlayer.prototype.setMaxStreamingBitrate = function (options) {
 
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: options,
             command: 'SetMaxStreamingBitrate'
         });
@@ -786,14 +781,14 @@
     };
 
     ChromecastPlayer.prototype.nextTrack = function () {
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {},
             command: 'NextTrack'
         });
     };
 
     ChromecastPlayer.prototype.previousTrack = function () {
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {},
             command: 'PreviousTrack'
         });
@@ -833,21 +828,21 @@
     };
 
     ChromecastPlayer.prototype.unpause = function () {
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {},
             command: 'Unpause'
         });
     };
 
     ChromecastPlayer.prototype.playPause = function () {
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {},
             command: 'PlayPause'
         });
     };
 
     ChromecastPlayer.prototype.pause = function () {
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {},
             command: 'Pause'
         });
@@ -862,7 +857,7 @@
 
     ChromecastPlayer.prototype.displayContent = function (options) {
 
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: options,
             command: 'DisplayContent'
         });
@@ -885,7 +880,7 @@
 
     ChromecastPlayer.prototype.playTrailers = function (item) {
 
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {
                 ItemId: item.Id,
                 ServerId: item.ServerId
@@ -895,7 +890,7 @@
     };
 
     ChromecastPlayer.prototype.setRepeatMode = function (mode) {
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {
                 RepeatMode: mode
             },
@@ -905,7 +900,7 @@
 
     ChromecastPlayer.prototype.toggleMute = function () {
 
-        this._castPlayer.sendMessage({
+        return this._castPlayer.sendMessage({
             options: {},
             command: 'ToggleMute'
         });

@@ -73,7 +73,7 @@
             command.Arguments = options;
         }
 
-        instance.sendCommand(command);
+        return instance.sendCommand(command);
     }
 
     function unsubscribeFromPlayerUpdates(instance) {
@@ -101,7 +101,7 @@
         processUpdatedSession(instance, session, apiClient);
     }
 
-    function processUpdatedSession(instance, session, apiClient) {
+    function processUpdatedSession(instance, session, apiClient, eventName) {
 
         if (session) {
 
@@ -113,7 +113,7 @@
 
             normalizeImages(session, apiClient);
 
-            var eventNames = getChangedEvents(instance.lastPlayerData, session);
+            var eventNames = getChangedEvents(instance.lastPlayerData, session, eventName);
             instance.lastPlayerData = session;
 
             for (var i = 0, length = eventNames.length; i < length; i++) {
@@ -128,23 +128,16 @@
         }
     }
 
-    function getChangedEvents(state1, state2) {
+    function getChangedEvents(state1, state2, eventName) {
 
         var names = [];
 
-        if (!state1) {
+        if (!state1 || !eventName) {
             names.push('statechange');
-            names.push('timeupdate');
-            names.push('pause');
-
             return names;
         }
 
-        // TODO: Trim these down to prevent the UI from over-refreshing
-        names.push('statechange');
-        names.push('timeupdate');
-        names.push('pause');
-
+        names.push(eventName);
         return names;
     }
 
@@ -217,11 +210,12 @@
         this.id = 'remoteplayer';
 
         events.on(serverNotifications, 'Session', function (e, apiClient, data) {
+
+            // TODO: send event name here
             processUpdatedSession(self, data, apiClient);
         });
 
         events.on(serverNotifications, 'Sessions', function (e, apiClient, data) {
-
             if (!apiClient.isMinServerVersion('4.2.0.22')) {
                 processUpdatedSessions(self, data, apiClient);
             }
@@ -309,7 +303,7 @@
         var sessionId = getActivePlayerId();
 
         var apiClient = getCurrentApiClient(this);
-        apiClient.sendCommand(sessionId, command);
+        return apiClient.sendCommand(sessionId, command);
     };
 
     SessionPlayer.prototype.play = function (options) {
@@ -429,32 +423,32 @@
     SessionPlayer.prototype.setMute = function (isMuted) {
 
         if (isMuted) {
-            sendCommandByName(this, 'Mute');
+            return sendCommandByName(this, 'Mute');
         } else {
-            sendCommandByName(this, 'Unmute');
+            return sendCommandByName(this, 'Unmute');
         }
     };
 
     SessionPlayer.prototype.toggleMute = function () {
-        sendCommandByName(this, 'ToggleMute');
+        return sendCommandByName(this, 'ToggleMute');
     };
 
     SessionPlayer.prototype.setVolume = function (vol) {
-        sendCommandByName(this, 'SetVolume', {
+        return sendCommandByName(this, 'SetVolume', {
             Volume: vol
         });
     };
 
     SessionPlayer.prototype.volumeUp = function () {
-        sendCommandByName(this, 'VolumeUp');
+        return sendCommandByName(this, 'VolumeUp');
     };
 
     SessionPlayer.prototype.volumeDown = function () {
-        sendCommandByName(this, 'VolumeDown');
+        return sendCommandByName(this, 'VolumeDown');
     };
 
     SessionPlayer.prototype.toggleFullscreen = function () {
-        sendCommandByName(this, 'ToggleFullscreen');
+        return sendCommandByName(this, 'ToggleFullscreen');
     };
 
     SessionPlayer.prototype.audioTracks = function () {
@@ -473,13 +467,13 @@
     };
 
     SessionPlayer.prototype.playTrailers = function (item) {
-        sendCommandByName(this, 'PlayTrailers', {
+        return sendCommandByName(this, 'PlayTrailers', {
             ItemId: item.Id
         });
     };
 
     SessionPlayer.prototype.setAudioStreamIndex = function (index) {
-        sendCommandByName(this, 'SetAudioStreamIndex', {
+        return sendCommandByName(this, 'SetAudioStreamIndex', {
             Index: index
         });
     };
@@ -527,14 +521,14 @@
 
     SessionPlayer.prototype.setRepeatMode = function (mode) {
 
-        sendCommandByName(this, 'SetRepeatMode', {
+        return sendCommandByName(this, 'SetRepeatMode', {
             RepeatMode: mode
         });
     };
 
     SessionPlayer.prototype.displayContent = function (options) {
 
-        sendCommandByName(this, 'DisplayContent', options);
+        return sendCommandByName(this, 'DisplayContent', options);
     };
 
     SessionPlayer.prototype.isPlaying = function () {

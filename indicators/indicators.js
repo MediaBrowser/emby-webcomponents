@@ -58,7 +58,9 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
             }
         }
 
-        if ((itemType === 'Program' || itemType === 'Timer' || itemType === 'Recording') && item.StartDate && item.EndDate) {
+        item = item.CurrentProgram || item;
+
+        if ((itemType === 'Program' || itemType === 'Timer' || itemType === 'Recording' || itemType === 'TvChannel') && item.StartDate && item.EndDate) {
 
             var startDate = 0;
             var endDate = 1;

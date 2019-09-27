@@ -635,7 +635,7 @@
 
         self.setSubtitleStreamIndex = function (index) {
 
-            setCurrentTrackElement(index);
+            setCurrentTrackElement(index, true);
         };
 
         function getSupportedAudioStreams() {
@@ -648,7 +648,7 @@
             });
         }
 
-        self.setAudioStreamIndex = function (index) {
+        self.setAudioStreamIndex = function (index, triggerEvent) {
 
             var streams = getSupportedAudioStreams();
 
@@ -703,6 +703,11 @@
 
             setTimeout(function () {
                 elem.currentTime = elem.currentTime;
+
+                if (triggerEvent !== false) {
+                    events.trigger(self, 'audiotrackchange');
+                }
+
             }, 100);
         };
 
@@ -816,12 +821,12 @@
             // that's why we better call it outside of the event handling
             if (subtitleTrackIndexToSetOnPlaying) {
                 setTimeout(function () {
-                    setCurrentTrackElement(subtitleTrackIndexToSetOnPlaying);
+                    setCurrentTrackElement(subtitleTrackIndexToSetOnPlaying, false);
                 }, 300);
             }
 
             if (audioTrackIndexToSetOnPlaying != null && self.canSetAudioStreamIndex()) {
-                self.setAudioStreamIndex(audioTrackIndexToSetOnPlaying);
+                self.setAudioStreamIndex(audioTrackIndexToSetOnPlaying, false);
             }
 
         }
@@ -1319,7 +1324,7 @@
             }
         }
 
-        function setCurrentTrackElement(streamIndex) {
+        function setCurrentTrackElement(streamIndex, triggerEvent) {
 
             var currentPlayOptions = self._currentPlayOptions;
             var mediaSource = currentPlayOptions.mediaSource;
@@ -1398,6 +1403,10 @@
                 var textTrack = elemTextTracks[targetIndex];
 
                 textTrack.mode = 'showing';
+            }
+
+            if (triggerEvent !== false) {
+                events.trigger(self, 'subtitletrackchange');
             }
         }
 
