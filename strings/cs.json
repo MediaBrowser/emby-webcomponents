@@ -639,7 +639,7 @@
     "HeaderForKids": "Pro d\u011bti",
     "HeaderPlaybackError": "Chyba p\u0159ehr\u00e1v\u00e1n\u00ed",
     "PlaybackErrorNotAllowed": "V sou\u010dasn\u00e9 dob\u011b nejste opr\u00e1vn\u011bni p\u0159ehr\u00e1vat tento obsah. Pro v\u00edce informac\u00ed se obra\u0165te se na spr\u00e1vce syst\u00e9mu.",
-    "RateLimitExceeded": "Limit pou\u017eit\u00ed, v tuto chv\u00edli V\u00e1\u0161 \u00fa\u010det p\u0159ekro\u010dil maxim\u00e1ln\u00ed po\u010det po\u017eadavk\u016f. Zkuste, pros\u00edm, pozd\u011bji.",
+    "RateLimitExceeded": "V\u00e1\u0161 \u00fa\u010det p\u0159ekro\u010dil limit streamov\u00e1n\u00ed, kter\u00fd nastavil V\u00e1\u0161 administr\u00e1tor serveru Emby. Kontaktujte jej, aby V\u00e1m mohl pomoci..",
     "PlaybackErrorNoCompatibleStream": "\u017d\u00e1dn\u00e9 kompatibiln\u00ed streamy nejsou v sou\u010dasn\u00e9 dob\u011b k dispozici. Zkuste to, pros\u00edm, pozd\u011bji nebo pro v\u00edce podrobnost\u00ed kontaktujte sv\u00e9ho spr\u00e1vce syst\u00e9mu",
     "PlaybackErrorPlaceHolder": "Pro p\u0159ehr\u00e1n\u00ed videa nejd\u0159\u00edve vlo\u017ete disk",
     "Guide": "Pr\u016fvodce",
@@ -908,5 +908,5 @@
     "PreventPlaybackContinuing": "Zabr\u00e1nit nekone\u010dn\u00e9mu p\u0159ehr\u00e1v\u00e1n\u00ed pravidelnou v\u00fdzvou u\u017eivatele k potvrzen\u00ed.",
     "PromptStillWatching": "Povolit ozn\u00e1men\u00ed 'St\u00e1le sledujete?'",
     "HeaderMissingMetadata": "Chyb\u011bj\u00edc\u00ed metadata",
-    "HeadedIncludedIn": "Included In"
+    "HeadedIncludedIn": "Obsa\u017eeno v"
 }

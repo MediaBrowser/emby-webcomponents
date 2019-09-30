@@ -43,7 +43,8 @@ html, body {
     /* Used on document.body to lock document level scrolling when dialogs are open */
     .withDialogOpen /*, .withDialogOpen > body*/ {
         overflow-y: hidden !important;
-        touch-action: none !important;
+        /* Have to use this instead of none, otherwise the slideshow can't zoom */
+        touch-action: pinch-zoom !important;
     }
 }
 

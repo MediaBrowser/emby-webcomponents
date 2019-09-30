@@ -524,7 +524,7 @@
             hideElement('#albumAssociationMessage', context);
         }
 
-        if (item.Type === "Movie" || item.Type === "Trailer") {
+        if (item.Type === "Movie" || item.Type === "Trailer" || item.Type === "Series") {
             showElement('#fldCriticRating', context);
         } else {
             hideElement('#fldCriticRating', context);

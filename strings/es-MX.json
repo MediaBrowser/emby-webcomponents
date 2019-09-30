@@ -639,7 +639,7 @@
     "HeaderForKids": "Para Ni\u00f1os",
     "HeaderPlaybackError": "Error de Reproducci\u00f3n",
     "PlaybackErrorNotAllowed": "Actualmente no esta autorizado para reproducir este contenido. Por favor contacte a su administrador de sistema para mas informaci\u00f3n.",
-    "RateLimitExceeded": "Limite de uso, su cuenta ha excedido el numero m\u00e1ximo de solicitudes en este momento. Por favor intente de nuevo mas tarde.",
+    "RateLimitExceeded": "Su cuenta ha excedido el limite m\u00e1ximo de transmisiones configuradas por su administrador del Servidor Emby. Por favor contactelo para asistencia.",
     "PlaybackErrorNoCompatibleStream": "No hay streams compatibles en este en este momento. Por favor intente de nuevo mas tarde o contacte a su administrador de sistema para mas detalles.",
     "PlaybackErrorPlaceHolder": "Por favor introduzca el disco para poder reproducir este video.",
     "Guide": "Gu\u00eda",
@@ -905,8 +905,8 @@
     "CustomRatingHelp": "Una clasificaci\u00f3n personalizada es usada para la evaluaci\u00f3n del control parental pero no es mostrada. El campo del clasificaci\u00f3n personal se continuara mostrando.",
     "KeepUpToHelp": "Las grabaciones por encima del limite son eliminadas cuando la siguiente grabaci\u00f3n inicie. Las grabaciones mas antiguas ser\u00e1n eliminadas primero, seg\u00fan la fecha en que se agregaron.",
     "NoItemsMatchingFound": "No se encontr\u00f3 ning\u00fan \u00edtem que coincidiera con su criterio de b\u00fasqueda.",
-    "PreventPlaybackContinuing": "Impide que la reproducci\u00f3n continu\u00e9 indefinidamente pidiendo peri\u00f3dicamente al usuario una acci\u00f3n.",
+    "PreventPlaybackContinuing": "Impedir que la reproducci\u00f3n continu\u00e9 indefinidamente preguntando peri\u00f3dicamente actividad del usuario.",
     "PromptStillWatching": "Habilitar la ventana \"\u00bfSeguir Mirando?\"",
-    "HeaderMissingMetadata": "Missing Metadata",
-    "HeadedIncludedIn": "Included In"
+    "HeaderMissingMetadata": "Metadatos faltantes",
+    "HeadedIncludedIn": "Incluido En"
 }
