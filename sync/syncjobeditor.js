@@ -11,10 +11,12 @@
 
         require(['syncDialog'], function (syncDialog) {
             syncDialog.renderForm({
+
                 elem: context.querySelector('.syncJobFormContent'),
                 dialogOptions: dialogOptions,
                 dialogOptionsFn: getTargetDialogOptionsFn(dialogOptions),
                 readOnlySyncTarget: true
+
             }).then(function () {
                 fillJobValues(context, job, dialogOptions);
             });
@@ -256,16 +258,48 @@
         });
     }
 
+    function triggerChange(select) {
+
+        select.dispatchEvent(new CustomEvent('change', {
+            bubbles: true
+        }));
+    }
+
     function fillJobValues(context, job, editOptions) {
 
         var selectProfile = context.querySelector('#selectProfile');
         if (selectProfile) {
             selectProfile.value = job.Profile || '';
+
+            triggerChange(selectProfile);
         }
 
         var selectQuality = context.querySelector('#selectQuality');
         if (selectQuality) {
             selectQuality.value = job.Quality || '';
+
+            triggerChange(selectQuality);
+        }
+
+        var selectContainer = context.querySelector('#selectContainer');
+        if (selectContainer) {
+            selectContainer.value = job.Container || '';
+
+            triggerChange(selectContainer);
+        }
+
+        var selectVideoCodec = context.querySelector('#selectVideoCodec');
+        if (selectVideoCodec) {
+            selectVideoCodec.value = job.VideoCodec || '';
+
+            triggerChange(selectVideoCodec);
+        }
+
+        var selectAudioCodec = context.querySelector('#selectAudioCodec');
+        if (selectAudioCodec) {
+            selectAudioCodec.value = job.AudioCodec || '';
+
+            triggerChange(selectAudioCodec);
         }
 
         var chkUnwatchedOnly = context.querySelector('#chkUnwatchedOnly');
@@ -301,14 +335,13 @@
         }
     }
 
-    var _jobOptions;
     function loadJob(context, id, apiClient) {
 
         loading.show();
 
         apiClient.getJSON(apiClient.getUrl('Sync/Jobs/' + id)).then(function (job) {
 
-            apiClient.getJSON(apiClient.getUrl('Sync/Options', {
+            return apiClient.getJSON(apiClient.getUrl('Sync/Options', {
 
                 UserId: job.UserId,
                 ItemIds: (job.RequestedItemIds && job.RequestedItemIds.length ? job.RequestedItemIds.join('') : null),
@@ -319,26 +352,20 @@
 
             })).then(function (options) {
 
-                _jobOptions = options;
-                renderJob(context, job, options);
-                loading.hide();
+                return apiClient.getJSON(apiClient.getUrl('Sync/JobItems', {
+
+                    JobId: id,
+                    AddMetadata: true
+
+                })).then(function (result) {
+
+                    renderJob(context, job, options);
+                    renderJobItems(context, result.Items, apiClient);
+                    loading.hide();
+                });
             });
-        }, function(error) {
-            // typically this happens when the job no longer exists
-            loading.hide();
-            dialogHelper.close(context);
-        });
 
-        apiClient.getJSON(apiClient.getUrl('Sync/JobItems', {
-
-            JobId: id,
-            AddMetadata: true
-
-        })).then(function (result) {
-
-            renderJobItems(context, result.Items, apiClient);
-            loading.hide();
-        }, function(error) {
+        }, function (error) {
             // typically this happens when the job no longer exists
             loading.hide();
             dialogHelper.close(context);
@@ -347,7 +374,6 @@
 
     function loadJobInfo(context, job, jobItems, apiClient) {
 
-        //renderJob(page, job, _jobOptions);
         renderJobItems(context, jobItems, apiClient);
         loading.hide();
     }
@@ -379,7 +405,7 @@
                     dialogHelper.close(context);
                 });
             });
-        }, function(error) {
+        }, function (error) {
             // typically this happens when the job no longer exists
             loading.hide();
             dialogHelper.close(context);
@@ -474,7 +500,7 @@
 
                     renderJobItems(dlg, result.Items, apiClient);
                     loading.hide();
-                }, function(error) {
+                }, function (error) {
                     // typically this happens when the job no longer exists
                     loading.hide();
                     ////dialogHelper.close(context);

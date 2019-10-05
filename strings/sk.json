@@ -1,4 +1,9 @@
 {
+    "VideoFilesWillBeConvertedTo": "Converted videos will be saved as {0}",
+    "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+    "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options.",
+    "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options.",
     "EmbyLoginTerms": "Emby je navrhnut\u00e9 tak, aby V\u00e1m pomohlo spravova\u0165 Va\u0161u osobn\u00fa kni\u017enicu m\u00e9di\u00ed, napr\u00edklad dom\u00e1ce vide\u00e1 a fotografie. Pre\u010d\u00edtajte si na\u0161e {0} podmienky pou\u017e\u00edvania {1}. Pou\u017eitie ak\u00e9hoko\u013evek softv\u00e9ru Emby znamen\u00e1 prijatie t\u00fdchto podmienok.",
     "MessageUnableToConnectToServer": "Moment\u00e1lne sa nem\u00f4\u017eeme pripoji\u0165 k vybran\u00e9mu serveru. Skontrolujte, \u010di je spusten\u00fd a sk\u00faste to znova.",
     "EmbyIntroMessage": "S Emby m\u00f4\u017eete jednoducho streamova\u0165 vide\u00e1, hudbu a fotografie do chytr\u00fdch telef\u00f3nov, tabletov a \u010fal\u0161\u00edch zariaden\u00ed zo svojho servera Emby.",

@@ -198,7 +198,7 @@
   "HeaderDeleteServer": "Delete Server",
   "HeaderDeleteItem": "Delete Item",
   "HeaderDeleteUser": "Delete User",
-  "DeleteServerConfirmation": "Are you sure you wish to delete {0}?",
+  "DeleteServerConfirmation": "Are you sure you wish to delete this server?",
   "DeleteUserConfirmation": "Are you sure you wish to delete user {0}?",
   "HeaderDeleteDevice": "Delete Device",
   "DeleteDeviceConfirmation": "Are you sure you wish to delete this device? It will reappear the next time a user signs in with it.",
@@ -908,5 +908,10 @@
   "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input.",
   "PromptStillWatching": "Enable 'Are You Still Watching?' prompt",
   "HeaderMissingMetadata": "Missing Metadata",
-  "HeadedIncludedIn": "Included In"
+  "HeadedIncludedIn": "Included In",
+  "VideoFilesWillBeConvertedTo": "Converted videos will be saved as {0}",
+  "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+  "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options.",
+  "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+  "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options."
 }

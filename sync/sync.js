@@ -1,4 +1,4 @@
-﻿define(['apphost', 'globalize', 'connectionManager', 'layoutManager', 'focusManager', 'appSettings', 'registrationServices', 'dialogHelper', 'paper-icon-button-light', 'formDialogStyle', 'emby-scroller'], function (appHost, globalize, connectionManager, layoutManager, focusManager, appSettings, registrationServices, dialogHelper) {
+﻿define(['apphost', 'dom', 'globalize', 'connectionManager', 'layoutManager', 'focusManager', 'appSettings', 'registrationServices', 'dialogHelper', 'paper-icon-button-light', 'formDialogStyle', 'emby-scroller'], function (appHost, dom, globalize, connectionManager, layoutManager, focusManager, appSettings, registrationServices, dialogHelper) {
     'use strict';
 
     var currentDialogOptions;
@@ -160,6 +160,21 @@
             job.Profile = selectProfile.value;
         }
 
+        var selectContainer = form.querySelector('#selectContainer');
+        if (selectContainer) {
+            job.Container = selectContainer.value;
+        }
+
+        var selectVideoCodec = form.querySelector('#selectVideoCodec');
+        if (selectVideoCodec) {
+            job.VideoCodec = selectVideoCodec.value;
+        }
+
+        var selectAudioCodec = form.querySelector('#selectAudioCodec');
+        if (selectAudioCodec) {
+            job.AudioCodec = selectAudioCodec.value;
+        }
+
         var txtItemLimit = form.querySelector('#txtItemLimit');
         if (txtItemLimit) {
             job.ItemLimit = txtItemLimit.value || null;
@@ -235,10 +250,53 @@
             settingsDisabled = true;
         }
 
+        var isMultiItemJob = true;
+
         html += '<div class="fldProfile selectContainer hide">';
         html += '<select is="emby-select" id="selectProfile" ' + (settingsDisabled ? 'disabled' : '') + '  label="' + globalize.translate('LabelProfile') + '">';
         html += '</select>';
         html += '<div class="fieldDescription profileDescription"></div>';
+        html += '</div>';
+
+        html += '<div class="customProfileOptions hide">';
+
+        html += '<div class="selectContainer">';
+        html += '<select is="emby-select" id="selectContainer" required="required" ' + (settingsDisabled ? 'disabled' : '') + '  label="' + globalize.translate('LabelContainer') + '">';
+        html += '<option value="mkv">mkv</option>';
+        html += '<option value="mp4">mp4</option>';
+        html += '<option value="ts">ts</option>';
+        html += '</select>';
+        html += '<div class="fieldDescription containerDescription"></div>';
+        html += '</div>';
+
+        html += '<div class="selectContainer">';
+        html += '<select is="emby-select" id="selectVideoCodec" required="required" ' + (settingsDisabled ? 'disabled' : '') + '  label="' + globalize.translate('LabelVideoCodec') + '">';
+        html += '<option value="h264">h264</option>';
+        html += '<option value="hevc">hevc</option>';
+
+        if (isMultiItemJob) {
+            html += '<option value="h264,hevc">h264, hevc</option>';
+            html += '<option value="hevc,h264">hevc, h264</option>';
+        }
+
+        html += '</select>';
+        html += '<div class="fieldDescription videoCodecDescription"></div>';
+        html += '</div>';
+
+        html += '<div class="selectContainer">';
+        html += '<select is="emby-select" id="selectAudioCodec" required="required" ' + (settingsDisabled ? 'disabled' : '') + '  label="' + globalize.translate('LabelAudioCodec') + '">';
+        html += '<option value="aac">aac</option>';
+        html += '<option value="mp3">mp3</option>';
+
+        if (isMultiItemJob) {
+            html += '<option value="aac,mp3">aac, mp3</option>';
+            html += '<option value="aac,mp3,ac3">aac, mp3, ac3</option>';
+        }
+
+        html += '</select>';
+        html += '<div class="fieldDescription audioCodecDescription"></div>';
+        html += '</div>';
+
         html += '</div>';
 
         html += '<div class="fldQuality selectContainer hide">';
@@ -341,6 +399,30 @@
                 onQualityChange(elem, this.value);
             });
             selectQuality.dispatchEvent(new CustomEvent('change', {
+                bubbles: true
+            }));
+        }
+
+        var selectContainer = elem.querySelector('#selectContainer');
+        if (selectContainer) {
+            selectContainer.addEventListener('change', onContainerChange);
+            selectContainer.dispatchEvent(new CustomEvent('change', {
+                bubbles: true
+            }));
+        }
+
+        var selectVideoCodec = elem.querySelector('#selectVideoCodec');
+        if (selectVideoCodec) {
+            selectVideoCodec.addEventListener('change', onVideoCodecChange);
+            selectVideoCodec.dispatchEvent(new CustomEvent('change', {
+                bubbles: true
+            }));
+        }
+
+        var selectAudioCodec = elem.querySelector('#selectAudioCodec');
+        if (selectAudioCodec) {
+            selectAudioCodec.addEventListener('change', onAudioCodecChange);
+            selectAudioCodec.dispatchEvent(new CustomEvent('change', {
                 bubbles: true
             }));
         }
@@ -599,6 +681,41 @@
         }
     }
 
+    function onContainerChange() {
+
+        var description = dom.parentWithClass(this, 'selectContainer').querySelector('.fieldDescription');
+
+        description.innerHTML = globalize.translate('VideoFilesWillBeConvertedTo', this.value);
+    }
+
+    function onVideoCodecChange() {
+        var description = dom.parentWithClass(this, 'selectContainer').querySelector('.fieldDescription');
+
+        var value = this.value;
+        var values = value.split(',');
+
+        if (values.length > 1) {
+            description.innerHTML = globalize.translate('VideoWillBeConvertedToOrCopied', values[0], value);
+        }
+        else {
+            description.innerHTML = globalize.translate('VideoWillBeConvertedTo', value);
+        }
+    }
+
+    function onAudioCodecChange() {
+        var description = dom.parentWithClass(this, 'selectContainer').querySelector('.fieldDescription');
+
+        var value = this.value;
+        var values = value.split(',');
+
+        if (values.length > 1) {
+            description.innerHTML = globalize.translate('AudioWillBeConvertedToOrCopied', values[0], value);
+        }
+        else {
+            description.innerHTML = globalize.translate('AudioWillBeConvertedTo', value);
+        }
+    }
+
     function onProfileChange(form, profileId) {
 
         var options = currentDialogOptions || {};
@@ -621,6 +738,17 @@
         } else {
             form.querySelector('.profileDescription').innerHTML = '';
             setQualityFieldVisible(form, qualityOptions.length > 0 && options.Options.indexOf('Quality') !== -1);
+        }
+
+        var customProfileOptions = form.querySelector('.customProfileOptions');
+
+        if (profileId === 'custom') {
+
+            customProfileOptions.classList.remove('hide');
+
+        } else {
+            customProfileOptions.classList.add('hide');
+
         }
     }
 

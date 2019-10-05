@@ -649,7 +649,7 @@ define(['browser'], function (browser) {
                 else if (audioFormat === 'aac') {
 
                     // aac container not supported here
-                    if (!browser.iOS) {
+                    if (!browser.iOS && !browser.firefox) {
                         profile.DirectPlayProfiles.push({
                             Container: audioFormat,
                             Type: 'Audio',

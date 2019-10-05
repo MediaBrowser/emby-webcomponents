@@ -819,6 +819,18 @@
                 query.HasOverview = filters.HasOverview;
                 hasFilters = true;
             }
+            if (filters.HasImdbId != null) {
+                query.HasImdbId = filters.HasImdbId;
+                hasFilters = true;
+            }
+            if (filters.HasTvdbId != null) {
+                query.HasTvdbId = filters.HasTvdbId;
+                hasFilters = true;
+            }
+            if (filters.HasTmdbId != null) {
+                query.HasTmdbId = filters.HasTmdbId;
+                hasFilters = true;
+            }
             if (filters.IsLocked != null) {
                 query.IsLocked = filters.IsLocked;
                 hasFilters = true;
@@ -965,6 +977,9 @@
             HasThemeSong: userSettings.getFilter(basekey + '-filter-HasThemeSong'),
             HasThemeVideo: userSettings.getFilter(basekey + '-filter-HasThemeVideo'),
             HasOverview: userSettings.getFilter(basekey + '-filter-HasOverview'),
+            HasImdbId: userSettings.getFilter(basekey + '-filter-HasImdbId'),
+            HasTvdbId: userSettings.getFilter(basekey + '-filter-HasTvdbId'),
+            HasTmdbId: userSettings.getFilter(basekey + '-filter-HasTmdbId'),
             IsLocked: userSettings.getFilter(basekey + '-filter-IsLocked'),
             GenreIds: userSettings.getFilter(basekey + '-filter-GenreIds'),
             StudioIds: userSettings.getFilter(basekey + '-filter-StudioIds'),

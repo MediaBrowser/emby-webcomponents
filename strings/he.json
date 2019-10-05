@@ -1,4 +1,9 @@
 {
+    "VideoFilesWillBeConvertedTo": "Converted videos will be saved as {0}",
+    "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+    "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options.",
+    "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options.",
     "EmbyLoginTerms": "Emby \u05e0\u05d5\u05e2\u05d3 \u05dc\u05e2\u05d6\u05d5\u05e8 \u05dc\u05da \u05dc\u05e0\u05d4\u05dc \u05d0\u05ea \u05e1\u05e4\u05e8\u05d9\u05d9\u05ea \u05d4\u05de\u05d3\u05d9\u05d4 \u05d4\u05d0\u05d9\u05e9\u05d9\u05ea \u05e9\u05dc\u05da, \u05db\u05d2\u05d5\u05df \u05e1\u05e8\u05d8\u05d5\u05e0\u05d9\u05dd \u05d1\u05d9\u05ea\u05d9\u05d9\u05dd \u05d5\u05ea\u05de\u05d5\u05e0\u05d5\u05ea. \u05e2\u05d9\u05d9\u05df {0} \u05d1\u05ea\u05e0\u05d0\u05d9 \u05d4\u05e9\u05d9\u05de\u05d5\u05e9 {1} \u05e9\u05dc\u05e0\u05d5. \u05d4\u05e9\u05d9\u05de\u05d5\u05e9 \u05d1\u05db\u05dc \u05ea\u05d5\u05db\u05e0\u05d4 \u05e9\u05dc \u05d0\u05de\u05d1\u05d9 \u05de\u05d4\u05d5\u05d5\u05d4 \u05d4\u05e1\u05db\u05de\u05d4 \u05dc\u05ea\u05e0\u05d0\u05d9\u05dd \u05d0\u05dc\u05d4.",
     "MessageUnableToConnectToServer": "\u05d0\u05d9\u05df \u05d1\u05d0\u05e4\u05e9\u05e8\u05d5\u05ea\u05e0\u05d5 \u05dc\u05d4\u05ea\u05d7\u05d1\u05e8 \u05dc\u05e9\u05e8\u05ea \u05e9\u05e0\u05d1\u05d7\u05e8 \u05db\u05e2\u05ea. \u05d5\u05d3\u05d0 \u05e9\u05d4\u05d5\u05d0 \u05e4\u05d5\u05e2\u05dc \u05d5\u05e0\u05e1\u05d4 \u05e9\u05d5\u05d1.",
     "EmbyIntroMessage": "\u05e2\u05dd Emby \u05ea\u05d5\u05db\u05dc \u05d1\u05e7\u05dc\u05d5\u05ea \u05dc\u05d4\u05e2\u05d1\u05d9\u05e8 \u05e7\u05d8\u05e2\u05d9 \u05d5\u05d9\u05d3\u05d0\u05d5, \u05de\u05d5\u05e1\u05d9\u05e7\u05d4 \u05d5\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05dc\u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd \u05d7\u05db\u05de\u05d9\u05dd, \u05d8\u05d0\u05d1\u05dc\u05d8\u05d9\u05dd \u05d5\u05d4\u05ea\u05e7\u05e0\u05d9\u05dd \u05d0\u05d7\u05e8\u05d9\u05dd \u05de\u05e9\u05e8\u05ea \u05d0\u05de\u05d1\u05d9 \u05e9\u05dc\u05da.",
@@ -198,7 +203,7 @@
     "HeaderDeleteServer": "Delete Server",
     "HeaderDeleteItem": "\u05de\u05d7\u05e7 \u05e4\u05e8\u05d9\u05d8",
     "HeaderDeleteUser": "Delete User",
-    "DeleteServerConfirmation": "Are you sure you wish to delete {0}?",
+    "DeleteServerConfirmation": "Are you sure you wish to delete this server?",
     "DeleteUserConfirmation": "Are you sure you wish to delete user {0}?",
     "HeaderDeleteDevice": "Delete Device",
     "DeleteDeviceConfirmation": "Are you sure you wish to delete this device? It will reappear the next time a user signs in with it.",

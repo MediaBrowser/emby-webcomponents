@@ -1,4 +1,9 @@
 {
+    "VideoFilesWillBeConvertedTo": "Converted videos will be saved as {0}",
+    "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+    "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options.",
+    "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options.",
     "EmbyLoginTerms": "Emby wurde designed um Sie bei der Verwaltung Ihrer Medienbibliothek, wie z.B Heimvideos oder Fotos, zu unterst\u00fctzen. Bitte lesen Sie unsere {0}Nutzungsbedingungen{1}. Die Verwendung jeglicher Emby Software bedingt die Zustimmung dieser Vereinbarung.",
     "MessageUnableToConnectToServer": "Wir k\u00f6nnen gerade keine Verbindung zum gew\u00e4hlten Server herstellen. Bitte stellen Sie sicher das dieser l\u00e4uft und versuchen Sie es erneut.",
     "EmbyIntroMessage": "Mit Emby k\u00f6nnen Sie auf einfache Art und Weise Videos, Musik und Fotos von Ihrem Emby Server auf Smartphones, Tablets und andere Ger\u00e4te streamen.",

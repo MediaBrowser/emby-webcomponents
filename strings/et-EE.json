@@ -1,4 +1,9 @@
 {
+    "VideoFilesWillBeConvertedTo": "Converted videos will be saved as {0}",
+    "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+    "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options.",
+    "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if it is already {0} and the quality fits within the conversion options.",
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if it is any of ({1}), and the quality fits within the conversion options.",
     "EmbyLoginTerms": "Emby on loodud selleks, et aidata hallata oma isiklikku meediakogu, n\u00e4iteks koduvideoid ja fotosid. Palun loe meie {0}kasutustingimusi{1}. Mis tahes Emby tarkvara kasutamine t\u00e4hendab nende tingimustega n\u00f5ustumist.",
     "MessageUnableToConnectToServer": "Me ei saa praegu valitud serveriga \u00fchendust luua. Veendu, et see t\u00f6\u00f6tab ja proovi uuesti.",
     "EmbyIntroMessage": "Emby abil saad oma Emby serverist h\u00f5lpsalt voogesitada videoid, muusikat ja fotosid nutitelefonidesse, tahvelarvutitesse ja muudesse seadmetesse.",
@@ -639,7 +644,7 @@
     "HeaderForKids": "Lastele",
     "HeaderPlaybackError": "Taasesituse viga",
     "PlaybackErrorNotAllowed": "Sul ei ole praegu luba selle sisu esitamiseks. Lisateabe saamiseks p\u00f6\u00f6rdu oma s\u00fcsteemi administraatori poole.",
-    "RateLimitExceeded": "Kasutuse limiit, sinu konto \u00fcletas hetkel maksimaalse lubatud p\u00e4ringute hulga., Proovi hiljem uuesti.",
+    "RateLimitExceeded": "Sinu konto \u00fcletas Emby serveri admini poolt seatud maksimaalse voogesituste hulga. Proovi hiljem uuesti.",
     "PlaybackErrorNoCompatibleStream": "\u00dchtegi \u00fchilduvat voogu pole praegu saadaval. Proovi hiljem uuesti v\u00f5i p\u00f6\u00f6rdu lisateabe saamiseks s\u00fcsteemi administraatori poole.",
     "PlaybackErrorPlaceHolder": "Selle video esitamiseks sisesta plaat.",
     "Guide": "Telekava",
@@ -907,6 +912,6 @@
     "NoItemsMatchingFound": "Otsingukriteeriumidele vastavaid \u00fcksusi ei leitud.",
     "PreventPlaybackContinuing": "Piira esituse l\u00f5pmatuseni j\u00e4tkumist kasutajalt perioodiliselt sisestuse k\u00fcsimisega.",
     "PromptStillWatching": "Luba 'Kas oled veel siin?\" k\u00fcsimine",
-    "HeaderMissingMetadata": "Missing Metadata",
+    "HeaderMissingMetadata": "Puuduvad metaandmed",
     "HeadedIncludedIn": "Included In"
 }
