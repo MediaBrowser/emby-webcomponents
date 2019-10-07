@@ -517,6 +517,9 @@
 
     SessionPlayer.prototype.getRepeatMode = function () {
 
+        var state = this.lastPlayerData || {};
+        state = state.PlayState || {};
+        return state.RepeatMode;
     };
 
     SessionPlayer.prototype.setRepeatMode = function (mode) {

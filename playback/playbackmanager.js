@@ -67,6 +67,10 @@
             info.EventName = progressEventName;
         }
 
+        info.PlaylistIndex = state.PlaylistIndex;
+        info.PlaylistLength = state.PlaylistLength;
+        info.NextMediaType = state.NextMediaType;
+
         if (reportPlaylist) {
             addPlaylistToPlaybackReport(playbackManagerInstance, info, player, serverId);
         }
@@ -3322,17 +3326,21 @@
 
                 bindStopped(activePlayer);
 
+                var nextMediaType = newItem.MediaType;
+
                 events.trigger(self, 'playbackstop', [{
                     player: activePlayer,
                     state: state,
                     nextItem: newItem,
-                    nextMediaType: newItem.MediaType
+                    nextMediaType: nextMediaType
                 }]);
 
                 // This is used when playing something new while player is active, but not when media ends and auto-advancing to next track
                 if (enableLocalPlaylistManagement(activePlayer) && state.NowPlayingItem) {
 
                     var serverId = state.NowPlayingItem.ServerId;
+
+                    state.NextMediaType = nextMediaType;
 
                     return reportPlayback(self, state, activePlayer, true, serverId, 'reportPlaybackStopped');
                 }

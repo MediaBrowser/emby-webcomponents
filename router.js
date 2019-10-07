@@ -63,8 +63,19 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return show(getHomeRoute() + '&tab=1');
         },
         showNowPlaying: function () {
-            //return show('/videoosd/videoosd.html');
-            return show('/nowplaying/nowplaying.html');
+
+            return require(['playbackManager']).then(function (responses) {
+
+                var playbackManager = responses[0];
+
+                var currentPlayer = playbackManager.getCurrentPlayer();
+
+                if (currentPlayer && currentPlayer.isLocalPlayer && playbackManager.isPlayingMediaType(['Audio'], currentPlayer)) {
+                    return show('/nowplaying/nowplaying.html');
+                }
+
+                return show('/videoosd/videoosd.html');
+            });
         }
     };
 
