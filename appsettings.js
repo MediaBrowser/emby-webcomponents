@@ -143,7 +143,7 @@ define(['appStorage', 'events'], function (appStorage, events) {
         appStorage.setItem(getKey(name, userId), value);
 
         if (currentValue !== value) {
-            events.trigger(this, 'change', [name]);
+            events.trigger(this, 'change', [name, value]);
         }
     };
 

@@ -1457,9 +1457,6 @@
         self.setAudioStreamIndex = function (index, player) {
 
             player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.setAudioStreamIndex(index);
-            }
 
             if (self.playMethod(player) === 'Transcode' || !player.canSetAudioStreamIndex()) {
 
@@ -1474,6 +1471,7 @@
                     if (isAudioStreamIndexSupported(self.currentMediaSource(player), index, profile)) {
                         player.setAudioStreamIndex(index);
                         getPlayerData(player).audioStreamIndex = index;
+                        events.trigger(player, 'audiotrackchange');
                     }
                     else {
                         changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index }, 'audiotrackchange');
@@ -1623,9 +1621,6 @@
         self.setSubtitleStreamIndex = function (index, player) {
 
             player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.setSubtitleStreamIndex(index);
-            }
 
             var currentStream = getCurrentSubtitleStream(player);
 
@@ -1680,6 +1675,7 @@
             player.setSubtitleStreamIndex(selectedTrackElementIndex);
 
             getPlayerData(player).subtitleStreamIndex = index;
+            events.trigger(player, 'subtitletrackchange');
         };
 
         self.seek = function (ticks, player) {

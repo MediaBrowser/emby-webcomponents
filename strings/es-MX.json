@@ -1,9 +1,4 @@
 {
-    "VideoFilesWillBeConvertedTo": "Los v\u00eddeos convertidos ser\u00e1n guardados como {0}.",
-    "VideoWillBeConvertedTo": "La transmisi\u00f3n de v\u00eddeo sera convertida a {0}, o sera copiada del v\u00eddeo original si ya es {0} y la calidad coincide con las opciones de conversi\u00f3n.",
-    "VideoWillBeConvertedToOrCopied": "La transmisi\u00f3n de v\u00eddeo sera convertida a {0}, o sera copiada del v\u00eddeo original si hay alg\u00fan ({1}) y la calidad coincide con las opciones de conversi\u00f3n.",
-    "AudioWillBeConvertedTo": "La pistas de audio sera convertida a {0}, o sera copiada del archivo original si ya es {0} y la calidad coincide con las opciones de conversi\u00f3n.",
-    "AudioWillBeConvertedToOrCopied": "La pista de audiosera convertida a {0}, o sera copiada del archivo original si hay alg\u00fan ({1}) y la calidad coincide con las opciones de conversi\u00f3n.",
     "EmbyLoginTerms": "Emby esta dise\u00f1ado para ayudarlo a administrar su biblioteca de medios personal, tales como v\u00eddeos caseros y fotograf\u00edas. Por favor vea nuestros {0}t\u00e9rminos de uso{1}. Al usar cualquier software de Emby constituye la aceptaci\u00f3n de dichos t\u00e9rminos.",
     "MessageUnableToConnectToServer": "No es posible conectarse al servidor seleccionado en este momento. Por favor aseg\u00farese de que se encuentra en ejecuci\u00f3n e int\u00e9ntelo nuevamente.",
     "EmbyIntroMessage": "Con Emby usted puede transmitir videos, musica y fotos hacia su telefono inteligente, tabla u otros equipos desde su Servidor Emby.",
@@ -913,5 +908,10 @@
     "PreventPlaybackContinuing": "Impedir que la reproducci\u00f3n continu\u00e9 indefinidamente preguntando peri\u00f3dicamente actividad del usuario.",
     "PromptStillWatching": "Habilitar la ventana \"\u00bfSeguir Mirando?\"",
     "HeaderMissingMetadata": "Metadatos faltantes",
-    "HeadedIncludedIn": "Incluido En"
+    "HeaderIncludedIn": "Included In",
+    "VideoFilesWillBeConvertedTo": "Los v\u00eddeos convertidos ser\u00e1n guardados como {0}.",
+    "VideoWillBeConvertedTo": "La transmisi\u00f3n de v\u00eddeo sera convertida a {0}, o sera copiada del v\u00eddeo original si ya es {0} y la calidad coincide con las opciones de conversi\u00f3n.",
+    "VideoWillBeConvertedToOrCopied": "La transmisi\u00f3n de v\u00eddeo sera convertida a {0}, o sera copiada del v\u00eddeo original si hay alg\u00fan ({1}) y la calidad coincide con las opciones de conversi\u00f3n.",
+    "AudioWillBeConvertedTo": "La pistas de audio sera convertida a {0}, o sera copiada del archivo original si ya es {0} y la calidad coincide con las opciones de conversi\u00f3n.",
+    "AudioWillBeConvertedToOrCopied": "La pista de audiosera convertida a {0}, o sera copiada del archivo original si hay alg\u00fan ({1}) y la calidad coincide con las opciones de conversi\u00f3n."
 }

@@ -1,9 +1,4 @@
 {
-    "VideoFilesWillBeConvertedTo": "Converted videos will be saved as {0}.",
-    "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
-    "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
-    "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
-    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "We're unable to connect to the selected server right now. Please ensure it is running and try again.",
     "EmbyIntroMessage": "With Emby you can easily stream videos, music and photos to smart phones, tablets and other devices from your Emby Server.",
@@ -913,5 +908,10 @@
     "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input.",
     "PromptStillWatching": "Enable 'Are You Still Watching?' prompt",
     "HeaderMissingMetadata": "Missing Metadata",
-    "HeadedIncludedIn": "Included In"
+    "HeaderIncludedIn": "Included In",
+    "VideoFilesWillBeConvertedTo": "Converted videos will be saved as {0}.",
+    "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
+    "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
+    "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options."
 }
