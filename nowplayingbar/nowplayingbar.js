@@ -1,4 +1,4 @@
-﻿define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager) {
+﻿define(['require', 'datetime', 'itemHelper', 'events', 'browser', 'imageLoader', 'layoutManager', 'playbackManager', 'nowPlayingHelper', 'apphost', 'dom', 'connectionManager', 'itemShortcuts', 'paper-icon-button-light', 'emby-ratingbutton'], function (require, datetime, itemHelper, events, browser, imageLoader, layoutManager, playbackManager, nowPlayingHelper, appHost, dom, connectionManager, itemShortcuts) {
     'use strict';
 
     var currentPlayer;
@@ -245,7 +245,7 @@
 
         return new Promise(function (resolve, reject) {
 
-            require(['appFooter-shared', 'itemShortcuts', 'css!./nowplayingbar.css', 'emby-slider'], function (appfooter, itemShortcuts) {
+            require(['appFooter-shared', 'css!./nowplayingbar.css', 'emby-slider'], function (appfooter) {
 
                 var parentContainer = appfooter.element;
                 nowPlayingBarElement = parentContainer.querySelector('.nowPlayingBar');
@@ -434,7 +434,11 @@
             text = itemHelper.getDisplayName(item);
         }
 
-        var html = '<button data-id="' + item.Id + '" data-serverid="' + (item.ServerId || serverId) + '" data-type="' + item.Type + '" data-mediatype="' + item.MediaType + '" data-channelid="' + item.ChannelId + '" data-isfolder="' + item.IsFolder + '" type="button" class="itemAction textActionButton" data-action="link">';
+        var dataAttributes = itemShortcuts.getShortcutAttributesHtml(item, {
+            serverId: serverId
+        });
+
+        var html = '<button ' + dataAttributes + ' type="button" class="itemAction textActionButton" data-action="link">';
         html += text;
         html += '</button>';
 

@@ -465,8 +465,7 @@
                     return Promise.resolve();
                 }
                 if (result === 'downloadsettings') {
-                    appRouter.show(appRouter.getRouteUrl('downloadsettings'));
-                    return Promise.resolve();
+                    return appRouter.show(appRouter.getRouteUrl('downloadsettings'));
                 }
 
                 return Promise.reject();

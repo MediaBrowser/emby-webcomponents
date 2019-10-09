@@ -814,7 +814,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return '/offline/offline.html';
         }
         if (item === 'downloadsettings') {
-            return '/mysyncsettings.html';
+            return '/settings/download.html';
         }
         if (item === 'premiere') {
             return '/supporterkey.html';
