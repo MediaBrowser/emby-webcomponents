@@ -282,24 +282,21 @@
         return isServerItem(item);
     }
 
+    function getDefaultIntros() {
+        return Promise.resolve({
+            Items: []
+        });
+    }
+
     function getIntros(firstItem, apiClient, options) {
 
         if (options.startPositionTicks || options.startIndex || options.fullscreen === false || !enableIntros(firstItem) || !userSettings.enableCinemaMode()) {
-            return Promise.resolve({
-                Items: []
-            });
+            return getDefaultIntros();
         }
 
-        return apiClient.getIntros(firstItem.Id).then(function (result) {
+        loading.show();
 
-            return result;
-
-        }, function (err) {
-
-            return Promise.resolve({
-                Items: []
-            });
-        });
+        return apiClient.getIntros(firstItem.Id).catch(getDefaultIntros);
     }
 
     function getAudioMaxValues(deviceProfile) {
@@ -1850,7 +1847,7 @@
             });
         }
 
-        function translateItemsForPlayback(items, options) {
+        function translateItemsForPlayback(items, options, showLoading) {
 
             var firstItem = items[options.startIndex || 0];
             var promise;
@@ -2021,6 +2018,11 @@
             }
 
             if (promise) {
+
+                if (options.fullscreen && showLoading) {
+                    loading.show();
+                }
+
                 return promise.then(function (result) {
 
                     return result ? result.Items : items;
@@ -2044,13 +2046,9 @@
                 }
             }
 
-            if (options.fullscreen) {
-                loading.show();
-            }
-
             if (options.items) {
 
-                return translateItemsForPlayback(options.items, options).then(function (items) {
+                return translateItemsForPlayback(options.items, options, true).then(function (items) {
 
                     return playWithIntros(items, options);
                 });
@@ -2059,6 +2057,10 @@
 
                 if (!options.serverId) {
                     throw new Error('serverId required!');
+                }
+
+                if (options.fullscreen) {
+                    loading.show();
                 }
 
                 return getItemsForPlayback(options.serverId, {
@@ -3860,7 +3862,7 @@
 
         var options = {};
         options.UserId = apiClient.getCurrentUserId();
-        options.Limit = 200;
+        options.Limit = 500;
 
         var instance = this;
 

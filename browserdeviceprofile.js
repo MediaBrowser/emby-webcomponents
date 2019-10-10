@@ -827,6 +827,10 @@ define(['browser'], function (browser) {
 
             var aacCodecProfileConditions = [];
 
+            if (browser.web0s && browser.sdkVersion && browser.sdkVersion < 3.0) {
+                supportsSecondaryAudio = false;
+            }
+
             if (!supportsSecondaryAudio) {
                 aacCodecProfileConditions.push({
                     Condition: 'Equals',

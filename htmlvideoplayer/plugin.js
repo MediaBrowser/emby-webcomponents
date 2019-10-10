@@ -1663,6 +1663,10 @@
             return true;
         }
 
+        if (browser.web0s && browser.sdkVersion && browser.sdkVersion < 3.0) {
+            return false;
+        }
+
         var video = this._mediaElement;
         if (video) {
             if (video.audioTracks) {
