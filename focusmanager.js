@@ -147,6 +147,10 @@ define(['dom', 'layoutManager'], function (dom, layoutManager) {
         return scopes[0] || document.body;
     }
 
+    function hasExclusiveFocusScope() {
+        return scopes.length;
+    }
+
     function getFocusableElements(parent, limit, excludeClass) {
         var elems = (parent || getDefaultScope()).querySelectorAll(focusableQuery);
         var focusableElements = [];
@@ -559,6 +563,7 @@ define(['dom', 'layoutManager'], function (dom, layoutManager) {
         popScope: popScope,
         focusFirst: focusFirst,
         focusLast: focusLast,
-        moveFocus: moveFocus
+        moveFocus: moveFocus,
+        hasExclusiveFocusScope: hasExclusiveFocusScope
     };
 });

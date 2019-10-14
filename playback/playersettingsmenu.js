@@ -195,7 +195,7 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
 
         if (options.mediaType === 'Video' && !browser.web0s) {
             menuItems.push({
-                name: globalize.translate('PlaybackSettings'),
+                name: globalize.translate('HeaderPlaybackSettings'),
                 id: 'playbacksettings'
             });
         }

@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'emby-linkbutton', 'flexStyles', 'emby-scroller'], function (dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize) {
+﻿define(['dialogHelper', 'loading', 'apphost', 'layoutManager', 'connectionManager', 'appRouter', 'globalize', 'userSettings', 'emby-checkbox', 'emby-input', 'paper-icon-button-light', 'emby-select', 'material-icons', 'css!./../formdialog', 'emby-button', 'emby-linkbutton', 'flexStyles', 'emby-scroller'], function (dialogHelper, loading, appHost, layoutManager, connectionManager, appRouter, globalize, userSettings) {
     'use strict';
 
     var currentServerId;
@@ -26,6 +26,7 @@
         var apiClient = connectionManager.getApiClient(currentServerId);
 
         if (collectionId) {
+            userSettings.set('collectioneditor-lastcollectionid', collectionId);
             addToCollection(apiClient, panel, collectionId);
         } else {
             createCollection(apiClient, panel);
@@ -124,7 +125,13 @@
             });
 
             select.innerHTML = html;
-            select.value = '';
+
+            var defaultValue;
+            if (!defaultValue) {
+                defaultValue = userSettings.get('collectioneditor-lastcollectionid') || '';
+            }
+            select.value = defaultValue === 'new' ? '' : defaultValue;
+
             triggerChange(select);
 
             loading.hide();
