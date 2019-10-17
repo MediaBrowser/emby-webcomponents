@@ -13,6 +13,7 @@
     padding: .25em;
     cursor: pointer;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .listItem-withContentWrapper {

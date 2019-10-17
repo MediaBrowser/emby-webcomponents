@@ -1,7 +1,7 @@
 define(['browser', 'dom', 'layoutManager'], function (browser, dom, layoutManager) {
     'use strict';
 
-    var mainAnimatedPages = document.querySelector('.mainAnimatedPages');
+    var mainAnimatedPages;
     var allPages = [];
     var currentUrls = [];
     var pageContainerCount = 3;
@@ -79,6 +79,11 @@ define(['browser', 'dom', 'layoutManager'], function (browser, dom, layoutManage
         var currentPage = allPages[pageIndex];
 
         var view;
+
+        if (!mainAnimatedPages) {
+            mainAnimatedPages = document.querySelector('.mainAnimatedPages');
+            mainAnimatedPages.innerHTML = '';
+        }
 
         if (currentPage) {
             triggerDestroy(currentPage);

@@ -64,18 +64,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         },
         showNowPlaying: function () {
 
-            return require(['playbackManager']).then(function (responses) {
-
-                var playbackManager = responses[0];
-
-                var currentPlayer = playbackManager.getCurrentPlayer();
-
-                if (currentPlayer && currentPlayer.isLocalPlayer && playbackManager.isPlayingMediaType(['Audio'], currentPlayer)) {
-                    return show('/nowplaying/nowplaying.html');
-                }
-
-                return show('/videoosd/videoosd.html');
-            });
+            return show('/videoosd/videoosd.html');
         }
     };
 

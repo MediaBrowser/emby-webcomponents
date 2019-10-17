@@ -17,7 +17,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
         var apiClient = connectionManager.getApiClient(item);
 
-        var restrictOptions = ((browser.operaTv || browser.web0s) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816' && !user.Policy.IsAdministrator) ||
+        var restrictOptions = ((browser.operaTv || browser.web0s || browser.netcast) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816') ||
             (browser.tizen && !browser.tizenSideload);
 
         if (canPlay && item.MediaType !== 'Photo' && item.Type !== 'Program') {
