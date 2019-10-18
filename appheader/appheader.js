@@ -723,8 +723,24 @@
         title = item.Name || '';
 
         if (!layoutManager.tv) {
+
+            var serverId;
+            var itemId;
+
             if (item.IsFolder) {
-                title = '<div class="pageTitleTextHide">' + title + '</div><button data-serverid="' + item.ServerId + '" data-id="' + item.Id + '" is="emby-button" type="button" class="button-flat btnHeaderSelectLibrary"><span>' + title + '</span><i class="md-icon button-icon">arrow_drop_down</i></button>';
+                serverId = item.ServerId;
+                itemId = item.Id;
+            }
+            else {
+
+                if (window.location.href.toString().toLowerCase().indexOf('livetv.html') !== -1) {
+                    serverId = connectionManager.currentApiClient().serverId();
+                    itemId = 'livetv';
+                }
+            }
+
+            if (serverId && itemId) {
+                title = '<div class="pageTitleTextHide">' + title + '</div><button data-serverid="' + serverId + '" data-id="' + itemId + '" is="emby-button" type="button" class="button-flat btnHeaderSelectLibrary"><span>' + title + '</span><i class="md-icon button-icon">arrow_drop_down</i></button>';
             }
         }
 
