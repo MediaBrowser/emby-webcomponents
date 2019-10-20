@@ -62,11 +62,6 @@
     contain: layout style;
 }
 
-.listViewDragHandle {
-    margin-left: -.25em !important;
-    touch-action: none;
-}
-
 .listItemBody {
     flex-grow: 1;
     padding: .85em .75em;
@@ -186,6 +181,13 @@
         border-radius: 100em;
         margin: 0 .2em 0 .5em;
     }
+
+.listViewDragHandle {
+    margin-left: -.25em !important;
+    touch-action: none;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
 
 .listItemProgressBar {
     position: absolute;

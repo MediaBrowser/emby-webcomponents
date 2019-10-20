@@ -76,13 +76,6 @@
                 getScrollingElement().classList.remove('withDialogOpen');
             }
 
-            if (!self.closedByBack && isHistoryEnabled(dlg)) {
-                var state = history.state || {};
-                if (state.dialogId === hash) {
-                    history.back();
-                }
-            }
-
             if (activeElement) {
                 focusManager.focus(activeElement);
             }
@@ -99,7 +92,7 @@
             }
 
             //resolve();
-            // if we just called history.back(), then use a timeout to allow the history events to fire first
+            // if we just called appRouter.back(), then use a timeout to allow the history events to fire first
             setTimeout(function () {
                 resolve({
                     element: dlg,
@@ -111,7 +104,7 @@
         dlg.addEventListener('close', onDialogClosed);
 
         //if (!dlg.classList.contains('dialog-fullscreen')) {
-            addBackdropOverlay(dlg);
+        addBackdropOverlay(dlg);
         //}
 
         dlg.classList.remove('hide');
@@ -178,8 +171,8 @@
                 close(dlg);
             }
         }, {
-                passive: true
-            });
+            passive: true
+        });
     }
 
     function isHistoryEnabled(dlg) {
@@ -219,7 +212,7 @@
 
         if (isOpened(dlg)) {
             if (isHistoryEnabled(dlg)) {
-                history.back();
+                appRouter.back();
             } else {
                 closeDialog(dlg);
             }

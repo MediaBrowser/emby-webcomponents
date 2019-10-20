@@ -1,4 +1,5 @@
 {
+    "Cover": "Cover",
     "EmbyLoginTerms": "Emby wurde designed um Sie bei der Verwaltung Ihrer Medienbibliothek, wie z.B Heimvideos oder Fotos, zu unterst\u00fctzen. Bitte lesen Sie unsere {0}Nutzungsbedingungen{1}. Die Verwendung jeglicher Emby Software bedingt die Zustimmung dieser Vereinbarung.",
     "MessageUnableToConnectToServer": "Wir k\u00f6nnen gerade keine Verbindung zum gew\u00e4hlten Server herstellen. Bitte stellen Sie sicher das dieser l\u00e4uft und versuchen Sie es erneut.",
     "EmbyIntroMessage": "Mit Emby k\u00f6nnen Sie auf einfache Art und Weise Videos, Musik und Fotos von Ihrem Emby Server auf Smartphones, Tablets und andere Ger\u00e4te streamen.",
@@ -28,7 +29,7 @@
     "LabelPort": "Port:",
     "Disabled": "Deaktiviert",
     "Uninstall": "Deinstallieren",
-    "NextValue": "Next: {0}",
+    "NextValue": "N\u00e4chstes: {0}",
     "HeaderNextItem": "N\u00e4chstes Element",
     "HeaderPreviousItem": "Vorheriges Element",
     "NoTrailersMessage": "Keine Trailer gefunden. Um Trailer hinzuzuf\u00fcgen installiere bitte das Trailer-Plugin aus dem {0}Emby Plugin Katalog{1}.",
@@ -285,7 +286,7 @@
     "Open": "\u00d6ffnen",
     "Play": "Abspielen",
     "Pause": "Pause",
-    "HeaderPlayQueue": "Play Queue",
+    "HeaderPlayQueue": "Abspielwarteschlange",
     "HeaderAddToPlayQueue": "Zur Abspielwarteschlange hinzuf\u00fcgen",
     "Shuffle": "Zufallswiedergabe",
     "Identify": "Identifizieren",
