@@ -19,7 +19,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         var cachedWidths = {};
-        function getWidth(shape, screenWidth) {
+        function getWidth(shape, cardClass, screenWidth) {
 
             var key = shape + screenWidth;
 
@@ -34,7 +34,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 div.classList.add('itemsContainer-tv');
             }
             div.style.visibility = 'hidden';
-            div.innerHTML = '<div class="card ' + shape + 'Card"><div class="cardBox"><div class="cardScalable"></div></div></div>';
+            div.innerHTML = '<div class="' + cardClass + '"><div class="cardBox"><div class="cardScalable"></div></div></div>';
 
             var parent = document.body;
             parent.appendChild(div);
@@ -59,10 +59,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return false;
         }
 
-        function getImageWidth(shape, screenWidth) {
+        function getImageWidth(shape, cardClass, screenWidth) {
 
             //console.log(screenWidth);
-            var imagesPerRow = screenWidth / getWidth(shape, screenWidth);
+            var imagesPerRow = screenWidth / getWidth(shape, cardClass, screenWidth);
             //console.log(shape + '--' + imagesPerRow);
 
             var shapeWidth = screenWidth / imagesPerRow;
@@ -146,7 +146,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     screenWidth = Math.floor(screenWidth / roundScreenTo) * roundScreenTo;
                 }
 
-                options.width = getImageWidth(options.shape, screenWidth);
+                var cardClass = 'card ' + options.shape + 'Card';
+
+                if (options.cardClass) {
+                    cardClass += ' ' + options.cardClass;
+                }
+
+                options.width = getImageWidth(options.shape, cardClass, screenWidth);
             }
         }
 
@@ -641,7 +647,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 // Checking item.Id for Type == AddServer
                 if (item.Type !== 'Program' && item.Id) {
-                    html += '<button is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="itemAction btnCardOptions cardText-secondary" data-action="menu"><i class="md-icon">&#xE5D3;</i></button>';
                 }
             }
 
@@ -1051,6 +1057,11 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' card-nofocustransform';
             }
 
+            var playlistItemId = options.playlistItemId;
+            if (playlistItemId && playlistItemId === item.PlaylistItemId) {
+                className += ' activePlaylistCard';
+            }
+
             var imgInfo = getCardImageUrl(item, apiClient, options, shape, uiAspect);
             var imgUrl = imgInfo.imgUrl;
 
@@ -1178,7 +1189,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (options.centerPlayButton) {
 
                     var playButtonAction = item.IsFolder ? 'resume' : (options.playAction || 'play');
-                    overlayButtons += '<button is="paper-icon-button-light" class="cardOverlayButton itemAction cardOverlayFab-primary" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+                    overlayButtons += '<button type="button" is="paper-icon-button-light" class="cardOverlayButton itemAction cardOverlayFab-primary" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
                 }
             }
 
@@ -1210,7 +1221,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button data-action="' + action + '" class="lazy itemAction cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + '" loading="lazy" itemAction" style="background-image:url(' + imgUrl + ');">') : ('<button data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
+                cardImageContainerOpen = imgUrl ? ('<button type="button" data-action="' + action + '" class="lazy itemAction cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + '" loading="lazy" itemAction" style="background-image:url(' + imgUrl + ');">') : ('<button type="button" data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
                 cardImageContainerClose = '</button>';
             }
@@ -1318,14 +1329,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (playbackManager.canPlay(item) && options.hoverPlayButton !== false) {
 
                 var playButtonAction = item.IsFolder ? 'resume' : (options.playAction || 'play');
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
             }
 
             html += '<div class="cardOverlayButton-br">';
 
             //if (itemHelper.canEdit({ Policy: { IsAdministrator: true } }, item)) {
 
-            //    html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="edit"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE254;</i></button>';
+            //    html += '<button type="button" is="paper-icon-button-light" class="' + btnCssClass + '" data-action="edit"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE254;</i></button>';
             //}
 
             var userData = item.UserData || {};
@@ -1344,7 +1355,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             // Checking item.Id for Type == AddServer
             if (options.moreButton !== false && item.Type !== 'Program' && item.Id) {
-                html += '<button is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5D3;</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5D3;</i></button>';
             }
 
             html += '</div>';
