@@ -178,8 +178,6 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
 
         if (id === 'halloween') {
             themeResources = {
-                themeSong: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/monsterparadefade.mp3',
-                effect: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/howl.wav',
                 backdrop: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/bg.jpg'
             };
             return;
@@ -297,20 +295,6 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         if (themeResources.backdrop) {
 
             backdrop.setBackdrop(themeResources.backdrop);
-        }
-
-        if (!browser.mobile && userSettings.enableThemeSongs()) {
-            /*if (lastSound === 0) {
-
-                if (themeResources.themeSong) {
-                    playSound(themeResources.themeSong);
-                }
-
-            } else*/ if ((new Date().getTime() - lastSound) > 30000) {
-                if (themeResources.effect) {
-                    playSound(themeResources.effect);
-                }
-            }
         }
     }
 

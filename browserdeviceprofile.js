@@ -38,6 +38,21 @@ define(['browser'], function (browser) {
             videoTestElement.canPlayType('video/mp4; codecs="hev1.1.2.L150"').replace(/no/, ''));
     }
 
+    function supportsAc3InHls(videoTestElement) {
+
+        if (browser.tizen || browser.orsay || browser.web0s) {
+
+            return true;
+        }
+
+        if (!!videoTestElement.canPlayType) {
+            return videoTestElement.canPlayType('application/x-mpegurl; codecs="avc1.42E01E, ac-3"').replace(/no/, '') ||
+                videoTestElement.canPlayType('application/vnd.apple.mpegURL; codecs="avc1.42E01E, ac-3"').replace(/no/, '');
+        }
+
+        return false;
+    }
+
     var _supportsTextTracks;
     function supportsTextTracks() {
 
@@ -464,8 +479,7 @@ define(['browser'], function (browser) {
 
                 // This works in edge desktop, but not mobile
                 // TODO: Retest this on mobile
-                var supportsAc3InHls = (!browser.edge || !browser.touch || browser.edgeUwp);
-                if (supportsAc3InHls) {
+                if (supportsAc3InHls(videoTestElement)) {
                     hlsVideoAudioCodecs.push('ac3');
                     if (eAc3) {
                         hlsVideoAudioCodecs.push('eac3');

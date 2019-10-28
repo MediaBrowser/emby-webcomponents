@@ -98,10 +98,6 @@
 
     function hasKeyboard(browser) {
 
-        if (browser.touch) {
-            return true;
-        }
-
         if (browser.xboxOne) {
             return true;
         }
@@ -119,6 +115,12 @@
 
         if (browser.tv) {
             return true;
+        }
+
+        if (typeof document !== 'undefined') {
+            if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+                return true;
+            }
         }
 
         return false;
@@ -301,12 +303,6 @@
 
     if (browser.mobile || browser.tv) {
         browser.slow = true;
-    }
-
-    if (typeof document !== 'undefined') {
-        if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
-            browser.touch = true;
-        }
     }
 
     browser.keyboard = hasKeyboard(browser);

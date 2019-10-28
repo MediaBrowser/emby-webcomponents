@@ -37,6 +37,30 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
         events.trigger(this, 'modechange');
     };
 
+    function isCoarseInput() {
+
+        try {
+
+            if (window.matchMedia('(pointer: coarse)').matches) {
+                return true;
+            }
+
+            if (window.matchMedia('(pointer: fine)').matches) {
+                return false;
+            }
+
+            if (window.matchMedia('(pointer: none)').matches) {
+                return false;
+            }
+        }
+        catch (err) {
+            console.log('error using window.matchMedia');
+        }
+
+        // assume coarse input if touch events are supported
+        return ('ontouchstart' in document.documentElement);
+    }
+
     LayoutManager.prototype.getSavedLayout = function (layout) {
 
         return appSettings.get('layout');
@@ -45,13 +69,39 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
     LayoutManager.prototype.autoLayout = function () {
 
         // Take a guess at initial layout. The consuming app can override
-        if (browser.mobile) {
-            this.setLayout('mobile', false);
-        } else if (browser.tv || browser.xboxOne || browser.ps4) {
-            this.setLayout('tv', false);
-        } else {
-            this.setLayout(this.defaultLayout || 'tv', false);
+        this.setLayout(this.getDefaultLayout(), false);
+    };
+
+    LayoutManager.prototype.getDefaultLayout = function () {
+
+        if (this.getPlatformDefaultLayout) {
+            var result = this.getPlatformDefaultLayout();
+            if (result) {
+                return result;
+            }
         }
+
+        if (browser.xboxOne || browser.ps4 || browser.chromecast || browser.netcast || browser.operaTv) {
+            return 'tv';
+        }
+
+        if (browser.mobile) {
+            return 'mobile';
+        }
+
+        if (browser.tv) {
+            return 'tv';
+        }
+
+        if (isCoarseInput()) {
+            return 'mobile';
+        }
+
+        if (self.Dashboard) {
+            return 'desktop';
+        }
+
+        return 'tv';
     };
 
     LayoutManager.prototype.init = function () {

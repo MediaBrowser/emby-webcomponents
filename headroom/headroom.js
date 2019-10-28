@@ -59,8 +59,6 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
         //}
     }
 
-    var toleranceLevel = browser.iOS ? 14 : 4;
-
     Headroom.prototype = {
         constructor: Headroom,
 
@@ -296,7 +294,7 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             }
             else if (!isTv && currentScrollY < lastKnownScrollY) {
 
-                var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= toleranceLevel;
+                var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 4;
 
                 if (toleranceExceeded) {
                     this.setTransform(0, currentScrollY);

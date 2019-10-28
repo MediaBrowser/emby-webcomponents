@@ -1,4 +1,4 @@
-﻿define(['dom', 'browser', 'events', 'emby-tabs', 'emby-button', 'emby-linkbutton'], function (dom, browser, events) {
+﻿define(['dom', 'browser', 'events', 'layoutManager', 'emby-tabs', 'emby-button', 'emby-linkbutton'], function (dom, browser, events, layoutManager) {
     'use strict';
 
     var tabOwnerView;
@@ -19,21 +19,21 @@
         this.readySelectedIndex = null;
     }
 
-    function allowSwipe(target) {
+    function allowSwipeOn(elem) {
 
-        function allowSwipeOn(elem) {
-
-            if (dom.parentWithTag(elem, 'input')) {
-                return false;
-            }
-
-            var classList = elem.classList;
-            if (classList) {
-                return !classList.contains('scrollX') && !classList.contains('animatedScrollX');
-            }
-
-            return true;
+        if (dom.parentWithTag(elem, 'input')) {
+            return false;
         }
+
+        var classList = elem.classList;
+        if (classList) {
+            return !classList.contains('scrollX') && !classList.contains('animatedScrollX');
+        }
+
+        return true;
+    }
+
+    function allowSwipe(target) {
 
         var parent = target;
         while (parent != null) {
@@ -48,7 +48,11 @@
 
     function configureSwipeTabs(view, tabsElem, getTabContainersFn) {
 
-        if (!browser.touch) {
+        if (layoutManager.tv) {
+            return;
+        }
+
+        if (!('ontouchstart' in document.documentElement)) {
             return;
         }
 

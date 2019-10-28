@@ -50,16 +50,6 @@
 
         var deviceType = target.deviceType;
 
-        if (!deviceType && target.isLocalPlayer) {
-            if (browser.tv) {
-                deviceType = 'tv';
-            } else if (browser.mobile) {
-                deviceType = 'smartphone';
-            } else {
-                deviceType = 'desktop';
-            }
-        }
-
         if (!deviceType) {
             deviceType = 'tv';
         }

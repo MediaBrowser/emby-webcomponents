@@ -2516,8 +2516,10 @@
 
                     streamInfo.fullscreen = playOptions.fullscreen;
 
-                    getPlayerData(player).isChangingStream = false;
-                    getPlayerData(player).maxStreamingBitrate = maxBitrate;
+                    var playerData = getPlayerData(player);
+
+                    playerData.isChangingStream = false;
+                    playerData.maxStreamingBitrate = maxBitrate;
 
                     return player.play(streamInfo).then(function () {
                         loading.hide();
@@ -3238,7 +3240,9 @@
 
             var player = this;
 
-            if (getPlayerData(player).isChangingStream) {
+            var playerData = getPlayerData(player);
+
+            if (playerData.isChangingStream) {
                 return;
             }
 
@@ -3246,9 +3250,9 @@
 
             // User clicked stop or content ended
             var state = self.getPlayerState(player);
-            var streamInfo = getPlayerData(player).streamInfo;
+            var streamInfo = playerData.streamInfo;
 
-            getPlayerData(player).streamInfo = null;
+            playerData.streamInfo = null;
 
             var nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
 
@@ -3492,12 +3496,18 @@
                 throw new Error('player cannot be null');
             }
 
+            var playerData = getPlayerData(player);
+
+            if (playerData.isChangingStream) {
+                return;
+            }
+
             var state = self.getPlayerState(player);
 
             if (state.NowPlayingItem) {
                 var serverId = state.NowPlayingItem.ServerId;
 
-                var streamInfo = getPlayerData(player).streamInfo;
+                var streamInfo = playerData.streamInfo;
 
                 if (streamInfo && streamInfo.started) {
                     reportPlayback(self, state, player, reportPlaylist, serverId, 'reportPlaybackProgress', progressEventName);

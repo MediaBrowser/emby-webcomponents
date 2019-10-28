@@ -382,10 +382,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             }
         }
 
-        if (browser.iOS) {
-            return 1500000;
-        }
-
         return null;
     }
 
@@ -1103,9 +1099,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         });
     }
 
-    function showVideoOsd() {
+    function showVideoOsd(options) {
 
-        return show('/videoosd/videoosd.html');
+        var url = '/videoosd/videoosd.html';
+
+        if (options && options.controls) {
+            url += '?controls=true';
+        }
+
+        return show(url);
     }
 
     function defineRoute(newRoute) {
