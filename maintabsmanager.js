@@ -46,13 +46,26 @@
         return true;
     }
 
+    function supportsTouch() {
+
+        if (navigator.maxTouchPoints) {
+            return true;
+        }
+
+        if ('ontouchstart' in document.documentElement) {
+            return true;
+        }
+
+        return false;
+    }
+
     function configureSwipeTabs(view, tabsElem, getTabContainersFn) {
 
         if (layoutManager.tv) {
             return;
         }
 
-        if (!('ontouchstart' in document.documentElement)) {
+        if (!supportsTouch()) {
             return;
         }
 

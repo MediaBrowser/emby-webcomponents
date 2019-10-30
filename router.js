@@ -341,7 +341,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             var type = options.type;
 
-            if (browser.tv || browser.slow) {
+            if (browser.tv || layoutManager.mobile) {
 
                 if (browser.chrome) {
                     // webp support

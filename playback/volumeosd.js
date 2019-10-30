@@ -37,11 +37,21 @@
 
             document.body.appendChild(elem);
             osdElement = elem;
+
+            dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
+                passive: true
+            });
         }
     }
 
-    function onHideComplete() {
-        this.classList.add('hide');
+    function onHideComplete(e) {
+
+        if (e.target === e.currentTarget) {
+
+            if (this.classList.contains('iconOsd-hidden')) {
+                this.classList.add('hide');
+            }
+        }
     }
 
     var hideTimeout;
@@ -51,20 +61,14 @@
 
         var elem = osdElement;
 
-        dom.removeEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
-            once: true
-        });
-
         elem.classList.remove('hide');
 
         // trigger reflow
         void elem.offsetWidth;
 
-        requestAnimationFrame(function () {
-            elem.classList.remove('iconOsd-hidden');
+        elem.classList.remove('iconOsd-hidden');
 
-            hideTimeout = setTimeout(hideOsd, 3000);
-        });
+        hideTimeout = setTimeout(hideOsd, 3000);
     }
 
     function clearHideTimeout() {
@@ -85,13 +89,7 @@
                 // trigger reflow
                 void elem.offsetWidth;
 
-                requestAnimationFrame(function () {
-                    elem.classList.add('iconOsd-hidden');
-
-                    dom.addEventListener(elem, dom.whichTransitionEvent(), onHideComplete, {
-                        once: true
-                    });
-                });
+                elem.classList.add('iconOsd-hidden');
             } else {
                 onHideComplete.call(elem);
             }

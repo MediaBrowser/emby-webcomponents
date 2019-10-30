@@ -1,56 +1,55 @@
-define(['require', 'events', 'browser', 'appRouter', 'loading'], function (require, events, browser, appRouter, loading) {
+define(['require', 'events', 'layoutManager', 'browser', 'appRouter', 'loading', 'queryString', 'dom'], function (require, events, layoutManager, browser, appRouter, loading, queryString, dom) {
     "use strict";
 
-    function zoomIn(elem, iterations) {
-        var keyframes = [
-            { transform: 'scale3d(.2, .2, .2)  ', opacity: '.6', offset: 0 },
-            { transform: 'none', opacity: '1', offset: 1 }
-        ];
+    function zoomIn(elem) {
 
-        var timing = { duration: 240, iterations: iterations };
-        return elem.animate(keyframes, timing);
+        return new Promise(function (resolve, reject) {
+
+            var duration = 240;
+            elem.style.animation = 'youtubeplayer-zoomin ' + duration + 'ms ease-in normal';
+            dom.addEventListener(elem, dom.whichAnimationEvent(), resolve, {
+                once: true
+            });
+        });
     }
 
     function createMediaElement(instance, options) {
 
-        return new Promise(function (resolve, reject) {
+        var dlg = document.querySelector('.youtubePlayerContainer');
 
-            var dlg = document.querySelector('.youtubePlayerContainer');
+        if (!dlg) {
 
-            if (!dlg) {
+            return require(['css!./style']).then(function () {
 
-                require(['css!./style'], function () {
+                loading.show();
 
-                    loading.show();
+                var dlg = document.createElement('div');
 
-                    var dlg = document.createElement('div');
+                dlg.classList.add('youtubePlayerContainer');
 
-                    dlg.classList.add('youtubePlayerContainer');
+                if (options.fullscreen) {
+                    dlg.classList.add('onTop');
+                }
 
-                    if (options.fullscreen) {
-                        dlg.classList.add('onTop');
-                    }
+                dlg.innerHTML = '<div id="player"></div>';
+                var videoElement = dlg.querySelector('#player');
 
-                    dlg.innerHTML = '<div id="player"></div>';
-                    var videoElement = dlg.querySelector('#player');
+                document.body.insertBefore(dlg, document.body.firstChild);
+                instance.videoDialog = dlg;
 
-                    document.body.insertBefore(dlg, document.body.firstChild);
-                    instance.videoDialog = dlg;
+                if (options.fullscreen && dlg.animate && !layoutManager.mobile && !browser.tv) {
+                    return zoomIn(dlg, 1).then(function () {
+                        return videoElement;
+                    });
+                } else {
+                    return Promise.resolve(videoElement);
+                }
 
-                    if (options.fullscreen && dlg.animate && !browser.slow) {
-                        zoomIn(dlg, 1).onfinish = function () {
-                            resolve(videoElement);
-                        };
-                    } else {
-                        resolve(videoElement);
-                    }
+            });
 
-                });
-
-            } else {
-                resolve(dlg.querySelector('#player'));
-            }
-        });
+        } else {
+            return Promise.resolve(dlg.querySelector('#player'));
+        }
     }
 
     function onVideoResize() {
@@ -133,74 +132,69 @@ define(['require', 'events', 'browser', 'appRouter', 'loading'], function (requi
 
         return new Promise(function (resolve, reject) {
 
-            require(['queryString'], function (queryString) {
-
-
-                instance._currentSrc = options.url;
-                var params = queryString.parse(options.url.split('?')[1]);
-                // 3. This function creates an <iframe> (and YouTube player)
-                //    after the API code downloads.
-                window.onYouTubeIframeAPIReady = function () {
-                    instance.currentYoutubePlayer = new YT.Player('player', {
-                        height: instance.videoDialog.offsetHeight,
-                        width: instance.videoDialog.offsetWidth,
-                        videoId: params.v,
-                        events: {
-                            'onReady': onPlayerReady,
-                            'onStateChange': function (event) {
-                                if (event.data === YT.PlayerState.PLAYING) {
-                                    reject = null;
-                                    onPlaying(instance, options, resolve);
-                                } else if (event.data === YT.PlayerState.ENDED) {
-                                    onEndedInternal(instance);
-                                } else if (event.data === YT.PlayerState.PAUSED) {
-                                    events.trigger(instance, 'pause');
-                                }
-                            },
-                            'onError': function (event) {
-                                // https://developers.google.com/youtube/iframe_api_reference#Events
-                                // Treat all errors as failures
-                                console.log('youtubeplayer, received error code during playback : ' + event.data);
-                                if (reject) {
-                                    reject();
-                                } else {
-                                    events.trigger(instance, 'error');
-                                }
+            instance._currentSrc = options.url;
+            var params = queryString.parse(options.url.split('?')[1]);
+            // 3. This function creates an <iframe> (and YouTube player)
+            //    after the API code downloads.
+            window.onYouTubeIframeAPIReady = function () {
+                instance.currentYoutubePlayer = new YT.Player('player', {
+                    height: instance.videoDialog.offsetHeight,
+                    width: instance.videoDialog.offsetWidth,
+                    videoId: params.v,
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': function (event) {
+                            if (event.data === YT.PlayerState.PLAYING) {
+                                reject = null;
+                                onPlaying(instance, options, resolve);
+                            } else if (event.data === YT.PlayerState.ENDED) {
+                                onEndedInternal(instance);
+                            } else if (event.data === YT.PlayerState.PAUSED) {
+                                events.trigger(instance, 'pause');
                             }
                         },
-                        playerVars: {
-                            controls: 0,
-                            enablejsapi: 1,
-                            modestbranding: 1,
-                            rel: 0,
-                            showinfo: 0,
-                            fs: 0,
-                            playsinline: 1
+                        'onError': function (event) {
+                            // https://developers.google.com/youtube/iframe_api_reference#Events
+                            // Treat all errors as failures
+                            console.log('youtubeplayer, received error code during playback : ' + event.data);
+                            if (reject) {
+                                reject();
+                            } else {
+                                events.trigger(instance, 'error');
+                            }
                         }
-                    });
-
-                    var resizeListener = instance.resizeListener;
-                    if (resizeListener) {
-                        window.removeEventListener('resize', resizeListener);
-                        window.addEventListener('resize', resizeListener);
-                    } else {
-                        resizeListener = instance.resizeListener = onVideoResize.bind(instance);
-                        window.addEventListener('resize', resizeListener);
+                    },
+                    playerVars: {
+                        controls: 0,
+                        enablejsapi: 1,
+                        modestbranding: 1,
+                        rel: 0,
+                        showinfo: 0,
+                        fs: 0,
+                        playsinline: 1
                     }
-                    window.removeEventListener('orientationChange', resizeListener);
-                    window.addEventListener('orientationChange', resizeListener);
-                };
+                });
 
-                if (!window.YT) {
-                    var tag = document.createElement('script');
-                    tag.src = "https://www.youtube.com/iframe_api";
-                    var firstScriptTag = document.getElementsByTagName('script')[0];
-                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                var resizeListener = instance.resizeListener;
+                if (resizeListener) {
+                    window.removeEventListener('resize', resizeListener);
+                    window.addEventListener('resize', resizeListener);
                 } else {
-                    window.onYouTubeIframeAPIReady();
+                    resizeListener = instance.resizeListener = onVideoResize.bind(instance);
+                    window.addEventListener('resize', resizeListener);
                 }
-            });
+                window.removeEventListener('orientationChange', resizeListener);
+                window.addEventListener('orientationChange', resizeListener);
+            };
 
+            if (!window.YT) {
+                var tag = document.createElement('script');
+                tag.src = "https://www.youtube.com/iframe_api";
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            } else {
+                window.onYouTubeIframeAPIReady();
+            }
         });
     }
 

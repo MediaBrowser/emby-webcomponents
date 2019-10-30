@@ -72,6 +72,31 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
         this.setLayout(this.getDefaultLayout(), false);
     };
 
+    function isMobile() {
+
+        var terms = [
+            'mobi',
+            'ipad',
+            'iphone',
+            'ipod',
+            'silk',
+            'gt-p1000',
+            'nexus 7',
+            'kindle fire',
+            'opera mini'
+        ];
+
+        var lower = navigator.userAgent.toLowerCase();
+
+        for (var i = 0, length = terms.length; i < length; i++) {
+            if (lower.indexOf(terms[i]) !== -1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     LayoutManager.prototype.getDefaultLayout = function () {
 
         if (this.getPlatformDefaultLayout) {
@@ -85,7 +110,7 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
             return 'tv';
         }
 
-        if (browser.mobile) {
+        if (isMobile()) {
             return 'mobile';
         }
 

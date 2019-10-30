@@ -8,7 +8,7 @@
     var hasChanges = false;
 
     // These images can be large and we're seeing memory problems in safari
-    var browsableImagePageSize = browser.slow ? 6 : 15;
+    var browsableImagePageSize = 6;
 
     var browsableImageStartIndex = 0;
     var browsableImageType = 'Primary';
@@ -176,7 +176,7 @@
         if (tagName === 'button') {
             cssClass += ' btnImageCard';
 
-            if (layoutManager.tv && !browser.slow) {
+            if (layoutManager.tv && !browser.tv && !browser.xboxOne && !browser.ps4) {
                 cardBoxCssClass += ' cardBox-focustransform';
             }
 

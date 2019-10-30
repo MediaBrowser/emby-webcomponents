@@ -133,24 +133,38 @@
         }
     }
 
-    function animateDialogOpen(dlg) {
+    function onOpenAnimationFinish(e) {
 
-        var onAnimationFinish = function () {
-            focusManager.pushScope(dlg);
-            if (dlg.getAttribute('data-autofocus') === 'true') {
-                focusManager.autoFocus(dlg);
-            }
-        };
+        if (e.target !== e.currentTarget) {
+            return;
+        }
+
+        var dlg = this;
+
+        dom.removeEventListener(dlg, dom.whichAnimationEvent(), onOpenAnimationFinish, {
+            passive: true
+        });
+
+        focusManager.pushScope(dlg);
+        if (dlg.getAttribute('data-autofocus') === 'true') {
+            focusManager.autoFocus(dlg);
+        }
+    }
+
+    function animateDialogOpen(dlg) {
 
         if (enableAnimation()) {
 
-            dom.addEventListener(dlg, dom.whichAnimationEvent(), onAnimationFinish, {
-                once: true
+            dom.addEventListener(dlg, dom.whichAnimationEvent(), onOpenAnimationFinish, {
+                passive: true
             });
             return;
         }
 
-        onAnimationFinish();
+        onOpenAnimationFinish.call(dlg, {
+            target: dlg,
+            currentTarget: dlg
+        });
     }
 
     function addBackdropOverlay(dlg) {
@@ -219,43 +233,53 @@
         }
     }
 
-    function closeDialog(dlg) {
+    function onCloseAnimationFinish(e) {
 
-        if (!dlg.classList.contains('hide')) {
-
-            dlg.dispatchEvent(new CustomEvent('closing', {
-                bubbles: false,
-                cancelable: false
-            }));
-
-            var onAnimationFinish = function () {
-                focusManager.popScope(dlg);
-
-                dlg.classList.add('hide');
-                dlg.dispatchEvent(new CustomEvent('close', {
-                    bubbles: false,
-                    cancelable: false
-                }));
-            };
-
-            animateDialogClose(dlg, onAnimationFinish);
+        if (e.target !== e.currentTarget) {
+            return;
         }
+
+        var dlg = this;
+
+        dom.removeEventListener(dlg, dom.whichAnimationEvent(), onCloseAnimationFinish, {
+            passive: true
+        });
+
+        focusManager.popScope(dlg);
+
+        dlg.classList.add('hide');
+        dlg.dispatchEvent(new CustomEvent('close', {
+            bubbles: false,
+            cancelable: false
+        }));
     }
 
-    function animateDialogClose(dlg, onAnimationFinish) {
+    function closeDialog(dlg) {
+
+        if (dlg.classList.contains('hide')) {
+            return;
+        }
+
+        dlg.dispatchEvent(new CustomEvent('closing', {
+            bubbles: false,
+            cancelable: false
+        }));
 
         dlg.classList.add('dialog-close');
 
         if (enableAnimation()) {
 
-            dom.addEventListener(dlg, dom.whichAnimationEvent(), onAnimationFinish, {
+            dom.addEventListener(dlg, dom.whichAnimationEvent(), onCloseAnimationFinish, {
                 once: true
             });
 
             return;
         }
 
-        onAnimationFinish();
+        onCloseAnimationFinish.call(dlg, {
+            target: dlg,
+            currentTarget: dlg
+        });
     }
 
     //var supportsOverscrollBehavior = 'overscroll-behavior-y' in document.body.style;

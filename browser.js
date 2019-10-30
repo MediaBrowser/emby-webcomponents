@@ -29,73 +29,6 @@
         return false;
     }
 
-    function isMobile(userAgent) {
-
-        var terms = [
-            'mobi',
-            'ipad',
-            'iphone',
-            'ipod',
-            'silk',
-            'gt-p1000',
-            'nexus 7',
-            'kindle fire',
-            'opera mini'
-        ];
-
-        var lower = userAgent.toLowerCase();
-
-        for (var i = 0, length = terms.length; i < length; i++) {
-            if (lower.indexOf(terms[i]) !== -1) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    function isStyleSupported(prop, value) {
-
-        if (typeof window === 'undefined') {
-            return false;
-        }
-
-        // If no value is supplied, use "inherit"
-        value = arguments.length === 2 ? value : 'inherit';
-        // Try the native standard method first
-        if ('CSS' in window && 'supports' in window.CSS) {
-            return window.CSS.supports(prop, value);
-        }
-        // Check Opera's native method
-        if ('supportsCSS' in window) {
-            return window.supportsCSS(prop, value);
-        }
-
-        // need try/catch because it's failing on tizen
-
-        try {
-            // Convert to camel-case for DOM interactions
-            var camel = prop.replace(/-([a-z]|[0-9])/ig, function (all, letter) {
-                return (letter + '').toUpperCase();
-            });
-            // Create test element
-            var el = document.createElement('div');
-            // Check if the property is supported
-            var support = (camel in el.style);
-            if (support) {
-                // Assign the property and value to invoke
-                // the CSS interpreter
-                el.style.cssText = prop + ':' + value;
-                // Ensure both the property and value are
-                // supported and return
-                return el.style[camel] !== '';
-            }
-        } catch (err) {
-        }
-
-        return false;
-    }
-
     function hasKeyboard(browser) {
 
         if (browser.xboxOne) {
@@ -233,17 +166,10 @@
 
         version = version || match[2] || "0";
 
-        var versionMajor = parseInt(version.split('.')[0]);
-
-        if (isNaN(versionMajor)) {
-            versionMajor = 0;
-        }
-
         return {
             browser: browser,
             version: version,
-            platform: platform_match[0] || "",
-            versionMajor: versionMajor
+            platform: platform_match[0] || ""
         };
     };
 
@@ -255,7 +181,6 @@
     if (matched.browser) {
         browser[matched.browser] = true;
         browser.version = matched.version;
-        browser.versionMajor = matched.versionMajor;
     }
 
     if (matched.platform) {
@@ -269,10 +194,6 @@
     if (userAgent.toLowerCase().indexOf("playstation 4") !== -1) {
         browser.ps4 = true;
         browser.tv = true;
-    }
-
-    if (isMobile(userAgent)) {
-        browser.mobile = true;
     }
 
     browser.xboxOne = userAgent.toLowerCase().indexOf('xbox') !== -1;
@@ -296,14 +217,6 @@
 
     browser.tv = isTv();
     browser.operaTv = browser.tv && userAgent.toLowerCase().indexOf('opr/') !== -1;
-
-    if (!isStyleSupported('display', 'flex')) {
-        browser.noFlex = true;
-    }
-
-    if (browser.mobile || browser.tv) {
-        browser.slow = true;
-    }
 
     browser.keyboard = hasKeyboard(browser);
     browser.supportsCssAnimation = supportsCssAnimation;

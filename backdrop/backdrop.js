@@ -1,9 +1,9 @@
-﻿define(['browser', 'connectionManager', 'playbackManager', 'dom', 'css!./style'], function (browser, connectionManager, playbackManager, dom) {
+﻿define(['browser', 'layoutManager', 'connectionManager', 'playbackManager', 'dom', 'css!./style'], function (browser, layoutManager, connectionManager, playbackManager, dom) {
     'use strict';
 
     function enableAnimation(elem) {
 
-        if (browser.slow) {
+        if (layoutManager.mobile || browser.tv) {
             return false;
         }
 

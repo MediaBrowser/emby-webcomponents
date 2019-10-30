@@ -198,7 +198,7 @@
             padderClass = 'cardPadder-portrait';
         }
 
-        if (layoutManager.tv && !browser.slow) {
+        if (layoutManager.tv && !browser.tv && !browser.ps4 && !browser.xboxOne) {
             cardBoxCssClass += ' cardBox-focustransform';
         }
 

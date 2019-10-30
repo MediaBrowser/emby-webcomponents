@@ -174,6 +174,7 @@ define([], function () {
     }
 
     var _transitionEvent;
+    var _transitionStartEvent;
     function whichTransitionEvent() {
         if (_transitionEvent) {
             return _transitionEvent;
@@ -190,12 +191,20 @@ define([], function () {
         for (t in transitions) {
             if (el.style[t] !== undefined) {
                 _transitionEvent = transitions[t];
+                _transitionStartEvent = _transitionEvent.replace('End', 'Start').replace('end', 'start');
                 return transitions[t];
             }
         }
 
         _transitionEvent = 'transitionend';
+        _transitionStartEvent = 'transitionstart'
         return _transitionEvent;
+    }
+
+    function whichTransitionStartEvent() {
+        whichTransitionEvent();
+
+        return _transitionStartEvent;
     }
 
     function supportsEventListenerOnce() {
@@ -211,6 +220,7 @@ define([], function () {
         removeEventListener: removeEventListenerWithOptions,
         getWindowSize: getWindowSize,
         whichTransitionEvent: whichTransitionEvent,
+        whichTransitionStartEvent: whichTransitionStartEvent,
         whichAnimationEvent: whichAnimationEvent,
         whichAnimationCancelEvent: whichAnimationCancelEvent,
         htmlEncode: htmlEncode,

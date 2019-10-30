@@ -76,9 +76,13 @@
         return html;
     }
 
-    function onSlideDownComplete() {
+    function onSlideDownComplete(e) {
 
-        this.classList.add('hide');
+        if (e.target === e.currentTarget) {
+            if (this.classList.contains('nowPlayingBar-hidden')) {
+                this.classList.add('hide');
+            }
+        }
     }
 
     function slideDown(elem) {
@@ -87,17 +91,9 @@
         void elem.offsetWidth;
 
         elem.classList.add('nowPlayingBar-hidden');
-
-        dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-            once: true
-        });
     }
 
     function slideUp(elem) {
-
-        dom.removeEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
-            once: true
-        });
 
         elem.classList.remove('hide');
 
@@ -112,6 +108,10 @@
     }
 
     function bindEvents(elem) {
+
+        dom.addEventListener(elem, dom.whichTransitionEvent(), onSlideDownComplete, {
+            passive: true
+        });
 
         currentTimeElement = elem.querySelector('.nowPlayingBarCurrentTime');
         nowPlayingImageElement = elem.querySelector('.nowPlayingImage');

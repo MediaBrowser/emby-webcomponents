@@ -19,3 +19,15 @@
         width: 100%;
         height: 100%;
     }
+
+@keyframes youtubeplayer-zoomin {
+    from {
+        transform: scale(.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: none;
+        opacity: initial;
+    }
+}
