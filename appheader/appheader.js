@@ -456,8 +456,6 @@
         updateRightHeader(this, detail, e.target);
         updateTitle(this, detail, e.target);
 
-        navDrawerInstance.setEdgeSwipeEnabled(userSignedIn && !layoutManager.tv && detail.drawer !== false);
-
         navDrawerContent.onViewShow(e);
 
         if (!detail.isRestored && enableWindowScroll(detail)) {

@@ -183,10 +183,8 @@
     }
 
 .listViewDragHandle {
-    margin-left: -.25em !important;
     touch-action: none;
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding: 1em;
 }
 
 .listItemProgressBar {

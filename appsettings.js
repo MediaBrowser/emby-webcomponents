@@ -94,6 +94,15 @@ define(['appStorage', 'events'], function (appStorage, events) {
         return this.get('syncOnlyOnWifi') !== 'false';
     };
 
+    AppSettings.prototype.cameraUploadOnlyOnWifi = function (val) {
+
+        if (val != null) {
+            this.set('cameraUploadOnlyOnWifi', val.toString());
+        }
+
+        return this.get('cameraUploadOnlyOnWifi') !== 'false';
+    };
+
     AppSettings.prototype.syncWhenRoaming = function (val) {
 
         if (val != null) {

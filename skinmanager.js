@@ -282,9 +282,23 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
             currentThemeId = info.themeId;
             loadThemeResources(info.themeId);
 
-            onViewBeforeShow({});
+            loadThemeBackdrop();
+
+            document.removeEventListener('viewshow', onViewBeforeShow);
+
+            if (themeResources.backdrop) {
+
+                document.addEventListener('viewshow', onViewBeforeShow);
+            }
         });
     };
+
+    function loadThemeBackdrop() {
+        if (themeResources.backdrop) {
+
+            backdrop.setBackdrop(themeResources.backdrop);
+        }
+    }
 
     function onViewBeforeShow(e) {
 
@@ -292,13 +306,8 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
             return;
         }
 
-        if (themeResources.backdrop) {
-
-            backdrop.setBackdrop(themeResources.backdrop);
-        }
+        loadThemeBackdrop();
     }
-
-    document.addEventListener('viewshow', onViewBeforeShow);
 
     function playSound(path, volume) {
 

@@ -19,6 +19,7 @@
   "LabelPassword": "Password:",
   "HeaderResetPassword": "Reset Password",
   "Submit": "Submit",
+  "UploadOnlyOnWifi": "Upload only on Wifi",
   "LabelPasswordConfirm": "Password (confirm):",
   "LabelUsername": "Username:",
   "HeaderAddServer": "Add Server",

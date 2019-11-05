@@ -114,10 +114,10 @@
                 html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu" data-action="' + nextAction + '"><i class="md-icon">&#xE001;</i></button>';
             }
             else if (nextAction === 'cancel') {
-                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu" data-action="' + nextAction + '"><i class="md-icon">&#xE15D;</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu" data-action="' + nextAction + '"><i class="md-icon">&#xE15C;</i></button>';
             }
             else if (nextAction === 'remove') {
-                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu" data-action="' + nextAction + '"><i class="md-icon">&#xE15D;</i></button>';
+                html += '<button type="button" is="paper-icon-button-light" class="btnJobItemMenu" data-action="' + nextAction + '"><i class="md-icon">&#xE15C;</i></button>';
             }
         }
 

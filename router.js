@@ -33,15 +33,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         showUserMenu: function () {
 
             if (self.Dashboard) {
-                return show(getRouteUrl('settings', {
-                    serverId: ApiClient.serverId()
-                }));
+                return appRouter.showSettings();
             }
 
             return showBackMenuInternal(true);
         },
         showSearch: function () {
-            return show('/search/search.html');
+            return show(getRouteUrl('search'));
         },
         showGuide: function () {
             return show(appRouter.getRouteUrl('livetv', {
@@ -783,6 +781,9 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         if (item === 'home') {
             return getHomeRoute();
         }
+        if (item === 'search') {
+            return '/search/search.html';
+        }
         if (item === 'connectlogin') {
             return '/startup/connectlogin.html';
         }
@@ -790,7 +791,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return '/startup/selectserver.html';
         }
         if (item === 'settings') {
-            return '/settings/settings.html?serverId=' + serverId;
+
+            if (serverId) {
+                return '/settings/settings.html?serverId=' + serverId;
+            }
+            return '/settings/settings.html';
         }
         if (item === 'wizard') {
             return '/wizardstart.html';

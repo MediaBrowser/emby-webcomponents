@@ -129,14 +129,10 @@
             /(safari)[ \/]([\w.]+)/.exec(ua) ||
             /(firefox)[ \/]([\w.]+)/.exec(ua) ||
             /(msie) ([\w.]+)/.exec(ua) ||
-            ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
             [];
-
-        var versionMatch = /(version)[ \/]([\w.]+)/.exec(ua);
 
         var platform_match = /(ipad)/.exec(ua) ||
             /(iphone)/.exec(ua) ||
-            /(windows)/.exec(ua) ||
             /(android)/.exec(ua) ||
             [];
 
@@ -159,16 +155,8 @@
             browser = 'opera';
         }
 
-        var version;
-        if (versionMatch && versionMatch.length > 2) {
-            version = versionMatch[2];
-        }
-
-        version = version || match[2] || "0";
-
         return {
             browser: browser,
-            version: version,
             platform: platform_match[0] || ""
         };
     };
@@ -180,7 +168,6 @@
 
     if (matched.browser) {
         browser[matched.browser] = true;
-        browser.version = matched.version;
     }
 
     if (matched.platform) {

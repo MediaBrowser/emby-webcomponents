@@ -188,6 +188,10 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
                 cssClass += ' listItem-focusscale';
             }
 
+            if (options.dragHandle) {
+                cssClass += ' listItemBody-noleftpadding';
+            }
+
             var downloadWidth = 80;
 
             if (isLargeStyle) {

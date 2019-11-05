@@ -296,7 +296,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
             commands.push({
                 name: globalize.translate('HeaderRemoveFromPlaylist'),
                 id: 'removefromplaylist',
-                icon: 'remove'
+                icon: 'remove_circle'
             });
         }
 
@@ -304,7 +304,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
             commands.push({
                 name: globalize.translate('HeaderRemoveFromCollection'),
                 id: 'removefromcollection',
-                icon: 'remove'
+                icon: 'remove_circle'
             });
         }
 
@@ -321,7 +321,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
                 commands.push({
                     name: globalize.translate('Remove'),
                     id: 'removelibrary',
-                    icon: 'remove'
+                    icon: 'remove_circle'
                 });
                 commands.push({
                     name: globalize.translate('Rename'),

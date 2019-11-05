@@ -528,13 +528,6 @@
             query.CurrentPlaySessionId = currentPlaySessionId;
         }
 
-        // lastly, enforce player overrides for special situations
-        if (query.EnableDirectStream !== false) {
-            if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
-                query.EnableDirectStream = false;
-            }
-        }
-
         if (player.getDirectPlayProtocols) {
             query.DirectPlayProtocols = player.getDirectPlayProtocols();
         }
@@ -601,13 +594,6 @@
         }
         if (subtitleStreamIndex != null) {
             query.SubtitleStreamIndex = subtitleStreamIndex;
-        }
-
-        // lastly, enforce player overrides for special situations
-        if (query.EnableDirectStream !== false) {
-            if (player.supportsPlayMethod && !player.supportsPlayMethod('DirectStream', item)) {
-                query.EnableDirectStream = false;
-            }
         }
 
         return apiClient.ajax({
@@ -766,11 +752,23 @@
     }
 
     function createTarget(instance, player) {
+
+        var allMediaTypes = ['Audio', 'Video', 'Game', 'Photo', 'Book'];
+        var mediaTypes = [];
+
+        for (var i = 0, length = allMediaTypes.length; i < length; i++) {
+
+            var mediaType = allMediaTypes[i];
+            if (player.canPlayMediaType(mediaType)) {
+                mediaTypes.push(mediaType);
+            }
+        }
+
         return {
             name: player.name,
             id: player.id,
             playerName: player.name,
-            playableMediaTypes: ['Audio', 'Video', 'Game', 'Photo', 'Book'].map(player.canPlayMediaType),
+            playableMediaTypes: mediaTypes,
             isLocalPlayer: player.isLocalPlayer,
             supportedCommands: instance.getSupportedCommands(player)
         };

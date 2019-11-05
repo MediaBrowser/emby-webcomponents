@@ -4,7 +4,6 @@
     function transferPlayback(oldPlayer, newPlayer) {
 
         var state = playbackManager.getPlayerState(oldPlayer);
-
         var item = state.NowPlayingItem;
 
         if (!item) {
@@ -14,7 +13,7 @@
         var playState = state.PlayState || {};
         var resumePositionTicks = playState.PositionTicks || 0;
 
-        playbackManager.stop(oldPlayer).then(function () {
+        return playbackManager.stop(oldPlayer).then(function () {
 
             playbackManager.play({
                 ids: [item.Id],
@@ -27,21 +26,21 @@
 
     events.on(playbackManager, 'playerchange', function (e, newPlayer, newTarget, oldPlayer) {
 
-        if (!oldPlayer || !newPlayer) {
+        if (!oldPlayer) {
             return;
         }
 
-        if (!oldPlayer.isLocalPlayer) {
-            console.log('Skipping remote control autoplay because oldPlayer is not a local player');
+        if (oldPlayer.isLocalPlayer && (!newPlayer || newPlayer.isLocalPlayer)) {
+            console.log('Skipping remote control autoplay because both old and new players are local');
             return;
         }
 
-        if (newPlayer.isLocalPlayer) {
+        if (!newPlayer || newPlayer.isLocalPlayer) {
             console.log('Skipping remote control autoplay because newPlayer is a local player');
             return;
         }
 
-        transferPlayback(oldPlayer, newPlayer);
+        return transferPlayback(oldPlayer, newPlayer);
     });
 
 });
