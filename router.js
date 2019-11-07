@@ -801,7 +801,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return '/wizardstart.html';
         }
         if (item === 'downloads') {
-            return '/offline/offline.html';
+            return '/list/list.html' + '?parentId=downloads';
         }
         if (item === 'downloadsettings') {
             return '/settings/download.html';

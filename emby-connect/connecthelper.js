@@ -26,6 +26,9 @@ define(['globalize', 'apphost', 'loading', 'alert', 'emby-linkbutton'], function
         if (statusCode === 502) {
             return showConnectServerUnreachableErrorMessage();
         }
+        else if (statusCode === 409) {
+            text = globalize.translate('EmbyConnectUserAlreadyLinked');
+        }
         else if (username) {
 
             if (appHost.supports('externallinks')) {

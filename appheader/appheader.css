@@ -149,7 +149,7 @@
 
 @media all and (max-width: 60em) {
 
-    .headerMenuButton, .headerManageServerButton {
+    .headerManageServerButton {
         display: none !important;
     }
 }
@@ -180,7 +180,7 @@
 @media all and (min-width: 60em) {
 
     .pageTitleTextHide {
-        display: block!important;
+        display: block !important;
     }
 
     .btnHeaderSelectLibrary {

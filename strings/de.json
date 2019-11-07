@@ -1,4 +1,5 @@
 {
+    "EmbyConnectUserAlreadyLinked": "The Emby Connect user is already linked to another user on this server.",
     "EmbyLoginTerms": "Emby wurde designed um Sie bei der Verwaltung Ihrer Medienbibliothek, wie z.B Heimvideos oder Fotos, zu unterst\u00fctzen. Bitte lesen Sie unsere {0}Nutzungsbedingungen{1}. Die Verwendung jeglicher Emby Software bedingt die Zustimmung dieser Vereinbarung.",
     "MessageUnableToConnectToServer": "Wir k\u00f6nnen gerade keine Verbindung zum gew\u00e4hlten Server herstellen. Bitte stellen Sie sicher das dieser l\u00e4uft und versuchen Sie es erneut.",
     "EmbyIntroMessage": "Mit Emby k\u00f6nnen Sie auf einfache Art und Weise Videos, Musik und Fotos von Ihrem Emby Server auf Smartphones, Tablets und andere Ger\u00e4te streamen.",
@@ -19,7 +20,7 @@
     "LabelPassword": "Passwort:",
     "HeaderResetPassword": "Passwort zur\u00fccksetzen",
     "Submit": "\u00dcbermitteln",
-    "UploadOnlyOnWifi": "Upload only on Wifi",
+    "UploadOnlyOnWifi": "Nur \u00fcber Wlan herunterladen",
     "LabelPasswordConfirm": "Passwort (Best\u00e4tigung):",
     "LabelUsername": "Benutzername:",
     "HeaderAddServer": "Server hinzuf\u00fcgen",
@@ -190,7 +191,7 @@
     "Record": "Aufnehmen",
     "Save": "Speichern",
     "Edit": "Bearbeiten",
-    "HeaderSavePlaylist": "Save Playlist",
+    "HeaderSavePlaylist": "Wiedergabeliste speichern",
     "Latest": "Neueste",
     "Download": "Download",
     "Downloaded": "Heruntergeladen",
