@@ -19,7 +19,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         var cachedWidths = {};
-        function getWidth(shape, cardClass, screenWidth) {
+        function getImageWidth(shape, cardClass, screenWidth) {
 
             var key = shape + screenWidth;
 
@@ -57,17 +57,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             return false;
-        }
-
-        function getImageWidth(shape, cardClass, screenWidth) {
-
-            //console.log(screenWidth);
-            var imagesPerRow = screenWidth / getWidth(shape, cardClass, screenWidth);
-            //console.log(shape + '--' + imagesPerRow);
-
-            var shapeWidth = screenWidth / imagesPerRow;
-
-            return Math.round(shapeWidth);
         }
 
         function getDefaultShape(items, requestedShape) {
@@ -141,11 +130,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             if (!options.width) {
                 var screenWidth = dom.getWindowSize().innerWidth;
 
-                if (isResizable(screenWidth)) {
-                    var roundScreenTo = 100;
-                    screenWidth = Math.floor(screenWidth / roundScreenTo) * roundScreenTo;
-                }
-
                 var cardClass = 'card ' + options.shape + 'Card';
 
                 if (options.cardClass) {
@@ -153,6 +137,12 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
 
                 options.width = getImageWidth(options.shape, cardClass, screenWidth);
+
+                if (isResizable(screenWidth)) {
+                    var roundTo = 50;
+                    options.width = Math.round(options.width / roundTo) * roundTo;
+                }
+                //alert(options.width);
             }
         }
 
@@ -1375,7 +1365,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 case "photos":
                     return "&#xE412;";
                 case "livetv":
-                    return "&#xE639;";
+                    return "&#xe1b2;";
                 case "tvshows":
                     return "&#xE639;";
                 case "games":

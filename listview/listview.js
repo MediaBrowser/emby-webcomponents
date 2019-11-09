@@ -154,10 +154,6 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
 
                 if (itemGroupTitle !== groupTitle) {
 
-                    if (html) {
-                        html += '</div>';
-                    }
-
                     if (i === 0) {
                         html += '<h2 class="listGroupHeader listGroupHeader-first">';
                     }
@@ -167,8 +163,6 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
 
                     html += itemGroupTitle;
                     html += '</h2>';
-
-                    html += '<div>';
 
                     groupTitle = itemGroupTitle;
                 }

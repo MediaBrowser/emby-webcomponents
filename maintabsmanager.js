@@ -156,9 +156,9 @@
                 }
 
                 if (t.href) {
-                    tabHtml = '<a href="' + t.href + '" is="emby-linkbutton" class="' + tabClass + '" data-index="' + index + '"><div class="emby-button-foreground">' + t.name + '</div></a>';
+                    tabHtml = '<a href="' + t.href + '" is="emby-linkbutton" class="' + tabClass + '" data-index="' + index + '">' + t.name + '</a>';
                 } else {
-                    tabHtml = '<button type="button" is="emby-button" class="' + tabClass + '" data-index="' + index + '"><div class="emby-button-foreground">' + t.name + '</div></button>';
+                    tabHtml = '<button type="button" is="emby-button" class="' + tabClass + '" data-index="' + index + '">' + t.name + '</button>';
                 }
 
                 index++;
