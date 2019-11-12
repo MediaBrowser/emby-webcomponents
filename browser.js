@@ -208,8 +208,11 @@
     browser.keyboard = hasKeyboard(browser);
     browser.supportsCssAnimation = supportsCssAnimation;
 
-    browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
     browser.iOS = browser.ipad || browser.iphone || browser.ipod;
+
+    if (!browser.iOS) {
+        browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
+    }
 
     browser.customElements = ('customElements' in self);
     browser.customBuiltInElements = browser.customElements && !browser.iOS && !browser.safari && customElements.upgrade;

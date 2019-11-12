@@ -147,12 +147,6 @@ define(['browser'], function (browser) {
             return false;
         }
 
-        else if (format === 'mp2') {
-
-            // For now
-            return false;
-        }
-
         if (format === 'alac') {
             if (browser.iOS || browser.osx) {
                 return true;
@@ -454,7 +448,7 @@ define(['browser'], function (browser) {
                 videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '');
 
             // Not sure how to test for this
-            var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
+            var supportsMp2VideoAudio = supportsMp3VideoAudio;
 
             var maxVideoWidth = responses[0].supported && responses[0].smooth ? null : 1920;
 

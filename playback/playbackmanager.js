@@ -3221,7 +3221,7 @@
                         // force transcoding
                         EnableDirectPlay: false,
                         EnableDirectStream: false,
-                        AllowVideoStreamCopy: false,
+                        AllowVideoStreamCopy: streamInfo.playMethod === 'Transcode' ? false : null,
                         AllowAudioStreamCopy: currentlyPreventsAudioStreamCopy || currentlyPreventsVideoStreamCopy ? false : null
 
                     }, true);

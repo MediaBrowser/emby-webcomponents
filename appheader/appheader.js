@@ -202,7 +202,7 @@
 
     function updateSkinHeaderBackdropFilter(skinHeader) {
 
-        if (browser.android || layoutManager.tv) {
+        if (layoutManager.tv) {
 
             skinHeaderElement.classList.add('nobackdropfilter');
 
