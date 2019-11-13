@@ -2,7 +2,7 @@ define(['events'], function (events) {
     'use strict';
 
     // TODO: replace with each plugin version
-    var cacheParam = new Date().getTime();
+    var cacheParam = Date.now();
 
     function loadStrings(plugin, globalize) {
 

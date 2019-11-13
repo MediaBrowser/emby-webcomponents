@@ -172,7 +172,7 @@
         var refreshIntervalEndTime = this.refreshIntervalEndTime;
         if (refreshIntervalEndTime) {
 
-            var remainingMs = refreshIntervalEndTime - new Date().getTime();
+            var remainingMs = refreshIntervalEndTime - Date.now();
             if (remainingMs > 0 && !this.needsRefresh) {
 
                 resetRefreshInterval(this, remainingMs);
@@ -251,7 +251,7 @@
 
         if (intervalMs) {
             instance.refreshInterval = setInterval(instance.notifyRefreshNeeded.bind(instance), intervalMs);
-            instance.refreshIntervalEndTime = new Date().getTime() + intervalMs;
+            instance.refreshIntervalEndTime = Date.now() + intervalMs;
         }
     }
 

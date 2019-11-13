@@ -79,7 +79,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
             } catch (err) {
             }
 
-            var now = new Date().getTime();
+            var now = Date.now();
             var total = endDate - startDate;
             pct = 100 * ((now - startDate) / total);
 
@@ -208,7 +208,7 @@ define(['datetime', 'itemHelper', 'css!./indicators.css', 'material-icons'], fun
 
                     var premiereDate = datetime.parseISO8601Date(item.PremiereDate).getTime();
 
-                    if (premiereDate > new Date().getTime()) {
+                    if (premiereDate > Date.now()) {
                         return '<div class="unairedIndicator">Unaired</div>';
                     }
 

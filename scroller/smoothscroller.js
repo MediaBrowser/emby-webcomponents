@@ -708,7 +708,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
         var from = pos.cur;
         immediate = immediate || this.dragging.init || !options.speed;
 
-        var now = new Date().getTime();
+        var now = Date.now();
 
         if (options.autoImmediate) {
             if (!immediate && (now - (this.lastAnimate || 0)) <= 50) {

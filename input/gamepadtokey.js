@@ -166,7 +166,7 @@ require([], function () {
 
     function throttle(key) {
         var time = times[key] || 0;
-        var now = new Date().getTime();
+        var now = Date.now();
 
         if ((now - time) >= 200) {
             //times[key] = now;
@@ -177,7 +177,7 @@ require([], function () {
     }
 
     function resetThrottle(key) {
-        times[key] = new Date().getTime();
+        times[key] = Date.now();
     }
 
     function allowInput() {

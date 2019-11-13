@@ -431,7 +431,7 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
         if (item.MediaType === 'Video' && item.RunTimeTicks) {
 
             if (!item.StartDate) {
-                var endDate = new Date().getTime() + (item.RunTimeTicks / 10000);
+                var endDate = Date.now() + (item.RunTimeTicks / 10000);
                 endDate = new Date(endDate);
 
                 var displayTime = datetime.getDisplayTime(endDate);
@@ -444,7 +444,7 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
 
     function getEndsAtFromPosition(runtimeTicks, positionTicks, includeText) {
 
-        var endDate = new Date().getTime() + ((runtimeTicks - (positionTicks || 0)) / 10000);
+        var endDate = Date.now() + ((runtimeTicks - (positionTicks || 0)) / 10000);
         endDate = new Date(endDate);
 
         var displayTime = datetime.getDisplayTime(endDate);

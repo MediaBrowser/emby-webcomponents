@@ -218,7 +218,7 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         });
     }
 
-    var linkId = new Date().getTime();
+    var linkId = Date.now();
 
     skinManager.setTheme = function (id, context) {
 
@@ -311,7 +311,7 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
 
     function playSound(path, volume) {
 
-        lastSound = new Date().getTime();
+        lastSound = Date.now();
 
         require(['howler'], function (howler) {
 

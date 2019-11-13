@@ -1,21 +1,21 @@
 define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playbackManager, focusManager, appRouter, dom) {
     'use strict';
 
-    var lastInputTime = new Date().getTime();
+    var lastInputTime = Date.now();
 
     function notify() {
-        lastInputTime = new Date().getTime();
+        lastInputTime = Date.now();
 
         // TODO: Why did we do this?
         handleCommand('unknown');
     }
 
     function notifyMouseMove() {
-        lastInputTime = new Date().getTime();
+        lastInputTime = Date.now();
     }
 
     function idleTime() {
-        return new Date().getTime() - lastInputTime;
+        return Date.now() - lastInputTime;
     }
 
     function select(sourceElement) {
@@ -47,7 +47,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
     function checkCommandTime(command) {
 
         var last = commandTimes[command] || 0;
-        var now = new Date().getTime();
+        var now = Date.now();
 
         if ((now - last) < 1000) {
             return false;
@@ -59,7 +59,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
     function handleCommand(name, options) {
 
-        lastInputTime = new Date().getTime();
+        lastInputTime = Date.now();
 
         var sourceElement = (options ? options.sourceElement : null);
 

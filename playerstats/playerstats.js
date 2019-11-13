@@ -86,7 +86,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
     function getSession(instance, player) {
 
-        var now = new Date().getTime();
+        var now = Date.now();
 
         if ((now - (instance.lastSessionTime || 0)) < 10000) {
             return Promise.resolve(instance.lastSession);
@@ -99,7 +99,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
         }).then(function (sessions) {
 
             instance.lastSession = sessions[0] || {};
-            instance.lastSessionTime = new Date().getTime();
+            instance.lastSessionTime = Date.now();
 
             return Promise.resolve(instance.lastSession);
 
@@ -379,7 +379,7 @@ define(['events', 'globalize', 'playbackManager', 'connectionManager', 'playMeth
 
     function renderPlayerStats(instance, player) {
 
-        var now = new Date().getTime();
+        var now = Date.now();
 
         if ((now - (instance.lastRender || 0)) < 700) {
             return;

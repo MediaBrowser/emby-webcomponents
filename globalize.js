@@ -151,7 +151,7 @@ define(['connectionManager', 'userSettings', 'events'], function (connectionMana
         }
     }
 
-    var cacheParam = new Date().getTime();
+    var cacheParam = Date.now();
     function loadTranslation(translations, lang) {
 
         lang = normalizeLocaleName(lang);

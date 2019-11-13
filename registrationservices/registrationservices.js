@@ -116,7 +116,7 @@
                     if (isRejected) {
                         reject();
                     } else {
-                        appSettings.set(settingsKey, new Date().getTime());
+                        appSettings.set(settingsKey, Date.now());
 
                         resolve();
                     }
@@ -160,11 +160,11 @@
         if (!lastMessage) {
 
             // Don't show on the very first playback attempt
-            appSettings.set(settingsKey, new Date().getTime());
+            appSettings.set(settingsKey, Date.now());
             return Promise.resolve();
         }
 
-        if ((new Date().getTime() - lastMessage) > intervalMs) {
+        if ((Date.now() - lastMessage) > intervalMs) {
 
             var apiClient = connectionManager.currentApiClient();
             if (apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816') {
@@ -179,7 +179,7 @@
             return connectionManager.getRegistrationInfo(iapManager.getAdminFeatureName(feature), apiClient, registrationOptions).catch(function (errorResult) {
 
                 if (errorResult === 'overlimit') {
-                    appSettings.set(settingsKey, new Date().getTime());
+                    appSettings.set(settingsKey, Date.now());
                     return Promise.resolve();
                 }
 

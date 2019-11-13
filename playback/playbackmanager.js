@@ -1171,7 +1171,7 @@
                     return false;
                 }
 
-                if (new Date().getTime() > datetime.parseISO8601Date(item.EndDate).getTime() || new Date().getTime() < datetime.parseISO8601Date(item.StartDate).getTime()) {
+                if (Date.now() > datetime.parseISO8601Date(item.EndDate).getTime() || Date.now() < datetime.parseISO8601Date(item.StartDate).getTime()) {
                     return false;
                 }
             }
@@ -3069,7 +3069,7 @@
 
             playerData.streamInfo = streamInfo;
 
-            streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
+            streamInfo.playbackStartTimeTicks = Date.now() * 10000;
 
             if (mediaSource) {
                 playerData.audioStreamIndex = mediaSource.DefaultAudioStreamIndex;
@@ -3120,7 +3120,7 @@
             playerData.streamInfo = {};
 
             var streamInfo = playerData.streamInfo;
-            streamInfo.playbackStartTimeTicks = new Date().getTime() * 10000;
+            streamInfo.playbackStartTimeTicks = Date.now() * 10000;
 
             var state = self.getPlayerState(player, item, mediaSource);
 
@@ -3513,7 +3513,7 @@
 
                 if (streamInfo && streamInfo.liveStreamId) {
 
-                    if (new Date().getTime() - (streamInfo.lastMediaInfoQuery || 0) >= 600000) {
+                    if (Date.now() - (streamInfo.lastMediaInfoQuery || 0) >= 600000) {
                         getLiveStreamMediaInfo(player, streamInfo, self.currentMediaSource(player), streamInfo.liveStreamId, serverId);
                     }
                 }
@@ -3524,7 +3524,7 @@
 
             console.log('getLiveStreamMediaInfo');
 
-            streamInfo.lastMediaInfoQuery = new Date().getTime();
+            streamInfo.lastMediaInfoQuery = Date.now();
 
             var apiClient = connectionManager.getApiClient(serverId);
 

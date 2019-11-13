@@ -187,12 +187,12 @@
 
     function renderList(listInstance, jobs, apiClient) {
 
-        if ((new Date().getTime() - listInstance.lastDataLoad) < 60000) {
+        if ((Date.now() - listInstance.lastDataLoad) < 60000) {
             refreshList(listInstance, jobs);
             return;
         }
 
-        listInstance.lastDataLoad = new Date().getTime();
+        listInstance.lastDataLoad = Date.now();
 
         var html = '';
         var lastTargetName = '';

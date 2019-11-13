@@ -3,11 +3,11 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
 
     var self = {};
 
-    var lastMouseInputTime = new Date().getTime();
+    var lastMouseInputTime = Date.now();
     var isMouseIdle;
 
     function mouseIdleTime() {
-        return new Date().getTime() - lastMouseInputTime;
+        return Date.now() - lastMouseInputTime;
     }
 
     function removeIdleClasses() {
@@ -64,7 +64,7 @@ define(['inputManager', 'focusManager', 'browser', 'layoutManager', 'events', 'd
         obj.x = eventX;
         obj.y = eventY;
 
-        lastMouseInputTime = new Date().getTime();
+        lastMouseInputTime = Date.now();
         inputmanager.notifyMouseMove();
 
         if (isMouseIdle) {

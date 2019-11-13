@@ -18,7 +18,7 @@ define(['browser'], function (browser) {
             observerOptions.rootMargin = "50%";
         }
 
-        var observerId = 'obs' + new Date().getTime();
+        var observerId = 'obs' + Date.now();
 
         var self = this;
         var observer = new IntersectionObserver(function (entries) {

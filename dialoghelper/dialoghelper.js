@@ -212,7 +212,7 @@
 
         return new Promise(function (resolve, reject) {
 
-            new DialogHashHandler(dlg, 'dlg' + new Date().getTime(), resolve);
+            new DialogHashHandler(dlg, 'dlg' + Date.now(), resolve);
         });
     }
 

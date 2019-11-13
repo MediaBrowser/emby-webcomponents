@@ -274,11 +274,11 @@
 
         // Don't show the first time, right after installation
         if (!lastDatePresented) {
-            appSettings.set(cacheKey, new Date().getTime());
+            appSettings.set(cacheKey, Date.now());
             return Promise.resolve('');
         }
 
-        if ((new Date().getTime() - lastDatePresented) < frequency) {
+        if ((Date.now() - lastDatePresented) < frequency) {
             return Promise.resolve('');
         }
 
@@ -289,12 +289,12 @@
 
         }).then(function () {
 
-            appSettings.set(cacheKey, new Date().getTime());
+            appSettings.set(cacheKey, Date.now());
             return '';
 
         }, function () {
 
-            appSettings.set(cacheKey, new Date().getTime());
+            appSettings.set(cacheKey, Date.now());
 
             var infos = [getPremiereInfo];
 

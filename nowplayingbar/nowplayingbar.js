@@ -677,7 +677,7 @@
         }
 
         // Try to avoid hammering the document with changes
-        var now = new Date().getTime();
+        var now = Date.now();
         if ((now - lastUpdateTime) < 700) {
 
             return;
