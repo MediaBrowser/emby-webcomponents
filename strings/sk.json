@@ -1,5 +1,4 @@
 {
-    "EmbyConnectUserAlreadyLinked": "U\u017e\u00edvate\u013e Emby Connect je u\u017e na tomto serveri prepojen\u00fd s in\u00fdm pou\u017e\u00edvate\u013eom.",
     "EmbyLoginTerms": "Emby je navrhnut\u00e9 tak, aby V\u00e1m pomohlo spravova\u0165 Va\u0161u osobn\u00fa kni\u017enicu m\u00e9di\u00ed, napr\u00edklad dom\u00e1ce vide\u00e1 a fotografie. Pre\u010d\u00edtajte si na\u0161e {0} podmienky pou\u017e\u00edvania {1}. Pou\u017eitie ak\u00e9hoko\u013evek softv\u00e9ru Emby znamen\u00e1 prijatie t\u00fdchto podmienok.",
     "MessageUnableToConnectToServer": "Moment\u00e1lne sa nem\u00f4\u017eeme pripoji\u0165 k vybran\u00e9mu serveru. Skontrolujte, \u010di je spusten\u00fd a sk\u00faste to znova.",
     "EmbyIntroMessage": "S Emby m\u00f4\u017eete jednoducho streamova\u0165 vide\u00e1, hudbu a fotografie do chytr\u00fdch telef\u00f3nov, tabletov a \u010fal\u0161\u00edch zariaden\u00ed zo svojho servera Emby.",
@@ -173,6 +172,7 @@
     "InternalStorage": "Intern\u00e9 \u00falo\u017eisko",
     "ExternalStorage": "Extern\u00e9 \u00falo\u017eisko",
     "UploadToFollowingServers": "Nahra\u0165 na servery:",
+    "UploadingNumItems": "Uploading {0} of {1}",
     "HeaderMyProfile": "M\u00f4j profil",
     "HeaderMyDownloads": "Moje s\u0165ahovania",
     "HeaderOfflineDownloads": "Offline m\u00e9di\u00e1",
@@ -912,6 +912,7 @@
     "PromptStillWatching": "Povoli\u0165 vyzvanie \u201eSt\u00e1le sledujete?\u201c",
     "HeaderMissingMetadata": "Ch\u00fdbaj\u00face metad\u00e1ta",
     "HeaderIncludedIn": "Zahrnut\u00e9 v",
+    "EmbyConnectUserAlreadyLinked": "U\u017e\u00edvate\u013e Emby Connect je u\u017e na tomto serveri prepojen\u00fd s in\u00fdm pou\u017e\u00edvate\u013eom.",
     "VideoFilesWillBeConvertedTo": "Skonvertovan\u00e9 vide\u00e1 sa ulo\u017eia ako {0}.",
     "VideoWillBeConvertedTo": "Videostreamy sa skonvertuj\u00fa do {0} alebo sa skop\u00edruj\u00fa z p\u00f4vodn\u00e9ho s\u00faboru, ak u\u017e s\u00fa {0} a kvalita odpoved\u00e1 mo\u017enostiam konverzie.",
     "VideoWillBeConvertedToOrCopied": "Videostreamy sa skonvertuj\u00fa do {0} alebo sa skop\u00edruj\u00fa z p\u00f4vodn\u00e9ho s\u00faboru, ak s\u00fa z ({1}), a kvalita odpoved\u00e1 mo\u017enostiam konverzie.",

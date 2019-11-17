@@ -199,6 +199,10 @@ html {
     -webkit-font-smoothing: antialiased;
 }
 
+.html-ios {
+    font-size: 83.87% !important;
+}
+
 h1, h2, h3 {
     /* For better bolding, since Helvetica does not support 500 weight, and 600 is too thick */
     font-family: Roboto,-apple-system, BlinkMacSystemFont, "Helvetica Neue", system-ui, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", 'Open Sans', sans-serif;

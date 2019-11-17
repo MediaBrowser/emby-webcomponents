@@ -438,29 +438,13 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
             page({
                 click: options.click !== false,
-                hashbang: options.hashbang !== false,
-                enableHistory: enableHistory()
+                hashbang: options.hashbang !== false
             });
         });
     }
 
-    function enableHistory() {
-
-        // shows status bar on navigation
-        if (browser.xboxOne && !browser.edgeUwp) {
-            return false;
-        }
-
-        // Does not support history
-        if (browser.orsay) {
-            return false;
-        }
-
-        return true;
-    }
-
     function enableNativeHistory() {
-        return page.enableNativeHistory();
+        return !browser.orsay;
     }
 
     function authenticate(ctx, route, callback) {

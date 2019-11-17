@@ -1,4 +1,4 @@
-define([], function () {
+define(['dom'], function (dom) {
 
     'use strict';
 
@@ -32,8 +32,6 @@ define([], function () {
      */
 
     var hashbang = false;
-
-    var enableHistory = false;
 
     /**
      * Previous context, for capturing page exit events.
@@ -98,17 +96,6 @@ define([], function () {
     page.current = '';
 
     /**
-     * Number of pages navigated to.
-     * @type {number}
-     *
-     *     page.len == 0;
-     *     page('/login');
-     *     page.len == 1;
-     */
-
-    page.len = 0;
-
-    /**
      * Get or set basepath to `path`.
      *
      * @param {String} path
@@ -122,39 +109,34 @@ define([], function () {
         base = path;
     };
 
+    var loaded = document.readyState === 'complete';
+    dom.addEventListener(window, 'load', function () {
+        setTimeout(function () {
+            loaded = true;
+        }, 0);
+    }, {
+        once: true
+    });
+
     /**
    * Handle "populate" events.
    */
 
-    var onpopstate = (function () {
-        var loaded = false;
-        if ('undefined' === typeof window) {
+    function onpopstate(e) {
+
+        if (!loaded) {
             return;
         }
-        if (document.readyState === 'complete') {
-            loaded = true;
-        } else {
-            window.addEventListener('load', function () {
-                setTimeout(function () {
-                    loaded = true;
-                }, 0);
-            });
+        if (ignorePopState(e)) {
+            return;
         }
-        return function onpopstate(e) {
-            if (!loaded) {
-                return;
-            }
-            if (ignorePopState(e)) {
-                return;
-            }
-            if (e.state) {
-                var path = e.state.path;
-                page.replace(path, e.state, null, null, true);
-            } else {
-                page.show(location.pathname + location.hash, undefined, undefined, false, true);
-            }
-        };
-    })();
+        if (e.state) {
+            var path = e.state.path;
+            page.replace(path, e.state, null, null, true);
+        } else {
+            page.show(location.pathname + location.hash, undefined, undefined, false, true);
+        }
+    }
     /**
      * Handle "click" events.
      */
@@ -183,9 +165,6 @@ define([], function () {
         }
         if (false !== options.popstate) {
             window.addEventListener('popstate', onpopstate, false);
-        }
-        if (options.enableHistory != null) {
-            enableHistory = options.enableHistory;
         }
         if (true === options.hashbang) {
             hashbang = true;
@@ -252,46 +231,12 @@ define([], function () {
 
     page.back = function (path, state) {
 
-        if (enableHistory) {
-            // Keep it simple and mimic browser back
-            history.back();
-            return;
-        }
-
-        if (page.len > 0) {
-            // this may need more testing to see if all browsers
-            // wait for the next tick to go back in history
-            if (enableHistory) {
-                history.back();
-            } else {
-
-                if (backStack.length > 2) {
-                    backStack.length--;
-                    var previousState = backStack[backStack.length - 1];
-                    page.show(previousState.path, previousState.state, true, false, true);
-                }
-            }
-            page.len--;
-        } else if (path) {
-            setTimeout(function () {
-                page.show(path, state);
-            });
-        } else {
-            setTimeout(function () {
-                page.show(base, state);
-            });
-        }
-    };
-
-    page.enableNativeHistory = function () {
-        return enableHistory;
+        // Keep it simple and mimic browser back
+        history.back();
     };
 
     page.canGoBack = function () {
-        if (enableHistory) {
-            return history.length > 1;
-        }
-        return (page.len || 0) > 0;
+        return history.length > 1;
     };
 
     /**
@@ -421,18 +366,8 @@ define([], function () {
    */
 
     Context.prototype.pushState = function () {
-        page.len++;
 
-        if (enableHistory) {
-            history.pushState(this.state, this.title, hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath);
-        } else {
-            backStack.push({
-                state: this.state,
-                title: this.title,
-                url: (hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath),
-                path: this.path
-            });
-        }
+        history.pushState(this.state, this.title, hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath);
     };
 
     /**
@@ -443,16 +378,7 @@ define([], function () {
 
     Context.prototype.save = function () {
 
-        if (enableHistory) {
-            history.replaceState(this.state, this.title, hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath);
-        } else {
-            backStack[page.len || 0] = {
-                state: this.state,
-                title: this.title,
-                url: (hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath),
-                path: this.path
-            };
-        }
+        history.replaceState(this.state, this.title, hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath);
     };
 
 

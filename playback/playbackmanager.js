@@ -2257,14 +2257,14 @@
             var playStartIndex = options.startIndex || 0;
             var firstItem = items[playStartIndex];
 
-            if (options.startPositionTicks == null) {
-                options.startPositionTicks = firstItem.UserData ? (firstItem.UserData.PlaybackPositionTicks || 0) : 0;
-            }
-
             // If index was bad, reset it
             if (!firstItem) {
                 playStartIndex = 0;
                 firstItem = items[playStartIndex];
+            }
+
+            if (options.startPositionTicks == null) {
+                options.startPositionTicks = firstItem.UserData ? (firstItem.UserData.PlaybackPositionTicks || 0) : 0;
             }
 
             // If it's still null then there's nothing to play

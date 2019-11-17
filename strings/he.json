@@ -1,5 +1,4 @@
 {
-    "EmbyConnectUserAlreadyLinked": "The Emby Connect user is already linked to another user on this server.",
     "EmbyLoginTerms": "Emby \u05e0\u05d5\u05e2\u05d3 \u05dc\u05e2\u05d6\u05d5\u05e8 \u05dc\u05da \u05dc\u05e0\u05d4\u05dc \u05d0\u05ea \u05e1\u05e4\u05e8\u05d9\u05d9\u05ea \u05d4\u05de\u05d3\u05d9\u05d4 \u05d4\u05d0\u05d9\u05e9\u05d9\u05ea \u05e9\u05dc\u05da, \u05db\u05d2\u05d5\u05df \u05e1\u05e8\u05d8\u05d5\u05e0\u05d9\u05dd \u05d1\u05d9\u05ea\u05d9\u05d9\u05dd \u05d5\u05ea\u05de\u05d5\u05e0\u05d5\u05ea. \u05e2\u05d9\u05d9\u05df {0} \u05d1\u05ea\u05e0\u05d0\u05d9 \u05d4\u05e9\u05d9\u05de\u05d5\u05e9 {1} \u05e9\u05dc\u05e0\u05d5. \u05d4\u05e9\u05d9\u05de\u05d5\u05e9 \u05d1\u05db\u05dc \u05ea\u05d5\u05db\u05e0\u05d4 \u05e9\u05dc \u05d0\u05de\u05d1\u05d9 \u05de\u05d4\u05d5\u05d5\u05d4 \u05d4\u05e1\u05db\u05de\u05d4 \u05dc\u05ea\u05e0\u05d0\u05d9\u05dd \u05d0\u05dc\u05d4.",
     "MessageUnableToConnectToServer": "\u05d0\u05d9\u05df \u05d1\u05d0\u05e4\u05e9\u05e8\u05d5\u05ea\u05e0\u05d5 \u05dc\u05d4\u05ea\u05d7\u05d1\u05e8 \u05dc\u05e9\u05e8\u05ea \u05e9\u05e0\u05d1\u05d7\u05e8 \u05db\u05e2\u05ea. \u05d5\u05d3\u05d0 \u05e9\u05d4\u05d5\u05d0 \u05e4\u05d5\u05e2\u05dc \u05d5\u05e0\u05e1\u05d4 \u05e9\u05d5\u05d1.",
     "EmbyIntroMessage": "\u05e2\u05dd Emby \u05ea\u05d5\u05db\u05dc \u05d1\u05e7\u05dc\u05d5\u05ea \u05dc\u05d4\u05e2\u05d1\u05d9\u05e8 \u05e7\u05d8\u05e2\u05d9 \u05d5\u05d9\u05d3\u05d0\u05d5, \u05de\u05d5\u05e1\u05d9\u05e7\u05d4 \u05d5\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05dc\u05d8\u05dc\u05e4\u05d5\u05e0\u05d9\u05dd \u05d7\u05db\u05de\u05d9\u05dd, \u05d8\u05d0\u05d1\u05dc\u05d8\u05d9\u05dd \u05d5\u05d4\u05ea\u05e7\u05e0\u05d9\u05dd \u05d0\u05d7\u05e8\u05d9\u05dd \u05de\u05e9\u05e8\u05ea \u05d0\u05de\u05d1\u05d9 \u05e9\u05dc\u05da.",
@@ -172,7 +171,8 @@
     "Downloads": "\u05d4\u05d5\u05e8\u05d3\u05d5\u05ea",
     "InternalStorage": "\u05d0\u05d7\u05e1\u05d5\u05df \u05e4\u05e0\u05d9\u05de\u05d9",
     "ExternalStorage": "\u05d0\u05d7\u05e1\u05d5\u05df \u05d7\u05d9\u05e6\u05d5\u05e0\u05d9",
-    "UploadToFollowingServers": "Upload to servers:",
+    "UploadToFollowingServers": "Upload to Servers",
+    "UploadingNumItems": "Uploading {0} of {1}",
     "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "\u05d4\u05d4\u05d5\u05e8\u05d3\u05d5\u05ea \u05e9\u05dc\u05d9",
     "HeaderOfflineDownloads": "\u05de\u05d3\u05d9\u05d4 \u05dc\u05d0 \u05de\u05e7\u05d5\u05d5\u05e0\u05ea",
@@ -912,6 +912,7 @@
     "PromptStillWatching": "Enable 'Are You Still Watching?' prompt",
     "HeaderMissingMetadata": "Missing Metadata",
     "HeaderIncludedIn": "Included In",
+    "EmbyConnectUserAlreadyLinked": "The Emby Connect user is already linked to another user on this server.",
     "VideoFilesWillBeConvertedTo": "Converted videos will be saved as {0}.",
     "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
     "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",

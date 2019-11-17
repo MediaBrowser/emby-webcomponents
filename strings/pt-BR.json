@@ -1,5 +1,4 @@
 {
-    "EmbyConnectUserAlreadyLinked": "The Emby Connect user is already linked to another user on this server.",
     "EmbyLoginTerms": "Emby foi desenvolvido para ajudar a gerenciar sua biblioteca de m\u00eddias pessoais, como v\u00eddeos caseiros e fotos. Por favor, leia nossos {0}termos de uso{1}. O uso de qualquer software Emby constitui aceita\u00e7\u00e3o destes termos.",
     "MessageUnableToConnectToServer": "N\u00e3o foi poss\u00edvel conectar ao servidor selecionado. Por favor, certifique-se que esteja sendo executado e tente novamente.",
     "EmbyIntroMessage": "Com o Emby voc\u00ea pode facilmente fazer streaming de v\u00eddeos, m\u00fasicas e fotos do Servidor Emby para smartphones, tablets e outros dispositivos.",
@@ -173,6 +172,7 @@
     "InternalStorage": "Armazenamento interno",
     "ExternalStorage": "Armazenamento externo",
     "UploadToFollowingServers": "Upload para os servidores:",
+    "UploadingNumItems": "Uploading {0} of {1}",
     "HeaderMyProfile": "Meu Perfil",
     "HeaderMyDownloads": "Meus Downloads",
     "HeaderOfflineDownloads": "M\u00eddia Offline",
@@ -912,6 +912,7 @@
     "PromptStillWatching": "Ativar \"Ainda est\u00e1 assistindo?\"",
     "HeaderMissingMetadata": "Metadados Faltando",
     "HeaderIncludedIn": "Inclu\u00eddo Em",
+    "EmbyConnectUserAlreadyLinked": "The Emby Connect user is already linked to another user on this server.",
     "VideoFilesWillBeConvertedTo": "V\u00eddeos convertidos ser\u00e3o salvos como {0}.",
     "VideoWillBeConvertedTo": "A transmiss\u00e3o de v\u00eddeo ser\u00e1 convertida para {0}, ou copiada do arquivo original se j\u00e1 est\u00e1 {0} e a qualidade estiver de acordo as op\u00e7\u00f5es de convers\u00e3o",
     "VideoWillBeConvertedToOrCopied": "A transmiss\u00e3o de v\u00eddeo ser\u00e1 convertida para {0}, ou copiada do arquivo original se \u00e9 qualquer uma de    ({1}) e a qualidade estiver de acordo as op\u00e7\u00f5es de convers\u00e3o.",

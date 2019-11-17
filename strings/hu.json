@@ -1,5 +1,4 @@
 {
-    "EmbyConnectUserAlreadyLinked": "The Emby Connect user is already linked to another user on this server.",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "We're unable to connect to the selected server right now. Please ensure it is running and try again.",
     "EmbyIntroMessage": "With Emby you can easily stream videos, music and photos to smart phones, tablets and other devices from your Emby Server.",
@@ -172,7 +171,8 @@
     "Downloads": "Let\u00f6lt\u00e9sek",
     "InternalStorage": "Internal storage",
     "ExternalStorage": "External storage",
-    "UploadToFollowingServers": "Upload to servers:",
+    "UploadToFollowingServers": "Upload to Servers",
+    "UploadingNumItems": "Uploading {0} of {1}",
     "HeaderMyProfile": "My Profile",
     "HeaderMyDownloads": "Let\u00f6lt\u00e9sek",
     "HeaderOfflineDownloads": "Offline M\u00e9dia",
@@ -912,6 +912,7 @@
     "PromptStillWatching": "Enable 'Are You Still Watching?' prompt",
     "HeaderMissingMetadata": "Missing Metadata",
     "HeaderIncludedIn": "Included In",
+    "EmbyConnectUserAlreadyLinked": "The Emby Connect user is already linked to another user on this server.",
     "VideoFilesWillBeConvertedTo": "Converted videos will be saved as {0}.",
     "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
     "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
