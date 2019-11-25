@@ -541,6 +541,16 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
             case 'synclegacy':
                 syncLegacy();
                 return getResolveFn(id)();
+            case 'share':
+                {
+                    return navigator.share({
+                        title: item.Name,
+                        text: item.Overview,
+
+                        url: item.Type === 'Photo' ? apiClient.getItemDownloadUrl(item.Id) : apiClient.getUrl('share').replace('/share', '')
+
+                    }).then(getResolveFn(id));
+                }
             default:
                 break;
         }
@@ -615,16 +625,6 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
                         require(['itemIdentifier'], function (itemIdentifier) {
 
                             itemIdentifier.show(itemId, serverId).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        });
-                        break;
-                    }
-                case 'share':
-                    {
-                        navigator.share({
-                            title: item.Name,
-                            text: item.Overview,
-
-                            url: item.Type === 'Photo' ? apiClient.getItemDownloadUrl(item.Id) : apiClient.getUrl('share').replace('/share', '')
                         });
                         break;
                     }
@@ -742,7 +742,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
                 var refreshAfterChange = dom.parentWithClass(button, 'page').getAttribute('data-refreshlibrary') === 'true';
 
-                return ApiClient.removeVirtualFolder(virtualFolder.Name, refreshAfterChange);
+                return ApiClient.removeVirtualFolder(virtualFolder, refreshAfterChange);
             });
         });
     }
@@ -755,7 +755,8 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
             return prompt({
                 label: globalize.translate('LabelNewName'),
-                confirmText: globalize.translate('ButtonRename')
+                confirmText: globalize.translate('ButtonRename'),
+                value: virtualFolder.Name
 
             }).then(function (newName) {
 
@@ -763,7 +764,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
                     var refreshAfterChange = dom.parentWithClass(button, 'page').getAttribute('data-refreshlibrary') === 'true';
 
-                    return ApiClient.renameVirtualFolder(virtualFolder.Name, newName, refreshAfterChange);
+                    return ApiClient.renameVirtualFolder(virtualFolder, newName, refreshAfterChange);
                 }
             });
 
@@ -830,7 +831,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
             var medialibraryeditor = responses[0];
 
-            new medialibraryeditor().show({
+            return new medialibraryeditor().show({
 
                 refresh: refreshLibrary,
                 library: item
@@ -841,34 +842,36 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
     function editItem(apiClient, item, button) {
 
-        return new Promise(function (resolve, reject) {
+        var serverId = apiClient.serverId();
 
-            var serverId = apiClient.serverInfo().Id;
+        if (item.Type === 'Device' || item.Type === 'User') {
 
-            if (item.Type === 'Device' || item.Type === 'User') {
+            appRouter.showItem(item);
+            return Promise.resolve();
+        }
 
-                appRouter.showItem(item);
+        if (item.Type === 'Timer') {
+            return require(['recordingEditor']).then(function (responses) {
 
-            } else if (item.Type === 'Timer') {
-                require(['recordingEditor'], function (recordingEditor) {
+                return responses[0].show(item.Id, serverId);
+            });
+        }
 
-                    recordingEditor.show(item.Id, serverId).then(resolve, reject);
-                });
-            } else if (item.Type === 'VirtualFolder') {
+        if (item.Type === 'VirtualFolder') {
 
-                editVirtualFolder(item, button).then(resolve, reject);
+            return editVirtualFolder(item, button);
+        }
 
-            } else if (item.Type === 'SeriesTimer') {
-                require(['seriesRecordingEditor'], function (recordingEditor) {
+        if (item.Type === 'SeriesTimer') {
+            return require(['seriesRecordingEditor']).then(function (responses) {
 
-                    recordingEditor.show(item.Id, serverId).then(resolve, reject);
-                });
-            } else {
-                require(['metadataEditor'], function (metadataEditor) {
+                return responses[0].show(item.Id, serverId);
+            });
+        }
 
-                    metadataEditor.show(item.Id, serverId).then(resolve, reject);
-                });
-            }
+        return require(['metadataEditor']).then(function (responses) {
+
+            return responses[0].show(item.Id, serverId);
         });
     }
 

@@ -364,7 +364,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         }
 
         else if (action === 'edit') {
-            editItem(item, card);
+            editItem(connectionManager.getApiClient(item), item, card);
         }
 
         else if (action === 'playtrailer') {
@@ -445,7 +445,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
     function editVirtualFolder(button) {
 
         // get the full item
-        getItem(button).then(function (item) {
+        return getItem(button).then(function (item) {
 
             var view = dom.parentWithClass(button, 'page');
             var refreshLibrary = button ? view.getAttribute('data-refreshlibrary') === 'true' : false;
@@ -454,7 +454,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
 
                 var medialibraryeditor = responses[0];
 
-                new medialibraryeditor().show({
+                return new medialibraryeditor().show({
 
                     refresh: refreshLibrary,
                     library: item
@@ -464,7 +464,15 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         });
     }
 
-    function editItem(item, button) {
+    function editItem(apiClient, item, button) {
+
+        return editItemInternal(apiClient, item, button).then(function () {
+
+            notifyRefreshNeeded(button);
+        });
+    }
+
+    function editItemInternal(apiClient, item, button) {
 
         var itemType = item.Type;
 

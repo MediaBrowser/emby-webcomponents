@@ -31,12 +31,12 @@
         }
 
         if (oldPlayer.isLocalPlayer && (!newPlayer || newPlayer.isLocalPlayer)) {
-            console.log('Skipping remote control autoplay because both old and new players are local');
+            //console.log('Skipping remote control autoplay because both old and new players are local');
             return;
         }
 
         if (!newPlayer || newPlayer.isLocalPlayer) {
-            console.log('Skipping remote control autoplay because newPlayer is a local player');
+            //console.log('Skipping remote control autoplay because newPlayer is a local player');
             return;
         }
 

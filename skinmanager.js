@@ -21,7 +21,8 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         var elem = themeStyleElement;
         if (elem) {
 
-            if (!supportsCssVariables) {
+            // This is crashing on netcast
+            if (!supportsCssVariables && !browser.netcast) {
                 var nextSibling = elem.nextSibling;
                 if (nextSibling && nextSibling.getAttribute('data-cssvars-job')) {
                     tryRemove(nextSibling);

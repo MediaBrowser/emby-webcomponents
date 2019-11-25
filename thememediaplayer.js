@@ -1,8 +1,9 @@
-define(['playbackManager', 'userSettings', 'connectionManager'], function (playbackManager, userSettings, connectionManager) {
+define(['playbackManager', 'userSettings', 'connectionManager', 'events'], function (playbackManager, userSettings, connectionManager, events) {
     'use strict';
 
     var currentOwnerId;
     var currentThemeIds = [];
+    var currentPlayer;
 
     function playThemeMedia(items, ownerId) {
 
@@ -95,6 +96,11 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
 
     document.addEventListener('viewshow', function (e) {
 
+        var player = currentPlayer;
+        if (player && !player.isLocalPlayer) {
+            return;
+        }
+
         var state = e.detail.state || {};
         var item = state.item;
 
@@ -117,12 +123,8 @@ define(['playbackManager', 'userSettings', 'connectionManager'], function (playb
 
     }, true);
 
-    //Events.on(playbackManager, 'playbackstart', function (e, player) {
-    //    var item = playbackManager.currentItem(player);
-    //    // User played something manually
-    //    if (currentThemeIds.indexOf(item.Id) == -1) {
-    //        currentOwnerId = null;
-    //    }
-    //});
+    events.on(playbackManager, 'playerchange', function (e, player) {
+        currentPlayer = player;
+    });
 
 });
