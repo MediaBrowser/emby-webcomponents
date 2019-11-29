@@ -45,7 +45,7 @@
     }
 }
 
-@media all and (max-width: 31.25em) {
+@media not all and (min-width: 31.25em) {
 
     .detailButton-hidemobile {
         display: none !important;
@@ -78,7 +78,7 @@
     }
 }
 
-@media all and (max-width: 40em) {
+@media not all and (min-width: 40em) {
 
     .detailButton-icon {
         background: transparent !important;

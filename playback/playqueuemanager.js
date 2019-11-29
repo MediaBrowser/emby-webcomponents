@@ -148,6 +148,8 @@
             return playlistItemIds.indexOf(item.PlaylistItemId) === -1;
         });
 
+        this.refreshPlaylistIndex();
+
         return {
             result: 'removed',
             isCurrentIndex: isCurrentIndex

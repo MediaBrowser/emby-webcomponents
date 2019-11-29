@@ -271,7 +271,7 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
             link.onload = function () {
 
                 onThemeLoaded(info);
-                if (!supportsCssVariables) {
+                if (!supportsCssVariables && !browser.netcast) {
                     polyfillCssVars(elementId);
                 }
                 resolve();

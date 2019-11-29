@@ -28,6 +28,11 @@ define(['browser'], function (browser) {
 
         if (protocol === 'hls') {
 
+            // safari seems to be lying about this
+            if (browser.iOS || browser.safari) {
+                return false;
+            }
+
             return !!videoTestElement.canPlayType && (videoTestElement.canPlayType('video/mp2t; codecs="hvc1.1.L0.0"').replace(/no/, '') ||
                 videoTestElement.canPlayType('video/mp2t; codecs="hev1.1.L0.0"').replace(/no/, '') ||
                 videoTestElement.canPlayType('video/mp2t; codecs="hev1.1.2.L150"').replace(/no/, ''));

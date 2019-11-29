@@ -126,7 +126,7 @@
     }
 }
 
-@media all and (max-width: 50em) {
+@media not all and (min-width: 50em) {
 
     .nowPlayingBarCenter {
         display: none !important;

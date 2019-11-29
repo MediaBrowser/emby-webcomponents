@@ -365,6 +365,7 @@
                 }
 
                 loading.hide();
+                focusManager.autoFocus(context);
             });
         }
 
@@ -456,7 +457,8 @@
 
             var dialogOptions = {
                 removeOnClose: true,
-                scrollY: false
+                scrollY: false,
+                autoFocus: false
             };
 
             if (layoutManager.tv) {

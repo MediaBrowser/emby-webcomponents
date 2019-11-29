@@ -112,17 +112,17 @@
     }
 }
 
+@media all and (max-width: 45em) {
+
+    .headerClock {
+        display: none !important;
+    }
+}
+
 @media all and (max-width: 64em) {
 
     .sectionTabs {
         font-size: 96%;
-    }
-}
-
-@media all and (max-width: 720px) {
-
-    .headerClock {
-        display: none !important;
     }
 }
 

@@ -79,7 +79,7 @@
     }
 }
 
-@media all and (max-width: 80em), all and (max-height: 45em) {
+@media not all and (min-width: 80em), not all and (min-height: 45em) {
 
     .centeredDialog {
         position: initial !important;
