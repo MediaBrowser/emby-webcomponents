@@ -7,7 +7,7 @@
 }
 
 .sectionTitleContainer-cards {
-    margin-bottom: .1em;
+    margin-bottom: 0;
 }
 
 .sectionTitle {
@@ -17,18 +17,14 @@
 }
 
 .sectionTitle-cards {
-    margin-left: .28em;
+    margin-left: .23em;
     margin-bottom: 0;
 }
 
 @media all and (min-width: 50em) {
 
     .sectionTitle-cards {
-        margin-left: .61em;
-    }
-
-    .sectionTitleContainer-cards {
-        margin-bottom: 0;
+        margin-left: .525em;
     }
 }
 
@@ -86,11 +82,11 @@
     }
 
 .padded-left {
-    padding-left: 2%;
+    padding-left: 3.3%;
 }
 
 .padded-right {
-    padding-right: 2%;
+    padding-right: 3.3%;
 }
 
 .padded-top {
@@ -113,17 +109,6 @@
 .layout-tv .padded-bottom-focusscale {
     padding-bottom: 1em;
     margin-bottom: -1em;
-}
-
-@media all and (min-width: 31.25em) {
-
-    .padded-left {
-        padding-left: 3%;
-    }
-
-    .padded-right {
-        padding-right: 3%;
-    }
 }
 
 @media all and (min-height: 31.25em) {

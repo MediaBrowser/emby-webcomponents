@@ -1453,6 +1453,10 @@
 
             player = player || self._currentPlayer;
 
+            if (player && !player.isLocalPlayer) {
+                return player.setAudioStreamIndex(index);
+            }
+
             if (self.playMethod(player) === 'Transcode' || !player.canSetAudioStreamIndex()) {
 
                 changeStream(player, getCurrentTicks(player), { AudioStreamIndex: index }, 'audiotrackchange');
@@ -1616,6 +1620,10 @@
         self.setSubtitleStreamIndex = function (index, player) {
 
             player = player || self._currentPlayer;
+
+            if (player && !player.isLocalPlayer) {
+                return player.setSubtitleStreamIndex(index);
+            }
 
             var currentStream = getCurrentSubtitleStream(player);
 
@@ -1796,7 +1804,7 @@
             });
         }
 
-        function changeStreamToUrl(apiClient, player, playSessionId, streamInfo, newPositionTicks, progressEventName) {
+        function changeStreamToUrl(apiClient, player, playSessionId, streamInfo, progressEventName) {
 
             var playerData = getPlayerData(player);
 

@@ -3,6 +3,9 @@
     --theme-primary-text-color: #cc3333;
     --theme-primary-color-lightened: #D83F3F;
     --theme-icon-focus-background: rgba(204, 51, 51, 0.2);
+    --theme-background: #181818;
+    --button-background: #282828;
+    --theme-body-secondary-text-color: rgba(255, 255, 255, .6);
 }
 
 html {
@@ -12,7 +15,7 @@ html {
 }
 
 .emby-collapsible-button {
-    border-color: #313235;
+    border-color: var(--button-background);
     border-color: rgba(255,255,255, .135);
 }
 
@@ -25,13 +28,13 @@ html {
 }
 
 .appfooter, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
-    background-color: #313235;
+    background-color: var(--button-background);
 }
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
     .appfooter-withbackdropfilter {
-        background: rgba(34,34,34,.7);
+        background: rgba(34,35,38,.7);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
         box-shadow: none !important;
@@ -51,7 +54,7 @@ html {
 }
 
 html, .dialog, .backgroundContainer {
-    background-color: #202124;
+    background-color: var(--theme-background);
 }
 
     .backgroundContainer.withBackdrop {
@@ -84,7 +87,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .raised, .fab, .detailButton-icon {
-    background: #313235;
+    background: var(--button-background);
     color: rgba(255, 255, 255, .87);
 }
 
@@ -95,7 +98,7 @@ html, .dialog, .backgroundContainer {
 /* select */
 .emby-select-withcolor {
     color: inherit;
-    background: #313235;
+    background: var(--button-background);
     border: .07em solid transparent;
 }
 
@@ -142,7 +145,7 @@ html, .dialog, .backgroundContainer {
 
 .inputLabelUnfocused, .textareaLabelUnfocused, .inputLabel, .checkboxListLabel {
     color: #bbb;
-    color: rgba(255, 255, 255, .6);
+    color: var(--theme-body-secondary-text-color);
 }
 
 .selectLabelFocused, .textareaLabelFocused, .inputLabelFocused {
@@ -154,12 +157,12 @@ html, .dialog, .backgroundContainer {
 }
 
 .paperList, .visualCardBox, .collapseContent {
-    background-color: #313235;
+    background-color: var(--button-background);
 }
 
 .listItemBodyText-secondary, .secondaryText, .fieldDescription, .cardText-secondary {
     color: #999;
-    color: rgba(255, 255, 255, .6);
+    color: var(--theme-body-secondary-text-color);
 }
 
 .actionsheetDivider {
@@ -174,7 +177,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .toast {
-    background: #313235;
+    background: var(--button-background);
     color: #fff;
     color: rgba(255, 255, 255, .87);
 }
@@ -206,7 +209,7 @@ html, .dialog, .backgroundContainer {
 /* alphaPicker */
 .alphaPickerButton {
     color: #999;
-    color: rgba(255, 255, 255, .6);
+    color: var(--theme-body-secondary-text-color);
     background-color: transparent;
 }
 
@@ -260,8 +263,8 @@ html, .dialog, .backgroundContainer {
 /* inputs */
 .emby-input, .emby-textarea {
     color: inherit;
-    background: #313235;
-    border: .07em solid #313235;
+    background: var(--button-background);
+    border: .07em solid var(--button-background);
     border-radius: .15em;
 }
 
@@ -307,7 +310,7 @@ html, .dialog, .backgroundContainer {
 
 /* main nav drawer */
 .mainDrawer {
-    background-color: #202124;
+    background-color: var(--theme-background);
 }
 
 @media(hover: hover) and (pointer: fine) {
@@ -330,7 +333,7 @@ html, .dialog, .backgroundContainer {
 /* emby-tabs */
 .emby-tab-button {
     color: #999;
-    color: rgba(255, 255, 255, .5);
+    color: var(--theme-body-secondary-text-color);
 }
 
 .emby-tab-button-active {
@@ -387,7 +390,7 @@ html, .dialog, .backgroundContainer {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #202124);
+    background: linear-gradient(rgba(0,0,0,0), var(--theme-background));
 }
 
 /* used by directory picker and other areas */
@@ -431,11 +434,11 @@ html, .dialog, .backgroundContainer {
 }
 
 .cardContent-shadow {
-    background-color: #313235;
+    background-color: var(--button-background);
 }
 
 .defaultCardBackground0 {
-    background-color: #313235;
+    background-color: var(--button-background);
 }
 
 .defaultCardBackground1 {

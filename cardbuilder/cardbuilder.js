@@ -85,7 +85,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             options.shape = options.shape || "auto";
 
-            var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items);
+            var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items, options);
 
             if (options.shape === 'auto' || options.shape === 'autohome' || options.shape === 'autooverflow' || options.shape === 'autoVertical') {
 
@@ -261,7 +261,14 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 };
             }
 
-            var imageItem = item.ProgramInfo || item;
+            var imageItem;
+            if (options.showCurrentProgramImage) {
+                imageItem = item.CurrentProgram || item;
+            }
+            else {
+                imageItem = item.ProgramInfo || item;
+            }
+
             item = imageItem;
 
             var width = options.width;
@@ -796,10 +803,19 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     }
                 }
 
-                if (options.showCurrentProgram && itemType === 'TvChannel') {
+                if (options.showCurrentProgramParentTitle && itemType === 'TvChannel') {
 
                     if (item.CurrentProgram) {
-                        lines.push(item.CurrentProgram.Name);
+                        lines.push(item.CurrentProgram.Name || '');
+                    } else {
+                        lines.push('');
+                    }
+                }
+
+                if (options.showCurrentProgramTitle && itemType === 'TvChannel') {
+
+                    if (item.CurrentProgram) {
+                        lines.push(item.CurrentProgram.EpisodeTitle || '');
                     } else {
                         lines.push('');
                     }

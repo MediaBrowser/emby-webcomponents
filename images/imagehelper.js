@@ -36,14 +36,21 @@ define(['lazyLoader', 'layoutManager', 'browser', 'appSettings', 'require'], fun
         }
     }
 
-    function getPrimaryImageAspectRatio(items) {
+    function getPrimaryImageAspectRatio(items, options) {
 
         var values = [];
 
         for (var i = 0, length = items.length; i < length; i++) {
 
             var item = items[i];
-            var imageItem = item.ProgramInfo || item;
+            var imageItem;
+            if (options && options.showCurrentProgramImage) {
+                imageItem = item.CurrentProgram || item;
+            }
+            else {
+                imageItem = item.ProgramInfo || item;
+            }
+
             var ratio = imageItem.PrimaryImageAspectRatio || 0;
 
             if (!ratio) {

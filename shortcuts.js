@@ -605,7 +605,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
             dataAttributes += ' data-parentid="' + parentId + '"';
         }
 
-        if (item.StartPositionTicks) {
+        if (item.StartPositionTicks != null) {
             dataAttributes += ' data-startpositionticks="' + item.StartPositionTicks + '"';
         }
 

@@ -7,9 +7,7 @@
 
         elem.classList.add('appfooter');
 
-        if (!browser.android && !browser.iOS && !browser.safari) {
-            elem.classList.add('appfooter-withbackdropfilter');
-        }
+        elem.classList.add('appfooter-withbackdropfilter');
 
         document.body.appendChild(elem);
 

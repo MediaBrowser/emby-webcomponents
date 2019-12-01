@@ -19,83 +19,6 @@
         this.readySelectedIndex = null;
     }
 
-    function allowSwipeOn(elem) {
-
-        if (dom.parentWithTag(elem, 'input')) {
-            return false;
-        }
-
-        var classList = elem.classList;
-        if (classList) {
-            return !classList.contains('scrollX') && !classList.contains('animatedScrollX');
-        }
-
-        return true;
-    }
-
-    function allowSwipe(target) {
-
-        var parent = target;
-        while (parent != null) {
-            if (!allowSwipeOn(parent)) {
-                return false;
-            }
-            parent = parent.parentNode;
-        }
-
-        return true;
-    }
-
-    function supportsTouch() {
-
-        if (navigator.maxTouchPoints) {
-            return true;
-        }
-
-        if ('ontouchstart' in document.documentElement) {
-            return true;
-        }
-
-        return false;
-    }
-
-    function configureSwipeTabs(view, tabsElem, getTabContainersFn) {
-
-        if (layoutManager.tv) {
-            return;
-        }
-
-        if (!supportsTouch()) {
-            return;
-        }
-
-        // implement without hammer
-        var pageCount = getTabContainersFn().length;
-        var onSwipeLeft = function (e, target) {
-            if (allowSwipe(target) && view.contains(target)) {
-                tabsElem.selectNext();
-            }
-        };
-
-        var onSwipeRight = function (e, target) {
-            if (allowSwipe(target) && view.contains(target)) {
-                tabsElem.selectPrevious();
-            }
-        };
-
-        require(['touchHelper'], function (TouchHelper) {
-
-            var touchHelper = new TouchHelper(view.parentNode.parentNode);
-
-            events.on(touchHelper, 'swipeleft', onSwipeLeft);
-            events.on(touchHelper, 'swiperight', onSwipeRight);
-
-            view.addEventListener('viewdestroy', function () {
-                touchHelper.destroy();
-            });
-        });
-    }
-
     function defaultGetTabContainersFn() {
         return [];
     }
@@ -182,8 +105,6 @@
 
             getTabContainersFn = getTabContainersFn || defaultGetTabContainersFn;
 
-            configureSwipeTabs(view, tabsElem, getTabContainersFn);
-
             tabsElem.addEventListener('beforetabchange', function (e) {
 
                 var tabContainers = getTabContainersFn();
@@ -218,10 +139,6 @@
                     tabsElem.addEventListener('ready', onViewTabsReady);
                 }
             }
-
-            //if (enableSwipe !== false) {
-            //    libraryBrowser.configureSwipeTabs(ownerpage, tabs);
-            //}
 
             return {
                 tabsContainer: tabsContainerElem,

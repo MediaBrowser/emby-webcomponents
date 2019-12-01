@@ -428,7 +428,7 @@
                 showParentTitle: false,
                 showTitle: true,
                 overlayText: false,
-                showCurrentProgram: true,
+                showCurrentProgramParentTitle: true,
                 showCurrentProgramTime: true,
                 centerText: true,
                 lines: 3,

@@ -365,18 +365,6 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
             });
         }
 
-        if (!restrictOptions) {
-            if (options.sync !== false) {
-                if (itemHelper.canSync(user, item) && userSettings.get('synclegacymenu', true) !== '0') {
-                    commands.push({
-                        name: globalize.translate('Sync'),
-                        id: 'synclegacy',
-                        icon: 'sync'
-                    });
-                }
-            }
-        }
-
         if (item.Type === 'Plugin' && user.Policy.IsAdministrator) {
             commands.push({
                 name: globalize.translate('Uninstall'),
@@ -538,9 +526,6 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
             case 'multiselect':
                 showMultiSelect(apiClient, item, options);
                 return getResolveFn(id)();
-            case 'synclegacy':
-                syncLegacy();
-                return getResolveFn(id)();
             case 'share':
                 {
                     return navigator.share({
@@ -699,17 +684,6 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
                     reject();
                     break;
             }
-        });
-    }
-
-    function syncLegacy() {
-
-        return require(['alert']).then(function (responses) {
-            var alert = responses[0];
-
-            userSettings.set('synclegacymenu', '0', true);
-
-            return alert('Sync is now called "Download to...". Please use that menu option.');
         });
     }
 

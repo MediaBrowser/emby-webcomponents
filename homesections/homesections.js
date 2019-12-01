@@ -862,7 +862,7 @@
 
             var apiClient = connectionManager.getApiClient(serverId);
 
-            return apiClient.getLiveTvRecommendedPrograms({
+            return apiClient.getLiveTvChannels({
 
                 userId: apiClient.getCurrentUserId(),
                 IsAiring: true,
@@ -870,8 +870,7 @@
                 ImageTypeLimit: 1,
                 EnableImageTypes: "Primary,Thumb,Backdrop",
                 EnableTotalRecordCount: false,
-                Fields: "ChannelInfo,PrimaryImageAspectRatio"
-
+                Fields: "ProgramPrimaryImageAspectRatio"
             });
         };
     }
@@ -885,17 +884,19 @@
             preferThumb: 'auto',
             inheritThumb: false,
             shape: (enableScrollX() ? 'autooverflow' : 'auto'),
-            showParentTitleOrTitle: true,
-            showTitle: true,
             centerText: true,
             overlayText: false,
             allowBottomPadding: !enableScrollX(),
-            showAirTime: true,
-            showChannelName: false,
-            showAirDateTime: false,
-            showAirEndTime: true,
             lines: 3,
-            overlayPlayButton: true
+            showTitle: false,
+            showCurrentProgramParentTitle: true,
+            showCurrentProgramTitle: true,
+            showCurrentProgramTime: true,
+            showCurrentProgramImage: true,
+            showAirDateTime: false,
+            showParentTitle: false,
+            overlayPlayButton: true,
+            defaultShape: 'portrait'
         });
     }
 

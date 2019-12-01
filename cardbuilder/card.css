@@ -82,7 +82,7 @@ button {
 
 .cardBox {
     padding: 0 !important;
-    margin: .5em;
+    margin: .4em;
     transition: none;
     border: 0 solid transparent;
     /* These both are needed in case cardBox is a button */
@@ -91,24 +91,16 @@ button {
     contain: layout style;
 }
 
-/*.cardBox-withfocuscontent {
-    margin: .68em;
-}*/
-
 @media (min-width: 50em) {
 
     .cardBox {
-        margin: 1em;
+        margin: .83em;
     }
 }
 
 .cardBox-withfocuscontent-large {
-    margin: .5em;
+    margin: .33em;
 }
-
-/*.card-focuscontent {
-    border: .12em solid transparent;
-}*/
 
 .card-focuscontent-large {
     border: .5em solid transparent;
@@ -124,14 +116,7 @@ button {
 }
 
 .cardBox-bottompadded {
-    margin-bottom: 1.8em !important;
-}
-
-@media (max-width: 50em) {
-
-    .cardBox-bottompadded {
-        margin-bottom: 1.5em !important;
-    }
+    margin-bottom: 2em !important;
 }
 
 .card:focus {
@@ -194,7 +179,7 @@ button {
     /* This is only needed for scalable cards */
     height: 100%;
     contain: strict;
-    border-radius: .145em;
+    border-radius: .22em;
 }
 
 .chapterCardImageContainer {
@@ -295,7 +280,7 @@ button {
 
 .visualCardBox {
     box-shadow: 0 0.06933em 0.06933em 0 rgba(0,0,0,0.14), 0 0.13866em 0.06933em -0.06933em rgba(0,0,0,0.12), 0 0.06933em 0.208em 0 rgba(0,0,0,0.2);
-    border-radius: .145em;
+    border-radius: .22em;
 }
 
 .innerCardFooter {
@@ -318,7 +303,7 @@ button {
 }
 
 .cardText {
-    padding: .1em .5em;
+    padding: 0 .5em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -327,7 +312,7 @@ button {
 
 .cardTextCentered {
     text-align: center;
-    padding: .1em .25em;
+    padding: 0 .25em;
 }
 
 .cardText-secondary {
