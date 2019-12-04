@@ -200,7 +200,11 @@ html {
 }
 
 .html-ios {
-    font-size: 83.87% !important;
+    font-size: 83.87%;
+}
+
+.html-osx {
+    font-size: 92%;
 }
 
 h1, h2, h3 {
@@ -215,7 +219,7 @@ h1 {
 
 h2 {
     font-weight: 500;
-    font-size: 1.5em;
+    font-size: 1.6em;
     margin-top: 1em;
     margin-bottom: 1em;
 }

@@ -7,7 +7,7 @@
 }
 
 .sectionTitleContainer-cards {
-    margin-bottom: 0;
+    margin-bottom: .1em;
 }
 
 .sectionTitle {
@@ -25,6 +25,10 @@
 
     .sectionTitle-cards {
         margin-left: .525em;
+    }
+
+    .sectionTitleContainer-cards {
+        margin-bottom: 0;
     }
 }
 
@@ -82,11 +86,11 @@
     }
 
 .padded-left {
-    padding-left: 3.3%;
+    padding-left: 4%;
 }
 
 .padded-right {
-    padding-right: 3.3%;
+    padding-right: 4%;
 }
 
 .padded-top {
@@ -99,6 +103,7 @@
 
 .padded-bottom-page {
     padding-bottom: 9em;
+    padding-bottom: calc(9em + var(--window-inset-bottom));
 }
 
 .layout-tv .padded-top-focusscale {
@@ -136,11 +141,11 @@
 @media all and (min-width: 50em) {
 
     .padded-left {
-        padding-left: 3.3%;
+        padding-left: 4.2%;
     }
 
     .padded-right {
-        padding-right: 3.3%;
+        padding-right: 4.2%;
     }
 
     .layout-tv .padded-left-withalphapicker {

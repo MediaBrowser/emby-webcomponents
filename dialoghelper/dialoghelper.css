@@ -4,9 +4,11 @@
     justify-content: center;
     position: fixed;
     top: 0;
+    top: var(--window-inset-top);
     left: 0;
     right: 0;
     bottom: 0;
+    bottom: var(--window-inset-bottom);
     z-index: 999999 !important;
     contain: strict;
     overflow: hidden;

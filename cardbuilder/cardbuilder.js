@@ -68,17 +68,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     case 'Movie':
                     case 'SeriesTimer':
-                        return requestedShape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
+                        return 'portrait';
                     case 'Episode':
                     case 'Program':
                     case 'Video':
-                        return requestedShape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
+                        return 'backdrop';
                     default:
                         break;
                 }
             }
 
-            return requestedShape === 'autooverflow' ? 'overflowSquare' : 'square';
+            return 'square';
         }
 
         function setCardData(items, options) {
@@ -97,13 +97,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (primaryImageAspectRatio >= 3) {
                         options.shape = 'banner';
                     } else if (primaryImageAspectRatio >= 1.4) {
-                        options.shape = requestedShape === 'autooverflow' ? 'overflowBackdrop' : 'backdrop';
+                        options.shape = 'backdrop';
                     } else if (primaryImageAspectRatio > 1.2) {
-                        options.shape = requestedShape === 'autooverflow' ? 'overflowFourThree' : 'fourThree';
+                        options.shape = 'fourThree';
                     } else if (primaryImageAspectRatio > 0.71) {
-                        options.shape = requestedShape === 'autooverflow' ? 'overflowSquare' : 'square';
+                        options.shape = 'square';
                     } else {
-                        options.shape = requestedShape === 'autooverflow' ? 'overflowPortrait' : 'portrait';
+                        options.shape = 'portrait';
                     }
                 }
 
@@ -113,7 +113,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             if (options.preferThumb === 'auto') {
-                options.preferThumb = options.shape === 'backdrop' || options.shape === 'overflowBackdrop';
+                options.preferThumb = options.shape === 'backdrop';
             }
 
             options.uiAspect = getDesiredAspect(options.shape);

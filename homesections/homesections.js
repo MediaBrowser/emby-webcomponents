@@ -170,11 +170,11 @@
     }
 
     function getSquareShape() {
-        return enableScrollX() ? 'overflowSquare' : 'square';
+        return 'square';
     }
 
     function getThumbShape() {
-        return enableScrollX() ? 'overflowBackdrop' : 'backdrop';
+        return 'backdrop';
     }
 
     function getPortraitShape() {
@@ -409,7 +409,7 @@
 
             return cardBuilder.getCardsHtml({
                 items: items,
-                shape: !enableTvPosters && viewType === 'tvshows' ? 'overflowBackdrop' : 'autooverflow',
+                shape: !enableTvPosters && viewType === 'tvshows' ? 'backdrop' : 'autooverflow',
                 preferThumb: 'auto',
                 showUnplayedIndicator: false,
                 showChildCountIndicator: true,
@@ -628,7 +628,7 @@
 
                 html += cardBuilder.getCardsHtml({
                     items: userViews,
-                    shape: scrollX ? 'overflowSmallBackdrop' : shape,
+                    shape: shape,
                     showTitle: true,
                     centerText: true,
                     overlayText: false,

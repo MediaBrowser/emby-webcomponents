@@ -1,3 +1,9 @@
+:root {
+    /* Need the px or it won't work inside calc expression */
+    --window-inset-top: 0px;
+    --window-inset-bottom: 0px;
+}
+
 html {
     /* Normalize for different browsers */
     line-height: 1.35;
@@ -147,10 +153,12 @@ html, body {
 
 .page-windowScroll, .padded-top-page {
     padding-top: 5.5em !important;
+    padding-top: calc(5.5em + var(--window-inset-top)) !important;
 }
 
     .page-windowScroll.withTabs, .withTabs .padded-top-page {
         padding-top: 8.5em !important;
+        padding-top: calc(8.5em + var(--window-inset-top)) !important;
     }
 
 .page-withiOSScrollHack {
@@ -160,10 +168,12 @@ html, body {
 @media all and (min-width: 120em) {
     .page-windowScroll, .padded-top-page {
         padding-top: 7em !important;
+        padding-top: calc(7em + var(--window-inset-top)) !important;
     }
 
         .page-windowScroll.withTabs, .withTabs .padded-top-page {
             padding-top: 6.7em !important;
+            padding-top: calc(6.7em + var(--window-inset-top)) !important;
         }
 }
 

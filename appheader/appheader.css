@@ -39,21 +39,25 @@
     right: 0;
     flex-direction: column;
     contain: layout style paint;
+    padding-top: 0;
+    padding-top: var(--window-inset-top);
 }
 
 .headerTop {
     padding: .8em 0;
+    padding-top: calc(.8em - (var(--window-inset-top) * 0.3));
     position: relative;
 }
 
 .headerTop-withSectionTabs {
-    padding: .8em 0 3.82em;
+    padding-bottom: 3.82em;
 }
 
 @media all and (min-width: 120em) {
 
     .headerTop {
         padding: 1.489em 0 !important;
+        padding-top: calc(1.489em - (var(--window-inset-top) * 0.3)) !important;
     }
 }
 

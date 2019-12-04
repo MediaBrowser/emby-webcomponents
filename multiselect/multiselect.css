@@ -11,6 +11,7 @@
 .selectionCommandsPanel {
     position: fixed;
     top: 0;
+    top: var(--window-inset-top);
     left: 0;
     right: 0;
     padding: 1em .5em;
