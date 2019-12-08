@@ -453,7 +453,7 @@ define(['browser'], function (browser) {
                 videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.6B"').replace(/no/, '');
 
             // Not sure how to test for this
-            var supportsMp2VideoAudio = supportsMp3VideoAudio;
+            var supportsMp2VideoAudio = browser.edgeUwp || browser.tizen || browser.orsay || browser.web0s;
 
             var maxVideoWidth = responses[0].supported && responses[0].smooth ? null : 1920;
 
@@ -891,10 +891,10 @@ define(['browser'], function (browser) {
                 maxH264Level = 51;
             }
 
-            if (browser.netcast || browser.tizen || browser.orsay || browser.web0s || videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
+            if (browser.tizen || browser.orsay || videoTestElement.canPlayType('video/mp4; codecs="avc1.6e0033"').replace(/no/, '')) {
 
                 // These tests are passing in safari, but playback is failing
-                if (!browser.safari && !browser.iOS) {
+                if (!browser.safari && !browser.iOS && !browser.web0s) {
                     h264Profiles += '|high 10';
                 }
             }

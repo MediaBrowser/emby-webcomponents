@@ -1,4 +1,5 @@
 {
   "themeColor": "#2196F3",
-  "androidNavBarBackgroundColor": "#ffffff"
+  "androidStatusBarForegroundColor": "light",
+  "androidNavigationBarForegroundColor": "dark"
 }

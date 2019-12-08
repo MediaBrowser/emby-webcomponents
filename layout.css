@@ -2,6 +2,8 @@
     /* Need the px or it won't work inside calc expression */
     --window-inset-top: 0px;
     --window-inset-bottom: 0px;
+    --window-inset-left: 0px;
+    --window-inset-right: 0px;
 }
 
 html {
@@ -73,7 +75,9 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
+    left: var(--window-inset-left);
     right: 0;
+    right: var(--window-inset-right);
     bottom: 0;
     contain: layout style size;
 }
@@ -153,12 +157,12 @@ html, body {
 
 .page-windowScroll, .padded-top-page {
     padding-top: 5.5em !important;
-    padding-top: calc(5.5em + var(--window-inset-top)) !important;
+    padding-top: calc(5.5em + (var(--window-inset-top) * 0.7)) !important;
 }
 
     .page-windowScroll.withTabs, .withTabs .padded-top-page {
-        padding-top: 8.5em !important;
-        padding-top: calc(8.5em + var(--window-inset-top)) !important;
+        padding-top: 8em !important;
+        padding-top: calc(8em + (var(--window-inset-top) * 0.7)) !important;
     }
 
 .page-withiOSScrollHack {
@@ -168,12 +172,12 @@ html, body {
 @media all and (min-width: 120em) {
     .page-windowScroll, .padded-top-page {
         padding-top: 7em !important;
-        padding-top: calc(7em + var(--window-inset-top)) !important;
+        padding-top: calc(7em + (var(--window-inset-top) * 0.7)) !important;
     }
 
         .page-windowScroll.withTabs, .withTabs .padded-top-page {
             padding-top: 6.7em !important;
-            padding-top: calc(6.7em + var(--window-inset-top)) !important;
+            padding-top: calc(6.7em + (var(--window-inset-top) * 0.7)) !important;
         }
 }
 

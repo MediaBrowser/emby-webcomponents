@@ -12,10 +12,21 @@
 .alphaPicker-fixed {
     position: fixed;
     top: 9em;
-    bottom: 1em;
+    top: calc(8em + (var(--window-inset-top) * 0.7));
+    bottom: .5em;
+    bottom: calc(.5em + var(--window-inset-bottom));
     /* If this value is ever increased, make sure to test it with the appfooter active */
     z-index: 1;
     justify-content: center;
+}
+
+@media all and (pointer: coarse) {
+
+    /* space for the docked tabs*/
+    .alphaPicker-fixed:not(.alphaPicker-tv) {
+        bottom: 4.5em;
+        bottom: calc(4.5em + var(--window-inset-bottom));
+    }
 }
 
 .alphaPickerRow {
@@ -86,7 +97,6 @@
 
 .alphaPicker-vertical.alphaPicker-tv {
     font-size: 86%;
-    top: 12em;
 }
 
 .alphaPickerButton-tv.alphaPickerButton-vertical {
@@ -106,16 +116,14 @@
     font-size: 100% !important;
 }
 
-.alphaPicker-fixed.alphaPicker-tv {
-    bottom: 1%;
-}
-
 .alphaPicker-fixed-left {
     left: 0;
+    left: var(--window-inset-left);
 }
 
 .alphaPicker-fixed-right {
     right: 0;
+    right: var(--window-inset-right);
 }
 
 @media all and (min-width: 62.5em) {

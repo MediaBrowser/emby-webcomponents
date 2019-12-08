@@ -200,7 +200,9 @@
     .actionSheet-select {
         position: fixed !important;
         top: 0 !important;
+        top: var(--window-inset-top) !important;
         bottom: 0 !important;
+        bottom: var(--window-inset-bottom) !important;
         left: 0 !important;
         right: 0 !important;
         margin: 0 !important;

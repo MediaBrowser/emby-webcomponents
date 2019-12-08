@@ -9,7 +9,3 @@
 .headroomDisabled {
     transform: none !important;
 }
-
-.headroom--unpinned {
-    transform: translateY(-100%);
-}

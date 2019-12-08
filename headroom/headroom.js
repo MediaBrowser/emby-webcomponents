@@ -206,15 +206,18 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             }
 
             this.transform = value;
+            var isActive;
 
             if (value === 0) {
                 value = 'none';
             }
             else if (value === 1) {
-                value = 'translateY(-100%)';
+                value = 'translateY(calc(-100% + var(--window-inset-top)))';
+                isActive = true;
             }
             else {
-                value = 'translateY(-' + value + 'px)';
+                value = 'translateY(calc(-' + value + 'px + var(--window-inset-top)))';
+                isActive = true;
             }
 
             //console.log(value + '-' + currentScrollY);
@@ -223,6 +226,12 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
             for (var i = 0, length = elems.length; i < length; i++) {
 
                 var elem = elems[i];
+
+                if (isActive) {
+                    elem.classList.add('headroom-active');
+                } else {
+                    elem.classList.remove('headroom-active');
+                }
 
                 elem.style.transform = value;
             }

@@ -4,11 +4,9 @@
     justify-content: center;
     position: fixed;
     top: 0;
-    top: var(--window-inset-top);
     left: 0;
     right: 0;
     bottom: 0;
-    bottom: var(--window-inset-bottom);
     z-index: 999999 !important;
     contain: strict;
     overflow: hidden;
@@ -34,7 +32,9 @@
     /* Needed due to formDialog style */
     position: fixed !important;
     top: 0;
+    top: var(--window-inset-top);
     bottom: 0;
+    bottom: var(--window-inset-bottom);
     left: 0;
     right: 0;
     margin: 0;
@@ -92,7 +92,9 @@
     .dialog-fixedSize, .dialog-fullscreen-lowres {
         position: fixed !important;
         top: 0 !important;
+        top: var(--window-inset-top) !important;
         bottom: 0 !important;
+        bottom: var(--window-inset-bottom) !important;
         left: 0 !important;
         right: 0 !important;
         margin: 0 !important;

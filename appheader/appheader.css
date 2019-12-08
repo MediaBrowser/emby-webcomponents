@@ -36,12 +36,19 @@
     position: fixed;
     top: 0;
     left: 0;
+    left: var(--window-inset-left);
     right: 0;
+    right: var(--window-inset-right);
     flex-direction: column;
     contain: layout style paint;
     padding-top: 0;
     padding-top: var(--window-inset-top);
 }
+
+    .skinHeader.headroom-active {
+        padding-bottom: 0;
+        padding-bottom: var(--window-inset-top);
+    }
 
 .headerTop {
     padding: .8em 0;
@@ -50,7 +57,7 @@
 }
 
 .headerTop-withSectionTabs {
-    padding-bottom: 3.82em;
+    padding-bottom: 3.32em;
 }
 
 @media all and (min-width: 120em) {

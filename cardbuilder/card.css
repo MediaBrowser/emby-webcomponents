@@ -179,7 +179,7 @@ button {
     /* This is only needed for scalable cards */
     height: 100%;
     contain: strict;
-    border-radius: .2em;
+    border-radius: .25em;
 }
 
 .chapterCardImageContainer {
@@ -280,7 +280,7 @@ button {
 
 .visualCardBox {
     box-shadow: 0 0.06933em 0.06933em 0 rgba(0,0,0,0.14), 0 0.13866em 0.06933em -0.06933em rgba(0,0,0,0.12), 0 0.06933em 0.208em 0 rgba(0,0,0,0.2);
-    border-radius: .2em;
+    border-radius: .25em;
 }
 
 .innerCardFooter {

@@ -556,14 +556,14 @@
 
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('downloads') + '" class="more button-flat button-flat-mini sectionTitleTextButton">';
                 html += '<h2 class="sectionTitle sectionTitle-cards">';
-                html += globalize.translate('HeaderMyDownloads');
+                html += globalize.translate('Downloads');
                 html += '<i class="md-icon">&#xE5CC;</i></h2>';
                 html += '</a>';
 
                 html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl('managedownloads') + '" class="sectionTitleIconButton"><i class="md-icon">&#xE8B8;</i></a>';
 
             } else {
-                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('HeaderMyDownloads') + '</h2>';
+                html += '<h2 class="sectionTitle sectionTitle-cards">' + globalize.translate('Downloads') + '</h2>';
             }
             html += '</div>';
 
