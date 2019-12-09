@@ -53,10 +53,9 @@
 }
 
 .actionSheetScroller-tv {
-    max-height: 64%;
+    max-height: 70%;
     max-width: 60%;
     width: auto;
-    margin: 1em 0 !important;
 }
 
 .actionsheetDivider {

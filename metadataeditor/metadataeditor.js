@@ -760,7 +760,7 @@
         }
         fillMetadataSettings(context, item, item.LockedFields);
 
-        context.querySelector('#txtPath').value = item.Path || '';
+        context.querySelector('.txtPath').innerHTML = item.Path || '';
         context.querySelector('#txtName').value = item.Name || "";
         context.querySelector('#txtOriginalName').value = item.OriginalTitle || "";
         context.querySelector('#txtOverview').value = item.Overview || '';

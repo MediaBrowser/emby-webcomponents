@@ -116,7 +116,7 @@
     margin-bottom: -1em;
 }
 
-@media all and (min-height: 31.25em) {
+@media all and (min-height: 30em) {
 
     .padded-left-withalphapicker {
         padding-left: 7.5%;
@@ -127,7 +127,7 @@
     }
 }
 
-@media all and (min-height: 31.25em) and (min-width: 40em) {
+@media all and (min-height: 30em) and (min-width: 40em) {
 
     .padded-left-withalphapicker {
         padding-left: 6%;
