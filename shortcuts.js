@@ -345,7 +345,8 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
             onRecordCommand(serverId, item.Id, type, card.getAttribute('data-timerid'), card.getAttribute('data-status'), card.getAttribute('data-seriestimerid'));
         }
 
-        else if (action === 'menu') {
+        // use info for this as well, until we have a better function for it
+        else if (action === 'menu' || action === 'info') {
 
             var options = target.getAttribute('data-playoptions') === 'false' ?
                 {

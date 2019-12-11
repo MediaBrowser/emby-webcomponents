@@ -163,7 +163,7 @@ html, .backgroundContainer {
     background: #ffffff;
     border-top: 1px solid #e2e2e2;
     /* This is a hack to prevent the border from being always visible */
-    bottom: -1px !important;
+    bottom: -2px !important;
 }
 
 .nowPlayingBarSecondaryText {

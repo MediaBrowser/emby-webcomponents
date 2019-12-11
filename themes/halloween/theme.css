@@ -29,10 +29,6 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.appfooter {
-    box-shadow: 0 -0.0725em 0.29em 0 rgba(0, 0, 0, 0.12);
-}
-
 .skinHeader-withBackground, .appfooter, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
     background-color: #313235;
 }
@@ -49,7 +45,6 @@ html {
         background: rgba(34,34,34,.7);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
-        box-shadow: none !important;
     }
 }
 

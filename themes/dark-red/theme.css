@@ -1,9 +1,9 @@
 :root {
     --theme-primary-color: #cc3333;
-    --theme-primary-text-color: #cc3333;
-    --theme-primary-color-lightened: #D83F3F;
+    --theme-primary-text-color: #52Bcc333354B;
+    --theme-primary-color-lightened: #cc3333;
     --theme-icon-focus-background: rgba(204, 51, 51, 0.2);
-    --theme-background: #181818;
+    --theme-background: #141414;
     --button-background: #282828;
     --theme-body-secondary-text-color: rgba(255, 255, 255, .6);
 }
@@ -19,25 +19,16 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.appfooter {
-    box-shadow: 0 -0.0725em 0.29em 0 rgba(0, 0, 0, 0.12);
-}
-
-.skinHeader-withBackground {
-    background-color: var(--theme-primary-color);
-}
-
-.appfooter, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
+.skinHeader-withBackground, .appfooter, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
     background-color: var(--button-background);
 }
 
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
-    .appfooter-withbackdropfilter {
-        background: rgba(34,35,38,.7);
+    .skinHeader-withBackground:not(.nobackdropfilter), .appfooter-withbackdropfilter {
+        background: rgba(29,29,31,0.72);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
-        box-shadow: none !important;
     }
 }
 
@@ -71,18 +62,6 @@ html, .dialog, .backgroundContainer {
     .paper-icon-button-light:focus {
         color: var(--theme-primary-color);
         background-color: var(--theme-icon-focus-background);
-    }
-}
-
-.skinHeader-withBackground .paper-icon-button-light-tv:focus, .skinHeader-withBackground .paper-icon-button-light:active {
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-@media(hover: hover) and (pointer: fine) {
-    .skinHeader-withBackground .paper-icon-button-light:focus {
-        color: #fff;
-        background-color: rgba(255, 255, 255, 0.2);
     }
 }
 
@@ -321,7 +300,7 @@ html, .dialog, .backgroundContainer {
 
 .navMenuOption-selected {
     background-color: var(--theme-icon-focus-background) !important;
-    color: white;
+    color: var(--theme-primary-color);
 }
 
 /* emby-button */
@@ -337,7 +316,7 @@ html, .dialog, .backgroundContainer {
 }
 
 .emby-tab-button-active {
-    color: #fff;
+    color: var(--theme-primary-color);
 }
 
     .emby-tab-button-active.emby-button-tv {
@@ -345,7 +324,7 @@ html, .dialog, .backgroundContainer {
     }
 
 .emby-tab-button.emby-button-tv:focus {
-    color: #fff;
+    color: var(--theme-primary-color);
     background: transparent;
 }
 

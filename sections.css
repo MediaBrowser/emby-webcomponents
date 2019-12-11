@@ -141,11 +141,11 @@
 @media all and (min-width: 50em) {
 
     .padded-left {
-        padding-left: 4.2%;
+        padding-left: 4%;
     }
 
     .padded-right {
-        padding-right: 4.2%;
+        padding-right: 4%;
     }
 
     .layout-tv .padded-left-withalphapicker {

@@ -24,7 +24,7 @@
     }
 
 .actionsheetListItemBody {
-    padding: .4em 1em .4em .6em !important;
+    padding: .4em 1.25em .4em .6em !important;
 }
 
 .actionSheetItemText {
@@ -93,7 +93,7 @@
 }
 
 .actionsheetMenuItemIcon {
-    margin: 0 .7em 0 .5em !important;
+    margin: 0 .7em 0 .75em !important;
     padding: 0 !important;
 }
 

@@ -24,6 +24,23 @@ html, .skinHeader {
     border-bottom: 1px solid #e4e4e4;
 }
 
+/* appfooter */
+.appfooter {
+    background: #ffffff;
+    border-top: 1px solid #e2e2e2;
+    /* This is a hack to prevent the border from being always visible */
+    bottom: -2px !important;
+}
+
+@supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
+
+    .skinHeader-withBackground:not(.nobackdropfilter), .appfooter-withbackdropfilter {
+        background: rgba(255,255,255,.72);
+        -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
+        backdrop-filter: saturate(1.8) blur(1.5em);
+    }
+}
+
 .osdHeader {
     box-shadow: none !important;
     border-bottom: 0;
@@ -144,14 +161,6 @@ html, .backgroundContainer {
     background: #303030;
     color: #fff;
     color: rgba(255, 255, 255, .87);
-}
-
-/* appfooter */
-.appfooter {
-    background: #ffffff;
-    border-top: 1px solid #e2e2e2;
-    /* This is a hack to prevent the border from being always visible */
-    bottom: -1px !important;
 }
 
 .nowPlayingBarSecondaryText {
@@ -313,14 +322,6 @@ html, .backgroundContainer {
 }
 
 .emby-tab-button-active {
-    color: var(--theme-primary-text-color);
-}
-
-.appfooter .emby-tab-button {
-    color: rgba(0, 0, 0, .6);
-}
-
-.appfooter .emby-tab-button-active {
     color: var(--theme-primary-text-color);
 }
 

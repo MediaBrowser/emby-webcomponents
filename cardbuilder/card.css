@@ -119,6 +119,10 @@ button {
     margin-bottom: 2em !important;
 }
 
+/*.scrollX .cardBox-bottompadded {
+    margin-bottom: 1.6em !important;
+}*/
+
 .card:focus {
     position: relative !important;
     z-index: 10 !important;
@@ -179,7 +183,7 @@ button {
     /* This is only needed for scalable cards */
     height: 100%;
     contain: strict;
-    border-radius: .25em;
+    border-radius: .3em;
 }
 
 .chapterCardImageContainer {
@@ -280,7 +284,7 @@ button {
 
 .visualCardBox {
     box-shadow: 0 0.06933em 0.06933em 0 rgba(0,0,0,0.14), 0 0.13866em 0.06933em -0.06933em rgba(0,0,0,0.12), 0 0.06933em 0.208em 0 rgba(0,0,0,0.2);
-    border-radius: .25em;
+    border-radius: .3em;
 }
 
 .innerCardFooter {
@@ -473,7 +477,15 @@ button {
 }
 
 .smallBackdropCard {
-    width: 50%;
+    width: 33.333333333333333333333333333333%;
+}
+
+/* Portrait orientation */
+@media all and (orientation: portrait) {
+
+    .smallBackdropCard {
+        width: 50%;
+    }
 }
 
 .fourThreeCard {
@@ -481,11 +493,11 @@ button {
 }
 
 .squareCard {
-    width: 50%;
+    width: 33.333333333333333333333333333333%;
 }
 
 .portraitCard {
-    width: 33.333333333333333333333333333333%;
+    width: 25%;
 }
 
 @media (min-width: 25em) {
@@ -504,24 +516,30 @@ button {
 
 @media (min-width: 31.25em) {
 
-    .smallBackdropCard {
-        width: 33.333333333333333333333333333333%;
-    }
-
-    .squareCard, .portraitCard {
-        width: 33.333333333333333333333333333333%;
-    }
-
     .fourThreeCard {
         width: 33.333333333333333333333333333333%;
     }
 }
 
-@media (min-width: 43.75em) {
+@media (min-width: 36em) {
+
     .squareCard, .portraitCard {
         width: 25%;
     }
 
+    .smallBackdropCard {
+        width: 33.333333333333333333333333333333%;
+    }
+}
+
+@media (min-width: 40em) {
+
+    .portraitCard {
+        width: 20%;
+    }
+}
+
+@media (min-width: 43.75em) {
     .fourThreeCard {
         width: 25%;
     }
@@ -539,17 +557,16 @@ button {
         width: 50%;
     }
 
-    .squareCard, .portraitCard {
-        width: 20%;
-    }
-
     .smallBackdropCard {
         width: 25%;
+    }
+
+    .squareCard, .portraitCard {
+        width: 20%;
     }
 }
 
 @media (min-width: 62.5em) {
-
 
     .smallBackdropCard {
         width: 20%;
@@ -644,6 +661,73 @@ button {
 
     .fourThreeCard {
         width: 14.285714285714285714285714285714%;
+    }
+}
+
+/* Portrait orientation */
+@media all and (orientation: portrait) {
+
+    .squareCard {
+        width: 50%;
+    }
+
+    .portraitCard {
+        width: 33.333333333333333333333333333333%;
+    }
+}
+
+@media all and (orientation: portrait) and (min-width: 31.25em) {
+
+    .squareCard, .portraitCard {
+        width: 33.333333333333333333333333333333%;
+    }
+}
+
+@media all and (orientation: portrait) and (min-width: 40em) {
+    .squareCard, .portraitCard {
+        width: 25%;
+    }
+}
+
+@media all and (orientation: portrait) and (min-width: 55em) {
+
+    .squareCard, .portraitCard {
+        width: 20%;
+    }
+}
+
+@media all and (orientation: portrait) and (min-width: 70em) {
+
+    .squareCard, .portraitCard {
+        width: 16.666666666666666666666666666667%;
+    }
+}
+
+@media all and (orientation: portrait) and (min-width: 82.5em) {
+
+    .squareCard, .portraitCard {
+        width: 14.285714285714285714285714285714%;
+    }
+}
+
+@media all and (orientation: portrait) and (min-width: 100em) {
+
+    .squareCard, .portraitCard {
+        width: 12.5%;
+    }
+}
+
+@media all and (orientation: portrait) and (min-width: 115em) {
+
+    .squareCard, .portraitCard {
+        width: 11.111111111111111111111111111111%;
+    }
+}
+
+@media all and (orientation: portrait) and (min-width: 131.25em) {
+
+    .squareCard, .portraitCard {
+        width: 10%;
     }
 }
 

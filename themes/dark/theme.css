@@ -3,7 +3,7 @@
     --theme-primary-text-color: #52B54B;
     --theme-primary-color-lightened: #5EC157;
     --theme-icon-focus-background: rgba(82, 181, 75, 0.2);
-    --theme-background: #181818;
+    --theme-background: #141414;
     --button-background: #282828;
     --theme-body-secondary-text-color: rgba(255, 255, 255, .6);
 }
@@ -19,10 +19,6 @@ html {
     border-color: rgba(255,255,255, .135);
 }
 
-.appfooter {
-    box-shadow: 0 -0.0725em 0.29em 0 rgba(0, 0, 0, 0.12);
-}
-
 .skinHeader-withBackground, .appfooter, .formDialogHeader:not(.formDialogHeader-clear), .formDialogFooter:not(.formDialogFooter-clear) {
     background-color: var(--button-background);
 }
@@ -30,13 +26,9 @@ html {
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
     .skinHeader-withBackground:not(.nobackdropfilter), .appfooter-withbackdropfilter {
-        background: rgba(34,35,38,.7);
+        background: rgba(29,29,31,0.72);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
-    }
-
-    .appfooter-withbackdropfilter {
-        box-shadow: none !important;
     }
 }
 

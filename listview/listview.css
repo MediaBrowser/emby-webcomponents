@@ -10,7 +10,7 @@
     display: block;
     align-items: center;
     text-align: left;
-    padding: .25em;
+    padding: .25em 0;
     cursor: pointer;
     overflow: hidden;
     flex-shrink: 0;
@@ -92,8 +92,8 @@
 }
 
 .listItemImage {
-    width: 4em;
-    height: 4em;
+    width: 3.4em;
+    height: 3.4em;
     min-width: 2.78em;
     min-height: 2.78em;
     background-repeat: no-repeat;
@@ -102,6 +102,8 @@
     background-position: center center;
     position: relative;
     display: flex;
+    margin-left: .5em;
+    border-radius: .3em;
 }
 
 .listItemImage-large {
@@ -179,7 +181,7 @@
         color: #fff;
         padding: .5em;
         border-radius: 100em;
-        margin: 0 .2em 0 .5em;
+        margin: 0 .2em 0 .75em;
     }
 
 .listViewDragHandle {
@@ -223,6 +225,7 @@
     display: none;
     align-items: center;
     margin-right: 1em;
+    flex-shrink: 0;
 }
 
 .listGroupHeader-first {

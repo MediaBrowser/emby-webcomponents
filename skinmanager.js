@@ -44,14 +44,14 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
 
         return [
             { name: 'Apple TV', id: 'appletv' },
+            { name: 'Black', id: 'black', isDefault: defaultTheme === 'black' },
             { name: 'Blue Radiance', id: 'blueradiance', isDefault: defaultTheme === 'blueradiance' },
             { name: 'Dark', id: 'dark', isDefault: defaultTheme === 'dark' },
-            { name: 'Dark (green accent)', id: 'dark-green' },
             { name: 'Dark (red accent)', id: 'dark-red' },
             { name: 'Halloween', id: 'halloween' },
+            { name: 'Holidays', id: 'holiday' },
             { name: 'Light', id: 'light', isDefaultServerDashboard: true },
             { name: 'Light (blue accent)', id: 'light-blue' },
-            { name: 'Light (green accent)', id: 'light-green' },
             { name: 'Light (pink accent)', id: 'light-pink' },
             { name: 'Light (purple accent)', id: 'light-purple' },
             { name: 'Light (red accent)', id: 'light-red' },
@@ -160,6 +160,10 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
             return 'halloween';
         }
 
+        if (month === 11 && day >= 24 && day <= 25) {
+            return 'holiday';
+        }
+
         return id;
     }
 
@@ -180,6 +184,13 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         if (id === 'halloween') {
             themeResources = {
                 backdrop: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/halloween/bg.jpg'
+            };
+            return;
+        }
+
+        if (id === 'holiday') {
+            themeResources = {
+                backdrop: 'https://github.com/MediaBrowser/Emby.Resources/raw/master/themes/holiday/bgc3.jpg'
             };
             return;
         }

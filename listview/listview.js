@@ -182,10 +182,6 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
                 cssClass += ' listItem-focusscale';
             }
 
-            if (options.dragHandle) {
-                cssClass += ' listItemBody-noleftpadding';
-            }
-
             var downloadWidth = 80;
 
             if (isLargeStyle) {
@@ -205,12 +201,6 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
             if (enableContentWrapper) {
 
                 html += '<div class="listItem-content">';
-            }
-
-            if (!clickEntireItem && options.dragHandle) {
-                //html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><i class="md-icon">&#xE25D;</i></button>';
-                // Firefox and Edge are not allowing the button to be draggable
-                html += '<i class="listViewDragHandle md-icon listItemIcon listItemIcon-transparent">&#xE25D;</i>';
             }
 
             if (options.image !== false) {
@@ -401,7 +391,8 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
                     html += '<div class="' + mediaInfoClass + '">' + mediaInfo.getPrimaryMediaInfoHtml(item, {
                         episodeTitle: false,
                         originalAirDate: false,
-                        subtitles: false
+                        subtitles: false,
+                        endsAt: false
 
                     }) + '</div>';
                 }
@@ -467,6 +458,12 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
                     }
 
                     html += '</span>';
+                }
+
+                if (options.dragHandle) {
+                    //html += '<button is="paper-icon-button-light" class="listViewDragHandle listItemButton"><i class="md-icon">&#xE25D;</i></button>';
+                    // Firefox and Edge are not allowing the button to be draggable
+                    html += '<i class="listViewDragHandle md-icon listItemIcon listItemIcon-transparent">&#xE25D;</i>';
                 }
             }
 
