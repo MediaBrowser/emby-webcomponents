@@ -3260,7 +3260,10 @@
 
             playerData.streamInfo = null;
 
-            var nextItem = self._playNextAfterEnded ? self._playQueueManager.getNextItemInfo() : null;
+            // e should never be null, but just being defensive to avoid any possible surprises
+            e = e || {};
+
+            var nextItem = self._playNextAfterEnded && e.playNext !== false ? self._playQueueManager.getNextItemInfo() : null;
 
             var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 

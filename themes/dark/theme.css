@@ -26,7 +26,7 @@ html {
 @supports ( (backdrop-filter: blur(1em)) or (-webkit-backdrop-filter: blur(1em))) {
 
     .skinHeader-withBackground:not(.nobackdropfilter), .appfooter-withbackdropfilter {
-        background: rgba(29,29,31,0.72);
+        background: rgba(29,29,31,0.66);
         -webkit-backdrop-filter: saturate(1.8) blur(1.5em);
         backdrop-filter: saturate(1.8) blur(1.5em);
     }

@@ -1,4 +1,4 @@
-define(['appHeader', 'backdrop', 'mainTabsManager', 'layoutManager', 'inputManager', 'connectionManager', 'emby-tabs'], function (appHeader, backdrop, mainTabsManager, layoutManager, inputManager, connectionManager) {
+define(['appHeader', 'mainTabsManager', 'layoutManager', 'inputManager', 'connectionManager', 'emby-tabs'], function (appHeader, mainTabsManager, layoutManager, inputManager, connectionManager) {
     'use strict';
 
     function onViewDestroy(e) {
@@ -141,8 +141,6 @@ define(['appHeader', 'backdrop', 'mainTabsManager', 'layoutManager', 'inputManag
         } else {
             this.setTitle();
         }
-
-        backdrop.clear();
 
         var currentTabController = this.currentTabController;
 

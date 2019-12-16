@@ -510,6 +510,9 @@
         if (firstItem.Type === 'Audio') {
             return true;
         }
+        if (firstItem.Type === 'Photo') {
+            return true;
+        }
         if (firstItem.Type === 'MusicAlbum') {
             return true;
         }
@@ -721,10 +724,6 @@
 
         var profileOptions = options.ProfileOptions || [];
 
-        if (!profileOptions.length) {
-            return;
-        }
-
         var option = profileOptions.filter(function (o) {
             return o.Id === profileId;
         })[0];
@@ -740,14 +739,24 @@
         }
 
         var customProfileOptions = form.querySelector('.customProfileOptions');
+        var customProfileSelects = customProfileOptions.querySelectorAll('select');
+        var customProfileSelectsRequired = false;
 
         if (profileId === 'custom') {
 
             customProfileOptions.classList.remove('hide');
+            customProfileSelectsRequired = true;
 
         } else {
             customProfileOptions.classList.add('hide');
+        }
 
+        for (var i = 0, length = customProfileSelects.length; i < length; i++) {
+            if (customProfileSelectsRequired) {
+                customProfileSelects[i].setAttribute('required', 'required');
+            } else {
+                customProfileSelects[i].removeAttribute('required');
+            }
         }
     }
 
