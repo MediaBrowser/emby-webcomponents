@@ -4,7 +4,7 @@
  * License: MIT
  */
 
-define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, layoutManager, browser) {
+define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'], function (dom, layoutManager, browser, appHost, events) {
 
     'use strict';
 
@@ -19,6 +19,12 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
     function onHeadroomForceClearedExternally() {
         this.transform = null;
         this.setTransform(0);
+    }
+
+    var windowInsetTop = 0;
+
+    function onWindowInsetsChanged(e, insets) {
+        windowInsetTop = insets.top;
     }
 
     /**
@@ -66,6 +72,12 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * Initialises the widget
          */
         init: function () {
+
+            if (appHost.getWindowInsets) {
+                windowInsetTop = appHost.getWindowInsets().top;
+            }
+
+            events.on(appHost, 'windowinsetschanged', onWindowInsetsChanged);
 
             this.onHeadroomClearedExternallyFn = onHeadroomClearedExternally.bind(this);
             this.onHeadroomForceClearedExternallyFn = onHeadroomForceClearedExternally.bind(this);
@@ -131,6 +143,8 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
          * Unattaches events and removes any classes that were added
          */
         destroy: function () {
+
+            events.off(appHost, 'windowinsetschanged', onWindowInsetsChanged);
 
             this.initialised = false;
             this.lastKnownScrollY = null;
@@ -212,11 +226,16 @@ define(['dom', 'layoutManager', 'browser', 'css!./headroom'], function (dom, lay
                 value = 'none';
             }
             else if (value === 1) {
-                value = 'translateY(calc(-100% + var(--window-inset-top)))';
+
+                if (windowInsetTop) {
+                    value = 'translateY(calc(-100% + ' + windowInsetTop + 'px))';
+                } else {
+                    value = 'translateY(-100%)';
+                }
                 isActive = true;
             }
             else {
-                value = 'translateY(calc(-' + value + 'px + var(--window-inset-top)))';
+                value = 'translateY(-' + (value + windowInsetTop) + 'px)';
                 isActive = true;
             }
 

@@ -3238,11 +3238,12 @@
                 }
             }
 
-            var displayErrorCode = 'NoCompatibleStream';
-            onPlaybackStopped.call(player, e, displayErrorCode);
+            onPlaybackStopped.call(player, e, {
+                errorCode: 'NoCompatibleStream'
+            });
         }
 
-        function onPlaybackStopped(e, displayErrorCode) {
+        function onPlaybackStopped(e, playerStopInfo) {
 
             var player = this;
 
@@ -3260,10 +3261,9 @@
 
             playerData.streamInfo = null;
 
-            // e should never be null, but just being defensive to avoid any possible surprises
-            e = e || {};
+            playerStopInfo = playerStopInfo || {};
 
-            var nextItem = self._playNextAfterEnded && e.playNext !== false ? self._playQueueManager.getNextItemInfo() : null;
+            var nextItem = self._playNextAfterEnded && playerStopInfo.playNext !== false ? self._playQueueManager.getNextItemInfo() : null;
 
             var nextMediaType = (nextItem ? nextItem.item.MediaType : null);
 
@@ -3302,8 +3302,8 @@
                 removeCurrentPlayer(player);
             }
 
-            if (displayErrorCode && typeof (displayErrorCode) === 'string') {
-                showPlaybackInfoErrorMessage(self, displayErrorCode, nextItem);
+            if (playerStopInfo.errorCode) {
+                showPlaybackInfoErrorMessage(self, playerStopInfo.errorCode, nextItem);
             }
             else if (nextItem) {
                 self.nextTrack();
