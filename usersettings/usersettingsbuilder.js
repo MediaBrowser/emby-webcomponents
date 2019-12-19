@@ -208,13 +208,13 @@ define(['appSettings', 'events'], function (appsettings, events) {
         return parseInt(this.get('skipForwardLength') || '10000');
     };
 
-    UserSettings.prototype.dashboardTheme = function (val) {
+    UserSettings.prototype.settingsTheme = function (val) {
 
         if (val != null) {
-            return this.set('dashboardTheme', val);
+            return this.set('settingsTheme', val, false);
         }
 
-        return this.get('dashboardTheme');
+        return this.get('settingsTheme', false);
     };
 
     UserSettings.prototype.theme = function (val) {

@@ -39,30 +39,23 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
 
         options = options || {};
 
-        this.lastKnownScrollY = 0;
+        this.lastScrollY = 0;
         this.elems = elems;
 
         this.scrollElementForEvents = options.scroller || window;
         this.scroller = /*options.scroller || document.scrollingElement ||*/ this.scrollElementForEvents;
 
-        this.debouncer = this.update.bind(this);
+        this.updateFn = this.update.bind(this);
+        this.onScroll = onScroll.bind(this);
         this.offset = options.offset;
         this.initialised = false;
     }
 
-    function onScroll() {
-
-        if (this.paused) {
-            return;
+    function onScroll(e) {
+        if (!this.scrolled) {
+            this.scrolled = true;
+            requestAnimationFrame(this.updateFn);
         }
-
-        this.update();
-        //return;
-
-        //if (!this.ticking) {
-        //    requestAnimationFrame(this.rafCallback || (this.rafCallback = this.update.bind(this)));
-        //    this.ticking = true;
-        //}
     }
 
     Headroom.prototype = {
@@ -147,7 +140,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
             events.off(appHost, 'windowinsetschanged', onWindowInsetsChanged);
 
             this.initialised = false;
-            this.lastKnownScrollY = null;
+            this.lastScrollY = null;
 
             for (var i = 0, length = this.elems.length; i < length; i++) {
 
@@ -159,15 +152,18 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
             var scroller = this.scrollElementForEvents;
 
             if (scroller) {
+
                 if (scroller.removeScrollEventListener) {
 
-                    scroller.removeScrollEventListener(this.debouncer, {
+                    var fn = scroller.getScrollEventName() === 'scroll' ? this.onScroll : this.updateFn;
+
+                    scroller.removeScrollEventListener(fn, {
                         capture: false,
                         passive: true
                     });
                 }
                 else {
-                    dom.removeEventListener(scroller, 'scroll', this.debouncer, {
+                    dom.removeEventListener(scroller, 'scroll', this.onScroll, {
                         capture: false,
                         passive: true
                     });
@@ -188,7 +184,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
          */
         attachEvent: function () {
             if (!this.initialised) {
-                this.lastKnownScrollY = this.getScrollY();
+                this.lastScrollY = this.getScrollY();
                 this.initialised = true;
 
                 var scroller = this.scrollElementForEvents;
@@ -196,13 +192,15 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
                 if (scroller) {
                     if (scroller.addScrollEventListener) {
 
-                        scroller.addScrollEventListener(this.debouncer, {
+                        var fn = scroller.getScrollEventName() === 'scroll' ? this.onScroll : this.updateFn;
+
+                        scroller.addScrollEventListener(fn, {
                             capture: false,
                             passive: true
                         });
                     }
                     else {
-                        dom.addEventListener(scroller, 'scroll', this.debouncer, {
+                        dom.addEventListener(scroller, 'scroll', this.onScroll, {
                             capture: false,
                             passive: true
                         });
@@ -213,7 +211,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
             }
         },
 
-        setTransform: function (value, currentScrollY) {
+        setTransform: function (value) {
 
             if (value === this.transform) {
                 return;
@@ -283,18 +281,6 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
         },
 
         /**
-         * determine if it is appropriate to unpin
-         * @param  {int} currentScrollY the current y scroll position
-         * @return {bool} true if should unpin, false otherwise
-         */
-        shouldUnpin: function (currentScrollY) {
-            var scrollingDown = currentScrollY > this.lastKnownScrollY,
-                pastOffset = currentScrollY >= this.offset;
-
-            return scrollingDown && pastOffset;
-        },
-
-        /**
          * Handles updating the state of the widget
          */
         update: function () {
@@ -307,25 +293,26 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
 
             // Ignore if out of bounds (iOS rubber band effect)
             if (currentScrollY < 0) {
-                this.ticking = false;
+                this.lastScrollY = currentScrollY;
+                this.scrolled = false;
                 return;
             }
 
-            var lastKnownScrollY = this.lastKnownScrollY;
+            var lastScrollY = this.lastScrollY;
 
             var isTv = layoutManager.tv;
 
             var max = isTv ? 130 : 90;
 
             if (currentScrollY <= (isTv ? max : 0)) {
-                this.setTransform(0, currentScrollY);
+                this.setTransform(0);
             }
-            else if (!isTv && currentScrollY < lastKnownScrollY) {
+            else if (!isTv && currentScrollY < lastScrollY) {
 
-                var toleranceExceeded = Math.abs(currentScrollY - lastKnownScrollY) >= 4;
+                var toleranceExceeded = Math.abs(currentScrollY - lastScrollY) >= 4;
 
                 if (toleranceExceeded) {
-                    this.setTransform(0, currentScrollY);
+                    this.setTransform(0);
                 }
             }
             else {
@@ -338,11 +325,11 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
                     transformValue = 1;
                 }
 
-                this.setTransform(transformValue, currentScrollY);
+                this.setTransform(transformValue);
             }
 
-            this.lastKnownScrollY = currentScrollY;
-            this.ticking = false;
+            this.lastScrollY = currentScrollY;
+            this.scrolled = false;
         }
     };
 

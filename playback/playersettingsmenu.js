@@ -193,13 +193,6 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
             });
         }
 
-        if (options.mediaType === 'Video' && !browser.web0s) {
-            menuItems.push({
-                name: globalize.translate('HeaderPlaybackSettings'),
-                id: 'playbacksettings'
-            });
-        }
-
         var currentMediaSource = playbackManager.currentMediaSource(player);
 
         if (user && user.Policy.EnableVideoPlaybackTranscoding && currentMediaSource && currentMediaSource.SupportsTranscoding && supportedCommands.indexOf('SetMaxStreamingBitrate') !== -1) {
@@ -268,10 +261,6 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
         });
     }
 
-    function showPlaybackSettings(player, btn) {
-        return alertText(globalize.translate('PlaybackSettingsIntro'));
-    }
-
     function handleSelectedOption(id, options, player) {
 
         switch (id) {
@@ -282,8 +271,6 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
                 return showAspectRatioMenu(player, options.positionTo);
             case 'repeatmode':
                 return showRepeatModeMenu(player, options.positionTo);
-            case 'playbacksettings':
-                return showPlaybackSettings(player, options.positionTo);
             case 'stats':
                 if (options.onOption) {
                     options.onOption('stats');

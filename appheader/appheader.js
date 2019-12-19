@@ -287,7 +287,7 @@
 
     function updateMenuButton(detail, view) {
 
-        if (!layoutManager.tv && userSignedIn && detail.drawer !== false && !detail.dashboardTheme) {
+        if (!layoutManager.tv && userSignedIn && detail.drawer !== false && !detail.settingsTheme) {
 
             headerMenuButton.classList.remove('hide');
         } else {
@@ -393,7 +393,7 @@
 
     function updateDrawerLayout(detail) {
 
-        detail.drawerInline = detail.dashboardTheme && detail.drawer !== false && !layoutManager.tv;
+        detail.drawerInline = detail.settingsTheme && detail.drawer !== false && !layoutManager.tv;
 
         var drawerStyle = detail.drawerInline ? 2 : 0;
 

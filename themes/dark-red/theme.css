@@ -4,7 +4,7 @@
     --theme-primary-color-lightened: #cc3333;
     --theme-icon-focus-background: rgba(204, 51, 51, 0.2);
     --theme-background: #141414;
-    --button-background: #282828;
+    --button-background: #242424;
     --theme-body-secondary-text-color: rgba(255, 255, 255, .6);
 }
 
@@ -375,7 +375,7 @@ html, .dialog, .backgroundContainer {
 /* used by directory picker and other areas */
 .infoBanner {
     color: #ddd;
-    background: #111;
+    background: #222;
     padding: 1em;
     border-radius: .25em;
 }

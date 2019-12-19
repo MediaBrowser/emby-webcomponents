@@ -1,25 +1,22 @@
 define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', 'apphost', 'focusManager', 'datetime', 'globalize', 'loading', 'connectionManager', 'skinManager', 'dom', 'events', 'emby-select', 'emby-checkbox', 'emby-linkbutton'], function (require, browser, layoutManager, appSettings, pluginManager, appHost, focusManager, datetime, globalize, loading, connectionManager, skinManager, dom, events) {
     "use strict";
 
-    function fillThemes(select, isDashboard) {
+    function fillThemes(select, isSettings) {
 
         var themes = skinManager.getThemes();
 
-        //if (!isDashboard && appHost.supports('preferredtheme')) {
-        //    themes.unshift({
-        //        name: globalize.translate('AutoBasedOnLanguageSetting'),
-        //        id: 'auto'
-        //    });
-        //}
+        if (isSettings) {
+            themes.unshift({
+                name: globalize.translate('SameAsMainTheme'),
+                id: ''
+            });
+        }
 
         select.innerHTML = themes.map(function (t) {
 
             var value = t.id;
 
-            if (t.isDefault && !isDashboard) {
-                value = '';
-            }
-            else if (t.isDefaultServerDashboard && isDashboard) {
+            if (t.isDefault && !isSettings) {
                 value = '';
             }
 
@@ -95,12 +92,6 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         var loggedInUserId = apiClient.getCurrentUserId();
         var userId = user.Id;
 
-        if (user.Policy.IsAdministrator) {
-            context.querySelector('.selectDashboardThemeContainer').classList.remove('hide');
-        } else {
-            context.querySelector('.selectDashboardThemeContainer').classList.add('hide');
-        }
-
         if (appHost.supports('displaylanguage')) {
             context.querySelector('.languageSection').classList.remove('hide');
         } else {
@@ -158,10 +149,10 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('.chkRunAtStartup').checked = appSettings.runAtStartup();
 
         var selectTheme = context.querySelector('#selectTheme');
-        var selectDashboardTheme = context.querySelector('#selectDashboardTheme');
+        var selectSettingsTheme = context.querySelector('#selectSettingsTheme');
 
         fillThemes(selectTheme);
-        fillThemes(selectDashboardTheme, true);
+        fillThemes(selectSettingsTheme, true);
         loadScreensavers(context, userSettings);
         loadSoundEffects(context, userSettings);
 
@@ -175,7 +166,7 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
         context.querySelector('#selectLanguage').value = userSettings.language() || '';
         context.querySelector('.selectDateTimeLocale').value = userSettings.dateTimeLocale() || '';
 
-        selectDashboardTheme.value = userSettings.dashboardTheme() || '';
+        selectSettingsTheme.value = userSettings.settingsTheme() || '';
         selectTheme.value = userSettings.theme() || '';
 
         context.querySelector('.selectLayout').value = layoutManager.getSavedLayout() || '';
@@ -199,18 +190,13 @@ define(['require', 'browser', 'layoutManager', 'appSettings', 'pluginManager', '
 
         userSettingsInstance.enableThemeSongs(context.querySelector('#chkThemeSong').checked);
         userSettingsInstance.enableThemeVideos(context.querySelector('#chkThemeVideo').checked);
-        userSettingsInstance.dashboardTheme(context.querySelector('#selectDashboardTheme').value);
+        userSettingsInstance.settingsTheme(context.querySelector('#selectSettingsTheme').value);
         userSettingsInstance.theme(context.querySelector('#selectTheme').value);
         userSettingsInstance.soundEffects(context.querySelector('.selectSoundEffects').value);
         userSettingsInstance.screensaver(context.querySelector('.selectScreensaver').value);
 
         userSettingsInstance.enableBackdrops(context.querySelector('#chkBackdrops').checked);
         userSettingsInstance.enableSeasonalThemes(context.querySelector('#chkSeasonalThemes').checked);
-
-        if (user.Id === apiClient.getCurrentUserId()) {
-
-            skinManager.setTheme(userSettingsInstance.theme());
-        }
 
         layoutManager.setLayout(context.querySelector('.selectLayout').value);
 

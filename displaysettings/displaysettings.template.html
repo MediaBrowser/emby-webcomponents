@@ -1,4 +1,4 @@
-﻿<form style="margin: 0 auto;">
+﻿<form class="auto-center">
 
     <h2 class="sectionTitle">
         ${Display}
@@ -133,17 +133,17 @@
         <div class="fieldDescription featurePremiereInfo"></div>
     </div>
 
+    <div class="selectContainer">
+        <select id="selectSettingsTheme" is="emby-select" label="${LabelSettingsTheme}"></select>
+        <div class="fieldDescription featurePremiereInfo"></div>
+    </div>
+
     <div class="checkboxContainer checkboxContainer-withDescription fldSeasonalThemes hide">
         <label>
             <input type="checkbox" is="emby-checkbox" id="chkSeasonalThemes" />
             <span>${AllowSeasonalThemes}</span>
         </label>
         <div class="fieldDescription checkboxFieldDescription">${AllowSeasonalThemesHelp}</div>
-    </div>
-
-    <div class="selectContainer selectDashboardThemeContainer hide">
-        <select id="selectDashboardTheme" is="emby-select" label="${LabelDashboardTheme}"></select>
-        <div class="fieldDescription featurePremiereInfo"></div>
     </div>
 
     <div class="selectContainer hide selectScreensaverContainer">

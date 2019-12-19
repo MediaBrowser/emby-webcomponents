@@ -50,7 +50,7 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
             { name: 'Dark (red accent)', id: 'dark-red' },
             { name: 'Halloween', id: 'halloween' },
             { name: 'Holidays', id: 'holiday' },
-            { name: 'Light', id: 'light', isDefaultServerDashboard: true },
+            { name: 'Light', id: 'light' },
             { name: 'Light (blue accent)', id: 'light-blue' },
             { name: 'Light (pink accent)', id: 'light-pink' },
             { name: 'Light (purple accent)', id: 'light-purple' },
@@ -60,19 +60,13 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
     }
 
     var skinManager = {
-        loadSkin: loadSkin,
         loadUserSkin: loadUserSkin,
         getThemes: getThemes
     };
 
-    function loadSkin() {
-
-        return skinManager.setTheme(userSettings.theme());
-    }
-
     function loadUserSkin(options) {
 
-        return loadSkin().then(function (skin) {
+        return skinManager.setTheme(userSettings.theme()).then(function () {
 
             options = options || {};
             if (options.start) {
@@ -113,7 +107,7 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         return appSettings.get('appthemesregistered') !== 'false';
     }
 
-    function getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty) {
+    function getThemeStylesheetInfo(id, requiresRegistration) {
 
         var themes = skinManager.getThemes();
         var defaultTheme;
@@ -122,7 +116,7 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         for (var i = 0, length = themes.length; i < length; i++) {
 
             var theme = themes[i];
-            if (theme[isDefaultProperty]) {
+            if (theme.isDefault) {
                 defaultTheme = theme;
             }
             if (id === theme.id) {
@@ -238,9 +232,9 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
 
             var requiresRegistration = true;
 
-            var isServerDashboard = context === 'serverdashboard';
+            var isSettings = context === 'settings';
 
-            if (!isServerDashboard) {
+            if (!isSettings) {
 
                 var newId = modifyThemeForSeasonal(id);
                 if (newId !== id) {
@@ -259,8 +253,7 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
                 return;
             }
 
-            var isDefaultProperty = isServerDashboard ? 'isDefaultServerDashboard' : 'isDefault';
-            var info = getThemeStylesheetInfo(id, requiresRegistration, isDefaultProperty);
+            var info = getThemeStylesheetInfo(id, requiresRegistration);
 
             if (currentThemeId && currentThemeId === info.themeId) {
                 resolve();
@@ -342,11 +335,33 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         });
     }
 
+    function changeTheme(viewType) {
+
+        if (viewType === 1) {
+
+            var settingsTheme = userSettings.settingsTheme();
+
+            if (settingsTheme) {
+                skinManager.setTheme(settingsTheme, 'settings');
+                return;
+            }
+        }
+
+        skinManager.setTheme(userSettings.theme());
+    }
+
+    function onThemeSettingChange(e, name) {
+
+        if (name === 'appTheme' || name === 'settingsTheme') {
+            changeTheme(currentThemeType);
+        }
+    }
+
     var currentThemeType;
     document.addEventListener('viewbeforeshow', function (e) {
 
         // secondaryHeaderFeatures is a lazy attempt to detect the startup wizard
-        var viewType = e.detail.dashboardTheme ?
+        var viewType = e.detail.settingsTheme ?
             1 :
             0;
 
@@ -354,15 +369,11 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
 
             currentThemeType = viewType;
 
-            if (viewType === 1) {
-
-                skinManager.setTheme(userSettings.dashboardTheme(), 'serverdashboard');
-
-            } else {
-                skinManager.setTheme(userSettings.theme());
-            }
+            changeTheme(viewType);
         }
     });
+
+    events.on(userSettings, 'change', onThemeSettingChange);
 
     events.on(connectionManager, 'localusersignedin', function (e) {
         currentThemeType = null;
