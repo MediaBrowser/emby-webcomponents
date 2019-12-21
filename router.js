@@ -802,7 +802,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return '/managedownloads.html';
         }
         if (item === 'manageserver') {
-            return '/dashboard.html';
+            return '/dashboard/dashboard.html';
         }
         if (item === 'recordedtv') {
             return '/livetv/livetv.html?tab=3&serverId=' + serverId;

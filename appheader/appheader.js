@@ -189,7 +189,7 @@
     }
 
     function onManageServerButtonClick() {
-        Dashboard.navigate('dashboard.html');
+        appRouter.show(appRouter.getRouteUrl('manageserver'));
     }
 
     function onCastButtonClick() {

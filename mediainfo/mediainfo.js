@@ -421,6 +421,12 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
             }
         }
 
+        if (options.dateAdded && itemHelper.enableDateAddedDisplay(item)) {
+            var dateCreated = datetime.parseISO8601Date(item.DateCreated);
+
+            html += getMediaInfoItem(globalize.translate('AddedOnValue', datetime.toLocaleDateString(dateCreated)));
+        }
+
         html += indicators.getMissingIndicator(item);
 
         return html;

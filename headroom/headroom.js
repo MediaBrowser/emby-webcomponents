@@ -27,6 +27,8 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
         windowInsetTop = insets.top;
     }
 
+    var enableDebouncing = true;
+
     /**
    * UI enhancement for fixed headers.
    * Hides header when scrolling down
@@ -53,8 +55,8 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
 
     function onScroll(e) {
         if (!this.scrolled) {
-            this.scrolled = true;
             requestAnimationFrame(this.updateFn);
+            this.scrolled = true;
         }
     }
 
@@ -153,9 +155,11 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
 
             if (scroller) {
 
+                var fn;
+
                 if (scroller.removeScrollEventListener) {
 
-                    var fn = scroller.getScrollEventName() === 'scroll' ? this.onScroll : this.updateFn;
+                    fn = scroller.getScrollEventName() === 'scroll' && enableDebouncing ? this.onScroll : this.updateFn;
 
                     scroller.removeScrollEventListener(fn, {
                         capture: false,
@@ -163,7 +167,10 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
                     });
                 }
                 else {
-                    dom.removeEventListener(scroller, 'scroll', this.onScroll, {
+
+                    fn = enableDebouncing ? this.onScroll : this.updateFn;
+
+                    dom.removeEventListener(scroller, 'scroll', fn, {
                         capture: false,
                         passive: true
                     });
@@ -190,9 +197,12 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
                 var scroller = this.scrollElementForEvents;
 
                 if (scroller) {
+
+                    var fn;
+
                     if (scroller.addScrollEventListener) {
 
-                        var fn = scroller.getScrollEventName() === 'scroll' ? this.onScroll : this.updateFn;
+                        fn = scroller.getScrollEventName() === 'scroll' && enableDebouncing ? this.onScroll : this.updateFn;
 
                         scroller.addScrollEventListener(fn, {
                             capture: false,
@@ -200,7 +210,10 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
                         });
                     }
                     else {
-                        dom.addEventListener(scroller, 'scroll', this.onScroll, {
+
+                        fn = enableDebouncing ? this.onScroll : this.updateFn;
+
+                        dom.addEventListener(scroller, 'scroll', fn, {
                             capture: false,
                             passive: true
                         });
@@ -288,7 +301,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
             if (this.paused) {
                 return;
             }
-
+            console.log('scroll update');
             var currentScrollY = this.getScrollY();
 
             // Ignore if out of bounds (iOS rubber band effect)

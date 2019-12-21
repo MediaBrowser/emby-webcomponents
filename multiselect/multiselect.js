@@ -230,11 +230,13 @@
                 });
             }
 
-            menuItems.push({
-                name: globalize.translate('HeaderGroupVersions'),
-                id: 'groupvideos',
-                icon: 'call_merge'
-            });
+            if (user.Policy.IsAdministrator) {
+                menuItems.push({
+                    name: globalize.translate('HeaderGroupVersions'),
+                    id: 'groupvideos',
+                    icon: 'call_merge'
+                });
+            }
 
             menuItems.push({
                 name: globalize.translate('HeaderMarkPlayed'),
@@ -248,11 +250,13 @@
                 icon: 'remove'
             });
 
-            menuItems.push({
-                name: globalize.translate('HeaderRefreshMetadata'),
-                id: 'refresh',
-                icon: 'refresh'
-            });
+            if (user.Policy.IsAdministrator) {
+                menuItems.push({
+                    name: globalize.translate('HeaderRefreshMetadata'),
+                    id: 'refresh',
+                    icon: 'refresh'
+                });
+            }
 
             require(['actionsheet'], function (actionsheet) {
 
