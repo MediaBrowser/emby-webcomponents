@@ -380,6 +380,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             }
         }
 
+        // a default for mobile devices
+        if (!browser.tv && !browser.ps4 && !browser.xboxOne && !browser.edgeUwp && !browser.chromecast) {
+            return 1500000;
+        }
+
         return null;
     }
 

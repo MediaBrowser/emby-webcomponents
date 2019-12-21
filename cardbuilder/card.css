@@ -844,3 +844,21 @@ button {
         border: .07em solid rgba(255,255,255,.9);
         color: #fff;
     }
+
+@media(min-width: 48em) and (max-width: 70em) {
+    .skinBody-withFullDrawer .card {
+        min-width: 20vw;
+    }
+}
+
+@media(min-width: 70em) and (max-width: 80em) {
+    .skinBody-withFullDrawer .card {
+        min-width: 16.666666666666666666666666666667vw;
+    }
+}
+
+@media(min-width: 80em) and (max-width: 90em) {
+    .skinBody-withFullDrawer .card {
+        min-width: 14.285714285714285714285714285714vw;
+    }
+}

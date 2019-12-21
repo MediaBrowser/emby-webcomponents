@@ -484,6 +484,8 @@
   "Screenshots": "Screenshots",
   "MoveRight": "Move right",
   "MoveLeft": "Move left",
+  "HeaderUploadNewImage": "Upload New Image",
+  "HeaderDeleteImage": "Delete Image",
   "ConfirmDeleteImage": "Delete image?",
   "HeaderEditImages": "Edit Images",
   "Settings": "Settings",

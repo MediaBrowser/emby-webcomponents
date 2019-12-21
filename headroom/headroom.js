@@ -302,30 +302,14 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
 
             var isTv = layoutManager.tv;
 
-            var max = isTv ? 130 : 90;
+            var scrollingDown = currentScrollY > lastScrollY;
+            var top = currentScrollY <= (isTv ? 130 : 0);
+            var toleranceExceeded = Math.abs(currentScrollY - lastScrollY) > 0;
 
-            if (currentScrollY <= (isTv ? max : 0)) {
+            if (scrollingDown && !top && toleranceExceeded) {
+                this.setTransform(1);
+            } else if ((!scrollingDown && !isTv && toleranceExceeded) || top) {
                 this.setTransform(0);
-            }
-            else if (!isTv && currentScrollY < lastScrollY) {
-
-                var toleranceExceeded = Math.abs(currentScrollY - lastScrollY) >= 4;
-
-                if (toleranceExceeded) {
-                    this.setTransform(0);
-                }
-            }
-            else {
-
-                var transformValue = currentScrollY;
-
-                if (transformValue <= 0) {
-                    transformValue = 0;
-                } else if (transformValue >= max) {
-                    transformValue = 1;
-                }
-
-                this.setTransform(transformValue);
             }
 
             this.lastScrollY = currentScrollY;

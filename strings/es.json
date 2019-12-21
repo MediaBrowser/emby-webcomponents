@@ -1,5 +1,7 @@
 {
     "SameAsMainTheme": "Same as main theme",
+    "HeaderUploadNewImage": "Upload New Image",
+    "HeaderDeleteImage": "Delete Image",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "No podemos conectar con el servidor seleccionado ahora mismo. Por favor aseg\u00farate de que esta funcionando e int\u00e9ntalo otra vez.",
     "EmbyIntroMessage": "Con Emby puedes transmitir v\u00eddeos, m\u00fasica y fotos a smartphones, tablets y otros dispositivos desde tu servidor Emby.",

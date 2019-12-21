@@ -60,9 +60,15 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
     }
 
     var skinManager = {
+        loadSkin: loadSkin,
         loadUserSkin: loadUserSkin,
         getThemes: getThemes
     };
+
+    function loadSkin() {
+
+        return skinManager.setTheme(userSettings.theme());
+    }
 
     function loadUserSkin(options) {
 
@@ -350,6 +356,7 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         skinManager.setTheme(userSettings.theme());
     }
 
+    var currentThemeType;
     function onThemeSettingChange(e, name) {
 
         if (name === 'appTheme' || name === 'settingsTheme') {
@@ -357,7 +364,6 @@ define(['connectionManager', 'apphost', 'userSettings', 'browser', 'events', 'pl
         }
     }
 
-    var currentThemeType;
     document.addEventListener('viewbeforeshow', function (e) {
 
         // secondaryHeaderFeatures is a lazy attempt to detect the startup wizard

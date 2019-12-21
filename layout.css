@@ -271,3 +271,13 @@ html, body {
         display: none !important;
     }
 }
+
+.fieldDescription {
+    padding-left: .15em;
+    font-weight: normal;
+    white-space: normal !important;
+}
+
+    .fieldDescription + .fieldDescription {
+        margin-top: .3em;
+    }
