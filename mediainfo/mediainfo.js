@@ -513,6 +513,13 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
         var html = getPrimaryMediaInfoHtml(item, options);
 
         elem.innerHTML = html;
+
+        if (html) {
+            elem.classList.remove('hide');
+        } else {
+            elem.classList.add('hide');
+        }
+
         afterFill(elem, item, options);
     }
 
@@ -530,11 +537,6 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
             if (endsAtElem) {
                 dynamicEndTime(endsAtElem, item);
             }
-        }
-
-        var lnkChannel = elem.querySelector('.lnkChannel');
-        if (lnkChannel) {
-            lnkChannel.addEventListener('click', onChannelLinkClick);
         }
     }
 

@@ -797,7 +797,7 @@
     "ErrorConnectServerUnreachable": "Une erreur est survenue pendant l'ex\u00e9cution de l'op\u00e9ration demand\u00e9e. Votre serveur est dans l'incapacit\u00e9 de joindre le serveur d'Emby Connect \u00e0 {0}. Veuillez v\u00e9rifier que votre serveur est bien connect\u00e9 \u00e0 Internet et qu'aucun pare-feu ou autre logiciel de s\u00e9curit\u00e9 ne bloque les communications.",
     "HeaderStopRecording": "Arr\u00eater l'enregistrement",
     "ManageRecording": "G\u00e9rer l'enregistrement",
-    "LabelDropImageHere": "Faites glisser l'image ici, ou cliquez pour parcourir vos fichiers.",
+    "LabelDropImageHere": "Faites glisser et d\u00e9posez une image ici, ou cliquez pour s\u00e9lectionner une image.",
     "MessageFileReadError": "Une erreur est survenue lors de la lecture du fichier. Veuillez r\u00e9essayer.",
     "Browse": "Parcourir",
     "HeaderUploadImage": "Envoyer une image",

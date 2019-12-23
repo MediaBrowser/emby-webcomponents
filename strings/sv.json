@@ -797,7 +797,7 @@
     "ErrorConnectServerUnreachable": "Det uppstod ett fel vid utf\u00f6randet av beg\u00e4ran. Din server kan inte ansluta till v\u00e5r Emby Connect Server p\u00e5 {0}. S\u00e4kerst\u00e4ll att din server har en aktiv internetanslutning och att kommunikation till\u00e5ts i eventuell brandv\u00e4gg eller s\u00e4kerhetsprogramvara som du har installerad.",
     "HeaderStopRecording": "Stoppa inspelning",
     "ManageRecording": "Hantera inspelning",
-    "LabelDropImageHere": "Dra och sl\u00e4pp en bild h\u00e4r, eller klicka f\u00f6r att bl\u00e4ddra.",
+    "LabelDropImageHere": "Dra och sl\u00e4pp en bild h\u00e4r, eller klicka f\u00f6r att v\u00e4lja en bild att ladda upp.",
     "MessageFileReadError": "Ett fel uppstod n\u00e4r filen skulle l\u00e4sas in. F\u00f6rs\u00f6k igen.",
     "Browse": "Bl\u00e4ddra",
     "HeaderUploadImage": "Ladda upp bild",

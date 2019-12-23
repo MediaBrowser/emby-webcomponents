@@ -797,7 +797,7 @@
     "ErrorConnectServerUnreachable": "There was an error performing the requested operation. Your server is unable to contact our Emby Connect Server at {0}. Please ensure your server has an active Internet connection and that the communications are being allowed by any firewall or security software you have installed.",
     "HeaderStopRecording": "Stop Recording",
     "ManageRecording": "Manage recording",
-    "LabelDropImageHere": "Drop image here, or click to browse.",
+    "LabelDropImageHere": "Drag and drop image here, or click to select an image to upload.",
     "MessageFileReadError": "There was an error reading the file. Please try again.",
     "Browse": "Browse",
     "HeaderUploadImage": "Upload Image",

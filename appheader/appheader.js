@@ -731,7 +731,8 @@
             }
             else {
 
-                if (window.location.href.toString().toLowerCase().indexOf('livetv.html') !== -1) {
+                if (window.location.href.toString().toLowerCase().indexOf('livetv') !== -1 &&
+                    window.location.href.toString().toLowerCase().indexOf('livetvsetup') === -1) {
                     serverId = connectionManager.currentApiClient().serverId();
                     itemId = 'livetv';
                 }

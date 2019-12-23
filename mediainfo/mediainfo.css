@@ -1,6 +1,7 @@
 .mediaInfoItem {
     margin: 0 1em 0 0;
     padding: 0;
+    white-space: nowrap;
 }
 
 .mediaInfoText {
