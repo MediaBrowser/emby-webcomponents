@@ -63,7 +63,7 @@
         loading.show();
 
         return require(['text!./../dialog/dialog.template.html']).then(function (responses) {
-            showDialog(instance, instance.options, responses[0]);
+            return showDialog(instance, instance.options, responses[0]);
         });
     };
 

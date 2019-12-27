@@ -15,6 +15,7 @@
     var headerLeft;
     var headerRight;
     var currentServerId;
+    var isUserAdmin;
 
     function updateClock() {
 
@@ -50,7 +51,7 @@
     function updateUserInHeader(user) {
 
         var headerUserButton = document.querySelector('.headerUserButton');
-        var headerManageServerButton = document.querySelector('.headerManageServerButton');
+        var headerSettingsButton = document.querySelector('.headerSettingsButton');
 
         var userImageUrl;
 
@@ -79,15 +80,18 @@
 
             headerUserButton.classList.remove('hide');
 
-            if (user.Policy.IsAdministrator && self.Dashboard && !layoutManager.tv) {
-                headerManageServerButton.classList.remove('hide');
+            if (!layoutManager.tv) {
+                headerSettingsButton.classList.remove('hide');
             } else {
-                headerManageServerButton.classList.add('hide');
+                headerSettingsButton.classList.add('hide');
             }
+
+            isUserAdmin = user.Policy.IsAdministrator;
 
         } else {
             headerUserButton.classList.add('hide');
-            headerManageServerButton.classList.add('hide');
+            headerSettingsButton.classList.add('hide');
+            isUserAdmin = false;
         }
     }
 
@@ -188,7 +192,13 @@
         appRouter.showUserMenu();
     }
 
-    function onManageServerButtonClick() {
+    function onSettingsButtonClick() {
+
+        if (!self.Dashboard || !isUserAdmin) {
+            appRouter.showUserMenu();
+            return;
+        }
+
         appRouter.show(appRouter.getRouteUrl('manageserver'));
     }
 
@@ -597,7 +607,7 @@
         parent.querySelector('.headerAudioPlayerButton').addEventListener('click', onNowPlayingClick);
         headerCastButton.addEventListener('click', onCastButtonClick);
         parent.querySelector('.headerUserButton').addEventListener('click', onUserButtonClick);
-        parent.querySelector('.headerManageServerButton').addEventListener('click', onManageServerButtonClick);
+        parent.querySelector('.headerSettingsButton').addEventListener('click', onSettingsButtonClick);
         headerMenuButton.addEventListener('click', onHeaderMenuButtonClick);
 
         boundLayoutModeChangeFn = onLayoutModeChange.bind(instance);
@@ -632,7 +642,7 @@
             parent.querySelector('.headerAudioPlayerButton').removeEventListener('click', onNowPlayingClick);
             parent.querySelector('.headerCastButton').removeEventListener('click', onCastButtonClick);
             parent.querySelector('.headerUserButton').removeEventListener('click', onUserButtonClick);
-            parent.querySelector('.headerManageServerButton').removeEventListener('click', onManageServerButtonClick);
+            parent.querySelector('.headerSettingsButton').removeEventListener('click', onSettingsButtonClick);
             parent.querySelector('.headerMenuButton').removeEventListener('click', onHeaderMenuButtonClick);
         }
 

@@ -160,7 +160,7 @@
 
 @media all and (max-width: 60em) {
 
-    .headerManageServerButton {
+    .headerSettingsButton {
         display: none !important;
     }
 }
@@ -173,7 +173,7 @@
 }
 
 @media (pointer: coarse) {
-    .headerManageServerButton {
+    .headerSettingsButton {
         display: none !important;
     }
 }

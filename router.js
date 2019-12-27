@@ -726,14 +726,14 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
     function getHomeRoute() {
 
         if (self.Dashboard) {
-            return '/home.html';
+            return '/home';
         }
 
         if (layoutManager.tv && userSettings.get('tvhome') === 'horizontal' && !browser.netcast) {
             return '/home_horiz/home.html';
         }
 
-        return '/home/home.html';
+        return '/home';
     }
 
     function goHome() {
