@@ -187,7 +187,7 @@ define(['browser', 'connectionManager', 'actionsheet', 'datetime', 'playbackMana
             })[0];
 
             menuItems.push({
-                name: globalize.translate('AspectRatio'),
+                name: globalize.translate('HeaderAspectRatio'),
                 id: 'aspectratio',
                 asideText: currentAspectRatio ? currentAspectRatio.name : null
             });
