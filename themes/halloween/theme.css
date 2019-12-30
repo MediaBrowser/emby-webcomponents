@@ -64,9 +64,12 @@ html, .dialog, .backgroundContainer {
     background-color: #202124;
 }
 
+@media all and (min-width: 50em) {
+
     .backgroundContainer.withBackdrop {
         background-color: rgba(0,0,0,.83);
     }
+}
 
 /*@supports ( (backdrop-filter: blur(1em))) {
 
@@ -401,7 +404,7 @@ html, .dialog, .backgroundContainer {
     color: #ddd;
     background: #111;
     padding: 1em;
-    border-radius: .25em;
+    border-radius: .3em;
 }
 
 /* buttons */

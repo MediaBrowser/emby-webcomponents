@@ -304,7 +304,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
             });
         }
 
-        else if (action === 'play' || action === 'resume') {
+        else if (action === 'play' || action === 'playpause' || action === 'resume') {
 
             playbackManager.play({
                 ids: [playableItemId],
@@ -552,7 +552,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
 
         var cmd = e.detail.command;
 
-        if (cmd === 'play' || cmd === 'resume' || cmd === 'record' || cmd === 'menu' || cmd === 'info') {
+        if (cmd === 'play' || cmd === 'playpause' || cmd === 'resume' || cmd === 'record' || cmd === 'menu' || cmd === 'info') {
 
             var target = e.target;
             var card = dom.parentWithClass(target, 'itemAction') || dom.parentWithAttribute(target, 'data-id');

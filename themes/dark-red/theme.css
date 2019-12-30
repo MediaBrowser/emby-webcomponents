@@ -48,9 +48,12 @@ html, .dialog, .backgroundContainer {
     background-color: var(--theme-background);
 }
 
+@media all and (min-width: 50em) {
+
     .backgroundContainer.withBackdrop {
         background-color: rgba(0,0,0,.83);
     }
+}
 
 /* buttons */
 .paper-icon-button-light-tv:focus, .paper-icon-button-light:active {
@@ -377,7 +380,7 @@ html, .dialog, .backgroundContainer {
     color: #ddd;
     background: #222;
     padding: 1em;
-    border-radius: .25em;
+    border-radius: .3em;
 }
 
 /* buttons */

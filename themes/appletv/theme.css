@@ -53,9 +53,12 @@ html {
     background-size: 100% 100%;
 }
 
+@media all and (min-width: 50em) {
+
     .backgroundContainer.withBackdrop {
         background: linear-gradient(to bottom,rgba(192,212,222,.92), rgba(235,250,254,.92), rgba(227,220,212,.92), rgba(206,214,216,.92), rgba(192,211,218,.92));
     }
+}
 
 .actionSheet {
     background: #f0f0f0;
@@ -374,7 +377,7 @@ html {
     color: #000;
     background: #fff3a5;
     padding: 1em;
-    border-radius: .25em;
+    border-radius: .3em;
 }
 
 /* buttons */

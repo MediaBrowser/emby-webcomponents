@@ -74,8 +74,7 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
     function getTextLinesHtml(textlines, isLargeStyle) {
 
         var html = '';
-
-        var largeTitleTagName = layoutManager.tv ? 'h2' : 'div';
+        var isFirst = true;
 
         for (var i = 0, length = textlines.length; i < length; i++) {
 
@@ -85,9 +84,9 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
                 continue;
             }
 
-            if (i === 0) {
+            if (isFirst) {
                 if (isLargeStyle) {
-                    html += '<' + largeTitleTagName + ' class="listItemBodyText">';
+                    html += '<h3 class="listItemBodyText">';
                 } else {
                     html += '<div class="listItemBodyText">';
                 }
@@ -95,11 +94,13 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
                 html += '<div class="listItemBodyText listItemBodyText-secondary">';
             }
             html += dom.htmlEncode(text);
-            if (i === 0 && isLargeStyle) {
-                html += '</' + largeTitleTagName + '>';
+            if (isFirst && isLargeStyle) {
+                html += '</h3>';
             } else {
                 html += '</div>';
             }
+
+            isFirst = false;
         }
 
         return html;
@@ -180,13 +181,15 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
 
             if (layoutManager.tv) {
                 cssClass += ' listItem-focusscale';
+            } else {
+                cssClass += ' listItem-touchzoom';
             }
 
             var downloadWidth = 80;
 
             if (isLargeStyle) {
                 cssClass += " listItem-largeImage";
-                downloadWidth = 500;
+                downloadWidth = 600;
             }
 
             var dataAttributes = itemShortcuts.getShortcutAttributesHtml(item, options);
@@ -205,33 +208,37 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
 
             if (options.image !== false) {
                 var imgUrl = options.imageSource === 'channel' ? getChannelImageUrl(item, downloadWidth) : getImageUrl(item, downloadWidth);
-                console.log(imgUrl);
-                var imageClass = isLargeStyle ? 'listItemImage listItemImage-large' : 'listItemImage';
 
-                if (isLargeStyle && layoutManager.tv) {
-                    imageClass += ' listItemImage-large-tv';
+                var imageContainerClass = 'listItemImageContainer';
+                var imageClass = 'listItemImage';
+
+                if (isLargeStyle) {
+                    imageContainerClass += ' listItemImageContainer-large';
+
+                    if (layoutManager.tv) {
+                        imageContainerClass += ' listItemImageContainer-large-tv';
+                    }
                 }
 
                 if (options.playlistItemId && options.playlistItemId === item.PlaylistItemId) {
-                    imageClass += ' playlistIndexIndicatorImage';
+                    imageContainerClass += ' playlistIndexIndicatorImage';
                 }
 
                 var playOnImageClick = options.imagePlayButton && !layoutManager.tv;
 
                 if (!clickEntireItem) {
-                    imageClass += ' itemAction';
+                    imageContainerClass += ' itemAction';
                 }
 
                 var imageAction = playOnImageClick ? 'resume' : action;
 
+                html += '<div data-action="' + imageAction + '" class="' + imageContainerClass + '">';
+
                 if (imgUrl) {
-                    html += '<div data-action="' + imageAction + '" class="' + imageClass + ' lazy" loading="lazy" style="background-image:url(' + imgUrl + ');" item-icon>';
-                } else {
-                    html += '<div class="' + imageClass + '">';
+                    html += '<img class="' + imageClass + '" loading="lazy" src="' + imgUrl + '" />';
                 }
 
-                var indicatorsHtml = '';
-                indicatorsHtml += indicators.getPlayedIndicatorHtml(item);
+                var indicatorsHtml = indicators.getPlayedIndicatorHtml(item);
 
                 if (indicatorsHtml) {
                     html += '<div class="indicators listItemIndicators">' + indicatorsHtml + '</div>';
@@ -431,7 +438,7 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
                 }
 
                 if (options.moreButton !== false && item.Type !== 'Program') {
-                    html += '<button type="button" is="paper-icon-button-light" class="listItemButton itemAction" data-action="menu"><i class="md-icon">' + moreIcon + '</i></button>';
+                    html += '<button type="button" is="paper-icon-button-light" class="listItemButton listItemContextMenuButton itemAction" data-action="menu"><i class="md-icon">' + moreIcon + '</i></button>';
                 }
 
                 if (options.infoButton) {

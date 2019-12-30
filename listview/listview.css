@@ -7,13 +7,28 @@
     font-family: inherit;
     font-size: inherit;
     margin: 0;
-    display: block;
+    display: flex;
     align-items: center;
     text-align: left;
     padding: .25em 0;
     cursor: pointer;
     overflow: hidden;
     flex-shrink: 0;
+}
+
+@media (pointer: coarse) {
+    .listItem-touchzoom {
+        transition: transform 100ms ease-in-out;
+        transition-delay: 80ms;
+    }
+
+    .listItem-touchzoom:active {
+        transform: scale(.94);
+    }
+}
+
+.listItem-largeImage{
+    padding: 1em 0;
 }
 
 .listItem-withContentWrapper {
@@ -45,35 +60,30 @@
     border-bottom-style: solid;
 }
 
-.listItemImage, .listItemIcon, .listItemAside {
+.listItemImageContainer, .listItemIcon, .listItemAside {
     flex-shrink: 0;
-}
-
-.listItemBody, .listItemImage, .listItemIcon {
-    display: inline-block;
-    vertical-align: middle;
 }
 
 .listItemButton {
     margin: 0;
-    display: inline-block;
-    vertical-align: middle;
     flex-shrink: 0;
     contain: layout style;
 }
 
+@media (pointer: coarse) {
+    .listItemContextMenuButton {
+        display: none;
+    }
+}
+
 .listItemBody {
     flex-grow: 1;
-    padding: .85em .75em;
+    padding: .28em .75em;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-direction: column;
     vertical-align: middle;
     justify-content: center;
-}
-
-.layout-tv .listItemBody {
-    padding: .35em .75em;
 }
 
 .listItemBody-noleftpadding {
@@ -82,7 +92,6 @@
 
 .listItemBodyText {
     margin: 0;
-    padding: .1em 0;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -91,37 +100,35 @@
     white-space: nowrap;
 }
 
-.listItemImage {
-    width: 3.4em;
-    height: 3.4em;
-    min-width: 2.78em;
-    min-height: 2.78em;
-    background-repeat: no-repeat;
-    background-size: contain;
-    flex-shrink: 0;
-    background-position: center center;
+.listItemImageContainer {
+    width: 3.26em;
     position: relative;
     display: flex;
-    margin-left: .75em;
-    border-radius: .3em;
+    align-items: center;
 }
 
-.listItemImage-large {
-    width: 19.5vw;
-    height: 13vw;
-    background-position: center center;
-    margin-right: .75em;
+.listItemImage {
+    border-radius: .3em;
+    max-width: 100%;
+}
+
+.listItemImageContainer-large {
+    width: 20vw;
+    margin-right: .5em;
 }
 
 .listItemImageButton {
-    align-self: center;
-    justify-self: center;
-    margin: auto;
+    margin: 0;
     color: rgba(255, 255, 255, .6);
     font-size: 1.5em;
     background: transparent;
     transition: transform 200ms ease-in-out;
     display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -2em;
+    margin-top: -2em;
 }
 
 @media(hover: hover) and (pointer: fine) {
@@ -142,31 +149,17 @@
 
 @media all and (max-width: 64em) {
 
-    .listItemImage-large {
+    .listItemImageContainer-large {
         width: 33.75vw;
-        height: 22.5vw;
-        margin-right: 0 !important;
     }
 
     .listItemImageButton {
         font-size: 1.02em !important;
     }
-
-    .listItemBody {
-        padding-left: .75em;
-    }
 }
 
-@media all and (max-width: 50em) {
-
-    .listItemBody {
-        padding-right: .5em;
-    }
-}
-
-.listItemImage-large-tv {
+.listItemImageContainer-large-tv {
     width: 30vw !important;
-    height: 20vw !important;
 }
 
 .listItemIcon {
@@ -190,7 +183,7 @@
 }
 
 .listItemProgressBar {
-    position: absolute;
+    position: absolute!important;
     bottom: 0;
     left: 0;
     right: 0;
@@ -247,7 +240,6 @@
 
 .listItem-bottomoverview {
     font-size: 88%;
-    margin-bottom: 1em;
     margin-top: .2em;
 }
 

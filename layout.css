@@ -7,8 +7,8 @@
 }
 
 html {
-    /* Normalize for different browsers */
-    line-height: 1.35;
+    /* golden ratio */
+    line-height: 1.618;
 }
 
 html, body {
@@ -277,7 +277,3 @@ html, body {
     font-weight: normal;
     white-space: normal !important;
 }
-
-    .fieldDescription + .fieldDescription {
-        margin-top: .3em;
-    }

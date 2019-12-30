@@ -31,8 +31,6 @@
 }
 
 .detailButton-text {
-    margin-top: .4em;
-    font-size: 88%;
     max-width: 6.2em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -84,5 +82,12 @@
         background: transparent !important;
         -webkit-backdrop-filter: none !important;
         backdrop-filter: none !important;
+    }
+}
+
+@media not all and (min-width: 50em) {
+
+    .detailButton-text {
+        font-size: 88%;
     }
 }

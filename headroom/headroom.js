@@ -301,7 +301,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
             if (this.paused) {
                 return;
             }
-            console.log('scroll update');
+
             var currentScrollY = this.getScrollY();
 
             // Ignore if out of bounds (iOS rubber band effect)

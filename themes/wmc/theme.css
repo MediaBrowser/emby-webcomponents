@@ -50,9 +50,12 @@ html {
     background: linear-gradient(to bottom, #0F3562, #1162A4, #03215F);
 }
 
+@media all and (min-width: 50em) {
+
     .backgroundContainer.withBackdrop {
-        background: rgba(17, 98, 164, .88);
+        background-color: rgba(17, 98, 164, .88);
     }
+}
 
 /* buttons */
 .paper-icon-button-light-tv:focus, .paper-icon-button-light:active {
@@ -363,7 +366,7 @@ html {
     color: #000;
     background: #fff3a5;
     padding: 1em;
-    border-radius: .25em;
+    border-radius: .3em;
 }
 
 /* buttons */

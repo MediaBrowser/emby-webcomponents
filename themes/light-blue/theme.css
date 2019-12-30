@@ -46,9 +46,12 @@ html, .backgroundContainer {
     /*background-image: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);*/
 }
 
+@media all and (min-width: 50em) {
+
     .backgroundContainer.withBackdrop {
         background-color: rgba(255,255,255, .94);
     }
+}
 
 .dialog {
     background-color: #f0f0f0;
@@ -114,7 +117,7 @@ html, .backgroundContainer {
 .paperList {
     background-color: #fff;
     border: 1px solid #e4e4e4;
-    border-radius: .25em;
+    border-radius: .3em;
 }
 
 .visualCardBox {
@@ -415,7 +418,7 @@ html, .backgroundContainer {
     color: #000;
     background: #fff3a5;
     padding: 1em;
-    border-radius: .25em;
+    border-radius: .3em;
 }
 
 /* buttons */
