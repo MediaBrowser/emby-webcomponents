@@ -152,6 +152,7 @@ html, body {
 .page-windowScroll {
     /* Have to override because it breaks scrolling when dependant on window scroll */
     contain: style size !important;
+    overflow: initial !important;
 }
 
 .page-windowScroll, .padded-top-page {
@@ -276,4 +277,34 @@ html, body {
     padding-left: .15em;
     font-weight: normal;
     white-space: normal !important;
+}
+
+/* Until there's a better place for these */
+.itemsViewSettingsContainer {
+    justify-content: center;
+    padding: 1em 0;
+}
+
+@media all and (min-width: 40em) {
+
+    .listIconButton-autohide {
+        display: none !important;
+    }
+}
+
+@media not all and (min-width: 40em) {
+
+    .listTextButton-autohide {
+        display: none !important;
+    }
+}
+
+.layout-tv .itemsViewSettingsContainer {
+    justify-content: flex-end;
+    padding: 1.5em .5em 1em 0;
+    font-size: 92%;
+}
+
+.itemsViewSettingsContainer > .button-flat {
+    margin: 0;
 }

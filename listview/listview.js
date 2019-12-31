@@ -260,7 +260,7 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
 
             if (options.showIndexNumberLeft) {
 
-                html += '<div class="listItem-indexnumberleft">';
+                html += '<div class="listItem-indexnumberleft secondaryText">';
                 if (item.IndexNumber == null) {
                     html += '&nbsp;';
                 } else {

@@ -55,6 +55,10 @@ define(['browser', 'dom', 'layoutManager'], function (browser, dom, layoutManage
 
             return true;
         }
+        if (windowScroll === 3 && !layoutManager.tv) {
+
+            return true;
+        }
 
         return windowScroll === true;
     }

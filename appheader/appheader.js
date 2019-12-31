@@ -500,6 +500,17 @@
 
             return true;
         }
+        else if (windowScroll === 3 && !layoutManager.tv) {
+
+            if (view) {
+                var elem = view.querySelector('.padded-top-page');
+                if (elem) {
+                    elem.classList.remove('padded-top-page');
+                }
+            }
+
+            return true;
+        }
 
         return windowScroll === true;
     }
