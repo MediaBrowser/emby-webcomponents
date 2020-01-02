@@ -487,11 +487,12 @@
         // This causes things to get out of wack and click events to be received on the wrong elements
         // It appears to be a bug in wkwebview
         var windowScroll = detail.windowScroll;
+        var elem;
 
         if (windowScroll === 2 && !layoutManager.tv && browser.iOS) {
 
             if (view) {
-                var elem = view.querySelector('.padded-top-page');
+                elem = view.querySelector('.padded-top-page');
                 if (elem) {
                     elem.classList.remove('padded-top-page');
                 }
@@ -503,7 +504,7 @@
         else if (windowScroll === 3 && !layoutManager.tv) {
 
             if (view) {
-                var elem = view.querySelector('.padded-top-page');
+                elem = view.querySelector('.padded-top-page');
                 if (elem) {
                     elem.classList.remove('padded-top-page');
                 }

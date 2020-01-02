@@ -1,6 +1,8 @@
 define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connectionManager', 'layoutManager', 'globalize', 'datetime', 'apphost', 'css!./listview', 'emby-ratingbutton', 'emby-playstatebutton', 'embyProgressBarStyle'], function (dom, itemShortcuts, itemHelper, mediaInfo, indicators, connectionManager, layoutManager, globalize, datetime, appHost) {
     'use strict';
 
+    var supportsNativeLazyLoading = 'loading' in HTMLImageElement.prototype;
+
     function getIndex(item, options) {
 
         if (options.index === 'disc') {
@@ -235,7 +237,11 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
                 html += '<div data-action="' + imageAction + '" class="' + imageContainerClass + '">';
 
                 if (imgUrl) {
-                    html += '<img class="' + imageClass + '" loading="lazy" src="' + imgUrl + '" />';
+                    if (supportsNativeLazyLoading) {
+                        html += '<img class="' + imageClass + '" loading="lazy" src="' + imgUrl + '" />';
+                    } else {
+                        html += '<img class="' + imageClass + ' lazy" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="' + imgUrl + '" />';
+                    }
                 }
 
                 var indicatorsHtml = indicators.getPlayedIndicatorHtml(item);

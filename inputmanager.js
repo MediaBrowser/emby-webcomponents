@@ -63,9 +63,9 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
         var sourceElement = (options ? options.sourceElement : null);
 
-        if (sourceElement) {
-            sourceElement = focusManager.focusableParent(sourceElement);
-        }
+        //if (sourceElement) {
+        //    sourceElement = focusManager.focusableParent(sourceElement);
+        //}
 
         sourceElement = sourceElement || document.activeElement || window;
 

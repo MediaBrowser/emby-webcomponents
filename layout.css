@@ -75,9 +75,7 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
-    left: var(--window-inset-left);
     right: 0;
-    right: var(--window-inset-right);
     bottom: 0;
     contain: layout style size;
 }
