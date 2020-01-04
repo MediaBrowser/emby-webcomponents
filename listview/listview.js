@@ -184,7 +184,14 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
             if (layoutManager.tv) {
                 cssClass += ' listItem-focusscale';
             } else {
+
                 cssClass += ' listItem-touchzoom';
+
+                if (!options.dragHandle) {
+                    // this transition causes drag and drops to be very slow
+                    // to solve this and keep the transition, we'll have to rework the markup structure a bit
+                    cssClass += ' listItem-touchzoom-transition';
+                }
             }
 
             var downloadWidth = 80;

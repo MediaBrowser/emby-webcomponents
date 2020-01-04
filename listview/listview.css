@@ -17,7 +17,7 @@
 }
 
 @media (pointer: coarse) {
-    .listItem-touchzoom {
+    .listItem-touchzoom-transition {
         transition: transform 100ms ease-in-out;
         transition-delay: 80ms;
     }
