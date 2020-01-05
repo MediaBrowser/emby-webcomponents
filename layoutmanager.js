@@ -5,10 +5,15 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
 
         if (layout === selectedLayout) {
             instance[layout] = true;
-            document.documentElement.classList.add('layout-' + layout);
+
+            if (layout === 'tv') {
+                document.documentElement.classList.add('layout-' + layout);
+            }
         } else {
             instance[layout] = false;
-            document.documentElement.classList.remove('layout-' + layout);
+            if (layout === 'tv') {
+                document.documentElement.classList.remove('layout-' + layout);
+            }
         }
     }
 

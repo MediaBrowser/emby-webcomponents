@@ -55,6 +55,14 @@ html, .dialog, .backgroundContainer {
     }
 }
 
+@media all and (orientation: landscape) and (min-height: 50em) and (min-width: 50em) {
+
+    .itemBackgroundContainer-graphic.withBackdrop {
+        background: linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,1));
+    }
+}
+
+
 /* buttons */
 .paper-icon-button-light-tv:focus, .paper-icon-button-light:active {
     color: var(--theme-primary-color);
@@ -138,6 +146,14 @@ html, .dialog, .backgroundContainer {
     border-color: currentColor;
 }
 
+.button-link {
+    color: var(--theme-primary-color);
+}
+
+.button-flat-accent {
+    color: var(--theme-primary-color);
+}
+
 .paperList, .visualCardBox, .collapseContent {
     background-color: var(--button-background);
 }
@@ -219,14 +235,6 @@ html, .dialog, .backgroundContainer {
 
 .progressring-spiner {
     border-color: var(--theme-primary-color);
-}
-
-.button-link {
-    color: var(--theme-primary-color);
-}
-
-.button-flat-accent {
-    color: var(--theme-primary-color);
 }
 
 .mediaInfoText {
@@ -378,7 +386,7 @@ html, .dialog, .backgroundContainer {
 /* used by directory picker and other areas */
 .infoBanner {
     color: #ddd;
-    background: #111;
+    background: #222;
     padding: 1em;
     border-radius: .3em;
 }

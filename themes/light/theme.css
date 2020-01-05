@@ -41,17 +41,12 @@ html, .skinHeader {
     }
 }
 
-.osdHeader {
-    box-shadow: none !important;
-    border-bottom: 0;
-}
-
 .skinHeader.semiTransparent {
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     box-shadow: none !important;
     border-bottom: 0;
-    color: rgba(255, 255, 255, .87);
+    color: rgba(0, 0, 0, .87);
 }
 
 .pageTitleWithDefaultLogo {
@@ -66,7 +61,7 @@ html, .backgroundContainer {
 @media all and (min-width: 50em) {
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(255,255,255, .94);
+        background-color: rgba(255,255,255, .88);
     }
 }
 

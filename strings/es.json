@@ -1,4 +1,5 @@
 {
+    "HeaderReadLess": "Read Less",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "No podemos conectar con el servidor seleccionado ahora mismo. Por favor aseg\u00farate de que esta funcionando e int\u00e9ntalo otra vez.",
     "EmbyIntroMessage": "Con Emby puedes transmitir v\u00eddeos, m\u00fasica y fotos a smartphones, tablets y otros dispositivos desde tu servidor Emby.",
@@ -927,6 +928,7 @@
     "LabelExtras": "Extras:",
     "LabelThemeSongs": "Theme songs:",
     "LabelThemeVideos": "Theme videos:",
+    "HeaderReadMore": "Read More",
     "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
     "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
     "NoItemsMatchingFound": "No items matching your search criteria were found.",

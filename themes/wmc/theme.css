@@ -53,7 +53,14 @@ html {
 @media all and (min-width: 50em) {
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(17, 98, 164, .88);
+        background: rgba(17, 98, 164, .88);
+    }
+}
+
+@media all and (orientation: landscape) and (min-height: 50em) and (min-width: 50em) {
+
+    .itemBackgroundContainer-graphic.withBackdrop {
+        background: linear-gradient(to bottom, rgba(17, 98, 164,.5), rgba(17, 98, 164,1));
     }
 }
 
@@ -139,6 +146,14 @@ html {
     border-color: currentColor;
 }
 
+.button-link {
+    color: #52B54B;
+}
+
+.button-flat-accent {
+    color: #52B54B;
+}
+
 .paperList, .visualCardBox, .collapseContent {
     background-color: #0F3562;
 }
@@ -201,14 +216,6 @@ html {
 
 .progressring-spiner {
     border-color: #52B54B;
-}
-
-.button-link {
-    color: #52B54B;
-}
-
-.button-flat-accent {
-    color: #52B54B;
 }
 
 .mediaInfoText {

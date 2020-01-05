@@ -569,16 +569,11 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
                     }
                 case 'download':
                     {
-                        require(['fileDownloader'], function (fileDownloader) {
+                        require(['multi-download'], function (multiDownload) {
+
                             var downloadHref = apiClient.getItemDownloadUrl(itemId, options.mediaSourceId);
 
-                            fileDownloader.download([
-                                {
-                                    url: downloadHref,
-                                    itemId: itemId,
-                                    serverId: serverId
-                                }]);
-
+                            multiDownload([downloadHref]);
                             getResolveFunction(getResolveFunction(resolve, id), id)();
                         });
 

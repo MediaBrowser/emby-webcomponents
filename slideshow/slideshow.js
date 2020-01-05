@@ -323,8 +323,35 @@ define(['events', 'dialogHelper', 'inputManager', 'connectionManager', 'layoutMa
 
             var imageInfo = getCurrentImageInfo();
 
-            require(['fileDownloader'], function (fileDownloader) {
-                fileDownloader.download([imageInfo]);
+            if (appHost.supports('sync')) {
+                return downloadToDevice(imageInfo);
+            }
+
+            return downloadToBrowser(imageInfo);
+        }
+
+        function downloadToDevice(imageInfo) {
+
+            require(['syncDialog'], function (syncDialog) {
+
+                var item = {
+                    Id: imageInfo.itemId,
+                    ServerId: imageInfo.serverId,
+                    Type: 'Photo',
+                    MediaType: 'Photo'
+                };
+                syncDialog.showMenu({
+                    items: [item],
+                    serverId: item.ServerId,
+                    mode: 'download'
+                });
+            });
+        }
+
+        function downloadToBrowser(imageInfo) {
+            require(['multi-download'], function (multiDownload) {
+
+                multiDownload([imageInfo.url]);
             });
         }
 

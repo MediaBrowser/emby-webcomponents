@@ -26,15 +26,11 @@ html, .skinHeader {
     /*background-image: linear-gradient(to right,#BCBCBC, #A7B4B7, #BEB5A5, #ADBEC2, #B9C7CB);*/
 }
 
-.osdHeader {
-    box-shadow: none !important;
-}
-
 .skinHeader.semiTransparent {
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     box-shadow: none !important;
-    color: rgba(255, 255, 255, .87);
+    color: rgba(0, 0, 0, .87);
 }
 
 .pageTitleWithDefaultLogo {
@@ -49,7 +45,7 @@ html, .backgroundContainer {
 @media all and (min-width: 50em) {
 
     .backgroundContainer.withBackdrop {
-        background-color: rgba(255,255,255, .94);
+        background-color: rgba(255,255,255, .88);
     }
 }
 
@@ -330,14 +326,6 @@ html, .backgroundContainer {
 .emby-tab-button-active {
     color: #fff;
     color: rgba(255, 255, 255, 1);
-}
-
-.appfooter .emby-tab-button {
-    color: rgba(0, 0, 0, .6);
-}
-
-.appfooter .emby-tab-button-active {
-    color: var(--theme-primary-text-color);
 }
 
 .emby-tab-button-active.emby-button-tv {
