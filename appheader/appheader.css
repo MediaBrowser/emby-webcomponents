@@ -36,9 +36,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    left: var(--window-inset-left);
     right: 0;
-    right: var(--window-inset-right);
     flex-direction: column;
     contain: layout style paint;
     padding-top: 0;

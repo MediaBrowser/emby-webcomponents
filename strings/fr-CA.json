@@ -1,5 +1,5 @@
 {
-    "HeaderReadLess": "Read Less",
+    "HeaderReadLess": "En lire moins",
     "EmbyLoginTerms": "Emby est con\u00e7u pour vous aider \u00e0 g\u00e9rer votre m\u00e9diath\u00e8que personnelle, tels que vos photos et vid\u00e9os. Veuillez lire nos {0}conditions d'utilisation{1}. L'utilisation de tout logiciel Emby implique que vous acceptiez ces conditions.",
     "MessageUnableToConnectToServer": "Nous sommes dans l'impossibilit\u00e9 de nous connecter au serveur s\u00e9lectionn\u00e9. Veuillez v\u00e9rifier qu'il est op\u00e9rationnel et r\u00e9essayez.",
     "EmbyIntroMessage": "Avec Emby, vous pouvez facilement diffuser des vid\u00e9os, de la musique et des photos sur des t\u00e9l\u00e9phones intelligents, des tablettes et d'autres appareils depuis votre serveur Emby.",
@@ -928,7 +928,7 @@
     "LabelExtras": "Bonus\u00a0:",
     "LabelThemeSongs": "Th\u00e8mes musicaux\u00a0:",
     "LabelThemeVideos": "Vid\u00e9os de g\u00e9n\u00e9rique\u00a0:",
-    "HeaderReadMore": "Read More",
+    "HeaderReadMore": "En lire plus",
     "CustomRatingHelp": "Une note personnalis\u00e9e pour les \u00e9valuations de contr\u00f4le parental est utilis\u00e9e mais n\u2019est pas affich\u00e9e. Le champ de classification parentale est toujours affich\u00e9.",
     "KeepUpToHelp": "Les enregistrements qui d\u00e9passent la limite sont supprim\u00e9s quand l\u2019enregistrement suivant commence. Les enregistrements les plus anciens sont supprim\u00e9s d\u2019abord, par date d\u2019ajout.",
     "NoItemsMatchingFound": "Aucun \u00e9l\u00e9ment correspondant \u00e0 vos crit\u00e8res de recherche n\u2019a \u00e9t\u00e9 trouv\u00e9.",

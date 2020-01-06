@@ -123,7 +123,7 @@ define(['events', 'dialogHelper', 'inputManager', 'connectionManager', 'layoutMa
 
                 html += '<div class="topActionButtons">';
                 if (actionButtonsOnTop) {
-                    if (appHost.supports('filedownload')) {
+                    if (appHost.supports('filedownload') || appHost.supports('sync')) {
                         html += getIcon('cloud_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
@@ -137,7 +137,7 @@ define(['events', 'dialogHelper', 'inputManager', 'connectionManager', 'layoutMa
                     html += '<div class="slideshowBottomBar hide">';
 
                     html += getIcon('pause', 'btnSlideshowPause slideshowButton', true, true);
-                    if (appHost.supports('filedownload')) {
+                    if (appHost.supports('filedownload') || appHost.supports('sync')) {
                         html += getIcon('cloud_download', 'btnDownload slideshowButton', true);
                     }
                     if (appHost.supports('sharing')) {
