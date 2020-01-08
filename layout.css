@@ -151,6 +151,7 @@ html, body {
     /* Have to override because it breaks scrolling when dependant on window scroll */
     contain: style size !important;
     overflow: initial !important;
+    -webkit-overflow-scrolling: initial !important;
 }
 
 .page-windowScroll, .padded-top-page {

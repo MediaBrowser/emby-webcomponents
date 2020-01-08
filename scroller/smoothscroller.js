@@ -710,7 +710,7 @@ define(['browser', 'layoutManager', 'dom', 'focusManager', 'scrollStyles'], func
 
         var now = Date.now();
 
-        if (options.autoImmediate) {
+        if (options.autoImmediate && immediate !== false) {
             if (!immediate && (now - (this.lastAnimate || 0)) <= 50) {
                 immediate = true;
             }

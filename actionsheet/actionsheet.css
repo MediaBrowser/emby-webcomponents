@@ -24,7 +24,7 @@
     }
 
 .actionsheetListItemBody {
-    padding: .35em 1.25em .35em .6em !important;
+    padding: .4em 1.25em .4em .6em !important;
 }
 
 .actionSheetItemText {
@@ -158,7 +158,7 @@
 
     .actionSheetMenuItem {
         font-weight: 500;
-        padding: .3em 1em !important;
+        padding: .35em 1em !important;
     }
 
     .actionSheetTitle {
@@ -166,7 +166,7 @@
     }
 
     .actionSheetScroller {
-        padding-top: .55em;
+        padding-top: .7em;
     }
 }
 
@@ -229,7 +229,7 @@
 
     .actionSheetScroller-select {
         width: auto;
-        padding: 4.3em 0 5.8em !important;
+        padding: 5.5em 0 7.5em !important;
     }
 
     .actionSheetScroller-withheader.actionSheetScroller-select {
@@ -238,7 +238,7 @@
 
     .actionsheetListItemBody-select {
         flex-grow: initial !important;
-        padding: .35em .25em .35em .25em !important;
+        padding: .4em .25em .4em .25em !important;
     }
 
     .actionsheetMenuItemIcon-select {
@@ -249,7 +249,7 @@
     .actionSheetMenuItem-select {
         justify-content: center;
         color: rgba(255,255,255,.7) !important;
-        padding: .3em .5em !important;
+        padding: .35em .5em !important;
         font-weight: inherit;
     }
 

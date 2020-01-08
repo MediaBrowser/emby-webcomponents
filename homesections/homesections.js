@@ -165,10 +165,6 @@
         });
     }
 
-    function enableScrollX() {
-        return true;
-    }
-
     function getSquareShape() {
         return 'square';
     }
@@ -178,7 +174,7 @@
     }
 
     function getPortraitShape() {
-        return enableScrollX() ? 'autooverflow' : 'auto';
+        return 'autooverflow';
     }
 
     function getLibraryButtonsHtml(items) {
@@ -371,21 +367,8 @@
 
             var limit = 16;
 
-            if (enableScrollX()) {
-
-                if (collectionType === 'music') {
-                    limit = 30;
-                }
-            }
-            else {
-
-                if (collectionType === 'tvshows') {
-                    limit = 5;
-                } else if (collectionType === 'music') {
-                    limit = 9;
-                } else {
-                    limit = 8;
-                }
+            if (collectionType === 'music') {
+                limit = 30;
             }
 
             var options = {
@@ -450,15 +433,9 @@
             'markplayed' :
             'videoplayback,markplayed';
 
-        if (enableScrollX()) {
-            html += '<div data-parentid="' + parent.Id + '" is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="' + monitor + '">';
-        } else {
-            html += '<div data-parentid="' + parent.Id + '" is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="' + monitor + '">';
-        }
+        html += '<div data-parentid="' + parent.Id + '" is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="' + monitor + '">';
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '</div>';
         html += '</div>';
 
         elem.innerHTML = html;
@@ -676,23 +653,9 @@
 
             var apiClient = connectionManager.getApiClient(serverId);
 
-            var screenWidth = dom.getWindowSize().innerWidth;
-
-            var limit;
-
-            if (enableScrollX()) {
-
-                limit = 12;
-
-            } else {
-
-                limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
-                limit = Math.min(limit, 5);
-            }
-
             var options = {
 
-                Limit: limit,
+                Limit: 12,
                 Recursive: true,
                 Fields: "PrimaryImageAspectRatio,BasicSyncInfo,ProductionYear",
                 ImageTypeLimit: 1,
@@ -733,15 +696,9 @@
         var html = '';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueWatching') + '</h2>';
 
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="videoplayback,markplayed">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
-        }
+        html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="videoplayback,markplayed">';
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '</div>';
         html += '</div>';
 
         elem.classList.add('hide');
@@ -759,23 +716,9 @@
 
             var apiClient = connectionManager.getApiClient(serverId);
 
-            var screenWidth = dom.getWindowSize().innerWidth;
-
-            var limit;
-
-            if (enableScrollX()) {
-
-                limit = 12;
-
-            } else {
-
-                limit = screenWidth >= 1920 ? 8 : (screenWidth >= 1600 ? 8 : (screenWidth >= 1200 ? 9 : 6));
-                limit = Math.min(limit, 5);
-            }
-
             var options = {
 
-                Limit: limit,
+                Limit: 12,
                 Recursive: true,
                 Fields: "PrimaryImageAspectRatio,BasicSyncInfo,ProductionYear",
                 ImageTypeLimit: 1,
@@ -816,15 +759,9 @@
         var html = '';
         html += '<h2 class="sectionTitle sectionTitle-cards padded-left">' + globalize.translate('HeaderContinueListening') + '</h2>';
 
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="audioplayback,markplayed">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="audioplayback,markplayed">';
-        }
+        html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="audioplayback,markplayed">';
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '</div>';
         html += '</div>';
 
         elem.classList.add('hide');
@@ -883,10 +820,9 @@
             items: items,
             preferThumb: 'auto',
             inheritThumb: false,
-            shape: (enableScrollX() ? 'autooverflow' : 'auto'),
+            shape: 'autooverflow',
             centerText: true,
             overlayText: false,
-            allowBottomPadding: !enableScrollX(),
             lines: 3,
             showTitle: false,
             showCurrentProgramParentTitle: true,
@@ -951,13 +887,8 @@
 
                 html += '</div>';
 
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true" data-scrollbuttons="false">';
-                    html += '<div class="scrollSlider padded-left padded-right padded-top padded-bottom focuscontainer-x">';
-                }
-                else {
-                    html += '<div class="padded-left padded-right padded-top focuscontainer-x">';
-                }
+                html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-mousewheel="false" data-centerfocus="true" data-scrollbuttons="false">';
+                html += '<div class="scrollSlider padded-left padded-right padded-top padded-bottom focuscontainer-x">';
 
                 html += '<a style="margin-left:.8em;margin-right:0;" is="emby-linkbutton" href="' + appRouter.getRouteUrl('livetv', {
 
@@ -988,9 +919,7 @@
 
                 html += '</div>';
 
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
+                html += '</div>';
 
                 html += '</div>';
                 html += '</div>';
@@ -1016,15 +945,9 @@
                 }
                 html += '</div>';
 
-                if (enableScrollX()) {
-                    html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-refreshinterval="300000">';
-                } else {
-                    html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-refreshinterval="300000">';
-                }
+                html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-refreshinterval="300000">';
 
-                if (enableScrollX()) {
-                    html += '</div>';
-                }
+                html += '</div>';
 
                 html += '</div>';
                 html += '</div>';
@@ -1062,7 +985,7 @@
 
             return apiClient.getNextUpEpisodes({
 
-                Limit: enableScrollX() ? 24 : 15,
+                Limit: 24,
                 Fields: "PrimaryImageAspectRatio,SeriesInfo,DateCreated,BasicSyncInfo",
                 UserId: apiClient.getCurrentUserId(),
                 ImageTypeLimit: 1,
@@ -1087,7 +1010,6 @@
             overlayPlayButton: true,
             context: 'home',
             centerText: !cardLayout,
-            allowBottomPadding: !enableScrollX(),
             cardLayout: cardLayout
         });
     }
@@ -1113,15 +1035,9 @@
         }
         html += '</div>';
 
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="videoplayback,markplayed">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x" data-monitor="videoplayback,markplayed">';
-        }
+        html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-monitor="videoplayback,markplayed">';
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '</div>';
 
         html += '</div>';
 
@@ -1143,7 +1059,7 @@
             return apiClient.getLiveTvRecordings({
 
                 userId: apiClient.getCurrentUserId(),
-                Limit: enableScrollX() ? 12 : 5,
+                Limit: 12,
                 Fields: "PrimaryImageAspectRatio,BasicSyncInfo,ProductionYear",
                 EnableTotalRecordCount: false,
                 IsLibraryItem: activeRecordingsOnly ? null : false,
@@ -1160,7 +1076,7 @@
 
             return cardBuilder.getCardsHtml({
                 items: items,
-                shape: enableScrollX() ? 'autooverflow' : 'auto',
+                shape: 'autooverflow',
                 showTitle: true,
                 showParentTitle: true,
                 lazy: true,
@@ -1170,7 +1086,6 @@
                 showYear: true,
                 lines: 2,
                 overlayPlayButton: !activeRecordingsOnly,
-                allowBottomPadding: !enableScrollX(),
                 preferThumb: true,
                 cardLayout: false,
                 overlayMoreButton: activeRecordingsOnly,
@@ -1198,15 +1113,9 @@
         }
         html += '</div>';
 
-        if (enableScrollX()) {
-            html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right">';
-        } else {
-            html += '<div is="emby-itemscontainer" class="itemsContainer padded-left padded-right vertical-wrap focuscontainer-x">';
-        }
+        html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right">';
 
-        if (enableScrollX()) {
-            html += '</div>';
-        }
+        html += '</div>';
 
         html += '</div>';
 

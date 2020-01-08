@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: .25em .5em 0 0 !important;
+    margin: .85em .5em .25em 0 !important;
     text-align: center;
     flex-shrink: 0;
     padding: 0 !important;
@@ -58,10 +58,6 @@
 }
 
 @media all and (min-width: 40em) {
-
-    .detailButton {
-        margin: .85em .5em .25em 0 !important;
-    }
 
     .detailButton-icon {
         padding: .4em 0;

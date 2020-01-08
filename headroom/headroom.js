@@ -27,7 +27,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
         windowInsetTop = insets.top;
     }
 
-    var enableDebouncing = true;
+    var enableDebouncing = false;
 
     /**
    * UI enhancement for fixed headers.
@@ -257,10 +257,13 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
 
                 var elem = elems[i];
 
-                if (isActive) {
-                    elem.classList.add('headroom-active');
-                } else {
-                    elem.classList.remove('headroom-active');
+                if (windowInsetTop) {
+
+                    if (isActive) {
+                        elem.classList.add('headroom-active');
+                    } else {
+                        elem.classList.remove('headroom-active');
+                    }
                 }
 
                 elem.style.transform = value;
@@ -296,7 +299,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
         /**
          * Handles updating the state of the widget
          */
-        update: function () {
+        update: function (e) {
 
             if (this.paused) {
                 return;
