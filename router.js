@@ -278,7 +278,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         }
     }
 
-    var isHandlingBackToDefault;
     var isDummyBackToHome;
 
     function sendRouteToViewManager(ctx, route, controllerFactory) {
@@ -557,15 +556,18 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function handleBackToDefault() {
 
-        if (!appHost.supports('exitmenu') && appHost.supports('exit')) {
-            appHost.exit();
-            return;
+        if (appHost.supports('exit')) {
+
+            if (!appHost.supports('exitmenu')) {
+                appHost.exit();
+                return;
+            }
         }
 
         isDummyBackToHome = true;
         skinManager.loadUserSkin();
 
-        if (isHandlingBackToDefault) {
+        if (!layoutManager.tv) {
             return;
         }
 
@@ -574,20 +576,15 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         // Logout
         // Or exit app
 
-        showBackMenuInternal(false).then(function () {
-
-            isHandlingBackToDefault = false;
-        });
+        showBackMenuInternal(false);
     }
 
     function showBackMenuInternal(showHome) {
 
-        return new Promise(function (resolve, reject) {
+        return require(['backMenu']).then(function (responses) {
 
-            require(['backMenu'], function (showBackMenu) {
-                showBackMenu({
-                    showHome: showHome
-                }).then(resolve);
+            return responses[0]({
+                showHome: showHome
             });
         });
     }

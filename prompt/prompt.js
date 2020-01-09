@@ -67,7 +67,8 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'dom', 'require', 'materia
 
         dlg.querySelector('.submitText').innerHTML = options.confirmText || globalize.translate('ButtonOk');
 
-        dlg.style.minWidth = (Math.min(400, dom.getWindowSize().innerWidth - 50)) + 'px';
+        dlg.style.minWidth = '28em';
+        dlg.style.maxWidth = '90vw';
 
         return dialogHelper.open(dlg).then(function () {
 

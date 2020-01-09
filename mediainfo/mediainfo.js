@@ -110,7 +110,7 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
 
             if (options.interactive && item.ChannelId) {
                 miscInfo.push({
-                    html: '<a is="emby-linkbutton" class="button-flat mediaInfoItem" href="' + appRouter.getRouteUrl({
+                    html: '<a is="emby-linkbutton" style="color:inherit;" class="button-link mediaInfoItem" href="' + appRouter.getRouteUrl({
 
                         ServerId: item.ServerId,
                         Type: 'TvChannel',

@@ -258,7 +258,13 @@ require([], function () {
         } else if (navigator.webkitGetGamepads) {
             gamepads = navigator.webkitGetGamepads();
         }
-        gamepads = gamepads || [];
+
+        if (!gamepads) {
+            return;
+        }
+
+        var buttonPressedState = _ButtonPressedState;
+
         var i, j, len;
         for (i = 0, len = gamepads.length; i < len; i++) {
             var gamepad = gamepads[i];
@@ -268,18 +274,18 @@ require([], function () {
                 var leftStickX = axes[0];
                 var leftStickY = axes[1];
                 if (leftStickX > _THUMB_STICK_THRESHOLD) { // Right
-                    _ButtonPressedState.setleftThumbstickRight(true);
+                    buttonPressedState.setleftThumbstickRight(true);
                 } else if (leftStickX < -_THUMB_STICK_THRESHOLD) { // Left
-                    _ButtonPressedState.setleftThumbstickLeft(true);
+                    buttonPressedState.setleftThumbstickLeft(true);
                 } else if (leftStickY < -_THUMB_STICK_THRESHOLD) { // Up
-                    _ButtonPressedState.setleftThumbstickUp(true);
+                    buttonPressedState.setleftThumbstickUp(true);
                 } else if (leftStickY > _THUMB_STICK_THRESHOLD) { // Down
-                    _ButtonPressedState.setleftThumbstickDown(true);
+                    buttonPressedState.setleftThumbstickDown(true);
                 } else {
-                    _ButtonPressedState.setleftThumbstickLeft(false);
-                    _ButtonPressedState.setleftThumbstickRight(false);
-                    _ButtonPressedState.setleftThumbstickUp(false);
-                    _ButtonPressedState.setleftThumbstickDown(false);
+                    buttonPressedState.setleftThumbstickLeft(false);
+                    buttonPressedState.setleftThumbstickRight(false);
+                    buttonPressedState.setleftThumbstickUp(false);
+                    buttonPressedState.setleftThumbstickDown(false);
                 }
                 // Iterate through the buttons to see if Left thumbstick, DPad, A and B are pressed.
                 var buttons = gamepad.buttons;
@@ -313,33 +319,33 @@ require([], function () {
                         } else {
                             switch (j) {
                                 case _GAMEPAD_DPAD_UP_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getdPadUp()) {
-                                        _ButtonPressedState.setdPadUp(false);
+                                    if (buttonPressedState.getdPadUp()) {
+                                        buttonPressedState.setdPadUp(false);
                                     }
                                     break;
                                 case _GAMEPAD_DPAD_DOWN_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getdPadDown()) {
-                                        _ButtonPressedState.setdPadDown(false);
+                                    if (buttonPressedState.getdPadDown()) {
+                                        buttonPressedState.setdPadDown(false);
                                     }
                                     break;
                                 case _GAMEPAD_DPAD_LEFT_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getdPadLeft()) {
-                                        _ButtonPressedState.setdPadLeft(false);
+                                    if (buttonPressedState.getdPadLeft()) {
+                                        buttonPressedState.setdPadLeft(false);
                                     }
                                     break;
                                 case _GAMEPAD_DPAD_RIGHT_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getdPadRight()) {
-                                        _ButtonPressedState.setdPadRight(false);
+                                    if (buttonPressedState.getdPadRight()) {
+                                        buttonPressedState.setdPadRight(false);
                                     }
                                     break;
                                 case _GAMEPAD_A_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getgamepadA()) {
-                                        _ButtonPressedState.setgamepadA(false);
+                                    if (buttonPressedState.getgamepadA()) {
+                                        buttonPressedState.setgamepadA(false);
                                     }
                                     break;
                                 case _GAMEPAD_B_BUTTON_INDEX:
-                                    if (_ButtonPressedState.getgamepadB()) {
-                                        _ButtonPressedState.setgamepadB(false);
+                                    if (buttonPressedState.getgamepadB()) {
+                                        buttonPressedState.setgamepadB(false);
                                     }
                                     break;
                                 default:
