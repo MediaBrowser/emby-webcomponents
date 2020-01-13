@@ -808,7 +808,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
         var serverId = apiClient.serverId();
 
-        if (item.Type === 'Device' || item.Type === 'User') {
+        if (item.Type === 'Device' || item.Type === 'User' || item.Type === 'SeriesTimer') {
 
             appRouter.showItem(item);
             return Promise.resolve();
@@ -824,13 +824,6 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
         if (item.Type === 'VirtualFolder') {
 
             return editVirtualFolder(item, button);
-        }
-
-        if (item.Type === 'SeriesTimer') {
-            return require(['seriesRecordingEditor']).then(function (responses) {
-
-                return responses[0].show(item.Id, serverId);
-            });
         }
 
         return require(['metadataEditor']).then(function (responses) {

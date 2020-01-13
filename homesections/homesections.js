@@ -1,4 +1,4 @@
-﻿define(['browser', 'connectionManager', 'cardBuilder', 'registrationServices', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton', 'css!./homesections'], function (browser, connectionManager, cardBuilder, registrationServices, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
+﻿define(['browser', 'connectionManager', 'cardBuilder', 'registrationServices', 'appSettings', 'dom', 'apphost', 'layoutManager', 'imageLoader', 'globalize', 'itemShortcuts', 'itemHelper', 'appRouter', 'emby-button', 'paper-icon-button-light', 'emby-itemscontainer', 'emby-scroller', 'emby-linkbutton'], function (browser, connectionManager, cardBuilder, registrationServices, appSettings, dom, appHost, layoutManager, imageLoader, globalize, itemShortcuts, itemHelper, appRouter) {
     'use strict';
 
     function getDefaultSection(index) {
@@ -200,7 +200,7 @@
 
             var icon = cardBuilder.getDefaultIcon(item);
 
-            html += '<a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised homeLibraryButton"><i class="md-icon">' + icon + '</i><span style="margin-left:.5em;">' + item.Name + '</span></a>';
+            html += '<div class="smallBackdropCard flex"><a is="emby-linkbutton" href="' + appRouter.getRouteUrl(item) + '" class="raised block flex-grow" style="margin:.5em;text-align:left;"><i class="md-icon">' + icon + '</i><span style="margin-left:.5em;">' + item.Name + '</span></a></div>';
         }
 
         html += '</div>';

@@ -496,12 +496,7 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         return apiClient.getLiveTvTimer(itemId).then(function (item) {
 
             if (item.ProgramId) {
-                return require(['recordingCreator']).then(function (objects) {
-
-                    var recordingCreator = objects[0];
-                    return recordingCreator.show(item.ProgramId, serverId);
-                });
-
+                return appRouter.showItem(item.ProgramId, serverId);
             } else {
 
                 return require(['recordingEditor']).then(function (objects) {
