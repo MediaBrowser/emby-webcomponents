@@ -1344,9 +1344,6 @@
         self.changeSubtitleStream = function (player) {
 
             player = player || self._currentPlayer;
-            if (player && !enableLocalPlaylistManagement(player)) {
-                return player.changeSubtitleStream();
-            }
 
             if (!player) {
                 return;

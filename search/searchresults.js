@@ -1,4 +1,4 @@
-﻿define(['layoutManager', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'appRouter', 'emby-scroller', 'emby-itemscontainer', 'emby-linkbutton'], function (layoutManager, globalize, require, events, connectionManager, cardBuilder, appRouter) {
+﻿define(['layoutManager', 'loading', 'globalize', 'require', 'events', 'connectionManager', 'cardBuilder', 'appRouter', 'emby-scroller', 'emby-itemscontainer', 'emby-linkbutton'], function (layoutManager, loading, globalize, require, events, connectionManager, cardBuilder, appRouter) {
     'use strict';
 
     function loadSuggestions(instance, context, apiClient) {
@@ -171,9 +171,11 @@
             loadSuggestions(instance, context, apiClient);
         }
 
+        var promises = [];
+
         if (instance.options.collectionType === 'livetv') {
 
-            searchType(instance, apiClient, {
+            promises.push(searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
                 IncludeMedia: true,
@@ -186,19 +188,20 @@
 
             }, context, '.movieResults', {
 
-                    shape: 'autooverflow',
-                    showParentTitle: true,
-                    showTitle: true,
-                    centerText: true,
-                    overlayText: false,
-                    overlayMoreButton: true,
-                    showAirTime: true,
-                    showAirDateTime: true,
-                    lines: 3
-                });
+                shape: 'autooverflow',
+                showParentTitle: true,
+                showTitle: true,
+                centerText: true,
+                overlayText: false,
+                overlayMoreButton: true,
+                showAirTime: true,
+                showAirDateTime: true,
+                lines: 3
+            }));
+
         } else {
 
-            searchType(instance, apiClient, {
+            promises.push(searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
                 IncludeMedia: true,
@@ -209,14 +212,14 @@
 
             }, context, '.movieResults', {
 
-                    showTitle: true,
-                    overlayText: false,
-                    centerText: true,
-                    showYear: true
-                });
+                showTitle: true,
+                overlayText: false,
+                centerText: true,
+                showYear: true
+            }));
         }
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -227,15 +230,15 @@
 
         }, context, '.seriesResults', {
 
-                showTitle: true,
-                overlayText: false,
-                centerText: true,
-                showYear: true
-            });
+            showTitle: true,
+            overlayText: false,
+            centerText: true,
+            showYear: true
+        }));
 
         if (instance.options.collectionType === 'livetv') {
 
-            searchType(instance, apiClient, {
+            promises.push(searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
                 IncludeMedia: true,
@@ -250,20 +253,20 @@
 
             }, context, '.episodeResults', {
 
-                    shape: 'autooverflow',
-                    showParentTitle: true,
-                    showTitle: true,
-                    centerText: true,
-                    overlayText: false,
-                    overlayMoreButton: true,
-                    showAirTime: true,
-                    showAirDateTime: true,
-                    lines: 3
-                });
+                shape: 'autooverflow',
+                showParentTitle: true,
+                showTitle: true,
+                centerText: true,
+                overlayText: false,
+                overlayMoreButton: true,
+                showAirTime: true,
+                showAirDateTime: true,
+                lines: 3
+            }));
 
         } else {
 
-            searchType(instance, apiClient, {
+            promises.push(searchType(instance, apiClient, {
                 searchTerm: value,
                 IncludePeople: false,
                 IncludeMedia: true,
@@ -274,12 +277,12 @@
 
             }, context, '.episodeResults', {
 
-                    showTitle: true,
-                    showParentTitle: true
-                });
+                showTitle: true,
+                showParentTitle: true
+            }));
         }
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -292,19 +295,19 @@
 
         }, context, '.sportsResults', {
 
-                shape: 'autooverflow',
-                showParentTitle: true,
-                showTitle: true,
-                centerText: true,
-                overlayText: false,
-                overlayMoreButton: true,
-                showAirTime: true,
-                showAirDateTime: true,
-                lines: 3
+            shape: 'autooverflow',
+            showParentTitle: true,
+            showTitle: true,
+            centerText: true,
+            overlayText: false,
+            overlayMoreButton: true,
+            showAirTime: true,
+            showAirDateTime: true,
+            lines: 3
 
-            });
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -317,18 +320,18 @@
 
         }, context, '.kidsResults', {
 
-                shape: 'autooverflow',
-                showParentTitle: true,
-                showTitle: true,
-                centerText: true,
-                overlayText: false,
-                overlayMoreButton: true,
-                showAirTime: true,
-                showAirDateTime: true
+            shape: 'autooverflow',
+            showParentTitle: true,
+            showTitle: true,
+            centerText: true,
+            overlayText: false,
+            overlayMoreButton: true,
+            showAirTime: true,
+            showAirDateTime: true
 
-            });
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -341,19 +344,19 @@
 
         }, context, '.newsResults', {
 
-                shape: 'autooverflow',
-                showParentTitle: true,
-                showTitle: true,
-                centerText: true,
-                overlayText: false,
-                overlayMoreButton: true,
-                showAirTime: true,
-                showAirDateTime: true,
-                lines: 3
+            shape: 'autooverflow',
+            showParentTitle: true,
+            showTitle: true,
+            centerText: true,
+            overlayText: false,
+            overlayMoreButton: true,
+            showAirTime: true,
+            showAirDateTime: true,
+            lines: 3
 
-            });
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -369,18 +372,18 @@
 
         }, context, '.programResults', {
 
-                shape: 'autooverflow',
-                showParentTitle: true,
-                showTitle: true,
-                centerText: true,
-                overlayText: false,
-                showAirTime: true,
-                showAirDateTime: true,
-                lines: 3
+            shape: 'autooverflow',
+            showParentTitle: true,
+            showTitle: true,
+            centerText: true,
+            overlayText: false,
+            showAirTime: true,
+            showAirDateTime: true,
+            lines: 3
 
-            });
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -391,13 +394,13 @@
 
         }, context, '.videoResults', {
 
-                showParentTitle: true,
-                showTitle: true,
-                overlayText: false,
-                centerText: true
-            });
+            showParentTitle: true,
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -408,13 +411,13 @@
 
         }, context, '.musicVideoResults', {
 
-                showParentTitle: true,
-                showTitle: true,
-                overlayText: false,
-                centerText: true
-            });
+            showParentTitle: true,
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -425,17 +428,17 @@
 
         }, context, '.channelResults', {
 
-                showParentTitle: false,
-                showTitle: true,
-                overlayText: false,
-                showCurrentProgramParentTitle: true,
-                showCurrentProgramTime: true,
-                centerText: true,
-                lines: 3,
-                defaultBackground: true
-            });
+            showParentTitle: false,
+            showTitle: true,
+            overlayText: false,
+            showCurrentProgramParentTitle: true,
+            showCurrentProgramTime: true,
+            centerText: true,
+            lines: 3,
+            defaultBackground: true
+        })));
 
-        searchType(instance, apiClient, {
+        promises.push(promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: true,
             IncludeMedia: false,
@@ -445,10 +448,10 @@
 
         }, context, '.peopleResults', {
 
-                showTitle: true
-            });
+            showTitle: true
+        })));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: false,
@@ -457,10 +460,10 @@
             IncludeArtists: true
 
         }, context, '.artistResults', {
-                showTitle: true
-            });
+            showTitle: true
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -471,13 +474,13 @@
 
         }, context, '.albumResults', {
 
-                showParentTitle: true,
-                showTitle: true,
-                overlayText: false,
-                centerText: true
-            });
+            showParentTitle: true,
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -488,16 +491,16 @@
 
         }, context, '.songResults', {
 
-                showParentTitle: true,
-                preferArtistTitle: true,
-                showTitle: true,
-                overlayText: false,
-                centerText: true,
-                action: 'play'
+            showParentTitle: true,
+            preferArtistTitle: true,
+            showTitle: true,
+            overlayText: false,
+            centerText: true,
+            action: 'play'
 
-            });
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -508,13 +511,13 @@
 
         }, context, '.photoResults', {
 
-                showParentTitle: false,
-                showTitle: true,
-                overlayText: false,
-                centerText: true
-            });
+            showParentTitle: false,
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -525,12 +528,12 @@
 
         }, context, '.photoAlbumResults', {
 
-                showTitle: true,
-                overlayText: false,
-                centerText: true
-            });
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -541,13 +544,13 @@
 
         }, context, '.bookResults', {
 
-                showTitle: true,
-                overlayText: false,
-                centerText: true
+            showTitle: true,
+            overlayText: false,
+            centerText: true
 
-            });
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -558,12 +561,12 @@
 
         }, context, '.gameResults', {
 
-                showTitle: true,
-                overlayText: false,
-                centerText: true
-            });
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -574,12 +577,12 @@
 
         }, context, '.playlistResults', {
 
-                showTitle: true,
-                overlayText: false,
-                centerText: true
-            });
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        }));
 
-        searchType(instance, apiClient, {
+        promises.push(searchType(instance, apiClient, {
             searchTerm: value,
             IncludePeople: false,
             IncludeMedia: true,
@@ -590,10 +593,12 @@
 
         }, context, '.collectionResults', {
 
-                showTitle: true,
-                overlayText: false,
-                centerText: true
-            });
+            showTitle: true,
+            overlayText: false,
+            centerText: true
+        }));
+
+        return Promise.all(promises);
     }
 
     function searchType(instance, apiClient, query, context, section, cardOptions) {
@@ -601,9 +606,9 @@
         query.Limit = 16;
         query.ParentId = instance.options.parentId;
 
-        getSearchHints(instance, apiClient, query).then(function (result) {
+        return getSearchHints(instance, apiClient, query).then(function (result) {
 
-            populateResults(result, context, section, cardOptions);
+            return populateResults(result, context, section, cardOptions);
         });
     }
 
@@ -627,6 +632,8 @@
         }, cardOptions || {}));
 
         section.querySelector('.emby-scroller').scrollToBeginning(true);
+
+        return items;
     }
 
     function replaceAll(originalString, strReplace, strWith) {
@@ -653,11 +660,73 @@
         embed(options.element, this, options);
     }
 
+    function afterSearch(itemsResponses) {
+
+        loading.hide();
+
+        var searchInfo = this;
+
+        var instance = searchInfo.instance;
+
+        var options = instance.options;
+        if (!options) {
+            return;
+        }
+
+        var hasResults;
+        for (var i = 0, length = itemsResponses.length; i < length; i++) {
+
+            if (itemsResponses[i].length) {
+                hasResults = true;
+                break;
+            }
+        }
+
+        var noResultsElem = options.element.querySelector('.noResults');
+
+        if (hasResults || !searchInfo.searchTerm) {
+            noResultsElem.classList.add('hide');
+        } else {
+
+            if (searchInfo.searchTerm.length < 2) {
+                noResultsElem.innerHTML = globalize.translate('TwoSearchCharsRequired');
+            }
+            else {
+                noResultsElem.innerHTML = globalize.translate('NoItemsMatchingFound');
+            }
+
+            noResultsElem.classList.remove('hide');
+        }
+    }
+
+    function afterSearchFail() {
+
+        loading.hide();
+
+        var options = this.options;
+        if (!options) {
+            return;
+        }
+
+        options.element.querySelector('.noResults').classList.remove('hide');
+    }
+
     SearchResults.prototype.search = function (value) {
+
+        loading.show();
 
         var apiClient = connectionManager.getApiClient(this.options.serverId);
 
-        search(this, apiClient, this.options.element, value);
+        var elem = this.options.element;
+
+        elem.querySelector('.noResults').classList.add('hide');
+
+        var searchInfo = {
+            instance: this,
+            searchTerm: value
+        };
+
+        search(this, apiClient, elem, value).then(afterSearch.bind(searchInfo), afterSearchFail.bind(this));
     };
 
     SearchResults.prototype.destroy = function () {

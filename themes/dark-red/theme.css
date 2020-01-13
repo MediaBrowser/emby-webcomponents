@@ -48,10 +48,14 @@ html, .dialog, .backgroundContainer {
     background-color: var(--theme-background);
 }
 
-@media all and (min-width: 50em) {
-
     .backgroundContainer.withBackdrop {
         background-color: rgba(0,0,0,.83);
+    }
+
+@media not all and (min-width: 50em) {
+
+    .itemBackgroundContainer.withBackdrop {
+        background-color: var(--theme-background);
     }
 }
 
@@ -255,7 +259,6 @@ html, .dialog, .backgroundContainer {
     color: inherit;
     background: var(--button-background);
     border: .07em solid var(--button-background);
-    border-radius: .15em;
 }
 
     .emby-input:focus, .emby-textarea:focus {

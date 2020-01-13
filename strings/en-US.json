@@ -932,6 +932,7 @@
   "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
   "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
   "NoItemsMatchingFound": "No items matching your search criteria were found.",
+  "TwoSearchCharsRequired": "Please enter at least two search characters.",
   "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input.",
   "PromptStillWatching": "Enable 'Are You Still Watching?' prompt",
   "HeaderMissingMetadata": "Missing Metadata",

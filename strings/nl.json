@@ -1,5 +1,4 @@
 {
-    "HeaderReadLess": "Read Less",
     "EmbyLoginTerms": "Emby is ontworpen om uw persoonlijke mediabibliotheek te helpen beheren, zoals home video's en foto's. Zie onze {0}gebruiksvoorwaarden{1}. Het gebruik van Emby software betekent dat u deze voorwaarden aanvaard.",
     "MessageUnableToConnectToServer": "Het is momenteel niet mogelijk met de geselecteerde server verbinding te maken. Controleer dat deze actief is en probeer dan opnieuw.",
     "EmbyIntroMessage": "Met Emby kunt u eenvoudig films, muziek en foto's naar uw telefoon, tablet en andere apparatuur streamen.",
@@ -929,9 +928,11 @@
     "LabelThemeSongs": "Theme songs:",
     "LabelThemeVideos": "Theme videos:",
     "HeaderReadMore": "Read More",
+    "HeaderReadLess": "Read Less",
     "CustomRatingHelp": "A custom rating is used for parental control evaluations but is not displayed. The parental rating field is still displayed.",
     "KeepUpToHelp": "Recordings over the limit are deleted when the next recording begins. Oldest recordings are deleted first, by date added.",
     "NoItemsMatchingFound": "Er zijn geen items gevonden die voldoen aan uw zoekcriteria.",
+    "TwoSearchCharsRequired": "Please enter at least two search characters.",
     "PreventPlaybackContinuing": "Prevent playback from continuing indefinitely by periodically prompting for user input.",
     "PromptStillWatching": "Activeren van 'Ben je nog aan het kijken?' herinnering",
     "HeaderMissingMetadata": "Ontbrekende Metadata",

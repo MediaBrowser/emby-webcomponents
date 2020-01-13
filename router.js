@@ -32,7 +32,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         },
         showUserMenu: function () {
 
-            if (self.Dashboard) {
+            if (self.Dashboard || !layoutManager.tv) {
                 return appRouter.showSettings();
             }
 
@@ -567,10 +567,6 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         isDummyBackToHome = true;
         skinManager.loadUserSkin();
 
-        if (!layoutManager.tv) {
-            return;
-        }
-
         // This must result in a call to either 
         // skinManager.loadUserSkin();
         // Logout
@@ -768,7 +764,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             return getHomeRoute();
         }
         if (item === 'search') {
-            return '/search/search.html';
+            return '/search';
         }
         if (item === 'connectlogin') {
             return '/startup/connectlogin.html';

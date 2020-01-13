@@ -1,5 +1,4 @@
 {
-    "HeaderReadLess": "Read Less",
     "EmbyLoginTerms": "Emby foi desenvolvido para ajudar a gerenciar sua biblioteca de m\u00eddias pessoais, como v\u00eddeos caseiros e fotos. Por favor, leia nossos {0}termos de uso{1}. O uso de qualquer software Emby constitui aceita\u00e7\u00e3o destes termos.",
     "MessageUnableToConnectToServer": "N\u00e3o foi poss\u00edvel conectar ao servidor selecionado. Por favor, certifique-se que esteja sendo executado e tente novamente.",
     "EmbyIntroMessage": "Com o Emby voc\u00ea pode facilmente fazer streaming de v\u00eddeos, m\u00fasicas e fotos do Servidor Emby para smartphones, tablets e outros dispositivos.",
@@ -929,9 +928,11 @@
     "LabelThemeSongs": "M\u00fasicas-Tema:",
     "LabelThemeVideos": "V\u00eddeos-Tema:",
     "HeaderReadMore": "Read More",
+    "HeaderReadLess": "Read Less",
     "CustomRatingHelp": "Um indica\u00e7\u00e3o personalizada \u00e9 usada para avalia\u00e7\u00e3o do controle dos pais mas n\u00e3o \u00e9 exibida. O campo de indica\u00e7\u00e3o dos pais \u00e9 exibida",
     "KeepUpToHelp": "Grava\u00e7\u00f5es que excedam o limite ser\u00e3o exclu\u00eddas quando a nova grava\u00e7\u00e3o come\u00e7ar. As grava\u00e7\u00f5es mais antigas ser\u00e3o exclu\u00eddas primeiro, pela data de sua adi\u00e7\u00e3o.",
     "NoItemsMatchingFound": "Nenhum item encontrado segundo o crit\u00e9rio de busca.",
+    "TwoSearchCharsRequired": "Please enter at least two search characters.",
     "PreventPlaybackContinuing": "Evite que a reprodu\u00e7\u00e3o continue indefinidamente pedindo uma interven\u00e7\u00e3o do usu\u00e1rio periodicamente.",
     "PromptStillWatching": "Ativar \"Ainda est\u00e1 assistindo?\"",
     "HeaderMissingMetadata": "Metadados Faltando",

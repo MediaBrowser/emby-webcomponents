@@ -7,17 +7,13 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
         var item = options.item;
 
-        if (browser.netcast && item.Type !== 'Server') {
-            return commands;
-        }
-
         var canPlay = playbackManager.canPlay(item);
 
         var user = options.user;
 
         var apiClient = connectionManager.getApiClient(item);
 
-        var restrictOptions = ((browser.operaTv || browser.web0s || browser.netcast) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816') ||
+        var restrictOptions = ((browser.web0s || browser.netcast) && apiClient.serverId() === '6da60dd6edfc4508bca2c434d4400816') ||
             (browser.tizen && !browser.tizenSideload);
 
         if (canPlay && item.MediaType !== 'Photo' && item.Type !== 'Program') {

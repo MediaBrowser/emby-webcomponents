@@ -1,5 +1,4 @@
 {
-    "HeaderReadLess": "\u010c\u00edst m\u00e9n\u011b",
     "EmbyLoginTerms": "Emby je navr\u017eeno tak, aby pomohlo spravovat Va\u0161i osobn\u00ed sb\u00edrku m\u00e9di\u00ed jako jsou videa a fotky. Pros\u00edm p\u0159e\u010dt\u011bte si na\u0161e {0}podm\u00ednky pou\u017eit\u00ed{1}. Pou\u017e\u00edv\u00e1n\u00edm programu Emby vyjad\u0159ujete souhlas s t\u011bmito podm\u00ednkami.",
     "MessageUnableToConnectToServer": "Moment\u00e1ln\u011b nejsme schopni se p\u0159ipojit k vybran\u00e9mu serveru. Pros\u00edm, ujist\u011bte se, \u017ee je spu\u0161t\u011bn a zkuste to znovu.",
     "EmbyIntroMessage": "S Emby m\u016f\u017eete snadno streamovat videa, hudbu a fotografie na chytr\u00e9 telefony, tablety a dal\u0161\u00ed za\u0159\u00edzen\u00ed ze sv\u00e9ho Emby serveru.",
@@ -929,9 +928,11 @@
     "LabelThemeSongs": "\u00dast\u0159edn\u00ed melodie:",
     "LabelThemeVideos": "Videa s n\u00e1m\u011btem:",
     "HeaderReadMore": "\u010c\u00edst v\u00edce",
+    "HeaderReadLess": "\u010c\u00edst m\u00e9n\u011b",
     "CustomRatingHelp": "Vlastn\u00ed hodnocen\u00ed je pou\u017eito pro klasifikaci rodi\u010dovsk\u00e9ho hodnocen\u00ed, av\u0161ak nezobrazuje se. St\u00e1le se zobrazuje rodi\u010dovsk\u00e9 hodnocen\u00ed.",
     "KeepUpToHelp": "Nahr\u00e1vky p\u0159esahuj\u00edc\u00ed limit jsou smaz\u00e1ny poka\u017ed\u00e9, kdy\u017e za\u010dne dal\u0161\u00ed nahr\u00e1v\u00e1n\u00ed. Na z\u00e1klad\u011b data p\u0159id\u00e1n\u00ed jsou jako prvn\u00ed nejprve smaz\u00e1ny nejstar\u0161\u00ed z\u00e1znamy.",
     "NoItemsMatchingFound": "Nebyly nalezeny \u017e\u00e1dn\u00e9 polo\u017eky odpov\u00eddaj\u00edc\u00ed va\u0161im kriteri\u00edm vyhled\u00e1v\u00e1n\u00ed.",
+    "TwoSearchCharsRequired": "Please enter at least two search characters.",
     "PreventPlaybackContinuing": "Zabr\u00e1nit nekone\u010dn\u00e9mu p\u0159ehr\u00e1v\u00e1n\u00ed pravidelnou v\u00fdzvou u\u017eivatele k potvrzen\u00ed.",
     "PromptStillWatching": "Povolit ozn\u00e1men\u00ed 'St\u00e1le sledujete?'",
     "HeaderMissingMetadata": "Chyb\u011bj\u00edc\u00ed metadata",

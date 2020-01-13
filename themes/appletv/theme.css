@@ -1,3 +1,7 @@
+:root {
+    --theme-mobile-item-background: #D7D8D7;
+}
+
 html, .skinHeader {
     color: #222;
     color: rgba(0, 0, 0, .87);
@@ -36,6 +40,7 @@ html, .skinHeader {
 .skinHeader.semiTransparent {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+    color: rgba(255,255,255,.87);
     background-color: rgba(0, 0, 0, .3);
     background: linear-gradient(rgba(0, 0, 0, .3), rgba(0, 0, 0, 0));
 }
@@ -53,10 +58,14 @@ html {
     background-size: 100% 100%;
 }
 
-@media all and (min-width: 50em) {
-
     .backgroundContainer.withBackdrop {
         background: linear-gradient(to bottom,rgba(192,212,222,.92), rgba(235,250,254,.92), rgba(227,220,212,.92), rgba(206,214,216,.92), rgba(192,211,218,.92));
+    }
+
+@media not all and (min-width: 50em) {
+
+    .itemBackgroundContainer {
+        background: var(--theme-mobile-item-background) !important;
     }
 }
 
@@ -222,7 +231,6 @@ html {
     color: inherit;
     background: rgba(255,255,255,.9);
     border: .07em solid rgba(0, 0, 0, .158);
-    border-radius: .15em;
 }
 
     .emby-input:focus, .emby-textarea:focus {
@@ -369,7 +377,7 @@ html {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #E4E2DC);
+    background: linear-gradient(rgba(0,0,0,0), var(--theme-mobile-item-background));
 }
 
 /* used by directory picker and other areas */

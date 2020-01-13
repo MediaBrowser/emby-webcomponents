@@ -46,7 +46,9 @@ html, .skinHeader {
     background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, 0));
     box-shadow: none !important;
     border-bottom: 0;
-    color: rgba(0, 0, 0, .87);
+    color: rgba(255,255,255, .87);
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
 }
 
 .pageTitleWithDefaultLogo {
@@ -58,10 +60,14 @@ html, .backgroundContainer {
     /*background-image: linear-gradient(to bottom,#C2D4DE, #EBFAFE, #E3DCD4, #CED6D8, #C0D3DA);*/
 }
 
-@media all and (min-width: 50em) {
+.backgroundContainer.withBackdrop {
+    background-color: rgba(255,255,255, .88);
+}
 
-    .backgroundContainer.withBackdrop {
-        background-color: rgba(255,255,255, .88);
+@media not all and (min-width: 50em) {
+
+    .itemBackgroundContainer.withBackdrop {
+        background-color: var(--theme-background);
     }
 }
 
@@ -227,7 +233,6 @@ html, .backgroundContainer {
     color: inherit;
     background: #fff;
     border: .07em solid rgba(0, 0, 0, .158);
-    border-radius: .15em;
 }
 
     .emby-input:focus, .emby-textarea:focus {

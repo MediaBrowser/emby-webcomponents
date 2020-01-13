@@ -1,3 +1,7 @@
+:root {
+    --theme-mobile-item-background: #216187;
+}
+
 html {
     color: #ddd;
     color: rgba(255, 255, 255, .87);
@@ -44,10 +48,15 @@ html, .dialog {
     background-size: cover;
 }
 
-@media all and (min-width: 50em) {
-
     .backgroundContainer.withBackdrop {
         opacity: .88;
+    }
+
+@media not all and (min-width: 50em) {
+
+    .itemBackgroundContainer {
+        opacity: 1;
+        background: var(--theme-mobile-item-background);
     }
 }
 
@@ -273,7 +282,6 @@ html, .dialog {
     color: inherit;
     background: rgba(0,0,0,.5);
     border: .07em solid transparent;
-    border-radius: .15em;
 }
 
     .emby-input:focus, .emby-textarea:focus {
@@ -402,7 +410,7 @@ html, .dialog {
 
 /* detail screen */
 .itemBackdropFader {
-    background: linear-gradient(rgba(0,0,0,0), #181818);
+    background: linear-gradient(rgba(0,0,0,0), var(--theme-mobile-item-background));
 }
 
 /* used by directory picker and other areas */
