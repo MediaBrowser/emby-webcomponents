@@ -371,7 +371,7 @@ define(['browser'], function (browser) {
     }
 
     function getDefaultDecodingInfo() {
-        return Promise.resolve({ supported: true, smooth: true });
+        return Promise.resolve({ supported: true, smooth: true, isDummyInfo: true });
     }
 
     function getDecodingInfo(mediaConfig) {
@@ -458,6 +458,8 @@ define(['browser'], function (browser) {
             var maxVideoWidth = responses[0].supported && responses[0].smooth ? null : 1920;
 
             var canPlayAacVideoAudio = videoTestElement.canPlayType('video/mp4; codecs="avc1.640029, mp4a.40.2"').replace(/no/, '');
+
+            var aacAudioChannelLimit = browser.chromecast ? 2 : options.aacAudioChannelLimit;
 
             if (canPlayAacVideoAudio && browser.chromecast && physicalAudioChannels <= 2) {
                 // prioritize this first
@@ -853,11 +855,11 @@ define(['browser'], function (browser) {
                 });
             }
 
-            if (browser.chromecast) {
+            if (aacAudioChannelLimit) {
                 aacCodecProfileConditions.push({
                     Condition: 'LessThanEqual',
                     Property: 'AudioChannels',
-                    Value: '2',
+                    Value: aacAudioChannelLimit.toString(),
                     IsRequired: true
                 });
             }

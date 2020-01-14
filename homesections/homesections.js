@@ -477,20 +477,6 @@
         });
     }
 
-    function showHomeScreenSettings(elem, options) {
-        return require(['homescreenSettingsDialog']).then(function (deps) {
-
-            var homescreenSettingsDialog = deps[0];
-
-            return homescreenSettingsDialog.show(options).then(function () {
-
-                dom.parentWithClass(elem, 'homeSectionsContainer').dispatchEvent(new CustomEvent('settingschange', {
-                    cancelable: false
-                }));
-            });
-        });
-    }
-
     function bindHomeScreenSettingsIcon(elem, apiClient, userId, userSettings) {
 
         var btnHomeScreenSettings = elem.querySelector('.btnHomeScreenSettings');
@@ -499,12 +485,7 @@
         }
 
         btnHomeScreenSettings.addEventListener('click', function () {
-            showHomeScreenSettings(elem, {
-                serverId: apiClient.serverId(),
-                userId: userId,
-                userSettings: userSettings
-
-            });
+            appRouter.show('settings/homescreen.html?userId=' + apiClient.getCurrentUserId() + '&serverId=' + apiClient.serverId());
         });
     }
 

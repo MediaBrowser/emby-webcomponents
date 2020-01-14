@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: .85em .5em 0 0 !important;
+    margin: .85em .6em 0 0 !important;
     text-align: center;
     flex-shrink: 0;
     padding: 0 !important;
@@ -28,12 +28,6 @@
     padding: .5em;
     border-width: 1px;
     border-style: solid;
-}
-
-.detailButton-text {
-    max-width: 6.2em;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 @media all and (min-width: 25em) {
@@ -65,10 +59,6 @@
         border-radius: .2em;
         width: 100%;
         min-width: 3em;
-    }
-
-    .detailButton-text {
-        max-width: 8em;
     }
 }
 
