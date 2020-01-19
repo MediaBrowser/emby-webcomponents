@@ -932,7 +932,7 @@
     "CustomRatingHelp": "Vlastn\u00ed hodnocen\u00ed je pou\u017eito pro klasifikaci rodi\u010dovsk\u00e9ho hodnocen\u00ed, av\u0161ak nezobrazuje se. St\u00e1le se zobrazuje rodi\u010dovsk\u00e9 hodnocen\u00ed.",
     "KeepUpToHelp": "Nahr\u00e1vky p\u0159esahuj\u00edc\u00ed limit jsou smaz\u00e1ny poka\u017ed\u00e9, kdy\u017e za\u010dne dal\u0161\u00ed nahr\u00e1v\u00e1n\u00ed. Na z\u00e1klad\u011b data p\u0159id\u00e1n\u00ed jsou jako prvn\u00ed nejprve smaz\u00e1ny nejstar\u0161\u00ed z\u00e1znamy.",
     "NoItemsMatchingFound": "Nebyly nalezeny \u017e\u00e1dn\u00e9 polo\u017eky odpov\u00eddaj\u00edc\u00ed va\u0161im kriteri\u00edm vyhled\u00e1v\u00e1n\u00ed.",
-    "TwoSearchCharsRequired": "Please enter at least two search characters.",
+    "TwoSearchCharsRequired": "Zadejte, pros\u00edm, alespo\u0148 2 znaky k vyhled\u00e1v\u00e1n\u00ed.",
     "PreventPlaybackContinuing": "Zabr\u00e1nit nekone\u010dn\u00e9mu p\u0159ehr\u00e1v\u00e1n\u00ed pravidelnou v\u00fdzvou u\u017eivatele k potvrzen\u00ed.",
     "PromptStillWatching": "Povolit ozn\u00e1men\u00ed 'St\u00e1le sledujete?'",
     "HeaderMissingMetadata": "Chyb\u011bj\u00edc\u00ed metadata",

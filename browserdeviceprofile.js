@@ -358,7 +358,7 @@ define(['browser'], function (browser) {
             return true;
         }
 
-        return (videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '') && !browser.osx && !browser.iOS);
+        return (videoTestElement.canPlayType('audio/mp4; codecs="ac-3"').replace(/no/, '') && !(browser.osx && browser.safari) && !browser.iOS);
     }
 
     function supportsEac3(videoTestElement) {

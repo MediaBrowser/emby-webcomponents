@@ -97,7 +97,7 @@
 
     function onUserUpdated(e, apiClient, data) {
 
-        if (apiClient.getCurrentUserId() === data.Id && apiClient.serverId() === currentServerId && apiClient.isMinServerVersion('3.6.0.32')) {
+        if (apiClient.getCurrentUserId() === data.Id && apiClient.serverId() === currentServerId) {
 
             updateUserInHeader(data);
         }

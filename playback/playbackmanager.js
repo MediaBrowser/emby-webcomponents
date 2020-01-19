@@ -1964,7 +1964,7 @@
                     Filters: "IsNotFolder",
                     Recursive: true,
                     // These are pre-sorted
-                    SortBy: options.shuffle ? 'Random' : connectionManager.getApiClient(firstItem.ServerId).isMinServerVersion('3.6') ? null : 'SortName'
+                    SortBy: options.shuffle ? 'Random' : null
 
                 }, queryOptions));
             }

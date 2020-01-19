@@ -392,7 +392,7 @@
 
             return cardBuilder.getCardsHtml({
                 items: items,
-                shape: !enableTvPosters && viewType === 'tvshows' ? 'backdrop' : 'autooverflow',
+                shape: 'autooverflow',
                 preferThumb: 'auto',
                 showUnplayedIndicator: false,
                 showChildCountIndicator: true,
@@ -442,7 +442,7 @@
 
         var itemsContainer = elem.querySelector('.itemsContainer');
         itemsContainer.fetchData = getFetchLatestItemsFn(apiClient.serverId(), parent.Id, parent.CollectionType);
-        itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType, apiClient.isMinServerVersion('3.6'));
+        itemsContainer.getItemsHtml = getLatestItemsHtmlFn(parent.Type, parent.CollectionType);
         itemsContainer.parentContainer = elem;
 
     }

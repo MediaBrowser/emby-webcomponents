@@ -1,9 +1,6 @@
-﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'imageLoader', 'datetime', 'scrollStyles', 'emby-button', 'emby-checkbox', 'emby-input', 'emby-select', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'flexStyles', 'emby-scroller'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, imageLoader, datetime) {
+﻿define(['globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'imageLoader', 'datetime', 'scrollStyles', 'emby-button', 'emby-checkbox', 'emby-input', 'emby-select', 'paper-icon-button-light', 'css!./recordingcreator', 'material-icons', 'flexStyles'], function (globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, imageLoader, datetime) {
     'use strict';
 
-    var currentDialog;
-    var recordingUpdated = false;
-    var recordingDeleted = false;
     var currentItemId;
     var currentServerId;
 
@@ -43,14 +40,6 @@
         loading.hide();
     }
 
-    function closeDialog(isDeleted) {
-
-        recordingUpdated = true;
-        recordingDeleted = isDeleted;
-
-        dialogHelper.close(currentDialog);
-    }
-
     function onSubmit(e) {
 
         var form = this;
@@ -79,19 +68,6 @@
     function init(context) {
 
         fillKeepUpTo(context);
-
-        context.querySelector('.btnCancel').addEventListener('click', function () {
-
-            closeDialog(false);
-        });
-
-        context.querySelector('.btnCancelRecording').addEventListener('click', function () {
-
-            var apiClient = connectionManager.getApiClient(currentServerId);
-            deleteTimer(apiClient, currentItemId).then(function () {
-                closeDialog(true);
-            });
-        });
 
         context.querySelector('form').addEventListener('submit', onSubmit);
     }
@@ -146,40 +122,20 @@
 
     function embed(itemId, serverId, options) {
 
-        recordingUpdated = false;
-        recordingDeleted = false;
         currentServerId = serverId;
         loading.show();
         options = options || {};
 
         require(['text!./seriesrecordingeditor.template.html'], function (template) {
 
-            var dialogOptions = {
-                removeOnClose: true,
-                scrollY: false
-            };
-
-            if (layoutManager.tv) {
-                dialogOptions.size = 'fullscreen';
-            } else {
-                dialogOptions.size = 'small';
-            }
-
             var dlg = options.context;
 
-            dlg.classList.add('hide');
             dlg.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
-
-            dlg.querySelector('.formDialogHeader').classList.add('hide');
-            dlg.querySelector('.formDialogFooter').classList.add('hide');
-            dlg.querySelector('.formDialogContent').className = '';
-            dlg.querySelector('.dialogContentInner').className = '';
-            dlg.classList.remove('hide');
 
             dlg.removeEventListener('change', onFieldChange);
             dlg.addEventListener('change', onFieldChange);
 
-            currentDialog = dlg;
+            dlg.classList.remove('hide');
 
             init(dlg);
 
@@ -187,80 +143,7 @@
         });
     }
 
-    function showEditor(itemId, serverId, options) {
-
-        return new Promise(function (resolve, reject) {
-
-            recordingUpdated = false;
-            recordingDeleted = false;
-            currentServerId = serverId;
-            loading.show();
-            options = options || {};
-
-            require(['text!./seriesrecordingeditor.template.html'], function (template) {
-
-                var dialogOptions = {
-                    removeOnClose: true,
-                    scrollY: false
-                };
-
-                if (layoutManager.tv) {
-                    dialogOptions.size = 'fullscreen';
-                } else {
-                    dialogOptions.size = 'small';
-                }
-
-                var dlg = dialogHelper.createDialog(dialogOptions);
-
-                dlg.classList.add('formDialog');
-                dlg.classList.add('recordingDialog');
-
-                if (!layoutManager.tv) {
-                    dlg.style['min-width'] = '20%';
-                }
-
-                var html = '';
-
-                html += globalize.translateDocument(template, 'sharedcomponents');
-
-                dlg.innerHTML = html;
-
-                if (options.enableCancel === false) {
-                    dlg.querySelector('.formDialogFooter').classList.add('hide');
-                }
-
-                currentDialog = dlg;
-
-                dlg.addEventListener('closing', function () {
-
-                    if (!recordingDeleted) {
-                        this.querySelector('.btnSubmit').click();
-                    }
-                });
-
-                dlg.addEventListener('close', function () {
-
-                    if (recordingUpdated) {
-                        resolve({
-                            updated: true,
-                            deleted: recordingDeleted
-                        });
-                    } else {
-                        reject();
-                    }
-                });
-
-                init(dlg);
-
-                reload(dlg, itemId);
-
-                dialogHelper.open(dlg);
-            });
-        });
-    }
-
     return {
-        show: showEditor,
         embed: embed
     };
 });

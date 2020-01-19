@@ -657,7 +657,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var serverId = item.ServerId || options.serverId;
 
             if (showOtherText) {
-                if ((options.showParentTitle || options.showParentTitleOrTitle) && !parentTitleUnderneath) {
+                if ((options.showParentTitle || options.showParentTitleOrTitle || (forceName && options.seriesNameInPlaceHolderName)) && !parentTitleUnderneath) {
 
                     if (isOuterFooter && itemType === 'Episode' && item.SeriesName) {
 
@@ -695,7 +695,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             }
 
             var showMediaTitle = (showTitle && !titleAdded) || (options.showParentTitleOrTitle && !lines.length);
-            if (!showMediaTitle && !titleAdded && (showTitle || forceName)) {
+            if (!showMediaTitle && !titleAdded && (showTitle || (forceName && !options.seriesNameInPlaceHolderName))) {
                 showMediaTitle = true;
             }
 

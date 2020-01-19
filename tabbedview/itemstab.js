@@ -113,7 +113,7 @@
         instance.alphaPicker = new AlphaPicker({
             element: instance.alphaPickerElement,
             itemsContainer: instance.itemsContainer,
-            prefixes: instance.apiClient.isMinServerVersion('3.6.0.60') ? [] : null,
+            prefixes: [],
             setValueOnFocus: !instance.enablePaging()
         });
 
@@ -209,6 +209,22 @@
         }
     }
 
+    function getDetaultSortOrder(sortBy) {
+
+        if (sortBy) {
+
+            sortBy = sortBy.toLowerCase();
+            if (sortBy.indexOf('sortname') === 0 ||
+                sortBy.indexOf('runtime') === 0 ||
+                sortBy.indexOf('album') === 0 ||
+                sortBy.indexOf('isfolder') === 0) {
+                return 'Ascending';
+            }
+        }
+
+        return 'Descending';
+    }
+
     function showSortMenu(e) {
 
         var instance = this;
@@ -232,7 +248,7 @@
                 if (currentValues.sortBy === value) {
                     sortOrder = sortOrder === 'Ascending' ? 'Descending' : 'Ascending';
                 } else {
-                    sortOrder = 'Ascending';
+                    sortOrder = getDetaultSortOrder(value);
                 }
 
                 var settingsKey = instance.getSettingsKey();
@@ -1050,25 +1066,24 @@
         }
 
         option = this.getCriticRatingSortOption();
-
         if (option) {
             sortBy.push(option);
         }
 
-        sortBy.push({
-            name: globalize.translate('DateAdded'),
-            value: 'DateCreated,SortName'
-        });
+        option = this.getDateAddedSortOption();
+        if (option) {
+            sortBy.push(option);
+        }
 
         option = this.getDatePlayedSortOption();
         if (option) {
             sortBy.push(option);
         }
 
-        sortBy.push({
-            name: globalize.translate('ParentalRating'),
-            value: 'OfficialRating,SortName'
-        });
+        option = this.getParentalRatingSortOption();
+        if (option) {
+            sortBy.push(option);
+        }
 
         option = this.getPlayCountSortOption();
         if (option) {
@@ -1080,14 +1095,38 @@
             sortBy.push(option);
         }
 
-        sortBy.push({
-            name: globalize.translate('Runtime'),
-            value: 'Runtime,SortName'
-        });
+        option = this.getRuntimeSortOption();
+        if (option) {
+            sortBy.push(option);
+        }
 
         this.sortOptionsByName(sortBy);
 
         return sortBy;
+    };
+
+    ItemsTab.prototype.getDateAddedSortOption = function () {
+
+        return {
+            name: globalize.translate('DateAdded'),
+            value: 'DateCreated,SortName'
+        };
+    };
+
+    ItemsTab.prototype.getParentalRatingSortOption = function () {
+
+        return {
+            name: globalize.translate('ParentalRating'),
+            value: 'OfficialRating,SortName'
+        };
+    };
+
+    ItemsTab.prototype.getRuntimeSortOption = function () {
+
+        return {
+            name: globalize.translate('Runtime'),
+            value: 'Runtime,SortName'
+        };
     };
 
     ItemsTab.prototype.getNameSortOption = function () {
@@ -1149,9 +1188,14 @@
     ItemsTab.prototype.getCommunityRatingSortOption = function () {
 
         return {
-            name: globalize.translate('CommunityRating'),
+            name: this.getCommunityRatingOptionName(),
             value: 'CommunityRating,SortName'
         };
+    };
+
+    ItemsTab.prototype.getCommunityRatingOptionName = function () {
+
+        return globalize.translate('CommunityRating');
     };
 
     ItemsTab.prototype.getFilterMenuOptions = function () {

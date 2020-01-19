@@ -17,6 +17,28 @@
                     <p class="itemGenres secondaryText"></p>
 
                     <div style="margin:1em 0;" class="recordingFields flex align-items-flex-start flex-wrap-wrap">
+                        <div class="recordSeriesContainer recordingFields-buttons flex align-items-flex-start hide">
+                            <button is="emby-button" type="button" class="recordingButton seriesRecordingButton detailButton">
+                                <div class="detailButton-content">
+                                    <i class="md-icon detailButton-icon recordingIcon">&#xE062;</i>
+                                    <div class="detailButton-text button-text seriesRecordingButtonText">${HeaderRecordSeries}</div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <button is="emby-button" type="button" class="recordingButton singleRecordingButton detailButton">
+                            <div class="detailButton-content">
+                                <i class="md-icon detailButton-icon recordingIcon">&#xE061;</i>
+                                <div class="detailButton-text button-text singleRecordingButtonText">${Record}</div>
+                            </div>
+                        </button>
+
+                        <button is="emby-button" type="button" class="manageRecordingButton btnManageRecording hide detailButton">
+                            <div class="detailButton-content">
+                                <i class="md-icon detailButton-icon recordingIcon">&#xE8B8;</i>
+                                <div class="detailButton-text button-text">${Settings}</div>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>

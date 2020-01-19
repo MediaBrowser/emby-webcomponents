@@ -88,9 +88,7 @@
 
         var apiClient = this.apiClient;
 
-        if (apiClient.isMinServerVersion('3.6.0.43')) {
-            settings.push('groupItemsIntoCollections');
-        }
+        settings.push('groupItemsIntoCollections');
 
         return settings;
     };

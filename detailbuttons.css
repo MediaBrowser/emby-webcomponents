@@ -30,6 +30,10 @@
     border-style: solid;
 }
 
+.detailButton-text {
+    max-width: 6.2em;
+}
+
 @media all and (min-width: 25em) {
 
     .detailButton-icon {
@@ -59,6 +63,10 @@
         border-radius: .2em;
         width: 100%;
         min-width: 3em;
+    }
+
+    .detailButton-text {
+        max-width: 8em;
     }
 }
 

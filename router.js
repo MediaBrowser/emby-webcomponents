@@ -32,11 +32,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         },
         showUserMenu: function () {
 
-            if (self.Dashboard || !layoutManager.tv) {
-                return appRouter.showSettings();
-            }
-
-            return showBackMenuInternal(true);
+            return appRouter.showSettings();
         },
         showSearch: function () {
             return show(getRouteUrl('search'));

@@ -15,12 +15,21 @@
             parent.querySelector('.recordSeriesContainer').classList.add('hide');
         }
 
+        var btnManageSeriesRecording = parent.querySelector('.btnManageSeriesRecording');
+
         if (program.SeriesTimerId) {
-            parent.querySelector('.btnManageSeriesRecording').classList.remove('hide');
+
+            if (btnManageSeriesRecording) {
+                btnManageSeriesRecording.classList.remove('hide');
+            }
             parent.querySelector('.seriesRecordingButton .recordingIcon').classList.add('recordingIcon-active');
             parent.querySelector('.seriesRecordingButtonText').innerHTML = globalize.translate('HeaderCancelSeries');
         } else {
-            parent.querySelector('.btnManageSeriesRecording').classList.add('hide');
+
+            if (btnManageSeriesRecording) {
+                btnManageSeriesRecording.classList.add('hide');
+            }
+
             parent.querySelector('.seriesRecordingButton .recordingIcon').classList.remove('recordingIcon-active');
             parent.querySelector('.seriesRecordingButtonText').innerHTML = globalize.translate('HeaderRecordSeries');
         }
@@ -100,6 +109,7 @@
     }
 
     function RecordingEditor(options) {
+
         this.options = options;
         this.embed();
 
@@ -114,10 +124,6 @@
 
         events.on(serverNotifications, 'SeriesTimerCreated', seriesTimerChangedHandler);
         events.on(serverNotifications, 'SeriesTimerCancelled', seriesTimerChangedHandler);
-    }
-
-    function onSupporterButtonClick() {
-        registrationServices.showPremiereInfo();
     }
 
     function onManageRecordingClick(e) {
@@ -150,18 +156,7 @@
             return;
         }
 
-        var self = this;
-
-        require(['seriesRecordingEditor'], function (seriesRecordingEditor) {
-
-            seriesRecordingEditor.show(self.SeriesTimerId, options.serverId, {
-
-                enableCancel: false
-
-            }).then(function () {
-                self.changed = true;
-            });
-        });
+        // options.serverId
     }
 
     function onRecordChange(e) {
@@ -243,27 +238,23 @@
 
         var self = this;
 
-        return new Promise(function (resolve, reject) {
+        var options = self.options;
+        var context = options.parent;
 
-            require(['text!./recordingfields.template.html'], function (template) {
+        var singleRecordingButton = context.querySelector('.singleRecordingButton');
 
-                var options = self.options;
-                var context = options.parent;
-                context.innerHTML = globalize.translateDocument(template, 'sharedcomponents');
+        singleRecordingButton.classList.remove('hide');
 
-                var supporterButtons = context.querySelectorAll('.btnSupporter');
-                for (var i = 0, length = supporterButtons.length; i < length; i++) {
-                    supporterButtons[i].addEventListener('click', onSupporterButtonClick);
-                }
+        singleRecordingButton.addEventListener('click', onRecordChange.bind(self));
+        context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));
+        context.querySelector('.btnManageRecording').addEventListener('click', onManageRecordingClick.bind(self));
 
-                context.querySelector('.singleRecordingButton').addEventListener('click', onRecordChange.bind(self));
-                context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));
-                context.querySelector('.btnManageRecording').addEventListener('click', onManageRecordingClick.bind(self));
-                context.querySelector('.btnManageSeriesRecording').addEventListener('click', onManageSeriesRecordingClick.bind(self));
+        var btnManageSeriesRecording = context.querySelector('.btnManageSeriesRecording');
+        if (btnManageSeriesRecording) {
+            btnManageSeriesRecording.addEventListener('click', onManageSeriesRecordingClick.bind(self));
+        }
 
-                fetchData(self).then(resolve);
-            });
-        });
+        fetchData(self);
     };
 
     RecordingEditor.prototype.hasChanged = function () {

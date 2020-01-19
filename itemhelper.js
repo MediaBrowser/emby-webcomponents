@@ -534,10 +534,6 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
             var itemType = item.Type;
 
-            if (!apiClient.isMinServerVersion('3.6.0.18')) {
-                return false;
-            }
-
             return itemType === "Movie" ||
                 itemType === "Trailer" ||
                 itemType === "Series";
@@ -549,7 +545,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return false;
             }
 
-            if (item.Type === 'TvChannel') {
+            if (item.Type === 'TvChannel' || item.Type === 'Program') {
                 return false;
             }
 

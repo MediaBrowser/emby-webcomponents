@@ -214,10 +214,6 @@
 
         var apiClient = connectionManager.getApiClient(options.serverId);
 
-        if (!apiClient.isMinServerVersion('3.6.0.53')) {
-            return Promise.resolve();
-        }
-
         var query = Object.assign(options.filterMenuOptions, {
 
             SortBy: "SortName",
