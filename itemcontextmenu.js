@@ -420,6 +420,34 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
         };
     }
 
+    function addToCollection(itemId, serverId) {
+
+        return require(['addToList']).then(function (responses) {
+
+            var AddToList = responses[0];
+
+            return new AddToList().show({
+                items: [itemId],
+                serverId: serverId,
+                type: 'Collection'
+            });
+        });
+    }
+
+    function addToPlaylist(itemId, serverId) {
+
+        return require(['addToList']).then(function (responses) {
+
+            var AddToList = responses[0];
+
+            return new AddToList().show({
+                items: [itemId],
+                serverId: serverId,
+                type: 'Playlist'
+            });
+        });
+    }
+
     function executeCommand(item, id, options) {
 
         var itemId = item.Id;
@@ -531,6 +559,14 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
                     }).then(getResolveFn(id));
                 }
+            case 'addtocollection':
+                {
+                    return addToCollection(item.Id, item.ServerId).then(getResolveFn(id), getResolveFn(id));
+                }
+            case 'addtoplaylist':
+                {
+                    return addToPlaylist(item.Id, item.ServerId).then(getResolveFn(id), getResolveFn(id));
+                }
             default:
                 break;
         }
@@ -539,30 +575,6 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
             switch (id) {
 
-                case 'addtocollection':
-                    {
-                        require(['collectionEditor'], function (collectionEditor) {
-
-                            new collectionEditor().show({
-                                items: [itemId],
-                                serverId: serverId
-
-                            }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        });
-                        break;
-                    }
-                case 'addtoplaylist':
-                    {
-                        require(['playlistEditor'], function (playlistEditor) {
-
-                            new playlistEditor().show({
-                                items: [itemId],
-                                serverId: serverId
-
-                            }).then(getResolveFunction(resolve, id, true), getResolveFunction(resolve, id));
-                        });
-                        break;
-                    }
                 case 'download':
                     {
                         require(['multi-download'], function (multiDownload) {

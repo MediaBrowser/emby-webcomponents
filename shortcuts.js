@@ -424,12 +424,15 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
     }
 
     function addToPlaylist(itemId, serverId) {
-        require(['playlistEditor'], function (playlistEditor) {
 
-            new playlistEditor().show({
+        return require(['addToList']).then(function (responses) {
+
+            var AddToList = responses[0];
+
+            return new AddToList().show({
                 items: [itemId],
-                serverId: serverId
-
+                serverId: serverId,
+                type: 'Playlist'
             });
         });
     }

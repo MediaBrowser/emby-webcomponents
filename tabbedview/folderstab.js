@@ -17,10 +17,8 @@
         var sortValues = this.getSortValues();
 
         var fields = "BasicSyncInfo,MediaSourceCount";
-        if (!layoutManager.mobile) {
-            // needed for alpha-numeric shortcuts
-            fields += ",SortName";
-        }
+        // needed for alpha-numeric shortcuts
+        fields += ",SortName";
 
         var settings = this.getViewSettings();
         if (settings.imageType === 'primary') {

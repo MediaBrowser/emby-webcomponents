@@ -662,7 +662,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (isOuterFooter && itemType === 'Episode' && item.SeriesName) {
 
                         if (item.SeriesId) {
-                            lines.push(getTextActionButton({
+                            lines.push(getTextActionButton(options, {
                                 Id: item.SeriesId,
                                 ServerId: serverId,
                                 Name: item.SeriesName,
@@ -708,7 +708,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 if (overlayText) {
                     lines.push(dom.htmlEncode(name));
                 } else {
-                    lines.push(getTextActionButton(item, name, serverId, options.parentId, true));
+                    lines.push(getTextActionButton(options, item, name, serverId, options.parentId, true));
                 }
             }
 
@@ -718,17 +718,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (isOuterFooter && item.AlbumArtists && item.AlbumArtists.length && itemType === 'MusicAlbum') {
                         item.AlbumArtists[0].Type = 'MusicArtist';
                         item.AlbumArtists[0].IsFolder = true;
-                        lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
+                        lines.push(getTextActionButton(options, item.AlbumArtists[0], null, serverId));
                     } else if (isOuterFooter && item.ArtistItems && item.ArtistItems.length) {
                         item.ArtistItems[0].Type = 'MusicArtist';
                         item.ArtistItems[0].IsFolder = true;
-                        lines.push(getTextActionButton(item.ArtistItems[0], null, serverId));
+                        lines.push(getTextActionButton(options, item.ArtistItems[0], null, serverId));
                     } else if (isOuterFooter && item.AlbumArtists && item.AlbumArtists.length) {
                         item.AlbumArtists[0].Type = 'MusicArtist';
                         item.AlbumArtists[0].IsFolder = true;
-                        lines.push(getTextActionButton(item.AlbumArtists[0], null, serverId));
+                        lines.push(getTextActionButton(options, item.AlbumArtists[0], null, serverId));
                     } else if (isOuterFooter && item.GameSystem && item.GameSystemId) {
-                        lines.push(getTextActionButton({
+                        lines.push(getTextActionButton(options, {
                             Id: item.GameSystemId,
                             ServerId: serverId,
                             Name: item.GameSystem,
@@ -788,7 +788,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                     if (item.ChannelId) {
 
-                        lines.push(getTextActionButton({
+                        lines.push(getTextActionButton(options, {
 
                             Id: item.ChannelId,
                             ServerId: serverId,
@@ -908,7 +908,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     if (item.LastUserName) {
                         if (item.LastUserId) {
 
-                            deviceHtml += getTextActionButton({
+                            deviceHtml += getTextActionButton(options, {
                                 Id: item.LastUserId,
                                 Name: item.LastUserName,
                                 ServerId: serverId,
@@ -948,13 +948,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getTextActionButton(item, text, serverId, parentId, isSameItemAsCard) {
+        function getTextActionButton(options, item, text, serverId, parentId, isSameItemAsCard) {
 
             if (!text) {
                 text = itemHelper.getDisplayName(item);
             }
 
             if (layoutManager.tv) {
+                return dom.htmlEncode(text);
+            }
+
+            if (options.textLinks === false) {
                 return dom.htmlEncode(text);
             }
 
@@ -1309,7 +1313,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var additionalCardContent = '';
 
-            if (layoutManager.desktop) {
+            if (layoutManager.desktop && options.hoverMenu !== false) {
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 

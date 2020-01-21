@@ -176,6 +176,34 @@
         });
     }
 
+    function addToCollection(items, serverId) {
+
+        return require(['addToList']).then(function (responses) {
+
+            var AddToList = responses[0];
+
+            return new AddToList().show({
+                items: items,
+                serverId: serverId,
+                type: 'Collection'
+            });
+        });
+    }
+
+    function addToPlaylist(items, serverId) {
+
+        return require(['addToList']).then(function (responses) {
+
+            var AddToList = responses[0];
+
+            return new AddToList().show({
+                items: items,
+                serverId: serverId,
+                type: 'Playlist'
+            });
+        });
+    }
+
     function showMenuForSelectedItems(e) {
 
         var apiClient = connectionManager.currentApiClient();
@@ -271,22 +299,11 @@
                         switch (id) {
 
                             case 'addtocollection':
-                                require(['collectionEditor'], function (collectionEditor) {
-
-                                    new collectionEditor().show({
-                                        items: items,
-                                        serverId: serverId
-                                    });
-                                });
+                                addToCollection(items, serverId);
                                 hideSelections();
                                 break;
                             case 'playlist':
-                                require(['playlistEditor'], function (playlistEditor) {
-                                    new playlistEditor().show({
-                                        items: items,
-                                        serverId: serverId
-                                    });
-                                });
+                                addToPlaylist(items, serverId);
                                 hideSelections();
                                 break;
                             case 'delete':

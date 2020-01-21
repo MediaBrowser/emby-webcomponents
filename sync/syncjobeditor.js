@@ -31,6 +31,7 @@
         };
     }
 
+    var supportsNativeLazyLoading = 'loading' in HTMLImageElement.prototype;
     function getJobItemHtml(jobItem, apiClient, index) {
 
         var html = '';
@@ -76,7 +77,13 @@
         }
 
         if (imgUrl) {
-            html += '<div class="listItemImage" style="background-image:url(\'' + imgUrl + '\');background-repeat:no-repeat;background-position:center center;background-size: cover;"></div>';
+            html += '<div class="listItemImageContainer" style="margin-left:.75em;">';
+            if (supportsNativeLazyLoading) {
+                html += '<img class="listItemImage" loading="lazy" src="' + imgUrl + '" />';
+            } else {
+                html += '<img class="listItemImage lazy" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="' + imgUrl + '" />';
+            }
+            html += '</div>';
         }
         else {
             html += '<i class="md-icon listItemIcon">sync</i>';

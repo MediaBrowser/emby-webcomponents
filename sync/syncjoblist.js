@@ -96,7 +96,9 @@
         return html;
     }
 
-    function getSyncJobHtml(listInstance, job, apiClient) {
+    var supportsNativeLazyLoading = 'loading' in HTMLImageElement.prototype;
+
+    function getSyncJobHtml(listInstance, job, apiClient, mode) {
 
         var html = '';
 
@@ -127,11 +129,22 @@
         }
 
         if (imgUrl) {
-            html += '<div class="listItemImage lazy" loading="lazy" style="background-image:url(' + imgUrl + ');" item-icon>';
+            html += '<div class="listItemImageContainer" style="margin-left:.75em;">';
+
+            if (supportsNativeLazyLoading) {
+                html += '<img class="listItemImage" loading="lazy" src="' + imgUrl + '" />';
+            } else {
+                html += '<img class="listItemImage lazy" loading="lazy" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" data-src="' + imgUrl + '" />';
+            }
+
             html += '</div>';
         }
         else {
-            html += '<i class="md-icon listItemIcon">cloud_download</i>';
+            if (mode === 'convert') {
+                html += '<i class="md-icon listItemIcon">transform</i>';
+            } else {
+                html += '<i class="md-icon listItemIcon">cloud_download</i>';
+            }
         }
 
         var textLines = [];
@@ -229,7 +242,7 @@
                 }
             }
 
-            html += getSyncJobHtml(listInstance, job, apiClient);
+            html += getSyncJobHtml(listInstance, job, apiClient, mode);
         }
 
         if (hasOpenSection) {

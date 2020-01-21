@@ -1,4 +1,4 @@
-﻿define(['globalize', 'connectionManager', 'serverNotifications', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'registrationServices', 'paper-icon-button-light', 'emby-button', 'flexStyles', 'detailButtonStyle'], function (globalize, connectionManager, serverNotifications, require, loading, appHost, dom, recordingHelper, events, registrationServices) {
+﻿define(['appRouter', 'globalize', 'connectionManager', 'serverNotifications', 'require', 'loading', 'apphost', 'dom', 'recordingHelper', 'events', 'registrationServices', 'paper-icon-button-light', 'emby-button', 'flexStyles', 'detailButtonStyle'], function (appRouter, globalize, connectionManager, serverNotifications, require, loading, appHost, dom, recordingHelper, events, registrationServices) {
     'use strict';
 
     function showSeriesRecordingFields(context, programId, apiClient) {
@@ -156,7 +156,11 @@
             return;
         }
 
-        // options.serverId
+        appRouter.showItem({
+            Type: 'SeriesTimer',
+            Id: this.SeriesTimerId,
+            ServerId: options.serverId
+        });
     }
 
     function onRecordChange(e) {

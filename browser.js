@@ -59,14 +59,6 @@
         return false;
     }
 
-    function iOSversion() {
-        if (/iP(hone|od|ad)/.test(navigator.platform)) {
-            // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
-            var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
-            return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
-        }
-    }
-
     function tizenVersion() {
         if (self.tizen && self.tizen.systeminfo) {
             var v = tizen.systeminfo.getCapability('http://tizen.org/feature/platform.version');
@@ -216,11 +208,6 @@
 
     browser.customElements = ('customElements' in self);
     browser.customBuiltInElements = browser.customElements && !browser.iOS && !browser.safari && customElements.upgrade;
-
-    if (browser.iOS) {
-        browser.iOSVersion = iOSversion();
-        browser.iOSVersion = browser.iOSVersion[0] + (browser.iOSVersion[1] / 10);
-    }
 
     browser.chromecast = browser.chrome && userAgent.toLowerCase().indexOf('crkey') !== -1;
 
