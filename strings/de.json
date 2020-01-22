@@ -672,7 +672,7 @@
     "HeaderPlaybackError": "Wiedergabefehler",
     "PlaybackErrorNotAllowed": "Du verf\u00fcgst derzeit \u00fcber keine Berechtigung diesen Inhalt abzuspielen. Bitte kontaktiere deinen Systemadministrator f\u00fcr weitere Informationen.",
     "RateLimitExceeded": "Dein Konto hat das maximale Streaming-Limit erreicht, welches dein Emby-Server-Administrator gesetzt hat. Kontaktiere ihn f\u00fcr weitere Hilfe.",
-    "PlaybackErrorNoCompatibleStream": "Derzeit sind keine kompatiblen Stream verf\u00fcgbar. Bitte versuche es sp\u00e4ter nochmal oder kontaktiere deinen Systemadministrator f\u00fcr weitere Informationen.",
+    "PlaybackErrorNoCompatibleStream": "Derzeit sind keine kompatiblen Streams verf\u00fcgbar. Bitte sp\u00e4ter erneut versuchen oder den Systemadministrator f\u00fcr weitere Informationen kontaktieren.",
     "PlaybackErrorPlaceHolder": "Bitte lege die Disk ein, um das Video abzuspielen.",
     "Guide": "TV Guide",
     "Games": "Spiele",

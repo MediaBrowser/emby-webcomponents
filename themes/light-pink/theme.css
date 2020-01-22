@@ -342,6 +342,15 @@ html, .backgroundContainer {
     background: transparent;
 }
 
+.dockedtabs-tab-button {
+    color: #000;
+    color: rgba(000, 000, 000, .5);
+}
+
+    .dockedtabs-tab-button.emby-tab-button-active {
+        color: var(--theme-primary-color);
+    }
+
 /* guide */
 .guide-channelHeaderCell, .channelPrograms, .programCell {
     border-color: rgba(0,0,0,.12);

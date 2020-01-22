@@ -9,6 +9,7 @@
     min-height: initial;
     padding: 1em 1.5em;
     bottom: 1em;
+    bottom: calc(1em + var(--window-inset-bottom));
     left: 1em;
     font-size: 110%;
     z-index: 9999999;

@@ -1,9 +1,10 @@
-﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'datetime', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'emby-scroller'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, datetime, recordingFields, events) {
+﻿define(['appRouter', 'dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'datetime', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'emby-scroller'], function (appRouter, dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, datetime, recordingFields, events) {
     'use strict';
 
     var currentDialog;
     var closeAction;
     var currentRecordingFields;
+    var currentSeriesTimerId;
 
     function closeDialog() {
 
@@ -21,6 +22,12 @@
         context.querySelector('.btnCancel').addEventListener('click', function () {
 
             closeAction = null;
+            closeDialog();
+        });
+
+        context.querySelector('.btnManageSeriesRecording').addEventListener('click', function () {
+
+            closeAction = 'manageseries';
             closeDialog();
         });
     }
@@ -104,6 +111,8 @@
             var defaults = responses[0];
             var program = responses[1];
 
+            currentSeriesTimerId = program.SeriesTimerId;
+
             renderRecording(context, defaults, program, apiClient, refreshRecordingStateOnly);
         });
     }
@@ -125,6 +134,15 @@
                 });
             });
             return;
+        }
+
+        if (action === 'manageseries') {
+
+            appRouter.showItem({
+                Type: 'SeriesTimer',
+                Id: currentSeriesTimerId,
+                ServerId: serverId
+            });
         }
     }
 
@@ -166,18 +184,6 @@
                     reload(dlg, itemId, serverId, true);
                 }
 
-                dlg.addEventListener('close', function () {
-
-                    events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
-                    executeCloseAction(closeAction, itemId, serverId);
-
-                    if (currentRecordingFields && currentRecordingFields.hasChanged()) {
-                        resolve();
-                    } else {
-                        reject();
-                    }
-                });
-
                 init(dlg);
 
                 reload(dlg, itemId, serverId);
@@ -190,7 +196,17 @@
 
                 events.on(currentRecordingFields, 'recordingchanged', onRecordingChanged);
 
-                dialogHelper.open(dlg);
+                dialogHelper.open(dlg).then(function () {
+
+                    events.off(currentRecordingFields, 'recordingchanged', onRecordingChanged);
+                    executeCloseAction(closeAction, itemId, serverId);
+
+                    if (currentRecordingFields && currentRecordingFields.hasChanged()) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                });
             });
         });
     }

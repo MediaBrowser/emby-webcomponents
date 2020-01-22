@@ -672,7 +672,9 @@
 
                 // This is a hack due to what appears to be a edge bug but it shoudln't matter as the list always has selectable items
                 selectQuality.removeAttribute('required');
-            }
+
+                onQualityChange(form, selectQuality.value);
+          }
         } else {
             if (fldQuality) {
                 fldQuality.classList.add('hide');
@@ -680,6 +682,8 @@
             if (selectQuality) {
                 selectQuality.removeAttribute('required');
             }
+
+            onQualityChange(form, '');
         }
     }
 

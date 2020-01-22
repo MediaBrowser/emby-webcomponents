@@ -775,6 +775,12 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
         });
     }
 
+    function sendToast(text) {
+        require(['toast'], function (toast) {
+            toast(text);
+        });
+    }
+
     function play(item, resume, queue, queueNext) {
 
         var method = queue ? (queueNext ? 'queueNext' : 'queue') : 'play';
@@ -795,6 +801,10 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
                 items: [item],
                 startPositionTicks: startPosition
             });
+        }
+
+        if (queue || queueNext) {
+            sendToast(globalize.translate('AddedToPlayQueue'));
         }
     }
 

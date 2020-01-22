@@ -148,21 +148,6 @@
         });
     }
 
-    function onManageSeriesRecordingClick(e) {
-
-        var options = this.options;
-
-        if (!this.SeriesTimerId) {
-            return;
-        }
-
-        appRouter.showItem({
-            Type: 'SeriesTimer',
-            Id: this.SeriesTimerId,
-            ServerId: options.serverId
-        });
-    }
-
     function onRecordChange(e) {
 
         this.changed = true;
@@ -252,11 +237,6 @@
         singleRecordingButton.addEventListener('click', onRecordChange.bind(self));
         context.querySelector('.seriesRecordingButton').addEventListener('click', onRecordSeriesChange.bind(self));
         context.querySelector('.btnManageRecording').addEventListener('click', onManageRecordingClick.bind(self));
-
-        var btnManageSeriesRecording = context.querySelector('.btnManageSeriesRecording');
-        if (btnManageSeriesRecording) {
-            btnManageSeriesRecording.addEventListener('click', onManageSeriesRecordingClick.bind(self));
-        }
 
         fetchData(self);
     };
