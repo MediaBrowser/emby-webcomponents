@@ -166,24 +166,26 @@
         browser[matched.platform] = true;
     }
 
-    if (!browser.chrome && !browser.msie && !browser.edge && !browser.opera && userAgent.toLowerCase().indexOf("webkit") !== -1) {
+    var userAgentLower = userAgent.toLowerCase();
+
+    if (!browser.chrome && !browser.msie && !browser.edge && !browser.opera && userAgentLower.indexOf("webkit") !== -1) {
         browser.safari = true;
     }
 
-    if (userAgent.toLowerCase().indexOf("playstation 4") !== -1) {
+    if (userAgentLower.indexOf("playstation 4") !== -1) {
         browser.ps4 = true;
         browser.tv = true;
     }
 
-    browser.xboxOne = userAgent.toLowerCase().indexOf('xbox') !== -1;
+    browser.xboxOne = userAgentLower.indexOf('xbox') !== -1;
     browser.animate = typeof document !== 'undefined' && document.documentElement.animate != null;
-    browser.tizen = userAgent.toLowerCase().indexOf('tizen') !== -1 || self.tizen != null;
-    browser.web0s = userAgent.toLowerCase().indexOf('Web0S'.toLowerCase()) !== -1;
-    browser.netcast = userAgent.toLowerCase().indexOf('netcast') !== -1;
-    browser.edgeUwp = browser.edge && (userAgent.toLowerCase().indexOf('msapphost') !== -1 || userAgent.toLowerCase().indexOf('webview') !== -1);
+    browser.tizen = userAgentLower.indexOf('tizen') !== -1 || self.tizen != null;
+    browser.web0s = userAgentLower.indexOf('Web0S'.toLowerCase()) !== -1;
+    browser.netcast = userAgentLower.indexOf('netcast') !== -1;
+    browser.edgeUwp = browser.edge && (userAgentLower.indexOf('msapphost') !== -1 || userAgentLower.indexOf('webview') !== -1);
 
     if (!browser.tizen) {
-        browser.orsay = userAgent.toLowerCase().indexOf('smarthub') !== -1;
+        browser.orsay = userAgentLower.indexOf('smarthub') !== -1;
     }
 
     if (browser.tizen) {
@@ -195,7 +197,7 @@
     }
 
     browser.tv = isTv();
-    browser.operaTv = browser.tv && userAgent.toLowerCase().indexOf('opr/') !== -1;
+    browser.operaTv = browser.tv && userAgentLower.indexOf('opr/') !== -1;
 
     browser.keyboard = hasKeyboard(browser);
     browser.supportsCssAnimation = supportsCssAnimation;
@@ -203,13 +205,12 @@
     browser.iOS = browser.ipad || browser.iphone || browser.ipod;
 
     if (!browser.iOS) {
-        browser.osx = userAgent.toLowerCase().indexOf('os x') !== -1;
+        browser.osx = userAgentLower.indexOf('os x') !== -1;
     }
 
-    browser.customElements = ('customElements' in self);
-    browser.customBuiltInElements = browser.customElements && !browser.iOS && !browser.safari && customElements.upgrade;
+    browser.customBuiltInElements = ('customElements' in self) && !browser.iOS && !browser.safari && customElements.upgrade;
 
-    browser.chromecast = browser.chrome && userAgent.toLowerCase().indexOf('crkey') !== -1;
+    browser.chromecast = browser.chrome && userAgentLower.indexOf('crkey') !== -1;
 
     return browser;
 });

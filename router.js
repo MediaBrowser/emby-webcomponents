@@ -563,7 +563,11 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         isDummyBackToHome = true;
         skinManager.loadUserSkin();
 
-        // This must result in a call to either 
+        if (self.Dashboard) {
+            return;
+        }
+
+        // This must result in a call to either
         // skinManager.loadUserSkin();
         // Logout
         // Or exit app

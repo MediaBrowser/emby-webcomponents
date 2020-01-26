@@ -9,7 +9,7 @@ define(['cardBuilder'], function (cardBuilder) {
             showTitle: true,
             cardFooterAside: false,
             showPersonRoleOrType: true,
-            cardCssClass: 'personCard',
+            cardClass: 'personCard',
             defaultCardImageIcon: '&#xE7FD;',
             multiSelect: false
         });

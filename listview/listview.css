@@ -79,7 +79,7 @@
 
 .listItemBody {
     flex-grow: 1;
-    padding: .25em .75em;
+    padding: .35em .75em;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-direction: column;

@@ -63,7 +63,9 @@ html, body {
     right: 0;
     bottom: 0;
     contain: strict;
-    touch-action: none;
+    /* Can't do this. It causes loss of scrolling on Firefox Android
+        https://emby.media/community/index.php?/topic/81799-firefox-android-cannot-swipe-scroll-on-any-listing-page
+    touch-action: none;*/
 }
 
 .transparentDocument, .backgroundContainer-transparent:not(.withBackdrop) {

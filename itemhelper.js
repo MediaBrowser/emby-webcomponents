@@ -478,7 +478,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             if (itemType === 'Device' ||
                 itemType === 'User' ||
                 itemType === 'Plugin' ||
-                itemType === 'Server') {
+                itemType === 'Server' ||
+                itemType === 'Tag') {
                 return false;
             }
 

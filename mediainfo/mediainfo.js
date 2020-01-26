@@ -124,7 +124,7 @@ define(['browser', 'datetime', 'connectionManager', 'globalize', 'appRouter', 'i
             }
         }
 
-        if (options.timerIndicator !== false) {
+        if (options.timerIndicator) {
             var timerHtml = getTimerIndicator(item);
             if (timerHtml) {
                 miscInfo.push({

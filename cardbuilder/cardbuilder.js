@@ -13,9 +13,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 items = options.items;
             }
 
-            var html = buildCardsHtmlInternal(items, options);
-
-            return html;
+            return buildCardsHtmlInternal(items, options);
         }
 
         var cachedWidths = {};
@@ -142,46 +140,20 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     var roundTo = 50;
                     options.width = Math.round(options.width / roundTo) * roundTo;
                 }
-                //alert(options.width);
             }
         }
 
         function buildCardsHtmlInternal(items, options) {
 
-            var isVertical;
-
-            if (options.shape === 'autoVertical') {
-                isVertical = true;
-            }
-
             setCardData(items, options);
 
             var html = '';
             var itemsInRow = 0;
-
-            var currentIndexValue;
             var hasOpenRow;
-            var hasOpenSection;
 
-            var sectionTitleTagName = options.sectionTitleTagName || 'div';
-            var apiClient;
-            var lastServerId;
-
-            var i, length;
-
-            var uiAspect = getDesiredAspect(options.shape);
-
-            for (i = 0, length = items.length; i < length; i++) {
+            for (var i = 0, length = items.length; i < length; i++) {
 
                 var item = items[i];
-                var serverId = item.ServerId || options.serverId;
-
-                if (serverId !== lastServerId) {
-                    lastServerId = serverId;
-                    if (lastServerId) {
-                        apiClient = connectionManager.getApiClient(lastServerId);
-                    }
-                }
 
                 if (options.rows && itemsInRow === 0) {
 
@@ -194,7 +166,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     hasOpenRow = true;
                 }
 
-                html += buildCard(i, item, apiClient, options, uiAspect);
+                html += getCardHtml(item, options);
 
                 itemsInRow++;
 
@@ -207,24 +179,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (hasOpenRow) {
                 html += '</div>';
-            }
-
-            if (hasOpenSection) {
-                html += '</div>';
-
-                if (isVertical) {
-                    html += '</div>';
-                }
-            }
-
-            var cardFooterHtml = '';
-            for (i = 0, length = (options.lines || 0); i < length; i++) {
-
-                if (i === 0) {
-                    cardFooterHtml += '<div class="cardText cardTextCentered cardText-first">&nbsp;</div>';
-                } else {
-                    cardFooterHtml += '<div class="cardText cardTextCentered cardText-secondary">&nbsp;</div>';
-                }
             }
 
             return html;
@@ -253,7 +207,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return null;
         }
 
-        function getCardImageUrl(item, apiClient, options, shape, uiAspect) {
+        function getCardImageUrl(item, apiClient, options, shape) {
+
+            var uiAspect = options.uiAspect;
 
             if (item.ImageUrl) {
                 return {
@@ -628,7 +584,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return airTimeText;
         }
 
-        function getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
+        function getCardFooterText(item, options, showTitle, forceName, overlayText, imgUrl, footerClass, progressHtml, logoUrl, isOuterFooter) {
 
             var itemType = item.Type;
 
@@ -983,34 +939,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
-        function getProgramIndicators(item) {
-
-            item = item.ProgramInfo || item;
-
-            var html = '';
-
-            if (item.IsLive) {
-                html += '<div class="liveTvProgram programAttributeIndicator">' + globalize.translate('Live') + '</div>';
-            }
-
-            if (item.IsPremiere) {
-                html += '<div class="premiereTvProgram programAttributeIndicator">' + globalize.translate('Premiere') + '</div>';
-            }
-            else if (item.IsSeries && !item.IsRepeat) {
-                html += '<div class="newTvProgram programAttributeIndicator">' + globalize.translate('AttributeNew') + '</div>';
-            }
-            //else if (item.IsRepeat) {
-            //    html += '<div class="repeatTvProgram programAttributeIndicator">' + globalize.translate('Repeat') + '</div>';
-            //}
-
-            if (html) {
-                html = '<div class="cardProgramAttributeIndicators">' + html;
-                html += '</div>';
-            }
-
-            return html;
-        }
-
         var refreshIndicatorLoaded;
         function requireRefreshIndicator() {
 
@@ -1024,7 +952,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return 'defaultCardBackground defaultCardBackground' + getDefaultColorIndex(str);
         }
 
-        function buildCard(index, item, apiClient, options, uiAspect) {
+        function getCardHtml(item, options) {
 
             var itemType = item.Type;
             var action = options.action || 'link';
@@ -1049,10 +977,6 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' ' + shape + 'Card';
             }
 
-            if (options.cardCssClass) {
-                className += ' ' + options.cardCssClass;
-            }
-
             if (options.cardClass) {
                 className += " " + options.cardClass;
             }
@@ -1063,6 +987,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' card-hoverable';
             }
 
+            var isSingleClickElement = isLayoutTv || options.hoverMenu === false;
+
             if (!enableFocusTransfrom || !isLayoutTv) {
                 className += ' card-nofocustransform';
             }
@@ -1072,7 +998,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 className += ' activePlaylistCard';
             }
 
-            var imgInfo = getCardImageUrl(item, apiClient, options, shape, uiAspect);
+            var serverId = item.ServerId || options.serverId;
+            var apiClient = connectionManager.getApiClient(serverId);
+
+            var imgInfo = getCardImageUrl(item, apiClient, options, shape);
             var imgUrl = imgInfo.imgUrl;
 
             var forceName = imgInfo.forceName;
@@ -1163,7 +1092,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 logoUrl = null;
 
                 footerCssClass = progressHtml ? 'innerCardFooter fullInnerCardFooter' : 'innerCardFooter';
-                innerCardFooter += getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, false);
+                innerCardFooter += getCardFooterText(item, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, false);
                 footerOverlayed = true;
             }
             else if (progressHtml) {
@@ -1186,7 +1115,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                     logoUrl = null;
                 }
 
-                outerCardFooter = getCardFooterText(item, apiClient, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, true);
+                outerCardFooter = getCardFooterText(item, options, showTitle, forceName, overlayText, imgUrl, footerCssClass, progressHtml, logoUrl, true);
             }
 
             if (outerCardFooter && !options.cardLayout /*&& options.allowBottomPadding !== false*/) {
@@ -1218,7 +1147,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardContentClass += ' cardContent-shadow';
             }
 
-            if (isLayoutTv) {
+            if (isSingleClickElement) {
 
                 // Don't use the IMG tag with safari because it puts a white border around it
                 cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" loading="lazy" style="background-image:url(' + imgUrl + ');">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
@@ -1238,7 +1167,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var cardScalableClass = 'cardScalable';
 
-            if (isLayoutTv && !options.cardLayout) {
+            if (isSingleClickElement && !options.cardLayout) {
 
                 cardScalableClass += ' card-focuscontent';
 
@@ -1286,7 +1215,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerOpen += getCardDefaultText(item, options);
             }
 
-            var tagName = (isLayoutTv) && !overlayButtons ? 'button' : 'div';
+            var tagName = isSingleClickElement && !overlayButtons ? 'button' : 'div';
 
             var timerAttributes = '';
             if (item.TimerId) {
@@ -1317,7 +1246,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
-            return '<' + tagName + ' data-index="' + index + '"' + timerAttributes + actionAttribute + dataAttributes + ' class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            return '<' + tagName + timerAttributes + actionAttribute + dataAttributes + ' class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
         }
 
         function getHoverMenuHtml(item, action, options) {
@@ -1660,6 +1589,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         }
 
         return {
+            setCardData: setCardData,
             getCardsHtml: getCardsHtml,
             buildCards: buildCards,
             onUserDataChanged: onUserDataChanged,
