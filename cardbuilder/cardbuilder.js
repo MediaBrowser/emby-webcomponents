@@ -4,6 +4,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         var devicePixelRatio = window.devicePixelRatio || 1;
         var enableFocusTransfrom = !browser.tv && !browser.xboxOne && !browser.ps4 && !browser.edge && !browser.msie;
+        var supportsNativeLazyLoading = 'loading' in HTMLImageElement.prototype;
 
         function getCardsHtml(items, options) {
 
@@ -81,66 +82,101 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function setCardData(items, options) {
 
-            options.shape = options.shape || "auto";
+            var shape = options.shape || "auto";
 
             var primaryImageAspectRatio = imageLoader.getPrimaryImageAspectRatio(items, options);
 
-            if (options.shape === 'auto' || options.shape === 'autohome' || options.shape === 'autooverflow' || options.shape === 'autoVertical') {
+            if (shape === 'auto' || shape === 'autohome' || shape === 'autooverflow' || shape === 'autoVertical') {
 
-                var requestedShape = options.shape;
-                options.shape = null;
+                var requestedShape = shape;
+                shape = null;
 
                 if (primaryImageAspectRatio) {
 
                     if (primaryImageAspectRatio >= 3) {
-                        options.shape = 'banner';
+                        shape = 'banner';
                     } else if (primaryImageAspectRatio >= 1.4) {
-                        options.shape = 'backdrop';
+                        shape = 'backdrop';
                     } else if (primaryImageAspectRatio > 1.2) {
-                        options.shape = 'fourThree';
+                        shape = 'fourThree';
                     } else if (primaryImageAspectRatio > 0.71) {
-                        options.shape = 'square';
+                        shape = 'square';
                     } else {
-                        options.shape = 'portrait';
+                        shape = 'portrait';
                     }
                 }
 
-                if (!options.shape) {
-                    options.shape = options.defaultShape || getDefaultShape(items, requestedShape);
+                if (!shape) {
+                    shape = options.defaultShape || getDefaultShape(items, requestedShape);
                 }
             }
 
             if (options.preferThumb === 'auto') {
-                options.preferThumb = options.shape === 'backdrop';
+                options.preferThumb = shape === 'backdrop';
             }
 
-            options.uiAspect = getDesiredAspect(options.shape);
+            options.uiAspect = getDesiredAspect(shape);
             options.primaryImageAspectRatio = primaryImageAspectRatio;
 
             if (!options.width && options.widths) {
-                options.width = options.widths[options.shape];
+                options.width = options.widths[shape];
             }
 
             if (options.rows && typeof (options.rows) !== 'number') {
-                options.rows = options.rows[options.shape];
+                options.rows = options.rows[shape];
             }
 
             if (!options.width) {
                 var screenWidth = dom.getWindowSize().innerWidth;
 
-                var cardClass = 'card ' + options.shape + 'Card';
+                var cardClass = 'card ' + shape + 'Card';
 
                 if (options.cardClass) {
                     cardClass += ' ' + options.cardClass;
                 }
 
-                options.width = getImageWidth(options.shape, cardClass, screenWidth);
+                options.width = getImageWidth(shape, cardClass, screenWidth);
 
                 if (isResizable(screenWidth)) {
                     var roundTo = 50;
                     options.width = Math.round(options.width / roundTo) * roundTo;
                 }
             }
+
+            var className = 'card';
+
+            if (shape) {
+                className += ' ' + shape + 'Card';
+            }
+
+            if (options.cardClass) {
+                className += " " + options.cardClass;
+            }
+
+            var isLayoutTv = layoutManager.tv;
+
+            if (!isLayoutTv) {
+                className += ' card-hoverable';
+            }
+
+            var isSingleClickElement = isLayoutTv || options.hoverMenu === false;
+
+            if (!enableFocusTransfrom || !isLayoutTv) {
+                className += ' card-nofocustransform';
+            }
+
+            var tagName;
+            if (isSingleClickElement) {
+                tagName = 'button';
+                className += " itemAction";
+            } else {
+                tagName = 'div';
+            }
+
+            options.tagName = tagName;
+            options.shape = shape;
+            options.className = className;
+            options.isSingleClickElement = isSingleClickElement;
         }
 
         function buildCardsHtmlInternal(items, options) {
@@ -151,11 +187,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var itemsInRow = 0;
             var hasOpenRow;
 
+            var rows = options.rows;
+
             for (var i = 0, length = items.length; i < length; i++) {
 
                 var item = items[i];
 
-                if (options.rows && itemsInRow === 0) {
+                if (rows && itemsInRow === 0) {
 
                     if (hasOpenRow) {
                         html += '</div>';
@@ -170,7 +208,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 itemsInRow++;
 
-                if (options.rows && itemsInRow >= options.rows) {
+                if (rows && itemsInRow >= rows) {
                     html += '</div>';
                     hasOpenRow = false;
                     itemsInRow = 0;
@@ -971,35 +1009,10 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var shape = options.shape;
 
-            var className = 'card';
-
-            if (shape) {
-                className += ' ' + shape + 'Card';
-            }
-
-            if (options.cardClass) {
-                className += " " + options.cardClass;
-            }
-
-            var isLayoutTv = layoutManager.tv;
-
-            if (!isLayoutTv) {
-                className += ' card-hoverable';
-            }
-
-            var isSingleClickElement = isLayoutTv || options.hoverMenu === false;
-
-            if (!enableFocusTransfrom || !isLayoutTv) {
-                className += ' card-nofocustransform';
-            }
-
-            var playlistItemId = options.playlistItemId;
-            if (playlistItemId && playlistItemId === item.PlaylistItemId) {
-                className += ' activePlaylistCard';
-            }
+            var isSingleClickElement = options.isSingleClickElement;
 
             var serverId = item.ServerId || options.serverId;
-            var apiClient = connectionManager.getApiClient(serverId);
+            var apiClient = serverId ? connectionManager.getApiClient(serverId) : null;
 
             var imgInfo = getCardImageUrl(item, apiClient, options, shape);
             var imgUrl = imgInfo.imgUrl;
@@ -1045,6 +1058,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             var cardBoxClass = options.cardLayout ? 'cardBox visualCardBox' : 'cardBox';
 
+            var isLayoutTv = layoutManager.tv;
             if (isLayoutTv) {
 
                 if (enableFocusTransfrom) {
@@ -1060,6 +1074,20 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                         cardBoxClass += ' card-focuscontent-large';
                     }
                 }
+            }
+
+            if (isSingleClickElement) {
+
+            } else {
+
+                if (!options.centerPlayButton) {
+                    cardBoxClass += ' cardBox-touchzoom';
+                }
+            }
+
+            var playlistItemId = options.playlistItemId;
+            if (playlistItemId && playlistItemId === item.PlaylistItemId) {
+                cardBoxClass += ' activePlaylistCardBox';
             }
 
             var footerCssClass;
@@ -1122,45 +1150,33 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardBoxClass += ' cardBox-bottompadded';
             }
 
-            var overlayButtons = '';
-            if (layoutManager.mobile) {
-
-                if (options.centerPlayButton) {
-
-                    var playButtonAction = item.IsFolder ? 'resume' : (options.playAction || 'play');
-                    overlayButtons += '<button type="button" is="paper-icon-button-light" class="cardOverlayButton itemAction cardOverlayFab-primary" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
-                }
-            }
-
-            if (options.showChildCountIndicator && item.ChildCount) {
-                className += ' groupedCard';
-            }
-
             // cardBox can be it's own separate element if an outer footer is ever needed
             var cardImageContainerOpen;
             var cardImageContainerClose = '';
-            var cardBoxClose = '';
-            var cardScalableClose = '';
+            var cardScalableClose = '</div>';
 
             var cardContentClass = 'cardContent';
             if (!options.cardLayout) {
                 cardContentClass += ' cardContent-shadow';
             }
 
+            if (imgUrl) {
+
+                if (options.lazy !== 2) {
+                    cardContentClass += ' lazy';
+                }
+            }
+
             if (isSingleClickElement) {
 
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + ' lazy" loading="lazy" style="background-image:url(' + imgUrl + ');">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
+                cardImageContainerOpen = imgUrl ? ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '" loading="lazy" style="background-image:url(' + imgUrl + ');">') : ('<div class="' + cardImageContainerClass + ' ' + cardContentClass + '">');
 
                 cardImageContainerClose = '</div>';
             } else {
 
-                if (!options.centerPlayButton) {
-                    className += ' card-touchzoom';
-                }
-
                 // Don't use the IMG tag with safari because it puts a white border around it
-                cardImageContainerOpen = imgUrl ? ('<button type="button" data-action="' + action + '" class="lazy itemAction cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + '" loading="lazy" itemAction" style="background-image:url(' + imgUrl + ');">') : ('<button type="button" data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
+                cardImageContainerOpen = imgUrl ? ('<button type="button" data-action="' + action + '" class="itemAction cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + '" loading="lazy" style="background-image:url(' + imgUrl + ');">') : ('<button type="button" data-action="' + action + '" class="cardContent-button ' + cardImageContainerClass + ' ' + cardContentClass + ' itemAction">');
 
                 cardImageContainerClose = '</button>';
             }
@@ -1176,9 +1192,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 }
             }
 
-            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="' + cardScalableClass + '"><div class="cardPadder-' + shape + '"></div>' + cardImageContainerOpen;
-            cardBoxClose = '</div>';
-            cardScalableClose = '</div>';
+            cardImageContainerOpen = '<div class="' + cardBoxClass + '"><div class="cardPadder-' + shape + ' ' + cardScalableClass + '">' + cardImageContainerOpen;
 
             cardImageContainerOpen += indicators.getTypeIndicator(item);
 
@@ -1215,30 +1229,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 cardImageContainerOpen += getCardDefaultText(item, options);
             }
 
-            var tagName = isSingleClickElement && !overlayButtons ? 'button' : 'div';
-
-            var timerAttributes = '';
-            if (item.TimerId) {
-                timerAttributes += ' data-timerid="' + item.TimerId + '"';
-            }
-            if (item.SeriesTimerId) {
-                timerAttributes += ' data-seriestimerid="' + item.SeriesTimerId + '"';
-            }
-
-            var actionAttribute;
-
-            if (tagName === 'button') {
-                className += " itemAction";
-                actionAttribute = ' data-action="' + action + '"';
-            } else {
-                actionAttribute = '';
-            }
-
-            if (itemType !== 'MusicAlbum' && itemType !== 'MusicArtist' && itemType !== 'Audio' && options.enableUserData !== false) {
-                className += ' card-withuserdata';
-            }
-
-            var dataAttributes = itemShortcuts.getShortcutAttributesHtml(item, options);
+            var tagName = options.tagName;
 
             var additionalCardContent = '';
 
@@ -1246,7 +1237,33 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 additionalCardContent += getHoverMenuHtml(item, action, options);
             }
 
-            return '<' + tagName + timerAttributes + actionAttribute + dataAttributes + ' class="' + className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + overlayButtons + additionalCardContent + cardScalableClose + outerCardFooter + cardBoxClose + '</' + tagName + '>';
+            if (options.cardParts) {
+
+                var attributes = itemShortcuts.getShortcutAttributes(item, options);
+
+                if (options.isSingleClickElement) {
+                    attributes.push({ name: 'data-action', value: action });
+                }
+
+                return {
+                    attributes: attributes,
+                    html: cardImageContainerOpen + innerCardFooter + cardImageContainerClose + additionalCardContent + cardScalableClose + outerCardFooter + '</div>'
+                };
+            }
+
+            var dataAttributes = itemShortcuts.getShortcutAttributesHtml(item, options);
+
+            if (options.isSingleClickElement) {
+                dataAttributes += ' data-action="' + action + '"';
+            }
+
+            return '<' + tagName + dataAttributes + ' class="' + options.className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + additionalCardContent + cardScalableClose + outerCardFooter + '</div></' + tagName + '>';
+        }
+
+        function getCardParts(item, options) {
+
+            options.cardParts = true;
+            return getCardHtml(item, options);
         }
 
         function getHoverMenuHtml(item, action, options) {
@@ -1262,7 +1279,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var itemId = item.Id;
 
             if (options.multiSelect !== false) {
-                html += '<label data-action="multiselect" data-id="' + itemId + '" data-serverid="' + serverId + '"  class="chkCardSelectContainer cardOverlayButton cardOverlayButton-hover itemAction"><input class="chkCardSelect" is="emby-checkbox" type="checkbox" data-focushelper="false" /></label>';
+                html += '<label data-action="multiselect" data-id="' + itemId + '" data-serverid="' + serverId + '"  class="chkCardSelectContainer cardOverlayButton cardOverlayButton-hover itemAction emby-checkbox-label"><input class="chkCardSelect emby-checkbox" is="emby-checkbox" type="checkbox" data-classes="true" /><span class="checkboxLabel"></span></label>';
             }
 
             if (playbackManager.canPlay(item) && options.hoverPlayButton !== false) {
@@ -1303,68 +1320,55 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return html;
         }
 
+        var defaultIconsByItemType = {
+            MusicAlbum: '&#xE019;',
+            MusicArtist: '&#xE7FD;',
+            Person: '&#xE7FD;',
+            Channel: '&#xE2C7;',
+            Device: 'devices',
+            User: '&#xe7fd;',
+            Server: '&#xE63E;',
+            SelectServer: '&#xE63E;',
+            ManualLogin: '&#xe898;',
+            Downloads: 'folder',
+            ForgotPassword: '&#xe887;',
+            AddServer: '&#xe147;',
+            AddVirtualFolder: '&#xe147;'
+        };
+
+        var defaultIconsByCollectionType = {
+            movies: '&#xE54D;',
+            music: '&#xE310;',
+            homevideos: '&#xE412;',
+            photos: '&#xE412;',
+            livetv: '&#xe1b2;',
+            tvshows: '&#xE639;',
+            games: '&#xe30f;',
+            trailers: '&#xE54D;',
+            musicvideos: '&#xE04A;',
+            books: '&#xE2C7;',
+            channels: '&#xE2C7;',
+            playlists: '&#xE5D2;'
+        };
+
         function getDefaultIcon(item, defaultIcon) {
 
-            switch (item.CollectionType) {
-                case "movies":
-                    return "&#xE54D;";
-                case "music":
-                    return "&#xE310;";
-                case "homevideos":
-                case "photos":
-                    return "&#xE412;";
-                case "livetv":
-                    return "&#xe1b2;";
-                case "tvshows":
-                    return "&#xE639;";
-                case "games":
-                    return "&#xe30f;";
-                case "trailers":
-                    return "&#xE54D;";
-                case "musicvideos":
-                    return "&#xE04A;";
-                case "books":
-                    return "&#xE2C7;";
-                case "channels":
-                    return "&#xE2C7;";
-                case "playlists":
-                    return "&#xE5D2;";
-                default:
-                    break;
+            var icon;
+
+            var collectionType = item.CollectionType;
+            if (collectionType) {
+                icon = defaultIconsByCollectionType[collectionType];
+                if (icon) {
+                    return icon;
+                }
             }
 
             var itemType = item.Type;
-
-            if (itemType === 'MusicAlbum') {
-                return '&#xE019;';
-            }
-            if (itemType === 'MusicArtist' || itemType === 'Person') {
-                return '&#xE7FD;';
-            }
-            if (itemType === 'Channel') {
-                return '&#xE2C7;';
-            }
-            if (itemType === 'Device') {
-                return 'devices';
-            }
-            if (itemType === 'User') {
-                return '&#xe7fd;';
-            }
-            if (itemType === 'Server' || itemType === 'SelectServer') {
-                return '&#xE63E;';
-            }
-            if (itemType === 'ManualLogin') {
-                return '&#xe898;';
-            }
-            if (itemType === 'Downloads') {
-                return 'folder';
-            }
-            if (itemType === 'ForgotPassword') {
-                return '&#xe887;';
-            }
-
-            if (itemType === 'AddServer' || itemType === 'AddVirtualFolder') {
-                return '&#xe147;';
+            if (itemType) {
+                icon = defaultIconsByItemType[itemType];
+                if (icon) {
+                    return icon;
+                }
             }
 
             if (defaultIcon === false) {
@@ -1393,15 +1397,17 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         function buildCards(items, options) {
 
             // Abort if the container has been disposed
-            if (!document.body.contains(options.itemsContainer)) {
+            var itemsContainer = options.itemsContainer;
+            if (!document.body.contains(itemsContainer)) {
                 return;
             }
 
-            if (options.parentContainer) {
+            var parentContainer = options.parentContainer;
+            if (parentContainer) {
                 if (items.length) {
-                    options.parentContainer.classList.remove('hide');
+                    parentContainer.classList.remove('hide');
                 } else {
-                    options.parentContainer.classList.add('hide');
+                    parentContainer.classList.add('hide');
                     return;
                 }
             }
@@ -1410,25 +1416,25 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (html) {
 
-                if (options.itemsContainer.cardBuilderHtml !== html) {
-                    options.itemsContainer.innerHTML = html;
+                if (itemsContainer.cardBuilderHtml !== html) {
+                    itemsContainer.innerHTML = html;
 
                     if (items.length < 50) {
-                        options.itemsContainer.cardBuilderHtml = html;
+                        itemsContainer.cardBuilderHtml = html;
                     } else {
-                        options.itemsContainer.cardBuilderHtml = null;
+                        itemsContainer.cardBuilderHtml = null;
                     }
                 }
 
-                imageLoader.lazyChildren(options.itemsContainer);
+                imageLoader.lazyChildren(itemsContainer);
             } else {
 
-                options.itemsContainer.innerHTML = html;
-                options.itemsContainer.cardBuilderHtml = null;
+                itemsContainer.innerHTML = html;
+                itemsContainer.cardBuilderHtml = null;
             }
 
             if (options.autoFocus) {
-                focusManager.autoFocus(options.itemsContainer);
+                focusManager.autoFocus(itemsContainer);
             }
         }
 
@@ -1454,6 +1460,16 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         function updateUserData(card, userData) {
 
             var type = card.getAttribute('data-type');
+
+            if (type === 'MusicArtist' || type === 'MusicAlbum' || type === 'Audio') {
+                return;
+            }
+
+            // avoid updating chapter cards with watched marks
+            if (card.getAttribute('data-startpositionticks')) {
+                return;
+            }
+
             var enableCountIndicator = type === 'Series' || type === 'BoxSet' || type === 'Season';
             var indicatorsElem = null;
             var playedIndicator = null;
@@ -1538,7 +1554,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
         function onUserDataChanged(userData, scope) {
 
-            var cards = (scope || document.body).querySelectorAll('.card-withuserdata[data-id="' + userData.ItemId + '"]');
+            var cards = (scope || document.body).querySelectorAll('.card[data-id="' + userData.ItemId + '"]');
 
             for (var i = 0, length = cards.length; i < length; i++) {
                 updateUserData(cards[i], userData);
@@ -1591,6 +1607,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         return {
             setCardData: setCardData,
             getCardsHtml: getCardsHtml,
+            getCardHtml: getCardHtml,
+            getCardParts: getCardParts,
             buildCards: buildCards,
             onUserDataChanged: onUserDataChanged,
             onTimerCreated: onTimerCreated,

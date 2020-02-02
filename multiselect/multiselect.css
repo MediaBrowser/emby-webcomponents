@@ -26,8 +26,12 @@
     margin: 0;
 }
 
-.multiSelectCheckboxOutline {
-    top: 0 !important;
+.chkItemSelectContainer {
+    height: auto !important;
+    margin-top: .1em;
+}
+
+.chkItemSelectLabel::before {
     border-radius: 0 !important;
 }
 

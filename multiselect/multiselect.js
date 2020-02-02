@@ -99,7 +99,7 @@
 
             var cssClass = 'chkItemSelect';
             var checkedAttribute = isChecked ? ' checked' : '';
-            itemSelectionPanel.innerHTML = '<label class="checkboxContainer"><input type="checkbox" is="emby-checkbox" data-outlineclass="multiSelectCheckboxOutline" class="' + cssClass + '"' + checkedAttribute + '/><span></span></label>';
+            itemSelectionPanel.innerHTML = '<label class="checkboxContainer chkItemSelectContainer"><input type="checkbox" is="emby-checkbox" class="' + cssClass + '"' + checkedAttribute + '/><span class="chkItemSelectLabel"></span></label>';
             var chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
             chkItemSelect.addEventListener('change', onSelectionChange);
         }

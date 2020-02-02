@@ -126,9 +126,7 @@ define(['dom', 'itemShortcuts', 'itemHelper', 'mediaInfo', 'indicators', 'connec
         return item.Id;
     }
 
-    function getListViewHtml(options) {
-
-        var items = options.items;
+    function getListViewHtml(items, options) {
 
         var groupTitle = '';
         var action = options.action || 'link';

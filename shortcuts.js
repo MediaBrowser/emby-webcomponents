@@ -586,6 +586,160 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         }
     }
 
+    function getShortcutAttributes(item, options) {
+        var dataAttributes = [];
+
+        if (options.multiSelect === false) {
+            dataAttributes.push({
+                name: 'data-multiselect',
+                value: false
+            });
+        }
+
+        var context = options.context;
+        if (context) {
+            dataAttributes.push({
+                name: 'data-context',
+                value: context
+            });
+        }
+
+        var parentId = options.parentId;
+        if (parentId) {
+            dataAttributes.push({
+                name: 'data-parentid',
+                value: parentId
+            });
+        }
+
+        if (item.StartPositionTicks != null) {
+            dataAttributes.push({
+                name: 'data-startpositionticks',
+                value: item.StartPositionTicks
+            });
+        }
+
+        if (item.ConfigPageUrl) {
+            dataAttributes.push({
+                name: 'data-configpageurl',
+                value: item.ConfigPageUrl
+            });
+        }
+
+        var status = item.Status;
+        if (status) {
+            dataAttributes.push({
+                name: 'data-status',
+                value: status
+            });
+        }
+
+        var channelId = item.ChannelId;
+        if (channelId) {
+            dataAttributes.push({
+                name: 'data-channelid',
+                value: channelId
+            });
+        }
+
+        if (item.CollectionType) {
+            dataAttributes.push({
+                name: 'data-collectiontype',
+                value: item.CollectionType
+            });
+        }
+
+        var type = item.Type;
+        if (type) {
+            dataAttributes.push({
+                name: 'data-type',
+                value: type
+            });
+        }
+
+        var mediaType = item.MediaType;
+        if (mediaType) {
+            dataAttributes.push({
+                name: 'data-mediatype',
+                value: mediaType
+            });
+        }
+
+        if (options.collectionId) {
+            dataAttributes.push({
+                name: 'data-collectionid',
+                value: options.collectionId
+            });
+        }
+
+        else if (options.playlistId) {
+            dataAttributes.push({
+                name: 'data-playlistid',
+                value: options.playlistId
+            });
+        }
+
+        if (item.IsFolder) {
+            dataAttributes.push({
+                name: 'data-isfolder',
+                value: true
+            });
+        }
+
+        var playlistItemId = item.PlaylistItemId;
+        if (playlistItemId) {
+            dataAttributes.push({
+                name: 'data-playlistitemid',
+                value: playlistItemId
+            });
+        }
+
+        var serverId = item.ServerId || options.serverId;
+        if (serverId) {
+            dataAttributes.push({
+                name: 'data-serverid',
+                value: serverId
+            });
+        }
+
+        var itemId = item.Id || item.ItemId;
+        if (itemId) {
+            dataAttributes.push({
+                name: 'data-id',
+                value: itemId
+            });
+        }
+
+        var nameWithPrefix = (item.SortName || item.Name || '');
+        var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
+
+        if (prefix) {
+            prefix = prefix.toUpperCase();
+        }
+
+        if (prefix) {
+            dataAttributes.push({
+                name: 'data-prefix',
+                value: prefix
+            });
+        }
+
+        if (item.TimerId) {
+            dataAttributes.push({
+                name: 'data-timerid',
+                value: item.TimerId
+            });
+        }
+        if (item.SeriesTimerId) {
+            dataAttributes.push({
+                name: 'data-seriestimerid',
+                value: item.SeriesTimerId
+            });
+        }
+
+        return dataAttributes;
+    }
+
     function getShortcutAttributesHtml(item, options) {
 
         var dataAttributes = '';
@@ -688,7 +842,8 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         on: on,
         off: off,
         onClick: onClick,
-        getShortcutAttributesHtml: getShortcutAttributesHtml
+        getShortcutAttributesHtml: getShortcutAttributesHtml,
+        getShortcutAttributes: getShortcutAttributes
     };
 
 });

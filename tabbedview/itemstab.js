@@ -576,8 +576,7 @@
         var settings = this.getViewSettings();
 
         if (settings.imageType === 'list') {
-            return listView.getListViewHtml({
-                items: items
+            return listView.getListViewHtml(items, {
             });
         }
 

@@ -139,10 +139,6 @@ html {
     color: #52B54B;
 }
 
-.checkboxOutline {
-    border-color: currentColor;
-}
-
 .button-link {
     color: #52B54B;
 }
@@ -240,23 +236,15 @@ html {
     }
 
 /* checkbox */
-.emby-checkbox:checked + span + span + .checkboxOutline {
+.emby-checkbox:checked + span:before {
+    border-color: currentColor;
+}
+
+.emby-checkbox:checked + span:before {
     border-color: #52B54B;
-}
-
-.emby-checkbox-tv:focus + span + .emby-checkbox-focushelper {
-    background-color: rgba(82, 181, 75, 0.26);
-}
-
-@media(hover: hover) and (pointer: fine) {
-    .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-        background-color: rgba(82, 181, 75, 0.26);
-    }
-}
-
-.emby-checkbox:checked + span + span + .checkboxOutline {
     background-color: #52B54B;
 }
+
 
 /* indicators */
 .itemProgressBarForeground {

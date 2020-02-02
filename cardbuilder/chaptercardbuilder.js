@@ -29,16 +29,18 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
 
     function buildChapterCards(item, chapters, options) {
 
-        if (options.parentContainer) {
+        var parentContainer = options.parentContainer;
+
+        if (parentContainer) {
             // Abort if the container has been disposed
-            if (!document.body.contains(options.parentContainer)) {
+            if (!document.body.contains(parentContainer)) {
                 return;
             }
 
             if (chapters.length) {
-                options.parentContainer.classList.remove('hide');
+                parentContainer.classList.remove('hide');
             } else {
-                options.parentContainer.classList.add('hide');
+                parentContainer.classList.add('hide');
                 return;
             }
         }
@@ -64,7 +66,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             setChapterProperties(item, chapters[i], i, options, apiClient);
         }
 
-        options.itemsContainer.innerHTML = cardBuilder.getCardsHtml(chapters, {
+        var itemsContainer = options.itemsContainer;
+
+        itemsContainer.innerHTML = cardBuilder.getCardsHtml(chapters, {
 
             shape: 'autooverflow',
             centerText: true,
@@ -81,7 +85,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'layoutManager', 'browse
             enableUserData: false
         });
 
-        imageLoader.lazyChildren(options.itemsContainer);
+        imageLoader.lazyChildren(itemsContainer);
     }
 
     return {

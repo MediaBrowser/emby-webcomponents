@@ -110,10 +110,6 @@ html, .backgroundContainer {
     color: var(--theme-primary-text-color);
 }
 
-.checkboxOutline {
-    border-color: currentColor;
-}
-
 .paperList {
     background-color: #fff;
     border: 1px solid #e4e4e4;
@@ -263,21 +259,12 @@ html, .backgroundContainer {
 }
 
 /* checkbox */
-.emby-checkbox:checked + span + span + .checkboxOutline {
+.emby-checkbox:checked + span:before {
+    border-color: currentColor;
+}
+
+.emby-checkbox:checked + span:before {
     border-color: var(--theme-primary-color);
-}
-
-.emby-checkbox-tv:focus + span + .emby-checkbox-focushelper {
-    background-color: var(--theme-icon-focus-background);
-}
-
-@media(hover: hover) and (pointer: fine) {
-    .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-        background-color: var(--theme-icon-focus-background);
-    }
-}
-
-.emby-checkbox:checked + span + span + .checkboxOutline {
     background-color: var(--theme-primary-color);
 }
 

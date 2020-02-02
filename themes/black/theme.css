@@ -145,10 +145,6 @@ html, .dialog, .backgroundContainer {
     color: var(--theme-primary-color);
 }
 
-.checkboxOutline {
-    border-color: currentColor;
-}
-
 .button-link {
     color: var(--theme-primary-color);
 }
@@ -265,21 +261,12 @@ html, .dialog, .backgroundContainer {
     }
 
 /* checkbox */
-.emby-checkbox:checked + span + span + .checkboxOutline {
+.emby-checkbox:checked + span:before {
+    border-color: currentColor;
+}
+
+.emby-checkbox:checked + span:before {
     border-color: var(--theme-primary-color);
-}
-
-.emby-checkbox-tv:focus + span + .emby-checkbox-focushelper {
-    background-color: var(--theme-icon-focus-background);
-}
-
-@media(hover: hover) and (pointer: fine) {
-    .emby-checkbox:focus + span + .emby-checkbox-focushelper {
-        background-color: var(--theme-icon-focus-background);
-    }
-}
-
-.emby-checkbox:checked + span + span + .checkboxOutline {
     background-color: var(--theme-primary-color);
 }
 

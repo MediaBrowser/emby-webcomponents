@@ -50,11 +50,6 @@ button {
         justify-content: center;
     }
 
-.cardScalable {
-    position: relative;
-    contain: layout style;
-}
-
 .cardPadder-backdrop, .cardPadder-smallBackdrop {
     padding-bottom: 56.25%;
     contain: strict;
@@ -78,6 +73,11 @@ button {
 .cardPadder-banner {
     padding-bottom: 18.5%;
     contain: strict;
+}
+
+.cardScalable {
+    position: relative;
+    contain: layout style;
 }
 
 .cardBox {
@@ -130,14 +130,14 @@ button {
 }
 
 @media (pointer: coarse) {
-    .card-touchzoom {
+    .cardBox-touchzoom {
         transition: transform 100ms ease-in-out;
         transition-delay: 80ms;
     }
 
-        .card-touchzoom:active {
-            transform: scale(.94);
-        }
+    .card:active > .cardBox-touchzoom {
+        transform: scale(.94);
+    }
 }
 
 .btnCardOptions {
@@ -794,15 +794,16 @@ button {
 }
 
 .chkCardSelectContainer {
-    font-size: 68%;
+    font-size: 76%;
     width: auto !important;
-    margin: .125em 0 0 .25em !important;
-    height: 2.2em !important;
+    margin: .25em 0 0 .25em !important;
+    display: flex !important;
+    height: auto !important;
 }
 
-    .chkCardSelectContainer .checkboxOutline {
-        border-color: rgba(255,255,255,.8) !important;
-    }
+.chkCardSelect + span:before {
+    border-color: rgba(255,255,255,.8) !important;
+}
 
 @media(hover: hover) and (pointer: fine) {
     .card-hoverable:hover .cardOverlayContainer {
