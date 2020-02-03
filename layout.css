@@ -266,7 +266,7 @@ html, body {
     margin: 0 .75em;
 }
 
-@media all and (max-width: 30em) {
+@media all and (max-width: 28em) {
 
     .listTotalRecordCount {
         display: none !important;
@@ -290,6 +290,10 @@ html, body {
     .listIconButton-autohide {
         display: none !important;
     }
+
+    .itemsViewSettingsContainer {
+        font-size: 92%;
+    }
 }
 
 @media not all and (min-width: 40em) {
@@ -302,9 +306,4 @@ html, body {
 .layout-tv .itemsViewSettingsContainer {
     justify-content: flex-end;
     padding: 1.5em .5em 1em 0;
-    font-size: 92%;
-}
-
-.itemsViewSettingsContainer > .button-flat {
-    margin: 0;
 }

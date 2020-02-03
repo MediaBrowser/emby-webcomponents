@@ -2,6 +2,9 @@
     'use strict';
 
     var skinHeaderElement = document.querySelector('.skinHeader');
+    // just add it once to avoid constantly toggling it on and off
+    skinHeaderElement.classList.add('headroom');
+
     var skinBodyElement = document.querySelector('.skinBody');
     var mainDrawerElement = document.querySelector('.mainDrawer');
     var hasPhysicalBackButton = appHost.supports('physicalbackbutton');
@@ -11,6 +14,7 @@
     var headerMenuButton;
     var headerBackButton;
     var headerCastButton;
+    var headerHelpButton;
     var selectedPlayerText;
     var headerLeft;
     var headerRight;
@@ -287,6 +291,20 @@
 
     function updateHomeButton(detail) {
 
+        var helpUrl = detail.helpUrl;
+
+        if (helpUrl) {
+
+            headerHelpButton.href = helpUrl;
+            headerHelpButton.classList.remove('hide');
+
+        } else {
+            headerHelpButton.classList.add('hide');
+        }
+    }
+
+    function updateHelpButton(detail) {
+
         if (userSignedIn && !layoutManager.tv && detail.homeButton !== false) {
 
             headerHomeButton.classList.remove('hide');
@@ -460,6 +478,7 @@
         updateBackButton(detail);
         updateHomeButton(detail);
         updateMenuButton(detail, e.target);
+        updateHelpButton(detail);
 
         this.setTransparent(detail.transparentHeader);
 
@@ -608,6 +627,7 @@
         headerHomeButton = parent.querySelector('.headerHomeButton');
         headerMenuButton = parent.querySelector('.headerMenuButton');
         headerCastButton = parent.querySelector('.headerCastButton');
+        headerHelpButton = parent.querySelector('.headerHelpButton');
         selectedPlayerText = parent.querySelector('.headerSelectedPlayer');
 
         headerLeft = parent.querySelector('.headerLeft');

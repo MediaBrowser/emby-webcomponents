@@ -1,4 +1,4 @@
-﻿define(['layoutManager', 'cardBuilder', 'listView', 'playbackManager', 'userSettings', 'alphaPicker', 'connectionManager', 'focusManager', 'loading', 'globalize', 'browser'], function (layoutManager, cardBuilder, listView, playbackManager, userSettings, AlphaPicker, connectionManager, focusManager, loading, globalize, browser) {
+﻿define(['layoutManager', 'cardBuilder', 'listView', 'playbackManager', 'userSettings', 'alphaPicker', 'connectionManager', 'focusManager', 'loading', 'globalize', 'browser', 'virtual-scroller'], function (layoutManager, cardBuilder, listView, playbackManager, userSettings, AlphaPicker, connectionManager, focusManager, loading, globalize, browser) {
     'use strict';
 
     function initAlphaNumericShortcuts(instance) {
@@ -465,6 +465,7 @@
         this.scroller = view.querySelector('.scrollFrameY');
 
         this.itemsContainer.fetchData = this.fetchData.bind(this);
+        this.itemsContainer.getListOptions = this.getListOptions.bind(this);
         this.itemsContainer.getItemsHtml = this.getItemsHtml.bind(this);
         this.itemsContainer.afterRefresh = afterRefresh.bind(this);
 
@@ -571,16 +572,36 @@
         });
     };
 
-    ItemsTab.prototype.getItemsHtml = function (items) {
+    ItemsTab.prototype.getListViewOptions = function (items, settings) {
+
+        return {
+        };
+    };
+
+    ItemsTab.prototype.getListOptions = function (items) {
 
         var settings = this.getViewSettings();
 
         if (settings.imageType === 'list') {
-            return listView.getListViewHtml(items, {
-            });
+            return this.getListViewOptions(items, settings);
         }
 
-        return cardBuilder.getCardsHtml(items, this.getCardOptions(items, settings));
+        return this.getCardOptions(items, settings);
+    };
+
+    ItemsTab.prototype.getItemsHtml = function (items) {
+
+        var settings = this.getViewSettings();
+
+        var listOptions = this.getListOptions(items);
+
+        if (settings.imageType === 'list') {
+            return listView.getListViewHtml(items, listOptions);
+        }
+
+        listOptions.items = items;
+
+        return cardBuilder.getCardsHtml(listOptions);
     };
 
     ItemsTab.prototype.getCardOptions = function (items, settings) {
@@ -608,8 +629,7 @@
             shape = 'auto';
         }
 
-        return {
-            items: items,
+        var posterOptions = {
             shape: shape,
             centerText: true,
             preferThumb: preferThumb,
@@ -623,6 +643,17 @@
             parentId: this.isGlobalQuery() ? null : this.params.parentId,
             playAction: this.getPlayAction()
         };
+
+        // 2 = native lazy loading only
+        if (this.itemsContainer.classList.contains('virtual')) {
+            posterOptions.lazy = 2;
+        }
+
+        posterOptions.multiSelect = this.enableMultiSelect;
+
+        cardBuilder.setCardData(items, posterOptions);
+
+        return posterOptions;
     };
 
     ItemsTab.prototype.getPlayAction = function () {
@@ -1274,7 +1305,7 @@
 
     function setEmptyListMessage(html) {
 
-        html = '<div class="flex padded-top align-items-center justify-content-center flex-grow">' + html;
+        html = '<div class="flex padded-top align-items-center justify-content-center flex-grow align-items-flex-start">' + html;
         html += '</div>';
         this.itemsContainer.innerHTML = html;
     }

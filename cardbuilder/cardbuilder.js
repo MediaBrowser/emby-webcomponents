@@ -173,6 +173,9 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
                 tagName = 'div';
             }
 
+            var innerHTML = '<div class="cardBox"><div class="cardPadder-' + shape + ' cardScalable"><div class="cardContent cardImageContainer cardContent-shadow"></div></div></div>';
+
+            options.templateInnerHTML = innerHTML;
             options.tagName = tagName;
             options.shape = shape;
             options.className = className;
@@ -1269,6 +1272,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
         function getHoverMenuHtml(item, action, options) {
 
             var html = '';
+            var hasContent = false;
 
             html += '<div class="cardOverlayContainer itemAction" data-action="' + action + '">';
 
@@ -1279,10 +1283,13 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             var itemId = item.Id;
 
             if (options.multiSelect !== false) {
+                hasContent = true;
                 html += '<label data-action="multiselect" data-id="' + itemId + '" data-serverid="' + serverId + '"  class="chkCardSelectContainer cardOverlayButton cardOverlayButton-hover itemAction emby-checkbox-label"><input class="chkCardSelect emby-checkbox" is="emby-checkbox" type="checkbox" data-classes="true" /><span class="checkboxLabel"></span></label>';
             }
 
             if (playbackManager.canPlay(item) && options.hoverPlayButton !== false) {
+
+                hasContent = true;
 
                 var playButtonAction = item.IsFolder ? 'resume' : (options.playAction || 'play');
                 html += '<button type="button" is="paper-icon-button-light" class="' + btnCssClass + ' cardOverlayFab-primary" data-action="' + playButtonAction + '"><i class="md-icon cardOverlayButtonIcon">&#xE037;</i></button>';
@@ -1299,6 +1306,8 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
             if (options.playedButton !== false && itemHelper.canMarkPlayed(item)) {
 
+                hasContent = true;
+
                 html += '<button is="emby-playstatebutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + itemId + '" data-serverid="' + serverId + '" data-itemtype="' + itemType + '" data-played="' + (userData.Played) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5CA;</i></button>';
             }
 
@@ -1306,12 +1315,20 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
 
                 var likes = userData.Likes == null ? '' : userData.Likes;
 
+                hasContent = true;
+
                 html += '<button is="emby-ratingbutton" type="button" data-action="none" class="' + btnCssClass + '" data-id="' + itemId + '" data-serverid="' + serverId + '" data-itemtype="' + itemType + '" data-likes="' + likes + '" data-isfavorite="' + (userData.IsFavorite) + '"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE87D;</i></button>';
             }
 
             // Checking item.Id for Type == AddServer
             if (options.moreButton !== false && item.Type !== 'Program' && item.Id) {
+                hasContent = true;
+
                 html += '<button type="button" is="paper-icon-button-light" class="' + btnCssClass + '" data-action="menu"><i class="md-icon cardOverlayButtonIcon cardOverlayButtonIcon-hover">&#xE5D3;</i></button>';
+            }
+
+            if (!hasContent) {
+                return '';
             }
 
             html += '</div>';

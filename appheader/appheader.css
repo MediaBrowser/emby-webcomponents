@@ -119,6 +119,20 @@
     .headerSelectedPlayer {
         display: none;
     }
+
+    .headerHelpButton {
+        margin: 0 !important;
+        padding: 0;
+        background: none !important;
+    }
+
+    .headerHelpButtonIcon {
+        margin: 0 !important;
+    }
+
+    .headerHelpButtonText {
+        display: none;
+    }
 }
 
 @media all and (max-width: 45em) {

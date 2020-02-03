@@ -101,7 +101,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
         },
 
         initElem: function (elem) {
-            elem.classList.add('headroom');
+            //elem.classList.add('headroom');
 
             var onHeadroomClearedExternallyFn = this.onHeadroomClearedExternallyFn;
             var onHeadroomForceClearedExternallyFn = this.onHeadroomForceClearedExternallyFn;
@@ -112,7 +112,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
 
         remove: function (elem) {
 
-            elem.classList.remove('headroom');
+            //elem.classList.remove('headroom');
 
             var onHeadroomClearedExternallyFn = this.onHeadroomClearedExternallyFn;
             var onHeadroomForceClearedExternallyFn = this.onHeadroomForceClearedExternallyFn;
@@ -148,7 +148,7 @@ define(['dom', 'layoutManager', 'browser', 'apphost', 'events', 'css!./headroom'
 
                 var classList = this.elems[i].classList;
 
-                classList.remove('headroom');
+                //classList.remove('headroom');
             }
 
             var scroller = this.scrollElementForEvents;
