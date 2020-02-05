@@ -19,10 +19,6 @@ html, body {
     overflow-x: hidden;
 }
 
-.overflowYScroll {
-    overflow-y: scroll;
-}
-
 .noScrollY {
     overflow-y: hidden;
 }
@@ -293,7 +289,7 @@ html, body {
 
     .itemsViewSettingsContainer {
         font-size: 92%;
-        padding: 1.25em 0 !important;
+        padding: 1.5em 0 !important;
     }
 }
 
