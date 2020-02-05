@@ -293,6 +293,7 @@ html, body {
 
     .itemsViewSettingsContainer {
         font-size: 92%;
+        padding: 1.25em 0 !important;
     }
 }
 
@@ -305,5 +306,5 @@ html, body {
 
 .layout-tv .itemsViewSettingsContainer {
     justify-content: flex-end;
-    padding: 1.5em .5em 1em 0;
+    padding: 1.5em .5em 1em 0 !important;
 }

@@ -1263,7 +1263,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             return '<' + tagName + dataAttributes + ' class="' + options.className + '">' + cardImageContainerOpen + innerCardFooter + cardImageContainerClose + additionalCardContent + cardScalableClose + outerCardFooter + '</div></' + tagName + '>';
         }
 
-        function getCardParts(item, options) {
+        function getItemParts(item, options) {
 
             options.cardParts = true;
             return getCardHtml(item, options);
@@ -1625,7 +1625,7 @@ define(['datetime', 'imageLoader', 'connectionManager', 'itemHelper', 'focusMana
             setCardData: setCardData,
             getCardsHtml: getCardsHtml,
             getCardHtml: getCardHtml,
-            getCardParts: getCardParts,
+            getItemParts: getItemParts,
             buildCards: buildCards,
             onUserDataChanged: onUserDataChanged,
             onTimerCreated: onTimerCreated,

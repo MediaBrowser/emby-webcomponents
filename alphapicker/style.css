@@ -113,12 +113,20 @@
 
 .alphaPicker-fixed-left {
     left: 0;
-    left: var(--window-inset-left);
 }
 
 .alphaPicker-fixed-right {
     right: 0;
-    right: var(--window-inset-right);
+}
+
+@media (pointer: fine) {
+    .alphaPicker-fixed-right {
+        right: 1em;
+    }
+}
+
+.alphaPicker-fixed-right.alphaPicker-tv {
+    right: 0;
 }
 
 @media all and (min-width: 62.5em) {
@@ -128,6 +136,16 @@
     }
 
     .alphaPicker-fixed-right {
+        right: .8em;
+    }
+
+    @media (pointer: fine) {
+        .alphaPicker-fixed-right {
+            right: 1.8em;
+        }
+    }
+
+    .alphaPicker-fixed-right.alphaPicker-tv {
         right: .8em;
     }
 }

@@ -848,6 +848,12 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             if (options.isFavorite) {
                 url += '&IsFavorite=true';
             }
+            if (options.artistId) {
+                url += '&artistId=' + options.artistId;
+            }
+            if (options.albumArtistId) {
+                url += '&albumArtistId=' + options.albumArtistId;
+            }
 
             return url;
         }
