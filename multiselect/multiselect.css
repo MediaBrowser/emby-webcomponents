@@ -1,14 +1,4 @@
-﻿.itemSelectionPanel {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-    background-color: rgba(0, 0, 0, .3);
-    z-index: 99998;
-}
-
-.selectionCommandsPanel {
+﻿.selectionCommandsPanel {
     position: fixed;
     top: 0;
     top: var(--window-inset-top);
@@ -25,20 +15,3 @@
     color: #fff !important;
     margin: 0;
 }
-
-.chkItemSelectContainer {
-    height: auto !important;
-    margin-top: .1em;
-}
-
-.chkItemSelectLabel::before {
-    border-radius: 0 !important;
-}
-
-.withMultiSelect {
-    position: relative;
-}
-
-    .withMultiSelect .cardOverlayContainer {
-        opacity: 0 !important;
-    }

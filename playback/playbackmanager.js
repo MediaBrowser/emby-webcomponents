@@ -1921,7 +1921,7 @@
                     // Setting this to true may cause some incorrect sorting
                     Recursive: false,
                     SortBy: options.shuffle ? 'Random' : 'SortName',
-                    Limit: 1000
+                    Limit: 5000
                 });
             }
             else if (firstItem.Type === "MusicGenre") {

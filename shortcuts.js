@@ -1,31 +1,16 @@
 define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'connectionManager', 'appRouter', 'globalize', 'loading', 'dom', 'recordingHelper'], function (appSettings, layoutManager, playbackManager, inputManager, connectionManager, appRouter, globalize, loading, dom, recordingHelper) {
     'use strict';
 
-    function playAllFromHere(card, serverId, queue) {
+    function playAllFromHere(card, itemId, serverId, queue) {
 
-        var parent = card.parentNode;
-        var className = card.classList.length ? ('.' + card.classList[0]) : '';
-        var cards = parent.querySelectorAll(className + '[data-id]');
-
-        var ids = [];
-
-        var foundCard = false;
-        var startIndex;
-
-        for (var i = 0, length = cards.length; i < length; i++) {
-            if (cards[i] === card) {
-                foundCard = true;
-                startIndex = i;
-            }
-            if (foundCard || !queue) {
-                ids.push(cards[i].getAttribute('data-id'));
-            }
-        }
+        var startIndex = parseInt(card.getAttribute('data-index'));
 
         var itemsContainer = dom.parentWithClass(card, 'itemsContainer');
         if (itemsContainer && itemsContainer.fetchData) {
 
-            var queryOptions = queue ? { StartIndex: startIndex } : {};
+            var limit = 1000;
+            var fetchAll = !queue && startIndex < limit;
+            var queryOptions = fetchAll ? { Limit: limit } : { StartIndex: startIndex, Limit: limit };
 
             return itemsContainer.fetchData(queryOptions).then(function (result) {
 
@@ -37,10 +22,28 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
 
                     return playbackManager.play({
                         items: result.Items || result,
-                        startIndex: startIndex
+                        startIndex: fetchAll ? startIndex : null
                     });
                 }
             });
+        }
+
+        var parent = card.parentNode;
+        var className = card.classList.length ? ('.' + card.classList[0]) : '';
+        var cards = parent.querySelectorAll(className + '[data-id]');
+
+        var ids = [];
+
+        var foundCard = false;
+
+        for (var i = 0, length = cards.length; i < length; i++) {
+            if (cards[i] === card) {
+                foundCard = true;
+                startIndex = i;
+            }
+            if (foundCard || !queue) {
+                ids.push(cards[i].getAttribute('data-id'));
+            }
         }
 
         if (!ids.length) {
@@ -330,11 +333,11 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         }
 
         else if (action === 'playallfromhere') {
-            playAllFromHere(card, serverId);
+            playAllFromHere(card, playableItemId, serverId);
         }
 
         else if (action === 'queueallfromhere') {
-            playAllFromHere(card, serverId, true);
+            playAllFromHere(card, playableItemId, serverId, true);
         }
 
         else if (action === 'setplaylistindex') {
@@ -539,9 +542,11 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
             if (action) {
                 executeAction(card, actionElement, action);
 
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
+                if (action !== 'multiselect') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
             }
         }
     }
@@ -710,18 +715,17 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
             });
         }
 
-        var nameWithPrefix = (item.SortName || item.Name || '');
-        var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
+        var nameWithPrefix = item.SortName;
+        if (nameWithPrefix) {
 
-        if (prefix) {
-            prefix = prefix.toUpperCase();
-        }
+            var prefix = nameWithPrefix.substring(0, Math.min(3, nameWithPrefix.length));
 
-        if (prefix) {
-            dataAttributes.push({
-                name: 'data-prefix',
-                value: prefix
-            });
+            if (prefix) {
+                dataAttributes.push({
+                    name: 'data-prefix',
+                    value: prefix.toUpperCase()
+                });
+            }
         }
 
         if (item.TimerId) {

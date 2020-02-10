@@ -750,7 +750,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
     function showMultiSelect(apiClient, item, options) {
 
         var itemsContainer = dom.parentWithClass(options.positionTo, 'itemsContainer');
-        itemsContainer.showMultiSelect(options.positionTo);
+        itemsContainer.showMultiSelect(options.positionTo, true);
     }
 
     function deleteTimer(apiClient, item) {

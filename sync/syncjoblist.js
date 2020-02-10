@@ -97,6 +97,8 @@
     }
 
     var supportsNativeLazyLoading = 'loading' in HTMLImageElement.prototype;
+    // unfortunately right now Chrome's lazy loading is too eager and loads too much
+    supportsNativeLazyLoading = false;
 
     function getSyncJobHtml(listInstance, job, apiClient, mode) {
 

@@ -2,6 +2,7 @@
     'use strict';
 
     var selectedItems = [];
+    var selectedItemsMap = {};
     var selectedElements = [];
     var currentSelectionCommandsPanel;
 
@@ -14,94 +15,29 @@
             currentSelectionCommandsPanel = null;
 
             selectedItems = [];
+            selectedItemsMap = {};
             selectedElements = [];
-            var elems = document.querySelectorAll('.itemSelectionPanel');
-            for (var i = 0, length = elems.length; i < length; i++) {
 
-                var parent = elems[i].parentNode;
-                parent.removeChild(elems[i]);
-                parent.classList.remove('withMultiSelect');
-            }
-        }
-    }
+            var elems = document.querySelectorAll('.multi-select-active');
+            var i, length;
 
-    function onItemSelectionPanelClick(e, itemSelectionPanel) {
+            for (i = 0, length = elems.length; i < length; i++) {
 
-        // toggle the checkbox, if it wasn't clicked on
-
-        var chkItemSelect = dom.parentWithClass(e.target, 'chkItemSelect');
-        if (!chkItemSelect) {
-            chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
-        }
-
-        if (chkItemSelect) {
-
-            var newValue = !chkItemSelect.checked;
-            chkItemSelect.checked = newValue;
-            updateItemSelection(chkItemSelect, newValue);
-        }
-
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-    }
-
-    function updateItemSelection(chkItemSelect, selected) {
-
-        var id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
-
-        if (selected) {
-
-            var current = selectedItems.filter(function (i) {
-                return i === id;
-            });
-
-            if (!current.length) {
-                selectedItems.push(id);
-                selectedElements.push(chkItemSelect);
+                elems[i].classList.remove('multi-select-active');
             }
 
-        } else {
-            selectedItems = selectedItems.filter(function (i) {
-                return i !== id;
-            });
-            selectedElements = selectedElements.filter(function (i) {
-                return i !== chkItemSelect;
-            });
-        }
+            elems = document.querySelectorAll('.chkCardSelect:checked');
+            for (i = 0, length = elems.length; i < length; i++) {
 
-        if (selectedItems.length) {
-            var itemSelectionCount = document.querySelector('.itemSelectionCount');
-            if (itemSelectionCount) {
-                itemSelectionCount.innerHTML = selectedItems.length;
+                elems[i].checked = false;
             }
-        } else {
-            hideSelections();
-        }
-    }
 
-    function onSelectionChange(e) {
-        updateItemSelection(this, this.checked);
-    }
+            elems = document.querySelectorAll('.item-multiselected');
 
-    function showSelection(item, isChecked) {
+            for (i = 0, length = elems.length; i < length; i++) {
 
-        var itemSelectionPanel = item.querySelector('.itemSelectionPanel');
-
-        if (!itemSelectionPanel) {
-
-            itemSelectionPanel = document.createElement('div');
-            itemSelectionPanel.classList.add('itemSelectionPanel');
-
-            var parent = item.querySelector('.cardBox') || item.querySelector('.cardContent');
-            parent.classList.add('withMultiSelect');
-            parent.appendChild(itemSelectionPanel);
-
-            var cssClass = 'chkItemSelect';
-            var checkedAttribute = isChecked ? ' checked' : '';
-            itemSelectionPanel.innerHTML = '<label class="checkboxContainer chkItemSelectContainer"><input type="checkbox" is="emby-checkbox" class="' + cssClass + '"' + checkedAttribute + '/><span class="chkItemSelectLabel"></span></label>';
-            var chkItemSelect = itemSelectionPanel.querySelector('.chkItemSelect');
-            chkItemSelect.addEventListener('change', onSelectionChange);
+                elems[i].classList.remove('item-multiselected');
+            }
         }
     }
 
@@ -425,58 +361,101 @@
         });
     }
 
-    function showSelections(initialCard) {
+    function showSelections(chkItemSelect, selected) {
 
-        require(['emby-checkbox'], function () {
-            var cards = document.querySelectorAll('.card');
-            for (var i = 0, length = cards.length; i < length; i++) {
-                showSelection(cards[i], initialCard === cards[i]);
+        if (!chkItemSelect.classList.contains('chkCardSelect')) {
+            chkItemSelect = chkItemSelect.querySelector('.chkCardSelect');
+        }
+
+        if (selected == null) {
+            selected = chkItemSelect.checked;
+        }
+        else {
+            chkItemSelect.checked = selected;
+        }
+
+        var id = dom.parentWithAttribute(chkItemSelect, 'data-id').getAttribute('data-id');
+        var card = dom.parentWithClass(chkItemSelect, 'card');
+
+        if (selected) {
+
+            card.querySelector('.cardBox').classList.add('item-multiselected');
+
+            var current = selectedItems.filter(function (i) {
+                return i === id;
+            });
+
+            if (!current.length) {
+                selectedItems.push(id);
+                selectedItemsMap[id] = true;
+                selectedElements.push(chkItemSelect);
             }
 
+        } else {
+            card.querySelector('.cardBox').classList.remove('item-multiselected');
+
+            selectedItems = selectedItems.filter(function (i) {
+                return i !== id;
+            });
+            selectedItemsMap[id] = null;
+            selectedElements = selectedElements.filter(function (i) {
+                return i !== chkItemSelect;
+            });
+        }
+
+        var container = dom.parentWithAttribute(chkItemSelect, 'is', 'emby-itemscontainer');
+
+        if (selectedItems.length) {
+            container.classList.add('multi-select-active');
+
             showSelectionCommands();
-            updateItemSelection(initialCard, true);
-        });
+
+            var itemSelectionCount = document.querySelector('.itemSelectionCount');
+            if (itemSelectionCount) {
+                itemSelectionCount.innerHTML = selectedItems.length;
+            }
+        } else {
+            hideSelections();
+        }
+
     }
-
     function onContainerClick(e) {
-
-        var target = e.target;
 
         if (selectedItems.length) {
 
+            var target = e.target;
+
             var card = dom.parentWithClass(target, 'card');
             if (card) {
-                var itemSelectionPanel = card.querySelector('.itemSelectionPanel');
-                if (itemSelectionPanel) {
-                    return onItemSelectionPanelClick(e, itemSelectionPanel);
+
+                var chkItemSelectContainer = dom.parentWithClass(target, 'chkCardSelectContainer');
+                if (!chkItemSelectContainer) {
+                    var chkItemSelect = card.querySelector('.chkCardSelect');
+
+                    showSelections(chkItemSelect, !chkItemSelect.checked);
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
                 }
             }
-
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
         }
     }
 
     document.addEventListener('viewbeforehide', hideSelections);
 
-    return function (options) {
+    function MultiSelect(options) {
 
         var self = this;
+    }
 
-        var container = options.container;
+    MultiSelect.prototype.showSelections = showSelections;
+    MultiSelect.prototype.onContainerClick = onContainerClick;
 
-        if (options.bindOnClick !== false) {
-            container.addEventListener('click', onContainerClick);
-        }
+    MultiSelect.isSelected = function (id) {
 
-        self.showSelections = showSelections;
-
-        self.onContainerClick = onContainerClick;
-
-        self.destroy = function () {
-
-            container.removeEventListener('click', onContainerClick);
-        };
+        return selectedItemsMap[id];
     };
+
+    return MultiSelect;
 });

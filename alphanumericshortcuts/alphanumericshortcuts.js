@@ -26,7 +26,7 @@
 
             if (chr.length === 1) {
                 currentDisplayTextContainer = this.options.itemsContainer;
-                onAlphanumericKeyPress(e, chr);
+                onAlphanumericKeyPress(this, e, chr);
             }
         }
     }
@@ -53,12 +53,12 @@
             alpanumericShortcutTimeout = null;
         }
     }
-    function resetAlphaNumericShortcutTimeout() {
+    function resetAlphaNumericShortcutTimeout(instance) {
         clearAlphaNumericShortcutTimeout();
-        alpanumericShortcutTimeout = setTimeout(onAlphanumericShortcutTimeout, 2000);
+        alpanumericShortcutTimeout = setTimeout(onAlphanumericShortcutTimeout.bind(instance), 2000);
     }
 
-    function onAlphanumericKeyPress(e, chr) {
+    function onAlphanumericKeyPress(instance, e, chr) {
         if (currentDisplayText.length >= 3) {
             return;
         }
@@ -66,10 +66,13 @@
         currentDisplayText += chr;
         inputDisplayElement.innerHTML = currentDisplayText;
         inputDisplayElement.classList.remove('hide');
-        resetAlphaNumericShortcutTimeout();
+        resetAlphaNumericShortcutTimeout(instance);
     }
 
     function onAlphanumericShortcutTimeout() {
+
+        var instance = this;
+
         var value = currentDisplayText;
         var container = currentDisplayTextContainer;
 
@@ -78,12 +81,16 @@
         inputDisplayElement.innerHTML = '';
         inputDisplayElement.classList.add('hide');
         clearAlphaNumericShortcutTimeout();
-        selectByShortcutValue(container, value);
+        selectByShortcutValue(instance, container, value);
     }
 
-    function selectByShortcutValue(container, value) {
+    function selectByShortcutValue(instance, container, value) {
 
-        value = value.toUpperCase();
+        if (instance.onAlphaNumericValueEntered) {
+            if (instance.onAlphaNumericValueEntered(value)) {
+                return;
+            }
+        }
 
         var focusElem;
         if (value === '#') {
@@ -92,7 +99,7 @@
         }
 
         if (!focusElem) {
-            focusElem = container.querySelector('*[data-prefix^=\'' + value + '\']');
+            focusElem = container.querySelector('*[data-prefix^=\'' + value.toUpperCase() + '\']');
         }
 
         if (focusElem) {

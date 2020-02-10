@@ -32,6 +32,7 @@
     }
 
     var supportsNativeLazyLoading = 'loading' in HTMLImageElement.prototype;
+
     function getJobItemHtml(jobItem, apiClient, index) {
 
         var html = '';
