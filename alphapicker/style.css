@@ -37,7 +37,6 @@
 }
 
 .alphaPickerRow-vertical {
-    overflow: hidden;
     column-count: 1;
     flex-grow: 1;
     flex-direction: column;

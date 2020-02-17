@@ -999,19 +999,46 @@
             })[0];
         }
 
-        self.getPlaylist = function (player) {
+        function modifyPlaylist(playlist, options) {
+
+            var total = playlist.length;
+
+            if (options) {
+
+                if (options.StartIndex) {
+
+                    if (options.StartIndex >= playlist.length) {
+                        playlist = [];
+                    } else {
+                        playlist = playlist.slice(options.StartIndex);
+                    }
+                }
+
+                if (options.Limit && playlist.length > options.Limit) {
+
+                    playlist.length = options.Limit;
+                }
+            }
+
+            return {
+                Items: playlist,
+                TotalRecordCount: total
+            };
+        }
+
+        self.getPlaylist = function (options, player) {
 
             player = player || self._currentPlayer;
             if (player && !enableLocalPlaylistManagement(player)) {
 
                 if (player.getPlaylistSync) {
-                    return Promise.resolve(player.getPlaylistSync());
+                    return Promise.resolve(modifyPlaylist(player.getPlaylistSync(), options));
                 }
 
-                return player.getPlaylist();
+                return modifyPlaylist(player.getPlaylist(), options);
             }
 
-            return Promise.resolve(self._playQueueManager.getPlaylist());
+            return Promise.resolve(self._playQueueManager.getPlaylistResult(options));
         };
 
         function removeCurrentPlayer(player) {

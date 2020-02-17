@@ -90,8 +90,7 @@ html, body {
         left: 0 !important;
         transform: none !important;
         box-shadow: none !important;
-        padding-top: 0;
-        top: 4.74em !important;
+        padding-top: 5.25em;
     }
 
     .mainDrawer-open-partial {
@@ -103,7 +102,7 @@ html, body {
     }
 
     .withSectionTabs .mainDrawer-docked {
-        top: 7.26em !important;
+        padding-top: 7.5em !important;
     }
 
     .skinBody-withFullDrawer {
@@ -117,12 +116,8 @@ html, body {
 
 @media all and (min-width: 120em) {
 
-    .withSectionTabs .mainDrawer-docked {
-        top: 6.12em !important;
-    }
-
-    .mainDrawer-docked {
-        top: 6.12em !important;
+    .withSectionTabs .mainDrawer-docked, .mainDrawer-docked {
+        padding-top: 6.37em !important;
     }
 }
 
@@ -302,5 +297,5 @@ html, body {
 
 .layout-tv .itemsViewSettingsContainer {
     justify-content: flex-end;
-    padding: 1.5em .5em 1em 0 !important;
+    padding-right: .5em !important;
 }

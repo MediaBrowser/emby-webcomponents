@@ -28,7 +28,35 @@
         this._repeatMode = 'RepeatNone';
     }
 
+    PlayQueueManager.prototype.getPlaylistResult = function (options) {
+
+        var startIndex;
+        var limit;
+
+        if (options) {
+            startIndex = options.StartIndex;
+            limit = options.Limit;
+        }
+
+        var original = this._playlist;
+
+        var playlist = original.slice(startIndex || 0);
+
+        var total = original.length;
+
+        if (limit && playlist.length > limit) {
+
+            playlist.length = limit;
+        }
+
+        return {
+            Items: playlist,
+            TotalRecordCount: total
+        };
+    };
+
     PlayQueueManager.prototype.getPlaylist = function () {
+
         return this._playlist.slice(0);
     };
 

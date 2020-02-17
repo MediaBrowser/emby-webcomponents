@@ -147,12 +147,4 @@
     .padded-right {
         padding-right: 4%;
     }
-
-    .layout-tv .padded-left-withalphapicker {
-        padding-left: 4.5%;
-    }
-
-    .layout-tv .padded-right-withalphapicker {
-        padding-right: 4.5%;
-    }
 }
