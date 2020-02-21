@@ -1,4 +1,4 @@
-define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager', 'userSettings', 'itemHelper'], function (loading, globalize, events, viewManager, layoutManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager, userSettings, itemHelper) {
+define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager', 'userSettings', 'itemHelper', 'pluginManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager, userSettings, itemHelper, pluginManager) {
     'use strict';
 
     var appRouter = {
@@ -199,6 +199,31 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
                 return loadTranslationFromConfigPage(apiClient, configPages[0]);
             }
         });
+    }
+
+    function getParameterByName(name, url) {
+
+        name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+        var regexS = "[\\?&]" + name + "=([^&#]*)";
+        var regex = new RegExp(regexS, "i");
+
+        var search = window.location.search;
+
+        if (!search) {
+
+            var index = window.location.href.indexOf('?');
+            if (index !== -1) {
+                search = window.location.href.substring(index);
+            }
+        }
+
+        var results = regex.exec(url || search);
+        if (results == null) {
+            return "";
+        }
+        else {
+            return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
     }
 
     function loadContentUrl(ctx, route, request) {
@@ -900,7 +925,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         if (itemType === "Plugin") {
 
-            if (!Dashboard.allowPluginPages(item.Id)) {
+            if (!pluginManager.allowPluginPages(item.Id)) {
                 return null;
             }
 

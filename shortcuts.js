@@ -295,6 +295,11 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
             }
         }
 
+        else if (action === 'programlink') {
+
+            appRouter.showItem(card.getAttribute('data-programid') || item.Id, item.ServerId);
+        }
+
         else if (action === 'programdialog') {
 
             showProgramDialog(item);
@@ -741,6 +746,14 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
             });
         }
 
+        var currentProgram = item.CurrentProgram;
+        if (currentProgram) {
+            dataAttributes.push({
+                name: 'data-programid',
+                value: currentProgram.Id
+            });
+        }
+
         return dataAttributes;
     }
 
@@ -837,6 +850,11 @@ define(['appSettings', 'layoutManager', 'playbackManager', 'inputManager', 'conn
         }
         if (item.SeriesTimerId) {
             dataAttributes += ' data-seriestimerid="' + item.SeriesTimerId + '"';
+        }
+
+        var currentProgram = item.CurrentProgram;
+        if (currentProgram) {
+            dataAttributes += ' data-programid="' + currentProgram.Id + '"';
         }
 
         return dataAttributes;

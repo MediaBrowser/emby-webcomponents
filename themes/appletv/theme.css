@@ -460,7 +460,7 @@ html {
 /* scrollbuttons */
 .scrollbuttoncontainer {
     color: #fff;
-    background: rgba(0,0,0,.9);
+    background: rgba(20, 20, 20, 0.5);
 }
 
 .recordingIcon-active {

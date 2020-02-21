@@ -822,7 +822,8 @@
                 ImageTypeLimit: 1,
                 EnableImageTypes: "Primary,Thumb,Backdrop",
                 EnableTotalRecordCount: false,
-                Fields: "ProgramPrimaryImageAspectRatio"
+                Fields: "ProgramPrimaryImageAspectRatio",
+                EnableUserData: false
             });
         };
     }
@@ -847,7 +848,9 @@
             showAirDateTime: false,
             showParentTitle: false,
             overlayPlayButton: true,
-            defaultShape: 'portrait'
+            defaultShape: 'portrait',
+            action: 'programlink',
+            multiSelect: false
         });
     }
 
@@ -960,7 +963,7 @@
                 }
                 html += '</div>';
 
-                html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-refreshinterval="300000">';
+                html += '<div is="emby-scroller" data-mousewheel="false" data-centerfocus="true" class="padded-top-focusscale padded-bottom-focusscale"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x padded-left padded-right" data-refreshinterval="300000" data-multiselect="false">';
 
                 html += '</div>';
 
