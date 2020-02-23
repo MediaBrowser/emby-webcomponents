@@ -1,4 +1,4 @@
-﻿define(['events', 'playbackManager', 'dom', 'browser', 'css!./iconosd', 'material-icons'], function (events, playbackManager, dom, browser) {
+﻿define(['events', 'playbackManager', 'dom', 'browser', 'Modernizr', 'css!./iconosd', 'material-icons'], function (events, playbackManager, dom, browser, Modernizr) {
     'use strict';
 
     var currentPlayer;
@@ -23,7 +23,7 @@
         var elem = osdElement;
         if (!elem) {
 
-            enableAnimation = browser.supportsCssAnimation();
+            enableAnimation = Modernizr.csstransitions;
 
             elem = document.createElement('div');
             elem.classList.add('hide');

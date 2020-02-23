@@ -1075,7 +1075,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
                     return showAlert(globalize.translate('NoPluginConfigurationMessage'));
 
-                } else if (!Dashboard.allowPluginPages(item.Id)) {
+                } else if (!pluginManager.allowPluginPages(item.Id)) {
                     return showAlert(globalize.translate('MessagePluginConfigurationRequiresLocalAccess'));
                 }
             }
