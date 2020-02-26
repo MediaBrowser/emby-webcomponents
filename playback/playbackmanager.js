@@ -385,27 +385,9 @@
 
         var maxValues = getAudioMaxValues(deviceProfile);
 
-        var streamUrls = [];
-
         var enableRemoteMedia = apphost.supports('remoteaudio');
 
-        for (var i = 0, length = items.length; i < length; i++) {
-
-            var item = items[i];
-            var streamUrl;
-
-            if (item.MediaType === 'Audio') {
-                streamUrl = apiClient.getAudioStreamUrl(item, audioTranscodingProfile, audioDirectPlayContainers, maxValues.maxAudioBitrate || maxBitrate, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition, enableRemoteMedia);
-            }
-
-            streamUrls.push(streamUrl || '');
-
-            if (i === 0) {
-                startPosition = 0;
-            }
-        }
-
-        return Promise.resolve(streamUrls);
+        return apiClient.getAudioStreamUrls(items, audioTranscodingProfile, audioDirectPlayContainers, maxValues.maxAudioBitrate || maxBitrate, maxValues.maxAudioSampleRate, maxValues.maxAudioBitDepth, startPosition, enableRemoteMedia);
     }
 
     function setStreamUrlIntoAllMediaSources(mediaSources, streamUrl) {

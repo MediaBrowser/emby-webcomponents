@@ -17,7 +17,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
             if (appHost.supports('multiserver')) {
                 return show('/startup/welcome.html');
             } else {
-                return show('/startup/login.html?serverId=' + ApiClient.serverId());
+                return show('/startup/login.html?serverId=' + connectionManager.currentApiClient().serverId());
             }
         },
         showConnectLogin: function () {

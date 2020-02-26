@@ -1,4 +1,4 @@
-define(['events'], function (events) {
+define(['events', 'apphost', 'connectionManager'], function (events, appHost, connectionManager) {
     'use strict';
 
     // TODO: replace with each plugin version
@@ -247,6 +247,33 @@ define(['events'], function (events) {
         var disallowPlugins = (self.appMode === 'ios' || self.appMode === 'android') && allowedPluginConfigs.indexOf((pluginId || '').toLowerCase()) === -1;
 
         return !disallowPlugins;
+    };
+
+    PluginManager.prototype.getConfigurationPageUrl = function (name) {
+
+        if (appHost.supports('multiserver')) {
+
+            return "configurationpageext?name=" + encodeURIComponent(name);
+
+        } else {
+
+            return "configurationpage?name=" + encodeURIComponent(name);
+        }
+    };
+
+    PluginManager.prototype.getConfigurationResourceUrl = function (name) {
+
+        if (appHost.supports('multiserver')) {
+
+            return connectionManager.currentApiClient().getUrl('web/ConfigurationPage',
+                {
+                    name: name
+                });
+
+        } else {
+
+            return this.getConfigurationPageUrl(name);
+        }
     };
 
     return new PluginManager();

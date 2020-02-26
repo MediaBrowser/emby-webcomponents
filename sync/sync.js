@@ -595,7 +595,7 @@
 
             html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
             html += '<div class="scrollSlider">';
-            html += '<form class="dialogContentInner dialog-content-centered formSubmitSyncRequest" style="padding-top:2em;">';
+            html += '<form class="dialogContentInner dialog-content-centered formSubmitSyncRequest padded-left padded-right" style="padding-top:2em;">';
 
             html += '<div class="formFields"></div>';
 

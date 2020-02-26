@@ -184,6 +184,58 @@ define([], function () {
 
         return supportsCaptureOption;
     }
+    function removeAttributes(elem) {
+        var whitelist = [];
+
+        var attributes = elem.attributes;
+        var i = attributes.length;
+        while (i--) {
+            var attr = attributes[i];
+            if (whitelist.indexOf(attr.name) === -1) {
+                elem.removeAttributeNode(attr);
+            }
+        }
+    }
+
+    function stripScriptsWithDom(s) {
+        var div = document.createElement('div');
+        div.innerHTML = s;
+        var scripts = div.getElementsByTagName('script');
+        var i = scripts.length;
+        while (i--) {
+            scripts[i].parentNode.removeChild(scripts[i]);
+        }
+
+        var elems = div.getElementsByTagName("*");
+        var length;
+
+        for (i = 0, length = elems.length; i < length; i++) {
+            //Remove all onmouseover, onmouseout, onclick eventhandlers from element           
+            var elem = elems[i];
+
+            removeAttributes(elem);
+
+            if (elem.tagName === "A") {
+
+                //if the href values of the link tags start with javascript:  then set href="#""
+                if (elem.href.indexOf('javascript') === 0) {
+                    elem.setAttribute("href", "#");
+                }
+            }
+        }
+
+        return div.innerHTML;
+    }
+
+    function stripScripts(s) {
+
+        try {
+            return stripScriptsWithDom(s);
+        }
+        catch (err) {
+            return htmlEncode(s);
+        }
+    }
 
     return {
         parentWithAttribute: parentWithAttribute,
@@ -196,6 +248,7 @@ define([], function () {
         whichAnimationEvent: whichAnimationEvent,
         whichAnimationCancelEvent: whichAnimationCancelEvent,
         htmlEncode: htmlEncode,
-        supportsEventListenerOnce: supportsEventListenerOnce
+        supportsEventListenerOnce: supportsEventListenerOnce,
+        stripScripts: stripScripts
     };
 });

@@ -16,7 +16,7 @@ define(['dialog', 'globalize'], function (dialog, globalize) {
         var items = [];
 
         items.push({
-            name: globalize.translate('ButtonGotIt'),
+            name: options.confirmText || globalize.translate('ButtonGotIt'),
             id: 'ok',
             type: 'submit'
         });

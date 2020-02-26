@@ -39,7 +39,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
 
             }).then(function () {
 
-                return ApiClient.uninstallPlugin(item.Id).then(function () {
+                return apiClient.uninstallPlugin(item.Id).then(function () {
 
                     return onItemDeleted(options);
                 });
@@ -63,7 +63,7 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
 
             }).then(function () {
 
-                return ApiClient.deleteUser(item.Id).then(function () {
+                return apiClient.deleteUser(item.Id).then(function () {
 
                     return onItemDeleted(options);
                 });

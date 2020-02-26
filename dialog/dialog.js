@@ -52,6 +52,10 @@ define(['dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'materia
 
             dlg.querySelector('.text').innerHTML = options.html;
 
+        } else if (options.preFormattedText) {
+
+            dlg.querySelector('.text').innerHTML = '<pre style="text-align:left;font-size:inherit;white-space:pre-wrap;">' + options.preFormattedText+'</pre>';
+
         } else if (options.text) {
 
             dlg.querySelector('.text').innerText = replaceAll(options.text || '', '<br/>', '\n');

@@ -47,7 +47,7 @@
 
                 html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
                 html += '<div class="scrollSlider">';
-                html += '<div class="dialogContentInner dialog-content-centered">';
+                html += '<div class="dialogContentInner dialog-content-centered padded-left padded-right">';
 
                 html += '<h1>' + globalize.translate('HeaderDiscoverEmbyPremiere') + '</h1>';
 
@@ -360,7 +360,7 @@
 
         html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
         html += '<div class="scrollSlider">';
-        html += '<form class="dialogContentInner dialog-content-centered">';
+        html += '<form class="dialogContentInner dialog-content-centered padded-left padded-right">';
 
         html += '<p style="margin-top:1.5em;">';
 
@@ -604,7 +604,7 @@
 
         html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
         html += '<div class="scrollSlider">';
-        html += '<div class="dialogContentInner dialog-content-centered">';
+        html += '<div class="dialogContentInner dialog-content-centered padded-left padded-right">';
 
         html += '<p style="margin:2em 0;">';
         html += globalize.translate('HowDidYouPay');

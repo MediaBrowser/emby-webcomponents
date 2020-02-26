@@ -31,7 +31,7 @@ define(['dialogHelper', 'layoutManager', 'globalize', 'dom', 'require', 'materia
 
         if (layoutManager.tv) {
         } else {
-            dlg.querySelector('.dialogContentInner').classList.add('dialogContentInner-mini');
+            dlg.querySelector('.dialogContentInner').style['padding-bottom'] = '10em';
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 

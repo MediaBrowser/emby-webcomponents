@@ -20,7 +20,7 @@
 
         html += '<div is="emby-scroller" data-horizontal="false" data-centerfocus="card" class="formDialogContent">';
         html += '<div class="scrollSlider">';
-        html += '<form class="dialogContentInner dialog-content-centered" style="padding-top:2em;">';
+        html += '<form class="dialogContentInner dialog-content-centered padded-left padded-right" style="padding-top:2em;">';
 
         html += '<div class="fldSelectPlaylist selectContainer">';
         html += '<select is="emby-select" id="selectMetadataRefreshMode" label="' + globalize.translate('LabelRefreshMode') + '">';

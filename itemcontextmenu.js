@@ -718,7 +718,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
                 var refreshAfterChange = dom.parentWithClass(button, 'page').getAttribute('data-refreshlibrary') === 'true';
 
-                return ApiClient.removeVirtualFolder(virtualFolder, refreshAfterChange);
+                return apiClient.removeVirtualFolder(virtualFolder, refreshAfterChange);
             });
         });
     }
@@ -740,7 +740,7 @@ define(['dom', 'userSettings', 'apphost', 'globalize', 'connectionManager', 'ite
 
                     var refreshAfterChange = dom.parentWithClass(button, 'page').getAttribute('data-refreshlibrary') === 'true';
 
-                    return ApiClient.renameVirtualFolder(virtualFolder, newName, refreshAfterChange);
+                    return apiClient.renameVirtualFolder(virtualFolder, newName, refreshAfterChange);
                 }
             });
 
