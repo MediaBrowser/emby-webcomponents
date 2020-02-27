@@ -1,6 +1,8 @@
 define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinManager', 'backdrop', 'browser', 'pageJs', 'appSettings', 'apphost', 'connectionManager', 'userSettings', 'itemHelper', 'pluginManager'], function (loading, globalize, events, viewManager, layoutManager, skinManager, backdrop, browser, page, appSettings, appHost, connectionManager, userSettings, itemHelper, pluginManager) {
     'use strict';
 
+    var isWebApp = self.appMode || !appHost.supports('multiserver');
+
     var appRouter = {
         showLocalLogin: function (serverId, manualLogin) {
 
@@ -81,7 +83,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         loading.show();
 
         if (!appHost.supports('multiserver')) {
-            return showLocalLoginFromApiClient(ApiClient);
+            return showLocalLoginFromApiClient(connectionManager.currentApiClient());
         }
 
         return connectionManager.connect({
@@ -191,7 +193,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         loadedTranslations[pageName] = true;
 
-        var apiClient = ApiClient;
+        var apiClient = connectionManager.currentApiClient();
 
         return apiClient.getJSON(apiClient.getUrl("web/configurationpages", { Name: pageName })).then(function (configPages) {
 
@@ -253,7 +255,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
         var promises = [require(['text!' + url])];
 
-        if (self.Dashboard) {
+        if (isWebApp) {
             request.isPluginPage = request.url.toLowerCase().indexOf('/configurationpage') !== -1;
 
             if (request.isPluginPage) {
@@ -588,7 +590,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
         isDummyBackToHome = true;
         skinManager.loadUserSkin();
 
-        if (self.Dashboard) {
+        if (isWebApp) {
             return;
         }
 
@@ -743,11 +745,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function getHomeRoute() {
 
-        if (self.Dashboard) {
-            return '/home';
-        }
-
-        if (layoutManager.tv && userSettings.get('tvhome') === 'horizontal' && !browser.netcast) {
+        if (!isWebApp && layoutManager.tv && userSettings.get('tvhome') === 'horizontal' && !browser.netcast) {
             return '/home_horiz/home.html';
         }
 
@@ -766,7 +764,7 @@ define(['loading', 'globalize', 'events', 'viewManager', 'layoutManager', 'skinM
 
     function getRouteUrl(item, options) {
 
-        if (!self.Dashboard) {
+        if (!isWebApp) {
             if (item === 'managedownloads') {
                 return '/offline/managedownloads.html';
             }

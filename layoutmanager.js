@@ -1,4 +1,4 @@
-define(['browser', 'appSettings', 'events'], function (browser, appSettings, events) {
+define(['browser', 'appSettings', 'events', 'apphost'], function (browser, appSettings, events, appHost) {
     'use strict';
 
     function setLayout(instance, layout, selectedLayout) {
@@ -127,7 +127,7 @@ define(['browser', 'appSettings', 'events'], function (browser, appSettings, eve
             return 'mobile';
         }
 
-        if (self.Dashboard) {
+        if (!appHost.supports('multiserver') || self.appMode) {
             return 'desktop';
         }
 

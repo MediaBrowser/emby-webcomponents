@@ -50,15 +50,15 @@ define(['dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'materia
 
         if (options.html) {
 
-            dlg.querySelector('.text').innerHTML = options.html;
+            dlg.querySelector('.dialogContentInner').innerHTML = options.html;
 
         } else if (options.preFormattedText) {
 
-            dlg.querySelector('.text').innerHTML = '<pre style="text-align:left;font-size:inherit;white-space:pre-wrap;">' + options.preFormattedText+'</pre>';
+            dlg.querySelector('.dialogContentInner').innerHTML = '<pre style="text-align:left;font-size:inherit;">' + options.preFormattedText+'</pre>';
 
         } else if (options.text) {
 
-            dlg.querySelector('.text').innerText = replaceAll(options.text || '', '<br/>', '\n');
+            dlg.querySelector('.dialogContentInner').innerText = replaceAll(options.text || '', '<br/>', '\n');
 
         } else {
             dlg.querySelector('.dialogContentInner').classList.add('hide');

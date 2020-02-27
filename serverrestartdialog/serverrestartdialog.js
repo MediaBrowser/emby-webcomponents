@@ -1,4 +1,4 @@
-﻿define(['loading', 'events', 'dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles', 'emby-scroller'], function (loading, events, dialogHelper, dom, layoutManager, globalize, require) {
+﻿define(['loading', 'appHost', 'events', 'dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles', 'emby-scroller'], function (loading, appHost, events, dialogHelper, dom, layoutManager, globalize, require) {
     'use strict';
 
     var currentApiClient;
@@ -134,7 +134,11 @@
             loading.hide();
 
             if (instance.restarted) {
-                events.trigger(instance, 'restarted');
+                if (appHost.supports('multiserver')) {
+                    options.apiClient.ensureWebSocket();
+                } else {
+                    window.location.reload(true);
+                }
             }
         });
     }
