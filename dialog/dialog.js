@@ -34,7 +34,6 @@ define(['dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'materia
             formDialogContent.style['max-width'] = '50%';
             formDialogContent.style['max-height'] = '60%';
         } else {
-            dlg.style.maxWidth = '35em';
             dlg.classList.add('dialog-fullscreen-lowres');
         }
 

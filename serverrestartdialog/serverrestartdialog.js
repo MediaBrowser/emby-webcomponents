@@ -1,4 +1,4 @@
-﻿define(['loading', 'appHost', 'events', 'dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles', 'emby-scroller'], function (loading, appHost, events, dialogHelper, dom, layoutManager, globalize, require) {
+﻿define(['loading', 'apphost', 'events', 'dialogHelper', 'dom', 'layoutManager', 'globalize', 'require', 'material-icons', 'emby-button', 'paper-icon-button-light', 'emby-input', 'formDialogStyle', 'flexStyles', 'emby-scroller'], function (loading, appHost, events, dialogHelper, dom, layoutManager, globalize, require) {
     'use strict';
 
     var currentApiClient;
@@ -95,7 +95,7 @@
 
         dlg.querySelector('.formDialogHeaderTitle').innerHTML = globalize.translate('HeaderRestartingEmbyServer');
 
-        dlg.querySelector('.text').innerHTML = globalize.translate('RestartPleaseWaitMessage');
+        dlg.querySelector('.dialogContentInner').innerHTML = globalize.translate('RestartPleaseWaitMessage');
 
         var i, length;
         var html = '';

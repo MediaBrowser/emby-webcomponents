@@ -42,7 +42,7 @@
 
         dlg.querySelector('.formDialogHeaderTitle').innerHTML = options.title;
 
-        dlg.querySelector('.text').innerHTML = options.text;
+        dlg.querySelector('.dialogContentInner').innerHTML = options.text;
 
         instance.dlg = dlg;
 
