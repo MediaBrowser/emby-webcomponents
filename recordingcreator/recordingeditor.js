@@ -1,4 +1,4 @@
-﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'imageLoader', 'scrollStyles', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'flexStyles', 'emby-scroller'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, imageLoader) {
+﻿define(['dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'imageLoader', 'scrollStyles', 'emby-button', 'emby-input', 'paper-icon-button-light', 'formDialogStyle', 'css!./recordingcreator', 'material-icons', 'flexStyles', 'emby-scroller'], function (dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, imageLoader) {
     'use strict';
 
     var currentDialog;

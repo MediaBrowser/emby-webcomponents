@@ -20,6 +20,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         if (itemType === "TvChannel") {
 
             if (item.ChannelNumber) {
+
+                if (options.channelNumberFirst) {
+                    return item.ChannelNumber + ' ' + name;
+                }
                 return name + ' ' + item.ChannelNumber;
             }
             return name;
@@ -86,7 +90,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         // Check ParentId to filter out owned items (for now)
         // https://emby.media/community/index.php?/topic/63827-add-movie-extras-to-playlists
-        if (!item.ParentId) {
+        if (item.ExtraType) {
             return false;
         }
 
@@ -141,7 +145,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         // Check ParentId to filter out owned items (for now)
         // https://emby.media/community/index.php?/topic/63827-add-movie-extras-to-playlists
-        if (!item.ParentId) {
+        if (item.ExtraType) {
             return false;
         }
 
@@ -553,6 +557,23 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             var mediaType = item.MediaType;
 
             return mediaType === 'Video';
+        },
+
+        canManageMultiVersionGrouping: function (item, user) {
+
+            if (item.IsFolder || item.MediaType !== 'Video') {
+                return false;
+            }
+
+            if (isLocalItem(item)) {
+                return false;
+            }
+
+            if (!user.Policy.IsAdministrator) {
+                return false;
+            }
+
+            return true;
         },
 
         getContentTypeName: function (contentType) {

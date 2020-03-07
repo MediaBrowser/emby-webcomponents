@@ -102,6 +102,8 @@ define(['browser', 'appSettings', 'events', 'apphost'], function (browser, appSe
         return false;
     }
 
+    var isElectron = (navigator.userAgent || '').toLowerCase().indexOf('electron') !== -1;
+
     LayoutManager.prototype.getDefaultLayout = function () {
 
         if (this.getPlatformDefaultLayout) {
@@ -127,11 +129,15 @@ define(['browser', 'appSettings', 'events', 'apphost'], function (browser, appSe
             return 'mobile';
         }
 
-        if (!appHost.supports('multiserver') || self.appMode) {
-            return 'desktop';
+        if ((navigator.userAgent || '').toLowerCase().indexOf('electron') !== -1) {
+            return 'tv';
         }
 
-        return 'tv';
+        if (window.location.href.toString().toLowerCase().indexOf('tv.emby') !== -1) {
+            return 'tv';
+        }
+
+        return 'desktop';
     };
 
     LayoutManager.prototype.init = function () {

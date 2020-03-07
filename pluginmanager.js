@@ -244,7 +244,7 @@ define(['events', 'apphost', 'connectionManager'], function (events, appHost, co
 
     PluginManager.prototype.allowPluginPages = function (pluginId) {
 
-        var disallowPlugins = (self.appMode === 'ios' || self.appMode === 'android') && allowedPluginConfigs.indexOf((pluginId || '').toLowerCase()) === -1;
+        var disallowPlugins = appHost.supports('restrictedplugins') && allowedPluginConfigs.indexOf((pluginId || '').toLowerCase()) === -1;
 
         return !disallowPlugins;
     };

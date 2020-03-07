@@ -1,4 +1,4 @@
-﻿define(['appRouter', 'dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'datetime', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-input', 'paper-icon-button-light', 'css!./../formdialog', 'css!./recordingcreator', 'material-icons', 'emby-scroller'], function (appRouter, dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, datetime, recordingFields, events) {
+﻿define(['appRouter', 'dialogHelper', 'globalize', 'layoutManager', 'mediaInfo', 'apphost', 'connectionManager', 'require', 'loading', 'datetime', 'recordingFields', 'events', 'emby-checkbox', 'emby-button', 'emby-input', 'paper-icon-button-light', 'formDialogStyle', 'css!./recordingcreator', 'material-icons', 'emby-scroller'], function (appRouter, dialogHelper, globalize, layoutManager, mediaInfo, appHost, connectionManager, require, loading, datetime, recordingFields, events) {
     'use strict';
 
     var currentDialog;
