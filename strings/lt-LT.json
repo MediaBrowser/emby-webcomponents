@@ -1,6 +1,4 @@
 {
-    "RefreshingMetadataDots": "Refreshing metadata...",
-    "ScanningLibraryFilesDots": "Scanning library files...",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "We're unable to connect to the selected server right now. Please ensure it is running and try again.",
     "EmbyIntroMessage": "With Emby you can easily stream videos, music and photos to smart phones, tablets and other devices from your Emby Server.",
@@ -22,6 +20,7 @@
     "HeaderResetPassword": "Reset Password",
     "Preview": "Preview",
     "Submit": "Submit",
+    "HeaderKeyboardAndRemote": "Keyboard and Remote",
     "NoSelectedItemsSupportOperation": "There are no items selected that support this operation.",
     "NoOperationsForSelectedItems": "There are no operations available for the selected items.",
     "UploadOnlyOnWifi": "Upload only on Wifi",
@@ -178,7 +177,7 @@
     "HeaderCloudSync": "Sinch. su debesimi",
     "Conversions": "Conversions",
     "Downloads": "Atsiuntimai",
-    "HeaderManage": "Manage Downloads",
+    "HeaderManageDownloads": "Manage Downloads",
     "InternalStorage": "Internal storage",
     "ExternalStorage": "External storage",
     "UploadToFollowingServers": "Upload to Servers",
@@ -214,6 +213,7 @@
     "HeaderBecomeProjectSupporter": "Gauti Emby Premiere",
     "LabelEmailAddress": "E-pa\u0161to adresas:",
     "PromoConvertRecordingsToStreamingFormat": "Su Emby Premiere automati\u0161kai paver\u010dia \u012fra\u0161us \u012f transliavimui patogius formatus. \u012era\u0161ai bus i\u0161 karto konvertuojami \u012f MP4 arba MKV priklausomai nuo nustatym\u0173.",
+    "PlaybackTvModeRequiresEmbyPremiere": "Media playback in TV mode requires an active {0}Emby Premiere subscription{1}.",
     "FeatureRequiresEmbyPremiere": "\u0160iai funkcijai reikia aktyvios Emby Serverio prenumeratos.",
     "HeaderConvertYourRecordings": "Konvertuokite savo \u012fra\u0161us",
     "Record": "\u012era\u0161yti",
@@ -238,7 +238,8 @@
     "FollowingFilesWillBeDeleted": "The following files and folders will be deleted:",
     "AreYouSureToContinue": "Are you sure you wish to continue?",
     "Refresh": "Atnaujinti",
-    "RefreshQueued": "Atnaujinimas u\u017esakytas.",
+    "RefreshingMetadataDots": "Refreshing metadata...",
+    "ScanningLibraryFilesDots": "Scanning library files...",
     "AddToCollection": "Prid\u0117ti \u012f kolekcij\u0105",
     "HeaderAddToCollection": "Prid\u0117ti \u012f Kolekcij\u0105",
     "HeaderNewCollection": "New Collection",
@@ -498,7 +499,6 @@
     "LabelQuality": "Kokyb\u0117:",
     "LabelSyncNoTargetsHelp": "It looks like you don't currently have any apps that support offline downloading.",
     "DownloadingDots": "Downloading...",
-    "HeaderSyncRequiresSub": "Downloading requires an active Emby Premiere subscription.",
     "LearnMore": "Su\u017einoti daugiau",
     "LabelProfile": "Profilis:",
     "LabelBitrateMbps": "Kokyb\u0117 (Mbps):",
@@ -949,5 +949,7 @@
     "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
     "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
     "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
-    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options."
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
+    "HeaderSpecialKeys": "Special Keys",
+    "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
 }

@@ -1,6 +1,4 @@
 {
-    "RefreshingMetadataDots": "Refreshing metadata...",
-    "ScanningLibraryFilesDots": "Scanning library files...",
     "EmbyLoginTerms": "Emby je navrhnut\u00e9 tak, aby V\u00e1m pomohlo spravova\u0165 Va\u0161u osobn\u00fa kni\u017enicu m\u00e9di\u00ed, napr\u00edklad dom\u00e1ce vide\u00e1 a fotografie. Pre\u010d\u00edtajte si na\u0161e {0} podmienky pou\u017e\u00edvania {1}. Pou\u017eitie ak\u00e9hoko\u013evek softv\u00e9ru Emby znamen\u00e1 prijatie t\u00fdchto podmienok.",
     "MessageUnableToConnectToServer": "Moment\u00e1lne sa nem\u00f4\u017eeme pripoji\u0165 k vybran\u00e9mu serveru. Skontrolujte, \u010di je spusten\u00fd a sk\u00faste to znova.",
     "EmbyIntroMessage": "S Emby m\u00f4\u017eete jednoducho streamova\u0165 vide\u00e1, hudbu a fotografie do chytr\u00fdch telef\u00f3nov, tabletov a \u010fal\u0161\u00edch zariaden\u00ed zo svojho servera Emby.",
@@ -22,6 +20,7 @@
     "HeaderResetPassword": "Obnovi\u0165 heslo",
     "Preview": "N\u00e1h\u013ead",
     "Submit": "Potvrdi\u0165",
+    "HeaderKeyboardAndRemote": "Keyboard and Remote",
     "NoSelectedItemsSupportOperation": "There are no items selected that support this operation.",
     "NoOperationsForSelectedItems": "There are no operations available for the selected items.",
     "UploadOnlyOnWifi": "Nahra\u0165 iba cez Wi-Fi",
@@ -178,7 +177,7 @@
     "HeaderCloudSync": "Synchroniz\u00e1cia s cloudom",
     "Conversions": "Konverzie",
     "Downloads": "S\u0165ahovania",
-    "HeaderManage": "Spravova\u0165 s\u0165ahovania",
+    "HeaderManageDownloads": "Manage Downloads",
     "InternalStorage": "Intern\u00e9 \u00falo\u017eisko",
     "ExternalStorage": "Extern\u00e9 \u00falo\u017eisko",
     "UploadToFollowingServers": "Nahra\u0165 na servery",
@@ -214,6 +213,7 @@
     "HeaderBecomeProjectSupporter": "Z\u00edska\u0165 Emby Premiere",
     "LabelEmailAddress": "E-mailov\u00e1 adresa:",
     "PromoConvertRecordingsToStreamingFormat": "Automaticky konvertova\u0165 nahr\u00e1vky do form\u00e1tu doporu\u010den\u00e9ho pre streamovanie pomocou Emby Premiere. Nahr\u00e1vky bud\u00fa konvertovan\u00e9 priebe\u017ene do form\u00e1tu MP4 alebo MKV na z\u00e1klade nastaven\u00ed servera Emby.",
+    "PlaybackTvModeRequiresEmbyPremiere": "Media playback in TV mode requires an active {0}Emby Premiere subscription{1}.",
     "FeatureRequiresEmbyPremiere": "T\u00e1to funkcia vy\u017eaduje akt\u00edvne predplatn\u00e9 {0} Emby Premiere {1}.",
     "HeaderConvertYourRecordings": "Konvertova\u0165 Va\u0161e nahr\u00e1vky",
     "Record": "Nahra\u0165",
@@ -238,7 +238,8 @@
     "FollowingFilesWillBeDeleted": "Nasleduj\u00face s\u00fabory a prie\u010dinky bud\u00fa zmazan\u00e9:",
     "AreYouSureToContinue": "Naozaj chcete pokra\u010dova\u0165?",
     "Refresh": "Obnovi\u0165",
-    "RefreshQueued": "Obnovenie napl\u00e1novan\u00e9.",
+    "RefreshingMetadataDots": "Refreshing metadata...",
+    "ScanningLibraryFilesDots": "Scanning library files...",
     "AddToCollection": "Prida\u0165 do zbierky",
     "HeaderAddToCollection": "Prida\u0165 do zbierky",
     "HeaderNewCollection": "Nov\u00e1 zbierka",
@@ -498,7 +499,6 @@
     "LabelQuality": "Kvalita:",
     "LabelSyncNoTargetsHelp": "Zd\u00e1 sa, \u017ee v s\u00fa\u010dasnosti nem\u00e1te \u017eiadne aplik\u00e1cie, ktor\u00e9 podporuj\u00fa s\u0165ahovanie offline.",
     "DownloadingDots": "S\u0165ahovanie...",
-    "HeaderSyncRequiresSub": "Stiahnutie vy\u017eaduje akt\u00edvne predplatn\u00e9 Emby Premiere.",
     "LearnMore": "Zisti\u0165 viac",
     "LabelProfile": "Profil:",
     "LabelBitrateMbps": "D\u00e1tov\u00fd tok (Mbps):",
@@ -949,5 +949,7 @@
     "VideoWillBeConvertedTo": "Videostreamy sa skonvertuj\u00fa do {0} alebo sa skop\u00edruj\u00fa z p\u00f4vodn\u00e9ho s\u00faboru, ak u\u017e s\u00fa {0} a kvalita odpoved\u00e1 mo\u017enostiam konverzie.",
     "VideoWillBeConvertedToOrCopied": "Videostreamy sa skonvertuj\u00fa do {0} alebo sa skop\u00edruj\u00fa z p\u00f4vodn\u00e9ho s\u00faboru, ak s\u00fa z ({1}), a kvalita odpoved\u00e1 mo\u017enostiam konverzie.",
     "AudioWillBeConvertedTo": "Zvukov\u00e9 streamy sa skonvertuj\u00fa do {0} alebo sa skop\u00edruj\u00fa z p\u00f4vodn\u00e9ho s\u00faboru, ak u\u017e s\u00fa {0} a kvalita odpoved\u00e1 mo\u017enostiam konverzie.",
-    "AudioWillBeConvertedToOrCopied": "Zvukov\u00e9 streamy sa skonvertuj\u00fa do {0} alebo sa skop\u00edruj\u00fa z p\u00f4vodn\u00e9ho s\u00faboru, ak s\u00fa z ({1}), a kvalita odpoved\u00e1 mo\u017enostiam konverzie."
+    "AudioWillBeConvertedToOrCopied": "Zvukov\u00e9 streamy sa skonvertuj\u00fa do {0} alebo sa skop\u00edruj\u00fa z p\u00f4vodn\u00e9ho s\u00faboru, ak s\u00fa z ({1}), a kvalita odpoved\u00e1 mo\u017enostiam konverzie.",
+    "HeaderSpecialKeys": "Special Keys",
+    "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
 }

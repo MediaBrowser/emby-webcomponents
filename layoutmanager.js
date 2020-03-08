@@ -1,6 +1,8 @@
 define(['browser', 'appSettings', 'events', 'apphost'], function (browser, appSettings, events, appHost) {
     'use strict';
 
+    var currentLayout;
+
     function setLayout(instance, layout, selectedLayout) {
 
         if (layout === selectedLayout) {
@@ -30,6 +32,7 @@ define(['browser', 'appSettings', 'events', 'apphost'], function (browser, appSe
                 appSettings.set('layout', '');
             }
         } else {
+
             setLayout(this, 'mobile', layout);
             setLayout(this, 'tv', layout);
             setLayout(this, 'desktop', layout);
@@ -37,9 +40,14 @@ define(['browser', 'appSettings', 'events', 'apphost'], function (browser, appSe
             if (save !== false) {
                 appSettings.set('layout', layout);
             }
-        }
 
-        events.trigger(this, 'modechange');
+            var changed = currentLayout !== layout;
+            currentLayout = layout;
+
+            if (changed) {
+                events.trigger(this, 'modechange');
+            }
+        }
     };
 
     function isCoarseInput() {

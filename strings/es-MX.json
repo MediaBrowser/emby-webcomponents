@@ -1,6 +1,4 @@
 {
-    "RefreshingMetadataDots": "Refreshing metadata...",
-    "ScanningLibraryFilesDots": "Scanning library files...",
     "EmbyLoginTerms": "Emby esta dise\u00f1ado para ayudarlo a administrar su biblioteca de medios personal, tales como v\u00eddeos caseros y fotograf\u00edas. Por favor vea nuestros {0}t\u00e9rminos de uso{1}. Al usar cualquier software de Emby constituye la aceptaci\u00f3n de dichos t\u00e9rminos.",
     "MessageUnableToConnectToServer": "No es posible conectarse al servidor seleccionado en este momento. Por favor aseg\u00farese de que se encuentra en ejecuci\u00f3n e int\u00e9ntelo nuevamente.",
     "EmbyIntroMessage": "Con Emby usted puede transmitir videos, musica y fotos hacia su telefono inteligente, tabla u otros equipos desde su Servidor Emby.",
@@ -22,6 +20,7 @@
     "HeaderResetPassword": "Restablecer Contrase\u00f1a",
     "Preview": "Vista Previa",
     "Submit": "Enviar",
+    "HeaderKeyboardAndRemote": "Keyboard and Remote",
     "NoSelectedItemsSupportOperation": "There are no items selected that support this operation.",
     "NoOperationsForSelectedItems": "There are no operations available for the selected items.",
     "UploadOnlyOnWifi": "Subir solo en Wifi",
@@ -178,7 +177,7 @@
     "HeaderCloudSync": "Sincronizaci\u00f3n en la Nube",
     "Conversions": "Conversiones",
     "Downloads": "Descargas",
-    "HeaderManage": "Administrar Descargas",
+    "HeaderManageDownloads": "Manage Downloads",
     "InternalStorage": "Almacenamiento interno",
     "ExternalStorage": "Almacenamiento externo",
     "UploadToFollowingServers": "Subir a los Servidores:",
@@ -214,6 +213,7 @@
     "HeaderBecomeProjectSupporter": "Obtener Emby Premier",
     "LabelEmailAddress": "Direcci\u00f3n de correo:",
     "PromoConvertRecordingsToStreamingFormat": "Convertir autom\u00e1ticamente grabaciones a un formato amigable para transmitir con Emby Premiere. Las grabaciones ser\u00e1n convertidos en tiempo real a MP4 o MKV, basado en las configuraciones del Servidor Emby.",
+    "PlaybackTvModeRequiresEmbyPremiere": "Media playback in TV mode requires an active {0}Emby Premiere subscription{1}.",
     "FeatureRequiresEmbyPremiere": "Esta caracter\u00edstica requiere de una suscripci\u00f3n activa {0} de Emby Premiere {1}.",
     "HeaderConvertYourRecordings": "Convertir Sus Grabaciones",
     "Record": "Grabar",
@@ -238,7 +238,8 @@
     "FollowingFilesWillBeDeleted": "Los siguientes archivos y carpetas seran borrados:",
     "AreYouSureToContinue": "\u00bfEsta seguro de que desea continuar?",
     "Refresh": "Actualizar",
-    "RefreshQueued": "Actualizaci\u00f3n programada",
+    "RefreshingMetadataDots": "Actualizando metadatos...",
+    "ScanningLibraryFilesDots": "Escaneando archivos de biblioteca...",
     "AddToCollection": "Agregar a Colecci\u00f3n.",
     "HeaderAddToCollection": "Agregar a Colecci\u00f3n",
     "HeaderNewCollection": "Nueva Colecci\u00f3n",
@@ -498,7 +499,6 @@
     "LabelQuality": "Calidad:",
     "LabelSyncNoTargetsHelp": "Parece que actualmente no cuentas con ninguna app que soporte descargas sin conexi\u00f3n.",
     "DownloadingDots": "Descargando...",
-    "HeaderSyncRequiresSub": "Descargar requiere de una suscripci\u00f3n activa de Emby Premiere",
     "LearnMore": "Aprenda m\u00e1s",
     "LabelProfile": "Perf\u00edl:",
     "LabelBitrateMbps": "Tasa de bits (Mbps):",
@@ -949,5 +949,7 @@
     "VideoWillBeConvertedTo": "La transmisi\u00f3n de v\u00eddeo sera convertida a {0}, o sera copiada del v\u00eddeo original si ya es {0} y la calidad coincide con las opciones de conversi\u00f3n.",
     "VideoWillBeConvertedToOrCopied": "La transmisi\u00f3n de v\u00eddeo sera convertida a {0}, o sera copiada del v\u00eddeo original si hay alg\u00fan ({1}) y la calidad coincide con las opciones de conversi\u00f3n.",
     "AudioWillBeConvertedTo": "La pistas de audio sera convertida a {0}, o sera copiada del archivo original si ya es {0} y la calidad coincide con las opciones de conversi\u00f3n.",
-    "AudioWillBeConvertedToOrCopied": "La pista de audiosera convertida a {0}, o sera copiada del archivo original si hay alg\u00fan ({1}) y la calidad coincide con las opciones de conversi\u00f3n."
+    "AudioWillBeConvertedToOrCopied": "La pista de audiosera convertida a {0}, o sera copiada del archivo original si hay alg\u00fan ({1}) y la calidad coincide con las opciones de conversi\u00f3n.",
+    "HeaderSpecialKeys": "Special Keys",
+    "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
 }

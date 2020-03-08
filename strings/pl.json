@@ -1,6 +1,4 @@
 {
-    "RefreshingMetadataDots": "Refreshing metadata...",
-    "ScanningLibraryFilesDots": "Scanning library files...",
     "EmbyLoginTerms": "Emby zosta\u0142o zaprojektowane tak, aby pom\u00f3c zarz\u0105dza\u0107 twoj\u0105 prywatn\u0105 bibliotek\u0105 medi\u00f3w - filmami, muzyk\u0105 czy zdj\u0119ciami. Zapoznaj si\u0119 z {0}warunkami u\u017cytkowania{1}. U\u017cywanie oprogramowania Emby wymaga zaakceptowania tych warunk\u00f3w.",
     "MessageUnableToConnectToServer": "Nie jeste\u015bmy w tej chwili w stanie po\u0142\u0105czy\u0107 si\u0119 z wybranym serwerem. Prosz\u0119 upewni\u0107 si\u0119, \u017ce dzia\u0142a i spr\u00f3bowa\u0107 ponownie.",
     "EmbyIntroMessage": "Z Emby mo\u017cesz \u0142atwo streamowa\u0107 wideo, muzyk\u0119 i zdj\u0119cia do smartfon\u00f3w, tablet\u00f3w i innych urz\u0105dze\u0144 ze swojego Serwera Emby.",
@@ -22,6 +20,7 @@
     "HeaderResetPassword": "Resetowanie has\u0142a",
     "Preview": "Preview",
     "Submit": "Wy\u015blij",
+    "HeaderKeyboardAndRemote": "Keyboard and Remote",
     "NoSelectedItemsSupportOperation": "There are no items selected that support this operation.",
     "NoOperationsForSelectedItems": "There are no operations available for the selected items.",
     "UploadOnlyOnWifi": "Upload only on Wifi",
@@ -178,7 +177,7 @@
     "HeaderCloudSync": "Synchronizacja chmurowa",
     "Conversions": "Konwersja",
     "Downloads": "Pobrane",
-    "HeaderManage": "Manage Downloads",
+    "HeaderManageDownloads": "Manage Downloads",
     "InternalStorage": "Magazyn wewn\u0119trzny",
     "ExternalStorage": "Magazyn zewn\u0119trzny",
     "UploadToFollowingServers": "Wysy\u0142aj zdj\u0119cia na wybrane serwery:",
@@ -214,6 +213,7 @@
     "HeaderBecomeProjectSupporter": "Zam\u00f3w subskrypcj\u0119 Premium",
     "LabelEmailAddress": "Adres pocztowy:",
     "PromoConvertRecordingsToStreamingFormat": "Emby Premier umo\u017cliwia automatyczn\u0105 konwersj\u0119 nagra\u0144 do formatu przyjaznego transmisjom. Nagrania b\u0119d\u0105 konwertowane w flocie do kontenera MP4 lub MKV, w zale\u017cno\u015bci o konfiguracji serwera Emby.",
+    "PlaybackTvModeRequiresEmbyPremiere": "Media playback in TV mode requires an active {0}Emby Premiere subscription{1}.",
     "FeatureRequiresEmbyPremiere": "Ta funkcja wymaga aktywnej {0} subskrypcji Emby Premium{1}.",
     "HeaderConvertYourRecordings": "Konwertuj nagrania",
     "Record": "Nagrywaj",
@@ -238,7 +238,8 @@
     "FollowingFilesWillBeDeleted": "Nast\u0119puj\u0105ce pliki i foldery zostan\u0105 usuni\u0119te:",
     "AreYouSureToContinue": "Czy na pewno chcesz kontynuowa\u0107?",
     "Refresh": "Od\u015bwie\u017c",
-    "RefreshQueued": "Od\u015bwie\u017canie dodane do kolejki zada\u0144.",
+    "RefreshingMetadataDots": "Refreshing metadata...",
+    "ScanningLibraryFilesDots": "Scanning library files...",
     "AddToCollection": "Dodaj do kolekcji",
     "HeaderAddToCollection": "Dodaj do kolekcji",
     "HeaderNewCollection": "New Collection",
@@ -498,7 +499,6 @@
     "LabelQuality": "Jako\u015b\u0107:",
     "LabelSyncNoTargetsHelp": "Wygl\u0105da na to, \u017ce nie posiadasz \u017cadnych aplikacji obs\u0142uguj\u0105cych pobrane media.",
     "DownloadingDots": "Trwa pobieranie...",
-    "HeaderSyncRequiresSub": "Pobieranie wymaga aktywnej subskrypcji Emby Premium.",
     "LearnMore": "Dowiedz si\u0119 wi\u0119cej",
     "LabelProfile": "Profil:",
     "LabelBitrateMbps": "Przep\u0142ywno\u015b\u0107 (Mbps):",
@@ -949,5 +949,7 @@
     "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
     "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
     "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
-    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options."
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
+    "HeaderSpecialKeys": "Special Keys",
+    "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
 }

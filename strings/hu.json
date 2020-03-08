@@ -1,6 +1,4 @@
 {
-    "RefreshingMetadataDots": "Refreshing metadata...",
-    "ScanningLibraryFilesDots": "Scanning library files...",
     "EmbyLoginTerms": "Az Emby seg\u00edt menedzselni a szem\u00e9lyes m\u00e9diak\u00f6nyvt\u00e1radat, mint a saj\u00e1t vide\u00f3kat, \u00e9s k\u00e9peket. K\u00e9rj\u00fck, n\u00e9zd meg a {0}szolg\u00e1ltat\u00e1si felt\u00e9teleket{1}. Az Emby haszn\u00e1lat\u00e1val elfogadod ezeket a felt\u00e9teleket.",
     "MessageUnableToConnectToServer": "Jelenleg nem lehet kapcsol\u00f3dni a kiv\u00e1lasztott szerverhez. K\u00e9rj\u00fck, ellen\u0151rizd, hogy a szerver fut-e, majd pr\u00f3b\u00e1ld \u00fajra.",
     "EmbyIntroMessage": "Az Embyvel k\u00f6nnyed\u00e9n streamelhetsz vide\u00f3kat, zen\u00e9ket \u00e9s k\u00e9peket okostelefonra, t\u00e1blag\u00e9pekre \u00e9s m\u00e1s eszk\u00f6z\u00f6kre a szerveredr\u0151l.",
@@ -22,6 +20,7 @@
     "HeaderResetPassword": "Jelsz\u00f3 vissza\u00e1ll\u00edt\u00e1s",
     "Preview": "El\u0151n\u00e9zet",
     "Submit": "Elk\u00fcld",
+    "HeaderKeyboardAndRemote": "Keyboard and Remote",
     "NoSelectedItemsSupportOperation": "There are no items selected that support this operation.",
     "NoOperationsForSelectedItems": "There are no operations available for the selected items.",
     "UploadOnlyOnWifi": "Felt\u00f6lt\u00e9s csak WiFi-n kereszt\u00fcl",
@@ -178,7 +177,7 @@
     "HeaderCloudSync": "Felh\u0151szinkroniz\u00e1ci\u00f3 ",
     "Conversions": "\u00c1talak\u00edt\u00e1sok",
     "Downloads": "Let\u00f6lt\u00e9sek",
-    "HeaderManage": "Let\u00f6lt\u00e9sek kezel\u00e9se",
+    "HeaderManageDownloads": "Manage Downloads",
     "InternalStorage": "Bels\u0151 t\u00e1rhely",
     "ExternalStorage": "K\u00fcls\u0151 t\u00e1rhely",
     "UploadToFollowingServers": "Felt\u00f6lt\u00e9s szerverekre",
@@ -214,6 +213,7 @@
     "HeaderBecomeProjectSupporter": "Emby Premiere beszerz\u00e9se",
     "LabelEmailAddress": "E-mail c\u00edm:",
     "PromoConvertRecordingsToStreamingFormat": "Automatikusan konvert\u00e1ld \u00e1t a felv\u00e9teleket bar\u00e1ts\u00e1gosabb form\u00e1tumokba az Emby Premierrel. A felv\u00e9telek automatikusan MP4 vagy MKV form\u00e1tumokra lesznek konvert\u00e1lva az Emby be\u00e1ll\u00edt\u00e1sai alapj\u00e1n.",
+    "PlaybackTvModeRequiresEmbyPremiere": "Media playback in TV mode requires an active {0}Emby Premiere subscription{1}.",
     "FeatureRequiresEmbyPremiere": "Ez a szolg\u00e1ltat\u00e1s akt\u00edv {0}Emby Premier{1} el\u0151fizet\u00e9st ig\u00e9nyel.",
     "HeaderConvertYourRecordings": "Felv\u00e9telek konvert\u00e1l\u00e1sa",
     "Record": "Felv\u00e9tel",
@@ -238,7 +238,8 @@
     "FollowingFilesWillBeDeleted": "A k\u00f6vetkez\u0151 f\u00e1jlok \u00e9s k\u00f6nyvt\u00e1rak t\u00f6rl\u00e9sre ker\u00fclnek:",
     "AreYouSureToContinue": "Biztosan folytatni szeretn\u00e9d?",
     "Refresh": "Friss\u00edt\u00e9s",
-    "RefreshQueued": "Friss\u00edt\u00e9s sorba\u00e1ll\u00edtva.",
+    "RefreshingMetadataDots": "Metaadatok friss\u00edt\u00e9se...",
+    "ScanningLibraryFilesDots": "K\u00f6nyvt\u00e1rak beolvas\u00e1sa...",
     "AddToCollection": "Hozz\u00e1ad\u00e1s gy\u0171jtem\u00e9nyhez",
     "HeaderAddToCollection": "Hozz\u00e1ad\u00e1s  gy\u0171jtem\u00e9nyhez",
     "HeaderNewCollection": "\u00daj Gy\u0171jtem\u00e9ny",
@@ -498,7 +499,6 @@
     "LabelQuality": "Min\u0151s\u00e9g:",
     "LabelSyncNoTargetsHelp": "\u00dagy t\u0171nik jelenleg nincs olyan alkalmaz\u00e1sod, amely t\u00e1mogatja a let\u00f6lt\u00e9st.",
     "DownloadingDots": "Let\u00f6lt\u00e9s...",
-    "HeaderSyncRequiresSub": "A Let\u00f6lt\u00e9s funkci\u00f3 akt\u00edv Emby Premiere el\u0151fizet\u00e9st ig\u00e9nyel.",
     "LearnMore": "Tov\u00e1bbi inf\u00f3",
     "LabelProfile": "Profil:",
     "LabelBitrateMbps": "Bitr\u00e1ta (Mbps):",
@@ -949,5 +949,7 @@
     "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
     "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
     "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
-    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options."
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
+    "HeaderSpecialKeys": "Special Keys",
+    "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
 }

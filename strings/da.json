@@ -1,6 +1,4 @@
 {
-    "RefreshingMetadataDots": "Refreshing metadata...",
-    "ScanningLibraryFilesDots": "Scanning library files...",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "Vi kan ikke forbinde til den valgte server p\u00e5 nuv\u00e6rende tidspunkt. Sikrer dig venligst at serveren k\u00f8rer og pr\u00f8v igen.",
     "EmbyIntroMessage": "Med Emby kan du nemt streame videoer, musik og fotos til din smartphone, tablet eller andre enheder.",
@@ -22,6 +20,7 @@
     "HeaderResetPassword": "Reset Password",
     "Preview": "Preview",
     "Submit": "Submit",
+    "HeaderKeyboardAndRemote": "Keyboard and Remote",
     "NoSelectedItemsSupportOperation": "There are no items selected that support this operation.",
     "NoOperationsForSelectedItems": "There are no operations available for the selected items.",
     "UploadOnlyOnWifi": "Upload only on Wifi",
@@ -178,7 +177,7 @@
     "HeaderCloudSync": "Sky-Synk",
     "Conversions": "Conversions",
     "Downloads": "Downloads",
-    "HeaderManage": "Manage Downloads",
+    "HeaderManageDownloads": "Manage Downloads",
     "InternalStorage": "Internal storage",
     "ExternalStorage": "External storage",
     "UploadToFollowingServers": "Upload to Servers",
@@ -214,6 +213,7 @@
     "HeaderBecomeProjectSupporter": "F\u00e5 Emby Premiere",
     "LabelEmailAddress": "Email-adresse:",
     "PromoConvertRecordingsToStreamingFormat": "Konverter automatisk optagelser til streaming-venlige formater med Emby Premiere. Optagelser bliver konverteret on-the-fly til MP4 eller MKV, afh\u00e6ngigt af dine Emby serverindstillinger.",
+    "PlaybackTvModeRequiresEmbyPremiere": "Media playback in TV mode requires an active {0}Emby Premiere subscription{1}.",
     "FeatureRequiresEmbyPremiere": "Denne funktion kr\u00e6ver et aktivt {0}Emby Premiere abonnement{1}.",
     "HeaderConvertYourRecordings": "Konverter Dine Optagelser",
     "Record": "Optag",
@@ -238,7 +238,8 @@
     "FollowingFilesWillBeDeleted": "The following files and folders will be deleted:",
     "AreYouSureToContinue": "Are you sure you wish to continue?",
     "Refresh": "Opdater",
-    "RefreshQueued": "Opdatering sat i k\u00f8",
+    "RefreshingMetadataDots": "Refreshing metadata...",
+    "ScanningLibraryFilesDots": "Scanning library files...",
     "AddToCollection": "Tilf\u00f8j til samling",
     "HeaderAddToCollection": "Tilf\u00f8j til samling",
     "HeaderNewCollection": "New Collection",
@@ -498,7 +499,6 @@
     "LabelQuality": "Kvalitet:",
     "LabelSyncNoTargetsHelp": "Det ser ud til du p.t. ikke har nogle apps der underst\u00f8tter offline downloading",
     "DownloadingDots": "Downloader...",
-    "HeaderSyncRequiresSub": "Downloading requires an active Emby Premiere subscription.",
     "LearnMore": "L\u00e6r mere",
     "LabelProfile": "Profil:",
     "LabelBitrateMbps": "Bitrate (Mbps):",
@@ -949,5 +949,7 @@
     "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
     "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
     "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
-    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options."
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
+    "HeaderSpecialKeys": "Special Keys",
+    "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
 }

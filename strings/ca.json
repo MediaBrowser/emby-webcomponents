@@ -1,6 +1,4 @@
 {
-    "RefreshingMetadataDots": "Refreshing metadata...",
-    "ScanningLibraryFilesDots": "Scanning library files...",
     "EmbyLoginTerms": "Emby is designed to help you manage your personal media library, such as home videos and photos. Please see our {0}terms of use{1}. The use of any Emby software constitutes acceptance of these terms.",
     "MessageUnableToConnectToServer": "We're unable to connect to the selected server right now. Please ensure it is running and try again.",
     "EmbyIntroMessage": "With Emby you can easily stream videos, music and photos to smart phones, tablets and other devices from your Emby Server.",
@@ -22,6 +20,7 @@
     "HeaderResetPassword": "Reset Password",
     "Preview": "Preview",
     "Submit": "Submit",
+    "HeaderKeyboardAndRemote": "Keyboard and Remote",
     "NoSelectedItemsSupportOperation": "There are no items selected that support this operation.",
     "NoOperationsForSelectedItems": "There are no operations available for the selected items.",
     "UploadOnlyOnWifi": "Upload only on Wifi",
@@ -178,7 +177,7 @@
     "HeaderCloudSync": "Sincronitzar amb el N\u00favol",
     "Conversions": "Conversions",
     "Downloads": "Desc\u00e0rregues",
-    "HeaderManage": "Manage Downloads",
+    "HeaderManageDownloads": "Manage Downloads",
     "InternalStorage": "Internal storage",
     "ExternalStorage": "External storage",
     "UploadToFollowingServers": "Upload to Servers",
@@ -214,6 +213,7 @@
     "HeaderBecomeProjectSupporter": "Obtenir Emby Premiere",
     "LabelEmailAddress": "Correu electr\u00f2nic:",
     "PromoConvertRecordingsToStreamingFormat": "Automatically convert recordings to a streaming friendly format with Emby Premiere. Recordings will be converted on the fly to MP4 or MKV, based on Emby server settings.",
+    "PlaybackTvModeRequiresEmbyPremiere": "Media playback in TV mode requires an active {0}Emby Premiere subscription{1}.",
     "FeatureRequiresEmbyPremiere": "This feature requires an active {0}Emby Premiere subscription{1}.",
     "HeaderConvertYourRecordings": "Convertir Els Teus Enregistraments",
     "Record": "Grava",
@@ -238,7 +238,8 @@
     "FollowingFilesWillBeDeleted": "The following files and folders will be deleted:",
     "AreYouSureToContinue": "Are you sure you wish to continue?",
     "Refresh": "Refresca",
-    "RefreshQueued": "Actualitzaci\u00f3 encuada.",
+    "RefreshingMetadataDots": "Refreshing metadata...",
+    "ScanningLibraryFilesDots": "Scanning library files...",
     "AddToCollection": "Afegeix a col\u00b7lecci\u00f3",
     "HeaderAddToCollection": "Afegir a Col\u00b7lecci\u00f3",
     "HeaderNewCollection": "New Collection",
@@ -498,7 +499,6 @@
     "LabelQuality": "Qualitat:",
     "LabelSyncNoTargetsHelp": "It looks like you don't currently have any apps that support offline downloading.",
     "DownloadingDots": "Descarregant...",
-    "HeaderSyncRequiresSub": "Descarregar requereix una subscripci\u00f3 activa d'Emby Premiere.",
     "LearnMore": "Saber-ne m\u00e9s",
     "LabelProfile": "Perfil:",
     "LabelBitrateMbps": "Bitrate (Mbps):",
@@ -949,5 +949,7 @@
     "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
     "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
     "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
-    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options."
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
+    "HeaderSpecialKeys": "Special Keys",
+    "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
 }

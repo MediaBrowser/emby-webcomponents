@@ -1,6 +1,4 @@
 {
-    "RefreshingMetadataDots": "Refreshing metadata...",
-    "ScanningLibraryFilesDots": "Scanning library files...",
     "EmbyLoginTerms": "Emby\ub294 \uac00\uc815\uc6a9 \ube44\ub514\uc624 \ubc0f \uc0ac\uc9c4\uacfc \uac19\uc740 \uac1c\uc778\uc6a9 \ubbf8\ub514\uc5b4 \ub77c\uc774\ube0c\ub7ec\ub9ac\ub97c \uad00\ub9ac \ud560 \uc218 \u200b\u200b\uc788\ub3c4\ub85d \uc124\uacc4\ub418\uc5c8\uc2b5\ub2c8\ub2e4.{0} \uc0ac\uc6a9 \uc57d\uad00 {1}\uc744 \ucc38\uc870\ud558\uc2ed\uc2dc\uc624. Emby \uc18c\ud504\ud2b8\uc6e8\uc5b4\ub97c \uc0ac\uc6a9\ud558\uba74 \uc774\ub7ec\ud55c \uc870\uac74\uc744 \uc218\ub77d\ud558\ub294 \uac83\uc73c\ub85c \uac04\uc8fc\ub429\ub2c8\ub2e4.",
     "MessageUnableToConnectToServer": "\uc120\ud0dd\ud55c \uc11c\ubc84\uc5d0 \uc5f0\uacb0\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. \uc11c\ubc84\uac00 \uc2e4\ud589 \uc911\uc778\uc9c0 \ud655\uc778\ud6c4 \ub2e4\uc2dc \uc2dc\ub3c4\ud558\uc138\uc694.",
     "EmbyIntroMessage": "Emby\ub97c \uc0ac\uc6a9\ud558\uba74 Emby \uc11c\ubc84\uc5d0\uc11c \uc2a4\ub9c8\ud2b8 \ud3f0, \ud0dc\ube14\ub9bf \ubc0f \uae30\ud0c0 \uc7a5\uce58\ub85c \ube44\ub514\uc624, \uc74c\uc545 \ubc0f \uc0ac\uc9c4\uc744 \uc27d\uac8c \uc2a4\ud2b8\ub9ac\ubc0d \ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.",
@@ -22,6 +20,7 @@
     "HeaderResetPassword": "\ube44\ubc00\ubc88\ud638 \ucd08\uae30\ud654",
     "Preview": "Preview",
     "Submit": "\uc804\uc1a1",
+    "HeaderKeyboardAndRemote": "Keyboard and Remote",
     "NoSelectedItemsSupportOperation": "There are no items selected that support this operation.",
     "NoOperationsForSelectedItems": "There are no operations available for the selected items.",
     "UploadOnlyOnWifi": "Upload only on Wifi",
@@ -178,7 +177,7 @@
     "HeaderCloudSync": "\ud074\ub77c\uc6b0\ub4dc \ub3d9\uae30\ud654",
     "Conversions": "\ubcc0\ud658",
     "Downloads": "\ub2e4\uc6b4\ub85c\ub4dc",
-    "HeaderManage": "Manage Downloads",
+    "HeaderManageDownloads": "Manage Downloads",
     "InternalStorage": "\ub0b4\ubd80 \uc800\uc7a5\uc18c",
     "ExternalStorage": "\uc678\ubd80 \uc800\uc7a5\uc18c",
     "UploadToFollowingServers": "\uc11c\ubc84\uc5d0 \uc5c5\ub85c\ub4dc:",
@@ -214,6 +213,7 @@
     "HeaderBecomeProjectSupporter": "Emby \ud504\ub9ac\ubbf8\uc5b4 \uad6c\ub3c5\ud558\uae30",
     "LabelEmailAddress": "E-mail \uc8fc\uc18c:",
     "PromoConvertRecordingsToStreamingFormat": "Emby \ud504\ub9ac\ubbf8\uc5b4\ub97c \uc0ac\uc6a9\ud558\uc5ec \ub179\ud654 \ub0b4\uc6a9\uc744 \uc2a4\ud2b8\ub9ac\ubc0d\uc5d0 \uc801\ud569\ud55c \ud615\uc2dd\uc73c\ub85c \uc790\ub3d9 \ubcc0\ud658\ud569\ub2c8\ub2e4. \ub179\ud654\ub294 Emby \uc11c\ubc84 \uc124\uc815\uc744 \uae30\ubc18\uc73c\ub85c \uc989\uc11d\uc5d0\uc11c MP4 \ub610\ub294 MKV\ub85c \ubcc0\ud658\ub429\ub2c8\ub2e4.",
+    "PlaybackTvModeRequiresEmbyPremiere": "Media playback in TV mode requires an active {0}Emby Premiere subscription{1}.",
     "FeatureRequiresEmbyPremiere": "\uc774 \uae30\ub2a5\uc744 \uc0ac\uc6a9\ud558\ub824\uba74 \ud65c\uc131\ud654 \ub41c {0} Emby \ud504\ub9ac\ubbf8\uc5b4 \uad6c\ub3c5\uc774 \ud544\uc694\ud569\ub2c8\ub2e4{1}.",
     "HeaderConvertYourRecordings": "\ub179\ud654 \ub0b4\uc6a9 \ubcc0\ud658",
     "Record": "\ub179\ud654",
@@ -238,7 +238,8 @@
     "FollowingFilesWillBeDeleted": "\ub2e4\uc74c \ud30c\uc77c\ub4e4\uacfc \ud3f4\ub354\ub4e4\uc774 \uc0ad\uc81c\ub429\ub2c8\ub2e4:",
     "AreYouSureToContinue": "\uc815\ub9d0\ub85c \uc9c4\ud589 \ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c?",
     "Refresh": "\uc0c8\ub85c \uace0\uce68",
-    "RefreshQueued": "\uc0c8\ub85c \uace0\uce58\uae30\uac00 \ub300\uae30\uc5f4\uc5d0 \ucd94\uac00\ub418\uc5c8\uc2b5\ub2c8\ub2e4.",
+    "RefreshingMetadataDots": "Refreshing metadata...",
+    "ScanningLibraryFilesDots": "Scanning library files...",
     "AddToCollection": "\uceec\ub809\uc158\uc5d0 \ucd94\uac00",
     "HeaderAddToCollection": "\uceec\ub809\uc158\uc5d0 \ucd94\uac00",
     "HeaderNewCollection": "New Collection",
@@ -498,7 +499,6 @@
     "LabelQuality": "\ud488\uc9c8:",
     "LabelSyncNoTargetsHelp": "\uc624\ud504\ub77c\uc778 \ub2e4\uc6b4\ub85c\ub4dc\ub97c \uc9c0\uc6d0\ud558\ub294 \uc751\uc6a9\ud504\ub85c\uadf8\ub7a8\uc774 \uc124\uce58\ub418\uc5b4\uc788\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.",
     "DownloadingDots": "\ub2e4\uc6b4\ub85c\ub4dc\uc911...",
-    "HeaderSyncRequiresSub": "Emby \ud504\ub9ac\ubbf8\uc5b4 \uad6c\ub3c5\uc5d0 \ud544\uc694\ud55c \ud56d\ubaa9\ub4e4\uc744 \ub2e4\uc6b4\ub85c\ub4dc\ud558\uace0 \uc788\uc2b5\ub2c8\ub2e4.",
     "LearnMore": "\ub354 \uc54c\uc544\ubcf4\uae30",
     "LabelProfile": "\ud504\ub85c\ud30c\uc77c:",
     "LabelBitrateMbps": "\ube44\ud2b8\ub808\uc774\ud2b8 (Mbps):",
@@ -949,5 +949,7 @@
     "VideoWillBeConvertedTo": "Video streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
     "VideoWillBeConvertedToOrCopied": "Video streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
     "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
-    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options."
+    "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
+    "HeaderSpecialKeys": "Special Keys",
+    "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
 }
