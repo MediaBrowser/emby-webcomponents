@@ -107,6 +107,7 @@
     "LabelGenre": "\u0416\u0430\u043d\u0440: {0}",
     "LabelStudio": "\u0421\u0442\u0443\u0434\u0438\u043e: {0}",
     "LabelContainer": "\u041a\u043e\u043d\u0442\u0435\u0439\u043d\u0435\u0440:",
+    "LabelTag": "Tag:",
     "Audio": "\u0417\u0432\u0443\u043a",
     "Video": "\u0412\u0438\u0434\u0435\u043e",
     "Subtitle": "\u0421\u0443\u0431\u0442\u0438\u0442\u0440\u0438",

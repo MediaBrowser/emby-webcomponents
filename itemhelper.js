@@ -88,6 +88,18 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             return true;
         }
 
+        if (itemType === 'Device' ||
+            itemType === 'User' ||
+            itemType === 'Plugin' ||
+            itemType === 'Server') {
+            return false;
+        }
+
+        // Not a library item
+        if (!item.Id) {
+            return false;
+        }
+
         // Check ParentId to filter out owned items (for now)
         // https://emby.media/community/index.php?/topic/63827-add-movie-extras-to-playlists
         if (item.ExtraType) {
@@ -141,6 +153,18 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         if (item.IsFolder || itemType === "Genre" || itemType === "MusicGenre" || itemType === "MusicArtist") {
             return true;
+        }
+
+        if (itemType === 'Device' ||
+            itemType === 'User' ||
+            itemType === 'Plugin' ||
+            itemType === 'Server') {
+            return false;
+        }
+
+        // Not a library item
+        if (!item.Id) {
+            return false;
         }
 
         // Check ParentId to filter out owned items (for now)

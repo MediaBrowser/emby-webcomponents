@@ -20,7 +20,7 @@
     "HeaderResetPassword": "Passwort zur\u00fccksetzen",
     "Preview": "Vorschau",
     "Submit": "\u00dcbermitteln",
-    "HeaderKeyboardAndRemote": "Keyboard and Remote",
+    "HeaderKeyboardAndRemote": "Tastatur und Fernbedienung",
     "NoSelectedItemsSupportOperation": "Es sind keine Eintr\u00e4ge ausgew\u00e4hlt, die diese Funktion unterst\u00fctzen.",
     "NoOperationsForSelectedItems": "Es sind keine Funktionen f\u00fcr die ausgew\u00e4hlten Eintr\u00e4ge vorhanden.",
     "UploadOnlyOnWifi": "Nur \u00fcber WLAN hochladen",
@@ -107,6 +107,7 @@
     "LabelGenre": "Genre:",
     "LabelStudio": "Studio:",
     "LabelContainer": "Container:",
+    "LabelTag": "Tag:",
     "Audio": "Audio",
     "Video": "Video",
     "Subtitle": "Untertitel",
@@ -213,7 +214,7 @@
     "HeaderBecomeProjectSupporter": "Hol dir Emby Premiere",
     "LabelEmailAddress": "E-Mail-Adresse:",
     "PromoConvertRecordingsToStreamingFormat": "Konvertiere Aufnahmen mit Emby Premiere automatisch in ein streaming-freundliches Format. Basierend auf den Emby-Server-Einstellungen werden Aufnahmen dynamisch zu MP4 oder MKV konvertiert.",
-    "PlaybackTvModeRequiresEmbyPremiere": "Media playback in TV mode requires an active {0}Emby Premiere subscription{1}.",
+    "PlaybackTvModeRequiresEmbyPremiere": "Wiedergabe im TV-Modus erfordert eine aktive {0}Emby-Premiere-Mitgliedschaft{1}.",
     "FeatureRequiresEmbyPremiere": "Diese Funktion ben\u00f6tigt eine aktive {0}Emby-Premiere-Mitgliedschaft{1}.",
     "HeaderConvertYourRecordings": "Konvertiere deine Aufnahmen",
     "Record": "Aufnehmen",
@@ -950,6 +951,6 @@
     "VideoWillBeConvertedToOrCopied": "Video-Streams werden nach {0} konvertiert oder von der Originaldatei kopiert, falls sie als eine davon ({1}) vorliegen und die Qualit\u00e4t zu den Konvertierungseinstellungen passt.",
     "AudioWillBeConvertedTo": "Audio-Streams werden nach {0} konvertiert oder von der Originaldatei kopiert, falls sie bereits als {0} vorliegen und die Qualit\u00e4t zu den Konvertierungseinstellungen passt.",
     "AudioWillBeConvertedToOrCopied": "Audio-Streams werden nach {0} konvertiert oder von der Originaldatei kopiert, falls sie als eine davon ({1}) vorliegen und die Qualit\u00e4t zu den Konvertierungseinstellungen passt.",
-    "HeaderSpecialKeys": "Special Keys",
-    "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
+    "HeaderSpecialKeys": "Spezialtasten",
+    "FollowingSpecialKeys": "Die folgenden Spezialtasten werden von den meisten Tastaturen und Fernbedienungen unterst\u00fctzt:"
 }
