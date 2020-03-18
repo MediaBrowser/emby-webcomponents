@@ -112,6 +112,35 @@
 
     var PlaybackItemFields = "Chapters,ProductionYear,PremiereDate";
 
+    function getItemsFromSeriesForPlayback(item) {
+
+        var apiClient = connectionManager.getApiClient(item);
+
+        return apiClient.getNextUpEpisodes({
+
+            SeriesId: item.Id,
+            UserId: apiClient.getCurrentUserId(),
+            EnableTotalRecordCount: false,
+            ExcludeLocationTypes: 'Virtual',
+            Fields: PlaybackItemFields
+
+        }).then(function (result) {
+
+            if (!result.Items.length) {
+
+                return getItemsForPlayback(item.ServerId, {
+
+                    ParentId: item.Id,
+                    Filters: "IsNotFolder",
+                    Recursive: true,
+                    SortBy: apiClient.isMinServerVersion('4.4.0.25') ? null : 'SortName'
+                });
+            }
+
+            return result;
+        });
+    }
+
     function getItemsForPlayback(serverId, query) {
 
         var apiClient = connectionManager.getApiClient(serverId);
@@ -1977,6 +2006,10 @@
 
                 }, queryOptions));
             }
+            else if (firstItem.Type === 'Series' && !options.shuffle && options.startPositionTicks !== 0 && !(queryOptions && queryOptions.Filters)) {
+
+                promise = getItemsFromSeriesForPlayback(firstItem);
+            }
             else if (firstItem.IsFolder) {
 
                 promise = getItemsForPlayback(serverId, mergePlaybackQueries({
@@ -1985,7 +2018,7 @@
                     Filters: "IsNotFolder",
                     Recursive: true,
                     // These are pre-sorted
-                    SortBy: options.shuffle ? 'Random' : (['BoxSet'].indexOf(firstItem.Type) === -1 ? 'SortName' : null)
+                    SortBy: options.shuffle ? 'Random' : (['BoxSet', 'Season'].indexOf(firstItem.Type) !== -1 || connectionManager.getApiClient(firstItem).isMinServerVersion('4.4.0.25') ? null : 'SortName')
 
                 }, queryOptions));
             }

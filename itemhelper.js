@@ -91,7 +91,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         if (itemType === 'Device' ||
             itemType === 'User' ||
             itemType === 'Plugin' ||
-            itemType === 'Server') {
+            itemType === 'Server' ||
+            itemType === 'ActivityLogEntry') {
             return false;
         }
 
@@ -158,7 +159,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         if (itemType === 'Device' ||
             itemType === 'User' ||
             itemType === 'Plugin' ||
-            itemType === 'Server') {
+            itemType === 'Server' ||
+            itemType === 'ActivityLogEntry') {
             return false;
         }
 
@@ -210,6 +212,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
         }
 
         if (itemType === 'Server') {
+            return false;
+        }
+
+        if (itemType === 'ActivityLogEntry') {
             return false;
         }
 
@@ -420,6 +426,21 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 return true;
             }
 
+            if (itemType === 'Folder') {
+                return true;
+            }
+
+            if (itemType === 'CollectionFolder') {
+
+                if (item.CollectionType === 'boxsets' ||
+                    item.CollectionType === 'playlists' ||
+                    item.CollectionType === 'music') {
+                    return false;
+                }
+
+                return true;
+            }
+
             return false;
         },
 
@@ -476,7 +497,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 type === 'User' ||
                 type === 'Plugin' ||
                 type === 'VirtualFolder' ||
-                type === 'Server') {
+                type === 'Server' ||
+                type === 'ActivityLogEntry') {
                 return false;
             }
 
@@ -507,7 +529,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 itemType === 'User' ||
                 itemType === 'Plugin' ||
                 itemType === 'Server' ||
-                itemType === 'Tag') {
+                itemType === 'Tag' ||
+                itemType === 'ActivityLogEntry') {
                 return false;
             }
 

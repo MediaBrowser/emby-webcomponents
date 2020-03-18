@@ -63,11 +63,19 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
         var sourceElement = (options ? options.sourceElement : null);
 
-        //if (sourceElement) {
-        //    sourceElement = focusManager.focusableParent(sourceElement);
-        //}
+        if (!sourceElement) {
+            sourceElement = document.activeElement;
+        }
 
-        sourceElement = sourceElement || document.activeElement || window;
+        if (sourceElement) {
+            var tagName = sourceElement.tagName;
+            if (tagName === 'BODY' || tagName === 'HTML') {
+                sourceElement = focusManager.getCurrentScope();
+            }
+        }
+        else {
+            sourceElement = focusManager.getCurrentScope();
+        }
 
         if (eventListenerCount) {
             var customEvent = new CustomEvent("command", {

@@ -244,9 +244,7 @@ define(['events', 'apphost', 'connectionManager'], function (events, appHost, co
 
     PluginManager.prototype.allowPluginPages = function (pluginId) {
 
-        var disallowPlugins = appHost.supports('restrictedplugins') && allowedPluginConfigs.indexOf((pluginId || '').toLowerCase()) === -1;
-
-        return !disallowPlugins;
+        return !appHost.supports('restrictedplugins') || allowedPluginConfigs.indexOf((pluginId || '').toLowerCase()) !== -1;
     };
 
     PluginManager.prototype.getConfigurationPageUrl = function (name) {
