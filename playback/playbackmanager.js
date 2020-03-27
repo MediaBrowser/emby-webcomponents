@@ -1046,7 +1046,7 @@
                     return Promise.resolve(modifyPlaylist(player.getPlaylistSync(), options));
                 }
 
-                return modifyPlaylist(player.getPlaylist(), options);
+                return player.getPlaylist(options);
             }
 
             return Promise.resolve(self._playQueueManager.getPlaylistResult(options));

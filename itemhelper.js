@@ -579,7 +579,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 itemType === "Game" ||
                 itemType === "MusicAlbum" ||
                 itemType === "MusicArtist" ||
-                itemType === "Playlist";
+                itemType === "Playlist" ||
+                itemType === "MusicVideo";
         },
 
         supportsSimilarItemsOnLiveTV: function (item, apiClient) {

@@ -89,7 +89,7 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
             var eventResult = sourceElement.dispatchEvent(customEvent);
             if (!eventResult) {
                 // event cancelled
-                return;
+                return true;
             }
         }
 
@@ -97,190 +97,193 @@ define(['playbackManager', 'focusManager', 'appRouter', 'dom'], function (playba
 
             case 'up':
                 focusManager.moveUp(sourceElement);
-                break;
+                return true;
             case 'down':
                 focusManager.moveDown(sourceElement);
-                break;
+                return true;
             case 'left':
                 focusManager.moveLeft(sourceElement);
-                break;
+                return true;
             case 'right':
                 focusManager.moveRight(sourceElement);
-                break;
+                return true;
             case 'home':
                 appRouter.goHome();
-                break;
+                return true;
             case 'settings':
                 appRouter.showSettings();
-                break;
+                return true;
             case 'back':
                 appRouter.back();
-                break;
+                return true;
             case 'forward':
-                break;
+                return true;
             case 'select':
                 select(sourceElement);
-                break;
-            case 'pageup':
-                break;
-            case 'pagedown':
-                break;
-            case 'end':
-                break;
+                return true;
+            //case 'pageup':
+            //    focusManager.moveFocus(sourceElement, -10);
+            //    return true;
+            //case 'pagedown':
+            //    focusManager.moveFocus(sourceElement, 10);
+            //    return true;
+            //case 'end':
+            //    focusManager.focusLast(sourceElement);
+            //    return true;
             case 'menu':
             case 'info':
-                break;
+                return true;
             case 'nextchapter':
                 playbackManager.nextChapter();
-                break;
+                return true;
             case 'next':
             case 'nexttrack':
                 playbackManager.nextTrack();
-                break;
+                return true;
             case 'previous':
             case 'previoustrack':
                 playbackManager.previousTrack();
-                break;
+                return true;
             case 'previouschapter':
                 playbackManager.previousChapter();
-                break;
+                return true;
             case 'guide':
                 appRouter.showGuide();
-                break;
+                return true;
             case 'recordedtv':
                 appRouter.showRecordedTV();
-                break;
+                return true;
             case 'record':
-                break;
+                return true;
             case 'livetv':
                 appRouter.showLiveTV();
-                break;
+                return true;
             case 'mute':
                 playbackManager.setMute(true);
-                break;
+                return true;
             case 'unmute':
                 playbackManager.setMute(false);
-                break;
+                return true;
             case 'togglemute':
                 playbackManager.toggleMute();
-                break;
+                return true;
             case 'channelup':
                 playbackManager.channelUp();
-                break;
+                return true;
             case 'channeldown':
                 playbackManager.channelDown();
-                break;
+                return true;
             case 'volumedown':
                 playbackManager.volumeDown();
-                break;
+                return true;
             case 'volumeup':
                 playbackManager.volumeUp();
-                break;
+                return true;
             case 'play':
                 playbackManager.unpause();
-                break;
+                return true;
             case 'pause':
                 playbackManager.pause();
-                break;
+                return true;
             case 'playpause':
                 playbackManager.playPause();
-                break;
+                return true;
             case 'stop':
                 if (checkCommandTime('stop')) {
                     playbackManager.stop();
                 }
-                break;
+                return true;
             case 'changezoom':
                 playbackManager.toggleAspectRatio();
-                break;
+                return true;
             case 'changeaudiotrack':
                 playbackManager.changeAudioStream();
-                break;
+                return true;
             case 'changesubtitletrack':
                 playbackManager.changeSubtitleStream();
-                break;
+                return true;
             case 'search':
                 appRouter.showSearch();
-                break;
+                return true;
             case 'favorites':
                 appRouter.showFavorites();
-                break;
+                return true;
             case 'fastforward':
                 playbackManager.fastForward();
-                break;
+                return true;
             case 'rewind':
                 playbackManager.rewind();
-                break;
+                return true;
             case 'togglefullscreen':
                 playbackManager.toggleFullscreen();
-                break;
+                return true;
             case 'disabledisplaymirror':
                 playbackManager.enableDisplayMirroring(false);
-                break;
+                return true;
             case 'enabledisplaymirror':
                 playbackManager.enableDisplayMirroring(true);
-                break;
+                return true;
             case 'toggledisplaymirror':
                 playbackManager.toggleDisplayMirroring();
-                break;
+                return true;
             case 'togglestats':
                 //playbackManager.toggleStats();
-                break;
+                return true;
             case 'movies':
                 // TODO
                 appRouter.goHome();
-                break;
+                return true;
             case 'music':
                 // TODO
                 appRouter.goHome();
-                break;
+                return true;
             case 'tv':
                 // TODO
                 appRouter.goHome();
-                break;
+                return true;
             case 'nowplaying':
                 appRouter.showNowPlaying();
-                break;
+                return true;
             case 'save':
-                break;
+                return true;
             case 'screensaver':
                 // TODO
-                break;
+                return true;
             case 'refresh':
                 // TODO
-                break;
+                return true;
             case 'changebrightness':
                 // TODO
-                break;
+                return true;
             case 'red':
                 // TODO
-                break;
+                return true;
             case 'green':
                 // TODO
-                break;
+                return true;
             case 'yellow':
                 // TODO
-                break;
+                return true;
             case 'blue':
                 // TODO
-                break;
+                return true;
             case 'grey':
                 // TODO
-                break;
+                return true;
             case 'brown':
                 // TODO
-                break;
+                return true;
             case 'repeatnone':
                 playbackManager.setRepeatMode('RepeatNone');
-                break;
+                return true;
             case 'repeatall':
                 playbackManager.setRepeatMode('RepeatAll');
-                break;
+                return true;
             case 'repeatone':
                 playbackManager.setRepeatMode('RepeatOne');
-                break;
+                return true;
             default:
-                break;
+                return false;
         }
     }
 

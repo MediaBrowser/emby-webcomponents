@@ -253,6 +253,8 @@
   "LabelDisplayMode": "Display mode:",
   "Desktop": "Desktop",
   "Mobile": "Mobile / Tablet",
+  "Navigation": "Navigation",
+  "HeaderVideoPlayback": "Video Playback",
   "TV": "TV",
   "HeaderEmbyConnect": "Emby Connect",
   "Seasons": "Seasons",

@@ -253,6 +253,8 @@
     "LabelDisplayMode": "\u0411\u0435\u0439\u043d\u0435\u043b\u0435\u0443 \u0440\u0435\u0436\u0456\u043c\u0456:",
     "Desktop": "\u0416\u04b1\u043c\u044b\u0441 \u04af\u0441\u0442\u0435\u043b\u0456",
     "Mobile": "\u04b0\u044f\u043b\u044b \/ \u041f\u043b\u0430\u043d\u0448\u0435\u0442\u0442\u0456\u043a",
+    "Navigation": "Navigation",
+    "HeaderVideoPlayback": "Video Playback",
     "TV": "\u0422\u0414",
     "HeaderEmbyConnect": "Emby Connect",
     "Seasons": "Seasons",
