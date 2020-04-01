@@ -945,5 +945,7 @@
   "AudioWillBeConvertedTo": "Audio streams will be converted to {0}, or copied from the original file if they are already {0} and the quality fits within the conversion options.",
   "AudioWillBeConvertedToOrCopied": "Audio streams will be converted to {0}, or copied from the original file if they are any of ({1}), and the quality fits within the conversion options.",
   "HeaderSpecialKeys": "Special Keys",
-  "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:"
+  "FollowingSpecialKeys": "The following special keys are supported on most keyboards and remote controls:",
+  "HeaderDeleteSeries": "Delete Series",
+  "HeaderDeleteLastPlayedEpisode": "Delete Last Played Episode"
 }

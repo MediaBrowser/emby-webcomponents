@@ -945,5 +945,7 @@
     "AudioWillBeConvertedTo": "Ljudstr\u00f6mmar konverteras till {0} eller kopieras fr\u00e5n originalfilen om de redan \u00e4r {0} och kvaliteten passar in i konverteringsalternativen.",
     "AudioWillBeConvertedToOrCopied": "Ljudstr\u00f6mmar konverteras till {0} eller kopieras fr\u00e5n originalfilen om de \u00e4r n\u00e5gon av ({1}) och kvaliteten passar in i konverteringsalternativen.",
     "HeaderSpecialKeys": "Specialtangenter",
-    "FollowingSpecialKeys": "F\u00f6ljande specialtangenter st\u00f6ds p\u00e5 de flesta tangentbord och fj\u00e4rrkontroller:"
+    "FollowingSpecialKeys": "F\u00f6ljande specialtangenter st\u00f6ds p\u00e5 de flesta tangentbord och fj\u00e4rrkontroller:",
+    "HeaderDeleteSeries": "Delete Series",
+    "HeaderDeleteLastPlayedEpisode": "Delete Last Played Episode"
 }

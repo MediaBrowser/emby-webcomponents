@@ -1,4 +1,4 @@
-define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (connectionManager, confirm, appRouter, globalize) {
+define(['connectionManager', 'confirm', 'dialog', 'appRouter', 'globalize'], function (connectionManager, confirm, dialog, appRouter, globalize) {
     'use strict';
 
     function alertText(options) {
@@ -126,6 +126,108 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
         });
     }
 
+    function getRejectPromise() {
+        return Promise.reject();
+    }
+
+    function deleteSeries(item, apiClient, options) {
+
+        return apiClient.getEpisodes(item.Id, {
+
+            Limit: 1,
+            SortBy: 'DatePlayed',
+            SortOrder: 'Descending',
+            IsPlayed: true,
+            UserId: apiClient.getCurrentUserId(),
+            ExcludeLocationTypes: 'Virtual'
+
+        }).then(function (result) {
+
+            if (!result.Items.length) {
+                return deleteItemInternal(item, apiClient, options);
+            }
+
+            return dialog({
+
+                title: globalize.translate('HeaderDeleteSeries'),
+                text: '',
+                buttons: [
+
+                    {
+                        name: globalize.translate('Cancel'),
+                        id: 'cancel',
+                        type: 'submit'
+                    },
+                    {
+                        name: globalize.translate('HeaderDeleteLastPlayedEpisode'),
+                        id: 'deletelastplayed',
+                        type: 'cancel'
+                    },
+                    {
+                        name: globalize.translate('HeaderDeleteSeries'),
+                        id: 'deleteseries',
+                        type: 'cancel'
+                    }
+                ]
+
+            }).then(function (id) {
+
+                if (id === 'deleteseries') {
+                    return deleteItemInternal(item, apiClient, options);
+                }
+
+                if (id === 'deletelastplayed') {
+                    return deleteItemInternal(result.Items[0], apiClient, options);
+                }
+
+                return Promise.reject();
+            });
+        });
+    }
+
+    function deleteItemInternal(item, apiClient, options) {
+
+        var itemId = item.Id;
+
+        return apiClient.getDeleteInfo(itemId).then(function (deleteInfo) {
+
+            var msg = globalize.translate('ConfirmDeleteItem');
+
+            if (deleteInfo.Paths.length) {
+
+                msg += '\n\n' + globalize.translate('FollowingFilesWillBeDeleted') + '\n' + deleteInfo.Paths.join('\n');
+            }
+
+            msg += '\n\n' + globalize.translate('AreYouSureToContinue');
+
+            return confirm({
+
+                title: globalize.translate('HeaderDeleteItem'),
+                text: msg,
+                confirmText: globalize.translate('Delete'),
+                primary: 'cancel'
+
+            }).then(function () {
+
+                var parentId = item.SeasonId || item.SeriesId || item.ParentId;
+                var serverId = item.ServerId;
+
+                return apiClient.deleteItem(itemId).then(function () {
+
+                    return onItemDeleted(options, serverId, parentId);
+
+                }, function (err) {
+
+                    var result = function () {
+                        return Promise.reject(err);
+                    };
+
+                    return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
+                });
+            });
+        });
+    }
+
     function deleteItem(options) {
 
         var item = options.item;
@@ -147,45 +249,11 @@ define(['connectionManager', 'confirm', 'appRouter', 'globalize'], function (con
             return uninstallPlugin(item, apiClient, options);
         }
 
-        var itemId = item.Id;
-        var parentId = item.SeasonId || item.SeriesId || item.ParentId;
-        var serverId = item.ServerId;
+        if (item.Type === 'Series' && apiClient.isMinServerVersion('4.5.0.3')) {
+            return deleteSeries(item, apiClient, options);
+        }
 
-        var msg = globalize.translate('ConfirmDeleteItem');
-        var title = globalize.translate('HeaderDeleteItem');
-
-        return apiClient.getDeleteInfo(itemId).then(function (deleteInfo) {
-
-            if (deleteInfo.Paths.length) {
-
-                msg += '\n\n' + globalize.translate('FollowingFilesWillBeDeleted') + '\n' + deleteInfo.Paths.join('\n');
-            }
-
-            msg += '\n\n' + globalize.translate('AreYouSureToContinue');
-
-            return confirm({
-
-                title: title,
-                text: msg,
-                confirmText: globalize.translate('Delete'),
-                primary: 'cancel'
-
-            }).then(function () {
-
-                return apiClient.deleteItem(itemId).then(function () {
-
-                    return onItemDeleted(options, serverId, parentId);
-
-                }, function (err) {
-
-                    var result = function () {
-                        return Promise.reject(err);
-                    };
-
-                    return alertText(globalize.translate('ErrorDeletingItem')).then(result, result);
-                });
-            });
-        });
+        return deleteItemInternal(item, apiClient, options);
     }
 
     return {

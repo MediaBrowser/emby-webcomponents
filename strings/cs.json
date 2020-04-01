@@ -945,5 +945,7 @@
     "AudioWillBeConvertedTo": "Audio streamy budou p\u0159ek\u00f3dov\u00e1ny do {0} nebo zkop\u00edrov\u00e1ny z p\u016fvodn\u00edho souboru pokud jsou u\u017e {0} a kvalitou odpov\u00eddaj\u00ed mo\u017enostem p\u0159ek\u00f3dov\u00e1n\u00ed.",
     "AudioWillBeConvertedToOrCopied": "Audio streamy budou p\u0159ek\u00f3dov\u00e1ny do {0} nebo zkop\u00edrov\u00e1ny z p\u016fvodn\u00edho souboru pokud jsou n\u011bkter\u00e9 z {1} a kvalitou odpov\u00eddaj\u00ed mo\u017enostem p\u0159ek\u00f3dov\u00e1n\u00ed.",
     "HeaderSpecialKeys": "Speci\u00e1ln\u00ed kl\u00e1vesy",
-    "FollowingSpecialKeys": "N\u00e1sleduj\u00edc\u00ed speci\u00e1ln\u00ed kl\u00e1vesy podporuje v\u011bt\u0161ina kl\u00e1vesnic a d\u00e1lkov\u00fdch ovl\u00e1d\u00e1n\u00ed:"
+    "FollowingSpecialKeys": "N\u00e1sleduj\u00edc\u00ed speci\u00e1ln\u00ed kl\u00e1vesy podporuje v\u011bt\u0161ina kl\u00e1vesnic a d\u00e1lkov\u00fdch ovl\u00e1d\u00e1n\u00ed:",
+    "HeaderDeleteSeries": "Delete Series",
+    "HeaderDeleteLastPlayedEpisode": "Delete Last Played Episode"
 }

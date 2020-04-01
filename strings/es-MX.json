@@ -945,5 +945,7 @@
     "AudioWillBeConvertedTo": "La pistas de audio sera convertida a {0}, o sera copiada del archivo original si ya es {0} y la calidad coincide con las opciones de conversi\u00f3n.",
     "AudioWillBeConvertedToOrCopied": "La pista de audiosera convertida a {0}, o sera copiada del archivo original si hay alg\u00fan ({1}) y la calidad coincide con las opciones de conversi\u00f3n.",
     "HeaderSpecialKeys": "Teclas Especiales",
-    "FollowingSpecialKeys": "Las siguientes teclas especiales son soportadas por la mayor\u00eda de los teclados y controles remotos:"
+    "FollowingSpecialKeys": "Las siguientes teclas especiales son soportadas por la mayor\u00eda de los teclados y controles remotos:",
+    "HeaderDeleteSeries": "Delete Series",
+    "HeaderDeleteLastPlayedEpisode": "Delete Last Played Episode"
 }
