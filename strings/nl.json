@@ -1,4 +1,5 @@
 {
+    "HeaderOpenInNewWindow": "Open in New Window",
     "EmbyLoginTerms": "Emby is ontworpen om uw persoonlijke mediabibliotheek te helpen beheren, zoals home video's en foto's. Zie onze {0}gebruiksvoorwaarden{1}. Het gebruik van Emby software betekent dat u deze voorwaarden aanvaard.",
     "MessageUnableToConnectToServer": "Het is momenteel niet mogelijk met de geselecteerde server verbinding te maken. Controleer dat deze actief is en probeer dan opnieuw.",
     "EmbyIntroMessage": "Met Emby kunt u eenvoudig films, muziek en foto's naar uw telefoon, tablet en andere apparatuur streamen.",
@@ -467,6 +468,8 @@
     "SeriesYearToPresent": "{0} - Heden",
     "OneDevice": "Apparaat",
     "DeviceCountValue": "{0} Apparaten",
+    "OneLog": "1 Log",
+    "LogCountValue": "{0} Logs",
     "OneUser": "1 Gebruiker",
     "UserCountValue": "{0} Gebruikers",
     "OneLibrary": "1 Bibliotheek",

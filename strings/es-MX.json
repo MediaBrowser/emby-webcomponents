@@ -1,4 +1,5 @@
 {
+    "HeaderOpenInNewWindow": "Open in New Window",
     "EmbyLoginTerms": "Emby esta dise\u00f1ado para ayudarlo a administrar su biblioteca de medios personal, tales como v\u00eddeos caseros y fotograf\u00edas. Por favor vea nuestros {0}t\u00e9rminos de uso{1}. Al usar cualquier software de Emby constituye la aceptaci\u00f3n de dichos t\u00e9rminos.",
     "MessageUnableToConnectToServer": "No es posible conectarse al servidor seleccionado en este momento. Por favor aseg\u00farese de que se encuentra en ejecuci\u00f3n e int\u00e9ntelo nuevamente.",
     "EmbyIntroMessage": "Con Emby usted puede transmitir videos, musica y fotos hacia su telefono inteligente, tabla u otros equipos desde su Servidor Emby.",
@@ -467,6 +468,8 @@
     "SeriesYearToPresent": "{0} - Actualidad",
     "OneDevice": "1 Dispositivo",
     "DeviceCountValue": "{0} Dispositivos",
+    "OneLog": "1 Log",
+    "LogCountValue": "{0} Logs",
     "OneUser": "1 Usuario",
     "UserCountValue": "{0} Usuarios",
     "OneLibrary": "1 Biblioteca",
@@ -946,6 +949,6 @@
     "AudioWillBeConvertedToOrCopied": "La pista de audiosera convertida a {0}, o sera copiada del archivo original si hay alg\u00fan ({1}) y la calidad coincide con las opciones de conversi\u00f3n.",
     "HeaderSpecialKeys": "Teclas Especiales",
     "FollowingSpecialKeys": "Las siguientes teclas especiales son soportadas por la mayor\u00eda de los teclados y controles remotos:",
-    "HeaderDeleteSeries": "Delete Series",
-    "HeaderDeleteLastPlayedEpisode": "Delete Last Played Episode"
+    "HeaderDeleteSeries": "Eliminar Series",
+    "HeaderDeleteLastPlayedEpisode": "Eliminar Ultimo Episodio Reproducido"
 }

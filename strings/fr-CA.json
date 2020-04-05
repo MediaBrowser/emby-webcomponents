@@ -1,4 +1,5 @@
 {
+    "HeaderOpenInNewWindow": "Open in New Window",
     "EmbyLoginTerms": "Emby est con\u00e7u pour vous aider \u00e0 g\u00e9rer votre m\u00e9diath\u00e8que personnelle, tels que vos photos et vid\u00e9os. Veuillez lire nos {0}conditions d'utilisation{1}. L'utilisation de tout logiciel Emby implique que vous acceptiez ces conditions.",
     "MessageUnableToConnectToServer": "Nous sommes dans l'impossibilit\u00e9 de nous connecter au serveur s\u00e9lectionn\u00e9. Veuillez v\u00e9rifier qu'il est op\u00e9rationnel et r\u00e9essayez.",
     "EmbyIntroMessage": "Avec Emby, vous pouvez facilement diffuser des vid\u00e9os, de la musique et des photos sur des t\u00e9l\u00e9phones intelligents, des tablettes et d'autres appareils depuis votre serveur Emby.",
@@ -254,7 +255,7 @@
     "Desktop": "Bureau",
     "Mobile": "Mobile \/ Tablette",
     "Navigation": "Navigation",
-    "HeaderVideoPlayback": "Video Playback",
+    "HeaderVideoPlayback": "Lecture vid\u00e9o",
     "TV": "TV",
     "HeaderEmbyConnect": "Emby Connect",
     "Seasons": "Saisons",
@@ -467,6 +468,8 @@
     "SeriesYearToPresent": "{0} - Pr\u00e9sent",
     "OneDevice": "1 appareil",
     "DeviceCountValue": "{0} appareils",
+    "OneLog": "1 Log",
+    "LogCountValue": "{0} Logs",
     "OneUser": "1 utilisateur",
     "UserCountValue": "{0} utilisateurs",
     "OneLibrary": "1 m\u00e9diath\u00e8que",
@@ -946,6 +949,6 @@
     "AudioWillBeConvertedToOrCopied": "Les flux audio seront convertis en {0} ou copi\u00e9s depuis le fichier original s\u2019ils font partie de {1} et que la qualit\u00e9 correspond aux options de conversion.",
     "HeaderSpecialKeys": "Touches Sp\u00e9ciales",
     "FollowingSpecialKeys": "Les touches sp\u00e9ciales suivantes sont support\u00e9s sur la plupart des claviers et des t\u00e9l\u00e9commandes :",
-    "HeaderDeleteSeries": "Delete Series",
-    "HeaderDeleteLastPlayedEpisode": "Delete Last Played Episode"
+    "HeaderDeleteSeries": "Supprimer les s\u00e9ries",
+    "HeaderDeleteLastPlayedEpisode": "Supprimer le dernier \u00e9pisode lu"
 }

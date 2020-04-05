@@ -1,4 +1,5 @@
 {
+    "HeaderOpenInNewWindow": "Open in New Window",
     "EmbyLoginTerms": "Az Emby seg\u00edt menedzselni a szem\u00e9lyes m\u00e9diak\u00f6nyvt\u00e1radat, mint a saj\u00e1t vide\u00f3kat, \u00e9s k\u00e9peket. K\u00e9rj\u00fck, n\u00e9zd meg a {0}szolg\u00e1ltat\u00e1si felt\u00e9teleket{1}. Az Emby haszn\u00e1lat\u00e1val elfogadod ezeket a felt\u00e9teleket.",
     "MessageUnableToConnectToServer": "Jelenleg nem lehet kapcsol\u00f3dni a kiv\u00e1lasztott szerverhez. K\u00e9rj\u00fck, ellen\u0151rizd, hogy a szerver fut-e, majd pr\u00f3b\u00e1ld \u00fajra.",
     "EmbyIntroMessage": "Az Embyvel k\u00f6nnyed\u00e9n streamelhetsz vide\u00f3kat, zen\u00e9ket \u00e9s k\u00e9peket okostelefonra, t\u00e1blag\u00e9pekre \u00e9s m\u00e1s eszk\u00f6z\u00f6kre a szerveredr\u0151l.",
@@ -467,6 +468,8 @@
     "SeriesYearToPresent": "{0} - Napjainkig",
     "OneDevice": "1 Device",
     "DeviceCountValue": "{0} Devices",
+    "OneLog": "1 Log",
+    "LogCountValue": "{0} Logs",
     "OneUser": "1 User",
     "UserCountValue": "{0} Users",
     "OneLibrary": "1 Library",

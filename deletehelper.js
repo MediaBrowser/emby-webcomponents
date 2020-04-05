@@ -228,6 +228,32 @@ define(['connectionManager', 'confirm', 'dialog', 'appRouter', 'globalize'], fun
         });
     }
 
+    function deleteApiKey(item, apiClient, options) {
+
+        return require(['confirm']).then(function (responses) {
+
+            var confirm = responses[0];
+
+            return confirm({
+
+                text: globalize.translate('MessageConfirmRevokeApiKey'),
+                title: globalize.translate('HeaderConfirmRevokeApiKey'),
+                confirmText: globalize.translate('Delete'),
+                primary: 'cancel'
+
+            }).then(function () {
+
+                var apiClient = connectionManager.getApiClient(item);
+
+                return apiClient.ajax({
+                    type: "DELETE",
+                    url: apiClient.getUrl('Auth/Keys/' + item.AccessToken)
+                });
+            });
+
+        });
+    }
+
     function deleteItem(options) {
 
         var item = options.item;
@@ -247,6 +273,10 @@ define(['connectionManager', 'confirm', 'dialog', 'appRouter', 'globalize'], fun
 
         if (item.Type === 'Plugin') {
             return uninstallPlugin(item, apiClient, options);
+        }
+
+        if (item.Type === 'ApiKey') {
+            return deleteApiKey(item, apiClient, options);
         }
 
         if (item.Type === 'Series' && apiClient.isMinServerVersion('4.5.0.3')) {

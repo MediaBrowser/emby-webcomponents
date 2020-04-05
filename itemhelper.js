@@ -58,7 +58,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
     function supportsAddingToCollection(item) {
 
-        var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'GameGenre', 'Tag', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer', 'BoxSet'];
+        var invalidTypes = ['Genre', 'MusicGenre', 'Studio', 'GameGenre', 'Tag', 'UserView', 'CollectionFolder', 'Audio', 'Program', 'Timer', 'SeriesTimer', 'BoxSet', 'ApiKey'];
 
         var itemType = item.Type;
 
@@ -160,7 +160,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             itemType === 'User' ||
             itemType === 'Plugin' ||
             itemType === 'Server' ||
-            itemType === 'ActivityLogEntry') {
+            itemType === 'ActivityLogEntry' ||
+            itemType === 'ApiKey') {
             return false;
         }
 
@@ -187,7 +188,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
 
         var itemType = item.Type;
 
-        if (itemType === "UserRootFolder" || itemType === "CollectionFolder" || itemType === "UserView" || itemType === "PlaylistsFolder") {
+        if (itemType === "UserRootFolder" || itemType === "CollectionFolder" || itemType === "UserView" || itemType === "PlaylistsFolder" || itemType === "ApiKey") {
             return false;
         }
 
@@ -498,7 +499,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 type === 'Plugin' ||
                 type === 'VirtualFolder' ||
                 type === 'Server' ||
-                type === 'ActivityLogEntry') {
+                type === 'ActivityLogEntry' ||
+                type === 'ApiKey') {
                 return false;
             }
 
@@ -530,7 +532,8 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 itemType === 'Plugin' ||
                 itemType === 'Server' ||
                 itemType === 'Tag' ||
-                itemType === 'ActivityLogEntry') {
+                itemType === 'ActivityLogEntry' ||
+                itemType === 'ApiKey') {
                 return false;
             }
 
