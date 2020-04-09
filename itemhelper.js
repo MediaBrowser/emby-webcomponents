@@ -377,7 +377,10 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
                 itemType === 'Device' ||
                 itemType === 'User' ||
                 itemType === 'Plugin' ||
-                itemType === 'Server') {
+                itemType === 'Server' ||
+                itemType === 'ActivityLogEntry' ||
+                itemType === 'ApiKey' ||
+                itemType === 'Tag') {
                 return false;
             }
 
