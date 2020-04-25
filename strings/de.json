@@ -1,5 +1,5 @@
 {
-    "HeaderAllLanguages": "All Languages",
+    "HeaderAllLanguages": "Alle Sprachen",
     "EmbyLoginTerms": "Emby wurde geschaffen, um dich bei der Verwaltung deiner pers\u00f6nlichen Mediensammlung mit Heimvideos, Fotos usw. zu unterst\u00fctzen. Bitte lies unsere {0}Nutzungsbedingungen{1}. Die Nutzung jeglicher Emby-Software setzt die Akzeptanz dieser Bedingungen voraus.",
     "MessageUnableToConnectToServer": "Es l\u00e4sst sich gerade keine Verbindung zum gew\u00e4hlten Server herstellen. Bitte sicherstellen, dass dieser l\u00e4uft und dann erneut versuchen.",
     "EmbyIntroMessage": "Mit Emby kannst du auf einfache Art und Weise Videos, Musik und Fotos von deinem Emby Server auf Smartphones, Tablets und andere Ger\u00e4te streamen.",
@@ -471,8 +471,8 @@
     "DeviceCountValue": "{0} Ger\u00e4te",
     "OneLog": "1 Log",
     "LogCountValue": "{0} Logs",
-    "OneVote": "1 Vote",
-    "VoteCountValue": "{0} Votes",
+    "OneVote": "1 Stimme",
+    "VoteCountValue": "{0} Stimmen",
     "OneLike": "1 Like",
     "LikeCountValue": "{0} Likes",
     "OneUser": "1 Benutzer",
