@@ -145,6 +145,15 @@ define(['appStorage', 'events'], function (appStorage, events) {
         return this.get('runatstartup') === 'true';
     };
 
+    AppSettings.prototype.backgroundVideo = function (val) {
+
+        if (val != null) {
+            this.set('backgroundVideo', val);
+        }
+
+        return this.get('backgroundVideo');
+    };
+
     AppSettings.prototype.set = function (name, value, userId) {
 
         var currentValue = this.get(name, userId);
