@@ -28,7 +28,7 @@ define(['apphost', 'globalize'], function (appHost, globalize) {
             }
             return name;
         }
-        if (options.enableSpecialEpisodePrefix && itemType === "Episode" && item.ParentIndexNumber === 0) {
+        if (options.enableSpecialEpisodePrefix !== false && itemType === "Episode" && item.ParentIndexNumber === 0) {
 
             name = globalize.translate('ValueSpecialEpisodeName', name);
 
