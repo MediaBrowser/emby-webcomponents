@@ -20,6 +20,7 @@
   "HeaderResetPassword": "Reset Password",
   "Preview": "Preview",
   "Submit": "Submit",
+  "Never": "Never",
   "LabelBackgroundVideoPlayback": "Background video playback:",
   "BackgroundVideoPlaybackHelp": "Background playback allows video to keep playing even when the screen is turned off.",
   "AlwaysOn": "Always on",

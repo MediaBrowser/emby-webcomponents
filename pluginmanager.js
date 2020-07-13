@@ -52,8 +52,7 @@ define(['events', 'apphost', 'connectionManager'], function (events, appHost, co
 
             plugin.installUrl = url;
 
-            var urlLower = url.toLowerCase();
-            if (urlLower.indexOf('http:') === -1 && urlLower.indexOf('https:') === -1 && urlLower.indexOf('file:') === -1) {
+            if (url.indexOf('://') === -1) {
                 if (url.indexOf(appRouter.baseUrl()) !== 0) {
 
                     url = appRouter.baseUrl() + '/' + url;
