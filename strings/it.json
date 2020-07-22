@@ -1,5 +1,4 @@
 {
-    "Never": "Never",
     "EmbyLoginTerms": "Emby \u00e8 progettato per aiutarti a gestire la tua libreria multimediale personale, come home video e foto. Consulta i nostri {0} termini di utilizzo {1}. L'uso di qualsiasi software Emby implica l'accettazione di questi termini.",
     "MessageUnableToConnectToServer": "Non siamo in grado di connettersi al server selezionato al momento. Per favore assicurati che sia in esecuzione e riprova.",
     "EmbyIntroMessage": "Con Emby si pu\u00f2 facilmente lo streaming di video, musica e foto da smartphone, tablet e altri dispositivi dal vostro ricamato Server.",
@@ -21,6 +20,7 @@
     "HeaderResetPassword": "Ripristina Password",
     "Preview": "Anteprima",
     "Submit": "Invia",
+    "Never": "Never",
     "LabelBackgroundVideoPlayback": "Background video playback:",
     "BackgroundVideoPlaybackHelp": "Background playback allows video to keep playing even when the screen is turned off.",
     "AlwaysOn": "Always on",
@@ -690,6 +690,7 @@
     "Guide": "Guida",
     "Games": "Giochi",
     "Suggestions": "Suggerimenti",
+    "HeaderFavoriteChannels": "Favorite Channels",
     "HeaderFavoriteCollections": "Collezioni Preferite",
     "HeaderFavoritePlaylists": "Playlist Preferite",
     "Collections": "Collezioni",

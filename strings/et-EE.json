@@ -1,5 +1,4 @@
 {
-    "Never": "Never",
     "EmbyLoginTerms": "Emby on loodud selleks, et aidata hallata oma isiklikku meediakogu, n\u00e4iteks koduvideoid ja fotosid. Palun loe meie {0}kasutustingimusi{1}. Mis tahes Emby tarkvara kasutamine t\u00e4hendab nende tingimustega n\u00f5ustumist.",
     "MessageUnableToConnectToServer": "Me ei saa praegu valitud serveriga \u00fchendust luua. Veendu, et see t\u00f6\u00f6tab ja proovi uuesti.",
     "EmbyIntroMessage": "Emby abil saad oma Emby serverist h\u00f5lpsalt voogesitada videoid, muusikat ja fotosid nutitelefonidesse, tahvelarvutitesse ja muudesse seadmetesse.",
@@ -21,6 +20,7 @@
     "HeaderResetPassword": "L\u00e4htesta parool",
     "Preview": "Preview",
     "Submit": "Esita",
+    "Never": "Never",
     "LabelBackgroundVideoPlayback": "Background video playback:",
     "BackgroundVideoPlaybackHelp": "Background playback allows video to keep playing even when the screen is turned off.",
     "AlwaysOn": "Always on",
@@ -690,6 +690,7 @@
     "Guide": "Telekava",
     "Games": "M\u00e4ngud",
     "Suggestions": "Soovitused",
+    "HeaderFavoriteChannels": "Favorite Channels",
     "HeaderFavoriteCollections": "Lemmik kogumikud",
     "HeaderFavoritePlaylists": "Lemmik pleilistid",
     "Collections": "Kogumikud",

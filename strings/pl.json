@@ -1,5 +1,4 @@
 {
-    "Never": "Never",
     "EmbyLoginTerms": "Emby zosta\u0142o zaprojektowane tak, aby u\u0142atwia\u0107 zarz\u0105dzanie prywatn\u0105 bibliotek\u0105 medi\u00f3w - filmami, muzyk\u0105 czy obrazami. Zapoznaj si\u0119 z {0}warunkami u\u017cytkowania{1}. U\u017cywanie oprogramowania Emby wymaga zaakceptowania tych warunk\u00f3w.",
     "MessageUnableToConnectToServer": "Nie jeste\u015bmy w tej chwili w stanie po\u0142\u0105czy\u0107 si\u0119 z wybranym serwerem. Prosz\u0119 upewni\u0107 si\u0119, \u017ce dzia\u0142a i spr\u00f3bowa\u0107 ponownie.",
     "EmbyIntroMessage": "Przy pomocy Emby mo\u017cesz \u0142atwo transmitowa\u0107 wideo, muzyk\u0119 i obrazy na telefony, tablety i inne urz\u0105dze\u0144, ze swojego serwera Emby.",
@@ -21,6 +20,7 @@
     "HeaderResetPassword": "Resetowanie has\u0142a",
     "Preview": "Podgl\u0105d",
     "Submit": "Zatwierd\u017a",
+    "Never": "Never",
     "LabelBackgroundVideoPlayback": "Odtwarzanie wideo w tle:",
     "BackgroundVideoPlaybackHelp": "Odtwarzanie w tle umo\u017cliwia odtwarzanie wideo nawet, gdy wy\u015bwietlacz jest wy\u0142\u0105czony,",
     "AlwaysOn": "Zawsze aktywne",
@@ -690,6 +690,7 @@
     "Guide": "Przewodnik",
     "Games": "Gry",
     "Suggestions": "Polecane",
+    "HeaderFavoriteChannels": "Favorite Channels",
     "HeaderFavoriteCollections": "Kolekcje ulubione",
     "HeaderFavoritePlaylists": "Listy ulubione",
     "Collections": "Kolekcje",

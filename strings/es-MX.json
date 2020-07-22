@@ -1,5 +1,4 @@
 {
-    "Never": "Nunca",
     "EmbyLoginTerms": "Emby esta dise\u00f1ado para ayudarlo a administrar su biblioteca de medios personal, tales como v\u00eddeos caseros y fotograf\u00edas. Por favor vea nuestros {0}t\u00e9rminos de uso{1}. Al usar cualquier software de Emby constituye la aceptaci\u00f3n de dichos t\u00e9rminos.",
     "MessageUnableToConnectToServer": "No es posible conectarse al servidor seleccionado en este momento. Por favor aseg\u00farese de que se encuentra en ejecuci\u00f3n e int\u00e9ntelo nuevamente.",
     "EmbyIntroMessage": "Con Emby usted puede transmitir videos, musica y fotos hacia su telefono inteligente, tabla u otros equipos desde su Servidor Emby.",
@@ -21,6 +20,7 @@
     "HeaderResetPassword": "Restablecer Contrase\u00f1a",
     "Preview": "Vista Previa",
     "Submit": "Enviar",
+    "Never": "Nunca",
     "LabelBackgroundVideoPlayback": "Reproducci\u00f3n de v\u00eddeo de fondo:",
     "BackgroundVideoPlaybackHelp": "La reproducci\u00f3n de v\u00eddeo de fondo permite que la reproducci\u00f3n del v\u00eddeo contin\u00fae aun cuando la pantalla haya sido apagada.",
     "AlwaysOn": "Siempre encendido",
@@ -690,6 +690,7 @@
     "Guide": "Gu\u00eda",
     "Games": "Juegos",
     "Suggestions": "Sugerencias",
+    "HeaderFavoriteChannels": "Canales Favoritos",
     "HeaderFavoriteCollections": "Colecciones Favoritas",
     "HeaderFavoritePlaylists": "Listas de Reproducci\u00f3n Favoritas",
     "Collections": "Colecciones",

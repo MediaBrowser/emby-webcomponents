@@ -1,5 +1,4 @@
 {
-    "Never": "Never",
     "EmbyLoginTerms": "Emby is ontworpen om uw persoonlijke mediabibliotheek te helpen beheren, zoals home video's en foto's. Zie onze {0}gebruiksvoorwaarden{1}. Het gebruik van Emby software betekent dat u deze voorwaarden aanvaard.",
     "MessageUnableToConnectToServer": "Het is momenteel niet mogelijk met de geselecteerde server verbinding te maken. Controleer dat deze actief is en probeer dan opnieuw.",
     "EmbyIntroMessage": "Met Emby kunt u eenvoudig films, muziek en foto's naar uw telefoon, tablet en andere apparatuur streamen.",
@@ -21,6 +20,7 @@
     "HeaderResetPassword": "Wachtwoord resetten",
     "Preview": "Voorvertoning",
     "Submit": "Submit",
+    "Never": "Never",
     "LabelBackgroundVideoPlayback": "Background video playback:",
     "BackgroundVideoPlaybackHelp": "Background playback allows video to keep playing even when the screen is turned off.",
     "AlwaysOn": "Always on",
@@ -690,6 +690,7 @@
     "Guide": "Gids",
     "Games": "Games",
     "Suggestions": "Suggesties",
+    "HeaderFavoriteChannels": "Favorite Channels",
     "HeaderFavoriteCollections": "Favoriete collecties",
     "HeaderFavoritePlaylists": "Favoriete afspeellijsten",
     "Collections": "Collecties",
