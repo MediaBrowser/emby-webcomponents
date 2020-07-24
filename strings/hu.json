@@ -120,6 +120,8 @@
     "Image": "K\u00e9p",
     "LabelYear": "\u00c9v:",
     "LabelAudioCodec": "Audi\u00f3 k\u00f3dek:",
+    "LabelAudioLanguage": "Audio language:",
+    "LabelSubtitleLanguage": "Subtitle language:",
     "LabelVideoCodec": "Vide\u00f3 k\u00f3dek:",
     "LabelSubtitleCodec": "Felirat k\u00f3dek:",
     "LabelParentalRating": "Korhat\u00e1r besorol\u00e1s:",

@@ -120,6 +120,8 @@
     "Image": "Image",
     "LabelYear": "\u5e74:",
     "LabelAudioCodec": "\u30aa\u30fc\u30c7\u30a3\u30aa\u30b3\u30fc\u30c7\u30c3\u30af:",
+    "LabelAudioLanguage": "Audio language:",
+    "LabelSubtitleLanguage": "Subtitle language:",
     "LabelVideoCodec": "\u30d3\u30c7\u30aa\u30b3\u30fc\u30c7\u30c3\u30af:",
     "LabelSubtitleCodec": "\u5b57\u5e55\u30b3\u30fc\u30c7\u30c3\u30af:",
     "LabelParentalRating": "\u30da\u30a2\u30ec\u30f3\u30bf\u30eb\u8a55\u4fa1:",

@@ -120,6 +120,8 @@
     "Image": "Image",
     "LabelYear": "Aasta:",
     "LabelAudioCodec": "Audiokoodek:",
+    "LabelAudioLanguage": "Audio language:",
+    "LabelSubtitleLanguage": "Subtitle language:",
     "LabelVideoCodec": "Videokoodek:",
     "LabelSubtitleCodec": "Subtiitrite koodek:",
     "LabelParentalRating": "Vanusepiirang:",

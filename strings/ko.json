@@ -120,6 +120,8 @@
     "Image": "Image",
     "LabelYear": "\ub144\ub3c4:",
     "LabelAudioCodec": "\uc624\ub514\uc624 \ucf54\ub371:",
+    "LabelAudioLanguage": "Audio language:",
+    "LabelSubtitleLanguage": "Subtitle language:",
     "LabelVideoCodec": "\ube44\ub514\uc624 \ucf54\ub371:",
     "LabelSubtitleCodec": "\uc790\ub9c9 \ucf54\ub371:",
     "LabelParentalRating": "\ub4f1\uae09:",

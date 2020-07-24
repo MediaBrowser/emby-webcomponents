@@ -120,6 +120,8 @@
     "Image": "Obr\u00e1zek",
     "LabelYear": "Rok:",
     "LabelAudioCodec": "Audio kodek:",
+    "LabelAudioLanguage": "Audio language:",
+    "LabelSubtitleLanguage": "Subtitle language:",
     "LabelVideoCodec": "Video kodek:",
     "LabelSubtitleCodec": "Form\u00e1t titulk\u016f:",
     "LabelParentalRating": "Rodi\u010dovsk\u00e9 hodnocen\u00ed:",

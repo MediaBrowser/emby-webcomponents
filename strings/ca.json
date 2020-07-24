@@ -120,6 +120,8 @@
     "Image": "Image",
     "LabelYear": "Any:",
     "LabelAudioCodec": "C\u00f2dec d'\u00e0udio:",
+    "LabelAudioLanguage": "Audio language:",
+    "LabelSubtitleLanguage": "Subtitle language:",
     "LabelVideoCodec": "C\u00f2dec de v\u00eddeo:",
     "LabelSubtitleCodec": "C\u00f2dec de subt\u00edtols:",
     "LabelParentalRating": "Valoraci\u00f3 parental:",

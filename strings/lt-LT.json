@@ -120,6 +120,8 @@
     "Image": "Image",
     "LabelYear": "Metai:",
     "LabelAudioCodec": "Audio codec:",
+    "LabelAudioLanguage": "Audio language:",
+    "LabelSubtitleLanguage": "Subtitle language:",
     "LabelVideoCodec": "Video codec:",
     "LabelSubtitleCodec": "Subtitle codec:",
     "LabelParentalRating": "T\u0117v\u0173 reitingas:",
